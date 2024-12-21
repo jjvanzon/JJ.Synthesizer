@@ -49,10 +49,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AudioFileOutput audioFileOutputWav = tape.UnderlyingAudioFileOutput;
                 IsNotNull(() => audioFileOutputWav);
                 IsNotNull(() => audioFileOutputWav.AudioFileFormat);
-                AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.GetFileExtension());
-                AreEqual(".wav", () => audioFileOutputWav.GetAudioFileFormatEnum().GetFileExtension());
-                AreEqual(44, () => audioFileOutputWav.AudioFileFormat.GetHeaderLength());
-                AreEqual(44, () => audioFileOutputWav.GetAudioFileFormatEnum().GetHeaderLength());
+                AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.FileExtension());
+                AreEqual(".wav", () => audioFileOutputWav.GetAudioFileFormatEnum().FileExtension());
+                AreEqual(44, () => audioFileOutputWav.AudioFileFormat.HeaderLength());
+                AreEqual(44, () => audioFileOutputWav.GetAudioFileFormatEnum().HeaderLength());
             }
 
             // Raw Extensions
@@ -61,10 +61,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Run(() => AsRaw().Sine().Save().Intercept(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
                 IsNotNull(() => audioFileOutputRaw);
                 IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
-                AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.GetFileExtension());
-                AreEqual(".raw", () => audioFileOutputRaw.GetAudioFileFormatEnum().GetFileExtension());
-                AreEqual(0, () => audioFileOutputRaw.AudioFileFormat.GetHeaderLength());
-                AreEqual(0, () => audioFileOutputRaw.GetAudioFileFormatEnum().GetHeaderLength());
+                AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.FileExtension());
+                AreEqual(".raw", () => audioFileOutputRaw.GetAudioFileFormatEnum().FileExtension());
+                AreEqual(0, () => audioFileOutputRaw.AudioFileFormat.HeaderLength());
+                AreEqual(0, () => audioFileOutputRaw.GetAudioFileFormatEnum().HeaderLength());
             }
 
             // 16-Bit Helpers

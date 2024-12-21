@@ -61,13 +61,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => EnumSpecialWishes.GetSampleDataTypeEnum<long>());
 
             // AudioFileWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
-            ThrowsException(() => AudioFileFormatEnum.Undefined.GetFileExtension());
+            ThrowsException(() => AudioFileFormatEnum.Undefined.FileExtension());
 
             // AudioFileWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
-            ThrowsException(() => SampleDataTypeEnum.Undefined.GetNominalMax());
+            ThrowsException(() => SampleDataTypeEnum.Undefined.MaxValue());
 
             // AudioFileWishes.Extensions.GetHeaderLength AudioFileFormatNotSupported
-            ThrowsException(() => AudioFileFormatEnum.Undefined.GetHeaderLength());
+            ThrowsException(() => AudioFileFormatEnum.Undefined.HeaderLength());
         }
 
         [TestMethod] public void Test_Exceptions_InTests() => Run(ExceptionsInTests);

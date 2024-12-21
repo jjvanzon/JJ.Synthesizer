@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetBits();
+            return entity.AudioFileOutput.Bits();
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetFrameSize();
+            return entity.AudioFileOutput.FrameSize();
         }
 
         /// <inheritdoc cref="docs._fileextension" />
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetFileExtension();
+            return entity.AudioFileOutput.FileExtension();
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetNominalMax();
+            return entity.AudioFileOutput.MaxValue();
         }
 
         /// <inheritdoc cref="docs._headerlength" />
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetHeaderLength();
+            return entity.AudioFileOutput.HeaderLength();
         }
     }
 

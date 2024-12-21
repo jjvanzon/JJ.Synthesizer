@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sample.SamplingRate   = samplingRate;
                     sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
                     sample.SampleDataType = audioFileOutput1.SampleDataType;
-                    sample.Amplifier      = 1.0 / audioFileOutput1.GetNominalMax();
+                    sample.Amplifier      = 1.0 / audioFileOutput1.MaxValue();
                 }
 
                 return node.SetName($"{callerMemberName}_Reloaded");
@@ -305,7 +305,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Assert AudioFileOutput Entities
 
             string expectedFilePath1 = 
-                GetFullPath(PrettifyName(callerMemberName) + audioFormat.GetFileExtension());
+                GetFullPath(PrettifyName(callerMemberName) + audioFormat.FileExtension());
             
             AssertAudioFileOutputEntities(
                 audioFileOutput1,
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 expectedFilePath1, DURATION);
 
             string expectedFilePath2 = 
-                GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFormat.GetFileExtension());
+                GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFormat.FileExtension());
             
             AssertAudioFileOutputEntities(
                 audioFileOutput2,
@@ -560,7 +560,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(expectedDuration,    () => audioFileOutput.GetEndTime());
             AreEqual(expectedDuration,    () => audioFileOutput.Duration);
             AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
-            AreEqual(bits,                () => audioFileOutput.GetBits());
+            AreEqual(bits,                () => audioFileOutput.Bits());
             AreEqual(channels,            () => audioFileOutput.GetChannelCount());
             
             {
@@ -584,7 +584,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
-            double expectedAmplifier = bits.GetNominalMax();
+            double expectedAmplifier = bits.MaxValue();
             AreEqual(expectedAmplifier, () => audioFileOutput.Amplifier);
             
             // AudioFileOutputChannels
@@ -656,7 +656,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(true,                  () => sample.IsActive);
             AreEqual(0,                     () => sample.BytesToSkip);
             AreEqual(samplingRate,          () => sample.SamplingRate);
-            AreEqual(bits,                  () => sample.GetBits());
+            AreEqual(bits,                  () => sample.Bits());
             AreEqual(channels,              () => sample.GetChannelCount());
             AreEqual(audioFileFormatEnum,   () => sample.GetAudioFileFormatEnum());
             AreEqual(interpolationTypeEnum, () => sample.GetInterpolationTypeEnum());
@@ -669,7 +669,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 NotEqual(0, () => sample.Bytes.Length);
                 
-                int byteCountExpected  = (int)(audioFileFormatEnum.GetHeaderLength() + samplingRate * sample.GetFrameSize() * DURATION);
+                int byteCountExpected  = (int)(audioFileFormatEnum.HeaderLength() + samplingRate * sample.FrameSize() * DURATION);
                 int byteCountTolerance = GetByteCountTolerance(bits, channels);
 
                 Console.WriteLine($"Byte count tolerance = {byteCountTolerance}");

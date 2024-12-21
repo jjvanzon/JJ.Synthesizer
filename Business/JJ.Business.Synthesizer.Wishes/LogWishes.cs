@@ -25,6 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
     internal static class LogExtensions
     {
         public static IList<string> GetSynthLog(this Tape tape, double calculationDuration) => LogWishes.GetSynthLog(tape, calculationDuration);
+        public static string GetDescriptor(this Tape tape) => LogWishes.GetDescriptor(tape);
 
         public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title) => LogWishes.ConfigLog(title, synthWishes);
@@ -84,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Title
             
             lines.Add("");
-            lines.Add(GetPrettyTitle(GetTapeDescriptor(tape)));
+            lines.Add(GetPrettyTitle(GetDescriptor(tape)));
             
             // Properties
             
@@ -469,18 +470,18 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         private static string GetDurationsDescriptor(WavHeaderStruct wavHeader)
-            => GetDurationsDescriptor(wavHeader.GetAudioLength());
+            => GetDurationsDescriptor(wavHeader.AudioLength());
         
         private static string GetDurationsDescriptor(AudioFileInfo audioFileInfo)
         {
             if (audioFileInfo == null) throw new ArgumentNullException(nameof(audioFileInfo));
-            return GetDurationsDescriptor(audioFileInfo.GetAudioLength());
+            return GetDurationsDescriptor(audioFileInfo.AudioLength());
         }
                 
         private static string GetDurationsDescriptor(AudioInfoWish audioInfoWish)
         {
             if (audioInfoWish == null) throw new ArgumentNullException(nameof(audioInfoWish));
-            return GetDurationsDescriptor(audioInfoWish.GetAudioLength());
+            return GetDurationsDescriptor(audioInfoWish.AudioLength());
         }
 
         private static string GetDurationsDescriptor(AudioFileOutput audioFileOutput)
@@ -524,7 +525,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             return GetAudioFormatDescriptor(
                 audioFileOutput.SamplingRate, 
-                audioFileOutput.GetBits(), 
+                audioFileOutput.Bits(), 
                 audioFileOutput.GetChannelCount(), 
                 channel: null,
                 audioFileOutput.GetAudioFileFormatEnum(), 
@@ -536,7 +537,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sample == null) throw new ArgumentNullException(nameof(sample));
             return GetAudioFormatDescriptor(
                 sample.SamplingRate, 
-                sample.GetBits(), 
+                sample.Bits(), 
                 sample.GetChannelCount(), 
                 channel: null,
                 sample.GetAudioFileFormatEnum(), 
@@ -548,7 +549,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileInfo == null) throw new ArgumentNullException(nameof(audioFileInfo));
             return GetAudioFormatDescriptor(
                 audioFileInfo.SamplingRate, 
-                audioFileInfo.GetBits(), 
+                audioFileInfo.Bits(), 
                 audioFileInfo.ChannelCount);
         }
 
@@ -565,7 +566,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             return GetAudioFormatDescriptor(
                 wavHeader.SamplingRate, 
-                wavHeader.GetBits(), 
+                wavHeader.Bits(), 
                 wavHeader.ChannelCount);
         }
 
@@ -635,7 +636,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 foreach (var tape in roots)
                 {
-                    sb.AppendLine(GetTapeDescriptor(tape));
+                    sb.AppendLine(GetDescriptor(tape));
                 }
             }
             sb.AppendLine();
@@ -645,7 +646,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sb.AppendLine("Multi-Use:");
                 foreach (var tape in multiUseTapes)
                 { 
-                    sb.AppendLine(GetTapeDescriptor(tape));
+                    sb.AppendLine(GetDescriptor(tape));
                 }
                 sb.AppendLine();
             }
@@ -700,7 +701,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Continuation
                     sb2.Append("=> ");
                 }
-                sb2.Append(GetTapeDescriptor(tape));
+                sb2.Append(GetDescriptor(tape));
                 if (includeCalculationGraphs)
                 {
                     sb2.Append("   | " + (tape.Signal?.ToString() ?? "<Signal=null>"));
@@ -720,7 +721,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private static string GetIDDescriptor(Tape tape) => tape.Signal?.UnderlyingOperator?.ID.ToString() ?? "no ID";
         
-        public static string GetTapeDescriptor(Tape tape)
+        public static string GetDescriptor(Tape tape)
         {
             if (tape == null) return "<Tape=null>";
 
@@ -795,10 +796,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return prefix + nameDescriptor + flagDescriptor + idDescriptor;
         }
 
-        public static string GetTapeDescriptors(IList<Tape> tapes)
+        public static string GetDescriptors(IList<Tape> tapes)
         {
            if (!Has(tapes)) return default;
-           string[] tapeDescriptors = tapes.Where(x => x != null).Select(GetTapeDescriptor).ToArray();
+           string[] tapeDescriptors = tapes.Where(x => x != null).Select(GetDescriptor).ToArray();
            return Join(NewLine, tapeDescriptors);
         }
         
@@ -812,7 +813,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (Has(tapesLeft))
             {
-                return prefix + NewLine + GetTapeDescriptors(tapesLeft);
+                return prefix + NewLine + GetDescriptors(tapesLeft);
             }
             else
             {
@@ -876,7 +877,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape != null)
             {
                 if (!text.EndsWithPunctuation()) text += ":";
-                text += " " + '"' + GetTapeDescriptor(tape) + '"';
+                text += " " + '"' + GetDescriptor(tape) + '"';
             }
             
             if (Has(message))

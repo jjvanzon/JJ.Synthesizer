@@ -225,7 +225,7 @@ namespace JJ.Business.Synthesizer.Wishes
             <TSampleDataType>(SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => new AudioInfoWish
             {
-                Bits = typeof(TSampleDataType).GetBits(),
+                Bits = typeof(TSampleDataType).Bits(),
                 Channels = speakerSetup.GetChannels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes
             <TSampleDataType>(int channels, int samplingRate, int frameCount)
             => new AudioInfoWish
             {
-                Bits = typeof(TSampleDataType).GetBits(),
+                Bits = typeof(TSampleDataType).Bits(),
                 Channels = channels,
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Type sampleDataType, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
             => new AudioInfoWish
             {
-                Bits = sampleDataType.GetBits(),
+                Bits = sampleDataType.Bits(),
                 Channels = speakerSetup.GetChannels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
@@ -255,7 +255,7 @@ namespace JJ.Business.Synthesizer.Wishes
             SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
             => new AudioInfoWish
             {
-                Bits = sampleDataTypeEnum.GetBits(),
+                Bits = sampleDataTypeEnum.Bits(),
                 Channels = channels,
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Type sampleDataType, int channels, int samplingRate, int frameCount) 
             => new AudioInfoWish
         {
-            Bits = sampleDataType.GetBits(),
+            Bits = sampleDataType.Bits(),
             Channels = channels,
             SamplingRate = samplingRate,
             FrameCount = frameCount
@@ -276,7 +276,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             return new AudioInfoWish
             {
-                Bits = sampleDataTypeEnum.GetBits(),
+                Bits = sampleDataTypeEnum.Bits(),
                 Channels = speakerSetup.GetChannels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
@@ -294,10 +294,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return new AudioInfoWish
             {
-                Bits = entity.GetBits(),
+                Bits = entity.Bits(),
                 Channels = entity.GetChannelCount(),
                 SamplingRate = entity.SamplingRate,
-                FrameCount = entity.GetFrameCount()
+                FrameCount = entity.FrameCount()
             };
         }
 
@@ -307,7 +307,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var info = new AudioInfoWish
             {
-                Bits = entity.GetBits(),
+                Bits = entity.Bits(),
                 Channels = entity.GetChannelCount(),
                 SamplingRate = entity.SamplingRate,
                 FrameCount = frameCount

@@ -7,6 +7,7 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 using static JJ.Framework.IO.StreamHelper;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -79,19 +80,19 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Wrap it in a Sample
             Sample sample = _sampleManager.CreateSample(stream);
-            sample.Amplifier = 1.0 / sample.GetNominalMax();
+            sample.Amplifier = 1.0 / sample.MaxValue();
             sample.BytesToSkip = bytesToSkip;
             sample.Location = filePath;
             sample.SetInterpolation(GetInterpolation, Context);
 
-            var sampleOutlet = _[_operatorFactory.Sample(sample)];
+            var sampleNode = _[_operatorFactory.Sample(sample)];
             
             sample.Name = name;
-            sampleOutlet.UnderlyingOperator.Name = name;
+            sampleNode.UnderlyingOperator.Name = name;
             
             LogSampleCreated(sample);
             
-            return sampleOutlet;
+            return sampleNode;
         }
         
         private static Stream ResolveStream(Stream stream, byte[] bytes, string filePath)
@@ -141,16 +142,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Sample sample = _sampleManager.CreateSample();
             sample.Location =  location;
-            sample.Amplifier = 1.0 / GetBits.GetNominalMax();
+            sample.Amplifier = 1.0 / GetBits.MaxValue();
             sample.SamplingRate = GetSamplingRate;
             sample.SetBits(GetBits, Context);
             sample.SetChannels(GetChannels, Context);
             sample.SetAudioFormat(GetAudioFormat, Context);
             sample.SetInterpolation(GetInterpolation, Context);
             
-            var sampleOutlet = _[_operatorFactory.Sample(sample)];
+            var sampleNode = _[_operatorFactory.Sample(sample)];
 
-            return sampleOutlet.SetName(name);
+            return sampleNode.SetName(name);
         }
     }
 }

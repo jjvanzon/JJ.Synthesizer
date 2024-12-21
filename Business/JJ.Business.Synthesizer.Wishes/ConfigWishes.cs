@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -152,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Bits
         
         private SampleDataTypeEnum _sampleDataTypeEnum;
-        public int GetBits => _sampleDataTypeEnum != default ? _sampleDataTypeEnum.GetBits() : _section.Bits ?? DefaultBits;
+        public int GetBits => _sampleDataTypeEnum != default ? _sampleDataTypeEnum.Bits() : _section.Bits ?? DefaultBits;
         public void WithBits(int bits) => _sampleDataTypeEnum = bits.ToSampleDataTypeEnum();
         public bool Is32Bit => GetBits == 32;
         public void With32Bit() => WithBits(32);

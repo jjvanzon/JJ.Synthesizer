@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable InvokeAsExtensionMethod

@@ -212,7 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string filePath = SanitizeFilePath(name);
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
-            string fileExtension = audioFileFormatEnum.GetFileExtension();
+            string fileExtension = audioFileFormatEnum.FileExtension();
             return fileNameWithoutExtension + fileExtension;
         }
     }

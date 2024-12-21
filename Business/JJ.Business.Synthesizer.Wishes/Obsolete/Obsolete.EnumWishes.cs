@@ -77,11 +77,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static int GetBits(this SampleDataType enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return EnumFromEntityWishes.ToEnum(enumEntity).GetBits();
+            return EnumFromEntityWishes.ToEnum(enumEntity).Bits();
         }
     
         public static double GetNominalMax(this SampleDataType enumEntity)
-            => EnumFromEntityWishes.ToEnum(enumEntity).GetNominalMax();
+            => EnumFromEntityWishes.ToEnum(enumEntity).MaxValue();
     }
 
     [Obsolete(ObsoleteMessage)]

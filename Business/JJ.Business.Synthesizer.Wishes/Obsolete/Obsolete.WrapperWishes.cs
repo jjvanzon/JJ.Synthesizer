@@ -45,21 +45,21 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static int GetBits(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.GetBits();
+            return wrapper.Sample.Bits();
         }
 
         [Obsolete(ObsoleteMessage)]
         public static int GetFrameSize(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.GetFrameSize();
+            return wrapper.Sample.FrameSize();
         }
 
         [Obsolete(ObsoleteMessage)]
         public static int GetFrameCount(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.GetFrameCount();
+            return wrapper.Sample.FrameCount();
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -67,14 +67,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static string GetFileExtension(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.GetFileExtension();
+            return wrapper.Sample.FileExtension();
         }
 
         [Obsolete(ObsoleteMessage)]
         public static double GetNominalMax(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.GetNominalMax();
+            return wrapper.Sample.MaxValue();
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static int GetHeaderLength(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.GetHeaderLength();
+            return wrapper.Sample.HeaderLength();
         }
     }
 

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Framework.Reflection.ExpressionHelper;
@@ -70,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = ResolveName(tape.GetName(), callerMemberName) ;
             audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Signal, tape.Signals, tape.FallBackName, callerMemberName);
-            audioFileOutput.Amplifier = tape.Bits.GetNominalMax();
+            audioFileOutput.Amplifier = tape.Bits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
             audioFileOutput.SetBits(tape.Bits, Context);
@@ -129,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.GetFileLengthNeeded(tape.ExtraBufferFrames)];
+                bytes = new byte[audioFileOutput.FileLengthNeeded(tape.ExtraBufferFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 

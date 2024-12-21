@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.GetFileLengthNeeded(extraBufferFrames)];
+                bytes = new byte[audioFileOutput.FileLengthNeeded(extraBufferFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
@@ -212,7 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = ResolveName(name, filePath);
             audioFileOutput.FilePath = ResolveFilePath(synthWishes.GetAudioFormat, filePath, name);
-            audioFileOutput.Amplifier = synthWishes.GetBits.GetNominalMax();
+            audioFileOutput.Amplifier = synthWishes.GetBits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? synthWishes.GetAudioLength).Calculate();
             audioFileOutput.SetBits(synthWishes.GetBits, synthWishes.Context);

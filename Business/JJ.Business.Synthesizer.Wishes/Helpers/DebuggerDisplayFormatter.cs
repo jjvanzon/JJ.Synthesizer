@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             string text = default;
             
-            text += $"{GetTapeDescriptor(obj)} ";
+            text += $"{GetDescriptor(obj)} ";
             
             string signalDescriptor = " | " + (obj.Signal?.ToString() ?? "<Signal=null>");
             text += $"{signalDescriptor}";

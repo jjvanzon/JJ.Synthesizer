@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(Wav,                        () => sample.GetAudioFileFormatEnum());
                 AreEqual(SampleDataTypeEnum.Float32, () => sample.GetSampleDataTypeEnum());
                 AreEqual(SpeakerSetupEnum.Mono,      () => sample.GetSpeakerSetupEnum());
-                AreEqual(44,                         () => sample.GetHeaderLength());
+                AreEqual(44,                         () => sample.HeaderLength());
                 
                 int extraBufferFramesFound = 0;
                 using (var stream = new MemoryStream(sample.Bytes))

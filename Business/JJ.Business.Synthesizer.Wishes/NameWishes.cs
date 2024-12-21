@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (FilledIn(audioFileFormat))
             {
-                return audioFileFormat.GetFileExtension();
+                return audioFileFormat.FileExtension();
             }
             
             var exceptionInfo = new

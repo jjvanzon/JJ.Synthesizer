@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             
-            Buff buff = InternalPlay(synthWishes, audioFileOutput.FilePath, null, audioFileOutput.GetFileExtension());
+            Buff buff = InternalPlay(synthWishes, audioFileOutput.FilePath, null, audioFileOutput.FileExtension());
             
             buff.UnderlyingAudioFileOutput = buff.UnderlyingAudioFileOutput ?? audioFileOutput;
             
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static Buff InternalPlay(SynthWishes synthWishes, Sample sample)
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
-            return InternalPlay(synthWishes, sample.Location, sample.Bytes, sample.GetFileExtension());
+            return InternalPlay(synthWishes, sample.Location, sample.Bytes, sample.FileExtension());
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, byte[] bytes)
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => InternalPlay(synthWishes, filePath, null, Path.GetExtension(filePath));
 
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, AudioFileFormatEnum audioFormat) 
-            => InternalPlay(synthWishes, filePath, bytes, Has(audioFormat) ? audioFormat.GetFileExtension() : null);
+            => InternalPlay(synthWishes, filePath, bytes, Has(audioFormat) ? audioFormat.FileExtension() : null);
         
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
         {
