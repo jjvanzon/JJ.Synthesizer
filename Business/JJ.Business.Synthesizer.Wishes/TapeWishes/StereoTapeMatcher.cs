@@ -37,35 +37,50 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             // First grouping:
             // Group by flags, as they definitely should match.
-            var groupedByFlags = tapes.GroupBy(x => new
+            var groupedByMetaData = tapes.GroupBy(x => new
             {
+                x.LeadingSilence,
+                x.TrailingSilence,
+                x.SamplingRate,
+                x.Bits,
+                x.Channels,
+                x.AudioFormat,
+                x.IsTape,
                 x.IsPlay,
+                x.IsPlayed,
                 x.IsSave,
+                x.IsSaved,
                 x.IsIntercept,
+                x.IsIntercepted,
                 x.IsPlayChannel,
+                x.ChannelIsPlayed,
                 x.IsSaveChannel,
+                x.ChannelIsSaved,
                 x.IsInterceptChannel,
+                x.ChannelIsIntercepted,
                 x.IsPadded,
-                x.IsTape
+                x.CacheToDisk,
+                x.PlayAllTapes,
+                x.ExtraBufferFrames
             });
             
-            foreach (var group in groupedByFlags)
+            foreach (var group in groupedByMetaData)
             {
                 TryAddPair(group);
                 
                 // Match by delegate method
-                var groupedByMethod = group.Where(x => x.Callback != null).GroupBy(x => x.Callback.Method);
-                foreach (var subGroup in groupedByMethod)
-                {
-                    TryAddPair(subGroup);
-                }
+                //var groupedByMethod = group.Where(x => x.Callback != null).GroupBy(x => x.Callback.Method);
+                //foreach (var subGroup in groupedByMethod)
+                //{
+                //    TryAddPair(subGroup);
+                //}
                 
-                // Match by delegate type
-                var groupedByClass = group.Where(x => x.Callback != null).GroupBy(x => x.Callback.Method.DeclaringType);
-                foreach (var subGroup in groupedByClass)
-                {
-                    TryAddPair(subGroup);
-                }
+                //// Match by delegate type
+                //var groupedByClass = group.Where(x => x.Callback != null).GroupBy(x => x.Callback.Method.DeclaringType);
+                //foreach (var subGroup in groupedByClass)
+                //{
+                //    TryAddPair(subGroup);
+                //}
                 
                 // Match by name
                 var groupedByName = group.GroupBy(x => new 
@@ -75,7 +90,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     x.FilePathSuggested,    
                     x.Signal?.Name, 
                     x.Signal?.UnderlyingOperator?.OperatorTypeName
-
                 });
                 foreach (var subGroup in groupedByName)
                 {

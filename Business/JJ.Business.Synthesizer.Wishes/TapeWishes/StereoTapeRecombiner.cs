@@ -51,9 +51,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         private Tape CreateStereoTape((Tape Left, Tape Right) tapePair)
         {
-            IList<FlowNode> channelSignals = GetChannelSignals(tapePair);
             Tape stereoTape = CloneTape(tapePair.Left);
-            stereoTape.Signals = channelSignals;
+            stereoTape.Signals = GetChannelSignals(tapePair);
             return stereoTape;
         }
         
@@ -84,11 +83,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             AudioFormat  = tapePrototype.AudioFormat,
             
             // Actions
-            IsPlay = tapePrototype.IsPlay,
-            IsSave = tapePrototype.IsSave,
-            IsIntercept = tapePrototype.IsIntercept,
-            IsPadded = tapePrototype.IsPadded,
-            Callback = tapePrototype.Callback,
+            IsTape               = tapePrototype.IsTape,
+            IsPlay               = tapePrototype.IsPlay,
+            IsPlayed             = tapePrototype.IsPlayed,
+            IsSave               = tapePrototype.IsSave,
+            IsSaved              = tapePrototype.IsSaved,
+            IsIntercept          = tapePrototype.IsIntercept,
+            IsIntercepted        = tapePrototype.IsIntercepted,
+            IsPlayChannel        = tapePrototype.IsPlayChannel,
+            ChannelIsPlayed      = tapePrototype.ChannelIsPlayed,
+            IsSaveChannel        = tapePrototype.IsSaveChannel,
+            ChannelIsSaved       = tapePrototype.ChannelIsSaved,
+            IsInterceptChannel   = tapePrototype.IsInterceptChannel,
+            ChannelIsIntercepted = tapePrototype.ChannelIsIntercepted,
+            IsPadded             = tapePrototype.IsPadded,
+            Callback             = tapePrototype.Callback,
             
             // Options
             CacheToDisk = tapePrototype.CacheToDisk,
