@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using static System.IO.Path;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var lines = new List<string>();
             
             lines.Add("");
-            lines.Add(GetPrettyTitle(ResolveName(buff)));
+            lines.Add(PrettyTitle(ResolveName(buff)));
             lines.Add("");
             
             string realTimeComplexityMessage = FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());

@@ -6,7 +6,7 @@ using static System.Threading.Thread;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Wishes.RandomizerWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Copied.Randomizer_Copied;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 // ReSharper disable ExplicitCallerInfoArgument
 // ReSharper disable ParameterHidesMember
 // ReSharper disable AccessToModifiedClosure

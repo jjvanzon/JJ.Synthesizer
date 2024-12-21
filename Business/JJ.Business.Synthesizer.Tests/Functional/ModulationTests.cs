@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 // ReSharper disable RedundantAssignment
 // ReSharper disable NotAccessedVariable
 

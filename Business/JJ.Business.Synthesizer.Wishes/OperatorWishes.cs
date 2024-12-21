@@ -8,7 +8,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Collections_Copied;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember

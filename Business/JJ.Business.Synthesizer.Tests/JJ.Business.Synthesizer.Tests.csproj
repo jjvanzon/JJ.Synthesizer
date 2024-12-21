@@ -128,7 +128,7 @@
     <Compile Include="Accessors\JJFrameworkIOWishesAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
-    <Compile Include="Accessors\StringExtensionWishesAccessor.cs" />
+    <Compile Include="Accessors\StringWishesAccessor.cs" />
     <Compile Include="Accessors\TapeAccessor.cs" />
     <Compile Include="Accessors\TapeCollectionAccessor.cs" />
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />

@@ -692,12 +692,12 @@ namespace JJ.Business.Synthesizer.Wishes
             => new PersistenceConfiguration
             {
                 ContextType = "Memory",
-                ModelAssembly = NameHelper.GetAssemblyName<Persistence.Synthesizer.Operator>(),
-                MappingAssembly = NameHelper.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
+                ModelAssembly = NameWishes.GetAssemblyName<Persistence.Synthesizer.Operator>(),
+                MappingAssembly = NameWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
                 RepositoryAssemblies = new[]
                 {
-                    NameHelper.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(),
-                    NameHelper.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
+                    NameWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(),
+                    NameWishes.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
                 }
             };
         

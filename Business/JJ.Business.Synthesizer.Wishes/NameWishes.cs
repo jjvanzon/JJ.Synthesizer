@@ -14,13 +14,13 @@ using static System.IO.Path;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
     // NameWishes Helper
     
-    public static class NameHelper
+    public static class NameWishes
     {
         // ResolveName
         
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return prettyName;
         }
         
-        public static string GetPrettyTitle(string uglyName)
+        public static string PrettyTitle(string uglyName)
         {
             string title = PrettifyName(uglyName);
 

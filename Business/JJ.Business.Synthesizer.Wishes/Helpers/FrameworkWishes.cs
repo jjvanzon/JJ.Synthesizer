@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             catch (Exception ex)
             {
                 // Allow 'Not Found' Exception
-                string configSectionName = NameHelper.GetAssemblyName<T>().ToLower();
+                string configSectionName = NameWishes.GetAssemblyName<T>().ToLower();
                 string allowedMessage = $"Configuration section '{configSectionName}' not found.";
                 bool messageIsAllowed = string.Equals(ex.Message, allowedMessage);
                 bool messageIsAllowed2 = string.Equals(ex.InnerException?.Message, allowedMessage);
@@ -452,7 +452,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
     namespace JJ_Framework_Text_Wishes
     {
-        internal static class StringExtensionWishes
+        internal static class StringWishes
         { 
             public static int CountLines(this string str)
             {

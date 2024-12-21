@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string expected = @"Additive Metallophone Jingle";
             
-            AssertHelper.AreEqual(expected, () => NameHelper.PrettifyName(input));
+            AssertHelper.AreEqual(expected, () => NameWishes.PrettifyName(input));
         }
     }
 }

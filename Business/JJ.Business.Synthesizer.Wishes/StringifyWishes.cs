@@ -10,7 +10,7 @@ using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 

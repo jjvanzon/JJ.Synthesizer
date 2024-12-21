@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
                 bool mustNumberFirstFile = false)
         {
             return ((string filePathFirstPart, int number, string filePathLastPart))
-                _accessor.InvokeMethod(NameHelper.MemberName(), originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
+                _accessor.InvokeMethod(NameWishes.MemberName(), originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
         }
     }
 }
