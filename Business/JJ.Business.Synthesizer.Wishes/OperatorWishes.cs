@@ -8,6 +8,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Collections_Copied;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember
@@ -776,6 +777,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode sound, FlowNode panning = default)
         {
+            if (sound == null) throw new ArgumentNullException(nameof(sound));
+            
             panning = panning ?? _[0.5];
 
             // Some optimization in case of a constant value
@@ -786,32 +789,37 @@ namespace JJ.Business.Synthesizer.Wishes
                     return Panning(sound, constPanning.Value);
                 }
             }
+
+            FlowNode output = null;
             
-            if (IsMono)
-            {
-                return sound / 2;
-            }
+            if (IsMono)  output = sound / 2;
+            if (IsLeft)  output = sound * (1 - panning);
+            if (IsRight) output = sound * panning;
             
-            if (IsStereo)
-            {
-                if (IsLeft) return Multiply(sound, Subtract(_[1], panning)).SetName();
-                if (IsRight) return Multiply(sound, panning).SetName();
-            }
+            if (output == null) throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
             
-            throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
+            output.SetName();
+            return output;
         }
 
         /// <inheritdoc cref="docs._panning" />
         public FlowNode Panning(FlowNode sound, double panning)
         {
+            if (sound == null) throw new ArgumentNullException(nameof(sound));
+            
             if (panning < 0) panning = 0;
             if (panning > 1) panning = 1;
 
-            if (IsMono) return (sound / 2).SetName();
-            if (IsLeft) return (sound * _[1 - panning]).SetName();
-            if (IsRight) return (sound * _[panning]).SetName();
+            FlowNode output = null;
             
-            throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
+            if (IsMono)  output = sound / 2;
+            if (IsLeft)  output = sound * _[1 - panning];
+            if (IsRight) output = sound * _[panning];
+            
+            if (output == null) throw new Exception($"Unsupported combination of values: {new {GetChannels, GetChannel}}");
+            
+            output.SetName();
+            return output;
         }
 
         // Panbrello
