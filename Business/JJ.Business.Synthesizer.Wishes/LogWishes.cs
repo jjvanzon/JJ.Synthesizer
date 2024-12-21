@@ -17,8 +17,8 @@ using static System.IO.Path;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringExtensionWishes;
-using static JJ.Business.Synthesizer.Wishes.NameHelper;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null)
             {
                 lines.Add("");
-                lines.Add(GetPrettyTitle("Synth Log"));
+                lines.Add(PrettyTitle("Synth Log"));
                 lines.Add("⚠️ Warning: No Tape!");
                 return lines;
             }
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Title
             
             lines.Add("");
-            lines.Add(GetPrettyTitle(GetDescriptor(tape)));
+            lines.Add(PrettyTitle(GetDescriptor(tape)));
             
             // Properties
             
@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         private static string ConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
         {
-            string titleElement = Has(title) ? GetPrettyTitle(title) + NewLine : "";
+            string titleElement = Has(title) ? PrettyTitle(title) + NewLine + NewLine : "";
             string[] groups = { group1, group2, group3 };
             if (!Has(sep, false)) sep = NewLine;
             string log = titleElement + Join(sep, groups.Where(FilledIn));
