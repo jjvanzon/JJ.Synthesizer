@@ -76,7 +76,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsMono => Channels == 1;
         public bool IsStereo => Channels == 2;
         public AudioFileFormatEnum AudioFormat { get; internal set; }
-        
+        /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
+        public InterpolationTypeEnum Interpolation { get; set; }
+
         // Actions
 
         /// <inheritdoc cref="docs._istape" />

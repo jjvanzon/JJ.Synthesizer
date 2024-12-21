@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public static IList<string> GetSynthLog(this Tape tape, double calculationDuration) => LogWishes.GetSynthLog(tape, calculationDuration);
         public static string GetDescriptor(this Tape tape) => LogWishes.GetDescriptor(tape);
-
+        
         public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title) => LogWishes.ConfigLog(title, synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title, string sep) => LogWishes.ConfigLog(title, synthWishes, sep);
@@ -417,7 +417,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.Channels, 
                 tape.Channel,
                 tape.AudioFormat,
-                interpolation: null);
+                tape.Interpolation);
             
             string featuresDescriptor = GetFeaturesDescriptor(
                 diskCache: tape.CacheToDisk,
@@ -781,6 +781,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (Has(tape.SamplingRate) && tape.SamplingRate != synthWishes.GetSamplingRate) flags.Add($"{tape.SamplingRate}hz");
                 if (Has(tape.Bits) && tape.Bits != synthWishes.GetBits) flags.Add($"{tape.Bits}bit");
                 if (Has(tape.AudioFormat) && tape.AudioFormat != synthWishes.GetAudioFormat) flags.Add($"{tape.AudioFormat}".ToLower());
+                if (Has(tape.Interpolation) && tape.Interpolation != synthWishes.GetInterpolation) flags.Add($"{tape.Interpolation}".ToLower());
             }
 
             flags = flags.Where(FilledIn).ToList();

@@ -92,6 +92,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.Channel = tape.Channel;
             paddedTape.Channels = tape.Channels;
             paddedTape.AudioFormat = tape.AudioFormat;
+            paddedTape.Interpolation = tape.Interpolation;
             
             // Set Actions
             paddedTape.IsTape = tape.IsTape;

@@ -49,6 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             tape.Channel = _synthWishes.GetChannel;
             tape.Channels = _synthWishes.GetChannels;
             tape.AudioFormat = _synthWishes.GetAudioFormat;
+            tape.Interpolation = _synthWishes.GetInterpolation;
 
             // Options
             

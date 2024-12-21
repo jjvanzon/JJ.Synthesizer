@@ -45,6 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 x.Bits,
                 x.Channels,
                 x.AudioFormat,
+                x.Interpolation,
                 x.IsTape,
                 x.IsPlay,
                 x.IsPlayed,

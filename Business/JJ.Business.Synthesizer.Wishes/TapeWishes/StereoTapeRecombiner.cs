@@ -75,10 +75,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             TrailingSilence = tapePrototype.TrailingSilence,
 
             // Audio Properties
-            SamplingRate = tapePrototype.SamplingRate,
-            Bits         = tapePrototype.Bits,
-            Channels     = tapePrototype.Channels,
-            AudioFormat  = tapePrototype.AudioFormat,
+            SamplingRate  = tapePrototype.SamplingRate,
+            Bits          = tapePrototype.Bits,
+            Channels      = tapePrototype.Channels,
+            AudioFormat   = tapePrototype.AudioFormat,
+            Interpolation = tapePrototype.Interpolation,
             
             // Actions
             IsTape               = tapePrototype.IsTape,

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
@@ -335,7 +334,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 ExtraBufferFrames = synthWishes.GetExtraBufferFrames,
                 Bits = synthWishes.GetBits,
                 SamplingRate = synthWishes.GetSamplingRate,
-                AudioFormat = synthWishes.GetAudioFormat
+                AudioFormat = synthWishes.GetAudioFormat,
+                Interpolation = synthWishes.GetInterpolation
             };
             
             synthWishes.MakeBuff(dummyTape);
@@ -378,7 +378,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 ExtraBufferFrames = synthWishes.GetExtraBufferFrames,
                 Bits = synthWishes.GetBits,
                 SamplingRate = synthWishes.GetSamplingRate,
-                AudioFormat = synthWishes.GetAudioFormat
+                AudioFormat = synthWishes.GetAudioFormat,
+                Interpolation = synthWishes.GetInterpolation
             };
             
             return synthWishes.ConfigureAudioFileOutput(dummyTape);
