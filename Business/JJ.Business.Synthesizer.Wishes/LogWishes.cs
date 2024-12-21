@@ -22,7 +22,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    internal static class LogExtensions
+    public static class LogExtensions
     {
         public static IList<string> GetSynthLog(this Tape tape, double calculationDuration) => LogWishes.GetSynthLog(tape, calculationDuration);
         public static string GetDescriptor(this Tape tape) => LogWishes.GetDescriptor(tape);
@@ -50,9 +50,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string ConfigLog(this ConfigWishes configWishes, SynthWishes synthWishes, string sep) => LogWishes.ConfigLog(configWishes, synthWishes, sep);
         public static string ConfigLog(this ConfigWishes configWishes, string title, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, sep);
         public static string ConfigLog(this ConfigWishes configWishes, string title, SynthWishes synthWishes, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, synthWishes, sep);
-        public static string ConfigLog(this ConfigSection configSection) => LogWishes.ConfigLog(configSection);
-        public static string ConfigLog(this ConfigSection configSection, string title) => LogWishes.ConfigLog(title, configSection);
-        public static string ConfigLog(this ConfigSection configSection, string title, string sep) => LogWishes.ConfigLog(title, configSection, sep);
+        internal static string ConfigLog(this ConfigSection configSection) => LogWishes.ConfigLog(configSection);
+        internal static string ConfigLog(this ConfigSection configSection, string title) => LogWishes.ConfigLog(title, configSection);
+        internal static string ConfigLog(this ConfigSection configSection, string title, string sep) => LogWishes.ConfigLog(title, configSection, sep);
         public static string ConfigLog(this Tape tape) => LogWishes.ConfigLog(tape);
         public static string ConfigLog(this Tape tape, string title) => LogWishes.ConfigLog(title, tape);
         public static string ConfigLog(this Tape tape, string title, string sep) => LogWishes.ConfigLog(title, tape, sep);
@@ -730,8 +730,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (Has(tape.Signals))
             {
                 ids.AddRange(tape.Signals.Select(x => x?.UnderlyingOperator?.ID));
-        }
-
+            }
+            
             string formattedIDs = Join("|", ids.Where(FilledIn));
             if (!Has(formattedIDs))
             {
@@ -936,7 +936,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Console.WriteLine("----------");
             Console.WriteLine("");
         }
-
+        
         public static void LogMathBoostDone(bool mathBoost)
         {
             if (!mathBoost) return;
