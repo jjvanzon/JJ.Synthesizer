@@ -137,7 +137,11 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
-            return sampleNode.SetName(sample.Name);
+            sampleNode.SetName(sample.Name);
+            
+            LogSampleCreated(sample);
+            
+            return sampleNode;
         }
         
         // SampleFromFluentConfig (currently unused)
@@ -174,8 +178,11 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.SetInterpolation(GetInterpolation, Context);
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
+            sampleNode.SetName(sample.Name);
+            
+            LogSampleCreated(sample);
 
-            return sampleNode.SetName(name);
+            return sampleNode;
         }
     }
 }

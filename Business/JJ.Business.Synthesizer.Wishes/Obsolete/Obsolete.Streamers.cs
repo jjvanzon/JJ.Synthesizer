@@ -301,7 +301,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             Console.WriteLine("");
             Console.WriteLine(ConfigLog(synthWishes));
-            Console.WriteLine("");
+            //Console.WriteLine("");
 
             return synthWishes.MakeBuff(channelSignals, duration, inMemory, mustPad, null, name, filePath, callerMemberName);
         }

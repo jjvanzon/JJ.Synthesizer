@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("⚠️ Warning: Tape not recorded.");
             }
 
-            lines.Add("");
+            //lines.Add("");
         
             return lines;
         }
@@ -313,8 +313,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
 
-        public static string ConfigLog(SynthWishes synthWishes) => ConfigLog("SynthWishes", synthWishes, NewLine);
-        public static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("SynthWishes", synthWishes, sep);
+        public static string ConfigLog(SynthWishes synthWishes) => ConfigLog("Options", synthWishes, NewLine);
+        public static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("Options", synthWishes, sep);
         
         public static string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
         {
@@ -322,8 +322,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return ConfigLog(title, synthWishes.Config, synthWishes, sep);
         }
 
-        public static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Settings", flowNode);
-        public static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Settings", flowNode, sep);        
+        public static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Options", flowNode);
+        public static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Options", flowNode, sep);        
         
         public static string ConfigLog(string title, FlowNode flowNode, string sep = " | ")
         {
@@ -908,12 +908,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Math Boost
 
-        public static void LogMathOptimizationTitle()
+        public static void LogMathBoostTitle(bool mathBoost)
         {
+            if (!mathBoost) return;
             Console.WriteLine("");
             Console.WriteLine("Math Boost");
             Console.WriteLine("----------");
             Console.WriteLine("");
+        }
+
+        public static void LogMathBoostDone(bool mathBoost)
+        {
+            if (!mathBoost) return;
+            //Console.WriteLine("Done");
         }
 
         public static void LogComputeConstant(

@@ -119,7 +119,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             Console.WriteLine("");
             Console.WriteLine(ConfigLog(this));
-            Console.WriteLine("");
 
             if (GetParallelTaping)
             {
@@ -142,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 _isRunning = true;
                 
-                LogMathOptimizationTitle();
+                LogMathBoostTitle(GetMathBoost);
                 
                 WithChannel(0);
                 var channel0Signal = func();
@@ -163,6 +162,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 _isRunning = false;
                 WithChannel(originalChannel);
+                
+                LogMathBoostDone(GetMathBoost);
             }
         }
         
@@ -177,7 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 _isRunning = true;
                 
-                LogMathOptimizationTitle();
+                LogMathBoostTitle(GetMathBoost);
             
                 WithChannel(0);
                 action();
@@ -191,6 +192,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 _isRunning = false;
                 WithChannel(originalChannel);
+                
+                LogMathBoostDone(GetMathBoost);
             }
         }
         

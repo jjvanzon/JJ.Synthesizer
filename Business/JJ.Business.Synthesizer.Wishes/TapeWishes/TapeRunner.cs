@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             Task.WaitAll(tasks);
 
-            LogAction(nameof(Tape), "Total Waits for Leaves: " + waitCount);
+            LogAction(nameof(Tape), "Total Leaf Waits: " + waitCount);
             return originalTapeCollection;
         }
         
@@ -120,8 +120,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             try
             {
-                LogAction(tape, "Leaf Found", "Running");
-                LogAction(tape, "Start");
+                //LogAction(tape, "Leaf Found", "Running");
+                //LogAction(tape, "Start");
+                LogAction(tape, "Start", "Running...");
                 
                 // Cache Buffer
                 _synthWishes.Record(tape);
@@ -142,9 +143,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     }
                 }
                 
-                LogAction(tape, "Stop");
-                LogAction(tape, "Task Finished", "Check for Leaves");
-}
+                LogAction(tape, "Stop", "Checking Leaves...");
+                //LogAction(tape, "Stop");
+                //LogAction(tape, "Task Finished", "Check for Leaves");
+            }
             finally
             {
                 // Don’t let a thread crash cause the while loop for child tapes to retry infinitely.
