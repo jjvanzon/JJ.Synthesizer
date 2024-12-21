@@ -270,12 +270,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             buff1.Save(callerMemberName);
  
             AudioFileOutput audioFileOutput1 = buff1.UnderlyingAudioFileOutput;
-            byte[] bytes = buff1.Bytes;
             
             // Use sample operator
             FlowNode getSample()
             {
-                FlowNode node   = Sample(bytes, audioFileOutput1.FilePath).SetName($"{callerMemberName}_Reloaded");
+                FlowNode node   = Sample(buff1).SetName($"{callerMemberName}_Reloaded");
                 Sample   sample = node.UnderlyingSample();
 
                 if (audioFormat == Raw)
