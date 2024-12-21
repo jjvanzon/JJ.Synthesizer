@@ -17,10 +17,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Names
 
         /// <inheritdoc cref="docs._tapename" />
-        internal string GetName => ResolveName(Signal, Signals, FallBackName, FilePathSuggested, callerMemberName: null);
-        internal string FallBackName { get; set; }
-        internal string FilePathResolved { get; set; }
-        internal string FilePathSuggested { get; set; }
+        public string GetName => ResolveName(Signal, Signals, FallBackName, FilePathSuggested, callerMemberName: null);
+        public string FallBackName { get; internal set; }
+        public string FilePathResolved { get; internal set; }
+        public string FilePathSuggested { get; internal set; }
         
         // Signals
 
@@ -37,39 +37,39 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         // Durations
         
-        internal double Duration { get; set; }
+        public double Duration { get; internal set; }
         /// <inheritdoc cref="docs._padding"/>
-        internal double LeadingSilence { get; set; }
+        public double LeadingSilence { get; internal set; }
         /// <inheritdoc cref="docs._padding"/>
-        internal double TrailingSilence { get; set; }
+        public double TrailingSilence { get; internal set; }
 
         // Audio Properties
         
-        internal int SamplingRate { get; set; }
-        internal int Bits { get; set; }
+        public int SamplingRate { get; internal set; }
+        public int Bits { get; internal set; }
         public int? Channel { get; internal set; }
-        internal int? Channels { get; set; }
-        internal bool IsMono => Channels == 1;
-        internal bool IsStereo => Channels == 2;
-        internal AudioFileFormatEnum AudioFormat { get; set; }
+        public int? Channels { get; internal set; }
+        public bool IsMono => Channels == 1;
+        public bool IsStereo => Channels == 2;
+        public AudioFileFormatEnum AudioFormat { get; internal set; }
         
         // Actions
 
         /// <inheritdoc cref="docs._istape" />
-        internal bool IsTape { get; set; }
-        internal bool IsPlay { get; set; }
-        internal bool IsPlayed { get; set; }
-        internal bool IsSave { get; set; }
-        internal bool IsSaved { get; set; }
-        internal bool IsIntercept { get; set; }
-        internal bool IsIntercepted { get; set; }
-        internal bool IsPlayChannel { get; set; }
-        internal bool ChannelIsPlayed { get; set; }
-        internal bool IsSaveChannel { get; set; }
-        internal bool ChannelIsSaved { get; set; }
-        internal bool IsInterceptChannel { get; set; }
-        internal bool ChannelIsIntercepted { get; set; }
-        internal bool IsPadded { get; set; }
+        public bool IsTape { get; internal set; }
+        public bool IsPlay { get; internal set; }
+        public bool IsPlayed { get; internal set; }
+        public bool IsSave { get; internal set; }
+        public bool IsSaved { get; internal set; }
+        public bool IsIntercept { get; internal set; }
+        public bool IsIntercepted { get; internal set; }
+        public bool IsPlayChannel { get; internal set; }
+        public bool ChannelIsPlayed { get; internal set; }
+        public bool IsSaveChannel { get; internal set; }
+        public bool ChannelIsSaved { get; internal set; }
+        public bool IsInterceptChannel { get; internal set; }
+        public bool ChannelIsIntercepted { get; internal set; }
+        public bool IsPadded { get; internal set; }
         internal Action<Tape> Callback { get; set; }
         internal Action<Tape> ChannelCallback { get; set; }
         
@@ -79,9 +79,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                         
         // Options
 
-        internal bool CacheToDisk { get; set; }
-        internal bool PlayAllTapes { get; set; }
-        internal int ExtraBufferFrames { get; set; }
+        public bool CacheToDisk { get; internal set; }
+        public bool PlayAllTapes { get; internal set; }
+        public int ExtraBufferFrames { get; internal set; }
 
         // Hierarchy
 
