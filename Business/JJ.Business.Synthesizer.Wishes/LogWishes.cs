@@ -745,9 +745,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) return "<Tape=null>";
 
-            string prefix;
+            string prefix = "";
             if (tape.IsStereo && tape.Channel == null) prefix = "(Stereo) ";
-            else prefix = $"(Level {tape.NestingLevel}) ";
+            else if (tape.NestingLevel > 0) prefix = $"(Level {tape.NestingLevel}) ";
             
             string nameDescriptor = tape.GetName();
             if (!Has(nameDescriptor)) nameDescriptor = "<Untitled>";
