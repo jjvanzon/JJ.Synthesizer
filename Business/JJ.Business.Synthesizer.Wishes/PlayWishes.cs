@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Media;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
@@ -54,13 +55,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Internals (all on Buffs) (End-of-Chain)
 
-        internal static Buff InternalPlay(SynthWishes synthWishes, Tape tape)
+        internal static Tape InternalPlay(SynthWishes synthWishes, Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            Buff buff2 = InternalPlay(synthWishes, tape.Buff);
-            
-            return buff2;
+            InternalPlay(synthWishes, tape.FilePathResolved, tape.Bytes, tape.AudioFormat);
+            return tape;
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, Buff buff)
@@ -96,14 +95,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
             => InternalPlay(synthWishes, filePath, null, Path.GetExtension(filePath));
+
+        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, AudioFileFormatEnum audioFormat) 
+            => InternalPlay(synthWishes, filePath, bytes, Has(audioFormat) ? audioFormat.GetFileExtension() : null);
         
-        internal static Buff InternalPlay(
-            SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
+        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
         {
             // Figure out if must play
             ConfigWishes configWishes = synthWishes?.Config ?? ConfigWishes.Default;
             string resolvedFileExtension = ResolveFileExtension(fileExtension, synthWishes?.GetAudioFormat ?? default, filePath);
             bool mustPlay = configWishes.GetPlay(resolvedFileExtension);
+            
+            // TODO: Log warning if !mustPlay with reason.
             
             if (mustPlay)
             {
@@ -130,7 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Statics (End-of-Chain)
         
-        internal static Buff Play(Tape tape) => InternalPlay(null, tape);
+        public static Tape Play(Tape tape) => InternalPlay(null, tape);
         public static Buff Play(Buff buff) => InternalPlay(null, buff);
         public static Buff Play(AudioFileOutput entity) => InternalPlay(null, entity);
         public static Buff Play(Sample entity) => InternalPlay(null, entity);
@@ -143,7 +146,7 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesPlayStaticsTurnedInstanceExtensions
     {
-        internal static SynthWishes Play(this SynthWishes synthWishes, Tape tape) {
+        public static SynthWishes Play(this SynthWishes synthWishes, Tape tape) {
             SynthWishes.InternalPlay(synthWishes, tape); return synthWishes; }
         public static SynthWishes Play(this SynthWishes synthWishes, Buff buff) {
             SynthWishes.InternalPlay(synthWishes, buff); return synthWishes; }

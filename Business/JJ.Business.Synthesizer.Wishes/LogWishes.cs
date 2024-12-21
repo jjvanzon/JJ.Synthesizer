@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Warnings
             
-            var audioFileOutput = tape.Buff?.UnderlyingAudioFileOutput;
+            var audioFileOutput = tape.UnderlyingAudioFileOutput;
             if (audioFileOutput != null)
             {
                 var warnings = audioFileOutput.GetWarnings();
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Buffer
             
-            byte[] bytes = tape.Buff?.Bytes;
+            byte[] bytes = tape.Bytes;
             bool fileExists = Exists(tape.FilePathResolved);
             
             if (Has(bytes))
@@ -687,7 +687,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (skipMultiUse)
                 {
                     // Redirection
-                    sb.AppendLine($" => {tape.GetName} ({GetIDDescriptor(tape)}) ..."); 
+                    sb.AppendLine($" => {tape.GetName()} ({GetIDDescriptor(tape)}) ..."); 
                     return; 
                 }
             }
@@ -728,7 +728,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsStereo && tape.Channel == null) prefix = "(Stereo) ";
             else prefix = $"(Level {tape.NestingLevel}) ";
             
-            string nameDescriptor = tape.GetName;
+            string nameDescriptor = tape.GetName();
             if (!Has(nameDescriptor)) nameDescriptor = "<Untitled>";
             
             // Add flag if true

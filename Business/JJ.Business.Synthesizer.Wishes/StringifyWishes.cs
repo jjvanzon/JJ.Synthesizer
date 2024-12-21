@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.String;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -33,6 +36,41 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
             => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
+        
+        /// <inheritdoc cref="docs._stringify"/>
+        public static string Stringify(this Tape tape, bool singleLine = false, bool canOmitNameForBasicMath = false)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            
+            string monoChannelString = tape.Signal?.Stringify(singleLine, canOmitNameForBasicMath);
+            string leftChannelString = tape.Signals?.ElementAtOrDefault(0)?.Stringify(singleLine, canOmitNameForBasicMath);
+            string rightChannelString = tape.Signals?.ElementAtOrDefault(1)?.Stringify(singleLine, canOmitNameForBasicMath);
+
+            var sb = new StringBuilder();
+
+            if (Has(monoChannelString))
+            {
+                sb.AppendLine("Mono Channel:");
+                sb.AppendLine();
+                sb.AppendLine(monoChannelString);
+            }
+            
+            if (Has(leftChannelString))
+            {
+                sb.AppendLine("Left Channel:");
+                sb.AppendLine();
+                sb.AppendLine(leftChannelString);
+            }
+
+            if (Has(rightChannelString))
+            {
+                sb.AppendLine("Right Channel:");
+                sb.AppendLine();
+                sb.AppendLine(rightChannelString);
+            }
+
+            return sb.ToString();
+        }
         
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Buff buff, bool singleLine = false, bool canOmitNameForBasicMath = false)

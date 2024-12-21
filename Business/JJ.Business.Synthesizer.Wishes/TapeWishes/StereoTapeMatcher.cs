@@ -85,10 +85,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Match by name
                 var groupedByName = group.GroupBy(x => new 
                 { 
-                    x.GetName,
+                    Name = x.GetName(),
                     x.FallBackName, 
                     x.FilePathSuggested,    
-                    x.Signal?.Name, 
+                    SignalName = x.Signal?.Name, 
                     x.Signal?.UnderlyingOperator?.OperatorTypeName
                 });
                 foreach (var subGroup in groupedByName)

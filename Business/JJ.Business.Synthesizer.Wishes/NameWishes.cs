@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     return flowNode.Name;
                 
                 case Tape tape:
-                    return tape.GetName;
+                    return tape.GetName();
                 
                 case Buff buff:
                     return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
@@ -146,8 +146,9 @@ namespace JJ.Business.Synthesizer.Wishes
             object filePathSource3 = null,
             object filePathSource4 = null,
             object filePathSource5 = null,
+            object filePathSource6 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePathBase(default, audioFormat, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, callerMemberName);
+            => ResolveFilePath(default, audioFormat, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension, 
@@ -156,21 +157,11 @@ namespace JJ.Business.Synthesizer.Wishes
             object filePathSource3 = null, 
             object filePathSource4 = null, 
             object filePathSource5 = null,
+            object filePathSource6 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePathBase(fileExtension, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, callerMemberName);
-
-        public static string ResolveFilePath(
-            string fileExtension,
-            AudioFileFormatEnum audioFormat,
-            object filePathSource1,
-            object filePathSource2,
-            object filePathSource3,
-            object filePathSource4,
-            object filePathSource5,
-            [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePathBase(fileExtension, audioFormat, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, callerMemberName);
+            => ResolveFilePath(fileExtension, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
         
-        private static string ResolveFilePathBase(
+        public static string ResolveFilePath(
             string fileExtension,
             AudioFileFormatEnum audioFormat,
             params object[] filePathSources)

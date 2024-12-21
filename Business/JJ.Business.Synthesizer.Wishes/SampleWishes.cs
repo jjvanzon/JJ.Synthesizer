@@ -14,11 +14,14 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        internal FlowNode Sample(Tape tape)
+        internal FlowNode Sample(
+            Tape tape, 
+            int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            FlowNode sample = Sample(tape.Buff, name: tape.GetName);
-            return sample;
+            return SampleBase(
+                null, tape.Bytes, tape.FilePathResolved, 
+                bytesToSkip, tape.GetName(name, callerMemberName), callerMemberName);
         }
 
         /// <inheritdoc cref="docs._sample"/>

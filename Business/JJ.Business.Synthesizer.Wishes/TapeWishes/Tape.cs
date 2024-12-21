@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameHelper;
@@ -13,13 +15,35 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     public class Tape
     {
         private string DebuggerDisplay => GetDebuggerDisplay(this);
+                
+        // Buff
+        
+        [Obsolete("Prefer Tape properties instead")]
+        public Buff Buff { get; } = new Buff();
+        public byte[] Bytes { get => Buff.Bytes; set => Buff.Bytes = value; }
+        
+        public string FilePathResolved
+        {
+            get => Buff.FilePath;
+            set => Buff.FilePath = value;
+        }
+        
+        public AudioFileOutput UnderlyingAudioFileOutput
+        { 
+            get => Buff.UnderlyingAudioFileOutput;
+            internal set => Buff.UnderlyingAudioFileOutput = value; 
+        }
 
         // Names
 
         /// <inheritdoc cref="docs._tapename" />
-        public string GetName => ResolveName(Signal, Signals, FallBackName, FilePathSuggested, callerMemberName: null);
+        public string GetName(string name = null, [CallerMemberName] string callerMemberName = null)
+            => ResolveName(name, Signal, Signals, FallBackName, FilePathSuggested, callerMemberName);
+        
+        public string GetFilePath(string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => ResolveFilePath(AudioFormat, filePath, FilePathResolved, FilePathSuggested, GetName(callerMemberName: callerMemberName));
+
         public string FallBackName { get; internal set; }
-        public string FilePathResolved { get; internal set; }
         public string FilePathSuggested { get; internal set; }
         
         // Signals
@@ -73,10 +97,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         internal Action<Tape> Callback { get; set; }
         internal Action<Tape> ChannelCallback { get; set; }
         
-        // Buff
-        
-        public Buff Buff { get; internal set; }
-                        
         // Options
 
         public bool CacheToDisk { get; internal set; }

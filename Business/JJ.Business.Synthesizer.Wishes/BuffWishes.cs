@@ -39,10 +39,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._buffbytes"/>
         public byte[] Bytes { get; set; }
         public string FilePath { get; set; }
-        public AudioFileOutput UnderlyingAudioFileOutput { get; set; }
+        public AudioFileOutput UnderlyingAudioFileOutput { get; internal set; }
 
-        public AudioFileFormatEnum AudioFormat 
-            => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
+        public AudioFileFormatEnum GetAudioFormat => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
     }
 
     // MakeBuff in SynthWishes
@@ -69,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Name = ResolveName(tape.GetName, callerMemberName) ;
+            audioFileOutput.Name = ResolveName(tape.GetName(), callerMemberName) ;
             audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Signal, tape.Signals, tape.FallBackName, callerMemberName);
             audioFileOutput.Amplifier = tape.Bits.GetNominalMax();
             audioFileOutput.TimeMultiplier = 1;
@@ -106,8 +105,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
 
             // Process parameter
-            string resolvedName = ResolveName(tape.GetName, tape.FilePathSuggested, audioFileOutput, callerMemberName);
-            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.FilePathResolved, tape.FilePathSuggested, resolvedName, callerMemberName);
+            string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
+            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(), audioFileOutput, callerMemberName);
             bool inMemory = !tape.CacheToDisk && !tape.IsSave && !tape.IsSaveChannel;
 
             audioFileOutput.Name = resolvedName;
@@ -152,12 +151,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Result
             tape.FilePathResolved = resolvedFilePath;
-            tape.Buff = new Buff
-            {
-                Bytes = bytes, 
-                FilePath = resolvedFilePath, 
-                UnderlyingAudioFileOutput = audioFileOutput, 
-            };
+            tape.Bytes = bytes;
+            tape.UnderlyingAudioFileOutput = audioFileOutput;
 
             // Report
             var reportLines = GetSynthLog(tape, calculationDuration);

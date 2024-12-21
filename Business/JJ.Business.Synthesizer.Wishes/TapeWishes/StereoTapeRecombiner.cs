@@ -44,9 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private void AssertTapePair((Tape Left, Tape Right) tapePair)
         {
             if (tapePair.Left == null) throw new NullException(() => tapePair.Left);
-            if (tapePair.Left.Buff == null) throw new NullException(() => tapePair.Left.Buff);
             if (tapePair.Right == null) throw new NullException(() => tapePair.Right);
-            if (tapePair.Right.Buff == null) throw new NullException(() => tapePair.Right.Buff);
         }
 
         private Tape CreateStereoTape((Tape Left, Tape Right) tapePair)
@@ -59,8 +57,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private IList<FlowNode> GetChannelSignals((Tape Left, Tape Right) tapePair) => _synthWishes.GetChannelSignals(
         () =>
         {
-            FlowNode signal = _synthWishes.Sample(tapePair.Left.Buff).Panning(0) +
-                              _synthWishes.Sample(tapePair.Right.Buff).Panning(1);
+            FlowNode signal = _synthWishes.Sample(tapePair.Left).Panning(0) +
+                              _synthWishes.Sample(tapePair.Right).Panning(1);
             
             return signal.SetName(tapePair.Left);
         });

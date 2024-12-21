@@ -56,14 +56,29 @@ namespace JJ.Business.Synthesizer.Wishes
             return channel;
         }
 
-        // SynthWishes Save in Statics (Buff to Buff) (End-of-Chain)
+        // SynthWishes Statics (Buff to Buff) (End-of-Chain)
         
-        internal static void Save(Tape tape)
+        public static Tape Save(
+            Tape tape, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new NullException(() => tape);
-            if (tape.Buff == null) throw new NullException(() => tape.Buff);
             
-            Save(tape.Buff, tape.FilePathSuggested, tape.GetName);
+            string filePathResolved2 = tape.GetFilePath(filePath);
+            
+            if (FilledIn(tape.Bytes))
+            {
+                Save(tape.Bytes, filePathResolved2, callerMemberName);
+                return tape;
+            }
+            
+            if (Exists(tape.FilePathResolved))
+            {
+                Save(tape.FilePathResolved, filePathResolved2, callerMemberName);
+                return tape;
+            }
+            
+            throw new Exception("No audio in either memory or file.");
         }
 
         public static Buff Save(
@@ -73,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (buff == null) throw new ArgumentNullException(nameof(buff));
 
             // Reuse Buff
-            string destFilePath = ResolveFilePath(buff.AudioFormat, filePath, callerMemberName); // Resolve to use AudioFormat
+            string destFilePath = ResolveFilePath(buff.GetAudioFormat, filePath, callerMemberName); // Resolve to use AudioFormat
 
             if (FilledIn(buff.Bytes))
             {
@@ -87,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return buff;
             }
             
-            throw new Exception("No audio data in either memory or file.");
+            throw new Exception("No audio in either memory or file.");
         }
         
         [Obsolete("", true)]
@@ -98,15 +113,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput,
                 inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
 
-        public static void Save(
+        public static string Save(
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             string resolvedFilePath = ResolveFilePath("", filePath, ResolveName(sample, callerMemberName));
-            Save(sample.Bytes, resolvedFilePath, callerMemberName);
+            return Save(sample.Bytes, resolvedFilePath, callerMemberName);
         }
         
-        public static void Save(
+        public static string Save(
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -120,9 +135,11 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             LogOutputFile(numberedFilePath);
+            
+            return numberedFilePath;
         }
             
-        public static void Save(
+        public static string Save(
             string sourceFilePath, 
             string destFilePath = null, [CallerMemberName] string callerMemberName = null)
         {
@@ -136,6 +153,8 @@ namespace JJ.Business.Synthesizer.Wishes
             } 
 
             LogOutputFile(numberedDestFilePath, sourceFilePath);
+            
+            return numberedDestFilePath;
         }
     }
     
@@ -144,7 +163,15 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesSaveStaticsTurnedInstanceExtensions
     {
-        [Obsolete("", true)]
+        public static SynthWishes Save(
+            this SynthWishes synthWishes, 
+            Tape tape, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            SynthWishes.Save(tape, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+
         public static SynthWishes Save(
             this SynthWishes synthWishes, 
             Buff buff, 
@@ -213,7 +240,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // FlowNode Save (End-of-Chain)
 
-        [Obsolete("", true)]
+        public FlowNode Save(
+            Tape tape, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            SynthWishes.Save(tape, filePath, callerMemberName);
+            return this;
+        }
+
         public FlowNode Save(
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
