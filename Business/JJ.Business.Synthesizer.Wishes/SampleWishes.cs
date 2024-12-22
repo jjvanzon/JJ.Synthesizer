@@ -69,6 +69,38 @@ namespace JJ.Business.Synthesizer.Wishes
         private FlowNode SampleBase(
             Stream stream, byte[] bytes, string filePath, 
             int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
+            => SampleBaseLegacy(stream, bytes, filePath, bytesToSkip, name, callerMemberName);
+
+        /// <inheritdoc cref="docs._sample"/>
+        private FlowNode SampleBaseLegacy(
+            Stream stream, byte[] bytes, string filePath, 
+            int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
+        {
+            var dummyTape = new Tape
+            {
+                Bytes = bytes,
+                FilePathSuggested = filePath,
+                FilePathResolved = filePath,
+                FallBackName = ResolveName(name, callerMemberName),
+                LeadingSilence = GetLeadingSilence.Value,
+                TrailingSilence = GetTrailingSilence.Value,
+                SamplingRate = GetSamplingRate,
+                Bits = GetBits,
+                Channels = GetChannels,
+                AudioFormat = GetAudioFormat,
+                Interpolation = GetInterpolation,
+                CacheToDisk = GetCacheToDisk,
+                PlayAllTapes = GetPlayAllTapes,
+                ExtraBufferFrames = GetExtraBufferFrames,
+            };
+            
+            return SampleFromTape(dummyTape, bytesToSkip, stream);
+        }
+        
+        /// <inheritdoc cref="docs._sample"/>
+        private FlowNode SampleBaseOld(
+            Stream stream, byte[] bytes, string filePath, 
+            int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
         {
             // Resolve where our data comes from
             name = ResolveName(name, filePath, callerMemberName);
@@ -181,7 +213,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sampleNode.SetName(sample.Name);
             
             LogSampleCreated(sample);
-
+            
             return sampleNode;
         }
     }
