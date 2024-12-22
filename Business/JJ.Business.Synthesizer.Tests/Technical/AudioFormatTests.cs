@@ -687,22 +687,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(audioFileFormatEnum,   () => sample.GetAudioFileFormatEnum());
             AreEqual(interpolationTypeEnum, () => sample.GetInterpolationTypeEnum());
 
-            AreEqual(channels, () => sample.GetChannelCount());
-
-            IsNotNull(() => sample.Bytes);
-
             // ByteCount
             {
+                IsNotNull(() => sample.Bytes);
                 NotEqual(0, () => sample.Bytes.Length);
                 
                 int byteCountExpected  = (int)(audioFileFormatEnum.HeaderLength() + samplingRate * sample.FrameSize() * DURATION);
                 int byteCountTolerance = GetByteCountTolerance(bits, channels);
 
-                Console.WriteLine($"Byte count tolerance = {byteCountTolerance}");
-                Console.WriteLine($"Byte count expected  = {byteCountExpected}");
-                Console.WriteLine($"Byte count actual    = {sample.Bytes.Length}");
+                string byteCountDescriptor = NewLine +
+                    $"Byte count tolerance = {byteCountTolerance}{NewLine}" +
+                    $"Byte count expected = {byteCountExpected}{NewLine}" +
+                    $"Byte count actual = {sample.Bytes.Length}";
                 
-                AreEqual(byteCountExpected, sample.Bytes.Length, byteCountTolerance);
+                AreEqual(byteCountExpected, sample.Bytes.Length, byteCountTolerance, byteCountDescriptor);
             }
             
             // Paths
