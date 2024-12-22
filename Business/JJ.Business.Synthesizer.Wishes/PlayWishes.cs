@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Figure out if must play
             ConfigWishes configWishes = synthWishes?.Config ?? ConfigWishes.Default;
             string resolvedFileExtension = ResolveFileExtension(fileExtension, synthWishes?.GetAudioFormat ?? default, filePath);
-            bool mustPlay = configWishes.GetPlay(resolvedFileExtension);
+            bool mustPlay = configWishes.GetAudioPlayback(resolvedFileExtension);
             
             // TODO: Log warning if !mustPlay with reason.
             

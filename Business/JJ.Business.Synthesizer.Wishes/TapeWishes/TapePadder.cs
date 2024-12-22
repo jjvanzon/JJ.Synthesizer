@@ -111,9 +111,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.IsPadded = true;
             
             // Set Options
-            paddedTape.CacheToDisk = tape.CacheToDisk;
+            paddedTape.DiskCache = tape.DiskCache;
             paddedTape.PlayAllTapes = tape.PlayAllTapes;
-            paddedTape.ExtraBufferFrames = tape.ExtraBufferFrames;
+            paddedTape.CourtesyFrames = tape.CourtesyFrames;
             
             // Remove Actions from original Tape
             tape.IsPlay = false;

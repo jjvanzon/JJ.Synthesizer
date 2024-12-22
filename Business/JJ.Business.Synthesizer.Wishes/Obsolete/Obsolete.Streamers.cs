@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 }
                 
                 // Run Parallel Processing
-                if (synthWishes.GetParallelTaping)
+                if (synthWishes.GetParallelProcessing)
                 {
                     synthWishes._tapeRunner.RunAllTapes();
                 }
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 AudioFileOutput audioFileOutput = synthWishes.ConfigureAudioFileOutputOld(channelSignals, duration, name, filePath);
                 
                 // Write Audio
-                buff = MakeBuffOld(audioFileOutput, inMemory && !synthWishes.GetCacheToDisk, synthWishes.GetExtraBufferFrames, name, filePath);
+                buff = MakeBuffOld(audioFileOutput, inMemory && !synthWishes.GetDiskCache, synthWishes.GetCourtesyFrames, name, filePath);
             }
             finally
             {
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuffOld(
             AudioFileOutput audioFileOutput,
-            bool inMemory, int extraBufferFrames,
+            bool inMemory, int courtesyFrames,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.FileLengthNeeded(extraBufferFrames)];
+                bytes = new byte[audioFileOutput.FileLengthNeeded(courtesyFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
@@ -340,9 +340,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
                 IsSave = !inMemory,
 
-                CacheToDisk = synthWishes.GetCacheToDisk,
+                DiskCache = synthWishes.GetDiskCache,
                 PlayAllTapes = synthWishes.GetPlayAllTapes,
-                ExtraBufferFrames = synthWishes.GetExtraBufferFrames
+                CourtesyFrames = synthWishes.GetCourtesyFrames
             };
             
             synthWishes.MakeBuff(dummyTape);
@@ -380,9 +380,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 TrailingSilence = synthWishes.GetTrailingSilence.Value,
                 FilePathSuggested = filePath,
                 FallBackName = name,
-                CacheToDisk = synthWishes.GetCacheToDisk,
+                DiskCache = synthWishes.GetDiskCache,
                 PlayAllTapes = synthWishes.GetPlayAllTapes,
-                ExtraBufferFrames = synthWishes.GetExtraBufferFrames,
+                CourtesyFrames = synthWishes.GetCourtesyFrames,
                 Bits = synthWishes.GetBits,
                 SamplingRate = synthWishes.GetSamplingRate,
                 AudioFormat = synthWishes.GetAudioFormat,
@@ -397,7 +397,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuff(
             AudioFileOutput audioFileOutput,
-            bool inMemory, int extraBufferFrames, 
+            bool inMemory, int courtesyFrames, 
             IList<string> additionalMessages,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
@@ -406,10 +406,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             var dummyTape = new Tape
             {
-                ExtraBufferFrames = extraBufferFrames,
+                CourtesyFrames = courtesyFrames,
                 FilePathSuggested = filePath,
                 FallBackName = name,
-                CacheToDisk = !inMemory
+                DiskCache = !inMemory
             };
             
             SynthWishes.MakeBuff(dummyTape, audioFileOutput, callerMemberName);
@@ -420,7 +420,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuff(
             Buff buff, 
-            bool inMemory, int extraBufferFrames, 
+            bool inMemory, int courtesyFrames, 
             IList<string> additionalMessages,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             name = ResolveName(name, buff, callerMemberName);
             
             return MakeBuff(
-                buff.UnderlyingAudioFileOutput, inMemory, extraBufferFrames, 
+                buff.UnderlyingAudioFileOutput, inMemory, courtesyFrames, 
                 additionalMessages,
                 name, filePath, callerMemberName);
         }
@@ -557,7 +557,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             MakeBuff(
                 buff,
-                inMemory: true, flowNode.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, flowNode.GetCourtesyFrames, null, name, null, callerMemberName);
 
             return flowNode;
         }
@@ -571,7 +571,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
             MakeBuff(
                 entity,
-                inMemory: true, flowNode.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, flowNode.GetCourtesyFrames, null, name, null, callerMemberName);
 
             return flowNode;
         }
@@ -584,7 +584,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff,
-                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, null, name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage, true)]
         public static Buff Record(
@@ -592,7 +592,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 entity,
-                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, null, name, null, callerMemberName);
 
     }
 
@@ -607,7 +607,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff,
-                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, null, name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage, true)]
         public static Buff Record(
@@ -615,7 +615,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 entity,
-                inMemory: true, ConfigWishes.Default.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, null, name, null, callerMemberName);
     }
 
     [Obsolete(ObsoleteMessage, true)]
@@ -638,7 +638,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             MakeBuff(
                 buff,
-                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, synthWishes.GetCourtesyFrames, null, name, null, callerMemberName);
 
             return synthWishes;
         }
@@ -656,7 +656,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             MakeBuff(
                 entity,
-                inMemory: true, synthWishes.GetExtraBufferFrames, null, name, null, callerMemberName);
+                inMemory: true, synthWishes.GetCourtesyFrames, null, name, null, callerMemberName);
 
             return synthWishes;
         }

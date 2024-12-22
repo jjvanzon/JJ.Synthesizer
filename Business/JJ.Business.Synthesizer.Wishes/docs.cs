@@ -103,13 +103,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary> 
         public static object _beatsindexer;
 
-        /// <summary> Nullable. Not supplied when CacheToDisk. </summary> 
-        /// <param name="bytes"> Nullable. Not supplied when CacheToDisk. </param> 
+        /// <summary> Nullable. Not supplied when DiskCache. </summary> 
+        /// <param name="bytes"> Nullable. Not supplied when DiskCache. </param> 
         public static object _buffbytes;
 
         /// <inheritdoc
         ///    cref="_tapesanddiskcache" /> 
-        public static object _cachetodisk;
+        public static object _diskcache;
 
         /// <summary> 
         /// The "capture operator" or "capture indexer"
@@ -528,7 +528,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc 
         ///    cref="_tapesanddiskcache" /> 
-        public static object _paralleltaping;
+        public static object _parallelprocessing;
 
         /// <summary> 
         /// The parallel processing, processes a tree of tasks, "leaf" tasks first.
@@ -598,7 +598,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// command could make you lose the SynthWishes context.
         /// Omitting a this. qualifier could do that too. </para> 
         /// </summary> 
-        public static object _playback;
+        public static object _audioplayback;
 
         /// <summary> 
         /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
@@ -692,7 +692,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> 
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
         /// other parallel tasks for testing purposes. <br/> 
-        /// CacheToDisk controls whether the tapes will be cached to disk instead of memory,
+        /// DiskCache controls whether the tapes will be cached to disk instead of memory,
         /// in case of which it also doesn't clean up the files. Mostly for testing purposes.
         /// But could be used in low-memory high-disk-space scenarios. <br/> 
         /// With the Parallels setting you can turn off parallel processing completely.

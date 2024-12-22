@@ -106,9 +106,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Options
 
-        public bool CacheToDisk { get; internal set; }
+        public bool DiskCache { get; internal set; }
         public bool PlayAllTapes { get; internal set; }
-        public int ExtraBufferFrames { get; internal set; }
+        public int CourtesyFrames { get; internal set; }
 
         // Hierarchy
 

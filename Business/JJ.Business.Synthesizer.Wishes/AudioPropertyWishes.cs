@@ -230,12 +230,12 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity.GetAudioFileFormatEnum().HeaderLength();
         }
 
-        public static int FileLengthNeeded(this AudioFileOutput entity, int extraBufferFrames)
+        public static int FileLengthNeeded(this AudioFileOutput entity, int courtesyFrames)
         {
             // CourtesyBytes to accomodate a floating-point imprecision issue in the audio loop.
             // Testing revealed 1 courtesy frame was insufficient, and 2 resolved the issue.
             // Setting it to 4 frames as a safer margin to prevent errors in the future.
-            int courtesyBytes = FrameSize(entity) * extraBufferFrames; 
+            int courtesyBytes = FrameSize(entity) * courtesyFrames; 
             return HeaderLength(entity) +
                    FrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
         }

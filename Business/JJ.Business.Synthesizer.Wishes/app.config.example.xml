@@ -31,25 +31,25 @@
 		leadingSilence="0.25"
 		trailingSilence="0.25"
 		
-		play="true"
+		audioPlayback="true"
+		diskCache="false"
 		mathBoost="true"
-		parallelTaping="true"
-		cacheToDisk="false"
+		parallelProcessing="true"
 		playAllTapes="false"
 		
 		leafCheckTimeOut="30"
 		timeOutAction="Continue"
-		extraBufferFrames="4"
+		courtesyFrames="4"
 		longTestCategory="Long">
 		
 		<nCrunch 
-			play="false" 
+			audioPlayback="false" 
 			samplingRate="150"
 			samplingRateLongRunning="8"
 			impersonation="false"/>
 		
 		<azurePipelines
-			play="false" 
+			audioPlayback="false" 
 			samplingRate="1500"
 			samplingRateLongRunning="100"
 			impersonation="false"/>

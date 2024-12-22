@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Console.WriteLine("-------");
             Console.WriteLine("");
             
-            //WithCacheToDisk();
+            //WithDiskCache();
             
             int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;

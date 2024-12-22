@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(), audioFileOutput, callerMemberName);
-            bool inMemory = !tape.CacheToDisk && !tape.IsSave && !tape.IsSaveChannel;
+            bool inMemory = !tape.DiskCache && !tape.IsSave && !tape.IsSaveChannel;
 
             audioFileOutput.Name = resolvedName;
 
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.FileLengthNeeded(tape.ExtraBufferFrames)];
+                bytes = new byte[audioFileOutput.FileLengthNeeded(tape.CourtesyFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 

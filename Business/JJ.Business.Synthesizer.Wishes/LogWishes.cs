@@ -422,10 +422,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 configWishes.GetInterpolation);
             
             string featuresDescriptor = GetFeaturesDescriptor(
-                configWishes.GetPlay(),
-                configWishes.GetCacheToDisk,
+                configWishes.GetAudioPlayback(),
+                configWishes.GetDiskCache,
                 configWishes.GetMathBoost,
-                configWishes.GetParallelTaping,
+                configWishes.GetParallelProcessing,
                 configWishes.GetPlayAllTapes);
 
             string durationsDescriptor = Has(synthWishes) ? GetDurationsDescriptor(
@@ -451,10 +451,10 @@ namespace JJ.Business.Synthesizer.Wishes
             if (configSection == null) throw new NullException(() => configSection);
             
             string featuresDescriptor = GetFeaturesDescriptor(
-                configSection.Play,
-                configSection.CacheToDisk,
+                configSection.AudioPlayback,
+                configSection.DiskCache,
                 configSection.MathBoost,
-                configSection.ParallelTaping,
+                configSection.ParallelProcessing,
                 configSection.PlayAllTapes);
             
             string audioFormatDescriptor = GetAudioFormatDescriptor(
@@ -501,7 +501,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.Interpolation);
             
             string featuresDescriptor = GetFeaturesDescriptor(
-                diskCache: tape.CacheToDisk,
+                diskCache: tape.DiskCache,
                 playAllTapes: tape.PlayAllTapes);
 
             return ConfigLog(
@@ -526,8 +526,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFileOutput.Bits(),
                 audioFileOutput.GetChannelCount(),
                 channel: null,
-                audioFileOutput.GetAudioFileFormatEnum(),
-                interpolation: null);
+                audioFileOutput.GetAudioFileFormatEnum());
             
             return ConfigLog(
                 title, 

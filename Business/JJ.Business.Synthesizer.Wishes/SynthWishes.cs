@@ -120,13 +120,13 @@ namespace JJ.Business.Synthesizer.Wishes
             Console.WriteLine("");
             Console.WriteLine(ConfigLog(this));
 
-            if (GetParallelTaping)
+            if (GetParallelProcessing)
             {
                 _tapeRunner.RunAllTapes();
             }
             else
             {
-                throw new Exception("Run method cannot work without ParallelTaping.");
+                throw new Exception("Run method cannot work without ParallelProcessing.");
             }
         }
         

@@ -60,9 +60,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 x.IsInterceptChannel,
                 x.ChannelIsIntercepted,
                 x.IsPadded,
-                x.CacheToDisk,
+                x.DiskCache,
                 x.PlayAllTapes,
-                x.ExtraBufferFrames
+                x.CourtesyFrames
             });
             
             foreach (var group in groupedByMetaData)

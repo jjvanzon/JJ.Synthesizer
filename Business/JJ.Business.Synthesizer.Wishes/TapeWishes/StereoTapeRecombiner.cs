@@ -99,9 +99,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Callback             = tapePrototype.Callback,
             
             // Options
-            CacheToDisk = tapePrototype.CacheToDisk,
+            DiskCache = tapePrototype.DiskCache,
             PlayAllTapes = tapePrototype.PlayAllTapes,
-            ExtraBufferFrames = tapePrototype.ExtraBufferFrames,
+            CourtesyFrames = tapePrototype.CourtesyFrames,
         };
         
         private void RecordStereoTape(Tape stereoTape) 

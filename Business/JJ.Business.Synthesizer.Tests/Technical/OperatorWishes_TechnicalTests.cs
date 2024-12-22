@@ -385,7 +385,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod] public void ComplexityTest() => Run(TestComplexity); 
         void TestComplexity()
         {
-            WithCacheToDisk(false);
+            WithDiskCache(false);
             
             {
                 var accessor = new AdditiveTestsAccessor(new AdditiveTests());

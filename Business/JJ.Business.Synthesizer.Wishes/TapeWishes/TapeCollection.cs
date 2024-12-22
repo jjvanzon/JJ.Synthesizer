@@ -53,9 +53,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             // Options
             
-            tape.CacheToDisk = _synthWishes.GetCacheToDisk;
+            tape.DiskCache = _synthWishes.GetDiskCache;
             tape.PlayAllTapes = _synthWishes.GetPlayAllTapes;
-            tape.ExtraBufferFrames = _synthWishes.GetExtraBufferFrames;
+            tape.CourtesyFrames = _synthWishes.GetCourtesyFrames;
             
             // From Parameters
 

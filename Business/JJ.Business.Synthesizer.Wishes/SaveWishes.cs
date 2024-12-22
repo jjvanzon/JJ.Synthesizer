@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => MakeBuffObsoleteExtensions.MakeBuff(
                 audioFileOutput,
-                inMemory: false, Default.GetExtraBufferFrames, null, null, filePath, callerMemberName);
+                inMemory: false, Default.GetCourtesyFrames, null, null, filePath, callerMemberName);
 
         public static string Save(
             Sample sample, 

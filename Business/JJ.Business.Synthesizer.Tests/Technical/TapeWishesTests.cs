@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public TapeWishesTests()
         {
             WithAudioLength(0.25);
-            WithParallelTaping();
+            WithParallelProcessing();
         }
         
         [TestMethod] public void Tape_Sines_Test() => Run(Tape_Sines);
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(SpeakerSetupEnum.Mono,      () => sample.GetSpeakerSetupEnum());
                 AreEqual(44,                         () => sample.HeaderLength());
                 
-                int extraBufferFramesFound = 0;
+                int courtesyFramesFound = 0;
                 using (var stream = new MemoryStream(sample.Bytes))
                 {
                     stream.Position = 44; // Skip header
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                             // Account for courtesy bytes.
                             if (nextValue == 0)
                             {
-                                extraBufferFramesFound++;
+                                courtesyFramesFound++;
                                 continue;
                             }
                             
@@ -150,12 +150,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     }
                 }
                 
-                if (extraBufferFramesFound > 0)
+                if (courtesyFramesFound > 0)
                 {
-                    Console.WriteLine($"Found {extraBufferFramesFound} courtesy frames in addOperand[{i}].");
-                    if (extraBufferFramesFound > GetExtraBufferFrames)
+                    Console.WriteLine($"Found {courtesyFramesFound} courtesy frames in addOperand[{i}].");
+                    if (courtesyFramesFound > GetCourtesyFrames)
                     {
-                        Assert.Fail($"courtesyValuesFound = {extraBufferFramesFound} > {GetExtraBufferFrames}");
+                        Assert.Fail($"courtesyValuesFound = {courtesyFramesFound} > {GetCourtesyFrames}");
                     }
                 }
             }
