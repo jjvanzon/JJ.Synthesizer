@@ -160,6 +160,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 lines.Add("⚠ Warning: Tape not recorded!");
             }
+            
+            lines.Add("");
 
             return lines;
         }
