@@ -355,9 +355,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine("Get Values from Reloaded Sample");
                 Console.WriteLine("-------------------------------");
                 Console.WriteLine("");
-
-                var sampleMono  = sampleReloaded;
-
+                
                 double[] expectedValues =
                 {
                     VOLUME *       0.0,
@@ -374,15 +372,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualValues =
                 {
-                    Calculate(sampleMono, time: 0.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 1.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 2.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 3.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 4.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 5.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 6.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 7.0 / 8.0 / frequency),
-                    Calculate(sampleMono, time: 8.0 / 8.0 / frequency)
+                    Calculate(sampleReloaded, time: 0.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 1.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 2.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 3.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 4.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 5.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 6.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 7.0 / 8.0 / frequency),
+                    Calculate(sampleReloaded, time: 8.0 / 8.0 / frequency)
                 };
                                 
                 Console.WriteLine("");
@@ -390,7 +388,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine("-----------");
                 Console.WriteLine("");
 
-                Run(() => sampleMono.AsWav().Save(callerMemberName + "_Values"));
+                Run(() => sampleReloaded.AsWav().Save(callerMemberName + "_Values"));
                 WithAudioFormat(audioFormat);
 
                 Console.WriteLine("");
@@ -428,9 +426,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine("Get Values from Reloaded Sample");
                 Console.WriteLine("-------------------------------");
                 Console.WriteLine("");
-
-                var sampleLeft  = sampleReloaded;
-
+                
                 double[] expectedL =
                 {
                     VOLUME * 0.75 *       0.0,
@@ -447,19 +443,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualL =
                 {
-                    sampleLeft.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
-                    sampleLeft.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
+                    sampleReloaded.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
+                    sampleReloaded.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
                 };
-
-                var sampleRight = sampleReloaded;
-
+                
                 double[] expectedR =
                 {
                     VOLUME * 0.25 *       0.0,
@@ -476,15 +470,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualR =
                 {
-                    sampleRight.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
-                    sampleRight.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
+                    sampleReloaded.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
+                    sampleReloaded.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
                 };
                 
                 Console.WriteLine("");
@@ -495,8 +489,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 // TODO: Can't save channels separately this way.
                 // Stereo sample switches with channel (= Center = 0 = Left)
                 WithMono().WithCenter().AsWav();
-                Run(() => sampleLeft.Save(callerMemberName + "_ValuesLeft"));
-                Run(() => sampleRight.Save(callerMemberName + "_ValuesRight"));
+                Run(() => sampleReloaded.Save(callerMemberName + "_ValuesLeft"));
+                Run(() => sampleReloaded.Save(callerMemberName + "_ValuesRight"));
                 WithChannels(channels).WithAudioFormat(audioFormat);
                 
                 Console.WriteLine("");
@@ -694,7 +688,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 int byteCountExpected  = (int)(audioFileFormatEnum.HeaderLength() + samplingRate * sample.FrameSize() * DURATION);
                 int byteCountTolerance = GetByteCountTolerance(bits, channels);
-
+                
                 string byteCountDescriptor = NewLine +
                     $"Byte count tolerance = {byteCountTolerance}{NewLine}" +
                     $"Byte count expected = {byteCountExpected}{NewLine}" +
@@ -807,12 +801,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 return 0.000047;
             }
-
+            
             throw new NotSupportedException(
                 "Unsupported combination of values: " + new { interpolationTypeEnum = interpolation, bits });
         }
         
-        private int GetByteCountTolerance(int bits, int channels) 
+        private int GetByteCountTolerance(int bits, int channels)
             => 4 * bits.SizeOfBitDepth() * channels; // A tolerance of 4 audio frames.
 
         private double RoundValue(double x) => Round(x, DECIMALS, AwayFromZero);
