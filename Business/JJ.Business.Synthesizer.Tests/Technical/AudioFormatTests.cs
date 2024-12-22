@@ -337,48 +337,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Console.WriteLine("------------------------");
             Console.WriteLine("");
 
-            var sampleReloaded = ReloadSample();
+            FlowNode sampleReloaded = ReloadSample();
 
-            if (channels == 1)
-            {
-                WithCenter();
+            AssertSampleProperties(
+                sampleReloaded,
+                audioFormat, channels, bits, interpolation, samplingRate,
+                expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
                 
-                //var sampleMono = ReloadSample();
-                var sampleMono = sampleReloaded;
-                
-                AssertSampleProperties(
-                    sampleMono,
-                    audioFormat, channels, bits, interpolation, samplingRate,
-                    expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
-                
-                Console.WriteLine();
-            }
-
-            if (channels == 2)
-            {
-                WithLeft();
-                
-                //var sampleLeft  = ReloadSample();
-                var sampleLeft = sampleReloaded;
-
-                AssertSampleProperties(
-                    sampleLeft,
-                    audioFormat, channels, bits, interpolation, samplingRate,
-                    expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
-                Console.WriteLine();
-
-                //WithRight();
-                
-                //var sampleRight = ReloadSample();
-                var sampleRight = sampleReloaded;
-
-                AssertSampleProperties(
-                    sampleRight,
-                    audioFormat, channels, bits, interpolation, samplingRate,
-                    expectedDuration: DURATION, audioFileOutput1.FilePath, callerMemberName);
-                Console.WriteLine();
-            }
-
+            Console.WriteLine();
             Console.WriteLine("Done.");
 
             // Get Values
@@ -392,9 +358,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine("-------------------------------");
                 Console.WriteLine("");
 
-                //WithCenter();
-
-                //var sampleMono  = ReloadSample();
                 var sampleMono  = sampleReloaded;
 
                 double[] expectedValues =
@@ -468,9 +431,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine("-------------------------------");
                 Console.WriteLine("");
 
-                //WithLeft();
-
-                //var sampleLeft  = ReloadSample();
                 var sampleLeft  = sampleReloaded;
 
                 double[] expectedL =
@@ -500,9 +460,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleLeft.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
                 };
 
-                //WithRight();
-
-                //var sampleRight = ReloadSample();
                 var sampleRight = sampleReloaded;
 
                 double[] expectedR =
