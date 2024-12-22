@@ -190,6 +190,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(Tape[] tapes)
         {
+            LogLine();
+            LogPrettyTitle("Post-Processing");
+            
             IList<Tape> stereoChannelTapes = tapes.Where(x => x.IsStereo && x.Channel.HasValue)
                                                   .Where(x => x.IsPlay || x.IsSave || x.Callback != null)
                                                   .ToArray();
