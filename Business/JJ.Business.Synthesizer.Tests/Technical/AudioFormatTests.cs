@@ -288,8 +288,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode ReloadSample()
             {
                 string newName = $"{callerMemberName}_Reloaded";
-                
-                FlowNode node   = Sample(buff1).SetName(newName);
+                FlowNode node   = Sample(buff1, name: newName);
                 
                 // TODO: Retry using Run output later after fixes:
                 //FlowNode node   = Sample(tape1).SetName($"{callerMemberName}_Reloaded");
