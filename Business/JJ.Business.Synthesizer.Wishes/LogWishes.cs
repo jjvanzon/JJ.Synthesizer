@@ -811,15 +811,15 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        internal static void LogPlayAction(Tape tape, string action)
+        internal static void LogPlayAction(Tape tape, string action, string message = default)
         {
             if (tape.PlayAllTapes)
             {
-                LogAction(tape, action + " {all}");
+                LogAction(tape, action + " {all}", message);
             }
             else
             {
-                LogAction(tape, action);
+                LogAction(tape, action, message);
             }
         }
 
@@ -903,6 +903,19 @@ namespace JJ.Business.Synthesizer.Wishes
             Console.WriteLine(message);
         }
         
+                        
+        internal static void LogOutputFileIfExists(string filePath, string sourceFilePath = null)
+        {
+            try
+            {
+                if (Exists(filePath)) LogOutputFile(filePath, sourceFilePath);
+            }
+            catch 
+            {
+                // Do not a garbled file path stop the main process.
+            }
+        }
+
         internal static string FormatOutputFile(string filePath, string sourceFilePath = null)
         {
             string prefix = "  ";

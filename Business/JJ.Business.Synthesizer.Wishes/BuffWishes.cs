@@ -152,6 +152,12 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.Bytes = bytes;
             tape.UnderlyingAudioFileOutput = audioFileOutput;
 
+            if (!inMemory)
+            {
+                if (tape.IsSave) tape.IsSaved = true;
+                if (tape.IsSaveChannel) tape.ChannelIsSaved = true;
+            }
+            
             // Report
             var reportLines = GetSynthLog(tape, calculationDuration);
             reportLines.ForEach(Console.WriteLine);

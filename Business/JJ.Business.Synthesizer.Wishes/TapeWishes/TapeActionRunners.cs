@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
@@ -15,7 +16,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.Channel == null) throw new NullException(() => tape.Channel);
             
             if (tape.ChannelCallback == null) return;
-            if (tape.ChannelIsIntercepted) return;
+            if (tape.ChannelIsIntercepted)
+            {
+                LogAction(tape, nameof(SynthWishes.InterceptChannel), "Already intercepted.");
+                return;
+            }
+
             tape.ChannelIsIntercepted = true;
             
             LogAction(tape, nameof(SynthWishes.InterceptChannel));
@@ -28,7 +34,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
             if (!tape.IsSaveChannel) return;
-            if (tape.ChannelIsSaved) return;
+            
+            if (tape.ChannelIsSaved)
+            {
+                LogAction(tape, nameof(SynthWishes.SaveChannel), "Already saved.");
+                LogOutputFileIfExists(tape.FilePathResolved);
+                return;
+            }
+
             tape.ChannelIsSaved = true;
 
             LogAction(tape, nameof(SynthWishes.SaveChannel));
@@ -41,7 +54,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
 
             if (!(tape.IsPlayChannel || tape.PlayAllTapes)) return;
-            if (tape.ChannelIsPlayed) return;
+            
+            if (tape.ChannelIsPlayed)
+            {
+                LogPlayAction(tape, nameof(SynthWishes.PlayChannel), "Already played.");
+                return;
+            }
+
             tape.ChannelIsPlayed = true;
             
             LogPlayAction(tape, nameof(SynthWishes.PlayChannel));
@@ -58,7 +77,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (!tape.IsMono) return;
             if (tape.Callback == null) return;
-            if (tape.IsIntercepted) return;
+            
+            if (tape.IsIntercepted)
+            {
+                LogAction(tape, nameof(SynthWishes.Intercept), "Already intercepted.");
+                return;
+            }
+
             tape.IsIntercepted = true;
 
             LogAction(tape, nameof(SynthWishes.Intercept));
@@ -72,7 +97,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (!tape.IsMono) return;
             if (!tape.IsSave) return;
-            if (tape.IsSaved) return;
+            
+            if (tape.IsSaved)
+            {
+                LogAction(tape, nameof(Save), "Already saved.");
+                LogOutputFileIfExists(tape.FilePathResolved);
+                return;
+            }
+
             tape.IsSaved = true;
 
             LogAction(tape, nameof(Save));
@@ -86,9 +118,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             if (!tape.IsMono) return;
             if (!tape.IsPlay) return;
+            
             // Skip PlayAllTapes check: Channel already played (identical for Mono).
             //if (!(tape.IsPlay || tape.PlayAllTapes)) return;
-            if (tape.IsPlayed) return;
+            
+            if (tape.IsPlayed)
+            {
+                LogPlayAction(tape, nameof(Play), "Already played.");
+                return;
+            }
+
             tape.IsPlayed = true;
 
             LogPlayAction(tape, nameof(Play));
@@ -105,7 +144,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (!tape.IsStereo) return;;
             if (tape.Callback == null) return;
-            if (tape.IsIntercepted) return;
+            
+            if (tape.IsIntercepted)
+            {
+                LogAction(tape, nameof(SynthWishes.Intercept), "Already intercepted.");
+                return;
+            }
+
             tape.IsIntercepted = true;
             
             LogAction(tape, nameof(SynthWishes.Intercept));
@@ -119,7 +164,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (!tape.IsStereo) return;;
             if (!tape.IsSave) return;
-            if (tape.IsSaved) return;
+            
+            if (tape.IsSaved)
+            {
+                LogAction(tape, nameof(Save), "Already saved.");
+                LogOutputFileIfExists(tape.FilePathResolved);
+                return;
+            }
+
             tape.IsSaved = true;
 
             LogAction(tape, nameof(Save));
@@ -133,7 +185,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (!tape.IsStereo) return;;
             if (!(tape.IsPlay || tape.PlayAllTapes)) return;
-            if (tape.IsPlayed) return;
+            
+            if (tape.IsPlayed)
+            {
+                LogPlayAction(tape, nameof(Play), "Already played.");
+                return;
+            }
+
             tape.IsPlayed = true;
 
             LogPlayAction(tape, nameof(Play));
