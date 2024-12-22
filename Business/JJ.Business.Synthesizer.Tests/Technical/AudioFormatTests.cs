@@ -294,17 +294,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 // TODO: Retry using Run output later after fixes:
                 //FlowNode node   = Sample(tape1).SetName($"{callerMemberName}_Reloaded");
                 
-                Sample sample = node.UnderlyingSample();
-
-                if (audioFormat == Raw)
-                {
-                    // In case of RAW format, set some values explicitly.
-                    sample.SamplingRate   = samplingRate;
-                    sample.SpeakerSetup   = audioFileOutput1.SpeakerSetup;
-                    sample.SampleDataType = audioFileOutput1.SampleDataType;
-                    sample.Amplifier      = 1.0 / audioFileOutput1.MaxValue();
-                }
-
                 return node;
             }
             
