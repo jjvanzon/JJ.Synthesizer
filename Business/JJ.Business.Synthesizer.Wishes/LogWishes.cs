@@ -116,21 +116,25 @@ namespace JJ.Business.Synthesizer.Wishes
             // Calculation Graphs
             
             var signals = tape.ConcatSignals();
-            if (signals.Count > 0)
-            {
-                for (var i = 0; i < signals.Count; i++)
-                {
-                    lines.Add("");
-                    
-                    lines.Add($"Calculation {GetChannelDescriptor(signals.Count, i)}:");
-                    lines.Add("");
-                    lines.Add($"{signals[i].Stringify()}");
-                }
-            }
-            else
+            if (signals.Count <= 0)
             {
                 lines.Add("");
                 lines.Add("⚠ Warning: No Signals!");
+            }
+            if (signals.Count == 1)
+                {
+                    lines.Add("");
+                lines.Add(signals[0].Stringify());
+            }
+            else
+            {
+                for (var i = 0; i < signals.Count; i++)
+                {
+                lines.Add("");
+                    lines.Add(GetChannelDescriptor(signals.Count, i) + ":");
+                    lines.Add("");
+                    lines.Add(signals[i].Stringify());
+            }
             }
             
             // Buffer
