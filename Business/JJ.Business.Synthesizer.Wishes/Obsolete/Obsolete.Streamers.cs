@@ -315,6 +315,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
             
             // Help ReSharper not error over unused legacy parameter.
             additionalMessages = additionalMessages;
@@ -323,19 +324,25 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var dummyTape = new Tape
             {
                 Signals = channelSignals,
+                
                 Duration = (duration ?? synthWishes.GetAudioLength).Value,
                 LeadingSilence = synthWishes.GetLeadingSilence.Value,
                 TrailingSilence = synthWishes.GetTrailingSilence.Value,
-                IsSave = !inMemory,
+                
                 FilePathSuggested = filePath,
                 FallBackName = ResolveName(name, callerMemberName),
+                
+                SamplingRate = synthWishes.GetSamplingRate,
+                Bits = synthWishes.GetBits,
+                Channels = channelSignals.Count,
+                AudioFormat = synthWishes.GetAudioFormat,
+                Interpolation = synthWishes.GetInterpolation,
+
+                IsSave = !inMemory,
+
                 CacheToDisk = synthWishes.GetCacheToDisk,
                 PlayAllTapes = synthWishes.GetPlayAllTapes,
-                ExtraBufferFrames = synthWishes.GetExtraBufferFrames,
-                Bits = synthWishes.GetBits,
-                SamplingRate = synthWishes.GetSamplingRate,
-                AudioFormat = synthWishes.GetAudioFormat,
-                Interpolation = synthWishes.GetInterpolation
+                ExtraBufferFrames = synthWishes.GetExtraBufferFrames
             };
             
             synthWishes.MakeBuff(dummyTape);
