@@ -69,8 +69,9 @@ namespace JJ.Business.Synthesizer.Wishes
         private FlowNode SampleBase(
             Stream stream, byte[] bytes, string filePath, 
             int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
-            => SampleBaseLegacy(stream, bytes, filePath, bytesToSkip, name, callerMemberName);
+            => SampleBaseOld(stream, bytes, filePath, bytesToSkip, name, callerMemberName);
 
+        // TODO: Still gives audio problems in Metallophone tests.
         /// <inheritdoc cref="docs._sample"/>
         private FlowNode SampleBaseLegacy(
             Stream stream, byte[] bytes, string filePath, 
@@ -109,6 +110,15 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Wrap it in a Sample
             Sample sample = _sampleManager.CreateSample(stream);
+            
+            if (sample.AudioFormat() == Raw)
+            {
+                // Not detected from header, so we need to set it manually.
+                sample.SamplingRate = GetSamplingRate;
+                sample.SetBits(GetBits, Context);
+                sample.SetChannels(GetChannels, Context);
+            }
+
             sample.Amplifier = 1.0 / sample.MaxValue();
             sample.BytesToSkip = bytesToSkip;
             sample.Location = filePath;
@@ -118,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             sample.Name = name;
             sampleNode.UnderlyingOperator.Name = name;
-            
+
             LogSampleCreated(sample);
             
             return sampleNode;
@@ -154,12 +164,6 @@ namespace JJ.Business.Synthesizer.Wishes
             stream = stream ?? ResolveStream(null, tape.Bytes, tape.FilePathResolved);
             Sample sample = _sampleManager.CreateSample(stream);
             
-            sample.BytesToSkip = bytesToSkip;
-            sample.Name = tape.GetDescriptor();
-            sample.Amplifier = 1.0 / tape.Bits.MaxValue();
-            sample.Location = tape.GetFilePath();
-            sample.SetInterpolation(tape.Interpolation, Context);
-            
             if (sample.AudioFormat() == Raw)
             {
                 // Not detected from header, so we need to set it manually.
@@ -167,6 +171,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 sample.SetChannels(tape.Channels, Context);
                 sample.SetBits(tape.Bits, Context);
             }
+            
+            sample.BytesToSkip = bytesToSkip;
+            sample.Name = tape.GetDescriptor();
+            sample.Amplifier = 1.0 / tape.Bits.MaxValue();
+            sample.Location = tape.GetFilePath();
+            sample.SetInterpolation(tape.Interpolation, Context);
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);
