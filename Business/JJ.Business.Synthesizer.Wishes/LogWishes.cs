@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Title
             
             lines.Add("");
-            lines.Add(PrettyTitle(GetDescriptor(tape)));
+            lines.Add(PrettyTitle("Tape: " + GetDescriptor(tape)));
             
             // Properties
             
