@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             tape1.Save(callerMemberName);
             
             // TODO: Retry Run output later after fixes:
-            //Buff buff1 = tape1.Buff;
+            //buff1 = tape1.Buff;
 
             AudioFileOutput audioFileOutput1 = buff1.UnderlyingAudioFileOutput;
             
@@ -291,7 +291,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 FlowNode node   = Sample(buff1, name: newName);
                 
                 // TODO: Retry using Run output later after fixes:
-                //FlowNode node   = Sample(tape1).SetName($"{callerMemberName}_Reloaded");
+                //FlowNode node   = Sample(tape1).SetName(newName);
                 
                 return node;
             }
