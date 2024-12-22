@@ -105,35 +105,35 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             => new AudioFormatTests().TestAudioFormat(Wav, 1, 16, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_Aligned() 
+        public void Test_AudioFormat_Wav_Stereo__8Bit_Linear_Aligned() 
             => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Linear_NonAligned() 
+        public void Test_AudioFormat_Wav_Stereo__8Bit_Linear_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_Aligned()
+        public void Test_AudioFormat_Wav_Stereo__8Bit_Blocky_Aligned()
             => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Stereo_8Bit_Blocky_NonAligned() 
+        public void Test_AudioFormat_Wav_Stereo__8Bit_Blocky_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Wav, 2, 8, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_Aligned() 
+        public void Test_AudioFormat_Wav_Mono__8Bit_Linear_Aligned() 
             => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Linear_NonAligned() 
+        public void Test_AudioFormat_Wav_Mono__8Bit_Linear_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_Aligned() 
+        public void Test_AudioFormat_Wav_Mono__8Bit_Blocky_Aligned() 
             => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Wav_Mono_8Bit_Blocky_NonAligned() 
+        public void Test_AudioFormat_Wav_Mono__8Bit_Blocky_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Wav, 1, 8, Block, aligned: false);
         
         [TestMethod]
@@ -201,35 +201,35 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             => new AudioFormatTests().TestAudioFormat(Raw, 1, 16, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_Aligned() 
+        public void Test_AudioFormat_Raw_Stereo__8Bit_Linear_Aligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Linear_NonAligned() 
+        public void Test_AudioFormat_Raw_Stereo__8Bit_Linear_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_Aligned()
+        public void Test_AudioFormat_Raw_Stereo__8Bit_Blocky_Aligned()
             => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Stereo_8Bit_Blocky_NonAligned() 
+        public void Test_AudioFormat_Raw_Stereo__8Bit_Blocky_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 2, 8, Block, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_Aligned() 
+        public void Test_AudioFormat_Raw_Mono__8Bit_Linear_Aligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Line, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Linear_NonAligned() 
+        public void Test_AudioFormat_Raw_Mono__8Bit_Linear_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Line, aligned: false);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_Aligned() 
+        public void Test_AudioFormat_Raw_Mono__8Bit_Blocky_Aligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Block, aligned: true);
 
         [TestMethod]
-        public void Test_AudioFormat_Raw_Mono_8Bit_Blocky_NonAligned() 
+        public void Test_AudioFormat_Raw_Mono__8Bit_Blocky_NonAligned() 
             => new AudioFormatTests().TestAudioFormat(Raw, 1, 8, Block, aligned: false);
         
         void TestAudioFormat(

@@ -24,8 +24,8 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public static class LogExtensions
     {
-        public static IList<string> GetSynthLog(this Tape tape, double calculationDuration) => LogWishes.GetSynthLog(tape, calculationDuration);
-        public static string GetDescriptor(this Tape tape) => LogWishes.GetDescriptor(tape);
+        public static IList<string> SynthLog(this Tape tape, double calculationDuration) => LogWishes.GetSynthLog(tape, calculationDuration);
+        public static string Descriptor(this Tape tape) => LogWishes.GetDescriptor(tape);
         
         public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title) => LogWishes.ConfigLog(title, synthWishes);

@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             sample.BytesToSkip = bytesToSkip;
-            sample.Name = tape.GetDescriptor();
+            sample.Name = tape.Descriptor();
             sample.Amplifier = 1.0 / tape.Bits.MaxValue();
             sample.Location = tape.GetFilePath();
             sample.SetInterpolation(tape.Interpolation, Context);
