@@ -263,40 +263,44 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Console.WriteLine("---------------------------------------------");
             
             WithAudioLength(DURATION);
+            Buff signalBuffOld = this.Record(() => Signal(_[frequency], callerMemberName), callerMemberName);
+            IsNotNull(() => signalBuffOld);
+            AudioFileOutput signalAudioFileOutputOld = signalBuffOld.UnderlyingAudioFileOutput;
             
-            Buff signalBuff = this.Record(() => Signal(_[frequency], callerMemberName), callerMemberName);
-            IsNotNull(() => signalBuff);
-            signalBuff.Save(callerMemberName);
+            signalBuffOld.Save(callerMemberName + "_" + nameof(signalBuffOld));
 
             Console.WriteLine("");
             Console.WriteLine("Materialize Signal with \"Run/Intercept\" (New Method)");
             Console.WriteLine("----------------------------------------------------");
             Console.WriteLine("");
 
-            Tape signalTape = null;
-            Run(() => Intercept(Signal(_[frequency], callerMemberName), x => signalTape = x, callerMemberName));
-            IsNotNull(() => signalTape);
-            signalTape.Save(callerMemberName);
+            WithAudioLength(DURATION);
+            Tape signalTapeNew = null;
+            Run(() => Intercept(Signal(_[frequency], callerMemberName), x => signalTapeNew = x, callerMemberName));
+            IsNotNull(() => signalTapeNew);
+            Buff signalBuffNew = signalTapeNew.Buff;
+            AudioFileOutput signalAudioFileOutputNew = signalBuffNew.UnderlyingAudioFileOutput;
             
-            // TODO: Retry Run output later after fixes:
-            //signalBuff = signalTape.Buff;
+            signalTapeNew.Save(callerMemberName + "_" + nameof(signalTapeNew));
+            //signalBuffNew.Save(callerMemberName + "_" + nameof(signalBuffNew));
 
-            AudioFileOutput signalAudioFileOutput = signalBuff.UnderlyingAudioFileOutput;
-                        
             Console.WriteLine("");
             Console.WriteLine("Reload Sample in a FlowNode");
             Console.WriteLine("---------------------------");
             Console.WriteLine("");
-
-            // Use sample operator
-            FlowNode ReloadSample()
+            
+            FlowNode ReloadSampleOld()
             {
-                string newName = $"{callerMemberName}_Reloaded";
-                FlowNode node = Sample(signalBuff, name: newName);
-                
-                // TODO: Retry using Run output later after fixes:
-                //FlowNode node = Sample(signalTape).SetName(newName);
-                
+                string reloadedName = $"{callerMemberName}_Reloaded";
+                FlowNode node = Sample(signalBuffOld, name: reloadedName);
+                return node;
+            }
+            
+            FlowNode ReloadSampleNew()
+            {
+                string reloadedName = $"{callerMemberName}_Reloaded";
+                //FlowNode node = Sample(signalBuffNew, name: reloadedName);
+                FlowNode node = Sample(signalTapeNew).SetName(reloadedName);
                 return node;
             }
             
@@ -308,9 +312,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Console.WriteLine("");
 
             WithAudioLength(DURATION2);
-            Buff reloadedSampleBuffOld = this.Record(ReloadSample);
+            Buff reloadedSampleBuffOld = this.Record(ReloadSampleOld);
             IsNotNull(() => reloadedSampleBuffOld);
-            //reloadedSampleBuffOld.Save();
+            
+            reloadedSampleBuffOld.Save(callerMemberName + "_" + nameof(reloadedSampleBuffOld));
 
             LogLine();
             LogLine("Reload Sample with \"Run/Intercept\" (New Method)");
@@ -319,9 +324,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithAudioLength(DURATION2);
             Tape reloadedSampleTapeNew = null;
-            Run(() => ReloadSample().Intercept(x => reloadedSampleTapeNew = x));
+            Run(() => ReloadSampleNew().Intercept(x => reloadedSampleTapeNew = x));
             IsNotNull(() => reloadedSampleTapeNew);
-            //reloadedSampleTapeNew.Save();
+            
+            reloadedSampleTapeNew.Save(callerMemberName + "_" + nameof(reloadedSampleTapeNew));
             
             Console.WriteLine("");
             Console.WriteLine("Assert AudioFileOutput Properties");
@@ -331,7 +337,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string filePath1Expectation = GetFullPath(PrettifyName(callerMemberName) + audioFormat.FileExtension());
             
             AssertAudioFileOutputProperties(
-                signalAudioFileOutput,
+                signalAudioFileOutputOld,
+                audioFormat, channels, bits, samplingRate,
+                filePath1Expectation, DURATION, callerMemberName);
+            
+            AssertAudioFileOutputProperties(
+                signalAudioFileOutputNew,
                 audioFormat, channels, bits, samplingRate,
                 filePath1Expectation, DURATION, callerMemberName);
 
@@ -354,14 +365,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Console.WriteLine("------------------------");
             Console.WriteLine("");
 
-            FlowNode reloadedSample = ReloadSample();
-            
+            string filePathExpectation = signalAudioFileOutputNew.FilePath;
+
+            FlowNode reloadedSampleOld = ReloadSampleOld();
+
             AssertSampleProperties(
-                reloadedSample,
+                reloadedSampleOld,
                 audioFormat, channels, bits, interpolation, samplingRate,
-                expectedDuration: DURATION, signalAudioFileOutput.FilePath, callerMemberName);
-                
-            Console.WriteLine();
+                expectedDuration: DURATION, filePathExpectation, callerMemberName);
+
+            FlowNode reloadedSampleNew = ReloadSampleNew();
+
+            AssertSampleProperties(
+                reloadedSampleNew,
+                audioFormat, channels, bits, interpolation, samplingRate,
+                expectedDuration: DURATION, filePathExpectation, callerMemberName);
+
             Console.WriteLine("Done.");
 
             // Mono
@@ -375,15 +394,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualValues =
                 {
-                    Calculate(reloadedSample, time: 0.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 1.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 2.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 3.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 4.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 5.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 6.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 7.0 / 8.0 / frequency),
-                    Calculate(reloadedSample, time: 8.0 / 8.0 / frequency)
+                    Calculate(reloadedSampleNew, time: 0.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 1.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 2.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 3.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 4.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 5.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 6.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 7.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleNew, time: 8.0 / 8.0 / frequency)
                 };
                                                 
                 double[] expectedValues =
@@ -446,15 +465,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualL =
                 {
-                    reloadedSample.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
-                    reloadedSample.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
+                    reloadedSampleOld.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
                 };
                                 
                 double[] expectedL =
@@ -473,15 +492,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualR =
                 {
-                    reloadedSample.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
-                    reloadedSample.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
+                    reloadedSampleOld.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
                 };
                 
                 double[] expectedR =
