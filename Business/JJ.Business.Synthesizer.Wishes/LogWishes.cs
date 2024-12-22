@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 lines.Add("");
                 lines.Add(PrettyTitle("Synth Log"));
-                lines.Add("⚠️ Warning: No Tape!");
+                lines.Add("⚠ Warning: No Tape!");
                 return lines;
             }
 
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 {
                     lines.Add("");
                     lines.Add("Warnings:");
-                    lines.AddRange(warnings.Select(warning => $"⚠️ {warning}"));
+                    lines.AddRange(warnings.Select(warning => $"⚠ {warning}"));
                 }
             }
             
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes
             else
             {
                 lines.Add("");
-                lines.Add("⚠️ Warning: No Signals!");
+                lines.Add("⚠ Warning: No Signals!");
             }
             
             // Buffer
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!fileExists && !Has(bytes))
             {
                 lines.Add("");
-                lines.Add("⚠️ Warning: Tape not recorded.");
+                lines.Add("⚠ Warning: Tape not recorded!");
             }
 
             //lines.Add("");
@@ -277,14 +277,14 @@ namespace JJ.Business.Synthesizer.Wishes
             if (Has(channelCount) && channel != null)
             {
                 if (channelCount == 1)
-                    return channel == 0 ? "Mono" : $"Mono | ⚠️ Channel {channel}";
+                    return channel == 0 ? "Mono" : $"Mono | ⚠ Channel {channel}";
                 
                 if (channelCount == 2)
-                    return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Stereo | ⚠️ Channel {channel}";
+                    return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Stereo | ⚠ Channel {channel}";
                 
                 return channel < channelCount
                     ? $"{channelCount} Channels | Channel {channel}"
-                    : $"{channelCount} Channels | ⚠️ Channel {channel}";
+                    : $"{channelCount} Channels | ⚠ Channel {channel}";
             }
             
             return default;
@@ -305,9 +305,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (Has(parallelProcessing)) features.Add("Parallel Processing");
             if (Has(playAllTapes)) features.Add("Play All Tapes");
             
-            if (audioPlayback != null && audioPlayback == false) features.Add("⚠️ No Audio"); 
-            if (mathBoost != null && mathBoost == false) features.Add("⚠️ No Math Boost");
-            if (parallelProcessing != null && parallelProcessing == false) features.Add("⚠️ No Parallel Processing");
+            if (audioPlayback != null && audioPlayback == false) features.Add("⚠ No Audio"); 
+            if (mathBoost != null && mathBoost == false) features.Add("⚠ No Math Boost");
+            if (parallelProcessing != null && parallelProcessing == false) features.Add("⚠ No Parallel Processing");
             
             string descriptor = Join(" | ", features);
             return descriptor;
