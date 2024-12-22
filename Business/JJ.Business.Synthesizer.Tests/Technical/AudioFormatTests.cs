@@ -257,7 +257,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Console.WriteLine(this.ConfigLog(title: ""));
             
-            
             Console.WriteLine("");
             Console.WriteLine("Materialize Signal with \"Record\" (Old Method)");
             Console.WriteLine("---------------------------------------------");
@@ -287,10 +286,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode ReloadSample()
             {
                 string newName = $"{callerMemberName}_Reloaded";
-                FlowNode node   = Sample(buff1, name: newName);
+                FlowNode node = Sample(buff1, name: newName);
                 
                 // TODO: Retry using Run output later after fixes:
-                //FlowNode node   = Sample(tape1).SetName(newName);
+                //FlowNode node = Sample(tape1).SetName(newName);
                 
                 return node;
             }
@@ -330,7 +329,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 expectedFilePath2, DURATION2, callerMemberName);
 
             Console.WriteLine("Done.");
-            
             
             Console.WriteLine("");
             Console.WriteLine("Assert Sample Properties");
@@ -508,6 +506,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedL.Concat(expectedR).Zip(actualL.Concat(actualR), (x,y) => Abs(x - y)).Max();
+
                 Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
                 Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
                 Console.WriteLine();
@@ -671,7 +670,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => sampleOutlet);
             IsNotNull(() => sampleOutlet.Operator);
             AreEqual(sampleOperator, () => sampleOutlet.Operator);
-            AreEqual("Result",       () => sampleOutlet.Name);
+            AreEqual("Result", () => sampleOutlet.Name);
             IsNotNull(() => sampleOutlet.ConnectedInlets);
             AreEqual(0, () => sampleOutlet.ConnectedInlets.Count);
             IsNotNull(() => sampleOutlet.AsAudioFileOutputChannels);
@@ -811,7 +810,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 return 0.000047;
             }
 
-            
             throw new NotSupportedException(
                 "Unsupported combination of values: " + new { interpolationTypeEnum = interpolation, bits });
         }

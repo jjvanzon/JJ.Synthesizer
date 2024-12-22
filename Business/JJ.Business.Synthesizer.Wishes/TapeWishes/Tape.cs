@@ -20,7 +20,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         [Obsolete("Prefer Tape properties instead")]
         public Buff Buff { get; } = new Buff();
-        public byte[] Bytes { get => Buff.Bytes; set => Buff.Bytes = value; }
+        
+        public byte[] Bytes 
+        { 
+            get => Buff.Bytes; 
+            set => Buff.Bytes = value; 
+        }
         
         public string FilePathResolved
         {

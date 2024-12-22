@@ -157,8 +157,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("⚠ Warning: Tape not recorded!");
             }
 
-            //lines.Add("");
-        
             return lines;
         }
 
@@ -921,6 +919,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string message = FormatOutputFile(filePath, sourceFilePath);
             Console.WriteLine(message);
         }
+        
         internal static string FormatOutputFile(string filePath, string sourceFilePath = null)
         {
             string prefix = "  ";
