@@ -246,6 +246,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Console.WriteLine("-------");
             Console.WriteLine("");
             
+            //WithCacheToDisk();
+            
             int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
 
@@ -282,7 +284,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AudioFileOutput signalAudioFileOutputNew = signalBuffNew.UnderlyingAudioFileOutput;
             
             signalTapeNew.Save(callerMemberName + "_" + nameof(signalTapeNew));
-            //signalBuffNew.Save(callerMemberName + "_" + nameof(signalBuffNew));
 
             Console.WriteLine("");
             Console.WriteLine("Reload Sample in a FlowNode");

@@ -120,8 +120,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             try
             {
-                //LogAction(tape, "Leaf Found", "Running");
-                //LogAction(tape, "Start");
                 LogAction(tape, "Start", "Running...");
                 
                 // Cache Buffer
@@ -144,8 +142,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 }
                 
                 LogAction(tape, "Stop", "Checking Leaves...");
-                //LogAction(tape, "Stop");
-                //LogAction(tape, "Task Finished", "Check for Leaves");
             }
             finally
             {

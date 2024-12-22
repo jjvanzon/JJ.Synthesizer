@@ -176,6 +176,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private static readonly object _stereoSpeakerSetupSubstituteLock = new object();
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
@@ -223,6 +224,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
+        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private static readonly object _monoSpeakerSetupSubstituteLock = new object();
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
