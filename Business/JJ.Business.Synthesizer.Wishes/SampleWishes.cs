@@ -115,11 +115,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // SampleFromTape
         
-        private FlowNode SampleFromTape(Tape tape, int bytesToSkip = 0)
+        private FlowNode SampleFromTape(Tape tape, int bytesToSkip = 0, Stream stream = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            Stream stream = ResolveStream(null, tape.Bytes, tape.FilePathResolved);
+            stream = stream ?? ResolveStream(null, tape.Bytes, tape.FilePathResolved);
             Sample sample = _sampleManager.CreateSample(stream);
             
             sample.BytesToSkip = bytesToSkip;
