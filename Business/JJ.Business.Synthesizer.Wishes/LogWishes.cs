@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
@@ -312,96 +313,177 @@ namespace JJ.Business.Synthesizer.Wishes
 
         internal static string ConfigLog(SynthWishes synthWishes) => ConfigLog("Options", synthWishes, NewLine);
         internal static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("Options", synthWishes, sep);
-        
         internal static string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return ConfigLog(title, synthWishes.Config, synthWishes, sep);
         }
 
         internal static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Options", flowNode);
         internal static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Options", flowNode, sep);        
-        
         internal static string ConfigLog(string title, FlowNode flowNode, string sep = " | ")
         {
-            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            if (flowNode == null) throw new NullException(() => flowNode);
             return ConfigLog(title, flowNode.SynthWishes, sep);
         }
 
         internal static string ConfigLog(Buff buff) => ConfigLog("", buff);
         internal static string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
-        
         internal static string ConfigLog(string title, Buff buff, string sep = " | ")
         {
-            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            if (buff == null) throw new NullException(() => buff);
             if (buff.UnderlyingAudioFileOutput == null) return default;
             return ConfigLog(title, buff.UnderlyingAudioFileOutput, sep);
         }
 
         internal static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("Audio Info", audioInfoWish);
         internal static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("Audio Info", audioInfoWish, sep);
-        
         internal static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
         {
+            if (audioInfoWish == null) throw new NullException(()  => audioInfoWish);
+            
             if (!Has(sep, false)) sep = NewLine;
-            return ConfigLog(title, GetDurationsDescriptor(audioInfoWish), GetAudioFormatDescriptor(audioInfoWish), sep: sep);
+            
+            string durationsDescriptor = GetDurationsDescriptor(
+                audioInfoWish.AudioLength());
+            
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                audioInfoWish.SamplingRate,
+                audioInfoWish.Bits,
+                audioInfoWish.Channels);
+            
+            return ConfigLog(
+                title, 
+                durationsDescriptor, 
+                audioFormatDescriptor, 
+                sep: sep);
         }
 
         internal static string ConfigLog(AudioFileInfo audioFileInfo) => ConfigLog("Audio Info", audioFileInfo);
         internal static string ConfigLog(AudioFileInfo audioFileInfo, string sep) => ConfigLog("Audio Info", audioFileInfo, sep);
-
         internal static string ConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ")
         {
+            if (audioFileInfo == null) throw new NullException(() => audioFileInfo);
+            
             if (!Has(sep, false)) sep = NewLine;
-            return ConfigLog(title, GetDurationsDescriptor(audioFileInfo), GetAudioFormatDescriptor(audioFileInfo), sep: sep);
+            
+            string durationsDescriptor = GetDurationsDescriptor(
+                audioFileInfo.AudioLength());
+            
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                audioFileInfo.SamplingRate,
+                audioFileInfo.Bits(),
+                audioFileInfo.ChannelCount);
+            
+            return ConfigLog(
+                title, 
+                durationsDescriptor, 
+                audioFormatDescriptor, 
+                sep: sep);
         }
 
         internal static string ConfigLog(WavHeaderStruct wavHeader) => ConfigLog("WAV Header", wavHeader);
         internal static string ConfigLog(WavHeaderStruct wavHeader, string sep) => ConfigLog("WAV Header", wavHeader, sep);
-
         internal static string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
         {
             if (!Has(sep, false)) sep = NewLine;
-            return ConfigLog(title, GetDurationsDescriptor(wavHeader), GetAudioFormatDescriptor(wavHeader), sep: sep);
+            
+            string durationsDescriptor = GetDurationsDescriptor(
+                wavHeader.AudioLength());
+            
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                wavHeader.SamplingRate,
+                wavHeader.Bits(),
+                wavHeader.ChannelCount);
+            
+            return ConfigLog(
+                title, 
+                durationsDescriptor, 
+                audioFormatDescriptor, 
+                sep: sep);
         }
 
-        internal static string ConfigLog(ConfigWishes configWishes) 
-            => ConfigLog("", configWishes);
-        
-        internal static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes) 
-            => ConfigLog("", configWishes, synthWishes);
-        
-        internal static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string sep) 
-            => ConfigLog("", configWishes, synthWishes, sep);
-        
-        internal static string ConfigLog(string title, ConfigWishes configWishes, string sep = " | ")  
-            => ConfigLog(title, configWishes, null, sep);
+        internal static string ConfigLog(ConfigWishes configWishes) => ConfigLog("", configWishes);
+        internal static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes) => ConfigLog("", configWishes, synthWishes);
+        internal static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string sep) => ConfigLog("", configWishes, synthWishes, sep);
+        internal static string ConfigLog(string title, ConfigWishes configWishes, string sep = " | ") => ConfigLog(title, configWishes, null, sep);
+        internal static string ConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes, string sep = " | ")
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                configWishes.GetSamplingRate,
+                configWishes.GetBits,
+                configWishes.GetChannels,
+                configWishes.GetChannel,
+                configWishes.GetAudioFormat,
+                configWishes.GetInterpolation);
+            
+            string featuresDescriptor = GetFeaturesDescriptor(
+                configWishes.GetPlay(),
+                configWishes.GetCacheToDisk,
+                configWishes.GetMathBoost,
+                configWishes.GetParallelTaping,
+                configWishes.GetPlayAllTapes);
 
-        internal static string ConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes, string sep = " | ") 
-            => ConfigLog(
+            string durationsDescriptor = Has(synthWishes) ? GetDurationsDescriptor(
+                configWishes.GetAudioLength(synthWishes).Value,
+                configWishes.GetLeadingSilence(synthWishes).Value,
+                configWishes.GetTrailingSilence(synthWishes).Value,
+                configWishes.GetBarLength(synthWishes).Value,
+                configWishes.GetBeatLength(synthWishes).Value,
+                configWishes.GetNoteLength(synthWishes).Value) : "";
+            
+            return ConfigLog(
                 title,
-                GetAudioFormatDescriptor(configWishes),
-                GetFeaturesDescriptor(configWishes),
-                Has(synthWishes) ? GetDurationsDescriptor(configWishes, synthWishes) : "",
+                audioFormatDescriptor,
+                featuresDescriptor,
+                durationsDescriptor,
                 sep: sep);
-
+        }
+        
         internal static string ConfigLog(ConfigSection configSection) => ConfigLog("", configSection);
         internal static string ConfigLog(ConfigSection configSection, string sep) => ConfigLog("", configSection, sep);
-
         internal static string ConfigLog(string title, ConfigSection configSection, string sep = " | ")
-            => ConfigLog(
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            
+            string featuresDescriptor = GetFeaturesDescriptor(
+                configSection.Play,
+                configSection.CacheToDisk,
+                configSection.MathBoost,
+                configSection.ParallelTaping,
+                configSection.PlayAllTapes);
+            
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                configSection.SamplingRate,
+                configSection.Bits,
+                configSection.Channels,
+                channel: null,
+                configSection.AudioFormat,
+                configSection.Interpolation);
+            
+            string durationsDescriptor = GetDurationsDescriptor(
+                configSection.AudioLength,
+                configSection.LeadingSilence,
+                configSection.TrailingSilence,
+                configSection.BarLength,
+                configSection.BeatLength,
+                configSection.NoteLength);
+            
+            return ConfigLog(
                 title,
-                GetFeaturesDescriptor(configSection),
-                GetAudioFormatDescriptor(configSection),
-                GetDurationsDescriptor(configSection),
+                featuresDescriptor,
+                audioFormatDescriptor,
+                durationsDescriptor,
                 sep: sep);
-
+        }
+        
         internal static string ConfigLog(Tape tape) => ConfigLog("", tape);
         internal static string ConfigLog(Tape tape, string sep) => ConfigLog("", tape, sep);
-
         internal static string ConfigLog(string title, Tape tape, string sep = " | ")
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
                         
             string durationsDescriptor = GetDurationsDescriptor(
                 tape.Duration,
@@ -420,173 +502,60 @@ namespace JJ.Business.Synthesizer.Wishes
                 diskCache: tape.CacheToDisk,
                 playAllTapes: tape.PlayAllTapes);
 
-            string configLog = ConfigLog(
+            return ConfigLog(
                 title, 
                 durationsDescriptor,
                 audioFormatDescriptor,
                 featuresDescriptor,
                 sep: sep);
-
-            return configLog;
         }
 
         internal static string ConfigLog(AudioFileOutput audioFileOutput) => ConfigLog("Audio File Output", audioFileOutput);
         internal static string ConfigLog(AudioFileOutput audioFileOutput, string sep) => ConfigLog("Audio File Output", audioFileOutput, sep);
-
-        internal static string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ") 
-            => ConfigLog(title, GetDurationsDescriptor(audioFileOutput), GetAudioFormatDescriptor(audioFileOutput), sep: sep);
-
+        internal static string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ")
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            
+            string durationsDescriptor = GetDurationsDescriptor(
+                audioFileOutput.Duration);
+            
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                audioFileOutput.SamplingRate,
+                audioFileOutput.Bits(),
+                audioFileOutput.GetChannelCount(),
+                channel: null,
+                audioFileOutput.GetAudioFileFormatEnum(),
+                interpolation: null);
+            
+            return ConfigLog(
+                title, 
+                durationsDescriptor, 
+                audioFormatDescriptor, 
+                sep: sep);
+        }
+        
         internal static string ConfigLog(Sample sample) => ConfigLog("", sample);
         internal static string ConfigLog(Sample sample, string sep) => ConfigLog("", sample, sep);
-
-        internal static string ConfigLog(string title, Sample sample, string sep = " | ") 
-            => ConfigLog(title, GetDurationsDescriptor(sample), GetAudioFormatDescriptor(sample), sep: sep);
-
-        private static string GetDurationsDescriptor(ConfigWishes configWishes, SynthWishes synthWishes)
+        internal static string ConfigLog(string title, Sample sample, string sep = " | ")
         {
-            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
-            return GetDurationsDescriptor(
-                configWishes.GetAudioLength(synthWishes).Value,
-                configWishes.GetLeadingSilence(synthWishes).Value,
-                configWishes.GetTrailingSilence(synthWishes).Value,
-                configWishes.GetBarLength(synthWishes).Value,
-                configWishes.GetBeatLength(synthWishes).Value,
-                configWishes.GetNoteLength(synthWishes).Value);
-        }
-        
-        private static string GetDurationsDescriptor(ConfigSection configSection)
-        {
-            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
-            return GetDurationsDescriptor(
-                configSection.AudioLength,
-                configSection.LeadingSilence,
-                configSection.TrailingSilence,
-                configSection.BarLength,
-                configSection.BeatLength,
-                configSection.NoteLength);
-        }
-
-        private static string GetDurationsDescriptor(WavHeaderStruct wavHeader)
-            => GetDurationsDescriptor(wavHeader.AudioLength());
-        
-        private static string GetDurationsDescriptor(AudioFileInfo audioFileInfo)
-        {
-            if (audioFileInfo == null) throw new ArgumentNullException(nameof(audioFileInfo));
-            return GetDurationsDescriptor(audioFileInfo.AudioLength());
-        }
-                
-        private static string GetDurationsDescriptor(AudioInfoWish audioInfoWish)
-        {
-            if (audioInfoWish == null) throw new ArgumentNullException(nameof(audioInfoWish));
-            return GetDurationsDescriptor(audioInfoWish.AudioLength());
-        }
-
-        private static string GetDurationsDescriptor(AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-            return GetDurationsDescriptor(audioFileOutput.Duration);
-        }
-
-        private static string GetDurationsDescriptor(Sample sample)
-        {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
-            return GetDurationsDescriptor(sample.GetDuration());
-        }
-        
-        private static string GetAudioFormatDescriptor(ConfigWishes configWishes)
-        {
-            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
-            return GetAudioFormatDescriptor(
-                configWishes.GetSamplingRate, 
-                configWishes.GetBits, 
-                configWishes.GetChannels, 
-                configWishes.GetChannel, 
-                configWishes.GetAudioFormat,
-                configWishes.GetInterpolation);
-        }
-        
-        private static string GetAudioFormatDescriptor(ConfigSection configSection)
-        {
-            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
-            return GetAudioFormatDescriptor(
-                configSection.SamplingRate,
-                configSection.Bits,
-                configSection.Channels,
+            if (sample == null) throw new NullException(() => sample);
+            
+            string durationsDescriptor = GetDurationsDescriptor(
+                sample.GetDuration());
+            
+            string audioFormatDescriptor = GetAudioFormatDescriptor(
+                sample.SamplingRate,
+                sample.Bits(),
+                sample.GetChannelCount(),
                 channel: null,
-                configSection.AudioFormat,
-                configSection.Interpolation);
-        }
-        
-        private static string GetAudioFormatDescriptor(AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-            return GetAudioFormatDescriptor(
-                audioFileOutput.SamplingRate, 
-                audioFileOutput.Bits(), 
-                audioFileOutput.GetChannelCount(), 
-                channel: null,
-                audioFileOutput.GetAudioFileFormatEnum(), 
-                interpolation: null);
-        }
-
-        private static string GetAudioFormatDescriptor(Sample sample)
-        {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
-            return GetAudioFormatDescriptor(
-                sample.SamplingRate, 
-                sample.Bits(), 
-                sample.GetChannelCount(), 
-                channel: null,
-                sample.GetAudioFileFormatEnum(), 
+                sample.GetAudioFileFormatEnum(),
                 sample.GetInterpolationTypeEnum());
-        }
-                
-        private static string GetAudioFormatDescriptor(AudioFileInfo audioFileInfo)
-        {
-            if (audioFileInfo == null) throw new ArgumentNullException(nameof(audioFileInfo));
-            return GetAudioFormatDescriptor(
-                audioFileInfo.SamplingRate, 
-                audioFileInfo.Bits(), 
-                audioFileInfo.ChannelCount);
-        }
-
-        private static string GetAudioFormatDescriptor(AudioInfoWish audioInfoWish)
-        {
-            if (audioInfoWish == null) throw new ArgumentNullException(nameof(audioInfoWish));
-            return GetAudioFormatDescriptor(
-                audioInfoWish.SamplingRate, 
-                audioInfoWish.Bits, 
-                audioInfoWish.Channels);
-        }
-
-        private static string GetAudioFormatDescriptor(WavHeaderStruct wavHeader)
-        {
-            return GetAudioFormatDescriptor(
-                wavHeader.SamplingRate, 
-                wavHeader.Bits(), 
-                wavHeader.ChannelCount);
-        }
-
-        private static string GetFeaturesDescriptor(ConfigWishes configWishes)
-        {
-            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
-            return GetFeaturesDescriptor(
-                configWishes.GetPlay(), 
-                configWishes.GetCacheToDisk,
-                configWishes.GetMathBoost, 
-                configWishes.GetParallelTaping,
-                configWishes.GetPlayAllTapes);
-        }
-        
-        private static string GetFeaturesDescriptor(ConfigSection configSection)
-        {
-            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
-            return GetFeaturesDescriptor(
-                configSection.Play, 
-                configSection.CacheToDisk, 
-                configSection.MathBoost, 
-                configSection.ParallelTaping, 
-                configSection.PlayAllTapes);
+            
+            return ConfigLog(
+                title, 
+                durationsDescriptor, 
+                audioFormatDescriptor, 
+                sep: sep);
         }
         
         // Tapes
