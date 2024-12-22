@@ -116,19 +116,15 @@ namespace JJ.Business.Synthesizer.Wishes
             // Calculation Graphs
             
             var signals = tape.ConcatSignals();
-            
             if (signals.Count > 0)
             {
                 for (var i = 0; i < signals.Count; i++)
                 {
                     lines.Add("");
                     
-                    FlowNode signal = signals[i];
-                    string signalString = signal.Stringify() ?? "";
-                    
-                    lines.Add($"Calculation Channel {i + 1}:");
+                    lines.Add($"Calculation {GetChannelDescriptor(signals.Count, i)}:");
                     lines.Add("");
-                    lines.Add(signalString);
+                    lines.Add($"{signals[i].Stringify()}");
                 }
             }
             else
@@ -146,13 +142,13 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 lines.Add("");
                 // ReSharper disable once PossibleNullReferenceException
-                lines.Add(PrettyByteCount(bytes.Length) + " written to memory.");
+                lines.Add($"  {PrettyByteCount(bytes.Length)} written to memory.");
             }
 
             if (fileExists)
             {
                 lines.Add("");
-                lines.Add("Output file: " + GetFullPath(tape.FilePathResolved));
+                lines.Add(FormatOutputFile(GetFullPath(tape.FilePathResolved)));
             }
 
             if (!fileExists && !Has(bytes))
@@ -263,7 +259,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
-        private static string GetChannelDescriptor(int? channelCount, int? channel)
+        public static string GetChannelDescriptor(int? channelCount, int? channel)
         {
             if (!Has(channelCount) && channel == null)
                 return default;
@@ -781,7 +777,10 @@ namespace JJ.Business.Synthesizer.Wishes
             //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
             flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
             
-            flags.Add($"{tape.Duration}s");
+            if (Has(tape.Duration))
+            {
+                flags.Add($"{tape.Duration}s");
+            }
 
             if (tape.IsPadded)
             {
@@ -919,13 +918,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         public static void LogOutputFile(string filePath, string sourceFilePath = null)
         {
-            string prefix = "    ";
+            string message = FormatOutputFile(filePath, sourceFilePath);
+            Console.WriteLine(message);
+        }
+        internal static string FormatOutputFile(string filePath, string sourceFilePath = null)
+        {
+            string prefix = "  ";
             string sourceFileString = default;
             if (Has(sourceFilePath)) sourceFileString += $"(copied {sourceFilePath})";
             string message = prefix + filePath + sourceFileString;
-            Console.WriteLine(message);
+            return message;
         }
-
+        
         // Math Boost
 
         public static void LogMathBoostTitle(bool mathBoost)
