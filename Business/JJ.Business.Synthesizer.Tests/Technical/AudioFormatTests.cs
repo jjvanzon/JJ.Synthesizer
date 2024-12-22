@@ -332,7 +332,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertAudioFileOutputProperties(
                 audioFileOutput1,
                 audioFormat, channels, bits, samplingRate,
-                expectedFilePath1, DURATION);
+                expectedFilePath1, DURATION, callerMemberName);
 
             string expectedFilePath2 = 
                 GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFormat.FileExtension());
@@ -340,7 +340,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertAudioFileOutputProperties(
                 audioFileOutput2,
                 audioFormat, channels, bits, samplingRate,
-                expectedFilePath2, DURATION2);
+                expectedFilePath2, DURATION2, callerMemberName);
 
             Console.WriteLine("Done.");
             
@@ -607,7 +607,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int bits, 
             int samplingRate,
             string expectedFilePath, 
-            double expectedDuration)
+            double expectedDuration,
+            string callerMemberName)
         {
             // AudioFileOutput
             IsNotNull(() => audioFileOutput.AudioFileFormat);
@@ -625,21 +626,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 IsNotNull(() => audioFileOutput.FilePath);
                 
-                // ReSharper disable once UnusedVariable
-                (string expectedFilePathFirstPart, int number, string expectedFilePathLastPart) =
+                string expectedContains = PrettifyName(callerMemberName);
+                
+                // ReSharper disable UnusedVariable
+                (string expectedStart, int number, string expectedEnd) =
                     GetNumberedFilePathParts(expectedFilePath, "", "");
+                // ReSharper restore UnusedVariable
+                
                 
                 var values = new 
                 { 
                     actualValue = audioFileOutput.FilePath,
-                    expectedFirstPart = expectedFilePathFirstPart, 
-                    expectedLastPart = expectedFilePathLastPart
+                    expectedContains, 
+                    expectedEnd
                 };
                 
-                IsTrue(audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart),
-                    $"Tested Expression: audioFileOutput.FilePath.StartsWith(expectedFilePathFirstPart).{NewLine}{values}");
-                IsTrue(audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart),
-                    $"Tested Expression: audioFileOutput.FilePath.EndsWith(expectedFilePathLastPart).{NewLine}{values}");
+                // Outcommented code lines, because file name can be the TapeDescriptor of a dummy Tape which is hard to simulate.
+
+                //IsTrue(Exists(audioFileOutput.FilePath), "Tested expression: Exists(audioFileOutput.FilePath)");
+                
+                //IsTrue(audioFileOutput.FilePath.StartsWith(expectedStart),
+                //    $"Tested Expression: audioFileOutput.FilePath.StartsWith(expectedStart).{NewLine}{values}");
+                
+                IsTrue(audioFileOutput.FilePath.EndsWith(expectedEnd),
+                    $"Tested Expression: audioFileOutput.FilePath.EndsWith(expectedEnd).{NewLine}{values}");
+            
+                IsTrue(audioFileOutput.FilePath.Contains(expectedContains),
+                    $"Tested Expression: audioFileOutput.FilePath.Contains(expectedContains).{NewLine}{values}");
+
             }
             
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
@@ -686,7 +700,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sampleOperator.Name);
-                IsTrue(() => sampleOperator.Name.StartsWith(expectedName)); 
+                IsTrue(() => sampleOperator.Name.Contains(expectedName)); 
             }
 
             // Sample Inlets
@@ -746,7 +760,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sample.Name);
-                IsTrue(() => sampleOperator.Name.StartsWith(expectedName)); 
+                IsTrue(() => sampleOperator.Name.Contains(expectedName)); 
             }
 
             // Sample Duration
