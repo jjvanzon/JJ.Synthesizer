@@ -938,7 +938,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string prefix = "  ";
             string sourceFileString = default;
-            if (Has(sourceFilePath)) sourceFileString += $"(copied {sourceFilePath})";
+            if (Has(sourceFilePath)) sourceFileString += $" (copied {sourceFilePath})";
             string message = prefix + filePath + sourceFileString;
             return message;
         }
