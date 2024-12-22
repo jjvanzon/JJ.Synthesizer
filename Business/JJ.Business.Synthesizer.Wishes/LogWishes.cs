@@ -13,7 +13,6 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
-using static System.IO.Path;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
@@ -122,48 +121,48 @@ namespace JJ.Business.Synthesizer.Wishes
                 lines.Add("⚠ Warning: No Signals!");
             }
             if (signals.Count == 1)
-                {
-                    lines.Add("");
+            {
+                lines.Add("");
                 lines.Add(signals[0].Stringify());
             }
             else
             {
                 for (var i = 0; i < signals.Count; i++)
                 {
-                lines.Add("");
+                    lines.Add("");
                     lines.Add(GetChannelDescriptor(signals.Count, i) + ":");
                     lines.Add("");
                     lines.Add(signals[i].Stringify());
-            }
+                }
             }
             
             // Buffer
             
+            lines.Add("");
+            lines.Add("Output:");
+            lines.Add("");
+        
             byte[] bytes = tape.Bytes;
             bool fileExists = Exists(tape.FilePathResolved);
             
             if (Has(bytes))
             {
-                lines.Add("");
-                // ReSharper disable once PossibleNullReferenceException
-                lines.Add($"  {PrettyByteCount(bytes.Length)} written to memory.");
+                lines.Add(FormatOutputBytes(bytes));
             }
 
             if (fileExists)
             {
-                lines.Add("");
-                lines.Add(FormatOutputFile(GetFullPath(tape.FilePathResolved)));
+                lines.Add(FormatOutputFile(tape.FilePathResolved));
             }
 
             if (!fileExists && !Has(bytes))
             {
-                lines.Add("");
                 lines.Add("⚠ Warning: Tape not recorded!");
             }
 
             return lines;
         }
-
+        
         public static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
         {
             string realTimeMessage = FormatRealTimeMessage(audioDuration, calculationDuration);
@@ -932,7 +931,13 @@ namespace JJ.Business.Synthesizer.Wishes
             string message = prefix + filePath + sourceFileString;
             return message;
         }
-        
+                
+        private static string FormatOutputBytes(byte[] bytes)
+        {
+            if (!Has(bytes)) return default;
+            return $"  {PrettyByteCount(bytes.Length)} written to memory.";
+        }
+
         // Math Boost
 
         public static void LogMathBoostTitle(bool mathBoost)
