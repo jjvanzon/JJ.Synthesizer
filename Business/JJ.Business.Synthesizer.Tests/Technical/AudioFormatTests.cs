@@ -490,15 +490,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualL =
                 {
-                    sampleLeft.Calculate(time: 0.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 1.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 2.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 3.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 4.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 5.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 6.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 7.0 / 8.0 / frequency, ChannelEnum.Left),
-                    sampleLeft.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Left)
+                    sampleLeft.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
+                    sampleLeft.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
                 };
 
                 //WithRight();
@@ -522,15 +522,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualR =
                 {
-                    sampleRight.Calculate(time: 0.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 1.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 2.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 3.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 4.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 5.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 6.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 7.0 / 8.0 / frequency, ChannelEnum.Right),
-                    sampleRight.Calculate(time: 8.0 / 8.0 / frequency, ChannelEnum.Right)
+                    sampleRight.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
+                    sampleRight.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
                 };
                 
                 Console.WriteLine("");
