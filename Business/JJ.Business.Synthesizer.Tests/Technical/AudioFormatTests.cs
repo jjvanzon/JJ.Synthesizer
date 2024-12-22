@@ -538,6 +538,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Console.WriteLine("-----------");
                 Console.WriteLine("");
 
+                // TODO: Can't save channels separately this way.
+                // Stereo sample switches with channel (= Center = 0 = Left)
                 WithMono().WithCenter().AsWav();
                 Run(() => sampleLeft.Save(callerMemberName + "_ValuesLeft"));
                 Run(() => sampleRight.Save(callerMemberName + "_ValuesRight"));
