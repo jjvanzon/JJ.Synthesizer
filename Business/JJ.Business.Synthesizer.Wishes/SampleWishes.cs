@@ -126,6 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Name = tape.GetDescriptor();
             sample.Amplifier = 1.0 / tape.Bits.MaxValue();
             sample.Location = tape.GetFilePath();
+            sample.SetInterpolation(tape.Interpolation, Context);
             
             if (sample.AudioFormat() == Raw)
             {
@@ -133,7 +134,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 sample.SamplingRate = tape.SamplingRate;
                 sample.SetChannels(tape.Channels, Context);
                 sample.SetBits(tape.Bits, Context);
-                sample.SetInterpolation(tape.Interpolation, Context);
             }
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
