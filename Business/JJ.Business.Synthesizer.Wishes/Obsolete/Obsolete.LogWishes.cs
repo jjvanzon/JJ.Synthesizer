@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using JJ.Persistence.Synthesizer;
+using static System.Environment;
 using static System.IO.Path;
+using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
@@ -13,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     internal static class ObsoleteLogWishes
     {
-        public static IList<string> GetSynthLogOld(Buff buff, double calculationDuration)
+        public static string GetSynthLogOld(Buff buff, double calculationDuration)
         {
             // Gather Lines
             var lines = new List<string>();
@@ -33,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             int channels = buff.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count;
             foreach (var audioFileOutputChannel in buff.UnderlyingAudioFileOutput.AudioFileOutputChannels)
             {
-                string channelString = GetChannelDescriptor(channels, audioFileOutputChannel.Index);
+                string channelString = ChannelDescriptor(channels, audioFileOutputChannel.Index);
                 string calculationString = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                 
                 lines.Add($"Calculation {channelString}:");
@@ -53,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             lines.Add("");
             
-            return lines;
+            return Join(NewLine, lines);
         }
     }
 }

@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 throw new Exception(
                     _unprocessedTapes.Count + " channel tapes could not be matched to a stereo tape:" + NewLine +
-                    Join(NewLine, _unprocessedTapes.Select(x => "- " + GetDescriptor(x) + " | " + x.Signal)) + NewLine +
+                    Join(NewLine, _unprocessedTapes.Select(x => "- " + Descriptor(x) + " | " + x.Signal)) + NewLine +
                     "To avoid duplicates, consider passing names to the Play, Save, Tape or Intercept methods.");
             }
             

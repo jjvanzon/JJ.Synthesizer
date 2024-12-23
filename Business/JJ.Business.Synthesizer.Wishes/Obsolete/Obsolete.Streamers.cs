@@ -9,6 +9,8 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static System.Environment;
+using static System.String;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
@@ -191,8 +193,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             };
 
             // Report
-            var reportLines = GetSynthLogOld(buff, calculationDuration);
-            reportLines.ForEach(Console.WriteLine);
+            string report = GetSynthLogOld(buff, calculationDuration);
+            LogLine(report);
             
             return buff;
         }
@@ -250,7 +252,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 return;
             }
             
-            Console.WriteLine($"{PrettyTime()} Padding: {leadingSilence} s before | {trailingSilence} s after");
+            LogLine($"{PrettyTime()} Pad: {leadingSilence} s before | {trailingSilence} s after");
             
             FlowNode originalAudioLength = synthWishes.GetAudioLength;
             
@@ -260,8 +262,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             FlowNode newAudioLength = synthWishes.GetAudioLength;
             
-            Console.WriteLine(
-                $"{PrettyTime()} Padding: AudioLength = {originalAudioLength} + " +
+            LogLine(
+                $"{PrettyTime()} Pad: AudioLength = {originalAudioLength} + " +
                 $"{leadingSilence} + {trailingSilence} = {newAudioLength}");
 
             for (int i = 0; i < channelSignals.Count; i++)
@@ -281,7 +283,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             }
             else
             {
-                Console.WriteLine($"{PrettyTime()} Padding: Channel Delay + {leadingSilence} s");
+                LogLine($"{PrettyTime()} Pad: Channel Delay + {leadingSilence} s");
                 return synthWishes.Delay(outlet, leadingSilence);
             }
         }
@@ -298,9 +300,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             var channelSignals = synthWishes.GetChannelSignals(func);
 
-            Console.WriteLine("");
-            Console.WriteLine(ConfigLog(synthWishes));
-            //Console.WriteLine("");
+            LogConfig(synthWishes);
 
             return synthWishes.MakeBuffLegacy(channelSignals, duration, inMemory, mustPad, name, filePath, callerMemberName);
         }

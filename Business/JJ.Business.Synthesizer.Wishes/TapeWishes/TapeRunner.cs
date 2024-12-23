@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             _tapeTreeBuilder.BuildTapeHierarchyRecursive(tapes);
             
-            Console.WriteLine(PlotTapeTree(tapes));
+            LogLine(PlotTapeTree(tapes));
         }
         
         private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);
@@ -172,15 +172,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             switch (timeOutAction)
             {
                 case Continue:
-                    Console.WriteLine(actionMessage);
+                    LogLine(actionMessage);
                     break;
                     
                 case Log:
-                    Console.WriteLine(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
+                    LogLine(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
                     break;
                 
                 case Stop:
-                    throw new Exception(actionMessage + " " + GetTapesLeftMessage(todoCount, tapesTODO));
+                    throw new Exception(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
             }
         }
         

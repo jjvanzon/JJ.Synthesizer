@@ -24,8 +24,9 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public static class LogExtensions
     {
-        public static IList<string> SynthLog(this Tape tape, double calculationDuration) => LogWishes.GetSynthLog(tape, calculationDuration);
-        public static string Descriptor(this Tape tape) => LogWishes.GetDescriptor(tape);
+        public static string SynthLog(this Tape tape, double? calculationDuration = null) => LogWishes.SynthLog(tape, calculationDuration);
+        public static string Descriptor(this Tape tape) => LogWishes.Descriptor(tape);
+        public static string Descriptor(this AudioFileOutput audioFileOutput) => LogWishes.Descriptor(audioFileOutput);
         
         public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title) => LogWishes.ConfigLog(title, synthWishes);
@@ -68,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Pretty Calculation Graphs
         
-        internal static IList<string> GetSynthLog(Tape tape, double calculationDuration)
+        public static string SynthLog(Tape tape, double? calculationDuration = null)
         {
             var lines = new List<string>();
 
@@ -131,7 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 for (var i = 0; i < signals.Count; i++)
                 {
                     lines.Add("");
-                    lines.Add(GetChannelDescriptor(signals.Count, i) + ":");
+                    lines.Add(ChannelDescriptor(signals.Count, i) + ":");
                     lines.Add("");
                     lines.Add(signals[i].Stringify());
                 }
@@ -163,7 +164,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             lines.Add("");
 
-            return lines;
+            return Join(NewLine, lines);
         }
         
         internal static string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
@@ -214,7 +215,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return log;
         }
 
-        internal static string GetDurationsDescriptor(
+        private static string DurationsDescriptor(
             double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
             double? barLength = null, double? beatLength = null, double? noteLength = null)
         {
@@ -239,7 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <summary> Example: <code> [Format] Sampling rate: 8192 Hz | 32-Bit | Mono | Wav | Linear Interpolation </code> </summary>
-        internal static string GetAudioFormatDescriptor(
+        private static string AudioFormatDescriptor(
             int? samplingRate = null, int? bits = null,
             int? channelCount = null, int? channel = null, 
             AudioFileFormatEnum? audioFormat = null, 
@@ -249,7 +250,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (Has(samplingRate)) elements.Add($"{samplingRate} Hz");
             if (Has(bits)) elements.Add($"{bits}-Bit");
-            string channelDescriptor = GetChannelDescriptor(channelCount, channel);
+            string channelDescriptor = ChannelDescriptor(channelCount, channel);
             if (Has(channelDescriptor)) elements.Add(channelDescriptor);
             if (Has(audioFormat)) elements.Add($"{audioFormat}".ToUpper());
             if (Has(interpolation))
@@ -263,7 +264,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
-        internal static string GetChannelDescriptor(int? channelCount, int? channel)
+        public static string ChannelDescriptor(int? channelCount, int? channel)
         {
             if (!Has(channelCount) && channel == null)
                 return default;
@@ -290,7 +291,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return default;
         }
         
-        internal static string GetFeaturesDescriptor(
+        private static string FeaturesDescriptor(
             bool? audioPlayback = null, 
             bool? diskCache = null, 
             bool? mathBoost = null, 
@@ -313,43 +314,50 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
 
-        internal static string ConfigLog(SynthWishes synthWishes) => ConfigLog("Options", synthWishes, NewLine);
-        internal static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("Options", synthWishes, sep);
-        internal static string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
+        public static void LogConfig(SynthWishes synthWishes) 
+        {
+            LogLine();
+            LogLine(ConfigLog(synthWishes));
+            LogLine();
+        }
+        
+        public static string ConfigLog(SynthWishes synthWishes) => ConfigLog("Options", synthWishes, NewLine);
+        public static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("Options", synthWishes, sep);
+        public static string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return ConfigLog(title, synthWishes.Config, synthWishes, sep);
         }
 
-        internal static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Options", flowNode);
-        internal static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Options", flowNode, sep);        
-        internal static string ConfigLog(string title, FlowNode flowNode, string sep = " | ")
+        public static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Options", flowNode);
+        public static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Options", flowNode, sep);
+        public static string ConfigLog(string title, FlowNode flowNode, string sep = " | ")
         {
             if (flowNode == null) throw new NullException(() => flowNode);
             return ConfigLog(title, flowNode.SynthWishes, sep);
         }
 
-        internal static string ConfigLog(Buff buff) => ConfigLog("", buff);
-        internal static string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
-        internal static string ConfigLog(string title, Buff buff, string sep = " | ")
+        public static string ConfigLog(Buff buff) => ConfigLog("", buff);
+        public static string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
+        public static string ConfigLog(string title, Buff buff, string sep = " | ")
         {
             if (buff == null) throw new NullException(() => buff);
             if (buff.UnderlyingAudioFileOutput == null) return default;
             return ConfigLog(title, buff.UnderlyingAudioFileOutput, sep);
         }
 
-        internal static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("Audio Info", audioInfoWish);
-        internal static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("Audio Info", audioInfoWish, sep);
-        internal static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
+        public static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("Audio Info", audioInfoWish);
+        public static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("Audio Info", audioInfoWish, sep);
+        public static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
         {
             if (audioInfoWish == null) throw new NullException(()  => audioInfoWish);
             
             if (!Has(sep, false)) sep = NewLine;
             
-            string durationsDescriptor = GetDurationsDescriptor(
+            string durationsDescriptor = DurationsDescriptor(
                 audioInfoWish.AudioLength());
             
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 audioInfoWish.SamplingRate,
                 audioInfoWish.Bits,
                 audioInfoWish.Channels);
@@ -361,18 +369,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
 
-        internal static string ConfigLog(AudioFileInfo audioFileInfo) => ConfigLog("Audio Info", audioFileInfo);
-        internal static string ConfigLog(AudioFileInfo audioFileInfo, string sep) => ConfigLog("Audio Info", audioFileInfo, sep);
-        internal static string ConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ")
+        public static string ConfigLog(AudioFileInfo audioFileInfo) => ConfigLog("Audio Info", audioFileInfo);
+        public static string ConfigLog(AudioFileInfo audioFileInfo, string sep) => ConfigLog("Audio Info", audioFileInfo, sep);
+        public static string ConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ")
         {
             if (audioFileInfo == null) throw new NullException(() => audioFileInfo);
             
             if (!Has(sep, false)) sep = NewLine;
             
-            string durationsDescriptor = GetDurationsDescriptor(
+            string durationsDescriptor = DurationsDescriptor(
                 audioFileInfo.AudioLength());
             
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 audioFileInfo.SamplingRate,
                 audioFileInfo.Bits(),
                 audioFileInfo.ChannelCount);
@@ -384,16 +392,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
 
-        internal static string ConfigLog(WavHeaderStruct wavHeader) => ConfigLog("WAV Header", wavHeader);
-        internal static string ConfigLog(WavHeaderStruct wavHeader, string sep) => ConfigLog("WAV Header", wavHeader, sep);
-        internal static string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
+        public static string ConfigLog(WavHeaderStruct wavHeader) => ConfigLog("WAV Header", wavHeader);
+        public static string ConfigLog(WavHeaderStruct wavHeader, string sep) => ConfigLog("WAV Header", wavHeader, sep);
+        public static string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
         {
             if (!Has(sep, false)) sep = NewLine;
             
-            string durationsDescriptor = GetDurationsDescriptor(
+            string durationsDescriptor = DurationsDescriptor(
                 wavHeader.AudioLength());
             
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 wavHeader.SamplingRate,
                 wavHeader.Bits(),
                 wavHeader.ChannelCount);
@@ -405,15 +413,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
 
-        internal static string ConfigLog(ConfigWishes configWishes) => ConfigLog("", configWishes);
-        internal static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes) => ConfigLog("", configWishes, synthWishes);
-        internal static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string sep) => ConfigLog("", configWishes, synthWishes, sep);
-        internal static string ConfigLog(string title, ConfigWishes configWishes, string sep = " | ") => ConfigLog(title, configWishes, null, sep);
-        internal static string ConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes, string sep = " | ")
+        public static string ConfigLog(ConfigWishes configWishes) => ConfigLog("", configWishes);
+        public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes) => ConfigLog("", configWishes, synthWishes);
+        public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string sep) => ConfigLog("", configWishes, synthWishes, sep);
+        public static string ConfigLog(string title, ConfigWishes configWishes, string sep = " | ") => ConfigLog(title, configWishes, null, sep);
+        public static string ConfigLog(string title, ConfigWishes configWishes, SynthWishes synthWishes, string sep = " | ")
         {
             if (configWishes == null) throw new NullException(() => configWishes);
             
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 configWishes.GetSamplingRate,
                 configWishes.GetBits,
                 configWishes.GetChannels,
@@ -421,14 +429,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 configWishes.GetAudioFormat,
                 configWishes.GetInterpolation);
             
-            string featuresDescriptor = GetFeaturesDescriptor(
+            string featuresDescriptor = FeaturesDescriptor(
                 configWishes.GetAudioPlayback(),
                 configWishes.GetDiskCache,
                 configWishes.GetMathBoost,
                 configWishes.GetParallelProcessing,
                 configWishes.GetPlayAllTapes);
 
-            string durationsDescriptor = Has(synthWishes) ? GetDurationsDescriptor(
+            string durationsDescriptor = Has(synthWishes) ? DurationsDescriptor(
                 configWishes.GetAudioLength(synthWishes).Value,
                 configWishes.GetLeadingSilence(synthWishes).Value,
                 configWishes.GetTrailingSilence(synthWishes).Value,
@@ -450,14 +458,14 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (configSection == null) throw new NullException(() => configSection);
             
-            string featuresDescriptor = GetFeaturesDescriptor(
+            string featuresDescriptor = FeaturesDescriptor(
                 configSection.AudioPlayback,
                 configSection.DiskCache,
                 configSection.MathBoost,
                 configSection.ParallelProcessing,
                 configSection.PlayAllTapes);
             
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 configSection.SamplingRate,
                 configSection.Bits,
                 configSection.Channels,
@@ -465,7 +473,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 configSection.AudioFormat,
                 configSection.Interpolation);
             
-            string durationsDescriptor = GetDurationsDescriptor(
+            string durationsDescriptor = DurationsDescriptor(
                 configSection.AudioLength,
                 configSection.LeadingSilence,
                 configSection.TrailingSilence,
@@ -481,18 +489,18 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
         
-        internal static string ConfigLog(Tape tape) => ConfigLog("", tape);
-        internal static string ConfigLog(Tape tape, string sep) => ConfigLog("", tape, sep);
-        internal static string ConfigLog(string title, Tape tape, string sep = " | ")
+        public static string ConfigLog(Tape tape) => ConfigLog("", tape);
+        public static string ConfigLog(Tape tape, string sep) => ConfigLog("", tape, sep);
+        public static string ConfigLog(string title, Tape tape, string sep = " | ")
         {
             if (tape == null) throw new NullException(() => tape);
                         
-            string durationsDescriptor = GetDurationsDescriptor(
+            string durationsDescriptor = DurationsDescriptor(
                 tape.Duration,
                 tape.LeadingSilence,
                 tape.TrailingSilence);
 
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 tape.SamplingRate,
                 tape.Bits,
                 tape.Channels, 
@@ -500,7 +508,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.AudioFormat,
                 tape.Interpolation);
             
-            string featuresDescriptor = GetFeaturesDescriptor(
+            string featuresDescriptor = FeaturesDescriptor(
                 diskCache: tape.DiskCache,
                 playAllTapes: tape.PlayAllTapes);
 
@@ -518,10 +526,10 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             
-            string durationsDescriptor = GetDurationsDescriptor(
+            string durationsDescriptor = DurationsDescriptor(
                 audioFileOutput.Duration);
             
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 audioFileOutput.SamplingRate,
                 audioFileOutput.Bits(),
                 audioFileOutput.GetChannelCount(),
@@ -535,16 +543,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
         
-        internal static string ConfigLog(Sample sample) => ConfigLog("", sample);
-        internal static string ConfigLog(Sample sample, string sep) => ConfigLog("", sample, sep);
-        internal static string ConfigLog(string title, Sample sample, string sep = " | ")
+        public static string ConfigLog(Sample sample) => ConfigLog("", sample);
+        public static string ConfigLog(Sample sample, string sep) => ConfigLog("", sample, sep);
+        public static string ConfigLog(string title, Sample sample, string sep = " | ")
         {
             if (sample == null) throw new NullException(() => sample);
             
-            string durationsDescriptor = GetDurationsDescriptor(
+            string durationsDescriptor = DurationsDescriptor(
                 sample.GetDuration());
             
-            string audioFormatDescriptor = GetAudioFormatDescriptor(
+            string audioFormatDescriptor = AudioFormatDescriptor(
                 sample.SamplingRate,
                 sample.Bits(),
                 sample.GetChannelCount(),
@@ -573,6 +581,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             sb.AppendLine("Tape Tree");
             sb.AppendLine("---------");
+            sb.AppendLine();
+            sb.AppendLine(PrettyTitle("Tape Tree"));
             sb.AppendLine();
             
             // Handle edge cases
@@ -603,7 +613,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 foreach (var tape in roots)
                 {
-                    sb.AppendLine(GetDescriptor(tape));
+                    sb.AppendLine(Descriptor(tape));
                 }
             }
             sb.AppendLine();
@@ -613,7 +623,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sb.AppendLine("Multi-Use:");
                 foreach (var tape in multiUseTapes)
                 { 
-                    sb.AppendLine(GetDescriptor(tape));
+                    sb.AppendLine(Descriptor(tape));
                 }
                 sb.AppendLine();
             }
@@ -655,7 +665,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (skipMultiUse)
                 {
                     // Redirection
-                    sb.AppendLine($" => {tape.GetName()} ({GetIDDescriptor(tape)}) ..."); 
+                    sb.AppendLine($" => {tape.GetName()} ({IDDescriptor(tape)}) ..."); 
                     return; 
                 }
             }
@@ -668,7 +678,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Continuation
                     sb2.Append("=> ");
                 }
-                sb2.Append(GetDescriptor(tape));
+                sb2.Append(Descriptor(tape));
                 if (includeCalculationGraphs)
                 {
                     sb2.Append("   | " + (tape.Signal?.ToString() ?? "<Signal=null>"));
@@ -686,7 +696,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        private static string GetIDDescriptor(Tape tape)
+        private static string IDDescriptor(Tape tape)
         {
             var ids = new List<int?>();
            
@@ -708,7 +718,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return formattedIDs;
         }
         
-        internal static string GetDescriptor(Tape tape)
+        public static string Descriptor(Tape tape)
         {
             if (tape == null) return "<Tape=null>";
 
@@ -746,7 +756,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.ChannelCallback != null) flags.Add("callback-ch");
             
             //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
-            flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
+            flags.Add(ChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
             
             if (Has(tape.Duration))
             {
@@ -782,19 +792,19 @@ namespace JJ.Business.Synthesizer.Wishes
                 flagDescriptor = " {" + Join(",", flags) + "}";
             }
             
-            string idDescriptor = $" ({GetIDDescriptor(tape)})";
+            string idDescriptor = $" ({IDDescriptor(tape)})";
             
             return prefix + nameDescriptor + flagDescriptor + idDescriptor;
         }
 
-        internal static string GetDescriptors(IList<Tape> tapes)
+        private static string Descriptors(IList<Tape> tapes)
         {
            if (!Has(tapes)) return default;
-           string[] tapeDescriptors = tapes.Where(x => x != null).Select(GetDescriptor).ToArray();
+           string[] tapeDescriptors = tapes.Where(x => x != null).Select(Descriptor).ToArray();
            return Join(NewLine, tapeDescriptors);
         }
         
-        internal static string GetTapesLeftMessage(int todoCount, Tape[] tapesLeft)
+        internal static string TapesLeftMessage(int todoCount, Tape[] tapesLeft)
         {
             string prefix = default;
             if (todoCount != 0)
@@ -804,7 +814,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (Has(tapesLeft))
             {
-                return prefix + NewLine + GetDescriptors(tapesLeft);
+                return prefix + NewLine + Descriptors(tapesLeft);
             }
             else
             {
@@ -812,20 +822,18 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        [Obsolete]
-        internal static void LogPlayAction(Tape tape, string action, string message = default)
-            => LogAction(tape, action, message);
+        // Actions
 
         internal static void LogAction(Tape entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             
-            string actionSuffix = GetActionSuffix(entity, action);
+            string actionSuffix = ActionSuffix(entity, action);
             
             LogLine(ActionMessage(entity.GetType(), entity.Descriptor(), action + actionSuffix, message));
         }
         
-        private static string GetActionSuffix(Tape tape, string action)
+        private static string ActionSuffix(Tape tape, string action)
         {
             string allSuffix = "";
             if (tape.PlayAllTapes)
@@ -901,10 +909,6 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogAction(string typeName, string objectName, string action, string message) 
             => LogLine(ActionMessage(typeName, objectName, action, message));
 
-        [Obsolete]
-        internal static string GetActionMessage(Tape tape, string action, string message = null) 
-            => ActionMessage(tape?.GetType(), tape?.Descriptor(), action, message);
-        
         public static string ActionMessage(Type type, string objectName, string action, string message)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
@@ -958,6 +962,9 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sample == null) throw new ArgumentNullException(nameof(sample));
             LogAction(nameof(Sample), "Create", $"\"{sample.Name}\" {ConfigLog(sample)}");
         }
+        
+        public static void LogPrettyTitle(string title) 
+            => LogLine(PrettyTitle(title));
         
         internal static void LogOutputFile(string filePath, string sourceFilePath = null)
         {

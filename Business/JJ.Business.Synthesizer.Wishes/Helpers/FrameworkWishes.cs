@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Copied;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {

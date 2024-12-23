@@ -163,8 +163,8 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             // Report
-            var reportLines = GetSynthLog(tape, calculationDuration);
-            reportLines.ForEach(Console.WriteLine);
+            string report = SynthLog(tape, calculationDuration);
+            LogLine(report);
         }
 
         // MakeBuff Legacy
