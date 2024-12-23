@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
+using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
@@ -17,9 +18,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private string DebuggerDisplay => GetDebuggerDisplay(this);
                 
         // Buff
-        
-        [Obsolete("Prefer Tape properties instead")]
-        public Buff Buff { get; } = new Buff();
+
+        public bool IsBuff => Has(Bytes) || Exists(FilePathResolved);
         
         public byte[] Bytes 
         { 
@@ -38,6 +38,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             get => Buff.UnderlyingAudioFileOutput;
             internal set => Buff.UnderlyingAudioFileOutput = value; 
         }
+        
+        [Obsolete("Prefer Tape properties instead")]
+        public Buff Buff { get; } = new Buff();
 
         // Names
 
