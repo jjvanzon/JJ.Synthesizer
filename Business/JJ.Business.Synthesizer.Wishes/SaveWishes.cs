@@ -105,13 +105,31 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new Exception("No audio in either memory or file.");
         }
         
-        [Obsolete("", true)]
         public static Buff Save(
             AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-            => MakeBuffObsoleteExtensions.MakeBuff(
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            
+            LogAction(audioFileOutput, MemberName());
+            
+            if (Exists(audioFileOutput.FilePath))
+            {
+                string destFilePath = InternalSave(audioFileOutput.FilePath, filePath, callerMemberName);
+                return new Buff
+                {
+                    FilePath = destFilePath,
+                    UnderlyingAudioFileOutput = audioFileOutput
+                };
+            }
+            else
+            {
+                return MakeBuffLegacy(
                 audioFileOutput,
-                inMemory: false, Default.GetCourtesyFrames, null, null, filePath, callerMemberName);
+                    inMemory: false, Default.GetCourtesyFrames, 
+                    audioFileOutput.Name, filePath, callerMemberName);
+            }
+        }
 
         public static string Save(
             Sample sample, 
