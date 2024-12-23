@@ -520,9 +520,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
 
-        internal static string ConfigLog(AudioFileOutput audioFileOutput) => ConfigLog("Audio File Output", audioFileOutput);
-        internal static string ConfigLog(AudioFileOutput audioFileOutput, string sep) => ConfigLog("Audio File Output", audioFileOutput, sep);
-        internal static string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ")
+        public static string ConfigLog(AudioFileOutput audioFileOutput) => ConfigLog("", audioFileOutput);
+        public static string ConfigLog(AudioFileOutput audioFileOutput, string sep) => ConfigLog("", audioFileOutput, sep);
+        public static string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ")
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             
@@ -889,13 +889,13 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogAction(Sample entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(entity.GetType(), entity.Name, action, message));
+            LogLine(ActionMessage(entity.GetType(), entity.Name, action, message ?? ConfigLog(entity)));
         }
         
         internal static void LogAction(AudioFileOutput entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(entity.GetType(), entity.Name, action, message));
+            LogLine(ActionMessage("Audio File Out", entity.Name, action, message ?? ConfigLog(entity)));
         }
         
         internal static void LogAction(string typeName, string message) 
@@ -985,6 +985,18 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (!Has(bytes)) return default;
             return $"  {PrettyByteCount(bytes.Length)} written to memory.";
+        }
+
+        public static string Descriptor(AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            
+            string name = Has(audioFileOutput.Name) ? audioFileOutput.Name : "";
+            string configLog = ConfigLog(audioFileOutput);
+            string filePath = Exists(audioFileOutput.FilePath) ? audioFileOutput.FilePath : "";
+            
+            string joined = Join(" | ", new[] { name, configLog, filePath }.Where(FilledIn));
+            return joined;
         }
 
         // Math Boost

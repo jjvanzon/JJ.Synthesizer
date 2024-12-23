@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
-            audioFileOutput.Name = ResolveName(tape.GetName(), callerMemberName) ;
+            audioFileOutput.Name = tape.Descriptor();
             audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Signal, tape.Signals, tape.FallBackName, callerMemberName);
             audioFileOutput.Amplifier = tape.Bits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
@@ -96,6 +96,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 default:
                     throw new Exception($"Value not supported: {GetText(() => channelSignals.Count)} = {GetValue(() => channelSignals.Count)}");;
             }
+            
+            LogAction(audioFileOutput, "Create");
             
             return audioFileOutput;
         }

@@ -237,6 +237,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                     throw new Exception($"Value not supported: {GetText(() => channelSignals.Count)} = {GetValue(() => channelSignals.Count)}");
             }
             
+            LogAction(audioFileOutput, "Create");
+            
             return audioFileOutput;
         }
 
