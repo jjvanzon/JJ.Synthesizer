@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AudioPropertyWishes.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
+    <Compile Include="Helpers\PropertyNameWishes.cs" />
     <Compile Include="Obsolete\Obsolete.LogWishes.cs" />
     <Compile Include="Obsolete\Obsolete.Streamers.cs" />
     <Compile Include="RecordWishes.cs" />
