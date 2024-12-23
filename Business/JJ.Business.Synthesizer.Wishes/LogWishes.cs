@@ -727,23 +727,23 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsPlayed) flags.Add("played");
             else if (tape.IsPlay) flags.Add("play");
             
-            if (tape.ChannelIsPlayed) flags.Add("c-played");
-            else if (tape.IsPlayChannel) flags.Add("c-play");
+            if (tape.ChannelIsPlayed) flags.Add("played-ch");
+            else if (tape.IsPlayChannel) flags.Add("play-ch");
             
             if (tape.IsSaved) flags.Add("saved");
             else if (tape.IsSave) flags.Add("save");
             
-            if (tape.ChannelIsSaved) flags.Add("c-saved");
-            else if (tape.IsSaveChannel) flags.Add("c-save");
+            if (tape.ChannelIsSaved) flags.Add("saved-ch");
+            else if (tape.IsSaveChannel) flags.Add("save-ch");
             
             if (tape.IsIntercepted) flags.Add("intercepted");
             else if (tape.IsIntercept) flags.Add("intercept");
             
-            if (tape.ChannelIsIntercepted) flags.Add("c-intercepted");
-            else if (tape.IsInterceptChannel) flags.Add("c-intercept");
+            if (tape.ChannelIsIntercepted) flags.Add("intercepted-ch");
+            else if (tape.IsInterceptChannel) flags.Add("intercept-ch");
             
             if (tape.Callback != null) flags.Add("callback");
-            if (tape.ChannelCallback != null) flags.Add("c-callback");
+            if (tape.ChannelCallback != null) flags.Add("callback-ch");
             
             //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
             flags.Add(GetChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
