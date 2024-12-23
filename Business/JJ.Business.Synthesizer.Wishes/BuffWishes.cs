@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public AudioFileOutput UnderlyingAudioFileOutput { get; internal set; }
 
         public AudioFileFormatEnum GetAudioFormat => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
+        public string Name => ResolveName(UnderlyingAudioFileOutput, FilePath);
     }
 
     // MakeBuff in SynthWishes
