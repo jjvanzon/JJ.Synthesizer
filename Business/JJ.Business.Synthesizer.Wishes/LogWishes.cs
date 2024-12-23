@@ -78,21 +78,21 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null)
             {
                 lines.Add("");
-                lines.Add(PrettyTitle("Synth Log"));
-                lines.Add("⚠ Warning: No Tape!");
-                return lines;
+                lines.Add(PrettyTitle("Record"));
+                lines.Add("⚠ No Tape!");
+                return Join(NewLine, lines);
             }
 
             // Title
             
             lines.Add("");
-            lines.Add(PrettyTitle("Tape: " + GetDescriptor(tape)));
+            lines.Add(PrettyTitle("Record: " + tape.Descriptor()));
             
             // Properties
             
             lines.Add("");
             lines.Add("Complexity: Ｏ (" + tape.Complexity() + ")");
-            lines.Add("Calculation Time: " + PrettyDuration(calculationDuration));
+            if (calculationDuration != null) lines.Add("Calculation Time: " + PrettyDuration(calculationDuration));
             lines.Add(ConfigLog(tape));
 
             // Warnings
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (signals.Count <= 0)
             {
                 lines.Add("");
-                lines.Add("⚠ Warning: No Signals!");
+                lines.Add("⚠ No Signals!");
             }
             if (signals.Count == 1)
             {
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (!fileExists && !Has(bytes))
             {
-                lines.Add("⚠ Warning: Tape not recorded!");
+                lines.Add("⚠ Tape not recorded!");
             }
             
             lines.Add("");
@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var elements = new List<string>();
             
-            if (audioLength != null) elements.Add($"{PrettyDuration(audioLength)}");
+            if (audioLength != null) elements.Add($"{audioLength:F2}s");
             if (leadingSilence != trailingSilence)
             {
                 if (Has(leadingSilence)) elements.Add($"Leading Silence {leadingSilence:F2}");
@@ -579,8 +579,6 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private static void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
         {
-            sb.AppendLine("Tape Tree");
-            sb.AppendLine("---------");
             sb.AppendLine();
             sb.AppendLine(PrettyTitle("Tape Tree"));
             sb.AppendLine();
@@ -604,7 +602,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Generate List of Main Tapes
 
-            sb.AppendLine("Roots:");
+            sb.AppendLine($"Roots ({roots.Length}):");
             if (roots.Length == 0)
             {
                 sb.AppendLine($"<{tapes.Count} tapes but no roots>");
@@ -620,7 +618,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (multiUseTapes.Length > 0)
             {
-                sb.AppendLine("Multi-Use:");
+                sb.AppendLine($"Multi-Use ({multiUseTapes.Length}):");
                 foreach (var tape in multiUseTapes)
                 { 
                     sb.AppendLine(Descriptor(tape));
@@ -630,7 +628,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (roots.Length > 0 || multiUseTapes.Length > 0)
             {
-                sb.AppendLine("All:");
+                sb.AppendLine($"All ({tapes.Count}):");
             }
             
             // Plot Hierarchy

@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             var oldDuration = tape.Duration;
             paddedTape.Duration = oldDuration + padding;
             
-            LogAction(paddedTape, "Padding", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
+            LogAction(paddedTape, "Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             // Remove original tape if it has no other purposes.
             if (!tape.IsIntercept && !tape.IsInterceptChannel && tape.Callback == null && tape.ChannelCallback == null)
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             tape.IsPlayChannel = false;
             tape.IsSaveChannel = false;
             
-            LogAction(paddedTape, "Padding", $"Delay + {tape.LeadingSilence} s");
+            LogAction(paddedTape, "Pad", $"Delay + {tape.LeadingSilence} s");
             
             return paddedTape;
         }

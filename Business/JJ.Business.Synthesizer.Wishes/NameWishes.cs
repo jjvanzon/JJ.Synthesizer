@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string prettyName = uglyName;
             
-            if (IsFile(prettyName))
+            if (IsFile(prettyName, maxExtensionLength: 4))
             {
                 prettyName = GetFileNameWithoutExtension(GetFileName(uglyName));
             }
