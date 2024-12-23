@@ -163,8 +163,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double timeOutInSec = timeOutInMs / 1000.0;
             string formattedTimeOut = PrettyDuration(timeOutInSec);
             
-            string actionMessage = GetActionMessage(
+            string actionMessage = ActionMessage(
                 nameof(Tape),
+                "",
                 "Check for Leaves",
                 $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
             
