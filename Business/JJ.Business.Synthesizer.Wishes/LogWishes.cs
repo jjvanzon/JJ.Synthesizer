@@ -811,64 +811,124 @@ namespace JJ.Business.Synthesizer.Wishes
                 return prefix + "<none>";
             }
         }
-
+        
+        [Obsolete]
         internal static void LogPlayAction(Tape tape, string action, string message = default)
+            => LogAction(tape, action, message);
+
+        internal static void LogAction(Tape entity, string action, string message = null)
         {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            
+            string actionSuffix = GetActionSuffix(entity, action);
+            
+            LogLine(ActionMessage(entity.GetType(), entity.Descriptor(), action + actionSuffix, message));
+        }
+        
+        private static string GetActionSuffix(Tape tape, string action)
+        {
+            string allSuffix = "";
             if (tape.PlayAllTapes)
             {
-                LogAction(tape, action + " {all}", message);
+                allSuffix = " {all}";
             }
-            else
+
+            if (Is(action, "Play"))
             {
-                LogAction(tape, action, message);
+                if (tape.IsPlay && tape.IsPlayChannel)
+                {
+                    return " (Channel)" + allSuffix;
+                }
+                if (!tape.IsPlay && tape.IsPlayChannel)
+                {
+                    return " Channel" + allSuffix;
+                }
+                else
+                {
+                    return allSuffix;
+                }
             }
+            if (Is(action, "Save"))
+            {
+                if (tape.IsSave && tape.IsSaveChannel)
+                {
+                    return " (Channel)";
+                }
+                if (!tape.IsSave && tape.IsSaveChannel)
+                {
+                    return " Channel";
+                }
+            }
+            if (Is(action, "Intercept"))
+            {
+                if (tape.IsIntercept && tape.IsInterceptChannel)
+                {
+                    return " (Channel)";
+                }
+                if (!tape.IsIntercept && tape.IsInterceptChannel)
+                {
+                    return " Channel";
+                }
+            }
+            
+            return default;
+        }
+                
+        internal static void LogAction(Buff entity, string action, string message = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            LogLine(ActionMessage(entity.GetType(), entity.Name, action, message));
         }
 
-        internal static void LogAction(string typeName, string message) 
-            => LogActionBase(null, typeName, null, message);
+        internal static void LogAction(Sample entity, string action, string message = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            LogLine(ActionMessage(entity.GetType(), entity.Name, action, message));
+        }
         
-        internal static string GetActionMessage(string typeName, string message) 
-            => GetActionMessage(null, typeName, null, message);
+        internal static void LogAction(AudioFileOutput entity, string action, string message = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            LogLine(ActionMessage(entity.GetType(), entity.Name, action, message));
+        }
+        
+        internal static void LogAction(string typeName, string message) 
+            => LogLine(ActionMessage(typeName, null, null, message));
         
         internal static void LogAction(string typeName, string action, string message) 
-            => LogActionBase(null, typeName, action, message);
-
-        internal static string GetActionMessage(string typeName, string action, string message) 
-            => GetActionMessage(null, typeName, action, message);
-
-        internal static void LogAction(Tape tape, string action) 
-            => LogActionBase(tape, null, action, null);
-
-        internal static string GetActionMessage(Tape tape, string action) 
-            => GetActionMessage(tape, null, action, null);
+            => LogLine(ActionMessage(typeName, null, action, message));
         
-        internal static void LogAction(Tape tape, string action, string message) 
-            => LogActionBase(tape, null, action, message);
+        internal static void LogAction(string typeName, string objectName, string action, string message) 
+            => LogLine(ActionMessage(typeName, objectName, action, message));
+
+        [Obsolete]
+        internal static string GetActionMessage(Tape tape, string action, string message = null) 
+            => ActionMessage(tape?.GetType(), tape?.Descriptor(), action, message);
         
-        internal static string GetActionMessage(Tape tape, string action, string message) 
-            => GetActionMessage(tape, null, action, message);
-        
-        private static void LogActionBase(Tape tape, string typeName, string action, string message)
+        public static string ActionMessage(Type type, string objectName, string action, string message)
         {
-            string text = GetActionMessage(tape, typeName, action, message);
-            Console.WriteLine(text);
+            if (type == null) throw new ArgumentNullException(nameof(type));
+            return ActionMessage(type.Name, objectName, action, message);
         }
         
-        internal static string GetActionMessage(Tape tape, string typeName, string action, string message)
+        public static string ActionMessage(string typeName, string objectName, string action, string message)
         {
-            if (!Has(typeName)) typeName = nameof(Tape);
-            
-            string text = PrettyTime() + " [" + typeName.ToUpper() + "]";
+            string text = PrettyTime();
+                
+            if (Has(typeName))
+            {
+                text += " [" + typeName.ToUpper() + "]";
+            }
             
             if (Has(action))
             {
                 text += " " + action;
             }
             
-            if (tape != null)
+            if (Has(objectName))
             {
                 if (!text.EndsWithPunctuation()) text += ":";
-                text += " " + '"' + GetDescriptor(tape) + '"';
+                text += " " + '"' + objectName + '"';
             }
             
             if (Has(message))
@@ -876,6 +936,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (!text.EndsWithPunctuation()) text += ":";
                 text += " " + message;
             }
+            
             return text;
         }
 
@@ -897,23 +958,12 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sample == null) throw new ArgumentNullException(nameof(sample));
             LogAction(nameof(Sample), "Create", $"\"{sample.Name}\" {ConfigLog(sample)}");
         }
-                
+        
         internal static void LogOutputFile(string filePath, string sourceFilePath = null)
         {
-            string message = FormatOutputFile(filePath, sourceFilePath);
-            Console.WriteLine(message);
-        }
-        
-                        
-        internal static void LogOutputFileIfExists(string filePath, string sourceFilePath = null)
-        {
-            try
+            if (Exists(filePath))
             {
-                if (Exists(filePath)) LogOutputFile(filePath, sourceFilePath);
-            }
-            catch 
-            {
-                // Do not a garbled file path stop the main process.
+                LogLine(FormatOutputFile(filePath, sourceFilePath));
             }
         }
 
@@ -972,8 +1022,8 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
             => LogLine(Pad($"Always 1 ({dimension})") + " : " +
-                                 $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
-                                 $"{Stringify(opName, signal, dimension, "=", 1)}");
+                       $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
+                       $"{Stringify(opName, signal, dimension, "=", 1)}");
         
         internal static void LogInvariance(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
