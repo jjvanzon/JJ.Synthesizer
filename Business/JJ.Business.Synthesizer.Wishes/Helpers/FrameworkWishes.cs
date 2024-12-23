@@ -295,6 +295,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             public static bool Has<T>(IList<T> coll)                        => FilledIn(coll);
             public static bool Has<T>(T value)                              => FilledIn(value);
             public static bool Has<T>(T? value) where T : struct            => FilledIn(value);
+            
+            public static bool Is(string value, string comparison, bool ignoreCase = false) => string.Equals(value, comparison, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
         }
     }
 
