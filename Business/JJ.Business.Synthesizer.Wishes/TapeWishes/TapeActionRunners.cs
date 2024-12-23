@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.Helpers.PropertyNameWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -18,13 +17,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.ChannelCallback == null) return;
             if (tape.ChannelIsIntercepted)
             {
-                LogAction(tape, nameof(SynthWishes.InterceptChannel), "Already intercepted.");
+                LogAction(tape, Intercept, "Already intercepted");
                 return;
             }
 
             tape.ChannelIsIntercepted = true;
             
-            LogAction(tape, nameof(SynthWishes.InterceptChannel));
+            LogAction(tape, Intercept);
             
             tape.ChannelCallback(tape);
         }
@@ -37,16 +36,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.ChannelIsSaved)
             {
-                LogAction(tape, nameof(SynthWishes.SaveChannel), "Already saved.");
-                LogOutputFileIfExists(tape.FilePathResolved);
+                LogAction(tape, Save, "Already saved");
+                LogOutputFile(tape.FilePathResolved);
                 return;
             }
 
             tape.ChannelIsSaved = true;
-
-            LogAction(tape, nameof(SynthWishes.SaveChannel));
             
-            Save(tape);
+            tape.Save();
         }
 
         public override void PlayIfNeeded(Tape tape)
@@ -57,15 +54,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.ChannelIsPlayed)
             {
-                LogPlayAction(tape, nameof(SynthWishes.PlayChannel), "Already played.");
+                LogAction(tape, Play, "Already played");
                 return;
             }
 
             tape.ChannelIsPlayed = true;
             
-            LogPlayAction(tape, nameof(SynthWishes.PlayChannel));
-            
-            Play(tape);
+            tape.Play();
         }
     }
     
@@ -80,13 +75,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.IsIntercepted)
             {
-                LogAction(tape, nameof(SynthWishes.Intercept), "Already intercepted.");
+                LogAction(tape, Intercept, "Already intercepted");
                 return;
             }
 
             tape.IsIntercepted = true;
 
-            LogAction(tape, nameof(SynthWishes.Intercept));
+            LogAction(tape, Intercept);
             
             tape.Callback(tape);
         }
@@ -100,16 +95,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.IsSaved)
             {
-                LogAction(tape, nameof(Save), "Already saved.");
-                LogOutputFileIfExists(tape.FilePathResolved);
+                LogAction(tape, Save, "Already saved");
+                LogOutputFile(tape.FilePathResolved);
                 return;
             }
 
             tape.IsSaved = true;
 
-            LogAction(tape, nameof(Save));
-            
-            Save(tape);
+            tape.Save();
         }
         
         public override void PlayIfNeeded(Tape tape)
@@ -124,15 +117,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (tape.IsPlayed)
             {
-                LogPlayAction(tape, nameof(Play), "Already played.");
+                LogAction(tape, Play, "Already played");
                 return;
             }
 
             tape.IsPlayed = true;
 
-            LogPlayAction(tape, nameof(Play));
-            
-            Play(tape);
+            tape.Play();
         }
     }
     
@@ -142,18 +133,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (!tape.IsStereo) return;;
+            if (!tape.IsStereo) return;
             if (tape.Callback == null) return;
             
             if (tape.IsIntercepted)
             {
-                LogAction(tape, nameof(SynthWishes.Intercept), "Already intercepted.");
+                LogAction(tape, Intercept, "Already intercepted");
                 return;
             }
 
             tape.IsIntercepted = true;
             
-            LogAction(tape, nameof(SynthWishes.Intercept));
+            LogAction(tape, Intercept);
             
             tape.Callback(tape);
         }
@@ -162,44 +153,39 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (!tape.IsStereo) return;;
+            if (!tape.IsStereo) return;
             if (!tape.IsSave) return;
             
             if (tape.IsSaved)
             {
-                LogAction(tape, nameof(Save), "Already saved.");
-                LogOutputFileIfExists(tape.FilePathResolved);
+                LogAction(tape, Save, "Already saved");
+                LogOutputFile(tape.FilePathResolved);
                 return;
             }
 
             tape.IsSaved = true;
-
-            LogAction(tape, nameof(Save));
             
-            Save(tape);
+            tape.Save();
         }
         
         public override void PlayIfNeeded(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            if (!tape.IsStereo) return;;
+            if (!tape.IsStereo) return;
             if (!(tape.IsPlay || tape.PlayAllTapes)) return;
             
             if (tape.IsPlayed)
             {
-                LogPlayAction(tape, nameof(Play), "Already played.");
+                LogAction(tape, Play, "Already played");
                 return;
             }
 
             tape.IsPlayed = true;
 
-            LogPlayAction(tape, nameof(Play));
-            
-            Play(tape);
+            tape.Play();
         }
     }
-    
     
     internal abstract class TapeActionRunnerBase
     {
