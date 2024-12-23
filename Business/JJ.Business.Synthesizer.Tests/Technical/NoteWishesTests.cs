@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(2, () => GetBarLength.AsConst.Value);
         }
         
-        [TestMethod] public void BarLength_From_BeatLength_Test() => Run(BarLength_From_BeatLength);
+        [TestMethod] public void BarLength_From_BeatLength_Test() => WithMathBoost().Run(BarLength_From_BeatLength);
         void BarLength_From_BeatLength()
         {
             // 4 * BeatLength
