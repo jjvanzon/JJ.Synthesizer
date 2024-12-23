@@ -7,11 +7,13 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Copied;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static System.Char;
 using static System.Environment;
 using static System.IO.File;
 using static System.String;
@@ -214,7 +216,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string log = titleElement + Join(sep, groups.Where(FilledIn));
             return log;
         }
-
+        
         private static string DurationsDescriptor(
             double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
             double? barLength = null, double? beatLength = null, double? noteLength = null)
@@ -313,7 +315,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string descriptor = Join(" | ", features);
             return descriptor;
         }
-
+        
         public static void LogConfig(SynthWishes synthWishes) 
         {
             LogLine();
@@ -328,7 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return ConfigLog(title, synthWishes.Config, synthWishes, sep);
         }
-
+        
         public static string ConfigLog(FlowNode flowNode) => ConfigLog("FlowNode Options", flowNode);
         public static string ConfigLog(FlowNode flowNode, string sep) => ConfigLog("FlowNode Options", flowNode, sep);
         public static string ConfigLog(string title, FlowNode flowNode, string sep = " | ")
@@ -336,7 +338,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (flowNode == null) throw new NullException(() => flowNode);
             return ConfigLog(title, flowNode.SynthWishes, sep);
         }
-
+        
         public static string ConfigLog(Buff buff) => ConfigLog("", buff);
         public static string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
         public static string ConfigLog(string title, Buff buff, string sep = " | ")
@@ -345,7 +347,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (buff.UnderlyingAudioFileOutput == null) return default;
             return ConfigLog(title, buff.UnderlyingAudioFileOutput, sep);
         }
-
+        
         public static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("Audio Info", audioInfoWish);
         public static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("Audio Info", audioInfoWish, sep);
         public static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
@@ -368,7 +370,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFormatDescriptor, 
                 sep: sep);
         }
-
+        
         public static string ConfigLog(AudioFileInfo audioFileInfo) => ConfigLog("Audio Info", audioFileInfo);
         public static string ConfigLog(AudioFileInfo audioFileInfo, string sep) => ConfigLog("Audio Info", audioFileInfo, sep);
         public static string ConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ")
@@ -391,7 +393,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFormatDescriptor, 
                 sep: sep);
         }
-
+        
         public static string ConfigLog(WavHeaderStruct wavHeader) => ConfigLog("WAV Header", wavHeader);
         public static string ConfigLog(WavHeaderStruct wavHeader, string sep) => ConfigLog("WAV Header", wavHeader, sep);
         public static string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
@@ -412,7 +414,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFormatDescriptor, 
                 sep: sep);
         }
-
+        
         public static string ConfigLog(ConfigWishes configWishes) => ConfigLog("", configWishes);
         public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes) => ConfigLog("", configWishes, synthWishes);
         public static string ConfigLog(ConfigWishes configWishes, SynthWishes synthWishes, string sep) => ConfigLog("", configWishes, synthWishes, sep);
@@ -519,7 +521,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 featuresDescriptor,
                 sep: sep);
         }
-
+        
         public static string ConfigLog(AudioFileOutput audioFileOutput) => ConfigLog("", audioFileOutput);
         public static string ConfigLog(AudioFileOutput audioFileOutput, string sep) => ConfigLog("", audioFileOutput, sep);
         public static string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | ")
@@ -571,27 +573,27 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            var sb = new StringBuilderWithIndentationWish("   ", NewLine);
+            var sb = new StringBuilderWithIndentation_AdaptedFromFramework("   ", NewLine);
             PlotTapeTree(tapes, sb, includeCalculationGraphs);
-            sb.AppendLine();
             return sb.ToString();
         }
         
-        private static void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs)
+        private static void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentation_AdaptedFromFramework sb, bool includeCalculationGraphs)
         {
             sb.AppendLine();
             sb.AppendLine(PrettyTitle("Tape Tree"));
             sb.AppendLine();
             
             // Handle edge cases
-            if (tapes == null) { sb.AppendLine("<Tapes=null>"); return; }
-            if (tapes.Count == 0) { sb.AppendLine("<Tapes.Count=0>"); return; }
+            if (tapes == null) { sb.AppendLine("<Tapes=null>"); sb.AppendLine(); return; }
+            if (tapes.Count == 0) { sb.AppendLine("<Tapes.Count=0>"); sb.AppendLine(); return; }
             if (tapes.Any(x => x == null))
             {
                 for (var i = 0; i < tapes.Count; i++)
                 {
                     if (tapes[i] == null) sb.AppendLine($"<Tape[{i}]=null>");
                 }
+                sb.AppendLine();
                 return;
             }
             
@@ -647,10 +649,12 @@ namespace JJ.Business.Synthesizer.Wishes
                     PlotTapeHierarchyRecursive(tape, sb, includeCalculationGraphs, skipMultiUse: false);
                 }
             }
+            
+            sb.AppendLine();
         }
         
         private static void PlotTapeHierarchyRecursive(
-            Tape tape, StringBuilderWithIndentationWish sb, bool includeCalculationGraphs, bool skipMultiUse = true)
+            Tape tape, StringBuilderWithIndentation_AdaptedFromFramework sb, bool includeCalculationGraphs, bool skipMultiUse = true)
         {
             // Handle edge-cases
             if (tape == null) { sb.AppendLine("<Tape=null>"); return; }
@@ -690,7 +694,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 sb.Indent();
                 PlotTapeHierarchyRecursive(childTape, sb, includeCalculationGraphs);
-                sb.Outdent();
+                sb.Unindent();
             }
         }
 
@@ -794,7 +798,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             return prefix + nameDescriptor + flagDescriptor + idDescriptor;
         }
-
+        
         private static string Descriptors(IList<Tape> tapes)
         {
            if (!Has(tapes)) return default;
@@ -821,7 +825,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         // Actions
-
+        
         internal static void LogAction(Tape entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -891,13 +895,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             LogLine(ActionMessage(entity.GetType(), entity.Name, action, message ?? ConfigLog(entity)));
         }
-        
+
         internal static void LogAction(AudioFileOutput entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             LogLine(ActionMessage("Audio File Out", entity.Name, action, message ?? ConfigLog(entity)));
         }
-        
+
         internal static void LogAction(string typeName, string message) 
             => LogLine(ActionMessage(typeName, null, null, message));
         
@@ -944,21 +948,69 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Misc
         
+        private static bool _pendingBlankLine;
+
         public static void LogLine(string message = default)
         {
             message = message ?? "";
-            Console.WriteLine(message);
+            
+            if (IsNullOrWhiteSpace(message))
+            {
+                _pendingBlankLine = true;
+                return;
+            }
+            
+            if (_pendingBlankLine)
+            {
+                bool startsWithEmptyLine = StartsWithEmptyLine(message);
+                if (!startsWithEmptyLine) Console.WriteLine("");
+            }
+
+            _pendingBlankLine = EndsWithEmptyLine(message);
+
+            Console.WriteLine(message.TrimEnd());
         }
-        
-        public static void LogPrettyTitle(string title)
+                
+        private static bool StartsWithEmptyLine(string text)
         {
-            LogLine(PrettyTitle(title));
+            if (!Has(text)) return true;
+            
+            for (int i = 0; i < text.Length; i++)
+            {
+                char chr = text[i];
+                
+                bool isWhiteSpace = IsWhiteSpace(chr);
+                if (!isWhiteSpace) return false;
+                
+                bool isNewLine = chr == '\n';
+                if (isNewLine) return true;
+                
+                bool isLastChar = i == text.Length - 1;
+                if (isLastChar) return false;
+            }
+            
+            return false;
         }
 
-        internal static void LogSampleCreated(Sample sample)
+        private static bool EndsWithEmptyLine(string text)
         {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
-            LogAction(nameof(Sample), "Create", $"\"{sample.Name}\" {ConfigLog(sample)}");
+            if (!Has(text)) return true;
+            
+            for (int i = text.Length - 1; i >= 0; i--)
+            {
+                char chr = text[i];
+                
+                bool isWhiteSpace = IsWhiteSpace(chr);
+                if (!isWhiteSpace) return false;
+                
+                bool isNewLine = chr == '\n';
+                if (isNewLine) return true;
+                
+                bool isFirstChar = i == 0;
+                if (isFirstChar) return false;
+            }
+            
+            return false;
         }
         
         public static void LogPrettyTitle(string title) 

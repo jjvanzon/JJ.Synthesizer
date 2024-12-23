@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Copied;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
@@ -101,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private readonly bool _singleLine;
         private readonly bool _canOmitNameForBasicMath;
-        internal StringBuilderWithIndentationWish _sb; // Internal for obsolete extension methods
+        internal StringBuilderWithIndentation_AdaptedFromFramework _sb; // Internal for obsolete extension methods
 
         public OperatorStringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
@@ -130,15 +131,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Create StringBuilder
 
         // Internal for obsolete extension methods
-        internal StringBuilderWithIndentationWish CreateStringBuilder()
+        internal StringBuilderWithIndentation_AdaptedFromFramework CreateStringBuilder()
         {
             if (_singleLine)
             {
-                return new StringBuilderWithIndentationWish("", "");
+                return new StringBuilderWithIndentation_AdaptedFromFramework("", "");
             }
             else
             {
-                return new StringBuilderWithIndentationWish();
+                return new StringBuilderWithIndentation_AdaptedFromFramework();
             }
         }
 
@@ -170,7 +171,9 @@ namespace JJ.Business.Synthesizer.Wishes
             
             for (var i = 0; i < filledInletCount; i++)
             {
-                BuildStringRecursive(op.Inlets[i]);
+                Inlet inlet = op.Inlets[i];
+                
+                BuildStringRecursive(inlet);
 
                 // Conditional separator
                 int isLast = filledInletCount - 1;
@@ -191,14 +194,15 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!inlet.IsConst())
             {
                 _sb.Indent();
-                _sb.AppendLine();
+                _sb.AppendEnter();
+                _sb.AppendTabs();
             }
-
+            
             BuildStringRecursive(inlet.Input.Operator);
 
             if (!inlet.IsConst())
             {
-                _sb.Outdent();
+                _sb.Unindent();
             }
         }
  
@@ -320,7 +324,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         private int GetFilledInletCount(Operator op) => op.Inlets.TakeWhile(x => x.Input != null).Count();
 
-        // Internal for obsolete extension methods
+        // Internal for InletStringifyExtensions
         internal static string RemoveOuterBraces(string str)
         {
             // Cut away outer braces

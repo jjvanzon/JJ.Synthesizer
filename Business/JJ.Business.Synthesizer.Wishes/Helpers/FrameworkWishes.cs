@@ -600,54 +600,74 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 return char.IsPunctuation(text[text.Length - 1]);
             }
         }
-        
-        public class StringBuilderWithIndentationWish
-        {
-            private readonly StringBuilder _sb = new StringBuilder();
-
-            private readonly string _tabString;
-            private readonly string _enter;
-            private int _tabCount;
-
-            public StringBuilderWithIndentationWish()
-                : this("  ", Environment.NewLine)
-            { }
-
-            public StringBuilderWithIndentationWish(string tabString, string enter)
-            {
-                _tabString = tabString;
-                _enter = enter;
-            }
-
-            public void Append(object obj) => _sb.Append(obj);
-            public void Append(string str) => _sb.Append(str);
-            public void Append(char chr) => _sb.Append(chr);
-
-            public void AppendLine(string line = "")
-            {
-                Append(_enter);
-                AppendTabs();
-                Append(line);
-            }
-
-            private void AppendTabs()
-            {
-                for (int i = 0; i < _tabCount; i++)
-                {
-                    _sb.Append(_tabString);
-                }
-            }
-
-            public void Outdent() => _tabCount--;
-
-            public void Indent() => _tabCount++;
-
-            public override string ToString() => _sb.ToString();
-        }
     }
     
     namespace JJ_Framework_Text_Copied
     {
+        internal class StringBuilderWithIndentation_AdaptedFromFramework
+        {
+            public StringBuilderWithIndentation_AdaptedFromFramework()
+                : this("  ")
+            { }
+
+            public StringBuilderWithIndentation_AdaptedFromFramework(string tabString)
+                : this(tabString, NewLine)
+            { }
+
+            public StringBuilderWithIndentation_AdaptedFromFramework(string tabString , string enter)
+            {
+                _tabString = tabString;
+                _enter = enter;
+            }
+            
+            private readonly string _tabString;
+            private readonly string _enter;
+            
+            private readonly StringBuilder _sb = new StringBuilder();
+
+            public override string ToString() => _sb.ToString();
+            public void Indent() => IndentLevel++;
+            public void Unindent() => IndentLevel--;
+            public void AppendEnter() => Append(_enter);
+            public void AppendLine() => AppendLine("");
+            public void Append(object x) => _sb.Append(x);
+
+            public void AppendLine(string value)
+            {
+                AppendTabs();
+
+                _sb.Append(value);
+
+                _sb.Append(_enter);
+            }
+
+            public void AppendFormat(string format, params object[] args) => _sb.AppendFormat(format, args);
+
+            private int _indentLevel;
+            public int IndentLevel
+            {
+                get => _indentLevel;
+                set
+                {
+                    if (value < 0) throw new Exception("value cannot be less than 0.");
+                    _indentLevel = value;
+                }
+            }
+
+            public void AppendTabs()
+            {
+                string tabs = GetTabs();
+                _sb.Append(tabs);
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public string GetTabs()
+            {
+                string tabs = _tabString?.Repeat(_indentLevel);
+                return tabs;
+            }
+        }
+
         internal static class StringExtensions_Copied
         {
             /// <summary>
@@ -698,6 +718,28 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             /// These are variations of the standard .NET methods that instead of just taking char[] can take a string or a length.
             /// </summary>
             public static string TrimStart(this string input, int length) => input.Right(input.Length - length);
+            
+            /// <summary>
+            /// Repeat a string a number of times, returning a single string.
+            /// </summary>
+            public static string Repeat(this string stringToRepeat, int repeatCount)
+            {
+                if (stringToRepeat == null) throw new ArgumentNullException(nameof(stringToRepeat));
+
+                char[] sourceChars = stringToRepeat.ToCharArray();
+                int sourceLength = sourceChars.Length;
+
+                int destLength = sourceLength * repeatCount;
+                var destChars = new char[destLength];
+
+                for (var i = 0; i < destLength; i += sourceLength)
+                {
+                    Array.Copy(sourceChars, 0, destChars, i, sourceLength);
+                }
+
+                var destString = new string(destChars);
+                return destString;
+            }
         }
     }
 }
