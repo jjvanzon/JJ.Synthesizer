@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
@@ -47,6 +48,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
+        // On Tape
+        
         /// <inheritdoc cref="docs._makebuff" />
         internal void MakeBuff(Tape tape, [CallerMemberName] string callerMemberName = null)
         {
@@ -164,6 +167,72 @@ namespace JJ.Business.Synthesizer.Wishes
             reportLines.ForEach(Console.WriteLine);
         }
 
+        // MakeBuff Legacy
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        internal Buff MakeBuffLegacy(
+            FlowNode signal, FlowNode duration, bool inMemory, bool mustPad,
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
+            => MakeBuffLegacy(
+                new[] { signal }, duration, inMemory, mustPad, name, filePath, callerMemberName);
+
+        /// <inheritdoc cref="docs._makebuff" />
+        internal Buff MakeBuffLegacy(
+            IList<FlowNode> channelSignals, FlowNode duration, bool inMemory, bool mustPad,
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
+        {
+            if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
+            
+            // Help ReSharper not error over unused legacy parameter.
+            mustPad = mustPad;
+
+            var dummyTape = new Tape
+            {
+                Signals = channelSignals,
+                
+                Duration = (duration ?? GetAudioLength).Value,
+                LeadingSilence = GetLeadingSilence.Value,
+                TrailingSilence = GetTrailingSilence.Value,
+                
+                FilePathSuggested = filePath,
+                FallBackName = ResolveName(name, callerMemberName),
+                
+                SamplingRate = GetSamplingRate,
+                Bits = GetBits,
+                Channels = channelSignals.Count,
+                AudioFormat = GetAudioFormat,
+                Interpolation = GetInterpolation,
+
+                IsSave = !inMemory,
+
+                DiskCache = GetDiskCache,
+                PlayAllTapes = GetPlayAllTapes,
+                CourtesyFrames = GetCourtesyFrames
+            };
+            
+            MakeBuff(dummyTape);
+            
+            return dummyTape.Buff;
+        }
+        
+        internal static Buff MakeBuffLegacy(
+            AudioFileOutput audioFileOutput,
+            bool inMemory, int courtesyFrames, 
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
+        {
+            var dummyTape = new Tape
+            {
+                CourtesyFrames = courtesyFrames,
+                FilePathSuggested = filePath,
+                FallBackName = name,
+                DiskCache = !inMemory
+            };
+            
+            MakeBuff(dummyTape, audioFileOutput, callerMemberName);
+            
+            return dummyTape.Buff;
+        }
+        
         // Helpers
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />

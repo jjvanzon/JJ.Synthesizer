@@ -1,34 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        internal void Record(Tape tape)
+        public void Record(Tape tape)
         {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape.IsBuff) return;
             MakeBuff(tape);
         }
-
+        
         /// <inheritdoc cref="docs._makebuff" />
-        [Obsolete("")]
-        public Buff RecordOld(
+        [Obsolete(ObsoleteMessage)]
+        public Buff Record(
             FlowNode signal, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => this.MakeBuff(
-                new[] { signal }, duration,
-                inMemory: true, default, null, name, null, callerMemberName);
+            => MakeBuffLegacy(
+                signal, duration,
+                inMemory: true, mustPad: default, name, null, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        [Obsolete("")]
-        public Buff RecordOld(
+        [Obsolete(ObsoleteMessage)]
+        public Buff Record(
             IList<FlowNode> channelSignals, FlowNode duration = null,
             string name = null, [CallerMemberName] string callerMemberName = null) 
-            => this.MakeBuff(
+            => MakeBuffLegacy(
                 channelSignals, duration, 
-                inMemory: true, default, null, name, null, callerMemberName);
+                inMemory: true, mustPad: default, name, null, callerMemberName);
     }
 }
