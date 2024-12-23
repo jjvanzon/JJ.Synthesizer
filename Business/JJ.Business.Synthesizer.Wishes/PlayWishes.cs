@@ -6,7 +6,9 @@ using System.Media;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
+using static System.IO.Path;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable once ParameterHidesMember
@@ -58,69 +60,72 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static Tape InternalPlay(SynthWishes synthWishes, Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            InternalPlay(synthWishes, tape.FilePathResolved, tape.Bytes, tape.AudioFormat);
+            LogAction(tape, nameof(Play));
+            InternalPlayBase(synthWishes, tape.FilePathResolved, tape.Bytes, tape.AudioFormat.FileExtension());
             return tape;
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, Buff buff)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
-            
-            Buff buff2 = InternalPlay(synthWishes, buff.FilePath, buff.Bytes);
-            
-            buff2.UnderlyingAudioFileOutput = buff2.UnderlyingAudioFileOutput ?? buff.UnderlyingAudioFileOutput;
-            
-            return buff2;
-        }
-        
-        internal static Buff InternalPlay(SynthWishes synthWishes, AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-            
-            Buff buff = InternalPlay(synthWishes, audioFileOutput.FilePath, null, audioFileOutput.FileExtension());
-            
-            buff.UnderlyingAudioFileOutput = buff.UnderlyingAudioFileOutput ?? audioFileOutput;
-            
+            LogAction(buff, nameof(Play));
+            InternalPlayBase(synthWishes, buff.FilePath, buff.Bytes);
             return buff;
         }
         
-        internal static Buff InternalPlay(SynthWishes synthWishes, Sample sample)
+        internal static Buff InternalPlay(SynthWishes synthWishes, AudioFileOutput entity)
         {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
-            return InternalPlay(synthWishes, sample.Location, sample.Bytes, sample.FileExtension());
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            LogAction(entity, nameof(Play));
+            return InternalPlayBase(synthWishes, entity.FilePath, null, entity.FileExtension());
+        }
+        
+        internal static Buff InternalPlay(SynthWishes synthWishes, Sample entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            LogAction(entity, nameof(Play));
+            return InternalPlayBase(synthWishes, entity.Location, entity.Bytes, entity.FileExtension());
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, byte[] bytes)
-            => InternalPlay(synthWishes, null, bytes, null);
+        {
+            LogAction("Memory", nameof(Play));
+            return InternalPlayBase(synthWishes, null, bytes);
+        }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
-            => InternalPlay(synthWishes, filePath, null, Path.GetExtension(filePath));
-
-        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, AudioFileFormatEnum audioFormat) 
-            => InternalPlay(synthWishes, filePath, bytes, Has(audioFormat) ? audioFormat.FileExtension() : null);
+        {
+            LogAction("File", nameof(Play));
+            return InternalPlayBase(synthWishes, filePath, null, GetExtension(filePath));
+        }
         
-        internal static Buff InternalPlay(SynthWishes synthWishes, string filePath, byte[] bytes, string fileExtension = null)
+        internal static Buff InternalPlayBase(
+            SynthWishes synthWishes, 
+            string filePath, byte[] bytes, string fileExtension = null)
         {
             // Figure out if must play
             ConfigWishes configWishes = synthWishes?.Config ?? ConfigWishes.Default;
             string resolvedFileExtension = ResolveFileExtension(fileExtension, synthWishes?.GetAudioFormat ?? default, filePath);
             bool mustPlay = configWishes.GetAudioPlayback(resolvedFileExtension);
             
-            // TODO: Log warning if !mustPlay with reason.
-            
+            if (!mustPlay)
+            {
+                LogAction("", nameof(Play), "⚠ Audio disabled");
+            }
+
             if (mustPlay)
             {
                 if (Has(bytes))
                 {
                     new SoundPlayer(new MemoryStream(bytes)).PlaySync();
                 }
-                else if (!string.IsNullOrWhiteSpace(filePath))
+                else if (File.Exists(filePath))
                 {
                     new SoundPlayer(filePath).PlaySync();
                 }
                 else
                 {
-                    throw new Exception(nameof(filePath) + " and " + nameof(bytes) + " cannot both be null or empty.");
+                    throw new Exception("No audio in either memory or file.");
                 }
             }
             
