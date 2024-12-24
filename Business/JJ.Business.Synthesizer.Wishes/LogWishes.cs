@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Copied;
 using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
@@ -949,13 +950,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Misc
         
-        // NOTE: All the threading, locking  and flushing helped
+        // NOTE: All the threading, locking and flushing helped
         // Test Explorer in Visual Studio 2022
         // avoid mangling blank lines, for the most part.
         
         private static readonly object _logLock = new object();
         
-        private static readonly ThreadLocal<bool> _blankLineIsPending = new ThreadLocal<bool>();
+        private static readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
 
         public static void LogLine(string message = default)
         {
@@ -963,68 +964,26 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 message = message ?? "";
                 
-                if (IsNullOrWhiteSpace(message))
+                if (!message.FilledIn())
                 {
-                    _blankLineIsPending.Value = true;
+                    _blankLinePending.Value = true;
                     return;
                 }
                 
-                string blankLine = default;
-                
-                if (_blankLineIsPending.Value)
+                if (_blankLinePending.Value)
                 {
-                    bool startsWithBlankLine = StartsWithBlankLine(message);
-                    if (!startsWithBlankLine) blankLine = NewLine;
-                }
+                    if (!message.StartsWithBlankLine())
+            {
+                        message = NewLine + message;
+            }
+        }
 
-                _blankLineIsPending.Value = EndsWithBlankLine(message);
-
-                Console.WriteLine(blankLine + message.TrimEnd());
+                _blankLinePending.Value = EndsWithBlankLine(message);
+                
+                Console.WriteLine(message.TrimEnd());
                 
                 Console.Out.Flush();
             }
-        }
-                
-        private static bool StartsWithBlankLine(string text)
-        {
-            if (!Has(text)) return true;
-            
-            for (int i = 0; i < text.Length; i++)
-            {
-                char chr = text[i];
-                
-                bool isWhiteSpace = IsWhiteSpace(chr);
-                if (!isWhiteSpace) return false;
-                
-                bool isNewLine = chr == '\n';
-                if (isNewLine) return true;
-                
-                bool isLastChar = i == text.Length - 1;
-                if (isLastChar) return false;
-            }
-            
-            return false;
-        }
-
-        private static bool EndsWithBlankLine(string text)
-        {
-            if (!Has(text)) return true;
-            
-            for (int i = text.Length - 1; i >= 0; i--)
-            {
-                char chr = text[i];
-                
-                bool isWhiteSpace = IsWhiteSpace(chr);
-                if (!isWhiteSpace) return false;
-                
-                bool isNewLine = chr == '\n';
-                if (isNewLine) return true;
-                
-                bool isFirstChar = i == 0;
-                if (isFirstChar) return false;
-            }
-            
-            return false;
         }
         
         public static void LogPrettyTitle(string title) 

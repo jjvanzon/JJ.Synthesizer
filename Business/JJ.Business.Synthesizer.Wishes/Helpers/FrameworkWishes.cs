@@ -453,6 +453,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
     namespace JJ_Framework_Text_Wishes
     {
+        internal static class StringExtensionWishes
+        { 
+            public static bool StartsWithBlankLine(this string text) => StringWishes.StartsWithBlankLine(text);
+            public static bool EndsWithBlankLine(this string text) => StringWishes.EndsWithBlankLine(text);
+        }
+        
         internal static class StringWishes
         { 
             public static int CountLines(this string str)
@@ -598,6 +604,48 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 
                 // ReSharper disable once PossibleNullReferenceException
                 return char.IsPunctuation(text[text.Length - 1]);
+            }
+            
+            public static bool StartsWithBlankLine(string text)
+            {
+                if (!Has(text)) return true;
+                
+                for (int i = 0; i < text.Length; i++)
+                {
+                    char chr = text[i];
+                    
+                    bool isWhiteSpace = char.IsWhiteSpace(chr);
+                    if (!isWhiteSpace) return false;
+                    
+                    bool isNewLine = chr == '\n';
+                    if (isNewLine) return true;
+                    
+                    bool isLastChar = i == text.Length - 1;
+                    if (isLastChar) return false;
+                }
+                
+                return false;
+            }
+                
+            public static bool EndsWithBlankLine(string text)
+            {
+                if (!Has(text)) return true;
+                
+                for (int i = text.Length - 1; i >= 0; i--)
+                {
+                    char chr = text[i];
+                    
+                    bool isWhiteSpace = char.IsWhiteSpace(chr);
+                    if (!isWhiteSpace) return false;
+                    
+                    bool isNewLine = chr == '\n';
+                    if (isNewLine) return true;
+                    
+                    bool isFirstChar = i == 0;
+                    if (isFirstChar) return false;
+                }
+                
+                return false;
             }
         }
     }
