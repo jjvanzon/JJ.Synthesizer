@@ -986,7 +986,11 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         public static void LogPrettyTitle(string title) 
-            => LogLine(PrettyTitle(title));
+        {
+            LogLine();
+            LogLine(PrettyTitle(title));
+            LogLine();
+        }
         
         internal static void LogOutputFile(string filePath, string sourceFilePath = null)
         {
@@ -1028,7 +1032,6 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogMathBoostTitle(bool mathBoost)
         {
             if (!mathBoost) return;
-            LogLine();
             LogPrettyTitle("Math Boost");
             LogLine();
         }
