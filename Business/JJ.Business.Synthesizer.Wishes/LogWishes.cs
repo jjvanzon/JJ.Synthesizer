@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
@@ -948,30 +949,43 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Misc
         
-        private static bool _pendingBlankLine;
+        // NOTE: All the threading, locking  and flushing helped
+        // Test Explorer in Visual Studio 2022
+        // avoid mangling blank lines, for the most part.
+        
+        private static readonly object _logLock = new object();
+        
+        private static readonly ThreadLocal<bool> _blankLineIsPending = new ThreadLocal<bool>();
 
         public static void LogLine(string message = default)
         {
-            message = message ?? "";
-            
-            if (IsNullOrWhiteSpace(message))
+            lock (_logLock)
             {
-                _pendingBlankLine = true;
-                return;
-            }
-            
-            if (_pendingBlankLine)
-            {
-                bool startsWithEmptyLine = StartsWithEmptyLine(message);
-                if (!startsWithEmptyLine) Console.WriteLine("");
-            }
+                message = message ?? "";
+                
+                if (IsNullOrWhiteSpace(message))
+                {
+                    _blankLineIsPending.Value = true;
+                    return;
+                }
+                
+                string blankLine = default;
+                
+                if (_blankLineIsPending.Value)
+                {
+                    bool startsWithBlankLine = StartsWithBlankLine(message);
+                    if (!startsWithBlankLine) blankLine = NewLine;
+                }
 
-            _pendingBlankLine = EndsWithEmptyLine(message);
+                _blankLineIsPending.Value = EndsWithBlankLine(message);
 
-            Console.WriteLine(message.TrimEnd());
+                Console.WriteLine(blankLine + message.TrimEnd());
+                
+                Console.Out.Flush();
+            }
         }
                 
-        private static bool StartsWithEmptyLine(string text)
+        private static bool StartsWithBlankLine(string text)
         {
             if (!Has(text)) return true;
             
@@ -992,7 +1006,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return false;
         }
 
-        private static bool EndsWithEmptyLine(string text)
+        private static bool EndsWithBlankLine(string text)
         {
             if (!Has(text)) return true;
             
