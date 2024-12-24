@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(signal, duration, null, null, filePath, callerMemberName);
-            tape.IsPlay = true;
+            tape.Play.On = true;
             return signal;
         }
         
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(channelSignal, duration, null, null, filePath, callerMemberName);
-            tape.IsPlayChannel = true;
+            tape.PlayChannel.On = true;
             return channelSignal;
         }
 

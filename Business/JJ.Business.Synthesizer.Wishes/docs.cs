@@ -675,7 +675,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Or you can call e.g. <c> Outlet.Calculate(time, ChannelEnum.Right) </c> 
         /// </summary> 
         public static object _synthwishescalculate;
-        
+
+        /// <summary>
+        /// A deferred Tape action, like Play or Save that can go off later.
+        /// (Object is non-nullable and non-exchangeable.)
+        /// </summary>
+        public static object _tapeaction;
+
         /// <summary> 
         /// Returns the <c> Tape </c> 's <c> Signal.Name </c> , <c> FallBackName </c> 
         /// or else <c> FilePath </c> in prettified form.

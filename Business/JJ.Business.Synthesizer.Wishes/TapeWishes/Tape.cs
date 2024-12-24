@@ -91,21 +91,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get; internal set; }
-        public bool IsPlay { get; internal set; }
-        public bool IsPlayed { get; internal set; }
-        public bool IsSave { get; internal set; }
-        public bool IsSaved { get; internal set; }
-        public bool IsIntercept { get; internal set; }
-        public bool IsIntercepted { get; internal set; }
-        public bool IsPlayChannel { get; internal set; }
-        public bool ChannelIsPlayed { get; internal set; }
-        public bool IsSaveChannel { get; internal set; }
-        public bool ChannelIsSaved { get; internal set; }
-        public bool IsInterceptChannel { get; internal set; }
-        public bool ChannelIsIntercepted { get; internal set; }
         public bool IsPadded { get; internal set; }
-        internal Action<Tape> Callback { get; set; }
-        internal Action<Tape> ChannelCallback { get; set; }
+        
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction Play { get; } = new TapeAction();
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction Save { get; } = new TapeAction();
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction Intercept { get; } = new TapeAction();
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction PlayChannel { get; } = new TapeAction();
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction SaveChannel { get; } = new TapeAction();
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction InterceptChannel { get; } = new TapeAction();
         
         // Options
 
@@ -133,5 +132,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 child.ParentTapes.Remove(this);
             }
         }
+    }
+    
+    /// <inheritdoc cref="docs._tapeaction" />
+    public class TapeAction
+    { 
+        public bool On { get; set; }
+        public bool Done { get; internal set; }
+        internal Action<Tape> Callback { get; set; }
     }
 }

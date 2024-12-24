@@ -65,6 +65,7 @@
     <Compile Include="CommandWishes.cs" />
     <Compile Include="FlowNode.cs" />
     <Compile Include="LogWishes.cs" />
+    <Compile Include="TapeWishes\TapeActionCloner.cs" />
     <Compile Include="TapeWishes\TapeTreeBuilder.cs" />
     <Compile Include="TapeWishes\TapePadder.cs" />
     <Compile Include="TapeWishes\TapeRunner.cs" />

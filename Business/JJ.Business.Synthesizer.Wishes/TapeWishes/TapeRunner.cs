@@ -191,7 +191,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogPrettyTitle("Post-Processing");
             
             IList<Tape> stereoChannelTapes = tapes.Where(x => x.IsStereo && x.Channel.HasValue)
-                                                  .Where(x => x.IsPlay || x.IsSave || x.Callback != null)
+                                                  .Where(x => x.Play.On || x.Save.On || 
+                                                             (x.Intercept.On && x.Intercept.Callback != null))
                                                   .ToArray();
             IList<Tape> stereoTapes = Array.Empty<Tape>();
             if (stereoChannelTapes.Count > 0)

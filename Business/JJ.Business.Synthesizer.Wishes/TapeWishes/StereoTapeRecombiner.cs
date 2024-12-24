@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.TapeWishes.TapeActionCloner;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -63,46 +64,45 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return signal.SetName(tapePair.Left);
         });
         
-        private static Tape CloneTape(Tape tapePrototype) => new Tape
+        private static Tape CloneTape(Tape sourceTape)
         {
-            // Names
-            FilePathSuggested = tapePrototype.FilePathSuggested,
-            FallBackName      = tapePrototype.FallBackName,
-
-            // Durations
-            Duration        = tapePrototype.Duration,
-            LeadingSilence  = tapePrototype.LeadingSilence,
-            TrailingSilence = tapePrototype.TrailingSilence,
-
-            // Audio Properties
-            SamplingRate  = tapePrototype.SamplingRate,
-            Bits          = tapePrototype.Bits,
-            Channels      = tapePrototype.Channels,
-            AudioFormat   = tapePrototype.AudioFormat,
-            Interpolation = tapePrototype.Interpolation,
+            var destTape = new Tape
+            {
+                // Names
+                FilePathSuggested = sourceTape.FilePathSuggested,
+                FallBackName = sourceTape.FallBackName,
+                
+                // Durations
+                Duration = sourceTape.Duration,
+                LeadingSilence = sourceTape.LeadingSilence,
+                TrailingSilence = sourceTape.TrailingSilence,
+                
+                // Audio Properties
+                SamplingRate = sourceTape.SamplingRate,
+                Bits = sourceTape.Bits,
+                Channels = sourceTape.Channels,
+                AudioFormat = sourceTape.AudioFormat,
+                Interpolation = sourceTape.Interpolation,
+                
+                // Options
+                DiskCache = sourceTape.DiskCache,
+                PlayAllTapes = sourceTape.PlayAllTapes,
+                CourtesyFrames = sourceTape.CourtesyFrames,
+                
+                // Actions
+                IsTape = sourceTape.IsTape,
+                IsPadded = sourceTape.IsPadded
+            };
             
-            // Actions
-            IsTape               = tapePrototype.IsTape,
-            IsPlay               = tapePrototype.IsPlay,
-            IsPlayed             = tapePrototype.IsPlayed,
-            IsSave               = tapePrototype.IsSave,
-            IsSaved              = tapePrototype.IsSaved,
-            IsIntercept          = tapePrototype.IsIntercept,
-            IsIntercepted        = tapePrototype.IsIntercepted,
-            IsPlayChannel        = tapePrototype.IsPlayChannel,
-            ChannelIsPlayed      = tapePrototype.ChannelIsPlayed,
-            IsSaveChannel        = tapePrototype.IsSaveChannel,
-            ChannelIsSaved       = tapePrototype.ChannelIsSaved,
-            IsInterceptChannel   = tapePrototype.IsInterceptChannel,
-            ChannelIsIntercepted = tapePrototype.ChannelIsIntercepted,
-            IsPadded             = tapePrototype.IsPadded,
-            Callback             = tapePrototype.Callback,
-            
-            // Options
-            DiskCache = tapePrototype.DiskCache,
-            PlayAllTapes = tapePrototype.PlayAllTapes,
-            CourtesyFrames = tapePrototype.CourtesyFrames,
-        };
+            Clone(sourceTape.Play, destTape.Play);
+            Clone(sourceTape.Save, destTape.Save);
+            Clone(sourceTape.Intercept, destTape.Intercept);
+            Clone(sourceTape.PlayChannel, destTape.PlayChannel);
+            Clone(sourceTape.SaveChannel, destTape.SaveChannel);
+            Clone(sourceTape.InterceptChannel, destTape.InterceptChannel);
+
+            return destTape;
+        }
         
         private void RecordStereoTape(Tape stereoTape) 
             => _synthWishes.Record(stereoTape);

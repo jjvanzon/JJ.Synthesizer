@@ -41,47 +41,34 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 x.LeadingSilence,
                 x.TrailingSilence,
+                //x.Duration, // One test still fails when this is enabled.
                 x.SamplingRate,
                 x.Bits,
                 x.Channels,
                 x.AudioFormat,
                 x.Interpolation,
-                x.IsTape,
-                x.IsPlay,
-                x.IsPlayed,
-                x.IsSave,
-                x.IsSaved,
-                x.IsIntercept,
-                x.IsIntercepted,
-                x.IsPlayChannel,
-                x.ChannelIsPlayed,
-                x.IsSaveChannel,
-                x.ChannelIsSaved,
-                x.IsInterceptChannel,
-                x.ChannelIsIntercepted,
-                x.IsPadded,
                 x.DiskCache,
                 x.PlayAllTapes,
-                x.CourtesyFrames
+                x.CourtesyFrames,
+                x.IsTape,
+                x.IsPadded,
+                PlayOn = x.Play.On,
+                PlayDone = x.Play.Done,
+                SaveOn = x.Save.On,
+                SaveDone = x.Save.Done,
+                InterceptOn = x.Intercept.On,
+                InterceptDone = x.Intercept.Done,
+                PlayChannelOn = x.PlayChannel.On,
+                PlayChannelDone = x.PlayChannel.Done,
+                SaveChannelOn = x.SaveChannel.On,
+                SaveChannelDone = x.SaveChannel.Done,
+                InterceptChannelOn = x.InterceptChannel.On,
+                InterceptChannelDone = x.InterceptChannel.Done
             });
             
             foreach (var group in groupedByMetaData)
             {
                 TryAddPair(group);
-                
-                // Match by delegate method
-                //var groupedByMethod = group.Where(x => x.Callback != null).GroupBy(x => x.Callback.Method);
-                //foreach (var subGroup in groupedByMethod)
-                //{
-                //    TryAddPair(subGroup);
-                //}
-                
-                //// Match by delegate type
-                //var groupedByClass = group.Where(x => x.Callback != null).GroupBy(x => x.Callback.Method.DeclaringType);
-                //foreach (var subGroup in groupedByClass)
-                //{
-                //    TryAddPair(subGroup);
-                //}
                 
                 // Match by name
                 var groupedByName = group.GroupBy(x => new 
@@ -92,6 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     SignalName = x.Signal?.Name, 
                     x.Signal?.UnderlyingOperator?.OperatorTypeName
                 });
+                
                 foreach (var subGroup in groupedByName)
                 {
                     TryAddPair(subGroup);

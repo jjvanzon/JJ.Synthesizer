@@ -738,28 +738,27 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (tape.IsTape) flags.Add("tape");
             
-            if (tape.IsPlayed) flags.Add("played");
-            else if (tape.IsPlay) flags.Add("play");
+            if (tape.Play.Done) flags.Add("played");
+            else if (tape.Play.On) flags.Add("play");
             
-            if (tape.ChannelIsPlayed) flags.Add("played-ch");
-            else if (tape.IsPlayChannel) flags.Add("play-ch");
+            if (tape.PlayChannel.Done) flags.Add("played-ch");
+            else if (tape.PlayChannel.On) flags.Add("play-ch");
             
-            if (tape.IsSaved) flags.Add("saved");
-            else if (tape.IsSave) flags.Add("save");
+            if (tape.Save.Done) flags.Add("saved");
+            else if (tape.Save.On) flags.Add("save");
             
-            if (tape.ChannelIsSaved) flags.Add("saved-ch");
-            else if (tape.IsSaveChannel) flags.Add("save-ch");
+            if (tape.SaveChannel.Done) flags.Add("saved-ch");
+            else if (tape.SaveChannel.On) flags.Add("save-ch");
             
-            if (tape.IsIntercepted) flags.Add("intercepted");
-            else if (tape.IsIntercept) flags.Add("intercept");
+            if (tape.Intercept.Done) flags.Add("intercepted");
+            else if (tape.Intercept.On) flags.Add("intercept");
             
-            if (tape.ChannelIsIntercepted) flags.Add("intercepted-ch");
-            else if (tape.IsInterceptChannel) flags.Add("intercept-ch");
+            if (tape.InterceptChannel.Done) flags.Add("intercepted-ch");
+            else if (tape.InterceptChannel.On) flags.Add("intercept-ch");
             
-            if (tape.Callback != null) flags.Add("callback");
-            if (tape.ChannelCallback != null) flags.Add("callback-ch");
+            if (tape.Intercept.Callback != null) flags.Add("callback");
+            if (tape.InterceptChannel.Callback != null) flags.Add("callback-ch");
             
-            //if (tape.Channel.HasValue) flags.Add($"c{tape.Channel}");
             flags.Add(ChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
             
             if (Has(tape.Duration))
@@ -847,11 +846,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (Is(action, "Play"))
             {
-                if (tape.IsPlay && tape.IsPlayChannel)
+                if (tape.Play.On && tape.PlayChannel.On)
                 {
                     return " (Channel)" + allSuffix;
                 }
-                if (!tape.IsPlay && tape.IsPlayChannel)
+                if (!tape.Play.On && tape.PlayChannel.On)
                 {
                     return " Channel" + allSuffix;
                 }
@@ -862,22 +861,22 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             if (Is(action, "Save"))
             {
-                if (tape.IsSave && tape.IsSaveChannel)
+                if (tape.Save.On && tape.SaveChannel.On)
                 {
                     return " (Channel)";
                 }
-                if (!tape.IsSave && tape.IsSaveChannel)
+                if (!tape.Save.On && tape.SaveChannel.On)
                 {
                     return " Channel";
                 }
             }
             if (Is(action, "Intercept"))
             {
-                if (tape.IsIntercept && tape.IsInterceptChannel)
+                if (tape.Intercept.On && tape.InterceptChannel.On)
                 {
                     return " (Channel)";
                 }
-                if (!tape.IsIntercept && tape.IsInterceptChannel)
+                if (!tape.Intercept.On && tape.InterceptChannel.On)
                 {
                     return " Channel";
                 }
@@ -963,7 +962,7 @@ namespace JJ.Business.Synthesizer.Wishes
             lock (_logLock)
             {
                 message = message ?? "";
-                
+               
                 if (!message.FilledIn())
                 {
                     _blankLinePending.Value = true;
@@ -973,13 +972,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (_blankLinePending.Value)
                 {
                     if (!message.StartsWithBlankLine())
-            {
+                    {
                         message = NewLine + message;
-            }
-        }
+                    }
+                }
 
                 _blankLinePending.Value = EndsWithBlankLine(message);
-                
+
                 Console.WriteLine(message.TrimEnd());
                 
                 Console.Out.Flush();

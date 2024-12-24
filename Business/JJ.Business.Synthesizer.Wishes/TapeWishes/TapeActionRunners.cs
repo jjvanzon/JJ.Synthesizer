@@ -11,54 +11,55 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     {
         public override void InterceptIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             if (tape.Channel == null) throw new NullException(() => tape.Channel);
             
-            if (tape.ChannelCallback == null) return;
-            if (tape.ChannelIsIntercepted)
+            if (!tape.InterceptChannel.On || tape.InterceptChannel.Callback == null) return;
+            
+            if (tape.InterceptChannel.Done)
             {
                 LogAction(tape, Intercept, "Already intercepted");
                 return;
             }
 
-            tape.ChannelIsIntercepted = true;
+            tape.InterceptChannel.Done = true;
             
             LogAction(tape, Intercept);
             
-            tape.ChannelCallback(tape);
+            tape.InterceptChannel.Callback(tape);
         }
        
         public override void SaveIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             
-            if (!tape.IsSaveChannel) return;
+            if (!tape.SaveChannel.On) return;
             
-            if (tape.ChannelIsSaved)
+            if (tape.SaveChannel.Done)
             {
                 LogAction(tape, Save, "Already saved");
                 LogOutputFile(tape.FilePathResolved);
                 return;
             }
 
-            tape.ChannelIsSaved = true;
+            tape.SaveChannel.Done = true;
             
             tape.Save();
         }
 
         public override void PlayIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
 
-            if (!(tape.IsPlayChannel || tape.PlayAllTapes)) return;
+            if (!(tape.PlayChannel.On || tape.PlayAllTapes)) return;
             
-            if (tape.ChannelIsPlayed)
+            if (tape.PlayChannel.Done)
             {
                 LogAction(tape, Play, "Already played");
                 return;
             }
 
-            tape.ChannelIsPlayed = true;
+            tape.PlayChannel.Done = true;
             
             tape.Play();
         }
@@ -68,60 +69,60 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     {
         public override void InterceptIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             
             if (!tape.IsMono) return;
-            if (tape.Callback == null) return;
+            if (!tape.Intercept.On || tape.Intercept.Callback == null) return;
             
-            if (tape.IsIntercepted)
+            if (tape.Intercept.Done)
             {
                 LogAction(tape, Intercept, "Already intercepted");
                 return;
             }
 
-            tape.IsIntercepted = true;
+            tape.Intercept.Done = true;
 
             LogAction(tape, Intercept);
             
-            tape.Callback(tape);
+            tape.Intercept.Callback(tape);
         }
         
         public override void SaveIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             
             if (!tape.IsMono) return;
-            if (!tape.IsSave) return;
+            if (!tape.Save.On) return;
             
-            if (tape.IsSaved)
+            if (tape.Save.Done)
             {
                 LogAction(tape, Save, "Already saved");
                 LogOutputFile(tape.FilePathResolved);
                 return;
             }
 
-            tape.IsSaved = true;
+            tape.Save.Done = true;
 
             tape.Save();
         }
         
         public override void PlayIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
 
             if (!tape.IsMono) return;
-            if (!tape.IsPlay) return;
+            if (!tape.Play.On) return;
             
             // Skip PlayAllTapes check: Channel already played (identical for Mono).
-            //if (!(tape.IsPlay || tape.PlayAllTapes)) return;
+            //if (!(tape.Play.On || tape.PlayAllTapes)) return;
             
-            if (tape.IsPlayed)
+            if (tape.Play.Done)
             {
                 LogAction(tape, Play, "Already played");
                 return;
             }
 
-            tape.IsPlayed = true;
+            tape.Play.Done = true;
 
             tape.Play();
         }
@@ -131,57 +132,57 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     {
         public override void InterceptIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             
             if (!tape.IsStereo) return;
-            if (tape.Callback == null) return;
+            if (!tape.Intercept.On || tape.Intercept.Callback == null) return;
             
-            if (tape.IsIntercepted)
+            if (tape.Intercept.Done)
             {
                 LogAction(tape, Intercept, "Already intercepted");
                 return;
             }
 
-            tape.IsIntercepted = true;
+            tape.Intercept.Done = true;
             
             LogAction(tape, Intercept);
             
-            tape.Callback(tape);
+            tape.Intercept.Callback(tape);
         }
         
         public override void SaveIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             
             if (!tape.IsStereo) return;
-            if (!tape.IsSave) return;
+            if (!tape.Save.On) return;
             
-            if (tape.IsSaved)
+            if (tape.Save.Done)
             {
                 LogAction(tape, Save, "Already saved");
                 LogOutputFile(tape.FilePathResolved);
                 return;
             }
 
-            tape.IsSaved = true;
+            tape.Save.Done = true;
             
             tape.Save();
         }
         
         public override void PlayIfNeeded(Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             
             if (!tape.IsStereo) return;
-            if (!(tape.IsPlay || tape.PlayAllTapes)) return;
+            if (!(tape.Play.On || tape.PlayAllTapes)) return;
             
-            if (tape.IsPlayed)
+            if (tape.Play.Done)
             {
                 LogAction(tape, Play, "Already played");
                 return;
             }
 
-            tape.IsPlayed = true;
+            tape.Play.Done = true;
 
             tape.Play();
         }
@@ -199,19 +200,19 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public void InterceptIfNeeded(IList<Tape> tapes)
         {
-            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
+            if (tapes == null) throw new NullException(() => tapes);
             tapes.ForEach(InterceptIfNeeded);
         }
         
         public void SaveIfNeeded(IList<Tape> tapes)
         {
-            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
+            if (tapes == null) throw new NullException(() => tapes);
             tapes.ForEach(SaveIfNeeded);
         }
         
         public void PlayIfNeeded(IList<Tape> tapes)
         {
-            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
+            if (tapes == null) throw new NullException(() => tapes);
             tapes.ForEach(PlayIfNeeded);
         }
         

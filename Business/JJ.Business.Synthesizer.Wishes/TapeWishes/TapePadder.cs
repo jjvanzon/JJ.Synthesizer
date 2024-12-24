@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.TapeWishes.TapeActionCloner;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -35,10 +36,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.Signal == null) throw new NullException(() => tape.Signal);
             
             // Padding only applies to Play and Save actions.
-            if (!tape.IsPlay && 
-                !tape.IsPlayChannel &&
-                !tape.IsSave &&
-                !tape.IsSaveChannel) return null;
+            if (!tape.Play.On && 
+                !tape.PlayChannel.On &&
+                !tape.Save.On &&
+                !tape.SaveChannel.On) return null;
             
             // If tape already padded, don't do it again.
             if (tape.IsPadded) return null;
@@ -58,7 +59,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogAction(paddedTape, "Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             // Remove original tape if it has no other purposes.
-            if (!tape.IsIntercept && !tape.IsInterceptChannel && tape.Callback == null && tape.ChannelCallback == null)
+            bool hasIntercept        = tape.Intercept       .On && tape.Intercept       .Callback != null;
+            bool hasInterceptChannel = tape.InterceptChannel.On && tape.InterceptChannel.Callback != null;
+            
+            if (!hasIntercept && !hasInterceptChannel)
             {
                 _tapes.Remove(tape);
             }
@@ -96,19 +100,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             // Set Actions
             paddedTape.IsTape = tape.IsTape;
-            paddedTape.IsPlay = tape.IsPlay;
-            paddedTape.IsPlayed = tape.IsPlayed;
-            paddedTape.IsSave = tape.IsSave;
-            paddedTape.IsSaved = tape.IsSaved;
-            paddedTape.IsIntercept = false;
-            paddedTape.IsIntercepted = false;
-            paddedTape.IsPlayChannel = tape.IsPlayChannel;
-            paddedTape.ChannelIsPlayed = tape.ChannelIsPlayed;
-            paddedTape.IsSaveChannel = tape.IsSaveChannel;
-            paddedTape.ChannelIsSaved = tape.ChannelIsSaved;
-            paddedTape.IsInterceptChannel = false;
-            paddedTape.ChannelIsIntercepted = false;
             paddedTape.IsPadded = true;
+            Clone(tape.Play, paddedTape.Play);
+            Clone(tape.Save, paddedTape.Save);
+            Clone(tape.PlayChannel, paddedTape.PlayChannel);
+            Clone(tape.SaveChannel, paddedTape.SaveChannel);
+            //paddedTape.Intercept.On = false;
+            //paddedTape.Intercept.Done = false;
+            //paddedTape.InterceptChannel.On = false;
+            //paddedTape.InterceptChannel.Done = false;
             
             // Set Options
             paddedTape.DiskCache = tape.DiskCache;
@@ -116,10 +116,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.CourtesyFrames = tape.CourtesyFrames;
             
             // Remove Actions from original Tape
-            tape.IsPlay = false;
-            tape.IsSave = false;
-            tape.IsPlayChannel = false;
-            tape.IsSaveChannel = false;
+            tape.Play.On = false;
+            tape.Save.On = false;
+            tape.PlayChannel.On = false;
+            tape.SaveChannel.On = false;
             
             LogAction(paddedTape, "Pad", $"Delay + {tape.LeadingSilence} s");
             

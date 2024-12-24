@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(), audioFileOutput, callerMemberName);
-            bool inMemory = !tape.DiskCache && !tape.IsSave && !tape.IsSaveChannel;
+            bool inMemory = !tape.DiskCache && !tape.Save.On && !tape.SaveChannel.On;
 
             audioFileOutput.Name = resolvedName;
 
@@ -160,8 +160,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (!inMemory)
             {
-                if (tape.IsSave) tape.IsSaved = true;
-                if (tape.IsSaveChannel) tape.ChannelIsSaved = true;
+                if (tape.Save.On) tape.Save.Done = true;
+                if (tape.SaveChannel.On) tape.SaveChannel.Done = true;
             }
             
             // Report
@@ -205,13 +205,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 AudioFormat = GetAudioFormat,
                 Interpolation = GetInterpolation,
 
-                IsSave = !inMemory,
-
                 DiskCache = GetDiskCache,
                 PlayAllTapes = GetPlayAllTapes,
                 CourtesyFrames = GetCourtesyFrames
             };
             
+            dummyTape.Save.On = !inMemory;
+
             MakeBuff(dummyTape);
             
             return dummyTape.Buff;

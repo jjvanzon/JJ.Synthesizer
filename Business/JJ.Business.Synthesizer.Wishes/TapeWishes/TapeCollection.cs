@@ -9,6 +9,7 @@ using JJ.Persistence.Synthesizer;
 using static System.Math;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Reflection.ExpressionHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -66,22 +67,22 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
 
-            tape.Callback = tape.Callback ?? callback;
-            tape.ChannelCallback = tape.ChannelCallback ?? channelCallback; 
+            tape.Intercept.Callback = tape.Intercept.Callback ?? callback;
+            tape.InterceptChannel.Callback = tape.InterceptChannel.Callback ?? channelCallback; 
 
             // Detect conflicting callback
             if (callback != null &&
-                tape.Callback != null &&
-                tape.Callback != callback)
+                tape.Intercept.Callback != null &&
+                tape.Intercept.Callback != callback)
             {
-                throw new Exception("Different " + nameof(tape.Callback) + " passed than already assigned to the " + nameof(Tape) + "!");
+                throw new Exception("Different " + GetText(() => tape.Intercept.Callback) + " passed than already assigned to the " + nameof(Tape) + "!");
             }
             
             if (channelCallback != null &&
-                tape.ChannelCallback != null &&
-                tape.ChannelCallback != channelCallback)
+                tape.InterceptChannel.Callback != null &&
+                tape.InterceptChannel.Callback != channelCallback)
             {
-                throw new Exception("Different " + nameof(tape.ChannelCallback) + " passed than already assigned to the " + nameof(Tape) + "!");
+                throw new Exception("Different " + GetText(() => tape.InterceptChannel.Callback) + " passed than already assigned to the " + nameof(Tape) + "!");
             }
 
             return tape;
