@@ -10,5 +10,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         public static string Play = nameof(Play);
         public static string Save = nameof(Save);
         public static string Intercept = nameof(Intercept);
+        public static string PlayAllTapes = nameof(PlayAllTapes);
+        public static string DiskCache = nameof(DiskCache);
     }
 }
