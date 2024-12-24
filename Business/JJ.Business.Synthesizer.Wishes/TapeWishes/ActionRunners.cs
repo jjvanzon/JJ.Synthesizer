@@ -12,6 +12,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly StereoActionRunner _stereoActionRunner = new StereoActionRunner();
         private readonly ChannelActionRunner _channelActionRunner = new ChannelActionRunner();
         
+        // Run in Stages of Processing
+        
         public void RunAfterRecord(Tape tape)
         {
             _channelActionRunner.InterceptIfNeeded(tape.InterceptChannel);
@@ -23,6 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _monoActionRunner.CacheToDiskIfNeeded(normalTapes);
             _stereoActionRunner.CacheToDiskIfNeeded(stereoTapes);
             
+            // Channel-specific variation is run per tape instead.
             _monoActionRunner.InterceptIfNeeded(normalTapes);
             _stereoActionRunner.InterceptIfNeeded(stereoTapes);
             
