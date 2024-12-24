@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
@@ -158,9 +157,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             string actionMessage = ActionMessage(
                 nameof(Tape),
-                "",
                 "Check for Leaves",
-                $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
+                "", $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
             
             switch (timeOutAction)
             {
