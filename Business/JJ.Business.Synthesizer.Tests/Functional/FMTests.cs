@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod] public void FM_RippleSound_CoolDouble_Test() => Run(FM_RippleSound_CoolDouble);
         void FM_RippleSound_CoolDouble() => _[RippleSound_CoolDouble, A5, 3].DeepEcho().Volume(0.33).Save().Play();
         
-        [TestMethod] public void FM_Noise_Beating_Test() => Run(FM_Noise_Beating);
+        [TestMethod] public void FM_Noise_Beating_Test() => WithAudioPlayback(false).Run(FM_Noise_Beating);
         void FM_Noise_Beating() => _[A4, Create_FM_Noise_Beating, vol: 1, len: _[5]].MildEcho().Volume(0.25).Save().Play();
         
         // Jingle
