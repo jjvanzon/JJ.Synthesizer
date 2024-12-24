@@ -2,6 +2,7 @@
 using System.Reflection;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
@@ -23,10 +24,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
                 string originalFilePath,
                 string numberPrefix = " (",
                 string numberSuffix = ")",
-                bool mustNumberFirstFile = false)
+                bool mustNumberFirstFile = false,
+                int maxExtensionLength = MaxExtensionLength)
         {
             return ((string filePathFirstPart, int number, string filePathLastPart))
-                _accessor.InvokeMethod(NameWishes.MemberName(), originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
+                _accessor.InvokeMethod(MemberName(), originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
         }
     }
 }

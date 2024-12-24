@@ -86,6 +86,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
     internal static class JJ_Framework_IO_Wishes
     {
+        private const int DEFAULT_MAX_EXTENSION_LENGTH = 8;
+        
         /// <summary>
         /// If the originalFilePath already exists,
         /// a higher and higher number is inserted into the file name 
@@ -100,10 +102,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             string numberPrefix = " (",
             string numberFormatString = "#",
             string numberSuffix = ")",
-            bool mustNumberFirstFile = false)
+            bool mustNumberFirstFile = false,
+            int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
         {
             (string filePathFirstPart, int number, string filePathLastPart) =
-                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
+                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
         
             if (!mustNumberFirstFile && !File.Exists(originalFilePath))
             {
@@ -142,7 +145,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             string numberPrefix = " (",
             string numberFormatString = "#",
             string numberSuffix = ")",
-            bool mustNumberFirstFile = false)
+            bool mustNumberFirstFile = false,
+            int maxExtensionLength = 8)
         {
             (string filePathFirstPart, int number, string filePathLastPart) =
                 GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
@@ -194,13 +198,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 string originalFilePath, 
                 string numberPrefix = " (", 
                 string numberSuffix = ")", 
-                bool mustNumberFirstFile = false)
+                bool mustNumberFirstFile = false,
+                int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
         {
             if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");
             
             string folderPath = Path.GetDirectoryName(originalFilePath)?.TrimEnd('\\'); // Remove slash from root (e.g. @"C:\")
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
-            string fileExtension = Path.GetExtension(originalFilePath);
+            string fileExtension = GetExtension(originalFilePath, maxExtensionLength);
             string separator = !string.IsNullOrEmpty(folderPath) ? "\\" : "";
             
             string filePathFirstPart = $"{folderPath}{separator}{fileNameWithoutExtension}{numberPrefix}";
@@ -230,13 +235,38 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return sanitizedFilePath;
         }
 
+        public static string GetFileNameWithoutExtension(string filePath, int maxExtensionLength)
+        {
+            if (!Has(filePath)) return filePath;
+            string extension = Path.GetExtension(filePath);
+            if (extension.Length > maxExtensionLength) return filePath;
+            string fileNameWithoutExtension = filePath.CutRight(extension);
+            return fileNameWithoutExtension;
+        }
+        
+        public static string GetExtension(string filePath, int maxExtensionLength)
+        {
+            if (!Has(filePath)) return filePath;
+            string extension = Path.GetExtension(filePath);
+            if (extension.Length > maxExtensionLength) return "";
+            return extension;
+        }
+        
+        public static bool HasExtension(string filePath, int maxExtensionLength)
+        {
+            if (!Has(filePath)) return false;
+            string extension = GetExtension(filePath, maxExtensionLength);
+            if (extension.Length > maxExtensionLength) return false;
+            return true;
+        }
+        
         /// <summary>
         /// If the file actually exists, true is returned.
         /// If it exists as a directory, false is returned.
         /// If the value contains invalid path characters, false is returned.
         /// Otherwise, it returns true if the path has an extension.
         /// </summary>
-        public static bool IsFile(string path, int maxExtensionLength = 9)
+        public static bool IsFile(string path, int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
         {
             if (!Has(path)) return false;
             if (File.Exists(path)) return true;
@@ -246,7 +276,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (string.IsNullOrEmpty(extension)) return false;
             return extension.Length <= maxExtensionLength;
         }
-
     }
     
     internal static class JJ_Framework_Testing_Wishes
@@ -755,7 +784,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 return temp;
             }
             
-            
             /// <summary>
             /// Will trim off repetitions of the same value from the given string.
             /// These are variations of the standard .NET methods that instead of just taking char[] can take a string or a length.
@@ -806,6 +834,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
                 var destString = new string(destChars);
                 return destString;
+            }
+        
+            /// <summary>
+            /// Takes the part of a string until the specified delimiter. Excludes the delimiter itself.
+            /// </summary>
+            public static string TakeEndUntil(this string input, string until)
+            {
+                if (until == null) throw new ArgumentNullException(nameof(until));
+                int index = input.LastIndexOf(until, StringComparison.Ordinal);
+                if (index == -1) return "";
+                int length = input.Length - index - 1;
+                string output = input.Right(length);
+                return output;
             }
         }
     }
