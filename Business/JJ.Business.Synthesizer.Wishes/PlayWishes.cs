@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Media;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
 using static System.IO.Path;
@@ -56,6 +55,14 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // Internals (all on Buffs) (End-of-Chain)
+
+        internal static TapeAction InternalPlay(SynthWishes synthWishes, TapeAction action)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            LogAction(action);
+            InternalPlayBase(synthWishes, action.Tape.FilePathResolved, action.Tape.Bytes, action.Tape.AudioFormat.FileExtension());
+            return action;
+        }
 
         internal static Tape InternalPlay(SynthWishes synthWishes, Tape tape)
         {
@@ -138,6 +145,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Statics (End-of-Chain)
         
+        public static TapeAction Play(TapeAction tape) => InternalPlay(null, tape);
         public static Tape Play(Tape tape) => InternalPlay(null, tape);
         public static Buff Play(Buff buff) => InternalPlay(null, buff);
         public static Buff Play(AudioFileOutput entity) => InternalPlay(null, entity);
@@ -151,6 +159,8 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class SynthWishesPlayStaticsTurnedInstanceExtensions
     {
+        public static SynthWishes Play(this SynthWishes synthWishes, TapeAction action) {
+            SynthWishes.InternalPlay(synthWishes, action); return synthWishes; }
         public static SynthWishes Play(this SynthWishes synthWishes, Tape tape) {
             SynthWishes.InternalPlay(synthWishes, tape); return synthWishes; }
         public static SynthWishes Play(this SynthWishes synthWishes, Buff buff) {
@@ -195,6 +205,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // FlowNode Play (End-of-Chain)
 
+        public FlowNode Play(TapeAction action) {
+            SynthWishes.InternalPlay(_synthWishes, action); return this; }
+        public FlowNode Play(Tape tape) {
+            SynthWishes.InternalPlay(_synthWishes, tape); return this; }
         public FlowNode Play(Buff buff) {
             SynthWishes.InternalPlay(_synthWishes, buff); return this; }
         public FlowNode Play(AudioFileOutput audioFileOutput) {
@@ -212,6 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class PlayExtensionWishes
     {
+        public static TapeAction Play(this TapeAction action) => SynthWishes.InternalPlay(null, action);
         public static Tape Play(this Tape tape) => SynthWishes.InternalPlay(null, tape);
         public static Buff Play(this Buff buff) => SynthWishes.InternalPlay(null, buff);
         public static Buff Play(this AudioFileOutput audioFileOutput) => SynthWishes.InternalPlay(null, audioFileOutput);

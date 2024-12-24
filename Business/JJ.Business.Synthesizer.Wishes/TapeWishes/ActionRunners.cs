@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (CanSave(action))
             {
-                action.Tape.Save();
+                action.Save();
             }
         }
 
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (CanPlay(action))
             {
-                action.Tape.Play();
+                action.Play();
             }
         }
             
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (CanSave(action))
             {
-                action.Tape.Save(action.Tape.Descriptor());
+                action.Save(action.Tape.Descriptor());
             }
         }
         
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (CanPlay(action))
             {
-                action.Tape.Play();
+                action.Play();
             }
         }
         

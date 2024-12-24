@@ -11,6 +11,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.F
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -55,59 +56,40 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // SynthWishes Statics (Buff-to-Buff) (End-of-Chain)
-        
+                
+        public static TapeAction Save(
+            TapeAction action, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            if (action == null) throw new NullException(() => action);
+            LogAction(action);
+            string filePathResolved = action.Tape.GetFilePath(filePath);
+            InternalSave(action.Tape.Buff, filePathResolved, callerMemberName);
+            return action;
+        }
+
         public static Tape Save(
             Tape tape, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new NullException(() => tape);
-            
             LogAction(tape, MemberName());
-            
-            string filePathResolved2 = tape.GetFilePath(filePath);
-            
-            if (FilledIn(tape.Bytes))
-            {
-                InternalSave(tape.Bytes, filePathResolved2, callerMemberName);
-                return tape;
-            }
-            
-            if (Exists(tape.FilePathResolved))
-            {
-                InternalSave(tape.FilePathResolved, filePathResolved2, callerMemberName);
-                return tape;
-            }
-            
-            throw new Exception("No audio recorded. You could call Record(tape), " +
-                                "but this really shouldn't happen if you use the Run command.");
+            string filePathResolved = tape.GetFilePath(filePath);
+            InternalSave(tape.Buff, filePathResolved, callerMemberName);
+            return tape;
         }
-
+        
         public static Buff Save(
             Buff buff,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
-
             LogAction(buff, MemberName());
-            
-            // Reuse Buff
-            string destFilePath = ResolveFilePath(buff.GetAudioFormat, filePath, callerMemberName); // Resolve to use AudioFormat
-
-            if (FilledIn(buff.Bytes))
-            {
-                InternalSave(buff.Bytes, destFilePath, callerMemberName);
-                return buff;
-            }
-            
-            if (Exists(buff.FilePath))
-            {
-                InternalSave(buff.FilePath, destFilePath, callerMemberName);
-                return buff;
-            }
-            
-            throw new Exception("No audio in either memory or file.");
+            string filePathResolved = ResolveFilePath(buff.GetAudioFormat, filePath, callerMemberName); // Resolve to use AudioFormat
+            buff.FilePath = InternalSave(buff, callerMemberName, filePathResolved);
+            return buff;
         }
-        
+
         public static Buff Save(
             AudioFileOutput audioFileOutput,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -118,10 +100,9 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (Exists(audioFileOutput.FilePath))
             {
-                string destFilePath = InternalSave(audioFileOutput.FilePath, filePath, callerMemberName);
                 return new Buff
                 {
-                    FilePath = destFilePath,
+                    FilePath = audioFileOutput.FilePath = InternalSave(audioFileOutput.FilePath, filePath, callerMemberName),
                     UnderlyingAudioFileOutput = audioFileOutput
                 };
             }
@@ -140,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             LogAction(sample, MemberName());
             string resolvedFilePath = ResolveFilePath("", filePath, ResolveName(sample, callerMemberName));
-            return InternalSave(sample.Bytes, resolvedFilePath, callerMemberName);
+            return sample.Location = InternalSave(sample.Bytes, resolvedFilePath, callerMemberName);
         }
         
         public static string Save(
@@ -159,20 +140,37 @@ namespace JJ.Business.Synthesizer.Wishes
             return InternalSave(sourceFilePath, destFilePath, callerMemberName);
         }
         
-        private static string InternalSave(byte[] bytes, string filePath, string callerMemberName)
+        private static string InternalSave(Buff buff, string destFilePath, string callerMemberName)
         {
-            string resolvedFilePath = ResolveFilePath("", filePath, callerMemberName);
+            if (FilledIn(buff.Bytes))
+            {
+                return InternalSave(buff.Bytes, destFilePath, callerMemberName);
+            }
             
-            (string numberedFilePath, FileStream fileStream) = CreateSafeFileStream(resolvedFilePath, maxExtensionLength: MaxExtensionLength);
+            if (Exists(buff.FilePath))
+            {
+                return InternalSave(buff.FilePath, destFilePath, callerMemberName);
+            }
+             
+            throw new Exception("No audio recorded. You could call Record(tape), " +
+                                "but this really shouldn't happen if you use the Run command.");
+        }
+        
+        private static string InternalSave(byte[] bytes, string destFilePath, string callerMemberName)
+        {
+            string resolvedDestFilePath = ResolveFilePath("", destFilePath, callerMemberName);
+            
+            (string numberedDestFilePath, FileStream fileStream) 
+                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: MaxExtensionLength);
             
             using (fileStream)
             {
                 fileStream.Write(bytes, 0, bytes.Length);
             }
 
-            LogOutputFile(numberedFilePath);
+            LogOutputFile(numberedDestFilePath);
             
-            return numberedFilePath;
+            return numberedDestFilePath;
         }
 
         private static string InternalSave(string sourceFilePath, string destFilePath, string callerMemberName)
@@ -318,6 +316,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class SaveExtensionWishes 
     {
+        public static TapeAction Save(
+            this TapeAction tapeAction,
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+            => SynthWishes.Save(tapeAction, filePath, callerMemberName);
+
         public static Tape Save(
             this Tape tape,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
