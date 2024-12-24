@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 text += $"{obj.Calculate()} = ";
             }
 
-            text += $"{obj} {{ {obj.GetType().Name} }}";
+            text += $"{obj} {FormatTypeName(obj)}";
 
             return text;
         }
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             
-            string text = default;
+            string text = FormatTypeName(obj) + " ";
             
             text += $"{Descriptor(obj)} ";
             
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         private static string FormatTypeName(object obj)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
-            return $"{{ {obj.GetType().Name} }}";
+            return $"{{{obj.GetType().Name}}}";
         }
     }
 }
