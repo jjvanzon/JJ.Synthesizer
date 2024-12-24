@@ -164,10 +164,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Name = name;
         }
 
+        /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
+        /// <summary> Always filled in. </summary>
         public string Name { get; }
         public bool On { get; set; }
         public bool Done { get; internal set; }
+        /// <summary> Not always there </summary>
         internal Action<Tape> Callback { get; set; }
     }
 }
