@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public void RunAfterRecord(Tape tape)
         {
-            _channelActionRunner.InterceptIfNeeded(tape);
+            _channelActionRunner.InterceptIfNeeded(tape.InterceptChannel);
         }
         
         public void RunForPostProcessing(IList<Tape> normalTapes, IList<Tape> stereoTapes)
@@ -42,179 +42,111 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class ChannelActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.Channel != null;
-        
-        public override void InterceptIfNeeded(Tape tape)
-        {
-            if (CanIntercept(tape.InterceptChannel))
-            {
-                tape.InterceptChannel.Callback(tape);
-            }
-        }
-       
-        public override void SaveIfNeeded(Tape tape)
-        {
-            if (CanSave(tape.SaveChannel))
-            {
-                tape.Save();
-            }
-        }
-
-        public override void PlayIfNeeded(Tape tape)
-        {
-            if (CanPlay(tape.PlayChannel))
-            {
-                tape.Play();
-            }
-        }
-            
-        public override void CacheToDiskIfNeeded(Tape tape)
-        {
-            if (CanSave(tape.DiskCache))
-            {
-                tape.Save();
-            }
-        }
-        
-        public override void PlayForAllTapesIfNeeded(Tape tape)
-        {
-            if (CanPlay(tape.PlayAllTapes))
-            {
-                tape.Save();
-            }
-        }
+        protected override bool ExtraCondition(TapeAction action) => action.Tape.Channel != null && action.Name.Contains("Channel");
     }
     
     internal class MonoActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action) => action.Tape.IsMono;
-        
-        public override void InterceptIfNeeded(Tape tape)
-        {
-            if (CanIntercept(tape.Intercept))
-            {
-                tape.Intercept.Callback(tape);
-            }
-        }
-        
-        public override void SaveIfNeeded(Tape tape)
-        {
-            if (CanSave(tape.Save))
-            {
-                tape.Save();
-            }
-        }
-        
-        public override void PlayIfNeeded(Tape tape)
-        {
-            if (CanPlay(tape.Play))
-            {
-                tape.Play();
-            }
-        }
-        
-        public override void CacheToDiskIfNeeded(Tape tape)
-        {
-            if (CanSave(tape.DiskCache))
-            {
-                tape.Save();
-            }
-        }
-        
-        public override void PlayForAllTapesIfNeeded(Tape tape)
-        {
-            if (CanPlay(tape.PlayAllTapes))
-            {
-                tape.Save();
-            }
-        }
     }
     
     internal class StereoActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action) => action.Tape.IsStereo;
-        
-        public override void InterceptIfNeeded(Tape tape)
-        {
-            if (CanIntercept(tape.Intercept)) 
-            {
-                tape.Intercept.Callback(tape);
-            }
-        }
-        
-        public override void SaveIfNeeded(Tape tape)
-        {
-            if (CanSave(tape.Save))
-            {
-                tape.Save();
-            }
-        }
-        
-        public override void PlayIfNeeded(Tape tape)
-        {
-            if (CanPlay(tape.Play))
-            {
-                tape.Play();
-            }
-        }
-    
-        public override void CacheToDiskIfNeeded(Tape tape)
-        {
-            if (CanSave(tape.DiskCache))
-            {
-                tape.Save();
-            }
-        }
-        
-        public override void PlayForAllTapesIfNeeded(Tape tape)
-        {
-            if (CanPlay(tape.PlayAllTapes))
-            {
-                tape.Save();
-            }
-        }
     }
     
     internal abstract class ActionRunnerBase
     {
         // Actions Per Item
+
+        public void InterceptIfNeeded(TapeAction action)
+        {
+            if (CanIntercept(action))
+            {
+                action.Callback(action.Tape);
+            }
+        }
+       
+        public void SaveIfNeeded(TapeAction action)
+        {
+            if (CanSave(action))
+            {
+                action.Tape.Save();
+            }
+        }
+
+        public void PlayIfNeeded(TapeAction action)
+        {
+            if (CanPlay(action))
+            {
+                action.Tape.Play();
+            }
+        }
+            
+        public void CacheToDiskIfNeeded(TapeAction action)
+        {
+            if (CanSave(action))
+            {
+                action.Tape.Save(action.Tape.Descriptor());
+            }
+        }
         
-        public abstract void InterceptIfNeeded(Tape tape);
-        public abstract void SaveIfNeeded(Tape tape);
-        public abstract void PlayIfNeeded(Tape tape);
-        public abstract void CacheToDiskIfNeeded(Tape tape);
-        public abstract void PlayForAllTapesIfNeeded(Tape tape);
+        public void PlayForAllTapesIfNeeded(TapeAction action)
+        {
+            if (CanPlay(action))
+            {
+                action.Tape.Play();
+            }
+        }
 
         // Run Lists per Action Type
         
         public void InterceptIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new NullException(() => tapes);
-            tapes.ForEach(InterceptIfNeeded);
+            foreach (Tape tape in tapes)
+            {
+                InterceptIfNeeded(tape.Intercept);
+                InterceptIfNeeded(tape.InterceptChannel);
+            }
         }
         
         public void SaveIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new NullException(() => tapes);
-            tapes.ForEach(SaveIfNeeded);
+            foreach (Tape tape in tapes)
+            {
+                SaveIfNeeded(tape.Save);
+                SaveIfNeeded(tape.SaveChannel);
+            }
         }
         
         public void PlayIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new NullException(() => tapes);
-            tapes.ForEach(PlayIfNeeded);
+            foreach (Tape tape in tapes)
+            {
+                PlayIfNeeded(tape.Play);
+                PlayIfNeeded(tape.PlayChannel);
+            }
         }
         
         public void CacheToDiskIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new NullException(() => tapes);
-            tapes.ForEach(CacheToDiskIfNeeded);
+            foreach (Tape tape in tapes)
+            {
+                CacheToDiskIfNeeded(tape.DiskCache);
+            }
         }
         
         public void PlayForAllTapesIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new NullException(() => tapes);
-            tapes.ForEach(PlayForAllTapesIfNeeded);
+            foreach (Tape tape in tapes)
+            {
+                PlayForAllTapesIfNeeded(tape.PlayAllTapes);
+            }
         }
         
         // Run All Action Types
@@ -228,40 +160,30 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public void RunActions(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            InterceptIfNeeded(tape);
-            SaveIfNeeded(tape);
-            PlayIfNeeded(tape);
-            CacheToDiskIfNeeded(tape);
-            PlayForAllTapesIfNeeded(tape);
+            
+            InterceptIfNeeded(tape.Intercept);
+            InterceptIfNeeded(tape.InterceptChannel);
+            SaveIfNeeded(tape.Save);
+            SaveIfNeeded(tape.SaveChannel);
+            PlayIfNeeded(tape.Play);
+            PlayIfNeeded(tape.PlayChannel);
+            CacheToDiskIfNeeded(tape.DiskCache);
+            PlayForAllTapesIfNeeded(tape.PlayAllTapes);
         }
         
         // Condition Checking
         
-        // ReSharper disable once UnusedParameter.Global
         protected virtual bool ExtraCondition(TapeAction action) => true;
             
         protected bool CanIntercept(TapeAction action)
         {
             if (action == null) throw new NullException(() => action);
             
-            if (ExtraCondition(action) == false)
-            {
-                return false;
-            }
-
-            if (!action.On)
-            {
-                return false;
-            }
-
-            if (action.Callback == null)
-            {
-                return false;
-            }
-
+            if (!ExtraCondition(action) || !action.On || action.Callback == null) return false;
+            
             if (action.Done)
             {
-                LogAction(action, "Already intercepted");
+                LogAction(action, "Already Intercepted");
                 return false;
             }
             
@@ -274,19 +196,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
                         
-            if (ExtraCondition(action) == false)
-            {
-                return false;
-            }
-
-            if (!action.On)
-            {
-                return false;
-            }
-
+            if (!ExtraCondition(action) || !action.On) return false;
+            
             if (action.Done)
             {
-                LogAction(action, "Already saved");
+                LogAction(action, "Already Saved");
                 LogOutputFile(action.Tape.FilePathResolved);
                 return false;
             }
@@ -298,19 +212,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
             
-            if (ExtraCondition(action) == false)
-            {
-                return false;
-            }
-
-            if (!action.On)
-            {
-                return false;
-            }
+            if (!ExtraCondition(action) || !action.On) return false;
 
             if (action.Done)
             {
-                LogAction(action, "Already played");
+                LogAction(action, "Already Played");
                 return false;
             }
             
