@@ -844,14 +844,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private static string ActionSuffix(Tape tape, string action)
         {
-            string allSuffix = "";
-            if (tape.PlayAllTapes.On)
-            {
-                allSuffix = " {all}";
-            }
-
             if (Is(action, "Play"))
             {
+                string allSuffix = "";
+                if (tape.PlayAllTapes.On)
+                {
+                    allSuffix = " {all}";
+                }
+
                 if (tape.Play.On && tape.PlayChannel.On)
                 {
                     return " (Channel)" + allSuffix;
