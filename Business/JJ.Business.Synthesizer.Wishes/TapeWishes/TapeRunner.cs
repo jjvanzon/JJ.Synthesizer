@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly TapeTreeBuilder _tapeTreeBuilder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
-        private readonly VersatileTapeActionRunner _versatileTapeActionRunner;
+        private readonly VersatileActionRunner _versatileActionRunner;
 
         public TapeRunner(SynthWishes synthWishes, TapeCollection tapes)
         {
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _tapeTreeBuilder = new TapeTreeBuilder(tapes);
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
-            _versatileTapeActionRunner = new VersatileTapeActionRunner();
+            _versatileActionRunner = new VersatileActionRunner();
         }
         
         public void RunAllTapes()
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 _synthWishes.Record(tape);
                 
-                _versatileTapeActionRunner.RunAfterRecord(tape);
+                _versatileActionRunner.RunAfterRecord(tape);
                 
                 FlowNode sample = _synthWishes.Sample(tape);
                 
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
             }
 
-            _versatileTapeActionRunner.RunForPostProcessing(tapes, stereoTapes);
+            _versatileActionRunner.RunForPostProcessing(tapes, stereoTapes);
         }
     }
 }

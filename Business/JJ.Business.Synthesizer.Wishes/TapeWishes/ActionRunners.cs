@@ -6,42 +6,41 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
-    internal class VersatileTapeActionRunner
+    internal class VersatileActionRunner
     {
-        private readonly MonoTapeActionRunner _monoTapeActionRunner = new MonoTapeActionRunner();
-        private readonly StereoTapeActionRunner _stereoTapeActionRunner = new StereoTapeActionRunner();
-        private readonly ChannelTapeActionRunner _channelTapeActionRunner = new ChannelTapeActionRunner();
+        private readonly MonoActionRunner _monoActionRunner = new MonoActionRunner();
+        private readonly StereoActionRunner _stereoActionRunner = new StereoActionRunner();
+        private readonly ChannelActionRunner _channelActionRunner = new ChannelActionRunner();
         
         public void RunAfterRecord(Tape tape)
         {
-            _channelTapeActionRunner.InterceptIfNeeded(tape);
+            _channelActionRunner.InterceptIfNeeded(tape);
         }
         
         public void RunForPostProcessing(IList<Tape> normalTapes, IList<Tape> stereoTapes)
         {
-            _channelTapeActionRunner.CacheToDiskIfNeeded(normalTapes);
-            _monoTapeActionRunner.CacheToDiskIfNeeded(normalTapes);
-            _stereoTapeActionRunner.CacheToDiskIfNeeded(stereoTapes);
+            _channelActionRunner.CacheToDiskIfNeeded(normalTapes);
+            _monoActionRunner.CacheToDiskIfNeeded(normalTapes);
+            _stereoActionRunner.CacheToDiskIfNeeded(stereoTapes);
             
-            _monoTapeActionRunner.InterceptIfNeeded(normalTapes);
-            _stereoTapeActionRunner.InterceptIfNeeded(stereoTapes);
+            _monoActionRunner.InterceptIfNeeded(normalTapes);
+            _stereoActionRunner.InterceptIfNeeded(stereoTapes);
             
-            _channelTapeActionRunner.SaveIfNeeded(normalTapes);
-            _monoTapeActionRunner.SaveIfNeeded(normalTapes);
-            _stereoTapeActionRunner.SaveIfNeeded(stereoTapes);
+            _channelActionRunner.SaveIfNeeded(normalTapes);
+            _monoActionRunner.SaveIfNeeded(normalTapes);
+            _stereoActionRunner.SaveIfNeeded(stereoTapes);
             
-            _channelTapeActionRunner.PlayForAllTapesIfNeeded(normalTapes);
-            _monoTapeActionRunner.PlayForAllTapesIfNeeded(normalTapes);
-            _stereoTapeActionRunner.PlayForAllTapesIfNeeded(stereoTapes);
+            _channelActionRunner.PlayForAllTapesIfNeeded(normalTapes);
+            _monoActionRunner.PlayForAllTapesIfNeeded(normalTapes);
+            _stereoActionRunner.PlayForAllTapesIfNeeded(stereoTapes);
             
-            _channelTapeActionRunner.PlayIfNeeded(normalTapes);
-            _monoTapeActionRunner.PlayIfNeeded(normalTapes);
-            _stereoTapeActionRunner.PlayIfNeeded(stereoTapes);
+            _channelActionRunner.PlayIfNeeded(normalTapes);
+            _monoActionRunner.PlayIfNeeded(normalTapes);
+            _stereoActionRunner.PlayIfNeeded(stereoTapes);
         }
-
     }
     
-    internal class ChannelTapeActionRunner : TapeActionRunnerBase
+    internal class ChannelActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action) => action.Tape.Channel != null;
         
@@ -86,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
     }
     
-    internal class MonoTapeActionRunner : TapeActionRunnerBase
+    internal class MonoActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action) => action.Tape.IsMono;
         
@@ -131,7 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
     }
     
-    internal class StereoTapeActionRunner : TapeActionRunnerBase
+    internal class StereoActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action) => action.Tape.IsStereo;
         
@@ -176,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
     }
     
-    internal abstract class TapeActionRunnerBase
+    internal abstract class ActionRunnerBase
     {
         // Actions Per Item
         

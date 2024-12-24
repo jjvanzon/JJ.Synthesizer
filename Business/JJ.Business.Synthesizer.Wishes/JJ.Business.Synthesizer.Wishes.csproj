@@ -65,7 +65,7 @@
     <Compile Include="CommandWishes.cs" />
     <Compile Include="FlowNode.cs" />
     <Compile Include="LogWishes.cs" />
-    <Compile Include="TapeWishes\TapeActionCloner.cs" />
+    <Compile Include="TapeWishes\ActionCloner.cs" />
     <Compile Include="TapeWishes\TapeTreeBuilder.cs" />
     <Compile Include="TapeWishes\TapePadder.cs" />
     <Compile Include="TapeWishes\TapeRunner.cs" />
@@ -73,7 +73,7 @@
     <Compile Include="TapeWishes\Tape.cs" />
     <Compile Include="TapeWishes\StereoTapeMatcher.cs" />
     <Compile Include="TapeWishes\StereoTapeRecombiner.cs" />
-    <Compile Include="TapeWishes\TapeActionRunners.cs" />
+    <Compile Include="TapeWishes\ActionRunners.cs" />
     <Compile Include="Obsolete\Obsolete.TapeWishes.cs" />
     <Compile Include="Obsolete\Obsolete.AudioFileOutputChannelExtensions.cs" />
     <Compile Include="EnumWishes.cs" />

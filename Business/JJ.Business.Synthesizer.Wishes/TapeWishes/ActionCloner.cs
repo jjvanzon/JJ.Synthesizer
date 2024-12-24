@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
-    internal static class TapeActionCloner
+    internal static class ActionCloner
     {
         public static void CloneAction(TapeAction source, TapeAction dest)
         {
