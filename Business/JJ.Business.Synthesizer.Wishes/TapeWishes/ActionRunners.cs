@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly MonoActionRunner _monoActionRunner = new MonoActionRunner();
         private readonly StereoActionRunner _stereoActionRunner = new StereoActionRunner();
         private readonly ChannelActionRunner _channelActionRunner = new ChannelActionRunner();
-        
+            
         // Run in Stages of Processing
         
         public void RunAfterRecord(Tape tape)
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _channelActionRunner.CacheToDiskIfNeeded(normalTapes);
             _monoActionRunner.CacheToDiskIfNeeded(normalTapes);
             _stereoActionRunner.CacheToDiskIfNeeded(stereoTapes);
-            
+
             // Channel-specific variation is run per tape instead.
             _monoActionRunner.InterceptIfNeeded(normalTapes);
             _stereoActionRunner.InterceptIfNeeded(stereoTapes);
@@ -101,7 +101,59 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 action.Tape.Play();
             }
         }
+        
+        // Condition Checking
+        
+        protected virtual bool ExtraCondition(TapeAction action) => true;
+        
+        private bool CanIntercept(TapeAction action)
+        {
+            if (action == null) throw new NullException(() => action);
+            
+            if (!ExtraCondition(action) || !action.On || action.Callback == null) return false;
+            
+            if (action.Done)
+            {
+                LogAction(action, "Already Intercepted");
+                return false;
+            }
+            
+            LogAction(action);
+            
+            return action.Done = true;
+        }
+        
+        private bool CanSave(TapeAction action)
+        {
+            if (action == null) throw new NullException(() => action);
+                        
+            if (!ExtraCondition(action) || !action.On) return false;
+            
+            if (action.Done)
+            {
+                LogAction(action, "Already Saved");
+                LogOutputFile(action.Tape.FilePathResolved);
+                return false;
+            }
+            
+            return action.Done = true;
+        }
+        
+        private bool CanPlay(TapeAction action)
+        {
+            if (action == null) throw new NullException(() => action);
+            
+            if (!ExtraCondition(action) || !action.On) return false;
 
+            if (action.Done)
+            {
+                LogAction(action, "Already Played");
+                return false;
+            }
+            
+            return action.Done = true;
+        }
+        
         // Run Lists per Action Type
         
         public void InterceptIfNeeded(IList<Tape> tapes)
@@ -172,58 +224,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             PlayIfNeeded(tape.PlayChannel);
             CacheToDiskIfNeeded(tape.DiskCache);
             PlayForAllTapesIfNeeded(tape.PlayAllTapes);
-        }
-        
-        // Condition Checking
-        
-        protected virtual bool ExtraCondition(TapeAction action) => true;
-            
-        protected bool CanIntercept(TapeAction action)
-        {
-            if (action == null) throw new NullException(() => action);
-            
-            if (!ExtraCondition(action) || !action.On || action.Callback == null) return false;
-            
-            if (action.Done)
-            {
-                LogAction(action, "Already Intercepted");
-                return false;
-            }
-            
-            LogAction(action);
-            
-            return action.Done = true;
-        }
-
-        protected bool CanSave(TapeAction action)
-        {
-            if (action == null) throw new NullException(() => action);
-                        
-            if (!ExtraCondition(action) || !action.On) return false;
-            
-            if (action.Done)
-            {
-                LogAction(action, "Already Saved");
-                LogOutputFile(action.Tape.FilePathResolved);
-                return false;
-            }
-            
-            return action.Done = true;
-        }
-        
-        protected bool CanPlay(TapeAction action)
-        {
-            if (action == null) throw new NullException(() => action);
-            
-            if (!ExtraCondition(action) || !action.On) return false;
-
-            if (action.Done)
-            {
-                LogAction(action, "Already Played");
-                return false;
-            }
-            
-            return action.Done = true;
         }
     }
 }
