@@ -14,6 +14,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -213,7 +214,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
         {
             string filePath = SanitizeFilePath(name);
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
+            string fileNameWithoutExtension = GetFileNameWithoutExtension(filePath, MaxExtensionLength);
             string fileExtension = audioFileFormatEnum.FileExtension();
             return fileNameWithoutExtension + fileExtension;
         }

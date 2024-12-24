@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string resolvedFilePath = ResolveFilePath("", filePath, callerMemberName);
             
-            (string numberedFilePath, FileStream fileStream) = CreateSafeFileStream(resolvedFilePath);
+            (string numberedFilePath, FileStream fileStream) = CreateSafeFileStream(resolvedFilePath, maxExtensionLength: MaxExtensionLength);
             
             using (fileStream)
             {
@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string InternalSave(string sourceFilePath, string destFilePath, string callerMemberName)
         {
             string resolvedDestFilePath = ResolveFilePath("", destFilePath, sourceFilePath, callerMemberName: callerMemberName);
-            (string numberedDestFilePath, FileStream destStream) = CreateSafeFileStream(resolvedDestFilePath);
+            (string numberedDestFilePath, FileStream destStream) = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: MaxExtensionLength);
             
             using (var sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (destStream)

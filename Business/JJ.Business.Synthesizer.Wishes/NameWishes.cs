@@ -22,6 +22,8 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameWishes
     {
+        public const int MaxExtensionLength = 4;
+
         // ResolveName
         
         /// <inheritdoc cref="docs._resolvename"/>
@@ -103,25 +105,25 @@ namespace JJ.Business.Synthesizer.Wishes
             string fileExtension, AudioFileFormatEnum audioFileFormat = default, 
             params object[] filePathSources)
         {
-            if (FilledIn(fileExtension))
+            if (Has(fileExtension))
             {
                 return fileExtension;
             }
-            
+                        
+            if (Has(audioFileFormat))
+            {
+                return audioFileFormat.FileExtension();
+            }
+
             foreach (object filePathSource in filePathSources)
             {
                 string value = TryGetName(filePathSource);
                 value = SanitizeFilePath(value);
-                value = GetExtension(value);
-                if (FilledIn(value))
+                value = GetExtension(value, MaxExtensionLength);
+                if (Has(value))
                 {
                     return value;
                 } 
-            }
-            
-            if (FilledIn(audioFileFormat))
-            {
-                return audioFileFormat.FileExtension();
             }
             
             var exceptionInfo = new
@@ -190,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 : GetFullPath(folderPath);
             
             // Replace file extension
-            string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath);
+            string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath, MaxExtensionLength);
             string audioFormatExtension = newFileExtension;
             string fileName = fileNameWithoutExtension + audioFormatExtension;
 
@@ -228,7 +230,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string prettyName = uglyName;
             
-            if (IsFile(prettyName, maxExtensionLength: 4))
+            if (IsFile(prettyName, MaxExtensionLength))
             {
                 prettyName = GetFileNameWithoutExtension(GetFileName(uglyName));
             }
