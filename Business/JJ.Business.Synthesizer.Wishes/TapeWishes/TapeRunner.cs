@@ -23,9 +23,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly TapeTreeBuilder _tapeTreeBuilder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
-        private readonly MonoTapeActionRunner _monoTapeActionRunner;
-        private readonly StereoTapeActionRunner _stereoTapeActionRunner;
-        private readonly ChannelTapeActionRunner _channelTapeActionRunner;
         private readonly VersatileTapeActionRunner _versatileTapeActionRunner;
 
         public TapeRunner(SynthWishes synthWishes, TapeCollection tapes)
@@ -37,9 +34,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
             _versatileTapeActionRunner = new VersatileTapeActionRunner();
-            _monoTapeActionRunner = new MonoTapeActionRunner();
-            _stereoTapeActionRunner = new StereoTapeActionRunner();
-            _channelTapeActionRunner = new ChannelTapeActionRunner();
         }
         
         public void RunAllTapes()
