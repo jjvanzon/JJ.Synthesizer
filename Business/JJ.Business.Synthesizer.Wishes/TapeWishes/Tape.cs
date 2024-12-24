@@ -41,6 +41,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             set => Buff.Bytes = value; 
         }
         
+        /// <summary>
+        /// Tape.FilePathResolved = Buff.FilePath
+        /// </summary>
         public string FilePathResolved
         {
             get => Buff.FilePath;
@@ -159,7 +162,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (!Has(name)) throw new Exception($"{nameof(name)} not provided.");
-            
             Tape = tape;
             Name = name;
         }
