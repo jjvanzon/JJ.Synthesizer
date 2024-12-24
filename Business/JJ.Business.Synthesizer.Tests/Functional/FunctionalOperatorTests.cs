@@ -14,11 +14,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 {
     [TestClass]
     [TestCategory("Functional")]
-    public class OperatorWishes_FunctionalTests : MySynthWishes
+    public class FunctionalOperatorTests : MySynthWishes
     {
         FlowNode Envelope => RecorderCurve;
 
-        public OperatorWishes_FunctionalTests()
+        public FunctionalOperatorTests()
         {
             WithMono();
         }

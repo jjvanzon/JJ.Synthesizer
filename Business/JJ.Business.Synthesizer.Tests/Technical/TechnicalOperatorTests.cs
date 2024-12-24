@@ -18,11 +18,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class OperatorWishes_TechnicalTests : MySynthWishes
+    public class TechnicalOperatorTests : MySynthWishes
     {
         FlowNode Envelope => DelayedPulseCurve.Stretch(GetAudioLength) * 0.6;
         
-        public OperatorWishes_TechnicalTests()
+        public TechnicalOperatorTests()
         {
             WithStereo();
         }
