@@ -826,6 +826,12 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         // Actions
+
+        internal static void LogAction(TapeAction action, string message = null)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            LogAction(action.Tape, action.Name, message);
+        }
         
         internal static void LogAction(Tape entity, string action, string message = null)
         {
@@ -839,7 +845,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string ActionSuffix(Tape tape, string action)
         {
             string allSuffix = "";
-            if (tape.PlayAllTapes)
+            if (tape.PlayAllTapes.On)
             {
                 allSuffix = " {all}";
             }
@@ -985,7 +991,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        public static void LogPrettyTitle(string title) 
+        public static void LogPrettyTitle(string title)
         {
             LogLine();
             LogLine(PrettyTitle(title));
@@ -1033,7 +1039,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (!mathBoost) return;
             LogPrettyTitle("Math Boost");
-            LogLine();
         }
         
         internal static void LogMathBoostDone(bool mathBoost)

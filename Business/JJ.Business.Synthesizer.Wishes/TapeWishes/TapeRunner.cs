@@ -23,9 +23,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly TapeTreeBuilder _tapeTreeBuilder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;
         private readonly StereoTapeRecombiner _stereoTapeRecombiner;
-        private readonly StereoTapeActionRunner _stereoTapeActionRunner;
         private readonly MonoTapeActionRunner _monoTapeActionRunner;
+        private readonly StereoTapeActionRunner _stereoTapeActionRunner;
         private readonly ChannelTapeActionRunner _channelTapeActionRunner;
+        private readonly VersatileTapeActionRunner _versatileTapeActionRunner;
 
         public TapeRunner(SynthWishes synthWishes, TapeCollection tapes)
         {
@@ -35,8 +36,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _tapeTreeBuilder = new TapeTreeBuilder(tapes);
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
-            _stereoTapeActionRunner = new StereoTapeActionRunner();
+            _versatileTapeActionRunner = new VersatileTapeActionRunner();
             _monoTapeActionRunner = new MonoTapeActionRunner();
+            _stereoTapeActionRunner = new StereoTapeActionRunner();
             _channelTapeActionRunner = new ChannelTapeActionRunner();
         }
         
@@ -122,13 +124,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 LogAction(tape, "Start", "Running ...");
                 
-                // Cache Buffer
                 _synthWishes.Record(tape);
                 
-                // Run Actions (that can't wait)
-                _channelTapeActionRunner.InterceptIfNeeded(tape);
+                _versatileTapeActionRunner.RunAfterRecord(tape);
                 
-                // Wrap in Sample
                 FlowNode sample = _synthWishes.Sample(tape);
                 
                 // Replace All References
@@ -187,7 +186,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(Tape[] tapes)
         {
-            LogLine();
             LogPrettyTitle("Post-Processing");
             
             IList<Tape> stereoChannelTapes = tapes.Where(x => x.IsStereo && x.Channel.HasValue)
@@ -201,16 +199,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 stereoTapes = _stereoTapeRecombiner.RecombineChannelsConcurrent(tapePairs);
             }
 
-            _monoTapeActionRunner.InterceptIfNeeded(tapes);
-            _stereoTapeActionRunner.InterceptIfNeeded(stereoTapes);
-            
-            _channelTapeActionRunner.SaveIfNeeded(tapes);
-            _monoTapeActionRunner.SaveIfNeeded(tapes);
-            _stereoTapeActionRunner.SaveIfNeeded(stereoTapes);
-
-            _channelTapeActionRunner.PlayIfNeeded(tapes);
-            _monoTapeActionRunner.PlayIfNeeded(tapes);
-            _stereoTapeActionRunner.PlayIfNeeded(stereoTapes);
+            _versatileTapeActionRunner.RunForPostProcessing(tapes, stereoTapes);
         }
     }
 }
