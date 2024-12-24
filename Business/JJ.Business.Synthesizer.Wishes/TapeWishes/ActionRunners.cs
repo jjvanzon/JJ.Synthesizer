@@ -50,12 +50,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class MonoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.IsMono;
+        protected override bool ExtraCondition(TapeAction action) => action.Tape.IsMono && !action.Name.Contains("Channel");
     }
     
     internal class StereoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.IsStereo;
+        protected override bool ExtraCondition(TapeAction action) => action.Tape.IsStereo && !action.Name.Contains("Channel");
     }
     
     internal abstract class ActionRunnerBase
