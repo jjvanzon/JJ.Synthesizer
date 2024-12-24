@@ -94,12 +94,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 IsPadded = sourceTape.IsPadded
             };
             
-            Clone(sourceTape.Play, destTape.Play);
-            Clone(sourceTape.Save, destTape.Save);
-            Clone(sourceTape.Intercept, destTape.Intercept);
-            Clone(sourceTape.PlayChannel, destTape.PlayChannel);
-            Clone(sourceTape.SaveChannel, destTape.SaveChannel);
-            Clone(sourceTape.InterceptChannel, destTape.InterceptChannel);
+            CloneAction(sourceTape.Play, destTape.Play);
+            CloneAction(sourceTape.Save, destTape.Save);
+            CloneAction(sourceTape.Intercept, destTape.Intercept);
+            CloneAction(sourceTape.PlayChannel, destTape.PlayChannel);
+            CloneAction(sourceTape.SaveChannel, destTape.SaveChannel);
+            CloneAction(sourceTape.InterceptChannel, destTape.InterceptChannel);
 
             return destTape;
         }

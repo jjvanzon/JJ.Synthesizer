@@ -101,10 +101,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // Set Actions
             paddedTape.IsTape = tape.IsTape;
             paddedTape.IsPadded = true;
-            Clone(tape.Play, paddedTape.Play);
-            Clone(tape.Save, paddedTape.Save);
-            Clone(tape.PlayChannel, paddedTape.PlayChannel);
-            Clone(tape.SaveChannel, paddedTape.SaveChannel);
+            CloneAction(tape.Play, paddedTape.Play);
+            CloneAction(tape.Save, paddedTape.Save);
+            CloneAction(tape.PlayChannel, paddedTape.PlayChannel);
+            CloneAction(tape.SaveChannel, paddedTape.SaveChannel);
             //paddedTape.Intercept.On = false;
             //paddedTape.Intercept.Done = false;
             //paddedTape.InterceptChannel.On = false;

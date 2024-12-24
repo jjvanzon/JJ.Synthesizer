@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal static class TapeActionCloner
     {
-        public static void Clone(TapeAction source, TapeAction dest)
+        public static void CloneAction(TapeAction source, TapeAction dest)
         {
             dest.On = source.On;
             dest.Done = source.Done;
