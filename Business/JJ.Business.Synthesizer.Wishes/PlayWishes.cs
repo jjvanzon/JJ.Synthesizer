@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (!mustPlay)
             {
-                LogAction("", nameof(Play), "⚠ Audio disabled");
+                LogLine("  ⚠ Audio disabled");
             }
 
             if (mustPlay)
