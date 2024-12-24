@@ -90,11 +90,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 Channels = GetChannels,
                 AudioFormat = GetAudioFormat,
                 Interpolation = GetInterpolation,
-                DiskCache = GetDiskCache,
-                PlayAllTapes = GetPlayAllTapes,
                 CourtesyFrames = GetCourtesyFrames,
             };
-            
+
+            dummyTape.DiskCache.On = GetDiskCache;
+            dummyTape.PlayAllTapes.On = GetPlayAllTapes;
+
             return SampleFromTape(dummyTape, bytesToSkip, stream);
         }
         

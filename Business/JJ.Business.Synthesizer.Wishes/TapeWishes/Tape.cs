@@ -4,10 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.PropertyNameWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -15,8 +17,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class Tape
     {
-        private string DebuggerDisplay => GetDebuggerDisplay(this);
-                
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+        
+        public Tape()
+        {
+            Play = new TapeAction(this, nameof(Play));
+            Save = new TapeAction(this, nameof(Save));
+            Intercept = new TapeAction(this, nameof(Intercept));
+            PlayChannel = new TapeAction(this, nameof(PlayChannel));
+            SaveChannel = new TapeAction(this, nameof(SaveChannel));
+            InterceptChannel = new TapeAction(this, nameof(InterceptChannel));
+            PlayAllTapes = new TapeAction(this, PropertyNameWishes.PlayAllTapes);
+            DiskCache = new TapeAction(this, PropertyNameWishes.DiskCache);
+        }
+        
         // Buff
 
         public bool IsBuff => Has(Bytes) || Exists(FilePathResolved);
@@ -94,22 +108,26 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsPadded { get; internal set; }
         
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction Play { get; } = new TapeAction();
+        public TapeAction Play { get; }
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction Save { get; } = new TapeAction();
+        public TapeAction Save { get; }
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction Intercept { get; } = new TapeAction();
+        public TapeAction Intercept { get; }
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction PlayChannel { get; } = new TapeAction();
+        public TapeAction PlayChannel { get; }
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction SaveChannel { get; } = new TapeAction();
+        public TapeAction SaveChannel { get; }
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction InterceptChannel { get; } = new TapeAction();
-        
+        public TapeAction InterceptChannel { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction PlayAllTapes { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction DiskCache { get; }
+
         // Options
 
-        public bool DiskCache { get; internal set; }
-        public bool PlayAllTapes { get; internal set; }
+        //public bool DiskCache { get; internal set; }
+        //public bool PlayAllTapes { get; internal set; }
         public int CourtesyFrames { get; internal set; }
 
         // Hierarchy
@@ -136,7 +154,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     /// <inheritdoc cref="docs._tapeaction" />
     public class TapeAction
-    { 
+    {
+        internal TapeAction(Tape tape, string name)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (!Has(name)) throw new Exception($"{nameof(name)} not provided.");
+            
+            Tape = tape;
+            Name = name;
+        }
+
+        public Tape Tape { get; }
+        public string Name { get; }
         public bool On { get; set; }
         public bool Done { get; internal set; }
         internal Action<Tape> Callback { get; set; }

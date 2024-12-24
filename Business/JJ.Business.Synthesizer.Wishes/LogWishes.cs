@@ -513,8 +513,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.Interpolation);
             
             string featuresDescriptor = FeaturesDescriptor(
-                diskCache: tape.DiskCache,
-                playAllTapes: tape.PlayAllTapes);
+                diskCache: tape.DiskCache.On,
+                playAllTapes: tape.PlayAllTapes.On);
 
             return ConfigLog(
                 title, 

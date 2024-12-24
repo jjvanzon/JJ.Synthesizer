@@ -111,8 +111,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             //paddedTape.InterceptChannel.Done = false;
             
             // Set Options
-            paddedTape.DiskCache = tape.DiskCache;
-            paddedTape.PlayAllTapes = tape.PlayAllTapes;
+            CloneAction(tape.DiskCache, paddedTape.DiskCache);
+            CloneAction(tape.PlayAllTapes, paddedTape.PlayAllTapes);
             paddedTape.CourtesyFrames = tape.CourtesyFrames;
             
             // Remove Actions from original Tape

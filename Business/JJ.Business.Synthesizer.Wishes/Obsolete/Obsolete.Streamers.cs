@@ -336,15 +336,16 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 TrailingSilence = synthWishes.GetTrailingSilence.Value,
                 FilePathSuggested = filePath,
                 FallBackName = name,
-                DiskCache = synthWishes.GetDiskCache,
-                PlayAllTapes = synthWishes.GetPlayAllTapes,
                 CourtesyFrames = synthWishes.GetCourtesyFrames,
                 Bits = synthWishes.GetBits,
                 SamplingRate = synthWishes.GetSamplingRate,
                 AudioFormat = synthWishes.GetAudioFormat,
                 Interpolation = synthWishes.GetInterpolation
             };
-            
+
+            dummyTape.DiskCache.On = synthWishes.GetDiskCache;
+            dummyTape.PlayAllTapes.On = synthWishes.GetPlayAllTapes;
+
             return synthWishes.ConfigureAudioFileOutput(dummyTape);
         }
 

@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Math;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Framework.Reflection.ExpressionHelper;
 
@@ -54,12 +52,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             // Options
             
-            tape.DiskCache = _synthWishes.GetDiskCache;
-            tape.PlayAllTapes = _synthWishes.GetPlayAllTapes;
+            tape.DiskCache.On = _synthWishes.GetDiskCache;
+            tape.PlayAllTapes.On = _synthWishes.GetPlayAllTapes;
             tape.CourtesyFrames = _synthWishes.GetCourtesyFrames;
             
             // From Parameters
-
             
             if (Has(filePath)) tape.FilePathSuggested = filePath;
             if (Has(callerMemberName)) tape.FallBackName = callerMemberName;

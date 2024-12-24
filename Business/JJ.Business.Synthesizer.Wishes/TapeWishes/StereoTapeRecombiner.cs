@@ -85,8 +85,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 Interpolation = sourceTape.Interpolation,
                 
                 // Options
-                DiskCache = sourceTape.DiskCache,
-                PlayAllTapes = sourceTape.PlayAllTapes,
                 CourtesyFrames = sourceTape.CourtesyFrames,
                 
                 // Actions
@@ -100,7 +98,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneAction(sourceTape.PlayChannel, destTape.PlayChannel);
             CloneAction(sourceTape.SaveChannel, destTape.SaveChannel);
             CloneAction(sourceTape.InterceptChannel, destTape.InterceptChannel);
-
+            CloneAction(sourceTape.DiskCache, destTape.DiskCache);
+            CloneAction(sourceTape.PlayAllTapes, destTape.PlayAllTapes);
+            
             return destTape;
         }
         

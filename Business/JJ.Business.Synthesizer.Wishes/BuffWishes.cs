@@ -6,9 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Framework.Reflection.ExpressionHelper;
@@ -111,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(), audioFileOutput, callerMemberName);
-            bool inMemory = !tape.DiskCache && !tape.Save.On && !tape.SaveChannel.On;
+            bool inMemory = !(tape.DiskCache.On || tape.Save.On || tape.SaveChannel.On);
 
             audioFileOutput.Name = resolvedName;
 
@@ -205,11 +203,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 AudioFormat = GetAudioFormat,
                 Interpolation = GetInterpolation,
 
-                DiskCache = GetDiskCache,
-                PlayAllTapes = GetPlayAllTapes,
                 CourtesyFrames = GetCourtesyFrames
             };
             
+            dummyTape.DiskCache.On = GetDiskCache;
+            dummyTape.PlayAllTapes.On = GetPlayAllTapes;
             dummyTape.Save.On = !inMemory;
 
             MakeBuff(dummyTape);
@@ -227,9 +225,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 CourtesyFrames = courtesyFrames,
                 FilePathSuggested = filePath,
                 FallBackName = name,
-                DiskCache = !inMemory
             };
-            
+
+            dummyTape.DiskCache.On = !inMemory;
+
             MakeBuff(dummyTape, audioFileOutput, callerMemberName);
             
             return dummyTape.Buff;
