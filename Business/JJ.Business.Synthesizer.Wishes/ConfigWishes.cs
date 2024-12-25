@@ -12,6 +12,8 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.F
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
+using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
+
 // ReSharper disable RedundantNameQualifier
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -69,6 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._leafchecktimeout" />
         [XmlAttribute] public TimeOutActionEnum? TimeOutAction { get; set; }
         [XmlAttribute] public int? CourtesyFrames { get; set; }
+        [XmlAttribute] public int? FileExtensionMaxLength { get; set; }
         [XmlAttribute] public string LongTestCategory { get; set; }
     }
 
@@ -87,6 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         string DebuggerDisplay => GetDebuggerDisplay(this);
 
+        // TODO: Rename to "Static", because "Default" clashes with the concept of default settings, which isn't what's meant here.
         /// <summary> For static contexts use this. </summary>
         internal static ConfigWishes Default { get; } = new ConfigWishes();
 
@@ -131,11 +135,12 @@ namespace JJ.Business.Synthesizer.Wishes
         // Misc Settings
         
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        private const double            DefaultLeafCheckTimeOut  = 60;
+        private const double            DefaultLeafCheckTimeOut       = 60;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        private const TimeOutActionEnum DefaultTimeOutAction     = TimeOutActionEnum.Continue;
-        private const int               DefaultCourtesyFrames    = 4;
-        private const string            DefaultLongTestCategory  = "Long";
+        private const TimeOutActionEnum DefaultTimeOutAction          = Continue;
+        private const int               DefaultCourtesyFrames         = 4;
+        private const int               DefaultFileExtensionMaxLength = 4;
+        private const string            DefaultLongTestCategory       = "Long";
 
         // Environment Variables
         
@@ -637,6 +642,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public int GetCourtesyFrames => _courtesyFrames ?? _section.CourtesyFrames ?? DefaultCourtesyFrames;
         /// <inheritdoc cref="docs._courtesyframes" />
         public void WithCourtesyFrames(int? value) => _courtesyFrames = value;
+               
+        /// <inheritdoc cref="docs._fileextensionmaxlength" />
+        public int GetFileExtensionMaxLength => _section.FileExtensionMaxLength ?? DefaultFileExtensionMaxLength;
 
         private string _longTestCategory;
         public void WithLongTestCategory(string category) => _longTestCategory = category;
@@ -934,6 +942,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public int GetCourtesyFrames => Config.GetCourtesyFrames;
         /// <inheritdoc cref="docs._courtesyframes" />
         public SynthWishes WithCourtesyFrames(int? value) { Config.WithCourtesyFrames(value); return this; }
+        
+        /// <inheritdoc cref="docs._fileextensionmaxlength" />
+        public int GetFileExtensionMaxLength => Config.GetFileExtensionMaxLength;
     }
     
     // FlowNode ConfigWishes
@@ -1116,5 +1127,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public int GetCourtesyFrames => _synthWishes.GetCourtesyFrames;
         /// <inheritdoc cref="docs._courtesyframes" />
         public FlowNode WithCourtesyFrames(int? value) { _synthWishes.WithCourtesyFrames(value); return this; }
+        
+        /// <inheritdoc cref="docs._fileextensionmaxlength" />
+        public int GetFileExtensionMaxLength => _synthWishes.GetFileExtensionMaxLength;
     }
 }

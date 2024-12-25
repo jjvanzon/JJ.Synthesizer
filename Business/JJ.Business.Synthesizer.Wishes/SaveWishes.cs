@@ -5,13 +5,11 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -110,7 +108,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 return MakeBuffLegacy(
                     audioFileOutput,
-                    inMemory: false, Default.GetCourtesyFrames, 
+                    inMemory: false, ConfigWishes.Default.GetCourtesyFrames, 
                     audioFileOutput.Name, filePath, callerMemberName);
             }
         }
@@ -161,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string resolvedDestFilePath = ResolveFilePath("", destFilePath, callerMemberName);
             
             (string numberedDestFilePath, FileStream fileStream) 
-                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: MaxExtensionLength);
+                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: ConfigWishes.Default.GetFileExtensionMaxLength);
             
             using (fileStream)
             {
@@ -176,7 +174,8 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string InternalSave(string sourceFilePath, string destFilePath, string callerMemberName)
         {
             string resolvedDestFilePath = ResolveFilePath("", destFilePath, sourceFilePath, callerMemberName: callerMemberName);
-            (string numberedDestFilePath, FileStream destStream) = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: MaxExtensionLength);
+            (string numberedDestFilePath, FileStream destStream) 
+                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: ConfigWishes.Default.GetFileExtensionMaxLength);
             
             using (var sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (destStream)

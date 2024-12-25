@@ -211,10 +211,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Helpers
 
-        private static string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
+        private string FormatAudioFileName(string name, AudioFileFormatEnum audioFileFormatEnum)
         {
             string filePath = SanitizeFilePath(name);
-            string fileNameWithoutExtension = GetFileNameWithoutExtension(filePath, MaxExtensionLength);
+            string fileNameWithoutExtension = GetFileNameWithoutExtension(filePath, GetFileExtensionMaxLength);
             string fileExtension = audioFileFormatEnum.FileExtension();
             return fileNameWithoutExtension + fileExtension;
         }

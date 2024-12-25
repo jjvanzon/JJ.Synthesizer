@@ -22,8 +22,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameWishes
     {
-        public const int MaxExtensionLength = 4;
-
         // ResolveName
         
         /// <inheritdoc cref="docs._resolvename"/>
@@ -119,7 +117,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 string value = TryGetName(filePathSource);
                 value = SanitizeFilePath(value);
-                value = GetExtension(value, MaxExtensionLength);
+                value = GetExtension(value, ConfigWishes.Default.GetFileExtensionMaxLength);
                 if (Has(value))
                 {
                     return value;
@@ -192,7 +190,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 : GetFullPath(folderPath);
             
             // Replace file extension
-            string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath, MaxExtensionLength);
+            string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath, ConfigWishes.Default.GetFileExtensionMaxLength);
             string audioFormatExtension = newFileExtension;
             string fileName = fileNameWithoutExtension + audioFormatExtension;
 
@@ -230,7 +228,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string prettyName = uglyName;
             
-            if (IsFile(prettyName, MaxExtensionLength))
+            if (IsFile(prettyName, ConfigWishes.Default.GetFileExtensionMaxLength))
             {
                 prettyName = GetFileNameWithoutExtension(GetFileName(uglyName));
             }

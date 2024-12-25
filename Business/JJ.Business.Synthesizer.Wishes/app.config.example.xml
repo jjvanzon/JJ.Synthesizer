@@ -40,6 +40,7 @@
 		leafCheckTimeOut="30"
 		timeOutAction="Continue"
 		courtesyFrames="4"
+		fileExtensionMaxLength="4"
 		longTestCategory="Long">
 		
 		<nCrunch 

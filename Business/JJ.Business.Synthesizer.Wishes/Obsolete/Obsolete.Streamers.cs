@@ -173,7 +173,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 // (CreateSafeFileStream numbers files to prevent file name contention
                 //  It does so in a thread-safe, interprocess-safe way.)
                 FileStream fileStream;
-                (resolvedFilePath, fileStream) = CreateSafeFileStream(resolvedFilePath, maxExtensionLength: MaxExtensionLength);
+                (resolvedFilePath, fileStream) = CreateSafeFileStream(resolvedFilePath, 
+                                                                      maxExtensionLength: ConfigWishes.Default.GetFileExtensionMaxLength);
                 calculatorAccessor._stream = fileStream;
                 audioFileOutput.FilePath = resolvedFilePath;
             }
