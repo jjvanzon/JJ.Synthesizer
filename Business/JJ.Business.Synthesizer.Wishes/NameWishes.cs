@@ -14,6 +14,7 @@ using static System.IO.Path;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -33,7 +34,8 @@ namespace JJ.Business.Synthesizer.Wishes
             string explicitName = TryGetName(explicitNameSource);
             if (!IsNullOrWhiteSpace(explicitName))
             {
-                return explicitName; // Not sure if it should be prettified too...
+                // Don't prettify. Used for explicit file names.
+                return explicitName;
             }
             
             string name = TryGetName(
@@ -148,7 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes
             object filePathSource5 = null,
             object filePathSource6 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(default, audioFormat, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
+            => ResolveFilePath(default, audioFormat, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension, 
@@ -159,15 +161,27 @@ namespace JJ.Business.Synthesizer.Wishes
             object filePathSource5 = null,
             object filePathSource6 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(fileExtension, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
+            => ResolveFilePath(fileExtension, default, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension,
             AudioFileFormatEnum audioFormat,
+            IList<int> ids,
             params object[] filePathSources)
         {
             string resolvedFileExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSources);
             string resolvedName = ResolveName(filePathSources, explicitNameSource: filePathSources.ElementAtOrDefault(0));
+            
+            if (Has(ids))
+            {
+                string idDescriptor = IDDescriptor(ids);
+                // Prevent duplicate mentions of the ID.
+                if (!resolvedName.EndsWith("(" + idDescriptor + ")"))
+                {
+                    resolvedName += " " + idDescriptor;
+                }
+            }
+
             string resolvedFilePath = ReformatFilePath(resolvedName, resolvedFileExtension);
             return resolvedFilePath;
         }
@@ -181,7 +195,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string ReformatFilePath(string filePath, string newFileExtension)
         {
             // Sanitize file path
-            string sanitizedFilePath = SanitizeFilePath(filePath);
+            string sanitizedFilePath = SanitizeFilePath(filePath, badCharReplacement: " ");
             
             // Find the full folder path
             string folderPath = GetDirectoryName(sanitizedFilePath);

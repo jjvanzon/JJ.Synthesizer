@@ -700,27 +700,22 @@ namespace JJ.Business.Synthesizer.Wishes
                 sb.Unindent();
             }
         }
-
-        private static string IDDescriptor(Tape tape)
+        
+        internal static string IDDescriptor(Tape tape)
         {
-            var ids = new List<int?>();
-           
-            if (Has(tape.Signal))
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            return IDDescriptor(tape.IDs);
+        }
+        
+        internal static string IDDescriptor(IList<int> ids)
+        {
+            if (!Has(ids))
             {
-                ids.Add(tape.Signal.UnderlyingOperator?.ID);
-            }
-            if (Has(tape.Signals))
-            {
-                ids.AddRange(tape.Signals.Select(x => x?.UnderlyingOperator?.ID));
+                return "no ID";
             }
             
-            string formattedIDs = Join("|", ids.Where(FilledIn));
-            if (!Has(formattedIDs))
-            {
-                formattedIDs = "no ID";
-            }
-
-            return formattedIDs;
+            string idDescriptor = Join("|", ids);
+            return idDescriptor;
         }
         
         public static string Descriptor(TapeActions actions)

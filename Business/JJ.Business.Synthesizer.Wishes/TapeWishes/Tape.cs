@@ -51,14 +51,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         [Obsolete("Prefer Tape properties instead")]
         public Buff Buff { get; } = new Buff();
 
-        // Names
+        // Identity
+                
+        public IList<int> IDs => ConcatSignals().Select(x => x?.UnderlyingOperator?.ID)
+                                                .Where(FilledIn)
+                                                .Select(x => x.Value).ToArray();
 
         /// <inheritdoc cref="docs._tapename" />
         public string GetName(string name = null, [CallerMemberName] string callerMemberName = null)
             => ResolveName(name, Signal, Signals, FallBackName, FilePathSuggested, callerMemberName);
         
         public string GetFilePath(string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(AudioFormat, filePath, FilePathResolved, FilePathSuggested, GetName(callerMemberName: callerMemberName));
+            => ResolveFilePath(AudioFormat.FileExtension(), AudioFormat, IDs, filePath, FilePathResolved, FilePathSuggested, GetName(callerMemberName: callerMemberName));
 
         public string FallBackName { get; internal set; }
         public string FilePathSuggested { get; internal set; }
