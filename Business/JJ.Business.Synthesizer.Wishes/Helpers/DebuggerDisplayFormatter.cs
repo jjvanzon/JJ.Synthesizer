@@ -109,6 +109,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             return Join(" ", elements);
         }
+        
+        internal static string GetDebuggerDisplay(TapeActions actions)
+        {
+            if (actions == null) throw new ArgumentNullException(nameof(actions));
+            string descriptor = actions.Descriptor();
+            if (Has(descriptor)) return "{Actions:" + actions.Descriptor() + "}";
+            return "{Actions}";
+        }
 
         private static string FormatTypeName(object obj)
         {

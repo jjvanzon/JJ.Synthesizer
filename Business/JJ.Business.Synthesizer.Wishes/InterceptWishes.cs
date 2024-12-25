@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(signal, duration, callback, null, filePath, callerMemberName);
-            tape.Intercept.On = true;
+            tape.Actions.Intercept.On = true;
             return signal;
         }
 
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Action<Tape> channelCallback, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, channelCallback, filePath, callerMemberName);
-            tape.InterceptChannel.On = true;
+            tape.Actions.InterceptChannel.On = true;
             return channel;
         }
     }

@@ -36,10 +36,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.Signal == null) throw new NullException(() => tape.Signal);
             
             // Padding only applies to Play and Save actions.
-            if (!tape.Play.On && 
-                !tape.PlayChannel.On &&
-                !tape.Save.On &&
-                !tape.SaveChannel.On) return null;
+            if (!tape.Actions.Play.On && 
+                !tape.Actions.PlayChannel.On &&
+                !tape.Actions.Save.On &&
+                !tape.Actions.SaveChannel.On) return null;
             
             // If tape already padded, don't do it again.
             if (tape.IsPadded) return null;
@@ -59,8 +59,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogAction(paddedTape, "Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             // Remove original tape if it has no other purposes.
-            bool hasIntercept        = tape.Intercept       .On && tape.Intercept       .Callback != null;
-            bool hasInterceptChannel = tape.InterceptChannel.On && tape.InterceptChannel.Callback != null;
+            bool hasIntercept        = tape.Actions.Intercept       .On && tape.Actions.Intercept       .Callback != null;
+            bool hasInterceptChannel = tape.Actions.InterceptChannel.On && tape.Actions.InterceptChannel.Callback != null;
             
             if (!hasIntercept && !hasInterceptChannel)
             {
@@ -101,25 +101,25 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // Set Actions
             paddedTape.IsTape = tape.IsTape;
             paddedTape.IsPadded = true;
-            CloneAction(tape.Play, paddedTape.Play);
-            CloneAction(tape.Save, paddedTape.Save);
-            CloneAction(tape.PlayChannel, paddedTape.PlayChannel);
-            CloneAction(tape.SaveChannel, paddedTape.SaveChannel);
+            CloneAction(tape.Actions.Play, paddedTape.Actions.Play);
+            CloneAction(tape.Actions.Save, paddedTape.Actions.Save);
+            CloneAction(tape.Actions.PlayChannel, paddedTape.Actions.PlayChannel);
+            CloneAction(tape.Actions.SaveChannel, paddedTape.Actions.SaveChannel);
             //paddedTape.Intercept.On = false;
             //paddedTape.Intercept.Done = false;
             //paddedTape.InterceptChannel.On = false;
             //paddedTape.InterceptChannel.Done = false;
             
             // Set Options
-            CloneAction(tape.DiskCache, paddedTape.DiskCache);
-            CloneAction(tape.PlayAllTapes, paddedTape.PlayAllTapes);
+            CloneAction(tape.Actions.DiskCache, paddedTape.Actions.DiskCache);
+            CloneAction(tape.Actions.PlayAllTapes, paddedTape.Actions.PlayAllTapes);
             paddedTape.CourtesyFrames = tape.CourtesyFrames;
             
             // Remove Actions from original Tape
-            tape.Play.On = false;
-            tape.Save.On = false;
-            tape.PlayChannel.On = false;
-            tape.SaveChannel.On = false;
+            tape.Actions.Play.On = false;
+            tape.Actions.Save.On = false;
+            tape.Actions.PlayChannel.On = false;
+            tape.Actions.SaveChannel.On = false;
             
             LogAction(paddedTape, "Pad", $"Delay + {tape.LeadingSilence} s");
             

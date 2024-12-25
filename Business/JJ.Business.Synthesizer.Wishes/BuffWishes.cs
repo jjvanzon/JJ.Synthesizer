@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(), audioFileOutput, callerMemberName);
-            bool inMemory = !(tape.DiskCache.On || tape.Save.On || tape.SaveChannel.On);
+            bool inMemory = !(tape.Actions.DiskCache.On || tape.Actions.Save.On || tape.Actions.SaveChannel.On);
 
             audioFileOutput.Name = resolvedName;
 
@@ -158,8 +158,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (!inMemory)
             {
-                if (tape.Save.On) tape.Save.Done = true;
-                if (tape.SaveChannel.On) tape.SaveChannel.Done = true;
+                if (tape.Actions.Save.On) tape.Actions.Save.Done = true;
+                if (tape.Actions.SaveChannel.On) tape.Actions.SaveChannel.Done = true;
             }
             
             // Report
@@ -206,9 +206,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 CourtesyFrames = GetCourtesyFrames
             };
             
-            dummyTape.DiskCache.On = GetDiskCache;
-            dummyTape.PlayAllTapes.On = GetPlayAllTapes;
-            dummyTape.Save.On = !inMemory;
+            dummyTape.Actions.DiskCache.On = GetDiskCache;
+            dummyTape.Actions.PlayAllTapes.On = GetPlayAllTapes;
+            dummyTape.Actions.Save.On = !inMemory;
 
             LogAction(dummyTape, "Create", "Buff Legacy");
             
@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 FallBackName = name,
             };
 
-            dummyTape.DiskCache.On = !inMemory;
+            dummyTape.Actions.DiskCache.On = !inMemory;
 
             MakeBuff(dummyTape, audioFileOutput, callerMemberName);
             

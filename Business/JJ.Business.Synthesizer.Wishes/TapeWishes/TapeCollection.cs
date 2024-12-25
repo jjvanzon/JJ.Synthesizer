@@ -56,8 +56,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             // Options
             
-            tape.DiskCache.On = _synthWishes.GetDiskCache;
-            tape.PlayAllTapes.On = _synthWishes.GetPlayAllTapes;
+            tape.Actions.DiskCache.On = _synthWishes.GetDiskCache;
+            tape.Actions.PlayAllTapes.On = _synthWishes.GetPlayAllTapes;
             tape.CourtesyFrames = _synthWishes.GetCourtesyFrames;
             
             // From Parameters
@@ -68,25 +68,25 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
 
-            tape.Intercept.Callback = tape.Intercept.Callback ?? callback;
-            tape.InterceptChannel.Callback = tape.InterceptChannel.Callback ?? channelCallback; 
+            tape.Actions.Intercept.Callback = tape.Actions.Intercept.Callback ?? callback;
+            tape.Actions.InterceptChannel.Callback = tape.Actions.InterceptChannel.Callback ?? channelCallback; 
 
             // Detect conflicting callback
             if (callback != null &&
-                tape.Intercept.Callback != null &&
-                tape.Intercept.Callback != callback)
+                tape.Actions.Intercept.Callback != null &&
+                tape.Actions.Intercept.Callback != callback)
             {
                 throw new Exception(
-                    "Different " + GetText(() => tape.Intercept.Callback) + 
+                    "Different " + GetText(() => tape.Actions.Intercept.Callback) + 
                     " passed than already assigned to the " + nameof(Tape) + "!");
             }
             
             if (channelCallback != null &&
-                tape.InterceptChannel.Callback != null &&
-                tape.InterceptChannel.Callback != channelCallback)
+                tape.Actions.InterceptChannel.Callback != null &&
+                tape.Actions.InterceptChannel.Callback != channelCallback)
             {
                 throw new Exception(
-                    "Different " + GetText(() => tape.InterceptChannel.Callback) +
+                    "Different " + GetText(() => tape.Actions.InterceptChannel.Callback) +
                     " passed than already assigned to the " + nameof(Tape) + "!");
             }
 

@@ -344,8 +344,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 Interpolation = synthWishes.GetInterpolation
             };
 
-            dummyTape.DiskCache.On = synthWishes.GetDiskCache;
-            dummyTape.PlayAllTapes.On = synthWishes.GetPlayAllTapes;
+            dummyTape.Actions.DiskCache.On = synthWishes.GetDiskCache;
+            dummyTape.Actions.PlayAllTapes.On = synthWishes.GetPlayAllTapes;
 
             LogAction(dummyTape, "Create", "AudioFileOutput Dummy");
             

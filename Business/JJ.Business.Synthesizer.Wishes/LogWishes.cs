@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public static string SynthLog(this Tape tape, double? calculationDuration = null) => LogWishes.SynthLog(tape, calculationDuration);
         public static string Descriptor(this Tape tape) => LogWishes.Descriptor(tape);
+        public static string Descriptor(this TapeActions actions) => LogWishes.Descriptor(actions);
         public static string Descriptor(this AudioFileOutput audioFileOutput) => LogWishes.Descriptor(audioFileOutput);
         
         public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
@@ -513,8 +514,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.Interpolation);
             
             string featuresDescriptor = FeaturesDescriptor(
-                diskCache: tape.DiskCache.On,
-                playAllTapes: tape.PlayAllTapes.On);
+                diskCache: tape.Actions.DiskCache.On,
+                playAllTapes: tape.Actions.PlayAllTapes.On);
 
             return ConfigLog(
                 title, 
@@ -722,6 +723,36 @@ namespace JJ.Business.Synthesizer.Wishes
             return formattedIDs;
         }
         
+        public static string Descriptor(TapeActions actions)
+        {
+            if (actions == null) throw new ArgumentNullException(nameof(actions));
+            
+            var elements = new List<string>();
+            
+            if (actions.Play.Done) elements.Add("played");
+            else if (actions.Play.On) elements.Add("play");
+            
+            if (actions.PlayChannel.Done) elements.Add("played-ch");
+            else if (actions.PlayChannel.On) elements.Add("play-ch");
+            
+            if (actions.Save.Done) elements.Add("saved");
+            else if (actions.Save.On) elements.Add("save");
+            
+            if (actions.SaveChannel.Done) elements.Add("saved-ch");
+            else if (actions.SaveChannel.On) elements.Add("save-ch");
+            
+            if (actions.Intercept.Done) elements.Add("intercepted");
+            else if (actions.Intercept.On) elements.Add("intercept");
+            
+            if (actions.InterceptChannel.Done) elements.Add("intercepted-ch");
+            else if (actions.InterceptChannel.On) elements.Add("intercept-ch");
+            
+            if (actions.Intercept.Callback != null) elements.Add("callback");
+            if (actions.InterceptChannel.Callback != null) elements.Add("callback-ch");
+
+            return Join(",", elements);
+        }
+        
         public static string Descriptor(Tape tape)
         {
             if (tape == null) return "<Tape=null>";
@@ -736,28 +767,11 @@ namespace JJ.Business.Synthesizer.Wishes
             // Add flag if true
             var flags = new List<string>();
             
+            string actionsDescriptor = Descriptor(tape.Actions);
+            
+            flags.Add(actionsDescriptor);
+            
             if (tape.IsTape) flags.Add("tape");
-            
-            if (tape.Play.Done) flags.Add("played");
-            else if (tape.Play.On) flags.Add("play");
-            
-            if (tape.PlayChannel.Done) flags.Add("played-ch");
-            else if (tape.PlayChannel.On) flags.Add("play-ch");
-            
-            if (tape.Save.Done) flags.Add("saved");
-            else if (tape.Save.On) flags.Add("save");
-            
-            if (tape.SaveChannel.Done) flags.Add("saved-ch");
-            else if (tape.SaveChannel.On) flags.Add("save-ch");
-            
-            if (tape.Intercept.Done) flags.Add("intercepted");
-            else if (tape.Intercept.On) flags.Add("intercept");
-            
-            if (tape.InterceptChannel.Done) flags.Add("intercepted-ch");
-            else if (tape.InterceptChannel.On) flags.Add("intercept-ch");
-            
-            if (tape.Intercept.Callback != null) flags.Add("callback");
-            if (tape.InterceptChannel.Callback != null) flags.Add("callback-ch");
             
             flags.Add(ChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
             

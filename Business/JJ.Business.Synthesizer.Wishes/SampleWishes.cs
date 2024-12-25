@@ -93,8 +93,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 CourtesyFrames = GetCourtesyFrames,
             };
 
-            dummyTape.DiskCache.On = GetDiskCache;
-            dummyTape.PlayAllTapes.On = GetPlayAllTapes;
+            dummyTape.Actions.DiskCache.On = GetDiskCache;
+            dummyTape.Actions.PlayAllTapes.On = GetPlayAllTapes;
 
             LogAction(dummyTape, "Create", "Sample Dummy");
 

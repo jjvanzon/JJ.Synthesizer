@@ -9,7 +9,6 @@ using JJ.Persistence.Synthesizer;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.PropertyNameWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -21,14 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public Tape()
         {
-            Play = new TapeAction(this, nameof(Play));
-            Save = new TapeAction(this, nameof(Save));
-            Intercept = new TapeAction(this, nameof(Intercept));
-            PlayChannel = new TapeAction(this, nameof(PlayChannel));
-            SaveChannel = new TapeAction(this, nameof(SaveChannel));
-            InterceptChannel = new TapeAction(this, nameof(InterceptChannel));
-            PlayAllTapes = new TapeAction(this, PropertyNameWishes.PlayAllTapes);
-            DiskCache = new TapeAction(this, PropertyNameWishes.DiskCache);
+            Actions = new TapeActions(this);
         }
         
         // Buff
@@ -106,26 +98,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         // Actions
 
+        public TapeActions Actions { get; }
+        public bool IsPadded { get; internal set; }
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get; internal set; }
-        public bool IsPadded { get; internal set; }
-        
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction Play { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction Save { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction Intercept { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction PlayChannel { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction SaveChannel { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction InterceptChannel { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction PlayAllTapes { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction DiskCache { get; }
 
         // Options
 
@@ -151,6 +127,46 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 child.ParentTapes.Remove(this);
             }
         }
+    }
+    
+    /// <inheritdoc cref="docs._tapeaction" />
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    public class TapeActions
+    {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+        
+        /// <summary> Always filled in. </summary>
+        public Tape Tape { get; }
+
+        internal TapeActions(Tape tape)
+        {
+            Tape = tape ?? throw new ArgumentNullException(nameof(tape));
+            Play = new TapeAction(tape, nameof(Play));
+            Save = new TapeAction(tape, nameof(Save));
+            Intercept = new TapeAction(tape, nameof(Intercept));
+            PlayChannel = new TapeAction(tape, nameof(PlayChannel));
+            SaveChannel = new TapeAction(tape, nameof(SaveChannel));
+            InterceptChannel = new TapeAction(tape, nameof(InterceptChannel));
+            PlayAllTapes = new TapeAction(tape, nameof(PlayAllTapes));
+            DiskCache = new TapeAction(tape, nameof(DiskCache));
+        }
+        
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction Play { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction Save { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction Intercept { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction PlayChannel { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction SaveChannel { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction InterceptChannel { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction PlayAllTapes { get; }
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction DiskCache { get; }
     }
     
     /// <inheritdoc cref="docs._tapeaction" />

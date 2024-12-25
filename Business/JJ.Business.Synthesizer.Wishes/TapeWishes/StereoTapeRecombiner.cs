@@ -71,35 +71,35 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Names
                 FilePathSuggested = sourceTape.FilePathSuggested,
                 FallBackName = sourceTape.FallBackName,
-                
+
                 // Durations
                 Duration = sourceTape.Duration,
                 LeadingSilence = sourceTape.LeadingSilence,
                 TrailingSilence = sourceTape.TrailingSilence,
-                
+
                 // Audio Properties
                 SamplingRate = sourceTape.SamplingRate,
                 Bits = sourceTape.Bits,
                 Channels = sourceTape.Channels,
                 AudioFormat = sourceTape.AudioFormat,
                 Interpolation = sourceTape.Interpolation,
-                
+
                 // Options
                 CourtesyFrames = sourceTape.CourtesyFrames,
-                
+
                 // Actions
-                IsTape = sourceTape.IsTape,
-                IsPadded = sourceTape.IsPadded
+                IsPadded = sourceTape.IsPadded,
+                IsTape = sourceTape.IsTape
             };
-            
-            CloneAction(sourceTape.Play, destTape.Play);
-            CloneAction(sourceTape.Save, destTape.Save);
-            CloneAction(sourceTape.Intercept, destTape.Intercept);
-            CloneAction(sourceTape.PlayChannel, destTape.PlayChannel);
-            CloneAction(sourceTape.SaveChannel, destTape.SaveChannel);
-            CloneAction(sourceTape.InterceptChannel, destTape.InterceptChannel);
-            CloneAction(sourceTape.DiskCache, destTape.DiskCache);
-            CloneAction(sourceTape.PlayAllTapes, destTape.PlayAllTapes);
+
+            CloneAction(sourceTape.Actions.Play, destTape.Actions.Play);
+            CloneAction(sourceTape.Actions.Save, destTape.Actions.Save);
+            CloneAction(sourceTape.Actions.Intercept, destTape.Actions.Intercept);
+            CloneAction(sourceTape.Actions.PlayChannel, destTape.Actions.PlayChannel);
+            CloneAction(sourceTape.Actions.SaveChannel, destTape.Actions.SaveChannel);
+            CloneAction(sourceTape.Actions.InterceptChannel, destTape.Actions.InterceptChannel);
+            CloneAction(sourceTape.Actions.DiskCache, destTape.Actions.DiskCache);
+            CloneAction(sourceTape.Actions.PlayAllTapes, destTape.Actions.PlayAllTapes);
             
             LogAction(destTape, "Create", "Stereo Recombined");
             

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public void RunAfterRecord(Tape tape)
         {
-            _channelActionRunner.InterceptIfNeeded(tape.InterceptChannel);
+            _channelActionRunner.InterceptIfNeeded(tape.Actions.InterceptChannel);
         }
         
         public void RunForPostProcessing(IList<Tape> normalTapes, IList<Tape> stereoTapes)
@@ -161,8 +161,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapes == null) throw new NullException(() => tapes);
             foreach (Tape tape in tapes)
             {
-                InterceptIfNeeded(tape.Intercept);
-                InterceptIfNeeded(tape.InterceptChannel);
+                InterceptIfNeeded(tape.Actions.Intercept);
+                InterceptIfNeeded(tape.Actions.InterceptChannel);
             }
         }
         
@@ -171,8 +171,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapes == null) throw new NullException(() => tapes);
             foreach (Tape tape in tapes)
             {
-                SaveIfNeeded(tape.Save);
-                SaveIfNeeded(tape.SaveChannel);
+                SaveIfNeeded(tape.Actions.Save);
+                SaveIfNeeded(tape.Actions.SaveChannel);
             }
         }
         
@@ -181,8 +181,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapes == null) throw new NullException(() => tapes);
             foreach (Tape tape in tapes)
             {
-                PlayIfNeeded(tape.Play);
-                PlayIfNeeded(tape.PlayChannel);
+                PlayIfNeeded(tape.Actions.Play);
+                PlayIfNeeded(tape.Actions.PlayChannel);
             }
         }
         
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapes == null) throw new NullException(() => tapes);
             foreach (Tape tape in tapes)
             {
-                CacheToDiskIfNeeded(tape.DiskCache);
+                CacheToDiskIfNeeded(tape.Actions.DiskCache);
             }
         }
         
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapes == null) throw new NullException(() => tapes);
             foreach (Tape tape in tapes)
             {
-                PlayForAllTapesIfNeeded(tape.PlayAllTapes);
+                PlayForAllTapesIfNeeded(tape.Actions.PlayAllTapes);
             }
         }
         
@@ -216,14 +216,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            InterceptIfNeeded(tape.Intercept);
-            InterceptIfNeeded(tape.InterceptChannel);
-            SaveIfNeeded(tape.Save);
-            SaveIfNeeded(tape.SaveChannel);
-            PlayIfNeeded(tape.Play);
-            PlayIfNeeded(tape.PlayChannel);
-            CacheToDiskIfNeeded(tape.DiskCache);
-            PlayForAllTapesIfNeeded(tape.PlayAllTapes);
+            InterceptIfNeeded(tape.Actions.Intercept);
+            InterceptIfNeeded(tape.Actions.InterceptChannel);
+            SaveIfNeeded(tape.Actions.Save);
+            SaveIfNeeded(tape.Actions.SaveChannel);
+            PlayIfNeeded(tape.Actions.Play);
+            PlayIfNeeded(tape.Actions.PlayChannel);
+            CacheToDiskIfNeeded(tape.Actions.DiskCache);
+            PlayForAllTapesIfNeeded(tape.Actions.PlayAllTapes);
         }
     }
 }
