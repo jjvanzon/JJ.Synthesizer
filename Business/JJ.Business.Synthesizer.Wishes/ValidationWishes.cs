@@ -7,19 +7,49 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 // ReSharper disable RedundantNameQualifier
 // ReSharper disable CheckNamespace
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Validation
+    // SynthWishes Validation
+    
+    public partial class SynthWishes
+    {
+        private void AssertTapes()
+        {
+            var rootTapes = _tapes.Where(x => x.ParentTapes.Count == 0).ToArray();
+            AssertTapes(rootTapes);
+        }
+        
+        internal static void AssertTapes(Tape[] tapes)
+        {
+            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
+            var signals = tapes.SelectMany(x => x.ConcatSignals()).ToArray();
+            AssertSignals(signals);
+        }
+        
+        internal static void AssertSignals(IList<FlowNode> signals)
+        {
+            if (signals == null) throw new ArgumentNullException(nameof(signals));
+            LogPrettyTitle("Validating");
+            signals.ForEach(x => x.Assert());
+            LogLine("Done");
+            LogLine();
+        }
+    }
+    
+    
     
     // FlowNode Validation
-
+    
     public partial class FlowNode
     {
         public Result Validate(bool recursive = true) => _underlyingOutlet.Validate(recursive);

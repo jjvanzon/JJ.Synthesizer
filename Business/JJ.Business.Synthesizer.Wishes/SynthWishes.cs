@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
+using System.Linq;
 using System.Reflection;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
@@ -14,7 +14,6 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -119,7 +118,9 @@ namespace JJ.Business.Synthesizer.Wishes
             RunChannelSignals(action);
 
             LogConfig(this);
-
+            
+            AssertTapes();
+            
             if (GetParallelProcessing)
             {
                 _tapeRunner.RunAllTapes();
@@ -129,6 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 throw new Exception("Run method cannot work without ParallelProcessing.");
             }
         }
+        
         
         internal IList<FlowNode> GetChannelSignals(Func<FlowNode> func)
         {

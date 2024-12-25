@@ -113,17 +113,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             audioFileOutput.Name = resolvedName;
 
-            // Validate
-            
-            #if DEBUG
-            audioFileOutput.Assert();
-            #endif
-            
-            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-            {
-                audioFileOutputChannel.Outlet?.Assert();
-            }
-
             // Inject stream where back-end originally created it internally.
             byte[] bytes = null;
             var calculator = CreateAudioFileOutputCalculator(audioFileOutput);
@@ -158,6 +147,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (!inMemory)
             {
+                // Mark Save Actions as Done to avoid duplicate saves.
                 if (tape.Actions.Save.On) tape.Actions.Save.Done = true;
                 if (tape.Actions.SaveChannels.On) tape.Actions.SaveChannels.Done = true;
             }
