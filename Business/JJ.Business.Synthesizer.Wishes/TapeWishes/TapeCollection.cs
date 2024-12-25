@@ -7,6 +7,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Math;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Reflection.ExpressionHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -30,12 +31,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
+            bool isNew = false;
+            
             if (!_tapes.TryGetValue(signal, out Tape tape))
             {
+                isNew = true;
                 _tapes[signal] = tape = new Tape();
                 tape.Signal = signal;
             }
-
+            
             // Durations
             
             tape.LeadingSilence = _synthWishes.GetLeadingSilence.Value;
@@ -72,14 +76,27 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 tape.Intercept.Callback != null &&
                 tape.Intercept.Callback != callback)
             {
-                throw new Exception("Different " + GetText(() => tape.Intercept.Callback) + " passed than already assigned to the " + nameof(Tape) + "!");
+                throw new Exception(
+                    "Different " + GetText(() => tape.Intercept.Callback) + 
+                    " passed than already assigned to the " + nameof(Tape) + "!");
             }
             
             if (channelCallback != null &&
                 tape.InterceptChannel.Callback != null &&
                 tape.InterceptChannel.Callback != channelCallback)
             {
-                throw new Exception("Different " + GetText(() => tape.InterceptChannel.Callback) + " passed than already assigned to the " + nameof(Tape) + "!");
+                throw new Exception(
+                    "Different " + GetText(() => tape.InterceptChannel.Callback) +
+                    " passed than already assigned to the " + nameof(Tape) + "!");
+            }
+
+            if (isNew)
+            {
+                LogAction(tape, "Create");
+            }
+            else
+            {
+                LogAction(tape, "Update");
             }
 
             return tape;
@@ -104,6 +121,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tape.Signal == null) throw new NullException(() => tape.Signal);
             
             _tapes.Remove(tape.Signal);
+            
+            LogAction(tape, "Delete", "Replaced by padded");
         }
         
         public void Clear() => _tapes.Clear();
