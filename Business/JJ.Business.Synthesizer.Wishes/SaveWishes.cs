@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         // SynthWishes Statics (Buff-to-Buff) (End-of-Chain)
-                
+        
         public static TapeAction Save(
             TapeAction action, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
