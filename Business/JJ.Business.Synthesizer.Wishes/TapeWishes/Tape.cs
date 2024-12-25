@@ -128,47 +128,62 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
     }
-    
+
     /// <inheritdoc cref="docs._tapeaction" />
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeActions
     {
         string DebuggerDisplay => GetDebuggerDisplay(this);
-        
-        /// <summary> Always filled in. </summary>
-        public Tape Tape { get; }
 
         internal TapeActions(Tape tape)
         {
             Tape = tape ?? throw new ArgumentNullException(nameof(tape));
             Play = new TapeAction(tape, nameof(Play));
             Save = new TapeAction(tape, nameof(Save));
-            Intercept = new TapeAction(tape, nameof(Intercept));
+            BeforeRecord = new TapeAction(tape, nameof(BeforeRecord));
+            AfterRecord = new TapeAction(tape, nameof(AfterRecord));
             PlayChannel = new TapeAction(tape, nameof(PlayChannel));
             SaveChannel = new TapeAction(tape, nameof(SaveChannel));
-            InterceptChannel = new TapeAction(tape, nameof(InterceptChannel));
+            BeforeRecordChannel = new TapeAction(tape, nameof(BeforeRecordChannel));
+            AfterRecordChannel = new TapeAction(tape, nameof(AfterRecordChannel));
             PlayAllTapes = new TapeAction(tape, nameof(PlayAllTapes));
             DiskCache = new TapeAction(tape, nameof(DiskCache));
         }
-        
+                
+        /// <summary> Always filled in. </summary>
+        public Tape Tape { get; }
+
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction Play { get; }
+        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction Save { get; }
+        
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction Intercept { get; }
+        public TapeAction BeforeRecord { get; }
+        
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction AfterRecord { get; }
+        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction PlayChannel { get; }
+        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction SaveChannel { get; }
+        
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction InterceptChannel { get; }
+        public TapeAction BeforeRecordChannel { get; }
+        
+        /// <inheritdoc cref="docs._tapeaction" />
+        public TapeAction AfterRecordChannel { get; }
+        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction PlayAllTapes { get; }
+        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction DiskCache { get; }
     }
-    
+        
     /// <inheritdoc cref="docs._tapeaction" />
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeAction

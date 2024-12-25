@@ -59,10 +59,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogAction(paddedTape, "Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             // Remove original tape if it has no other purposes.
-            bool hasIntercept        = tape.Actions.Intercept       .On && tape.Actions.Intercept       .Callback != null;
-            bool hasInterceptChannel = tape.Actions.InterceptChannel.On && tape.Actions.InterceptChannel.Callback != null;
-            
-            if (!hasIntercept && !hasInterceptChannel)
+            bool hasIntercept        = tape.Actions.BeforeRecord.On        || tape.Actions.BeforeRecord.Callback != null        ||
+                                       tape.Actions.AfterRecord.On         || tape.Actions.AfterRecord.Callback != null         ||
+                                       tape.Actions.BeforeRecordChannel.On || tape.Actions.BeforeRecordChannel.Callback != null ||
+                                       tape.Actions.AfterRecordChannel.On  || tape.Actions.AfterRecordChannel.Callback != null;
+            if (!hasIntercept)
             {
                 _tapes.Remove(tape);
             }
@@ -79,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode newNode = _synthWishes.Delay(tape.Signal, tape.LeadingSilence).SetName(tape.GetName() + " Padded");
             
             // Add tape
-            Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[tape.Duration], null, null, tape.FilePathSuggested);
+            Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[tape.Duration], null, null, null, null, tape.FilePathSuggested);
             
             // Clone Names
             paddedTape.FallBackName = tape.FallBackName;

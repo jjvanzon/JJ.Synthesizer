@@ -56,14 +56,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 PlayDone = x.Actions.Play.Done,
                 SaveOn = x.Actions.Save.On,
                 SaveDone = x.Actions.Save.Done,
-                InterceptOn = x.Actions.Intercept.On,
-                InterceptDone = x.Actions.Intercept.Done,
+                BeforeRecordOn = x.Actions.BeforeRecord.On,
+                BeforeRecordDone = x.Actions.BeforeRecord.Done,
+                AfterRecordOn = x.Actions.AfterRecord.On,
+                AfterRecordDone = x.Actions.AfterRecord.Done,
                 PlayChannelOn = x.Actions.PlayChannel.On,
                 PlayChannelDone = x.Actions.PlayChannel.Done,
                 SaveChannelOn = x.Actions.SaveChannel.On,
                 SaveChannelDone = x.Actions.SaveChannel.Done,
-                InterceptChannelOn = x.Actions.InterceptChannel.On,
-                InterceptChannelDone = x.Actions.InterceptChannel.Done
+                BeforeRecordChannelOn = x.Actions.BeforeRecordChannel.On,
+                BeforeRecordChannelDone = x.Actions.BeforeRecordChannel.Done,
+                AfterRecordChannelOn = x.Actions.AfterRecordChannel.On,
+                AfterRecordChannelDone = x.Actions.AfterRecordChannel.Done
             });
             
             foreach (var group in groupedByMetaData)

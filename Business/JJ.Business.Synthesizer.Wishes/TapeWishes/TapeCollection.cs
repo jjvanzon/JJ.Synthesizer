@@ -26,7 +26,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public Tape GetOrCreate(
             FlowNode signal, FlowNode duration, 
-            Action<Tape> callback, Action<Tape> channelCallback,
+            Action<Tape> beforeRecordCallback, Action<Tape> afterRecordCallback, 
+            Action<Tape> beforeRecordChannelCallback, Action<Tape> afterRecordChannelCallback,
             string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
@@ -68,27 +69,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
 
-            tape.Actions.Intercept.Callback = tape.Actions.Intercept.Callback ?? callback;
-            tape.Actions.InterceptChannel.Callback = tape.Actions.InterceptChannel.Callback ?? channelCallback; 
-
-            // Detect conflicting callback
-            if (callback != null &&
-                tape.Actions.Intercept.Callback != null &&
-                tape.Actions.Intercept.Callback != callback)
-            {
-                throw new Exception(
-                    "Different " + GetText(() => tape.Actions.Intercept.Callback) + 
-                    " passed than already assigned to the " + nameof(Tape) + "!");
-            }
+            tape.Actions.BeforeRecord.Callback = tape.Actions.BeforeRecord.Callback ?? beforeRecordCallback;
+            tape.Actions.AfterRecord.Callback = tape.Actions.AfterRecord.Callback ?? afterRecordCallback;
+            tape.Actions.BeforeRecordChannel.Callback = tape.Actions.BeforeRecordChannel.Callback ?? beforeRecordChannelCallback; 
+            tape.Actions.AfterRecordChannel.Callback = tape.Actions.AfterRecordChannel.Callback ?? afterRecordChannelCallback; 
             
-            if (channelCallback != null &&
-                tape.Actions.InterceptChannel.Callback != null &&
-                tape.Actions.InterceptChannel.Callback != channelCallback)
-            {
-                throw new Exception(
-                    "Different " + GetText(() => tape.Actions.InterceptChannel.Callback) +
-                    " passed than already assigned to the " + nameof(Tape) + "!");
-            }
+            AssertCallback(tape.Actions.BeforeRecord, beforeRecordCallback);
+            AssertCallback(tape.Actions.AfterRecord, afterRecordCallback);
+            AssertCallback(tape.Actions.BeforeRecordChannel, beforeRecordChannelCallback);
+            AssertCallback(tape.Actions.AfterRecordChannel, afterRecordChannelCallback);
 
             if (isNew)
             {
@@ -100,6 +89,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
 
             return tape;
+        }
+        
+        /// <summary>
+        /// Detect conflicting callback
+        /// </summary>
+        private void AssertCallback(TapeAction action, Action<Tape> callback)
+        {
+            if (action == null) throw new ArgumentNullException(nameof(action));
+            
+            if (callback != null &&
+                action.Callback != null &&
+                action.Callback != callback)
+            {
+                throw new Exception($"Different {action.Name} {nameof(callback)} passed than already assigned to the {nameof(Tape)}!");
+            }
         }
         
         public bool IsTape(Outlet outlet)

@@ -509,7 +509,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 var  accessor = new FMTestsAccessor(new FMTests());
                 Buff buff     = null;
-                accessor.Run(() => accessor.Jingle().Intercept(x => buff = x.Buff));
+                accessor.Run(() => accessor.Jingle().AfterRecord(x => buff = x.Buff));
                 TestBuffComplexity(buff);
             }
         }

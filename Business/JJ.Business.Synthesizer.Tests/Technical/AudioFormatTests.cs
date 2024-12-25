@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithAudioLength(DURATION);
             Tape signalTapeNew = null;
-            Run(() => Intercept(Signal(_[frequency], callerMemberName), x => signalTapeNew = x, callerMemberName));
+            Run(() => Signal(_[frequency], callerMemberName).AfterRecord(x => signalTapeNew = x, callerMemberName));
             IsNotNull(() => signalTapeNew);
             Buff signalBuffNew = signalTapeNew.Buff;
             AudioFileOutput signalAudioFileOutputNew = signalBuffNew.UnderlyingAudioFileOutput;
@@ -325,7 +325,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             WithAudioLength(DURATION2);
             Tape reloadedSampleTapeNew = null;
-            Run(() => ReloadSampleNew().Intercept(x => reloadedSampleTapeNew = x));
+            Run(() => ReloadSampleNew().AfterRecord(x => reloadedSampleTapeNew = x));
             IsNotNull(() => reloadedSampleTapeNew);
             
             reloadedSampleTapeNew.Save(callerMemberName + "_" + nameof(reloadedSampleTapeNew));

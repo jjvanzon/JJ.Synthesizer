@@ -94,10 +94,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             CloneAction(sourceTape.Actions.Play, destTape.Actions.Play);
             CloneAction(sourceTape.Actions.Save, destTape.Actions.Save);
-            CloneAction(sourceTape.Actions.Intercept, destTape.Actions.Intercept);
+            CloneAction(sourceTape.Actions.BeforeRecord, destTape.Actions.BeforeRecord);
+            CloneAction(sourceTape.Actions.AfterRecord, destTape.Actions.AfterRecord);
             CloneAction(sourceTape.Actions.PlayChannel, destTape.Actions.PlayChannel);
             CloneAction(sourceTape.Actions.SaveChannel, destTape.Actions.SaveChannel);
-            CloneAction(sourceTape.Actions.InterceptChannel, destTape.Actions.InterceptChannel);
+            CloneAction(sourceTape.Actions.BeforeRecordChannel, destTape.Actions.BeforeRecordChannel);
+            CloneAction(sourceTape.Actions.AfterRecordChannel, destTape.Actions.AfterRecordChannel);
             CloneAction(sourceTape.Actions.DiskCache, destTape.Actions.DiskCache);
             CloneAction(sourceTape.Actions.PlayAllTapes, destTape.Actions.PlayAllTapes);
             

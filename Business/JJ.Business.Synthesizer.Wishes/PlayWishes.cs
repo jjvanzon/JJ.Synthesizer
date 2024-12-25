@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(signal, duration, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrCreate(signal, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.Play.On = true;
             return signal;
         }
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode channelSignal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(channelSignal, duration, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrCreate(channelSignal, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.PlayChannel.On = true;
             return channelSignal;
         }

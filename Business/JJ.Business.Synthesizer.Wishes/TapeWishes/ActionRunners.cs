@@ -14,9 +14,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
         // Run in Stages of Processing
         
+        public void RunBeforeRecord(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            _channelActionRunner.InterceptIfNeeded(tape.Actions.BeforeRecordChannel);
+            _monoActionRunner.InterceptIfNeeded(tape.Actions.BeforeRecord);
+        }
+        
         public void RunAfterRecord(Tape tape)
         {
-            _channelActionRunner.InterceptIfNeeded(tape.Actions.InterceptChannel);
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            _channelActionRunner.InterceptIfNeeded(tape.Actions.AfterRecordChannel);
+            _monoActionRunner.InterceptIfNeeded(tape.Actions.AfterRecord);
         }
         
         public void RunForPostProcessing(IList<Tape> normalTapes, IList<Tape> stereoTapes)
@@ -25,9 +34,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _monoActionRunner.CacheToDiskIfNeeded(normalTapes);
             _stereoActionRunner.CacheToDiskIfNeeded(stereoTapes);
 
-            // Channel-specific variation is run per tape instead.
-            _monoActionRunner.InterceptIfNeeded(normalTapes);
-            _stereoActionRunner.InterceptIfNeeded(stereoTapes);
+            // Mono and channel-specific variations are run per tape instead.
+            _stereoActionRunner.RunAfterRecordIfNeeded(stereoTapes);
             
             _channelActionRunner.SaveIfNeeded(normalTapes);
             _monoActionRunner.SaveIfNeeded(normalTapes);
@@ -94,14 +102,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
         
-        public void PlayForAllTapesIfNeeded(TapeAction action)
-        {
-            if (CanPlay(action))
-            {
-                action.Play();
-            }
-        }
-        
         // Condition Checking
         
         protected virtual bool ExtraCondition(TapeAction action) => true;
@@ -156,13 +156,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Run Lists per Action Type
         
-        public void InterceptIfNeeded(IList<Tape> tapes)
+        public void RunAfterRecordIfNeeded(IList<Tape> tapes)
         {
             if (tapes == null) throw new NullException(() => tapes);
             foreach (Tape tape in tapes)
             {
-                InterceptIfNeeded(tape.Actions.Intercept);
-                InterceptIfNeeded(tape.Actions.InterceptChannel);
+                InterceptIfNeeded(tape.Actions.AfterRecord);
+                InterceptIfNeeded(tape.Actions.AfterRecordChannel);
             }
         }
         
@@ -200,30 +200,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (tapes == null) throw new NullException(() => tapes);
             foreach (Tape tape in tapes)
             {
-                PlayForAllTapesIfNeeded(tape.Actions.PlayAllTapes);
+                PlayIfNeeded(tape.Actions.PlayAllTapes);
             }
-        }
-        
-        // Run All Action Types
-        
-        public void RunActions(IList<Tape> tapes)
-        {
-            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
-            tapes.ForEach(RunActions);
-        }
-        
-        public void RunActions(Tape tape)
-        {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
-            
-            InterceptIfNeeded(tape.Actions.Intercept);
-            InterceptIfNeeded(tape.Actions.InterceptChannel);
-            SaveIfNeeded(tape.Actions.Save);
-            SaveIfNeeded(tape.Actions.SaveChannel);
-            PlayIfNeeded(tape.Actions.Play);
-            PlayIfNeeded(tape.Actions.PlayChannel);
-            CacheToDiskIfNeeded(tape.Actions.DiskCache);
-            PlayForAllTapesIfNeeded(tape.Actions.PlayAllTapes);
         }
     }
 }

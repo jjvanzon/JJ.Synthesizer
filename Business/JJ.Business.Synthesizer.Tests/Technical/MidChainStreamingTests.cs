@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Tape tape = default;
             
-            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).Intercept(x => tape = x));
+            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).AfterRecord(x => tape = x));
             
             IsNotNull(() => tape);
             
@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Tape tape2 = default;
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).
-                      Intercept(x => tape1 = x).SpeedUp(1.5).Intercept(x => tape2 = x));
+                      AfterRecord(x => tape1 = x).SpeedUp(1.5).AfterRecord(x => tape2 = x));
             
             IsNotNull(() => tape1);
             IsNotNull(() => tape2);
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Tape tape = default;
             
-            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => tape = x));
+            Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).AfterRecordChannel(x => tape = x));
             
             IsNotNull(() => tape);
             
@@ -197,8 +197,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Tape tape2 = default;
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).
-                      InterceptChannel(x => tape1 = x).
-                      SpeedUp(1.5).InterceptChannel(x => tape2 = x));
+                      AfterRecordChannel(x => tape1 = x).
+                      SpeedUp(1.5).AfterRecordChannel(x => tape2 = x));
                 
             IsNotNull(() => tape1);
             IsNotNull(() => tape2);
@@ -219,11 +219,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Run(() => Add
             (
-                Sine(RandomNotes[5] * 1).Volume(StereoDynamics * DelayedPulse).Volume(1.0).InterceptChannel(x => tape1 = x),
+                Sine(RandomNotes[5] * 1).Volume(StereoDynamics * DelayedPulse).Volume(1.0).AfterRecordChannel(x => tape1 = x),
                 Sine(RandomNotes[5] * 2).Volume(StereoDynamics * DelayedPulse).Volume(0.05),
-                Sine(RandomNotes[5] * 3).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => tape2 = x).Volume(0.02),
+                Sine(RandomNotes[5] * 3).Volume(StereoDynamics * DelayedPulse).AfterRecordChannel(x => tape2 = x).Volume(0.02),
                 Sine(RandomNotes[5] * 4).Volume(StereoDynamics * DelayedPulse).Volume(0.03),
-                Sine(RandomNotes[5] * 5).Volume(StereoDynamics * DelayedPulse).Volume(0.01).InterceptChannel(x => tape3 = x)
+                Sine(RandomNotes[5] * 5).Volume(StereoDynamics * DelayedPulse).Volume(0.01).AfterRecordChannel(x => tape3 = x)
             ));
             
             IsNotNull(() => tape1);
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
             Tape tape = default;
             
-            Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics * DelayedPulse).Intercept(x => tape = x));
+            Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics * DelayedPulse).AfterRecord(x => tape = x));
             
             IsNotNull(() => tape);
             
@@ -284,8 +284,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Tape tape2 = default;
             
             Run(() => Sine(RandomNotes[11]).Volume(StereoDynamics * DelayedPulse).
-                      Intercept(x => tape1 = x).
-                      SpeedUp(1.5).Intercept(x => tape2 = x));
+                      AfterRecord(x => tape1 = x).
+                      SpeedUp(1.5).AfterRecord(x => tape2 = x));
             
             IsNotNull(() => tape1);
             IsNotNull(() => tape2);
@@ -326,7 +326,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var tapes = new Tape[2];
             
-            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).InterceptChannel(x => tapes[x.Channel.Value] = x));
+            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).AfterRecordChannel(x => tapes[x.Channel.Value] = x));
             
             IsNotNull(() => tapes[0]);
             IsNotNull(() => tapes[1]);
@@ -348,8 +348,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var tapes2 = new Tape[2];
             
             Run(() => Sine(RandomNotes[16]).Volume(StereoDynamics * DelayedPulse).
-                      InterceptChannel(x => tapes1[x.Channel.Value] = x).SpeedUp(1.5).
-                      InterceptChannel(x => tapes2[x.Channel.Value] = x));
+                      AfterRecordChannel(x => tapes1[x.Channel.Value] = x).SpeedUp(1.5).
+                      AfterRecordChannel(x => tapes2[x.Channel.Value] = x));
             
             IsNotNull(() => tapes1[0]);
             IsNotNull(() => tapes1[1]);
@@ -381,7 +381,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sine(RandomNotes[17] * 2).Volume(StereoDynamics * DelayedPulse).Volume(0.2),
                 Sine(RandomNotes[17] * 3).Volume(StereoDynamics * DelayedPulse).Panning(0.03).Play("Play2").Volume(0.1),
                 Sine(RandomNotes[17] * 4).Volume(StereoDynamics * DelayedPulse).Volume(0.08),
-                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics * DelayedPulse).Panning(0.9).InterceptChannel(x => x.Play().Save())
+                Sine(RandomNotes[17] * 5).Volume(0.05).Volume(StereoDynamics * DelayedPulse).Panning(0.9).AfterRecordChannel(x => x.Play().Save())
             ).Play();
         }
     }

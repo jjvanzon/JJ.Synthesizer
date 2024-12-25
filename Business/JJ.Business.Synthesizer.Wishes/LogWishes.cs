@@ -741,14 +741,22 @@ namespace JJ.Business.Synthesizer.Wishes
             if (actions.SaveChannel.Done) elements.Add("saved-ch");
             else if (actions.SaveChannel.On) elements.Add("save-ch");
             
-            if (actions.Intercept.Done) elements.Add("intercepted");
-            else if (actions.Intercept.On) elements.Add("intercept");
+            if (actions.BeforeRecord.Done) elements.Add("before-done");
+            else if (actions.BeforeRecord.On) elements.Add("before");
             
-            if (actions.InterceptChannel.Done) elements.Add("intercepted-ch");
-            else if (actions.InterceptChannel.On) elements.Add("intercept-ch");
+            if (actions.AfterRecord.Done) elements.Add("after-done");
+            else if (actions.AfterRecord.On) elements.Add("after");
             
-            if (actions.Intercept.Callback != null) elements.Add("callback");
-            if (actions.InterceptChannel.Callback != null) elements.Add("callback-ch");
+            if (actions.BeforeRecordChannel.Done) elements.Add("before-ch-done");
+            else if (actions.BeforeRecordChannel.On) elements.Add("before-ch");
+            
+            if (actions.AfterRecordChannel.Done) elements.Add("after-ch-done");
+            else if (actions.AfterRecordChannel.On) elements.Add("after-ch");
+            
+            if (actions.BeforeRecord.Callback != null) elements.Add("callback");
+            if (actions.AfterRecord.Callback != null) elements.Add("callback");
+            if (actions.BeforeRecordChannel.Callback != null) elements.Add("callback");
+            if (actions.AfterRecordChannel.Callback != null) elements.Add("callback");
 
             return Join(",", elements);
         }

@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests
         /// Testing extension methods in <see cref="docs._AudioFileExtensionWishes" />
         /// that didn't get any coverage elsewhere.
         /// </summary>
-        public static object _testaudiofileextensionwishes;
+        public static object _testaudiopropertywishes;
 
         /// <summary>
         /// Aims to test rare exception for code coverage.
