@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(), audioFileOutput, callerMemberName);
-            bool inMemory = !(tape.Actions.DiskCache.On || tape.Actions.Save.On || tape.Actions.SaveChannel.On);
+            bool inMemory = !(tape.Actions.DiskCache.On || tape.Actions.Save.On || tape.Actions.SaveChannels.On);
 
             audioFileOutput.Name = resolvedName;
 
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!inMemory)
             {
                 if (tape.Actions.Save.On) tape.Actions.Save.Done = true;
-                if (tape.Actions.SaveChannel.On) tape.Actions.SaveChannel.Done = true;
+                if (tape.Actions.SaveChannels.On) tape.Actions.SaveChannels.Done = true;
             }
             
             // Report

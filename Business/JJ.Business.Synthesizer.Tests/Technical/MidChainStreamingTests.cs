@@ -117,58 +117,58 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             tape2.Save().Play();
         }
 
-        [TestMethod] public void Mono_PlayChannel_Test() => Run(Mono_PlayChannel);
-        void Mono_PlayChannel()
+        [TestMethod] public void Mono_PlayChannels_Test() => Run(Mono_PlayChannels);
+        void Mono_PlayChannels()
         {
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).PlayChannel();
+            WithMono().Sine(RandomNote).Volume(StereoDynamics).PlayChannels();
         }
         
-        [TestMethod] public void Mono_PlayChannel_Test_2Calls() => Run(Mono_PlayChannel_2Calls);
-        void Mono_PlayChannel_2Calls()
+        [TestMethod] public void Mono_PlayChannels_Test_2Calls() => Run(Mono_PlayChannels_2Calls);
+        void Mono_PlayChannels_2Calls()
         {
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).PlayChannel().SpeedUp(1.5).PlayChannel();
+            WithMono().Sine(RandomNote).Volume(StereoDynamics).PlayChannels().SpeedUp(1.5).PlayChannels();
         }
         
-        [TestMethod] public void Mono_PlayChannel_Test_3Calls() => Run(Mono_PlayChannel_3Calls);
-        void Mono_PlayChannel_3Calls()
+        [TestMethod] public void Mono_PlayChannels_Test_3Calls() => Run(Mono_PlayChannels_3Calls);
+        void Mono_PlayChannels_3Calls()
         {
             WithMono();
             
             Add
             (
-                Sine(RandomNotes[3] * 1).Volume(StereoDynamics).Volume(1.0).PlayChannel(),
+                Sine(RandomNotes[3] * 1).Volume(StereoDynamics).Volume(1.0).PlayChannels(),
                 Sine(RandomNotes[3] * 2).Volume(StereoDynamics).Volume(0.1),
-                Sine(RandomNotes[3] * 3).Volume(StereoDynamics).Volume(0.15).PlayChannel(),
+                Sine(RandomNotes[3] * 3).Volume(StereoDynamics).Volume(0.15).PlayChannels(),
                 Sine(RandomNotes[3] * 4).Volume(StereoDynamics).Volume(0.08),
-                Sine(RandomNotes[3] * 5).Volume(StereoDynamics).Volume(0.05).PlayChannel()
+                Sine(RandomNotes[3] * 5).Volume(StereoDynamics).Volume(0.05).PlayChannels()
             ).Play();
         }
         
-        [TestMethod] public void Mono_SaveChannel_Test() => Run(Mono_SaveChannel);
-        void Mono_SaveChannel()
+        [TestMethod] public void Mono_SaveChannels_Test() => Run(Mono_SaveChannels);
+        void Mono_SaveChannels()
         {
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).SaveChannel().Play();
+            WithMono().Sine(RandomNote).Volume(StereoDynamics).SaveChannels().Play();
         }
         
         [TestMethod] 
-        public void Mono_SaveChannel_Test_2Calls() => Run(Mono_SaveChannel_2Calls);
-        void Mono_SaveChannel_2Calls()
+        public void Mono_SaveChannels_Test_2Calls() => Run(Mono_SaveChannels_2Calls);
+        void Mono_SaveChannels_2Calls()
         {
-            WithMono().Sine(RandomNote).Volume(StereoDynamics).SaveChannel().SpeedUp(1.5).SaveChannel().Play();
+            WithMono().Sine(RandomNote).Volume(StereoDynamics).SaveChannels().SpeedUp(1.5).SaveChannels().Play();
         }
 
-        [TestMethod] public void Mono_SaveChannel_Test_3Calls() => Run(Mono_SaveChannel_3Calls);
-        void Mono_SaveChannel_3Calls()
+        [TestMethod] public void Mono_SaveChannels_Test_3Calls() => Run(Mono_SaveChannels_3Calls);
+        void Mono_SaveChannels_3Calls()
         {
             WithMono();
             
             Add
             (
-                Sine(RandomNotes[4] * 1).Volume(StereoDynamics).Volume(1.0).SaveChannel(MemberName() + " Partial 1"),
+                Sine(RandomNotes[4] * 1).Volume(StereoDynamics).Volume(1.0).SaveChannels(MemberName() + " Partial 1"),
                 Sine(RandomNotes[4] * 2).Volume(StereoDynamics).Volume(0.1),
-                Sine(RandomNotes[4] * 3).Volume(StereoDynamics).SaveChannel(ResolveName() + " Partial 2").Volume(0.05),
+                Sine(RandomNotes[4] * 3).Volume(StereoDynamics).SaveChannels(ResolveName() + " Partial 2").Volume(0.05),
                 Sine(RandomNotes[4] * 4).Volume(StereoDynamics).Volume(0.01),
-                Sine(RandomNotes[4] * 5).Volume(StereoDynamics).Volume(0.02).SetName(MemberName() + " Partial 3").SaveChannel()
+                Sine(RandomNotes[4] * 5).Volume(StereoDynamics).Volume(0.02).SetName(MemberName() + " Partial 3").SaveChannels()
             ).Play();
         }
         
@@ -294,28 +294,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             tape2.Save().Play();
         }
         
-        [TestMethod] public void Stereo_PlayChannel_Test() => WithStereo().Run(Stereo_PlayChannel);
-        void Stereo_PlayChannel()
+        [TestMethod] public void Stereo_PlayChannels_Test() => WithStereo().Run(Stereo_PlayChannels);
+        void Stereo_PlayChannels()
         { 
-            Sine(RandomNotes[12]).Volume(StereoDynamics).PlayChannel();
+            Sine(RandomNotes[12]).Volume(StereoDynamics).PlayChannels();
         }
         
-        [TestMethod] public void Stereo_PlayChannel_Test_2Calls() => Run(Stereo_PlayChannel_2Calls);
-        void Stereo_PlayChannel_2Calls()
+        [TestMethod] public void Stereo_PlayChannels_Test_2Calls() => Run(Stereo_PlayChannels_2Calls);
+        void Stereo_PlayChannels_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[12]).Volume(StereoDynamics).PlayChannel().SpeedUp(1.5).PlayChannel();
+            WithStereo().Sine(RandomNotes[12]).Volume(StereoDynamics).PlayChannels().SpeedUp(1.5).PlayChannels();
         }
         
-        [TestMethod] public void Stereo_SaveChannel_Test() => Run(Stereo_SaveChannel);
-        void Stereo_SaveChannel()
+        [TestMethod] public void Stereo_SaveChannels_Test() => Run(Stereo_SaveChannels);
+        void Stereo_SaveChannels()
         { 
-            WithStereo().Sine(RandomNotes[13]).Volume(StereoDynamics).SaveChannel().PlayChannel();
+            WithStereo().Sine(RandomNotes[13]).Volume(StereoDynamics).SaveChannels().PlayChannels();
         }
         
-        [TestMethod] public void Stereo_SaveChannel_Test_2Calls() => Run(Stereo_SaveChannel_2Calls);
-        void Stereo_SaveChannel_2Calls()
+        [TestMethod] public void Stereo_SaveChannels_Test_2Calls() => Run(Stereo_SaveChannels_2Calls);
+        void Stereo_SaveChannels_2Calls()
         { 
-            WithStereo().Sine(RandomNotes[14]).Volume(StereoDynamics).SaveChannel().SpeedUp(1.5).SaveChannel().PlayChannel();
+            WithStereo().Sine(RandomNotes[14]).Volume(StereoDynamics).SaveChannels().SpeedUp(1.5).SaveChannels().PlayChannels();
         }
         
         [TestMethod] public void Stereo_InterceptChannel_Test() => new MidChainStreamingTests().Stereo_InterceptChannel();

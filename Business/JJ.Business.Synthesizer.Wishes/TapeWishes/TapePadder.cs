@@ -37,9 +37,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             // Padding only applies to Play and Save actions.
             if (!tape.Actions.Play.On && 
-                !tape.Actions.PlayChannel.On &&
+                !tape.Actions.PlayChannels.On &&
                 !tape.Actions.Save.On &&
-                !tape.Actions.SaveChannel.On) return null;
+                !tape.Actions.SaveChannels.On) return null;
             
             // If tape already padded, don't do it again.
             if (tape.IsPadded) return null;
@@ -104,8 +104,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.IsPadded = true;
             CloneAction(tape.Actions.Play, paddedTape.Actions.Play);
             CloneAction(tape.Actions.Save, paddedTape.Actions.Save);
-            CloneAction(tape.Actions.PlayChannel, paddedTape.Actions.PlayChannel);
-            CloneAction(tape.Actions.SaveChannel, paddedTape.Actions.SaveChannel);
+            CloneAction(tape.Actions.PlayChannels, paddedTape.Actions.PlayChannels);
+            CloneAction(tape.Actions.SaveChannels, paddedTape.Actions.SaveChannels);
             //paddedTape.Intercept.On = false;
             //paddedTape.Intercept.Done = false;
             //paddedTape.InterceptChannel.On = false;
@@ -119,8 +119,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // Remove Actions from original Tape
             tape.Actions.Play.On = false;
             tape.Actions.Save.On = false;
-            tape.Actions.PlayChannel.On = false;
-            tape.Actions.SaveChannel.On = false;
+            tape.Actions.PlayChannels.On = false;
+            tape.Actions.SaveChannels.On = false;
             
             LogAction(paddedTape, "Pad", $"Delay + {tape.LeadingSilence} s");
             

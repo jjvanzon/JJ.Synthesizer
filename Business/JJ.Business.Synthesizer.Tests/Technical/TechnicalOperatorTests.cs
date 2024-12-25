@@ -76,8 +76,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ).Save().Play();
         }
 
-        [TestMethod] public void FluentPlayChannelTest() => Run(FluentPlayChannel);
-        private void FluentPlayChannel()
+        [TestMethod] public void FluentPlayChannelsTest() => Run(FluentPlayChannels);
+        private void FluentPlayChannels()
         {
             var freq = E4;
 
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                             *
                                     *
                  *                              *")
-            ).PlayChannel();
+            ).PlayChannels();
         }
 
         [TestMethod] public void FluentCSharpOperatorsTest() => Run(FluentCSharpOperators);

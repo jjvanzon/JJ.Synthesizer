@@ -166,8 +166,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Save = new TapeAction(tape, nameof(Save));
             BeforeRecord = new TapeAction(tape, nameof(BeforeRecord));
             AfterRecord = new TapeAction(tape, nameof(AfterRecord));
-            PlayChannel = new TapeAction(tape, nameof(PlayChannel));
-            SaveChannel = new TapeAction(tape, nameof(SaveChannel));
+            PlayChannels = new TapeAction(tape, nameof(PlayChannels));
+            SaveChannels = new TapeAction(tape, nameof(SaveChannels));
             BeforeRecordChannel = new TapeAction(tape, nameof(BeforeRecordChannel));
             AfterRecordChannel = new TapeAction(tape, nameof(AfterRecordChannel));
             PlayAllTapes = new TapeAction(tape, nameof(PlayAllTapes));
@@ -190,10 +190,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public TapeAction AfterRecord { get; }
         
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction PlayChannel { get; }
+        public TapeAction PlayChannels { get; }
         
         /// <inheritdoc cref="docs._tapeaction" />
-        public TapeAction SaveChannel { get; }
+        public TapeAction SaveChannels { get; }
         
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction BeforeRecordChannel { get; }

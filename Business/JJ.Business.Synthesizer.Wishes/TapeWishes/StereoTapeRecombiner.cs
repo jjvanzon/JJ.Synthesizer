@@ -96,8 +96,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneAction(sourceTape.Actions.Save, destTape.Actions.Save);
             CloneAction(sourceTape.Actions.BeforeRecord, destTape.Actions.BeforeRecord);
             CloneAction(sourceTape.Actions.AfterRecord, destTape.Actions.AfterRecord);
-            CloneAction(sourceTape.Actions.PlayChannel, destTape.Actions.PlayChannel);
-            CloneAction(sourceTape.Actions.SaveChannel, destTape.Actions.SaveChannel);
+            CloneAction(sourceTape.Actions.PlayChannels, destTape.Actions.PlayChannels);
+            CloneAction(sourceTape.Actions.SaveChannels, destTape.Actions.SaveChannels);
             CloneAction(sourceTape.Actions.BeforeRecordChannel, destTape.Actions.BeforeRecordChannel);
             CloneAction(sourceTape.Actions.AfterRecordChannel, destTape.Actions.AfterRecordChannel);
             CloneAction(sourceTape.Actions.DiskCache, destTape.Actions.DiskCache);

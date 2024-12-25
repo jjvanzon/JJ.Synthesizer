@@ -36,21 +36,21 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
         
-        // PlayChannel (Mid-Chain)
+        // PlayChannels (Mid-Chain)
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode PlayChannel(
+        public FlowNode PlayChannels(
             FlowNode channelSignal, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => PlayChannel(channelSignal, null, filePath, callerMemberName);
+            => PlayChannels(channelSignal, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode PlayChannel(
+        public FlowNode PlayChannels(
             FlowNode channelSignal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             Tape tape = _tapes.GetOrCreate(channelSignal, duration, null, null, null, null, filePath, callerMemberName);
-            tape.Actions.PlayChannel.On = true;
+            tape.Actions.PlayChannels.On = true;
             return channelSignal;
         }
 
@@ -190,18 +190,18 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Play(this, duration, filePath, callerMemberName);
         
-        // FlowNode PlayChannel (Mid-Chain)
+        // FlowNode PlayChannels (Mid-Chain)
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode PlayChannel(
+        public FlowNode PlayChannels(
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, filePath, callerMemberName);
+            => _synthWishes.PlayChannels(this, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode PlayChannel(
+        public FlowNode PlayChannels(
             FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.PlayChannel(this, duration, filePath, callerMemberName);
+            => _synthWishes.PlayChannels(this, duration, filePath, callerMemberName);
         
         // FlowNode Play (End-of-Chain)
 

@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             foreach (Tape tape in tapes)
             {
                 SaveIfNeeded(tape.Actions.Save);
-                SaveIfNeeded(tape.Actions.SaveChannel);
+                SaveIfNeeded(tape.Actions.SaveChannels);
             }
         }
         
@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             foreach (Tape tape in tapes)
             {
                 PlayIfNeeded(tape.Actions.Play);
-                PlayIfNeeded(tape.Actions.PlayChannel);
+                PlayIfNeeded(tape.Actions.PlayChannels);
             }
         }
         

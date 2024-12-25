@@ -732,14 +732,14 @@ namespace JJ.Business.Synthesizer.Wishes
             if (actions.Play.Done) elements.Add("played");
             else if (actions.Play.On) elements.Add("play");
             
-            if (actions.PlayChannel.Done) elements.Add("played-ch");
-            else if (actions.PlayChannel.On) elements.Add("play-ch");
+            if (actions.PlayChannels.Done) elements.Add("played-ch");
+            else if (actions.PlayChannels.On) elements.Add("play-ch");
             
             if (actions.Save.Done) elements.Add("saved");
             else if (actions.Save.On) elements.Add("save");
             
-            if (actions.SaveChannel.Done) elements.Add("saved-ch");
-            else if (actions.SaveChannel.On) elements.Add("save-ch");
+            if (actions.SaveChannels.Done) elements.Add("saved-ch");
+            else if (actions.SaveChannels.On) elements.Add("save-ch");
             
             if (actions.BeforeRecord.Done) elements.Add("before-done");
             else if (actions.BeforeRecord.On) elements.Add("before");
