@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Parallel.For(0, count, i =>
             {
                 LogAction(stereoTapes[i], "Start");
-                RecordStereoTape(stereoTapes[i]);
+                _synthWishes.Record(stereoTapes[i]);
                 LogAction(stereoTapes[i], "Stop");
             });
             
@@ -105,8 +105,5 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             return destTape;
         }
-        
-        private void RecordStereoTape(Tape stereoTape) 
-            => _synthWishes.Record(stereoTape);
     }
 }
