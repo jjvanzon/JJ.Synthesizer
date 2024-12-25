@@ -129,8 +129,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         // Options
 
-        //public bool DiskCache { get; internal set; }
-        //public bool PlayAllTapes { get; internal set; }
         public int CourtesyFrames { get; internal set; }
 
         // Hierarchy
@@ -156,8 +154,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     }
     
     /// <inheritdoc cref="docs._tapeaction" />
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeAction
     {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+        
         internal TapeAction(Tape tape, string name)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
