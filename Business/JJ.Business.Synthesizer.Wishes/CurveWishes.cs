@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 // ReSharper disable ParameterHidesMember
 
@@ -21,14 +23,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<NodeInfo> nodeInfos)
         {
             nodeInfos = nodeInfos.OneBecomesTwo();
-            return curveFactory.CreateCurve(nodeInfos.ToArray());
+            Curve curve = curveFactory.CreateCurve(nodeInfos.ToArray());
+            LogAction(curve, "Create");
+            return curve;
         }
         
         /// <inheritdoc cref="docs._createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
         {
-            //nodeTuples = OneBecomesTwo(nodeTuples);
-            return curveFactory.CreateCurve((IList<(double x, double y)>)nodeTuples);
+            Curve curve = curveFactory.CreateCurve((IList<(double x, double y)>)nodeTuples);
+            LogAction(curve, "Create");
+            return curve;
         }
         
         /// <inheritdoc cref="docs._createcurvewithtuples" />
@@ -39,6 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
             //nodeTuples = OneBecomesTwo(nodeTuples);
             var nodeInfos = nodeTuples.Select(x => new NodeInfo(x.Item1, x.Item2)).ToArray();
             Curve curve = curveFactory.CreateCurve(nodeInfos);
+            LogAction(curve, "Create");
             return curve;
         }
         
@@ -46,8 +52,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public static Curve CreateCurve(this CurveFactory curveFactory, string text)
-            => curveFactory.CreateCurve(0, 1, 0, 1, text);
-
+        {
+            Curve curve = curveFactory.CreateCurve(0, 1, 0, 1, text);
+            LogAction(curve, "Create");
+            return curve;
+        }
+        
         /// <inheritdoc cref="docs._createcurvefromstring" />
         public static Curve CreateCurve(
             this CurveFactory curveFactory,
@@ -96,7 +106,9 @@ namespace JJ.Business.Synthesizer.Wishes
             // Sort by time
             nodes = nodes.OrderBy(x => x.Time).ToArray();
             
-            return curveFactory.CreateCurve(nodes);
+            Curve curve = curveFactory.CreateCurve(nodes);
+            LogAction(curve, "Create");
+            return curve;
         }
 
         /// <inheritdoc cref="docs._trimasciicurves" />
@@ -158,6 +170,7 @@ namespace JJ.Business.Synthesizer.Wishes
             nodeInfos = nodeInfos.OneBecomesTwo();
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
             AssignNames(curve, callerMemberName);
+            LogAction(curve.UnderlyingCurve(), "Create");
             return curve;
         }
         
@@ -166,6 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             nodeInfos = nodeInfos.OneBecomesTwo();
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeInfos))];
+            LogAction(curve.UnderlyingCurve(), "Create");
             return curve;
         }
 
@@ -176,6 +190,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             values = values.OneBecomesTwo();
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(timeSpan: 1, values))];
+            LogAction(curve.UnderlyingCurve(), "Create");
             return curve;
         }
 
@@ -188,6 +203,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
             AssignNames(curve, callerMemberName);
+            LogAction(curve.UnderlyingCurve(), "Create");
             return curve;
         }
 
@@ -195,6 +211,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Curve(params (double time, double value)[] nodeTuples)
         {
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
+            LogAction(curve.UnderlyingCurve(), "Create");
             return curve;
         }
 
@@ -205,6 +222,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(text))];
             AssignNames(curve, callerMemberName);
+            LogAction(curve.UnderlyingCurve(), "Create");
             return curve;
         }
 
@@ -216,6 +234,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(x.start, x.end, y.min, y.max, text))];
             AssignNames(curve, callerMemberName);
+            LogAction(curve.UnderlyingCurve(), "Create");
             return curve;
         }
     

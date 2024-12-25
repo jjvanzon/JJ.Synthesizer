@@ -827,41 +827,47 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Actions
 
-        internal static void LogAction(TapeAction action, string message = null)
+        internal static void LogAction(TapeAction entity, string message = null)
         {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-            LogLine(ActionMessage("Action", action.Name, action.Tape.Descriptor(), message));
+            if (entity == null) throw new NullException(() => entity);
+            LogAction("Action", entity.Name, entity.Tape.Descriptor(), message);
         }
         
         internal static void LogAction(Tape entity, string action, string message = null)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(nameof(Tape), action, entity.Descriptor(), message));
+            if (entity == null) throw new NullException(() => entity);
+            LogAction(nameof(Tape), action, entity.Descriptor(), message);
         }
 
         internal static void LogAction(Buff entity, string action, string message = null)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(nameof(Buff), action, entity.Name, message));
+            if (entity == null) throw new NullException(() => entity);
+            LogAction(nameof(Buff), action, entity.Name, message);
         }
 
         internal static void LogAction(Sample entity, string action, string message = null)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(nameof(Sample), action, entity.Name, message ?? ConfigLog(entity)));
+            if (entity == null) throw new NullException(() => entity);
+            LogAction(nameof(Sample), action, entity.Name, message ?? ConfigLog(entity));
         }
 
         internal static void LogAction(AudioFileOutput entity, string action, string message = null)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage("Audio File Out", action, entity.Name, message ?? ConfigLog(entity)));
+            if (entity == null) throw new NullException(() => entity);
+            LogAction("Audio File Out", action, entity.Name, message ?? ConfigLog(entity));
+        }
+        
+        internal static void LogAction(Curve entity, string action, string message = null)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            LogAction(nameof(Curve), action, entity.Name, message);
         }
 
         internal static void LogAction(string typeName, string message) 
-            => LogLine(ActionMessage(typeName, null, null, message));
+            => LogAction(typeName, null, null, message);
         
         internal static void LogAction(string typeName, string action, string message) 
-            => LogLine(ActionMessage(typeName, action, null, message));
+            => LogAction(typeName, action, null, message);
         
         internal static void LogAction(string typeName, string action, string objectName, string message) 
             => LogLine(ActionMessage(typeName, action, objectName, message));

@@ -14,6 +14,7 @@ using static System.IO.Path;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -276,6 +277,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode SetName(object nameSource = null, object fallBackNameSource = null, [CallerMemberName] string callerMemberName = null)
         {
             Name = ResolveName(nameSource, fallBackNameSource, callerMemberName);
+            
             return this;
         }
 
@@ -283,7 +285,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public string Name
         {
             get => !NameIsOperatorTypeName(_underlyingOutlet.Operator) ? _underlyingOutlet.Operator.Name : default;
-            set => _underlyingOutlet.Operator.Name = value;
+            set
+            { 
+                _underlyingOutlet.Operator.Name = value; 
+                LogAction("Name", Name);
+            }
         }
     }
 
