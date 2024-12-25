@@ -346,6 +346,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             dummyTape.DiskCache.On = synthWishes.GetDiskCache;
             dummyTape.PlayAllTapes.On = synthWishes.GetPlayAllTapes;
 
+            LogAction(dummyTape, "Create", "AudioFileOutput Dummy");
+            
             return synthWishes.ConfigureAudioFileOutput(dummyTape);
         }
 

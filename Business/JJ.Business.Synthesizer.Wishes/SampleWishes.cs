@@ -96,6 +96,8 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.DiskCache.On = GetDiskCache;
             dummyTape.PlayAllTapes.On = GetPlayAllTapes;
 
+            LogAction(dummyTape, "Create", "Sample Dummy");
+
             return SampleFromTape(dummyTape, bytesToSkip, stream);
         }
         

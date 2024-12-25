@@ -210,6 +210,8 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.PlayAllTapes.On = GetPlayAllTapes;
             dummyTape.Save.On = !inMemory;
 
+            LogAction(dummyTape, "Create", "Buff Legacy");
+            
             MakeBuff(dummyTape);
             
             return dummyTape.Buff;

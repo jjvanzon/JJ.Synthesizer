@@ -101,6 +101,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneAction(sourceTape.DiskCache, destTape.DiskCache);
             CloneAction(sourceTape.PlayAllTapes, destTape.PlayAllTapes);
             
+            LogAction(destTape, "Create", "Stereo Recombined");
+            
             return destTape;
         }
         
