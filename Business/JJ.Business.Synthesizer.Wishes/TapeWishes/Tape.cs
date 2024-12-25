@@ -128,6 +128,30 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
         }
     }
+        
+    /// <inheritdoc cref="docs._tapeaction" />
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    public class TapeAction
+    {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+        
+        internal TapeAction(Tape tape, string name)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (!Has(name)) throw new Exception($"{nameof(name)} not provided.");
+            Tape = tape;
+            Name = name;
+        }
+
+        /// <summary> Always filled in. </summary>
+        public Tape Tape { get; }
+        /// <summary> Always filled in. </summary>
+        public string Name { get; }
+        public bool On { get; set; }
+        public bool Done { get; internal set; }
+        /// <summary> Not always there </summary>
+        internal Action<Tape> Callback { get; set; }
+    }
 
     /// <inheritdoc cref="docs._tapeaction" />
     [DebuggerDisplay("{DebuggerDisplay}")]
@@ -182,29 +206,5 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction DiskCache { get; }
-    }
-        
-    /// <inheritdoc cref="docs._tapeaction" />
-    [DebuggerDisplay("{DebuggerDisplay}")]
-    public class TapeAction
-    {
-        string DebuggerDisplay => GetDebuggerDisplay(this);
-        
-        internal TapeAction(Tape tape, string name)
-        {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
-            if (!Has(name)) throw new Exception($"{nameof(name)} not provided.");
-            Tape = tape;
-            Name = name;
-        }
-
-        /// <summary> Always filled in. </summary>
-        public Tape Tape { get; }
-        /// <summary> Always filled in. </summary>
-        public string Name { get; }
-        public bool On { get; set; }
-        public bool Done { get; internal set; }
-        /// <summary> Not always there </summary>
-        internal Action<Tape> Callback { get; set; }
     }
 }
