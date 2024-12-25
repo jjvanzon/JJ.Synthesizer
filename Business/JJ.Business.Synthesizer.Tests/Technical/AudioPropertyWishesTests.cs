@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     {
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod] 
-        public void AudioPropertyWishes_MonoExtensions_Test()
+        public void MonoExtensions_Test()
         {
             Tape tape = null;
             Run(() => WithMono().Sine().AfterRecord(x => tape = x));
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
-        public void AudioPropertyWishes_StereoExtensions_Test()
+        public void StereoExtensions_Test()
         {
             Tape tape = null;
             Run(() => WithStereo().Sine().AfterRecord(x => tape = x).Save());
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
-        public void AudioPropertyWishes_WavExtensions_Test()
+        public void WavExtensions_Test()
         {
             Tape tape = null;
             Run(() => AsWav().Sine().AfterRecord(x => tape = x).Save());
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
-        public void AudioPropertyWishes_RawExtensions_Test()
+        public void RawExtensions_Test()
         {
             AudioFileOutput audioFileOutputRaw = null;
             Run(() => AsRaw().Sine().Save().AfterRecord(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
@@ -71,21 +71,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
-        public void AudioPropertyWishes_16BitHelpers_Test()
+        public void _16BitHelpers_Test()
         {
             AreEqual(SampleDataTypeEnum.Int16, () => EnumSpecialWishes.GetSampleDataTypeEnum<short>());
         }
 
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
-        public void AudioPropertyWishes_8BitHelpers_Test()
+        public void _8BitHelpers_Test()
         {
             AreEqual(SampleDataTypeEnum.Byte, () => EnumSpecialWishes.GetSampleDataTypeEnum<byte>());
         }
  
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
-        public void AudioPropertyWishes_ChannelCountToSpeakerSetup_Test()
+        public void ChannelCountToSpeakerSetup_Test()
         {
             AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetupEnum());
             AreEqual(SpeakerSetupEnum.Stereo, () => 2.ToSpeakerSetupEnum());
