@@ -188,34 +188,24 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
         /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
-
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction Play { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction Save { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction BeforeRecord { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction AfterRecord { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction PlayChannels { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction SaveChannels { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction BeforeRecordChannel { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction AfterRecordChannel { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction PlayAllTapes { get; }
-        
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction DiskCache { get; }
     }
