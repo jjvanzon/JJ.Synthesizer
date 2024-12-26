@@ -5,15 +5,15 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes.FileWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_IO_Wishes.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

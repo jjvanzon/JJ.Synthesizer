@@ -4,19 +4,19 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Mathematics_Copied;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Mathematics_Copied;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Copied;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Copied;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
 using static System.Environment;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using System.Runtime.CompilerServices;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 
-namespace JJ.Business.Synthesizer.Wishes.Helpers
+namespace JJ.Business.Synthesizer.Wishes
 {
     namespace JJ_Framework_Collection_Wishes
     {

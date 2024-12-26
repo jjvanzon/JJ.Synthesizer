@@ -78,7 +78,7 @@
     <Compile Include="Obsolete\Obsolete.AudioFileOutputChannelExtensions.cs" />
     <Compile Include="EnumWishes.cs" />
     <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
-    <Compile Include="Helpers\FrameworkWishes.cs" />
+    <Compile Include="FrameworkWishes.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Obsolete\Obsolete.EnumWishes.cs" />
     <Compile Include="Obsolete\Obsolete.InletWishes.cs" />

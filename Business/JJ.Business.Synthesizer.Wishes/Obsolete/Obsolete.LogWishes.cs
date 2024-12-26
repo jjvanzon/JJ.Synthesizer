@@ -6,7 +6,7 @@ using System.Text;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

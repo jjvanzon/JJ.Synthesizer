@@ -8,9 +8,9 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Copied;
-using JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Copied;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
@@ -20,8 +20,8 @@ using static System.Environment;
 using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes

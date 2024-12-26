@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Math;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Reflection.ExpressionHelper;
 
