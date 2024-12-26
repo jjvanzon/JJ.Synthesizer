@@ -52,12 +52,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         private Tape CreateStereoTape((Tape Left, Tape Right) tapePair)
         {
-            Tape stereoTape = CloneTape(tapePair.Left);
-            stereoTape.Signals = GetChannelSignals(tapePair);
+            Tape stereoTape = CloneStereoTape(tapePair.Left);
+            stereoTape.Signals = RecombineSignals(tapePair);
+            LogAction(stereoTape, "Create", "Stereo Recombined");
             return stereoTape;
         }
         
-        private IList<FlowNode> GetChannelSignals((Tape Left, Tape Right) tapePair) => _synthWishes.GetChannelSignals(
+        private IList<FlowNode> RecombineSignals((Tape Left, Tape Right) tapePair) => _synthWishes.GetChannelSignals(
         () =>
         {
             FlowNode signal = _synthWishes.Sample(tapePair.Left).Panning(0) +
@@ -66,46 +67,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return signal.SetName(tapePair.Left);
         });
         
-        private static Tape CloneTape(Tape sourceTape)
+        private static Tape CloneStereoTape(Tape sourceTape)
         {
-            var destTape = new Tape
-            {
-                // Names
-                FilePathSuggested = sourceTape.FilePathSuggested,
-                FallBackName = sourceTape.FallBackName,
-
-                // Durations
-                Duration = sourceTape.Duration,
-                LeadingSilence = sourceTape.LeadingSilence,
-                TrailingSilence = sourceTape.TrailingSilence,
-
-                // Actions
-                IsPadded = sourceTape.IsPadded,
-                IsTape = sourceTape.IsTape
-            };
-
-            CloneAction(sourceTape.Actions.Play, destTape.Actions.Play);
-            CloneAction(sourceTape.Actions.Save, destTape.Actions.Save);
-            CloneAction(sourceTape.Actions.BeforeRecord, destTape.Actions.BeforeRecord);
-            CloneAction(sourceTape.Actions.AfterRecord, destTape.Actions.AfterRecord);
-            CloneAction(sourceTape.Actions.PlayChannels, destTape.Actions.PlayChannels);
-            CloneAction(sourceTape.Actions.SaveChannels, destTape.Actions.SaveChannels);
-            CloneAction(sourceTape.Actions.BeforeRecordChannel, destTape.Actions.BeforeRecordChannel);
-            CloneAction(sourceTape.Actions.AfterRecordChannel, destTape.Actions.AfterRecordChannel);
-            CloneAction(sourceTape.Actions.DiskCache, destTape.Actions.DiskCache);
-            CloneAction(sourceTape.Actions.PlayAllTapes, destTape.Actions.PlayAllTapes);
-
-            // Config
-            destTape.Config.SamplingRate = sourceTape.Config.SamplingRate;
-            destTape.Config.Bits = sourceTape.Config.Bits;
-            destTape.Config.Channels = sourceTape.Config.Channels;
-            destTape.Config.AudioFormat = sourceTape.Config.AudioFormat;
-            destTape.Config.Interpolation = sourceTape.Config.Interpolation;
-            destTape.Config.CourtesyFrames = sourceTape.Config.CourtesyFrames;
+            Tape stereoTape = CloneTape(sourceTape);
             
-            LogAction(destTape, "Create", "Stereo Recombined");
+            stereoTape.Bytes = default;
+            stereoTape.FilePathResolved = default;
+            stereoTape.UnderlyingAudioFileOutput = default;
+            stereoTape.Signal = default;
+            stereoTape.Signals = default;
+            stereoTape.Channel = default;
+            stereoTape.ClearHierarchy();
+            stereoTape.NestingLevel = default;
             
-            return destTape;
+            return stereoTape;
         }
     }
 }
