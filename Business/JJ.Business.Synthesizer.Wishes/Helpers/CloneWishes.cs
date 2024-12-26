@@ -20,8 +20,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (dest == null) throw new ArgumentNullException(nameof(dest));
             
             // Buff
-            CloneBuff(source.Buff, dest.Buff);
-        
+            dest.Bytes = source.Bytes;
+            dest.FilePathResolved = source.FilePathResolved;
+            dest.UnderlyingAudioFileOutput = source.UnderlyingAudioFileOutput;
+
             // Name
             dest.FallBackName = source.FallBackName;
             dest.FilePathSuggested = source.FilePathSuggested;
