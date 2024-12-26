@@ -848,6 +848,17 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
                 string output = input.Right(length);
                 return output;
             }
+            
+            /// <summary>
+            /// Returns the left part of a string.
+            /// Can return less characters than the length provided if string is shorter.
+            /// </summary>
+            public static string TakeStart(this string input, int length)
+            {
+                if (length > input.Length) length = input.Length;
+
+                return input.Left(length);
+            }
         }
     }
 }
