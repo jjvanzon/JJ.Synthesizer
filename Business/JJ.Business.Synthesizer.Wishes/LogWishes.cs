@@ -68,6 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string ConfigLog(this Sample sample) => LogWishes.ConfigLog(sample);
         public static string ConfigLog(this Sample sample, string title) => LogWishes.ConfigLog(title, sample);
         public static string ConfigLog(this Sample sample, string title, string sep) => LogWishes.ConfigLog(title, sample, sep);
+        public static string ConfigLog(this TapeConfig tapeConfig) => LogWishes.ConfigLog(tapeConfig);
     }
     
     public static class LogWishes
@@ -571,6 +572,23 @@ namespace JJ.Business.Synthesizer.Wishes
                 audioFormatDescriptor, 
                 sep: sep);
         }
+        
+        
+        internal static string ConfigLog(TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            
+            var configLog = AudioFormatDescriptor(
+                tapeConfig.SamplingRate,
+                tapeConfig.Bits,
+                tapeConfig.Channels,
+                null,
+                tapeConfig.AudioFormat,
+                tapeConfig.Interpolation);
+            
+            return configLog;
+        }
+
         
         // Tapes
         

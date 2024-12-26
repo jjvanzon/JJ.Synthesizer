@@ -123,8 +123,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
     }
         
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeConfig
     {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+        
         internal TapeConfig() { }
         
         public int SamplingRate { get; internal set; }

@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             
             var elements = new List<string>();
-                            
+
             if (!obj.IsConst)
             { 
                 elements.Add(obj.Calculate() + " = ");
@@ -118,6 +118,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             string descriptor = actions.Descriptor();
             if (Has(descriptor)) return "{Actions:" + actions.Descriptor() + "}";
             return "{Actions}";
+        }
+
+        internal static string GetDebuggerDisplay(TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return FormatTypeName(tapeConfig) + " " + tapeConfig.ConfigLog();
         }
 
         private static string FormatTypeName(object obj)
