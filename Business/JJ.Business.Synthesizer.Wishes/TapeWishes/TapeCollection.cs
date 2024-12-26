@@ -48,18 +48,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             // Audio Properties
             
-            tape.SamplingRate = _synthWishes.GetSamplingRate;
-            tape.Bits = _synthWishes.GetBits;
             tape.Channel = _synthWishes.GetChannel;
-            tape.Channels = _synthWishes.GetChannels;
-            tape.AudioFormat = _synthWishes.GetAudioFormat;
-            tape.Interpolation = _synthWishes.GetInterpolation;
-
-            // Options
+            tape.Config.SamplingRate = _synthWishes.GetSamplingRate;
+            tape.Config.Bits = _synthWishes.GetBits;
+            tape.Config.Channels = _synthWishes.GetChannels;
+            tape.Config.AudioFormat = _synthWishes.GetAudioFormat;
+            tape.Config.Interpolation = _synthWishes.GetInterpolation;
+            tape.Config.CourtesyFrames = _synthWishes.GetCourtesyFrames;
+            
+            // Actions
             
             tape.Actions.DiskCache.On = _synthWishes.GetDiskCache;
             tape.Actions.PlayAllTapes.On = _synthWishes.GetPlayAllTapes;
-            tape.CourtesyFrames = _synthWishes.GetCourtesyFrames;
             
             // From Parameters
             

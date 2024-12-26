@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Persistence.Synthesizer;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
@@ -62,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             => ResolveName(name, Signal, Signals, FallBackName, FilePathSuggested, callerMemberName);
         
         public string GetFilePath(string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(AudioFormat.FileExtension(), AudioFormat, IDs, filePath, FilePathResolved, FilePathSuggested, GetName(callerMemberName: callerMemberName));
+            => ResolveFilePath(Config.AudioFormat.FileExtension(), Config.AudioFormat, IDs, filePath, FilePathResolved, FilePathSuggested, GetName(callerMemberName: callerMemberName));
 
         public string FallBackName { get; internal set; }
         public string FilePathSuggested { get; internal set; }
@@ -81,24 +80,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
 
         // Durations
-        
+
         public double Duration { get; internal set; }
         /// <inheritdoc cref="docs._padding"/>
         public double LeadingSilence { get; internal set; }
         /// <inheritdoc cref="docs._padding"/>
         public double TrailingSilence { get; internal set; }
 
-        // Audio Properties
+        // Config
         
-        public int SamplingRate { get; internal set; }
-        public int Bits { get; internal set; }
+        public TapeConfig Config { get; } = new TapeConfig();
         public int? Channel { get; internal set; }
-        public int? Channels { get; internal set; }
-        public bool IsMono => Channels == 1;
-        public bool IsStereo => Channels == 2;
-        public AudioFileFormatEnum AudioFormat { get; internal set; }
-        /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
-        public InterpolationTypeEnum Interpolation { get; set; }
 
         // Actions
 
@@ -106,10 +98,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsPadded { get; internal set; }
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get; internal set; }
-
-        // Options
-
-        public int CourtesyFrames { get; internal set; }
 
         // Hierarchy
 
@@ -135,6 +123,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
     }
         
+    public class TapeConfig
+    {
+        internal TapeConfig() { }
+        
+        public int SamplingRate { get; internal set; }
+        public int Bits { get; internal set; }
+        public int? Channels { get; internal set; }
+        public bool IsMono => Channels == 1;
+        public bool IsStereo => Channels == 2;
+        public AudioFileFormatEnum AudioFormat { get; internal set; }
+        /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
+        public InterpolationTypeEnum Interpolation { get; set; }
+        public int CourtesyFrames { get; internal set; }
+    }
+
     /// <inheritdoc cref="docs._tapeaction" />
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeAction

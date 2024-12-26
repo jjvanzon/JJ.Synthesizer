@@ -17,6 +17,7 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_IO_Wishes.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+using System.Runtime.Remoting.Channels;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ParameterHidesMember
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -69,13 +70,13 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = tape.Descriptor();
-            audioFileOutput.FilePath = ResolveFilePath(tape.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Signal, tape.Signals, tape.FallBackName, callerMemberName);
-            audioFileOutput.Amplifier = tape.Bits.MaxValue();
+            audioFileOutput.FilePath = ResolveFilePath(tape.Config.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Signal, tape.Signals, tape.FallBackName, callerMemberName);
+            audioFileOutput.Amplifier = tape.Config.Bits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
-            audioFileOutput.SetBits(tape.Bits, Context);
-            audioFileOutput.SetAudioFormat(tape.AudioFormat, Context);
-            audioFileOutput.SamplingRate = tape.SamplingRate;
+            audioFileOutput.SetBits(tape.Config.Bits, Context);
+            audioFileOutput.SetAudioFormat(tape.Config.AudioFormat, Context);
+            audioFileOutput.SamplingRate = tape.Config.SamplingRate;
             
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count);
             CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
@@ -120,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.FileLengthNeeded(tape.CourtesyFrames)];
+                bytes = new byte[audioFileOutput.FileLengthNeeded(tape.Config.CourtesyFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
@@ -179,23 +180,22 @@ namespace JJ.Business.Synthesizer.Wishes
             var dummyTape = new Tape
             {
                 Signals = channelSignals,
-                
                 Duration = (duration ?? GetAudioLength).Value,
                 LeadingSilence = GetLeadingSilence.Value,
                 TrailingSilence = GetTrailingSilence.Value,
-                
                 FilePathSuggested = filePath,
-                FallBackName = ResolveName(name, callerMemberName),
-                
-                SamplingRate = GetSamplingRate,
-                Bits = GetBits,
-                Channels = channelSignals.Count,
-                AudioFormat = GetAudioFormat,
-                Interpolation = GetInterpolation,
-
-                CourtesyFrames = GetCourtesyFrames
+                FallBackName = ResolveName(name, callerMemberName)
             };
             
+            // Config
+            dummyTape.Config.SamplingRate = GetSamplingRate;
+            dummyTape.Config.Bits = GetBits;
+            dummyTape.Config.Channels = channelSignals.Count;
+            dummyTape.Config.AudioFormat = GetAudioFormat;
+            dummyTape.Config.Interpolation = GetInterpolation;
+            dummyTape.Config.CourtesyFrames = GetCourtesyFrames;
+            
+            // Actions
             dummyTape.Actions.DiskCache.On = GetDiskCache;
             dummyTape.Actions.PlayAllTapes.On = GetPlayAllTapes;
             dummyTape.Actions.Save.On = !inMemory;
@@ -214,11 +214,11 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var dummyTape = new Tape
             {
-                CourtesyFrames = courtesyFrames,
                 FilePathSuggested = filePath,
                 FallBackName = name,
             };
 
+            dummyTape.Config.CourtesyFrames = courtesyFrames;
             dummyTape.Actions.DiskCache.On = !inMemory;
 
             MakeBuff(dummyTape, audioFileOutput, callerMemberName);

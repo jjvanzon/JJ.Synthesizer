@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             LogAction(action);
-            InternalPlayBase(synthWishes, action.Tape.FilePathResolved, action.Tape.Bytes, action.Tape.AudioFormat.FileExtension());
+            InternalPlayBase(synthWishes, action.Tape.FilePathResolved, action.Tape.Bytes, action.Tape.Config.AudioFormat.FileExtension());
             return action;
         }
 
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             LogAction(tape, nameof(Play));
-            InternalPlayBase(synthWishes, tape.FilePathResolved, tape.Bytes, tape.AudioFormat.FileExtension());
+            InternalPlayBase(synthWishes, tape.FilePathResolved, tape.Bytes, tape.Config.AudioFormat.FileExtension());
             return tape;
         }
         

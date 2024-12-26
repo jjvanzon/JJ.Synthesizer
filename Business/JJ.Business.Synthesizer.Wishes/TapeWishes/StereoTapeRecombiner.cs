@@ -79,16 +79,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 LeadingSilence = sourceTape.LeadingSilence,
                 TrailingSilence = sourceTape.TrailingSilence,
 
-                // Audio Properties
-                SamplingRate = sourceTape.SamplingRate,
-                Bits = sourceTape.Bits,
-                Channels = sourceTape.Channels,
-                AudioFormat = sourceTape.AudioFormat,
-                Interpolation = sourceTape.Interpolation,
-
-                // Options
-                CourtesyFrames = sourceTape.CourtesyFrames,
-
                 // Actions
                 IsPadded = sourceTape.IsPadded,
                 IsTape = sourceTape.IsTape
@@ -104,6 +94,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneAction(sourceTape.Actions.AfterRecordChannel, destTape.Actions.AfterRecordChannel);
             CloneAction(sourceTape.Actions.DiskCache, destTape.Actions.DiskCache);
             CloneAction(sourceTape.Actions.PlayAllTapes, destTape.Actions.PlayAllTapes);
+
+            // Config
+            destTape.Config.SamplingRate = sourceTape.Config.SamplingRate;
+            destTape.Config.Bits = sourceTape.Config.Bits;
+            destTape.Config.Channels = sourceTape.Config.Channels;
+            destTape.Config.AudioFormat = sourceTape.Config.AudioFormat;
+            destTape.Config.Interpolation = sourceTape.Config.Interpolation;
+            destTape.Config.CourtesyFrames = sourceTape.Config.CourtesyFrames;
             
             LogAction(destTape, "Create", "Stereo Recombined");
             

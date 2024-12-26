@@ -92,13 +92,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.TrailingSilence = tape.TrailingSilence;
             
             // Clone Audio Properties
-            paddedTape.SamplingRate = tape.SamplingRate;
-            paddedTape.Bits = tape.Bits;
+            paddedTape.Config.SamplingRate = tape.Config.SamplingRate;
+            paddedTape.Config.Bits = tape.Config.Bits;
             paddedTape.Channel = tape.Channel;
-            paddedTape.Channels = tape.Channels;
-            paddedTape.AudioFormat = tape.AudioFormat;
-            paddedTape.Interpolation = tape.Interpolation;
-            
+            paddedTape.Config.Channels = tape.Config.Channels;
+            paddedTape.Config.AudioFormat = tape.Config.AudioFormat;
+            paddedTape.Config.Interpolation = tape.Config.Interpolation;
+            paddedTape.Config.CourtesyFrames = tape.Config.CourtesyFrames;
+
             // Set Actions
             paddedTape.IsTape = tape.IsTape;
             paddedTape.IsPadded = true;
@@ -106,15 +107,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneAction(tape.Actions.Save, paddedTape.Actions.Save);
             CloneAction(tape.Actions.PlayChannels, paddedTape.Actions.PlayChannels);
             CloneAction(tape.Actions.SaveChannels, paddedTape.Actions.SaveChannels);
+            CloneAction(tape.Actions.DiskCache, paddedTape.Actions.DiskCache);
+            CloneAction(tape.Actions.PlayAllTapes, paddedTape.Actions.PlayAllTapes);
             //paddedTape.Intercept.On = false;
             //paddedTape.Intercept.Done = false;
             //paddedTape.InterceptChannel.On = false;
             //paddedTape.InterceptChannel.Done = false;
-            
-            // Set Options
-            CloneAction(tape.Actions.DiskCache, paddedTape.Actions.DiskCache);
-            CloneAction(tape.Actions.PlayAllTapes, paddedTape.Actions.PlayAllTapes);
-            paddedTape.CourtesyFrames = tape.CourtesyFrames;
             
             // Remove Actions from original Tape
             tape.Actions.Play.On = false;

@@ -8,6 +8,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.IO.StreamHelper;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using System.Runtime.Remoting.Channels;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -85,13 +86,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 FallBackName = ResolveName(name, callerMemberName),
                 LeadingSilence = GetLeadingSilence.Value,
                 TrailingSilence = GetTrailingSilence.Value,
-                SamplingRate = GetSamplingRate,
-                Bits = GetBits,
-                Channels = GetChannels,
-                AudioFormat = GetAudioFormat,
-                Interpolation = GetInterpolation,
-                CourtesyFrames = GetCourtesyFrames,
             };
+
+            dummyTape.Config.SamplingRate = GetSamplingRate;
+            dummyTape.Config.Bits = GetBits;
+            dummyTape.Config.Channels = GetChannels;
+            dummyTape.Config.AudioFormat = GetAudioFormat;
+            dummyTape.Config.Interpolation = GetInterpolation;
+            dummyTape.Config.CourtesyFrames = GetCourtesyFrames;
 
             dummyTape.Actions.DiskCache.On = GetDiskCache;
             dummyTape.Actions.PlayAllTapes.On = GetPlayAllTapes;
@@ -170,16 +172,16 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sample.AudioFormat() == Raw)
             {
                 // Not detected from header, so we need to set it manually.
-                sample.SamplingRate = tape.SamplingRate;
-                sample.SetChannels(tape.Channels, Context);
-                sample.SetBits(tape.Bits, Context);
+                sample.SamplingRate = tape.Config.SamplingRate;
+                sample.SetChannels(tape.Config.Channels, Context);
+                sample.SetBits(tape.Config.Bits, Context);
             }
             
             sample.BytesToSkip = bytesToSkip;
             sample.Name = tape.Descriptor();
-            sample.Amplifier = 1.0 / tape.Bits.MaxValue();
+            sample.Amplifier = 1.0 / tape.Config.Bits.MaxValue();
             sample.Location = tape.GetFilePath();
-            sample.SetInterpolation(tape.Interpolation, Context);
+            sample.SetInterpolation(tape.Config.Interpolation, Context);
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);

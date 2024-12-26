@@ -506,12 +506,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.TrailingSilence);
 
             string audioFormatDescriptor = AudioFormatDescriptor(
-                tape.SamplingRate,
-                tape.Bits,
-                tape.Channels, 
+                tape.Config.SamplingRate,
+                tape.Config.Bits,
+                tape.Config.Channels, 
                 tape.Channel,
-                tape.AudioFormat,
-                tape.Interpolation);
+                tape.Config.AudioFormat,
+                tape.Config.Interpolation);
             
             string featuresDescriptor = FeaturesDescriptor(
                 diskCache: tape.Actions.DiskCache.On,
@@ -761,7 +761,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) return "<Tape=null>";
 
             string prefix = "";
-            if (tape.IsStereo && tape.Channel == null) prefix = "(Stereo) ";
+            if (tape.Config.IsStereo && tape.Channel == null) prefix = "(Stereo) ";
             else if (tape.NestingLevel > 0) prefix = $"(Level {tape.NestingLevel}) ";
             
             string nameDescriptor = tape.GetName();
@@ -776,7 +776,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (tape.IsTape) flags.Add("tape");
             
-            flags.Add(ChannelDescriptor(tape.Channels, tape.Channel)?.ToLower());
+            flags.Add(ChannelDescriptor(tape.Config.Channels, tape.Channel)?.ToLower());
             
             if (Has(tape.Duration))
             {
@@ -798,10 +798,29 @@ namespace JJ.Business.Synthesizer.Wishes
             SynthWishes synthWishes = tape.ConcatSignals().FirstOrDefault()?.SynthWishes;
             if (synthWishes != null)
             {
-                if (Has(tape.SamplingRate) && tape.SamplingRate != synthWishes.GetSamplingRate) flags.Add($"{tape.SamplingRate}hz");
-                if (Has(tape.Bits) && tape.Bits != synthWishes.GetBits) flags.Add($"{tape.Bits}bit");
-                if (Has(tape.AudioFormat) && tape.AudioFormat != synthWishes.GetAudioFormat) flags.Add($"{tape.AudioFormat}".ToLower());
-                if (Has(tape.Interpolation) && tape.Interpolation != synthWishes.GetInterpolation) flags.Add($"{tape.Interpolation}".ToLower());
+                if (Has(tape.Config.SamplingRate) && 
+                    tape.Config.SamplingRate != synthWishes.GetSamplingRate)
+                {
+                    flags.Add($"{tape.Config.SamplingRate}hz");
+                }
+
+                if (Has(tape.Config.Bits) && 
+                    tape.Config.Bits != synthWishes.GetBits)
+                {
+                    flags.Add($"{tape.Config.Bits}bit");
+                }
+
+                if (Has(tape.Config.AudioFormat) && 
+                    tape.Config.AudioFormat != synthWishes.GetAudioFormat)
+                {
+                    flags.Add($"{tape.Config.AudioFormat}".ToLower());
+                }
+
+                if (Has(tape.Config.Interpolation) &&
+                    tape.Config.Interpolation != synthWishes.GetInterpolation)
+                {
+                    flags.Add($"{tape.Config.Interpolation}".ToLower());
+                }
             }
 
             flags = flags.Where(FilledIn).ToList();
