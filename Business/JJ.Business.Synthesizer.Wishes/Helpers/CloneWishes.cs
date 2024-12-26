@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.IsTape = source.IsTape;
 
             // Hierarchy
-            dest.ClearRelationships();
+            dest.ClearHierarchy();
             dest.ParentTapes.AddRange(source.ParentTapes);
             dest.ChildTapes.AddRange(source.ChildTapes);
             dest.NestingLevel = source.NestingLevel;

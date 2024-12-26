@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             // Remove parent-child relationship
             foreach (Tape leaf in leaves)
             {
-                leaf.ClearRelationships();
+                leaf.ClearHierarchy();
             }
             
             // Return remaining tapes

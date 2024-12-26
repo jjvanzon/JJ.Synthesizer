@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         internal bool IsRoot => ParentTapes.Count == 0;
         
-        internal void ClearRelationships()
+        internal void ClearHierarchy()
         {
             foreach (var parent in ParentTapes.ToArray())
             {

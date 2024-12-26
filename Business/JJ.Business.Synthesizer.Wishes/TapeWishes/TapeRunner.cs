@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 lock (_hierarchyLock)
                 {
-                    tape.ClearRelationships();
+                    tape.ClearHierarchy();
                 }
                 
                 _checkForNewLeavesReset.Set();
