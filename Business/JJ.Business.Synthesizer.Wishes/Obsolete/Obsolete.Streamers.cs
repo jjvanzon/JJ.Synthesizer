@@ -312,12 +312,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         
         /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
         [Obsolete(ObsoleteMessage, true)]
-        public static AudioFileOutput ConfigureAudioFileOutput(
+        public static AudioFileOutput ConfigureAudioFileOutputLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, 
             string name, string filePath)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            
+            // TODO: How about the difference between Signal and Signals? Signal isn't filled in here.
             var dummyTape = new Tape
             {
                 Signals = channelSignals,
