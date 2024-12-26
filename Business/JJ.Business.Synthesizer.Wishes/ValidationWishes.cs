@@ -23,28 +23,12 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class SynthWishes
     {
-        private void AssertTapes()
-        {
-            var rootTapes = _tapes.Where(x => x.ParentTapes.Count == 0).ToArray();
-            Assert(rootTapes);
-        }
+        internal static void Assert(Tape tape) => Assert(tape, default);
         
-        internal static void Assert(IList<Tape> tapes)
-        {
-            if (tapes == null) throw new ArgumentNullException(nameof(tapes));
-            tapes.ForEach(Assert);
-        }
-                
-        internal static void Assert(IList<FlowNode> signals)
-        {
-            if (signals == null) throw new ArgumentNullException(nameof(signals));
-            signals.ForEach(Assert);
-        }
-
-        internal static void Assert(Tape tape)
+        internal static void Assert(Tape tape, string message)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            LogAction(tape, "Validate");
+            LogAction(tape, "Validate", message);
             tape.ConcatSignals().ForEach(x => x.Assert());
         }
         

@@ -8,6 +8,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
@@ -291,7 +292,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             LogConfig(synthWishes);
             
-            Assert(channelSignals);
+            channelSignals.ForEach(Assert);
             
             return synthWishes.MakeBuffLegacy(channelSignals, duration, inMemory, mustPad, name, filePath, callerMemberName);
         }

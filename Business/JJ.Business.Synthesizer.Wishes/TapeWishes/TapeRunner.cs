@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
@@ -51,11 +52,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _tapePadder.PadTapesIfNeeded(tapes);
             
             tapes = _tapes.ToArray();
-
-            Assert(tapes);
-
-            _tapeTreeBuilder.BuildTapeHierarchyRecursive(tapes);
             
+            _tapeTreeBuilder.BuildTapeHierarchyRecursive(tapes);
+
+            tapes.Where(x => x.IsRoot).ForEach(x => Assert(x, "(Roots Only)"));
+
             LogLine(PlotTapeTree(tapes));
         }
         

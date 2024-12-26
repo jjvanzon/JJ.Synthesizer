@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             tapePairs.ForEach(AssertTapePair);
             Tape[] stereoTapes = tapePairs.Select(CreateStereoTape).ToArray();
-            Assert(stereoTapes);
+            stereoTapes.ForEach(x => Assert(x, "(Stereo Tape)"));
 
             int count = stereoTapes.Length;
 

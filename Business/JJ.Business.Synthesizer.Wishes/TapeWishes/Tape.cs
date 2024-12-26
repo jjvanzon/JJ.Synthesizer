@@ -117,6 +117,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         internal HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         internal int NestingLevel { get; set; }
         
+        internal bool IsRoot => ParentTapes.Count == 0;
+        
         internal void ClearRelationships()
         {
             foreach (var parent in ParentTapes.ToArray())
