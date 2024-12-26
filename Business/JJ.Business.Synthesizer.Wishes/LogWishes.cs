@@ -873,6 +873,12 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             LogLine(ActionMessage("Audio File Out", action, entity.Name, message ?? ConfigLog(entity)));
         }
+        
+        internal static void LogAction(FlowNode entity, string action, string message = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            LogLine(ActionMessage(nameof(Operator), action, entity.Name, message));
+        }
 
         internal static void LogAction(string typeName, string message) 
             => LogLine(ActionMessage(typeName, null, null, message));

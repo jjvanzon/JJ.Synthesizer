@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
 
 // ReSharper disable ArrangeStaticMemberQualifier
@@ -50,7 +51,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _tapePadder.PadTapesIfNeeded(tapes);
             
             tapes = _tapes.ToArray();
-            
+
+            Assert(tapes);
+
             _tapeTreeBuilder.BuildTapeHierarchyRecursive(tapes);
             
             LogLine(PlotTapeTree(tapes));

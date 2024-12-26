@@ -119,8 +119,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             LogConfig(this);
             
-            AssertTapes();
-            
             if (GetParallelProcessing)
             {
                 _tapeRunner.RunAllTapes();

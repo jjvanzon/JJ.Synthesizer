@@ -135,17 +135,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), filePath, resolvedName, callerMemberName);
 
             audioFileOutput.Name = resolvedName;
-
-            // Validate
-            
-            #if DEBUG
-            audioFileOutput.Assert();
-            #endif
-            
-            foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
-            {
-                audioFileOutputChannel.Outlet?.Assert();
-            }
             
             var warnings = new List<string>();
             foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
@@ -301,7 +290,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var channelSignals = synthWishes.GetChannelSignals(func);
 
             LogConfig(synthWishes);
-            AssertSignals(channelSignals);
+            
+            Assert(channelSignals);
             
             return synthWishes.MakeBuffLegacy(channelSignals, duration, inMemory, mustPad, name, filePath, callerMemberName);
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionCloner;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -27,8 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             tapePairs.ForEach(AssertTapePair);
             Tape[] stereoTapes = tapePairs.Select(CreateStereoTape).ToArray();
-            
-            SynthWishes.AssertTapes(stereoTapes);
+            Assert(stereoTapes);
 
             int count = stereoTapes.Length;
 

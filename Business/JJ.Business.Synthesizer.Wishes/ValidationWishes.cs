@@ -26,27 +26,35 @@ namespace JJ.Business.Synthesizer.Wishes
         private void AssertTapes()
         {
             var rootTapes = _tapes.Where(x => x.ParentTapes.Count == 0).ToArray();
-            AssertTapes(rootTapes);
+            Assert(rootTapes);
         }
         
-        internal static void AssertTapes(Tape[] tapes)
+        internal static void Assert(IList<Tape> tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
-            var signals = tapes.SelectMany(x => x.ConcatSignals()).ToArray();
-            AssertSignals(signals);
+            tapes.ForEach(Assert);
         }
-        
-        internal static void AssertSignals(IList<FlowNode> signals)
+                
+        internal static void Assert(IList<FlowNode> signals)
         {
             if (signals == null) throw new ArgumentNullException(nameof(signals));
-            LogPrettyTitle("Validating");
-            signals.ForEach(x => x.Assert());
-            LogLine("Done");
-            LogLine();
+            signals.ForEach(Assert);
+        }
+
+        internal static void Assert(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            LogAction(tape, "Validate");
+            tape.ConcatSignals().ForEach(x => x.Assert());
+        }
+        
+        internal static void Assert(FlowNode flowNode)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            LogAction(flowNode, "Validate");
+            flowNode.Assert();
         }
     }
-    
-    
     
     // FlowNode Validation
     
