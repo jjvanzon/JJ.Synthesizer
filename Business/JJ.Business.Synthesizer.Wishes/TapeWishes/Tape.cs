@@ -130,15 +130,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         internal TapeConfig() { }
         
-        public int SamplingRate { get; internal set; }
-        public int Bits { get; internal set; }
-        public int? Channels { get; internal set; }
+        public int SamplingRate { get; set; }
+        public int Bits { get; set; }
+        public int? Channels { get; set; }
         public bool IsMono => Channels == 1;
         public bool IsStereo => Channels == 2;
-        public AudioFileFormatEnum AudioFormat { get; internal set; }
+        public AudioFileFormatEnum AudioFormat { get; set; }
         /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
         public InterpolationTypeEnum Interpolation { get; set; }
-        public int CourtesyFrames { get; internal set; }
+        public int CourtesyFrames { get; set; }
     }
 
     /// <inheritdoc cref="docs._tapeaction" />
