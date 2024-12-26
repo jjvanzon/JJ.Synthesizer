@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
-using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionCloner;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {

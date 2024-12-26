@@ -2,7 +2,6 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Collections_Copied;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionCloner;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
@@ -102,6 +101,15 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             CloneAction(source.AfterRecordChannel, dest.AfterRecordChannel);
             CloneAction(source.PlayAllTapes, dest.PlayAllTapes);
             CloneAction(source.DiskCache, dest.DiskCache);
+        }
+
+        public static void CloneAction(TapeAction source, TapeAction dest)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+            dest.On = source.On;
+            dest.Done = source.Done;
+            dest.Callback = source.Callback;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionCloner;
+using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
