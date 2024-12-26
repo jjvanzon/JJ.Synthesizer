@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             int maxExtensionLength = 8)
         {
             (string filePathFirstPart, int number, string filePathLastPart) =
-                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile);
+                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
             
             _createSafeFileStreamMutex.WaitOne();
             try
