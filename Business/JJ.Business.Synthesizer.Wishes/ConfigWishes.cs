@@ -9,8 +9,8 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.EnvironmentHelperWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Configuration_Wishes.ConfigurationManagerWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Testing_Wishes.TestWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
 

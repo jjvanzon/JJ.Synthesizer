@@ -18,285 +18,298 @@ using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    internal static class JJ_Framework_Collection_Wishes
-    { 
-        public static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
-        {
-            if (timeSpans == null) throw new ArgumentNullException(nameof(timeSpans));
-            return timeSpans.Aggregate((x, y) => x + y);
-        }
-        
-        public static TimeSpan Sum<T>(this IEnumerable<T> source, Func<T, TimeSpan> selector)
-        {
-            return source.Select(selector).Sum();
-        }
+    namespace JJ_Framework_Collection_Wishes
+    {
+        internal static class CollectionExtensionWishes
+        { 
+            public static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
+            {
+                if (timeSpans == null) throw new ArgumentNullException(nameof(timeSpans));
+                return timeSpans.Aggregate((x, y) => x + y);
+            }
+            
+            public static TimeSpan Sum<T>(this IEnumerable<T> source, Func<T, TimeSpan> selector)
+            {
+                return source.Select(selector).Sum();
+            }
 
-        public static bool Contains(this IList<string> source, string match, bool ignoreCase = false)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
+            public static bool Contains(this IList<string> source, string match, bool ignoreCase = false)
+            {
+                if (source == null) throw new ArgumentNullException(nameof(source));
 
-            StringComparison stringComparison = ignoreCase.ToStringComparison();
+                StringComparison stringComparison = ignoreCase.ToStringComparison();
 
-            return source.Any(x => (x ?? "").Equals(match, stringComparison));
+                return source.Any(x => (x ?? "").Equals(match, stringComparison));
+            }
+            
+            /// <inheritdoc cref="docs._onebecomestwo" />
+            public static IList<T> OneBecomesTwo<T>(this IList<T> list)
+            {
+                if (list == null) throw new ArgumentNullException(nameof(list));
+                if (list.Count == 1) list = new List<T> { list[0], list[0] };
+                return list;
+            }
+            
+            /// <inheritdoc cref="docs._onebecomestwo" />
+            public static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
         }
-        
-        /// <inheritdoc cref="docs._onebecomestwo" />
-        public static IList<T> OneBecomesTwo<T>(this IList<T> list)
-        {
-            if (list == null) throw new ArgumentNullException(nameof(list));
-            if (list.Count == 1) list = new List<T> { list[0], list[0] };
-            return list;
-        }
-        
-        /// <inheritdoc cref="docs._onebecomestwo" />
-        public static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
     }
     
     /// <inheritdoc cref="_trygetsection"/>
-    internal static class JJ_Framework_Configuration_Wishes
-    { 
-        /// <inheritdoc cref="_trygetsection"/>
-        public static T TryGetSection<T>()
-            where T: class, new()
+    namespace JJ_Framework_Configuration_Wishes
+    {
+        internal static class ConfigurationManagerWishes
         {
-            T config = null;
+            /// <inheritdoc cref="_trygetsection"/>
+            public static T TryGetSection<T>()
+                where T: class, new()
+            {
+                T config = null;
 
-            try
-            {
-                config = CustomConfigurationManager.GetSection<T>();
-            }
-            catch (Exception ex)
-            {
-                // Allow 'Not Found' Exception
-                string configSectionName = NameWishes.GetAssemblyName<T>().ToLower();
-                string allowedMessage = $"Configuration section '{configSectionName}' not found.";
-                bool messageIsAllowed = string.Equals(ex.Message, allowedMessage);
-                bool messageIsAllowed2 = string.Equals(ex.InnerException?.Message, allowedMessage);
-                bool mustThrow = !messageIsAllowed && !messageIsAllowed2;
-                
-                if (mustThrow)
+                try
                 {
-                    throw;
+                    config = CustomConfigurationManager.GetSection<T>();
                 }
-            }
+                catch (Exception ex)
+                {
+                    // Allow 'Not Found' Exception
+                    string configSectionName = NameWishes.GetAssemblyName<T>().ToLower();
+                    string allowedMessage = $"Configuration section '{configSectionName}' not found.";
+                    bool messageIsAllowed = string.Equals(ex.Message, allowedMessage);
+                    bool messageIsAllowed2 = string.Equals(ex.InnerException?.Message, allowedMessage);
+                    bool mustThrow = !messageIsAllowed && !messageIsAllowed2;
+                    
+                    if (mustThrow)
+                    {
+                        throw;
+                    }
+                }
 
-            return config;
+                return config;
+            }
         }
     }
-
-    internal static class JJ_Framework_IO_Wishes
+    
+    namespace JJ_Framework_IO_Wishes
     {
-        private const int DEFAULT_MAX_EXTENSION_LENGTH = 8;
-        
-        /// <summary>
-        /// If the originalFilePath already exists,
-        /// a higher and higher number is inserted into the file name 
-        /// until a file name is encountered that does not exist.
-        /// Then that file path is returned.
-        /// </summary>
-        /// <param name="originalFilePath">
-        /// The path to a file name, that does not yet have a number in it.
-        /// </param>
-        public static string GetNumberedFilePath(
-            string originalFilePath,
-            string numberPrefix = " (",
-            string numberFormatString = "#",
-            string numberSuffix = ")",
-            bool mustNumberFirstFile = false,
-            int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
+        internal static class FileWishes
         {
-            (string filePathFirstPart, int number, string filePathLastPart) =
-                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
-        
-            if (!mustNumberFirstFile && !File.Exists(originalFilePath))
-            {
-                return originalFilePath;
-            }
             
-            string filePath;
-            do
-            {
-                filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
-                number++;
-            }
-            while (File.Exists(filePath));
+            private const int DEFAULT_MAX_EXTENSION_LENGTH = 8;
             
-            return filePath;
-        }
-        
-        private static readonly Mutex _createSafeFileStreamMutex = CreateMutex();
-        private static Mutex CreateMutex()
-            => new Mutex(false, "Global\\SynthWishes_CreateSafeFileStreamMutex_7f64fd76542045bb98c2e28a44d2df25");
-
-        /// <summary>
-        /// If the originalFilePath already exists,
-        /// a higher and higher number is inserted into the file name 
-        /// until a file name is encountered that does not exist.
-        /// Then a file stream is returned for writing, so that
-        /// the file immediately locks.
-        /// Be sure to dispose the stream when you're done,
-        /// so the file lock is released.
-        /// </summary>
-        /// <param name="originalFilePath">
-        /// The absolute path to a file name, that does not yet have a number in it.
-        /// </param>
-        public static (string filePath, FileStream) CreateSafeFileStream(
-            string originalFilePath,
-            string numberPrefix = " (",
-            string numberFormatString = "#",
-            string numberSuffix = ")",
-            bool mustNumberFirstFile = false,
-            int maxExtensionLength = 8)
-        {
-            (string filePathFirstPart, int number, string filePathLastPart) =
-                GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
-            
-            _createSafeFileStreamMutex.WaitOne();
-            try
-            {
-                string filePath = originalFilePath;
-                
-                if (mustNumberFirstFile || File.Exists(filePath))
-                {
-                    do
-                    {
-                        filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
-                        number++;
-                    }
-                    while (File.Exists(filePath));
-                }
-                
-                return (filePath, new FileStream(filePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read));
-            }
-            finally
-            {
-                _createSafeFileStreamMutex.ReleaseMutex();
-            }
-        }
-        
-        /// <summary>
-        /// Splits the original file path into three parts: the first part of the file path, 
-        /// the initial number to be used for numbering, and the last part of the file path.
-        /// This method is used to generate a new file path by inserting a number into the file name 
-        /// if the original file path already exists.
-        /// </summary>
-        /// <param name="originalFilePath">The path to a file name that does not yet have a number in it.</param>
-        /// <param name="numberPrefix">The prefix to be used before the number in the file name.</param>
-        /// <param name="numberSuffix">The suffix to be used after the number in the file name.</param>
-        /// <param name="mustNumberFirstFile">
-        /// A boolean indicating whether the first file should be numbered. 
-        /// If true, numbering starts from 1; otherwise, it starts from 2.
-        /// </param>
-        /// <returns>
-        /// A tuple containing three parts: 
-        /// - The first part of the file path, which includes the directory and the file name up to the number prefix.
-        /// - The initial number to be used for numbering.
-        /// - The last part of the file path, which includes the number suffix and the file extension.
-        /// </returns>
-        public static (string filePathFirstPart, int number, string filePathLastPart) 
-            GetNumberedFilePathParts(
-                string originalFilePath, 
-                string numberPrefix = " (", 
-                string numberSuffix = ")", 
+            /// <summary>
+            /// If the originalFilePath already exists,
+            /// a higher and higher number is inserted into the file name 
+            /// until a file name is encountered that does not exist.
+            /// Then that file path is returned.
+            /// </summary>
+            /// <param name="originalFilePath">
+            /// The path to a file name, that does not yet have a number in it.
+            /// </param>
+            public static string GetNumberedFilePath(
+                string originalFilePath,
+                string numberPrefix = " (",
+                string numberFormatString = "#",
+                string numberSuffix = ")",
                 bool mustNumberFirstFile = false,
                 int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
-        {
-            if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");
+            {
+                (string filePathFirstPart, int number, string filePathLastPart) =
+                    GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
             
-            string folderPath = Path.GetDirectoryName(originalFilePath)?.TrimEnd('\\'); // Remove slash from root (e.g. @"C:\")
-            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
-            string fileExtension = GetExtension(originalFilePath, maxExtensionLength);
-            string separator = !string.IsNullOrEmpty(folderPath) ? "\\" : "";
+                if (!mustNumberFirstFile && !File.Exists(originalFilePath))
+                {
+                    return originalFilePath;
+                }
+                
+                string filePath;
+                do
+                {
+                    filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
+                    number++;
+                }
+                while (File.Exists(filePath));
+                
+                return filePath;
+            }
             
-            string filePathFirstPart = $"{folderPath}{separator}{fileNameWithoutExtension}{numberPrefix}";
-            int number = mustNumberFirstFile ? 1 : 2;
-            string filePathLastPart = $"{numberSuffix}{fileExtension}";
-            return (filePathFirstPart, number, filePathLastPart);
-        }
-    
-        public static string SanitizeFilePath(string filePath, string badCharReplacement = "-")
-        {
-            // Crashing a sanitize on an empty string seems a bit harsh.
-            if (string.IsNullOrWhiteSpace(filePath)) return filePath;
+            private static readonly Mutex _createSafeFileStreamMutex = CreateMutex();
+            private static Mutex CreateMutex()
+                => new Mutex(false, "Global\\SynthWishes_CreateSafeFileStreamMutex_7f64fd76542045bb98c2e28a44d2df25");
 
-            var forbiddenCharacters = Path.GetInvalidFileNameChars().ToHashSet();
+            /// <summary>
+            /// If the originalFilePath already exists,
+            /// a higher and higher number is inserted into the file name 
+            /// until a file name is encountered that does not exist.
+            /// Then a file stream is returned for writing, so that
+            /// the file immediately locks.
+            /// Be sure to dispose the stream when you're done,
+            /// so the file lock is released.
+            /// </summary>
+            /// <param name="originalFilePath">
+            /// The absolute path to a file name, that does not yet have a number in it.
+            /// </param>
+            public static (string filePath, FileStream) CreateSafeFileStream(
+                string originalFilePath,
+                string numberPrefix = " (",
+                string numberFormatString = "#",
+                string numberSuffix = ")",
+                bool mustNumberFirstFile = false,
+                int maxExtensionLength = 8)
+            {
+                (string filePathFirstPart, int number, string filePathLastPart) =
+                    GetNumberedFilePathParts(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
+                
+                _createSafeFileStreamMutex.WaitOne();
+                try
+                {
+                    string filePath = originalFilePath;
+                    
+                    if (mustNumberFirstFile || File.Exists(filePath))
+                    {
+                        do
+                        {
+                            filePath = $"{filePathFirstPart}{number.ToString(numberFormatString)}{filePathLastPart}";
+                            number++;
+                        }
+                        while (File.Exists(filePath));
+                    }
+                    
+                    return (filePath, new FileStream(filePath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read));
+                }
+                finally
+                {
+                    _createSafeFileStreamMutex.ReleaseMutex();
+                }
+            }
             
-            // Allow slash and colon (but not wildcards)
-            forbiddenCharacters.Remove('\\');
-            forbiddenCharacters.Remove('/');
-            forbiddenCharacters.Remove(':');
-            
-            string sanitizedFilePath = new string(
-                filePath.SelectMany(chr => forbiddenCharacters.Contains(chr) ? badCharReplacement : $"{chr}")
-                        .ToArray());
-            
-            sanitizedFilePath = sanitizedFilePath.Trim(badCharReplacement);
-            
-            return sanitizedFilePath;
-        }
+            /// <summary>
+            /// Splits the original file path into three parts: the first part of the file path, 
+            /// the initial number to be used for numbering, and the last part of the file path.
+            /// This method is used to generate a new file path by inserting a number into the file name 
+            /// if the original file path already exists.
+            /// </summary>
+            /// <param name="originalFilePath">The path to a file name that does not yet have a number in it.</param>
+            /// <param name="numberPrefix">The prefix to be used before the number in the file name.</param>
+            /// <param name="numberSuffix">The suffix to be used after the number in the file name.</param>
+            /// <param name="mustNumberFirstFile">
+            /// A boolean indicating whether the first file should be numbered. 
+            /// If true, numbering starts from 1; otherwise, it starts from 2.
+            /// </param>
+            /// <returns>
+            /// A tuple containing three parts: 
+            /// - The first part of the file path, which includes the directory and the file name up to the number prefix.
+            /// - The initial number to be used for numbering.
+            /// - The last part of the file path, which includes the number suffix and the file extension.
+            /// </returns>
+            public static (string filePathFirstPart, int number, string filePathLastPart) 
+                GetNumberedFilePathParts(
+                    string originalFilePath, 
+                    string numberPrefix = " (", 
+                    string numberSuffix = ")", 
+                    bool mustNumberFirstFile = false,
+                    int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
+            {
+                if (string.IsNullOrEmpty(originalFilePath)) throw new Exception("originalFilePath is null or empty.");
+                
+                string folderPath = Path.GetDirectoryName(originalFilePath)?.TrimEnd('\\'); // Remove slash from root (e.g. @"C:\")
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(originalFilePath);
+                string fileExtension = GetExtension(originalFilePath, maxExtensionLength);
+                string separator = !string.IsNullOrEmpty(folderPath) ? "\\" : "";
+                
+                string filePathFirstPart = $"{folderPath}{separator}{fileNameWithoutExtension}{numberPrefix}";
+                int number = mustNumberFirstFile ? 1 : 2;
+                string filePathLastPart = $"{numberSuffix}{fileExtension}";
+                return (filePathFirstPart, number, filePathLastPart);
+            }
+        
+            public static string SanitizeFilePath(string filePath, string badCharReplacement = "-")
+            {
+                // Crashing a sanitize on an empty string seems a bit harsh.
+                if (string.IsNullOrWhiteSpace(filePath)) return filePath;
 
-        public static string GetFileNameWithoutExtension(string filePath, int maxExtensionLength)
-        {
-            if (!Has(filePath)) return filePath;
-            string extension = Path.GetExtension(filePath);
-            if (extension.Length > maxExtensionLength) return filePath;
-            string fileNameWithoutExtension = filePath.CutRight(extension);
-            return fileNameWithoutExtension;
-        }
-        
-        public static string GetExtension(string filePath, int maxExtensionLength)
-        {
-            if (!Has(filePath)) return filePath;
-            string extension = Path.GetExtension(filePath);
-            if (extension.Length > maxExtensionLength) return "";
-            return extension;
-        }
-        
-        public static bool HasExtension(string filePath, int maxExtensionLength)
-        {
-            if (!Has(filePath)) return false;
-            string extension = GetExtension(filePath, maxExtensionLength);
-            if (extension.Length > maxExtensionLength) return false;
-            return true;
-        }
-        
-        /// <summary>
-        /// If the file actually exists, true is returned.
-        /// If it exists as a directory, false is returned.
-        /// If the value contains invalid path characters, false is returned.
-        /// Otherwise, it returns true if the path has an extension.
-        /// </summary>
-        public static bool IsFile(string path, int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
-        {
-            if (!Has(path)) return false;
-            if (File.Exists(path)) return true;
-            if (Directory.Exists(path)) return false;
-            if (path.Contains(Path.GetInvalidPathChars())) return false;
-            string extension = Path.GetExtension(path);
-            if (string.IsNullOrEmpty(extension)) return false;
-            return extension.Length <= maxExtensionLength;
+                var forbiddenCharacters = Path.GetInvalidFileNameChars().ToHashSet();
+                
+                // Allow slash and colon (but not wildcards)
+                forbiddenCharacters.Remove('\\');
+                forbiddenCharacters.Remove('/');
+                forbiddenCharacters.Remove(':');
+                
+                string sanitizedFilePath = new string(
+                    filePath.SelectMany(chr => forbiddenCharacters.Contains(chr) ? badCharReplacement : $"{chr}")
+                            .ToArray());
+                
+                sanitizedFilePath = sanitizedFilePath.Trim(badCharReplacement);
+                
+                return sanitizedFilePath;
+            }
+
+            public static string GetFileNameWithoutExtension(string filePath, int maxExtensionLength)
+            {
+                if (!Has(filePath)) return filePath;
+                string extension = Path.GetExtension(filePath);
+                if (extension.Length > maxExtensionLength) return filePath;
+                string fileNameWithoutExtension = filePath.CutRight(extension);
+                return fileNameWithoutExtension;
+            }
+            
+            public static string GetExtension(string filePath, int maxExtensionLength)
+            {
+                if (!Has(filePath)) return filePath;
+                string extension = Path.GetExtension(filePath);
+                if (extension.Length > maxExtensionLength) return "";
+                return extension;
+            }
+            
+            public static bool HasExtension(string filePath, int maxExtensionLength)
+            {
+                if (!Has(filePath)) return false;
+                string extension = GetExtension(filePath, maxExtensionLength);
+                if (extension.Length > maxExtensionLength) return false;
+                return true;
+            }
+            
+            /// <summary>
+            /// If the file actually exists, true is returned.
+            /// If it exists as a directory, false is returned.
+            /// If the value contains invalid path characters, false is returned.
+            /// Otherwise, it returns true if the path has an extension.
+            /// </summary>
+            public static bool IsFile(string path, int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
+            {
+                if (!Has(path)) return false;
+                if (File.Exists(path)) return true;
+                if (Directory.Exists(path)) return false;
+                if (path.Contains(Path.GetInvalidPathChars())) return false;
+                string extension = Path.GetExtension(path);
+                if (string.IsNullOrEmpty(extension)) return false;
+                return extension.Length <= maxExtensionLength;
+            }
         }
     }
     
-    internal static class JJ_Framework_Testing_Wishes
+    namespace JJ_Framework_Testing_Wishes
     {
-        // ReSharper disable AssignNullToNotNullAttribute
-        public static bool CurrentTestIsInCategory(string category)
+        internal static class TestWishes
         {
-            var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
-            
-            var attributeQuery
-                = methodQuery.SelectMany(method => method.GetCustomAttributes()
-                                                         .Union(method.DeclaringType?.GetCustomAttributes()));
-            var categoryQuery
-                = attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
-                                .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
-                                .OfType<IEnumerable<string>>()
-                                .SelectMany(x => x);
-            
-            bool isInCategory = categoryQuery.Any(x => String.Equals(x, category, StringComparison.OrdinalIgnoreCase));
-            
-            return isInCategory;
+            // ReSharper disable AssignNullToNotNullAttribute
+            public static bool CurrentTestIsInCategory(string category)
+            {
+                var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
+                
+                var attributeQuery
+                    = methodQuery.SelectMany(method => method.GetCustomAttributes()
+                                                             .Union(method.DeclaringType?.GetCustomAttributes()));
+                var categoryQuery
+                    = attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
+                                    .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
+                                    .OfType<IEnumerable<string>>()
+                                    .SelectMany(x => x);
+                
+                bool isInCategory = categoryQuery.Any(x => String.Equals(x, category, StringComparison.OrdinalIgnoreCase));
+                
+                return isInCategory;
+            }
         }
     }
         

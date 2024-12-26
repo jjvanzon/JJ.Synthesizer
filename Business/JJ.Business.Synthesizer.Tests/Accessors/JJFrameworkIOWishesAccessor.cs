@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static Accessor CreateAccessor()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes";
+            string   typeName = "JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes.FileWishes";
             Type     type     = assembly.GetType(typeName, true);
             var      accessor = new Accessor(type);
             return accessor;

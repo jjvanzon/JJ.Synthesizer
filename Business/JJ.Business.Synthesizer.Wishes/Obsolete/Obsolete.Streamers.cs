@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using static JJ.Framework.Reflection.ExpressionHelper;
-using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_IO_Wishes.FileWishes;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.Helpers.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
