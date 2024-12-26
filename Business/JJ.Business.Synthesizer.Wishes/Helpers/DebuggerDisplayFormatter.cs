@@ -17,16 +17,18 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             
-            string text = "";
+            var elements = new List<string>();
                             
             if (!obj.IsConst)
             { 
-                text += $"{obj.Calculate()} = ";
+                elements.Add(obj.Calculate() + " = ");
             }
 
-            text += $"{obj} {FormatTypeName(obj)}";
+            elements.Add($"{obj}");
 
-            return text;
+            elements.Add(FormatTypeName(obj));
+
+            return Join(" ", elements);
         }
 
         public static string GetDebuggerDisplay(Tape obj)
