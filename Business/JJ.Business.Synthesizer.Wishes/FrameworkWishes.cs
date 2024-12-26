@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Collection_Wishes;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Mathematics_Copied;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Copied;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes;
@@ -52,6 +53,25 @@ namespace JJ.Business.Synthesizer.Wishes
             
             /// <inheritdoc cref="docs._onebecomestwo" />
             public static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
+            
+            /// <inheritdoc cref="docs._frameworkwishproduct" />
+            public static double Product(this IEnumerable<double> collection)
+            {
+                if (collection == null) throw new ArgumentNullException(nameof(collection));
+                
+                var array = collection as double[] ?? collection.ToArray();
+                
+                if (!array.Any()) return 1;
+                
+                double product = array.FirstOrDefault();
+                
+                foreach (double value in array.Skip(1))
+                {
+                    product *= value;
+                }
+                
+                return product;
+            }
         }
     }
 
@@ -62,24 +82,17 @@ namespace JJ.Business.Synthesizer.Wishes
             /// <inheritdoc cref="docs._frameworkwishproduct" />
             public static double Product<TSource>(this IEnumerable<TSource> collection, Func<TSource, double> selector)
                 => collection.Select(selector).Product();
-
-            /// <inheritdoc cref="docs._frameworkwishproduct" />
-            public static double Product(this IEnumerable<double> collection)
+        
+            /// <summary> AddRange is a member of List&lt;T&gt;. Here is an overload for HashSet&lt;T&gt;. </summary>
+            public static void AddRange<T>(this HashSet<T> dest, IEnumerable<T> source)
             {
-                if (collection == null) throw new ArgumentNullException(nameof(collection));
+                if (dest == null) throw new ArgumentNullException(nameof(dest));
+                if (source == null) throw new ArgumentNullException(nameof(source));
 
-                var array = collection as double[] ?? collection.ToArray();
-                
-                if (!array.Any()) return 1;
-                
-                double product = array.FirstOrDefault();
-
-                foreach (double value in array.Skip(1))
+                foreach (T item in source)
                 {
-                    product *= value;
+                    dest.Add(item);
                 }
-
-                return product;
             }
         }
     }
