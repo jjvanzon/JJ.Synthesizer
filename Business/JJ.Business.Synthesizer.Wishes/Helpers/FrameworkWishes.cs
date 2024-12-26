@@ -54,6 +54,82 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             public static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
         }
     }
+
+    namespace JJ_Framework_Collections_Copied
+    {
+        internal static class CollectionsExtensions_Copied
+        {
+            /// <inheritdoc cref="docs._frameworkwishproduct" />
+            public static double Product<TSource>(this IEnumerable<TSource> collection, Func<TSource, double> selector)
+                => collection.Select(selector).Product();
+
+            /// <inheritdoc cref="docs._frameworkwishproduct" />
+            public static double Product(this IEnumerable<double> collection)
+            {
+                if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+                var array = collection as double[] ?? collection.ToArray();
+                
+                if (!array.Any()) return 1;
+                
+                double product = array.FirstOrDefault();
+
+                foreach (double value in array.Skip(1))
+                {
+                    product *= value;
+                }
+
+                return product;
+            }
+        }
+    }
+    
+    namespace JJ_Framework_Common_Wishes
+    {
+        internal static class EnvironmentHelperWishes
+        {
+            public static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
+                => String.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
+        }
+
+        internal static class FilledInExtensionWishes
+        {
+            public static bool FilledIn(this string value)                 => FilledInWishes.FilledIn(value, false);
+            public static bool FilledIn(this string value, bool trimSpace) => FilledInWishes.FilledIn(value, trimSpace);
+            public static bool FilledIn<T>(this T[] arr)                   => FilledInWishes.FilledIn(arr);
+            public static bool FilledIn<T>(this IList<T> coll)             => FilledInWishes.FilledIn(coll);
+            public static bool FilledIn<T>(this T value)                   => FilledInWishes.FilledIn(value);
+            public static bool FilledIn<T>(this T? value) where T : struct => FilledInWishes.FilledIn(value);
+
+            //public static bool Has(this string value)                      => FilledInWishes.Has(value);
+            //public static bool Has(this string value, bool trimSpace)      => FilledInWishes.Has(value, trimSpace);
+            //public static bool Has<T>(this T[] arr)                        => FilledInWishes.Has(arr);
+            //public static bool Has<T>(this IList<T> coll)                  => FilledInWishes.Has(coll);
+            //public static bool Has<T>(this T value)                        => FilledInWishes.Has(value);
+            //public static bool Has<T>(this T? value) where T : struct      => FilledInWishes.Has(value);
+
+            public static bool Is(this string value, string comparison, bool ignoreCase = false) => FilledInWishes.Is(value, comparison, ignoreCase);
+        }
+        
+        internal static class FilledInWishes
+        {
+            public static bool FilledIn(string value)                 => FilledIn(value, false);
+            public static bool FilledIn(string value, bool trimSpace) => trimSpace ? !string.IsNullOrWhiteSpace(value): !string.IsNullOrEmpty(value);
+            public static bool FilledIn<T>(T[] arr)                   => arr != null && arr.Length > 0;
+            public static bool FilledIn<T>(IList<T> coll)             => coll != null && coll.Count > 0;
+            public static bool FilledIn<T>(T value)                   => !Equals(value, default(T));
+            public static bool FilledIn<T>(T? value) where T : struct => !Equals(value, default(T?)) && !Equals(value, default(T));
+            
+            public static bool Has(string value)                      => FilledIn(value);
+            public static bool Has(string value, bool trimSpace)      => FilledIn(value, trimSpace);
+            public static bool Has<T>(T[] arr)                        => FilledIn(arr);
+            public static bool Has<T>(IList<T> coll)                  => FilledIn(coll);
+            public static bool Has<T>(T value)                        => FilledIn(value);
+            public static bool Has<T>(T? value) where T : struct      => FilledIn(value);
+            
+            public static bool Is(string value, string comparison, bool ignoreCase = false) => string.Equals(value, comparison, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        }
+    }
     
     /// <inheritdoc cref="_trygetsection"/>
     namespace JJ_Framework_Configuration_Wishes
@@ -288,107 +364,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         }
     }
     
-    namespace JJ_Framework_Testing_Wishes
-    {
-        internal static class TestWishes
-        {
-            // ReSharper disable AssignNullToNotNullAttribute
-            public static bool CurrentTestIsInCategory(string category)
-            {
-                var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
-                
-                var attributeQuery
-                    = methodQuery.SelectMany(method => method.GetCustomAttributes()
-                                                             .Union(method.DeclaringType?.GetCustomAttributes()));
-                var categoryQuery
-                    = attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
-                                    .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
-                                    .OfType<IEnumerable<string>>()
-                                    .SelectMany(x => x);
-                
-                bool isInCategory = categoryQuery.Any(x => String.Equals(x, category, StringComparison.OrdinalIgnoreCase));
-                
-                return isInCategory;
-            }
-        }
-    }
-        
-    namespace JJ_Framework_Common_Wishes
-    {
-        internal static class EnvironmentHelperWishes
-        {
-            public static bool EnvironmentVariableIsDefined(string environmentVariableName, string environmentVariableValue)
-                => String.Equals(GetEnvironmentVariable(environmentVariableName), environmentVariableValue, StringComparison.OrdinalIgnoreCase);
-        }
-
-        internal static class FilledInExtensionWishes
-        {
-            public static bool FilledIn(this string value)                 => FilledInWishes.FilledIn(value, false);
-            public static bool FilledIn(this string value, bool trimSpace) => FilledInWishes.FilledIn(value, trimSpace);
-            public static bool FilledIn<T>(this T[] arr)                   => FilledInWishes.FilledIn(arr);
-            public static bool FilledIn<T>(this IList<T> coll)             => FilledInWishes.FilledIn(coll);
-            public static bool FilledIn<T>(this T value)                   => FilledInWishes.FilledIn(value);
-            public static bool FilledIn<T>(this T? value) where T : struct => FilledInWishes.FilledIn(value);
-
-            //public static bool Has(this string value)                      => FilledInWishes.Has(value);
-            //public static bool Has(this string value, bool trimSpace)      => FilledInWishes.Has(value, trimSpace);
-            //public static bool Has<T>(this T[] arr)                        => FilledInWishes.Has(arr);
-            //public static bool Has<T>(this IList<T> coll)                  => FilledInWishes.Has(coll);
-            //public static bool Has<T>(this T value)                        => FilledInWishes.Has(value);
-            //public static bool Has<T>(this T? value) where T : struct      => FilledInWishes.Has(value);
-
-            public static bool Is(this string value, string comparison, bool ignoreCase = false) => FilledInWishes.Is(value, comparison, ignoreCase);
-        }
-        
-        internal static class FilledInWishes
-        {
-            public static bool FilledIn(string value)                 => FilledIn(value, false);
-            public static bool FilledIn(string value, bool trimSpace) => trimSpace ? !string.IsNullOrWhiteSpace(value): !string.IsNullOrEmpty(value);
-            public static bool FilledIn<T>(T[] arr)                   => arr != null && arr.Length > 0;
-            public static bool FilledIn<T>(IList<T> coll)             => coll != null && coll.Count > 0;
-            public static bool FilledIn<T>(T value)                   => !Equals(value, default(T));
-            public static bool FilledIn<T>(T? value) where T : struct => !Equals(value, default(T?)) && !Equals(value, default(T));
-            
-            public static bool Has(string value)                      => FilledIn(value);
-            public static bool Has(string value, bool trimSpace)      => FilledIn(value, trimSpace);
-            public static bool Has<T>(T[] arr)                        => FilledIn(arr);
-            public static bool Has<T>(IList<T> coll)                  => FilledIn(coll);
-            public static bool Has<T>(T value)                        => FilledIn(value);
-            public static bool Has<T>(T? value) where T : struct      => FilledIn(value);
-            
-            public static bool Is(string value, string comparison, bool ignoreCase = false) => string.Equals(value, comparison, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
-        }
-    }
-
-    namespace JJ_Framework_Collections_Copied
-    {
-        internal static class CollectionsExtensions_Copied
-        {
-            /// <inheritdoc cref="docs._frameworkwishproduct" />
-            public static double Product<TSource>(this IEnumerable<TSource> collection, Func<TSource, double> selector)
-                => collection.Select(selector).Product();
-
-            /// <inheritdoc cref="docs._frameworkwishproduct" />
-            public static double Product(this IEnumerable<double> collection)
-            {
-                if (collection == null) throw new ArgumentNullException(nameof(collection));
-
-                var array = collection as double[] ?? collection.ToArray();
-                
-                if (!array.Any()) return 1;
-                
-                double product = array.FirstOrDefault();
-
-                foreach (double value in array.Skip(1))
-                {
-                    product *= value;
-                }
-
-                return product;
-            }
-        }
-    }
-    
     namespace JJ_Framework_Mathematics_Wishes
     {
         public static class RandomizerWishes
@@ -511,7 +486,32 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             }
         }
     }
-
+    
+    namespace JJ_Framework_Testing_Wishes
+    {
+        internal static class TestWishes
+        {
+            // ReSharper disable AssignNullToNotNullAttribute
+            public static bool CurrentTestIsInCategory(string category)
+            {
+                var methodQuery = new StackTrace().GetFrames().Select(x => x.GetMethod());
+                
+                var attributeQuery
+                    = methodQuery.SelectMany(method => method.GetCustomAttributes()
+                                                             .Union(method.DeclaringType?.GetCustomAttributes()));
+                var categoryQuery
+                    = attributeQuery.Where(attr => attr.GetType().Name == "TestCategoryAttribute")
+                                    .Select(attr => attr.GetType().GetProperty("TestCategories")?.GetValue(attr))
+                                    .OfType<IEnumerable<string>>()
+                                    .SelectMany(x => x);
+                
+                bool isInCategory = categoryQuery.Any(x => String.Equals(x, category, StringComparison.OrdinalIgnoreCase));
+                
+                return isInCategory;
+            }
+        }
+    }
+        
     namespace JJ_Framework_Text_Wishes
     {
         internal static class StringExtensionWishes
