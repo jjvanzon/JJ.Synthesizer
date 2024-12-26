@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
@@ -69,13 +70,28 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Signals
 
         internal FlowNode Signal { get; set; }
-        /// <summary> For stereo tapes. </summary>
-        internal IList<FlowNode> Signals { get; set; }
+        
+        /// <summary> For stereo tapes. Not null. Auto(re)created. </summary>
+        private IList<FlowNode> _signals = new List<FlowNode>();
+        
+        /// <summary> For stereo tapes. Not null. Auto(re)created. </summary>
+        internal IList<FlowNode> Signals
+        { 
+            get => _signals;
+            set 
+            {
+                //if (value == null) throw new NullException(() => Signals);
+                //_signals = value;
+                // TODO: May shoot myself in the foot with this null-evasion.
+                _signals = value ?? new List<FlowNode>();
+            }
+        }
+        
         internal IList<FlowNode> ConcatSignals()
         {
             var signals = new List<FlowNode>();
             if (Signal != null) signals.Add(Signal);
-            if (Signals != null) signals.AddRange(Signals.Where(FilledIn));
+            signals.AddRange(Signals.Where(FilledIn));
             return signals;
         }
 
