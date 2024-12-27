@@ -85,16 +85,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             // Copy data from original
             DeepClone(originalTape, paddedTape);
             
-            // Clear Buff
-            paddedTape.Bytes = default;
-            paddedTape.FilePathResolved = default;
-            paddedTape.UnderlyingAudioFileOutput = default;
-            
             // Restore Signal
             paddedTape.Outlet = newNode;
 
             // Set Actions
             paddedTape.IsPadded = true;
+            
+            // Clear Buff
+            paddedTape.Bytes = default;
+            paddedTape.FilePathResolved = default;
+            paddedTape.UnderlyingAudioFileOutput = default;
+
+            // Clear Hierarchy
+            paddedTape.ClearHierarchy();
+            paddedTape.NestingLevel = default;
             
             // Clear Intercept Actions (Unpadded Tapes are desired for Interception purposes.)
             paddedTape.Actions.BeforeRecord.Clear();
@@ -107,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             originalTape.Actions.Save.Clear();
             originalTape.Actions.PlayChannels.Clear();
             originalTape.Actions.SaveChannels.Clear();   
-                
+            
             LogAction(paddedTape, "Pad", $"Delay + {originalTape.LeadingSilence} s");
             
             return paddedTape;
