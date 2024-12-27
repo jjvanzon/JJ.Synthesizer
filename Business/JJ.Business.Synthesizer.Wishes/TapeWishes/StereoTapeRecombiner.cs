@@ -77,8 +77,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             stereoTape.Signal = default;
             stereoTape.Signals = default;
             stereoTape.Channel = default;
-            stereoTape.ClearHierarchy();
             stereoTape.NestingLevel = default;
+            stereoTape.ClearHierarchy();
             
             return stereoTape;
         }
