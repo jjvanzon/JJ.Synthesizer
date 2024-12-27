@@ -94,11 +94,22 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             set => _outlets = value ?? new List<Outlet>();
         }
         
+        internal IList<FlowNode> GetSignals()
+        {
+            if (SynthWishes == null)
+            {
+                throw new Exception("SynthWishes is null, but it is required to convert back-end Outlets into API FlowNodes." +
+                                    "It is usually filled in, but may be missing in certain legacy scenarios." +
+                                    "Please Set the SynthWishes property or use the Outlets property instead.");
+            }
+
+            return _outlets.Select(x => SynthWishes[x]).ToList();
+        }
+        
         internal void SetSignals(IList<FlowNode> signals)
         {
-            Outlets = signals?.Select(x => (Outlet)x).ToList();
+            Outlets = signals?.Select(x => x.UnderlyingOutlet).ToList();
         }
-
         #endregion
 
         #region Durations
