@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
@@ -16,6 +17,12 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             if (flowNode == null) return false;
             if (flowNode.IsConst && flowNode.Value == 0) return false;
+            if (flowNode.IsSample)
+            {
+                var underlyingSample = flowNode.UnderlyingSample();
+                return FilledInWishes.Has(underlyingSample.Bytes);
+            }
+
             return true;
         }
     }
