@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             _tapeTreeBuilder.BuildTapeHierarchyRecursive(tapes);
 
-            tapes.Where(x => x.IsRoot).ForEach(x => Assert(x, "(Roots)"));
+            tapes.Where(x => x.IsRoot).ForEach(x => Assert(x, "(Root)"));
 
             LogLine(PlotTapeTree(tapes));
         }
