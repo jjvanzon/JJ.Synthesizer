@@ -81,6 +81,12 @@ namespace JJ.Business.Synthesizer.Wishes
             return Bits(entity.GetSampleDataTypeEnum());
         }
 
+        public static int Channels(this AudioFileOutput entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return entity.GetChannelCount();
+        }
+
         public static int FrameSize(WavHeaderStruct wavHeader)
         {
             return SizeOfBitDepth(wavHeader) * wavHeader.ChannelCount;
