@@ -7,10 +7,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class TapeTreeBuilder
     {
+        private readonly SynthWishes _synthWishes;
         private readonly TapeCollection _tapes;
         
-        public TapeTreeBuilder(TapeCollection tapes)
+        public TapeTreeBuilder(SynthWishes synthWishes, TapeCollection tapes)
         {
+            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
         }
         
@@ -20,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             SetTapeNestingLevelsRecursive(tapes);
         }
         
-        private void BuildTapeHierarchyRecursive(Tape tape) => BuildTapeHierarchyRecursive(tape.Outlet, null);
+        private void BuildTapeHierarchyRecursive(Tape tape) => BuildTapeHierarchyRecursive(_synthWishes[tape.Outlet], null);
         
         private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape)
         {

@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     x.FallBackName, 
                     x.FilePathSuggested,    
                     SignalName = x.Outlet?.Name, 
-                    x.Outlet?.UnderlyingOperator?.OperatorTypeName
+                    x.Outlet?.Operator?.OperatorTypeName
                 });
                 
                 foreach (var subGroup in groupedByName)

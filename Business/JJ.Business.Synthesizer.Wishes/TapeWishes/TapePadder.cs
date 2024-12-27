@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (originalTape.LeadingSilence == 0) return originalTape;
             
             // Apply delay
-            FlowNode newNode = _synthWishes.Delay(originalTape.Outlet, originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
+            FlowNode newNode = _synthWishes.Delay(_synthWishes[originalTape.Outlet], originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
             
             // Add tape
             Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[originalTape.Duration], null, null, null, null, originalTape.FilePathSuggested);
@@ -92,7 +92,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             // Restore Signal
             paddedTape.Outlet = newNode;
-            paddedTape.Outlets = default;
 
             // Set Actions
             paddedTape.IsPadded = true;

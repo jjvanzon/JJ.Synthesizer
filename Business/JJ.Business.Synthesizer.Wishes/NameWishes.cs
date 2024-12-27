@@ -67,6 +67,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 case string str: 
                     return str;
                 
+                case Outlet outlet: 
+                    return outlet.Operator.Name;
+                
                 case FlowNode flowNode: 
                     return flowNode.Name;
                 

@@ -23,6 +23,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Actions = new TapeActions(this);
         }
         
+        internal SynthWishes SynthWishes { get; set; }
+
         // Buff
 
         public bool IsBuff => Has(Bytes) || Exists(FilePathResolved);
@@ -53,9 +55,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         // Identity
                 
-        public IList<int> IDs => ConcatSignals().Select(x => x?.UnderlyingOperator?.ID)
-                                                .Where(FilledIn)
-                                                .Select(x => x.Value).ToArray();
+        public IList<int> IDs => Outlets.Select(x => x?.Operator?.ID)
+                                        .Where(FilledIn)
+                                        .Select(x => x.Value).ToArray();
 
         /// <inheritdoc cref="docs._tapename" />
         public string GetName(string name = null, [CallerMemberName] string callerMemberName = null)
@@ -69,30 +71,33 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Signals
 
-        internal FlowNode Outlet { get; set; }
-        
-        /// <summary> For stereo tapes. Not null. Auto(re)created. </summary>
-        private IList<FlowNode> _outlets = new List<FlowNode>();
-        
-        /// <summary> For stereo tapes. Not null. Auto(re)created. </summary>
-        internal IList<FlowNode> Outlets
-        { 
-            get => _outlets;
-            set 
+        internal Outlet Outlet 
+        {
+            get
             {
-                //if (value == null) throw new NullException(() => Signals);
-                //_signals = value;
-                // TODO: May shoot myself in the foot with this null-evasion.
-                _outlets = value ?? new List<FlowNode>();
+                if (Outlets.Count == 1) return Outlets[0];
+                return null;
+            }
+            set
+            {
+                if (value == null) Outlets = default;
+                Outlets = new [] { value };
             }
         }
         
-        internal IList<FlowNode> ConcatSignals()
+        /// <summary> Not null. Auto(re)created. </summary>
+        private IList<Outlet> _outlets = new List<Outlet>();
+        
+        /// <summary> Not null. Auto(re)created. </summary>
+        internal IList<Outlet> Outlets
+        { 
+            get => _outlets;
+            set => _outlets = value ?? new List<Outlet>();
+        }
+        
+        internal void SetSignals(IList<FlowNode> signals)
         {
-            var signals = new List<FlowNode>();
-            if (Outlet != null) signals.Add(Outlet);
-            signals.AddRange(Outlets.Where(FilledIn));
-            return signals;
+            Outlets = signals?.Select(x => (Outlet)x).ToList();
         }
 
         // Durations

@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Collections_Copied;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
@@ -29,8 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.FilePathSuggested = source.FilePathSuggested;
         
             // Signals
-            dest.Outlet = source.Outlet;
-            dest.Outlets = source.Outlets?.ToArray() ?? Array.Empty<FlowNode>();
+            dest.Outlets = source.Outlets;
 
             // Durations
             dest.Duration = source.Duration;

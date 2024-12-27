@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             LogAction(tape, "Validate", message);
-            tape.ConcatSignals().ForEach(x => x.Assert());
+            tape.Outlets.ForEach(x => x.Assert());
         }
         
         internal static void Assert(FlowNode flowNode)

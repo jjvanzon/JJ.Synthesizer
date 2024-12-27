@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Calculation Graphs
             
-            var signals = tape.ConcatSignals();
+            var signals = tape.Outlets;
             if (signals.Count <= 0)
             {
                 lines.Add("");
@@ -813,7 +813,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 }
             }
 
-            SynthWishes synthWishes = tape.ConcatSignals().FirstOrDefault()?.SynthWishes;
+            SynthWishes synthWishes = tape.SynthWishes;
             if (synthWishes != null)
             {
                 if (Has(tape.Config.SamplingRate) && 

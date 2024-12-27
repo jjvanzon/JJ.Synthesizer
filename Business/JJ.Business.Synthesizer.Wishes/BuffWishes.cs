@@ -64,9 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
             // Configure AudioFileOutput (avoid backend, because buggy)
-
-            IList<FlowNode> channelSignals = tape.ConcatSignals();
-
+            
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = tape.Descriptor();
@@ -78,22 +76,22 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetAudioFormat(tape.Config.AudioFormat, Context);
             audioFileOutput.SamplingRate = tape.Config.SamplingRate;
             
-            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count);
-            CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
+            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(tape.Outlets.Count);
+            CreateOrRemoveChannels(audioFileOutput, tape.Outlets.Count);
 
-            switch (channelSignals.Count)
+            switch (tape.Outlets.Count)
             {
                 case 1:
-                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelSignals[0];
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = tape.Outlets[0];
                     break;
 
                 case 2:
-                    audioFileOutput.AudioFileOutputChannels[0].Outlet = channelSignals[0];
-                    audioFileOutput.AudioFileOutputChannels[1].Outlet = channelSignals[1];
+                    audioFileOutput.AudioFileOutputChannels[0].Outlet = tape.Outlets[0];
+                    audioFileOutput.AudioFileOutputChannels[1].Outlet = tape.Outlets[1];
                     break;
 
                 default:
-                    throw new Exception($"Value not supported: {GetText(() => channelSignals.Count)} = {GetValue(() => channelSignals.Count)}");;
+                    throw new Exception($"Value not supported: {GetText(() => tape.Outlets.Count)} = {GetValue(() => tape.Outlets.Count)}");;
             }
             
             LogAction(audioFileOutput, "Create");
@@ -179,13 +177,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var dummyTape = new Tape
             {
-                Outlets = channelSignals,
                 Duration = (duration ?? GetAudioLength).Value,
                 LeadingSilence = GetLeadingSilence.Value,
                 TrailingSilence = GetTrailingSilence.Value,
                 FilePathSuggested = filePath,
                 FallBackName = ResolveName(name, callerMemberName)
             };
+            dummyTape.SetSignals(channelSignals);
             
             // Config
             dummyTape.Config.SamplingRate = GetSamplingRate;

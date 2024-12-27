@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
             _tapePadder = new TapePadder(synthWishes, tapes);
-            _tapeTreeBuilder = new TapeTreeBuilder(tapes);
+            _tapeTreeBuilder = new TapeTreeBuilder(synthWishes, tapes);
             _stereoTapeMatcher = new StereoTapeMatcher();
             _stereoTapeRecombiner = new StereoTapeRecombiner(synthWishes);
             _versatileActionRunner = new VersatileActionRunner();
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Replace All References
                 //lock (_hierarchyLock)
                 {
-                    IList<Inlet> connectedInlets = tape.Outlet.UnderlyingOutlet.ConnectedInlets.ToArray();
+                    IList<Inlet> connectedInlets = tape.Outlet.ConnectedInlets.ToArray();
                     foreach (Inlet inlet in connectedInlets)
                     {
                         inlet.LinkTo(sample);
