@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -14,6 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape.IsBuff) return;
             MakeBuff(tape);
             tape.Sample = tape.SynthWishes.Sample(tape);
+            LogAction(tape, "Update");
         }
         
         /// <inheritdoc cref="docs._makebuff" />

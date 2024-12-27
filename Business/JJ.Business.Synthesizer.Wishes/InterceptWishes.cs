@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
+
 // ReSharper disable ParameterHidesMember
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -37,6 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(signal, duration, callback, null, null, null, filePath, callerMemberName);
             tape.Actions.BeforeRecord.On = true;
+            LogAction(tape, "Update");
             return signal;
         }
 
@@ -67,6 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(signal, duration, null, callback, null, null, filePath, callerMemberName);
             tape.Actions.AfterRecord.On = true;
+            LogAction(tape, "Update");
             return signal;
         }
 
@@ -97,6 +101,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, null, callback, null, filePath, callerMemberName);
             tape.Actions.BeforeRecordChannel.On = true;
+            LogAction(tape, "Update");
             return channel;
         }
         
@@ -127,6 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, callback, filePath, callerMemberName);
             tape.Actions.AfterRecordChannel.On = true;
+            LogAction(tape, "Update");
             return channel;
         }
     }

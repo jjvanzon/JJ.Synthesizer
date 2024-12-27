@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.Save.On = true;
+            LogAction(tape, "Update");
             return channel;
         }
         
@@ -50,6 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.SaveChannels.On = true;
+            LogAction(tape, "Update");
             return channel;
         }
 
@@ -273,42 +275,27 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Save(
             Tape tape, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            SynthWishes.Save(tape, filePath, callerMemberName);
-            return this;
-        }
+        { SynthWishes.Save(tape, filePath, callerMemberName); return this; }
 
         public FlowNode Save(
             Buff buff, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            SynthWishes.Save(buff, filePath, callerMemberName);
-            return this;
-        }
+        { SynthWishes.Save(buff, filePath, callerMemberName); return this; }
         
         public FlowNode Save(
             AudioFileOutput audioFileOutput, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(audioFileOutput, filePath, callerMemberName);
-            return this; 
-        }
+        { SynthWishes.Save(audioFileOutput, filePath, callerMemberName); return this; }
 
         public FlowNode Save(
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(sample, filePath, callerMemberName); 
-            return this; 
-        }
+        { SynthWishes.Save(sample, filePath, callerMemberName); return this; }
         
         public FlowNode Save(
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(bytes, filePath, callerMemberName); 
-            return this; 
-        }
+        { SynthWishes.Save(bytes, filePath, callerMemberName); return this; }
     }
 
     // Save Extensions (Buff-to-Buff) (End-of-Chain)

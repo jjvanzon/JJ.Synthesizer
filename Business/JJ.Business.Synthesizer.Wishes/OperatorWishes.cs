@@ -91,6 +91,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(signal, duration, null, null, null, null, null, callerMemberName);
             tape.IsTape = true;
+            LogAction(tape, "Update");
             return signal;
         }
         

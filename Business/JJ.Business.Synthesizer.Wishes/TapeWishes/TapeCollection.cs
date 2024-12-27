@@ -58,15 +58,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             AssertCallback(tape.Actions.BeforeRecordChannel, beforeRecordChannelCallback);
             AssertCallback(tape.Actions.AfterRecordChannel, afterRecordChannelCallback);
 
-            if (isNew)
-            {
-                LogAction(tape, "Create");
-            }
-            else
-            {
-                LogAction(tape, "Update");
-            }
-
+            if (isNew) LogAction(tape, "Create");
+            
             return tape;
         }
         
