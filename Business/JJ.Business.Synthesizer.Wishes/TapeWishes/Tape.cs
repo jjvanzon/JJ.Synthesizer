@@ -123,6 +123,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             Outlets = signals?.Select(x => x.UnderlyingOutlet).ToList();
         }
+        
+        internal void ClearSignals() => Outlets = default;
         #endregion
 
         #region Durations
