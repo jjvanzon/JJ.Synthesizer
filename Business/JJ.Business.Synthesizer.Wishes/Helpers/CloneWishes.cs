@@ -6,16 +6,16 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    public static class CloneWishes
+    internal static class CloneWishes
     {
-        public static Tape CloneTape(Tape source) 
+        internal static Tape CloneTape(Tape source) 
         {
             var dest = new Tape();
             CloneTape(source, dest);
             return dest;
         }
         
-        public static void CloneTape(Tape source, Tape dest)
+        internal static void CloneTape(Tape source, Tape dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
@@ -52,14 +52,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.NestingLevel = source.NestingLevel;
         }
         
-        public static Buff CloneBuff(Buff source)
+        internal static Buff CloneBuff(Buff source)
         {
             var dest = new Buff();
             CloneBuff(source, dest);
             return dest;
         }    
         
-        public static void CloneBuff(Buff source, Buff dest)
+        internal static void CloneBuff(Buff source, Buff dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return dest;
         }
         
-        public static void CloneTapeConfig(TapeConfig source, TapeConfig dest)
+        internal static void CloneTapeConfig(TapeConfig source, TapeConfig dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.CourtesyFrames = source.CourtesyFrames;
         }
 
-        public static void CloneActions(TapeActions source, TapeActions dest)
+        internal static void CloneActions(TapeActions source, TapeActions dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             CloneAction(source.DiskCache,           dest.DiskCache);
         }
 
-        public static void CloneAction(TapeAction source, TapeAction dest)
+        internal static void CloneAction(TapeAction source, TapeAction dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
