@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Math;
+using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Framework.Reflection.ExpressionHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -41,27 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 tape.Outlet = signal;
             }
             
-            // Durations
-            
-            tape.LeadingSilence = _synthWishes.GetLeadingSilence.Value;
-            tape.TrailingSilence = _synthWishes.GetTrailingSilence.Value;
-
-            // Audio Properties
-            
-            tape.Config.Channel = _synthWishes.GetChannel;
-            tape.Config.SamplingRate = _synthWishes.GetSamplingRate;
-            tape.Config.Bits = _synthWishes.GetBits;
-            tape.Config.Channels = _synthWishes.GetChannels;
-            tape.Config.AudioFormat = _synthWishes.GetAudioFormat;
-            tape.Config.Interpolation = _synthWishes.GetInterpolation;
-            tape.Config.CourtesyFrames = _synthWishes.GetCourtesyFrames;
-            
-            // Actions
-            
-            tape.Actions.DiskCache.On = _synthWishes.GetDiskCache;
-            tape.Actions.PlayAllTapes.On = _synthWishes.GetPlayAllTapes;
-            
-            // From Parameters
+            CloneTape(_synthWishes, tape);
             
             if (Has(filePathSuggested)) tape.FilePathSuggested = filePathSuggested;
             if (Has(callerMemberName)) tape.FallBackName = callerMemberName;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -17,7 +18,8 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_IO_Wishes.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
-using System.Runtime.Remoting.Channels;
+using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ParameterHidesMember
 // ReSharper disable UseObjectOrCollectionInitializer
@@ -175,28 +177,13 @@ namespace JJ.Business.Synthesizer.Wishes
             // Help ReSharper not error over unused legacy parameter.
             mustPad = mustPad;
 
-            var dummyTape = new Tape
-            {
-                Duration = (duration ?? GetAudioLength).Value,
-                LeadingSilence = GetLeadingSilence.Value,
-                TrailingSilence = GetTrailingSilence.Value,
-                FilePathSuggested = filePath,
-                FallBackName = ResolveName(name, callerMemberName)
-            };
+            Tape dummyTape = this.CloneTape();
+            
             dummyTape.SetSignals(channelSignals);
-            
-            // Config
-            dummyTape.Config.SamplingRate = GetSamplingRate;
-            dummyTape.Config.Bits = GetBits;
-            dummyTape.Config.Channels = channelSignals.Count;
-            dummyTape.Config.AudioFormat = GetAudioFormat;
-            dummyTape.Config.Interpolation = GetInterpolation;
-            dummyTape.Config.CourtesyFrames = GetCourtesyFrames;
-            
-            // Actions
-            dummyTape.Actions.DiskCache.On = GetDiskCache;
-            dummyTape.Actions.PlayAllTapes.On = GetPlayAllTapes;
+            dummyTape.Duration = (duration ?? GetAudioLength).Value;
             dummyTape.Actions.Save.On = !inMemory;
+            dummyTape.FallBackName = ResolveName(name, callerMemberName);
+            dummyTape.FilePathSuggested = filePath;
 
             LogAction(dummyTape, "Create", "Buff Legacy");
             
@@ -210,14 +197,12 @@ namespace JJ.Business.Synthesizer.Wishes
             bool inMemory, int courtesyFrames, 
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
-            var dummyTape = new Tape
-            {
-                FilePathSuggested = filePath,
-                FallBackName = name,
-            };
-
-            dummyTape.Config.CourtesyFrames = courtesyFrames;
+            Tape dummyTape = CloneTape(audioFileOutput);
+            
             dummyTape.Actions.DiskCache.On = !inMemory;
+            dummyTape.Config.CourtesyFrames = courtesyFrames;
+            dummyTape.FallBackName = ResolveName(name, dummyTape.FallBackName, filePath, callerMemberName);
+            dummyTape.FilePathSuggested = ResolveFilePath(filePath, dummyTape.FilePathSuggested, name, callerMemberName);
 
             MakeBuff(dummyTape, audioFileOutput, callerMemberName);
             

@@ -9,6 +9,7 @@ using static JJ.Framework.IO.StreamHelper;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using System.Runtime.Remoting.Channels;
+using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -78,25 +79,14 @@ namespace JJ.Business.Synthesizer.Wishes
             Stream stream, byte[] bytes, string filePath, 
             int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
         {
-            var dummyTape = new Tape
-            {
-                Bytes = bytes,
-                FilePathSuggested = filePath,
-                FilePathResolved = filePath,
-                FallBackName = ResolveName(name, callerMemberName),
-                LeadingSilence = GetLeadingSilence.Value,
-                TrailingSilence = GetTrailingSilence.Value,
-            };
-
-            dummyTape.Config.SamplingRate = GetSamplingRate;
-            dummyTape.Config.Bits = GetBits;
-            dummyTape.Config.Channels = GetChannels;
-            dummyTape.Config.AudioFormat = GetAudioFormat;
-            dummyTape.Config.Interpolation = GetInterpolation;
-            dummyTape.Config.CourtesyFrames = GetCourtesyFrames;
-
-            dummyTape.Actions.DiskCache.On = GetDiskCache;
-            dummyTape.Actions.PlayAllTapes.On = GetPlayAllTapes;
+            Tape dummyTape = CloneTape(this);
+            
+            dummyTape.Bytes = bytes;
+            dummyTape.FilePathSuggested = filePath;
+            dummyTape.FilePathResolved = filePath;
+            dummyTape.FallBackName = ResolveName(name, callerMemberName);
+            
+            dummyTape.Config.Channel = default; // ???
 
             LogAction(dummyTape, "Create", "Sample Dummy");
 

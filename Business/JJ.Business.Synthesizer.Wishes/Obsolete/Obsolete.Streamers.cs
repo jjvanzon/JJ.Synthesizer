@@ -12,6 +12,7 @@ using JJ.Framework.Common;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_IO_Wishes.FileWishes;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
+using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
@@ -319,26 +320,12 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             
-            // TODO: How about the difference between Signal and Signals? Signal isn't filled in here.
-            var dummyTape = new Tape
-            {
-                Duration = (duration ?? synthWishes.GetAudioLength).Value,
-                LeadingSilence = synthWishes.GetLeadingSilence.Value,
-                TrailingSilence = synthWishes.GetTrailingSilence.Value,
-                FilePathSuggested = filePath,
-                FallBackName = name,
-            };
+            Tape dummyTape = CloneTape(synthWishes);
             
             dummyTape.SetSignals(channelSignals);
-
-            dummyTape.Config.Bits = synthWishes.GetBits;
-            dummyTape.Config.SamplingRate = synthWishes.GetSamplingRate;
-            dummyTape.Config.AudioFormat = synthWishes.GetAudioFormat;
-            dummyTape.Config.Interpolation = synthWishes.GetInterpolation;
-            dummyTape.Config.CourtesyFrames = synthWishes.GetCourtesyFrames;
-
-            dummyTape.Actions.DiskCache.On = synthWishes.GetDiskCache;
-            dummyTape.Actions.PlayAllTapes.On = synthWishes.GetPlayAllTapes;
+            dummyTape.Duration = (duration ?? synthWishes.GetAudioLength).Value;
+            dummyTape.FallBackName = name;
+            dummyTape.FilePathSuggested = filePath;
 
             LogAction(dummyTape, "Create", "AudioFileOutput Dummy");
             
