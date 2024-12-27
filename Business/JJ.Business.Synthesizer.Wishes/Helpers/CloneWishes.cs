@@ -93,16 +93,16 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
             
-            CloneAction(source.Play, dest.Play);
-            CloneAction(source.Save, dest.Save);
-            CloneAction(source.BeforeRecord, dest.BeforeRecord);
-            CloneAction(source.AfterRecord, dest.AfterRecord);
-            CloneAction(source.PlayChannels, dest.PlayChannels);
-            CloneAction(source.SaveChannels, dest.SaveChannels);
+            CloneAction(source.Play,                dest.Play);
+            CloneAction(source.Save,                dest.Save);
+            CloneAction(source.BeforeRecord,        dest.BeforeRecord);
+            CloneAction(source.AfterRecord,         dest.AfterRecord);
+            CloneAction(source.PlayChannels,        dest.PlayChannels);
+            CloneAction(source.SaveChannels,        dest.SaveChannels);
             CloneAction(source.BeforeRecordChannel, dest.BeforeRecordChannel);
-            CloneAction(source.AfterRecordChannel, dest.AfterRecordChannel);
-            CloneAction(source.PlayAllTapes, dest.PlayAllTapes);
-            CloneAction(source.DiskCache, dest.DiskCache);
+            CloneAction(source.AfterRecordChannel,  dest.AfterRecordChannel);
+            CloneAction(source.PlayAllTapes,        dest.PlayAllTapes);
+            CloneAction(source.DiskCache,           dest.DiskCache);
         }
 
         public static void CloneAction(TapeAction source, TapeAction dest)

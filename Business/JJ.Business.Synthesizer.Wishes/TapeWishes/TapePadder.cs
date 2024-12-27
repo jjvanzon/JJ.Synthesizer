@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogAction(paddedTape, "Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             // Remove original tape if it has no other purposes.
-            bool hasIntercept        = tape.Actions.BeforeRecord.On        || tape.Actions.BeforeRecord.Callback != null        ||
+            bool hasIntercept = tape.Actions.BeforeRecord.On        || tape.Actions.BeforeRecord.Callback != null        ||
                                        tape.Actions.AfterRecord.On         || tape.Actions.AfterRecord.Callback != null         ||
                                        tape.Actions.BeforeRecordChannel.On || tape.Actions.BeforeRecordChannel.Callback != null ||
                                        tape.Actions.AfterRecordChannel.On  || tape.Actions.AfterRecordChannel.Callback != null;

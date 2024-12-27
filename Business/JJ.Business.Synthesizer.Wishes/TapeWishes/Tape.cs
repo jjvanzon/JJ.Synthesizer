@@ -179,6 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool Done { get; internal set; }
         /// <summary> Not always there </summary>
         internal Action<Tape> Callback { get; set; }
+
     }
 
     /// <inheritdoc cref="docs._tapeaction" />
