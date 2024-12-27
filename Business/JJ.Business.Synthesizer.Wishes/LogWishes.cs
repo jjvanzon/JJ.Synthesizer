@@ -21,6 +21,7 @@ using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
@@ -269,7 +270,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string descriptor = Join(" | ", elements);
             return descriptor;
         }
-        
+
         public static string ChannelDescriptor(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
@@ -797,22 +798,18 @@ namespace JJ.Business.Synthesizer.Wishes
             string nameDescriptor = tape.GetName();
             if (!Has(nameDescriptor)) nameDescriptor = "<Untitled>";
             
-            // Add flag if true
             var flags = new List<string>();
             
-            string actionsDescriptor = Descriptor(tape.Actions);
-            
-            flags.Add(actionsDescriptor);
+            string actions = Descriptor(tape.Actions);
+            flags.Add(actions);
             
             if (tape.IsTape) flags.Add("tape");
             
-            flags.Add(ChannelDescriptor(tape.Config.Channels, tape.Config.Channel)?.ToLower());
+            string channel = ChannelDescriptor(tape)?.ToLower();
+            flags.Add(channel);
             
-            if (Has(tape.Duration))
-            {
-                flags.Add($"{tape.Duration}s");
-            }
-
+            if (Has(tape.Duration)) flags.Add($"{tape.Duration}s");
+            
             if (tape.IsPadded)
             {
                 if (tape.LeadingSilence == tape.TrailingSilence)
@@ -824,30 +821,35 @@ namespace JJ.Business.Synthesizer.Wishes
                     flags.Add($"pad{tape.LeadingSilence:#.##},{tape.TrailingSilence:#.##}");
                 }
             }
+            
+            if (Has(tape.UnderlyingAudioFileOutput)) flags.Add("out");
+            if (Has(tape.Bytes)) flags.Add("mem");
+            // TODO: Combine with saved flag, report inconsistencies if present.
+            if (Exists(tape.FilePathResolved)) flags.Add("file");
+            if (Has(tape.Sample)) flags.Add("smp");
 
-            SynthWishes synthWishes = tape.SynthWishes;
-            if (synthWishes != null)
+            if (tape.SynthWishes != null)
             {
                 if (Has(tape.Config.SamplingRate) && 
-                    tape.Config.SamplingRate != synthWishes.GetSamplingRate)
+                    tape.Config.SamplingRate != tape.SynthWishes.GetSamplingRate)
                 {
                     flags.Add($"{tape.Config.SamplingRate}hz");
                 }
 
                 if (Has(tape.Config.Bits) && 
-                    tape.Config.Bits != synthWishes.GetBits)
+                    tape.Config.Bits != tape.SynthWishes.GetBits)
                 {
                     flags.Add($"{tape.Config.Bits}bit");
                 }
 
                 if (Has(tape.Config.AudioFormat) && 
-                    tape.Config.AudioFormat != synthWishes.GetAudioFormat)
+                    tape.Config.AudioFormat != tape.SynthWishes.GetAudioFormat)
                 {
                     flags.Add($"{tape.Config.AudioFormat}".ToLower());
                 }
 
                 if (Has(tape.Config.Interpolation) &&
-                    tape.Config.Interpolation != synthWishes.GetInterpolation)
+                    tape.Config.Interpolation != tape.SynthWishes.GetInterpolation)
                 {
                     flags.Add($"{tape.Config.Interpolation}".ToLower());
                 }
