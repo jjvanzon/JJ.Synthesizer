@@ -2,6 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Collections_Copied;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
@@ -57,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             var dest = new Buff();
             CloneBuff(source, dest);
             return dest;
-        }    
+        }
         
         internal static void CloneBuff(Buff source, Buff dest)
         {
@@ -74,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             CloneConfig(source, dest);
             return dest;
         }
-        
+
         internal static void CloneConfig(TapeConfig source, TapeConfig dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -86,6 +87,62 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.AudioFormat    = source.AudioFormat   ;
             dest.Interpolation  = source.Interpolation ;
             dest.CourtesyFrames = source.CourtesyFrames;
+        }
+
+        internal static Tape CloneTape(SynthWishes source)
+        {
+            var dest = new Tape();
+            CloneTape(source, dest);
+            return dest;
+        }
+
+        internal static void CloneTape(SynthWishes source, Tape dest)
+        {
+            dest.SynthWishes = source;
+
+            CloneConfig(source.Config, dest.Config);
+
+            dest.LeadingSilence = source.GetLeadingSilence.Value;
+            dest.TrailingSilence = source.GetTrailingSilence.Value;
+            
+        
+            dest.Actions.DiskCache.On = source.GetDiskCache;
+            dest.Actions.PlayAllTapes.On = source.GetPlayAllTapes;
+        }
+
+        internal static void CloneConfig(ConfigWishes source, TapeConfig dest)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+            dest.SamplingRate   = source.GetSamplingRate  ;
+            dest.Bits           = source.GetBits          ;
+            dest.Channels       = source.GetChannels      ;
+            dest.Channel        = source.GetChannel       ;
+            dest.AudioFormat    = source.GetAudioFormat   ;
+            dest.Interpolation  = source.GetInterpolation ;
+            dest.CourtesyFrames = source.GetCourtesyFrames;
+        }
+        
+        internal static Tape CloneTape(AudioFileOutput source)
+        {
+            var dest = new Tape();
+            CloneTape(source, dest);
+            return dest;
+        }
+
+        private static void CloneTape(AudioFileOutput source, Tape dest)
+        {
+            dest.UnderlyingAudioFileOutput = source;
+            
+            dest.FallBackName = source.Name;
+            dest.FilePathSuggested = source.FilePath;
+            dest.Duration = source.Duration;
+            dest.Config.SamplingRate = source.SamplingRate;
+            dest.Config.Bits = source.Bits();
+            dest.Config.Channels = source.Channels();
+            dest.Config.AudioFormat = source.AudioFormat();
+
+            source.AudioFileOutputChannels.ForEach(x => dest.Outlets.Add(x.Outlet));
         }
 
         internal static void CloneActions(TapeActions source, TapeActions dest)
@@ -104,7 +161,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             CloneAction(source.PlayAllTapes,        dest.PlayAllTapes);
             CloneAction(source.DiskCache,           dest.DiskCache);
         }
-
+        
         internal static void CloneAction(TapeAction source, TapeAction dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
@@ -112,6 +169,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.On = source.On;
             dest.Done = source.Done;
             dest.Callback = source.Callback;
+        }
+    }
+    
+    internal static class CloneExtensionWishes
+    {
+        internal static Tape CloneTape(this SynthWishes synthWishes)
+        {
+            return CloneWishes.CloneTape(synthWishes);
         }
     }
 }
