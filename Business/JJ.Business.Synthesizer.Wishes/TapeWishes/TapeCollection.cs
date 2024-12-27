@@ -33,7 +33,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
             bool isNew = false;
-            
             if (!_tapes.TryGetValue(signal, out Tape tape))
             {
                 isNew = true;
@@ -49,10 +48,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
 
-            tape.Actions.BeforeRecord.Callback = tape.Actions.BeforeRecord.Callback ?? beforeRecordCallback;
-            tape.Actions.AfterRecord.Callback = tape.Actions.AfterRecord.Callback ?? afterRecordCallback;
+            tape.Actions.BeforeRecord.Callback        = tape.Actions.BeforeRecord.Callback        ?? beforeRecordCallback;
+            tape.Actions.AfterRecord.Callback         = tape.Actions.AfterRecord.Callback         ?? afterRecordCallback;
             tape.Actions.BeforeRecordChannel.Callback = tape.Actions.BeforeRecordChannel.Callback ?? beforeRecordChannelCallback; 
-            tape.Actions.AfterRecordChannel.Callback = tape.Actions.AfterRecordChannel.Callback ?? afterRecordChannelCallback; 
+            tape.Actions.AfterRecordChannel.Callback  = tape.Actions.AfterRecordChannel.Callback  ?? afterRecordChannelCallback; 
             
             AssertCallback(tape.Actions.BeforeRecord, beforeRecordCallback);
             AssertCallback(tape.Actions.AfterRecord, afterRecordCallback);
