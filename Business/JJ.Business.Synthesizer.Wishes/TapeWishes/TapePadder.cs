@@ -60,9 +60,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             // Remove original tape if it has no other purposes.
             bool hasIntercept = tape.Actions.BeforeRecord.On        || tape.Actions.BeforeRecord.Callback != null        ||
-                                       tape.Actions.AfterRecord.On         || tape.Actions.AfterRecord.Callback != null         ||
-                                       tape.Actions.BeforeRecordChannel.On || tape.Actions.BeforeRecordChannel.Callback != null ||
-                                       tape.Actions.AfterRecordChannel.On  || tape.Actions.AfterRecordChannel.Callback != null;
+                                tape.Actions.AfterRecord.On         || tape.Actions.AfterRecord.Callback != null         ||
+                                tape.Actions.BeforeRecordChannel.On || tape.Actions.BeforeRecordChannel.Callback != null ||
+                                tape.Actions.AfterRecordChannel.On  || tape.Actions.AfterRecordChannel.Callback != null;
             if (!hasIntercept)
             {
                 _tapes.Remove(tape);
@@ -71,56 +71,53 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return paddedTape;
         }
         
-        private Tape ApplyDelayIfNeeded(Tape tape)
+        private Tape ApplyDelayIfNeeded(Tape originalTape)
         {
             // Don't make a new tape if it's only trailed by extra silence.
-            if (tape.LeadingSilence == 0) return tape;
+            if (originalTape.LeadingSilence == 0) return originalTape;
             
             // Apply delay
-            FlowNode newNode = _synthWishes.Delay(tape.Signal, tape.LeadingSilence).SetName(tape.GetName() + " Padded");
+            FlowNode newNode = _synthWishes.Delay(originalTape.Signal, originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
             
             // Add tape
-            Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[tape.Duration], null, null, null, null, tape.FilePathSuggested);
+            Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[originalTape.Duration], null, null, null, null, originalTape.FilePathSuggested);
             
-            // Clone Names
-            paddedTape.FallBackName = tape.FallBackName;
-            paddedTape.FilePathSuggested = tape.FilePathSuggested;
+            // Copy data from original
+            CloneTape(originalTape, paddedTape);
             
-            // Clone Durations
-            paddedTape.Duration = tape.Duration;
-            paddedTape.LeadingSilence = tape.LeadingSilence;
-            paddedTape.TrailingSilence = tape.TrailingSilence;
+            // Clear Buff
+            paddedTape.Bytes = default;
+            paddedTape.FilePathResolved = default;
+            paddedTape.UnderlyingAudioFileOutput = default;
             
-            // Clone Audio Properties
-            paddedTape.Config.SamplingRate = tape.Config.SamplingRate;
-            paddedTape.Config.Bits = tape.Config.Bits;
-            paddedTape.Channel = tape.Channel;
-            paddedTape.Config.Channels = tape.Config.Channels;
-            paddedTape.Config.AudioFormat = tape.Config.AudioFormat;
-            paddedTape.Config.Interpolation = tape.Config.Interpolation;
-            paddedTape.Config.CourtesyFrames = tape.Config.CourtesyFrames;
+            // Restore Signal
+            paddedTape.Signal = newNode;
+            paddedTape.Signals = default;
 
             // Set Actions
-            paddedTape.IsTape = tape.IsTape;
             paddedTape.IsPadded = true;
-            CloneAction(tape.Actions.Play, paddedTape.Actions.Play);
-            CloneAction(tape.Actions.Save, paddedTape.Actions.Save);
-            CloneAction(tape.Actions.PlayChannels, paddedTape.Actions.PlayChannels);
-            CloneAction(tape.Actions.SaveChannels, paddedTape.Actions.SaveChannels);
-            CloneAction(tape.Actions.DiskCache, paddedTape.Actions.DiskCache);
-            CloneAction(tape.Actions.PlayAllTapes, paddedTape.Actions.PlayAllTapes);
-            //paddedTape.Intercept.On = false;
-            //paddedTape.Intercept.Done = false;
-            //paddedTape.InterceptChannel.On = false;
-            //paddedTape.InterceptChannel.Done = false;
             
-            // Remove Actions from original Tape
-            tape.Actions.Play.On = false;
-            tape.Actions.Save.On = false;
-            tape.Actions.PlayChannels.On = false;
-            tape.Actions.SaveChannels.On = false;
+            // Clear Intercept Actions (Unpadded Tapes are desired for Interception purposes.)
+            paddedTape.Actions.BeforeRecord.On = default;
+            paddedTape.Actions.BeforeRecord.Done = default;
+            paddedTape.Actions.BeforeRecord.Callback = default;
+            paddedTape.Actions.AfterRecord.On = default;
+            paddedTape.Actions.AfterRecord.Done = default;
+            paddedTape.Actions.AfterRecord.Callback = default;
+            paddedTape.Actions.BeforeRecordChannel.On = default;
+            paddedTape.Actions.BeforeRecordChannel.Done = default;
+            paddedTape.Actions.BeforeRecordChannel.Callback = default;
+            paddedTape.Actions.AfterRecordChannel.On = default;
+            paddedTape.Actions.AfterRecordChannel.Done = default;
+            paddedTape.Actions.AfterRecordChannel.Callback = default;
             
-            LogAction(paddedTape, "Pad", $"Delay + {tape.LeadingSilence} s");
+            // Clear Actions from Original Tape (Padding desired for Play and Save actions);
+            originalTape.Actions.Play.On = false;
+            originalTape.Actions.Save.On = false;
+            originalTape.Actions.PlayChannels.On = false;
+            originalTape.Actions.SaveChannels.On = false;
+            
+            LogAction(paddedTape, "Pad", $"Delay + {originalTape.LeadingSilence} s");
             
             return paddedTape;
         }
