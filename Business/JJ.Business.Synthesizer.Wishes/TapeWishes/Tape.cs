@@ -180,6 +180,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         /// <summary> Not always there </summary>
         internal Action<Tape> Callback { get; set; }
 
+        public void Clear()
+        {
+            On = default;
+            Done = default;
+            Callback = default;
+        }
     }
 
     /// <inheritdoc cref="docs._tapeaction" />

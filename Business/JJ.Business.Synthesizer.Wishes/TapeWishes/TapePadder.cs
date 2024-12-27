@@ -98,25 +98,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.IsPadded = true;
             
             // Clear Intercept Actions (Unpadded Tapes are desired for Interception purposes.)
-            paddedTape.Actions.BeforeRecord.On = default;
-            paddedTape.Actions.BeforeRecord.Done = default;
-            paddedTape.Actions.BeforeRecord.Callback = default;
-            paddedTape.Actions.AfterRecord.On = default;
-            paddedTape.Actions.AfterRecord.Done = default;
-            paddedTape.Actions.AfterRecord.Callback = default;
-            paddedTape.Actions.BeforeRecordChannel.On = default;
-            paddedTape.Actions.BeforeRecordChannel.Done = default;
-            paddedTape.Actions.BeforeRecordChannel.Callback = default;
-            paddedTape.Actions.AfterRecordChannel.On = default;
-            paddedTape.Actions.AfterRecordChannel.Done = default;
-            paddedTape.Actions.AfterRecordChannel.Callback = default;
+            paddedTape.Actions.BeforeRecord.Clear();
+            paddedTape.Actions.AfterRecord.Clear();
+            paddedTape.Actions.BeforeRecordChannel.Clear();
+            paddedTape.Actions.AfterRecordChannel.Clear();
             
             // Clear Actions from Original Tape (Padding desired for Play and Save actions);
-            originalTape.Actions.Play.On = false;
-            originalTape.Actions.Save.On = false;
-            originalTape.Actions.PlayChannels.On = false;
-            originalTape.Actions.SaveChannels.On = false;
-            
+            originalTape.Actions.Play.Clear();
+            originalTape.Actions.Save.Clear();
+            originalTape.Actions.PlayChannels.Clear();
+            originalTape.Actions.SaveChannels.Clear();   
+                
             LogAction(paddedTape, "Pad", $"Delay + {originalTape.LeadingSilence} s");
             
             return paddedTape;
