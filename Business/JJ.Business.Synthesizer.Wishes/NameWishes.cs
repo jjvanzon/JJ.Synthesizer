@@ -66,36 +66,30 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 case string str: 
                     return str;
-                
+                                
                 case Outlet outlet: 
-                    return outlet.Operator.Name;
+                    return outlet.Operator?.Name;
                 
-                case FlowNode flowNode: 
-                    return flowNode.Name;
+                case IEnumerable<object> coll:
+                    return TryGetName(coll.ToArray());
                 
                 case Tape tape:
                     return tape.GetName();
-                
-                case Buff buff:
-                    return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
-                
-                case AudioFileOutput audioFileOutput:
-                    return TryGetName(audioFileOutput.FilePath, audioFileOutput.Name);
-                
-                case Sample sample:
-                    return TryGetName(sample.Location, sample.Name);
-                                    
+                                             
                 case Delegate d: 
                     return d.Method.Name;
 
-                case IEnumerable<string> strings:
-                    return strings.FirstOrDefault(FilledIn);
+                case AudioFileOutput audioFileOutput:
+                    return TryGetName(audioFileOutput.FilePath, audioFileOutput.Name);
 
-                case IEnumerable<FlowNode> flowNodes:
-                    return TryGetName(flowNodes.Select(x => x?.Name));
+                case FlowNode flowNode: 
+                    return flowNode.Name;
 
-                case IEnumerable<object> coll:
-                    return TryGetName(coll.ToArray());
+                case Sample sample:
+                    return TryGetName(sample.Location, sample.Name);
+                                           
+                case Buff buff:
+                    return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
 
                 default: 
                     throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
