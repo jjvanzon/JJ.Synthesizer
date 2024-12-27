@@ -106,7 +106,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         // Config
         
         public TapeConfig Config { get; } = new TapeConfig();
-        public int? Channel { get; internal set; }
+        /// <summary> Shorthand for Config.Channel.Value </summary>
+        public int i => Config.Channel.Value;
 
         // Actions
 
@@ -149,6 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public int SamplingRate { get; set; }
         public int Bits { get; set; }
         public int? Channels { get; set; }
+        public int? Channel { get; set; }
         public bool IsMono => Channels == 1;
         public bool IsStereo => Channels == 2;
         public AudioFileFormatEnum AudioFormat { get; set; }

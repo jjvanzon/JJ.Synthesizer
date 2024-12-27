@@ -326,7 +326,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var tapes = new Tape[2];
             
-            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).AfterRecordChannel(x => tapes[x.Channel.Value] = x));
+            Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).AfterRecordChannel(x => tapes[x.i] = x));
             
             IsNotNull(() => tapes[0]);
             IsNotNull(() => tapes[1]);
@@ -348,8 +348,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var tapes2 = new Tape[2];
             
             Run(() => Sine(RandomNotes[16]).Volume(StereoDynamics * DelayedPulse).
-                      AfterRecordChannel(x => tapes1[x.Channel.Value] = x).SpeedUp(1.5).
-                      AfterRecordChannel(x => tapes2[x.Channel.Value] = x));
+                      AfterRecordChannel(x => tapes1[x.i] = x).SpeedUp(1.5).
+                      AfterRecordChannel(x => tapes2[x.i] = x));
             
             IsNotNull(() => tapes1[0]);
             IsNotNull(() => tapes1[1]);

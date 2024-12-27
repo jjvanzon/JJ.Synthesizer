@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             LogPrettyTitle("Post-Processing");
             
             IList<Tape> relevantStereoChannelTapes
-                = tapes.Where(x => x.Config.IsStereo && x.Channel.HasValue)
+                = tapes.Where(x => x.Config.IsStereo && x.Config.Channel.HasValue)
                        .Where(x => x.Actions.Play.On || x.Actions.Save.On ||
                                   (x.Actions.BeforeRecord.On && x.Actions.BeforeRecord.Callback != null) ||
                                   (x.Actions.AfterRecord.On  && x.Actions.AfterRecord.Callback != null))

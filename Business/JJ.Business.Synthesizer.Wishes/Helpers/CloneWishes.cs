@@ -39,7 +39,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             // Config
             CloneTapeConfig(source.Config, dest.Config);
-            dest.Channel = source.Channel;
 
             // Actions
             CloneActions(source.Actions, dest.Actions);
@@ -83,6 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.SamplingRate   = source.SamplingRate  ;
             dest.Bits           = source.Bits          ;
             dest.Channels       = source.Channels      ;
+            dest.Channel        = source.Channel       ;
             dest.AudioFormat    = source.AudioFormat   ;
             dest.Interpolation  = source.Interpolation ;
             dest.CourtesyFrames = source.CourtesyFrames;

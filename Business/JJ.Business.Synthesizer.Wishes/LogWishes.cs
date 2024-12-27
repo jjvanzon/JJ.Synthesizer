@@ -510,7 +510,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 tape.Config.SamplingRate,
                 tape.Config.Bits,
                 tape.Config.Channels, 
-                tape.Channel,
+                tape.Config.Channel,
                 tape.Config.AudioFormat,
                 tape.Config.Interpolation);
             
@@ -779,7 +779,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) return "<Tape=null>";
 
             string prefix = "";
-            if (tape.Config.IsStereo && tape.Channel == null) prefix = "(Stereo) ";
+            if (tape.Config.IsStereo && tape.Config.Channel == null) prefix = "(Stereo) ";
             else if (tape.NestingLevel > 0) prefix = $"(Level {tape.NestingLevel}) ";
             
             string nameDescriptor = tape.GetName();
@@ -794,7 +794,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (tape.IsTape) flags.Add("tape");
             
-            flags.Add(ChannelDescriptor(tape.Config.Channels, tape.Channel)?.ToLower());
+            flags.Add(ChannelDescriptor(tape.Config.Channels, tape.Config.Channel)?.ToLower());
             
             if (Has(tape.Duration))
             {

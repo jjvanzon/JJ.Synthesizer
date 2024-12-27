@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             // Audio Properties
             
-            tape.Channel = _synthWishes.GetChannel;
+            tape.Config.Channel = _synthWishes.GetChannel;
             tape.Config.SamplingRate = _synthWishes.GetSamplingRate;
             tape.Config.Bits = _synthWishes.GetBits;
             tape.Config.Channels = _synthWishes.GetChannels;

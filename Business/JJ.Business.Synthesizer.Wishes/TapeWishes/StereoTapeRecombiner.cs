@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             stereoTape.UnderlyingAudioFileOutput = default;
             stereoTape.Signal = default;
             stereoTape.Signals = default;
-            stereoTape.Channel = default;
+            stereoTape.Config.Channel = default;
             stereoTape.NestingLevel = default;
             stereoTape.ClearHierarchy();
             
