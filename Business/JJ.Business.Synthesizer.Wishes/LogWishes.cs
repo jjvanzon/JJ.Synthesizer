@@ -270,6 +270,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
+        public static string ChannelDescriptor(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            return ChannelDescriptor(tape.Config);
+        }
+
+        public static string ChannelDescriptor(TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return ChannelDescriptor(tapeConfig.Channels, tapeConfig.Channel);
+        }
+
         public static string ChannelDescriptor(int? channelCount, int? channel)
         {
             if (!Has(channelCount) && channel == null)
