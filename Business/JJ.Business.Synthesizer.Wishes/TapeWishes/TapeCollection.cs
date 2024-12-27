@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode signal, FlowNode duration, 
             Action<Tape> beforeRecordCallback, Action<Tape> afterRecordCallback, 
             Action<Tape> beforeRecordChannelCallback, Action<Tape> afterRecordChannelCallback,
-            string filePath, [CallerMemberName] string callerMemberName = null)
+            string filePathSuggested, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             // From Parameters
             
-            if (Has(filePath)) tape.FilePathSuggested = filePath;
+            if (Has(filePathSuggested)) tape.FilePathSuggested = filePathSuggested;
             if (Has(callerMemberName)) tape.FallBackName = callerMemberName;
 
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
