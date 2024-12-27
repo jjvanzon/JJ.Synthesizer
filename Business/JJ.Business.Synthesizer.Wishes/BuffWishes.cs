@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = tape.Descriptor();
-            audioFileOutput.FilePath = ResolveFilePath(tape.Config.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Signal, tape.Signals, tape.FallBackName, callerMemberName);
+            audioFileOutput.FilePath = ResolveFilePath(tape.Config.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Outlet, tape.Outlets, tape.FallBackName, callerMemberName);
             audioFileOutput.Amplifier = tape.Config.Bits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             var dummyTape = new Tape
             {
-                Signals = channelSignals,
+                Outlets = channelSignals,
                 Duration = (duration ?? GetAudioLength).Value,
                 LeadingSilence = GetLeadingSilence.Value,
                 TrailingSilence = GetTrailingSilence.Value,

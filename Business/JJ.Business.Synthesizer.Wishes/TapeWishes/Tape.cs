@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         /// <inheritdoc cref="docs._tapename" />
         public string GetName(string name = null, [CallerMemberName] string callerMemberName = null)
-            => ResolveName(name, Signal, Signals, FallBackName, FilePathSuggested, callerMemberName);
+            => ResolveName(name, Outlet, Outlets, FallBackName, FilePathSuggested, callerMemberName);
         
         public string GetFilePath(string filePath = null, [CallerMemberName] string callerMemberName = null)
             => ResolveFilePath(Config.AudioFormat.FileExtension(), Config.AudioFormat, IDs, filePath, FilePathResolved, FilePathSuggested, GetName(callerMemberName: callerMemberName));
@@ -69,29 +69,29 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Signals
 
-        internal FlowNode Signal { get; set; }
+        internal FlowNode Outlet { get; set; }
         
         /// <summary> For stereo tapes. Not null. Auto(re)created. </summary>
-        private IList<FlowNode> _signals = new List<FlowNode>();
+        private IList<FlowNode> _outlets = new List<FlowNode>();
         
         /// <summary> For stereo tapes. Not null. Auto(re)created. </summary>
-        internal IList<FlowNode> Signals
+        internal IList<FlowNode> Outlets
         { 
-            get => _signals;
+            get => _outlets;
             set 
             {
                 //if (value == null) throw new NullException(() => Signals);
                 //_signals = value;
                 // TODO: May shoot myself in the foot with this null-evasion.
-                _signals = value ?? new List<FlowNode>();
+                _outlets = value ?? new List<FlowNode>();
             }
         }
         
         internal IList<FlowNode> ConcatSignals()
         {
             var signals = new List<FlowNode>();
-            if (Signal != null) signals.Add(Signal);
-            signals.AddRange(Signals.Where(FilledIn));
+            if (Outlet != null) signals.Add(Outlet);
+            signals.AddRange(Outlets.Where(FilledIn));
             return signals;
         }
 

@@ -29,8 +29,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.FilePathSuggested = source.FilePathSuggested;
         
             // Signals
-            dest.Signal = source.Signal;
-            dest.Signals = source.Signals?.ToArray() ?? Array.Empty<FlowNode>();
+            dest.Outlet = source.Outlet;
+            dest.Outlets = source.Outlets?.ToArray() ?? Array.Empty<FlowNode>();
 
             // Durations
             dest.Duration = source.Duration;

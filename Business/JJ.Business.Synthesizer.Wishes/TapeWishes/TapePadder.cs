@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public Tape PadIfNeeded(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
-            if (tape.Signal == null) throw new NullException(() => tape.Signal);
+            if (tape.Outlet == null) throw new NullException(() => tape.Outlet);
             
             // Padding only applies to Play and Save actions.
             if (!tape.Actions.Play.On && 
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (originalTape.LeadingSilence == 0) return originalTape;
             
             // Apply delay
-            FlowNode newNode = _synthWishes.Delay(originalTape.Signal, originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
+            FlowNode newNode = _synthWishes.Delay(originalTape.Outlet, originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
             
             // Add tape
             Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[originalTape.Duration], null, null, null, null, originalTape.FilePathSuggested);
@@ -91,8 +91,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.UnderlyingAudioFileOutput = default;
             
             // Restore Signal
-            paddedTape.Signal = newNode;
-            paddedTape.Signals = default;
+            paddedTape.Outlet = newNode;
+            paddedTape.Outlets = default;
 
             // Set Actions
             paddedTape.IsPadded = true;

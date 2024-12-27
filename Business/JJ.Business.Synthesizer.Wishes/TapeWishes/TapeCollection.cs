@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 isNew = true;
                 _tapes[signal] = tape = new Tape();
-                tape.Signal = signal;
+                tape.Outlet = signal;
             }
             
             // Durations
@@ -122,9 +122,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public void Remove(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
-            if (tape.Signal == null) throw new NullException(() => tape.Signal);
+            if (tape.Outlet == null) throw new NullException(() => tape.Outlet);
             
-            _tapes.Remove(tape.Signal);
+            _tapes.Remove(tape.Outlet);
             
             LogAction(tape, "Delete", "Replaced by padded");
         }

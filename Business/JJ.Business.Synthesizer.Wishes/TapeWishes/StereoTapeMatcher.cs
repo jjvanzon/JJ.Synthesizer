@@ -80,8 +80,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     Name = x.GetName(),
                     x.FallBackName, 
                     x.FilePathSuggested,    
-                    SignalName = x.Signal?.Name, 
-                    x.Signal?.UnderlyingOperator?.OperatorTypeName
+                    SignalName = x.Outlet?.Name, 
+                    x.Outlet?.UnderlyingOperator?.OperatorTypeName
                 });
                 
                 foreach (var subGroup in groupedByName)
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 throw new Exception(
                     _unprocessedTapes.Count + " channel tapes could not be matched to a stereo tape:" + NewLine +
-                    Join(NewLine, _unprocessedTapes.Select(x => "- " + Descriptor(x) + " | " + x.Signal)) + NewLine +
+                    Join(NewLine, _unprocessedTapes.Select(x => "- " + Descriptor(x) + " | " + x.Outlet)) + NewLine +
                     "To avoid duplicates, consider passing names to the Play, Save, Tape or Intercept methods.");
             }
             

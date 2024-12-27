@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             text += $"{Descriptor(obj)} ";
             
-            string signalDescriptor = " | " + (obj.Signal?.ToString() ?? "<Signal=null>");
+            string signalDescriptor = " | " + (obj.Outlet?.ToString() ?? "<Signal=null>");
             text += $"{signalDescriptor}";
             
             return text;

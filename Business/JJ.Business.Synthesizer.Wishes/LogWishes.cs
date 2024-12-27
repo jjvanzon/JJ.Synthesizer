@@ -704,7 +704,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sb2.Append(Descriptor(tape));
                 if (includeCalculationGraphs)
                 {
-                    sb2.Append("   | " + (tape.Signal?.ToString() ?? "<Signal=null>"));
+                    sb2.Append("   | " + (tape.Outlet?.ToString() ?? "<Signal=null>"));
                 }
                 
                 formattedTape = sb2.ToString();

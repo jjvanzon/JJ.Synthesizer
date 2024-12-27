@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             SetTapeNestingLevelsRecursive(tapes);
         }
         
-        private void BuildTapeHierarchyRecursive(Tape tape) => BuildTapeHierarchyRecursive(tape.Signal, null);
+        private void BuildTapeHierarchyRecursive(Tape tape) => BuildTapeHierarchyRecursive(tape.Outlet, null);
         
         private void BuildTapeHierarchyRecursive(FlowNode node, Tape parentTape)
         {

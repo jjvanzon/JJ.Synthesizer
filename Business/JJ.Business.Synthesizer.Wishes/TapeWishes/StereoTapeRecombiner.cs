@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private Tape CreateStereoTape((Tape Left, Tape Right) tapePair)
         {
             Tape stereoTape = CloneStereoTape(tapePair.Left);
-            stereoTape.Signals = RecombineSignals(tapePair);
+            stereoTape.Outlets = RecombineSignals(tapePair);
             LogAction(stereoTape, "Create", "Stereo Recombined");
             return stereoTape;
         }
@@ -74,8 +74,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             stereoTape.Bytes = default;
             stereoTape.FilePathResolved = default;
             stereoTape.UnderlyingAudioFileOutput = default;
-            stereoTape.Signal = default;
-            stereoTape.Signals = default;
+            stereoTape.Outlet = default;
+            stereoTape.Outlets = default;
             stereoTape.Config.Channel = default;
             stereoTape.NestingLevel = default;
             stereoTape.ClearHierarchy();

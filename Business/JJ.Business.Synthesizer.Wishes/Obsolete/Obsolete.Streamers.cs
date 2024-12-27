@@ -322,7 +322,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             // TODO: How about the difference between Signal and Signals? Signal isn't filled in here.
             var dummyTape = new Tape
             {
-                Signals = channelSignals,
+                Outlets = channelSignals,
                 Duration = (duration ?? synthWishes.GetAudioLength).Value,
                 LeadingSilence = synthWishes.GetLeadingSilence.Value,
                 TrailingSilence = synthWishes.GetTrailingSilence.Value,

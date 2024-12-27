@@ -43,9 +43,9 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             
-            string monoChannelString = tape.Signal?.Stringify(singleLine, canOmitNameForBasicMath);
-            string leftChannelString = tape.Signals?.ElementAtOrDefault(0)?.Stringify(singleLine, canOmitNameForBasicMath);
-            string rightChannelString = tape.Signals?.ElementAtOrDefault(1)?.Stringify(singleLine, canOmitNameForBasicMath);
+            string monoChannelString = tape.Outlet?.Stringify(singleLine, canOmitNameForBasicMath);
+            string leftChannelString = tape.Outlets?.ElementAtOrDefault(0)?.Stringify(singleLine, canOmitNameForBasicMath);
+            string rightChannelString = tape.Outlets?.ElementAtOrDefault(1)?.Stringify(singleLine, canOmitNameForBasicMath);
 
             var sb = new StringBuilder();
 

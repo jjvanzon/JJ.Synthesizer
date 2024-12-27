@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Replace All References
                 //lock (_hierarchyLock)
                 {
-                    IList<Inlet> connectedInlets = tape.Signal.UnderlyingOutlet.ConnectedInlets.ToArray();
+                    IList<Inlet> connectedInlets = tape.Outlet.UnderlyingOutlet.ConnectedInlets.ToArray();
                     foreach (Inlet inlet in connectedInlets)
                     {
                         inlet.LinkTo(sample);
