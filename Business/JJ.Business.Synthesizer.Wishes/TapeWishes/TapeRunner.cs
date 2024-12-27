@@ -127,15 +127,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 _versatileActionRunner.RunAfterRecord(tape);
                 
-                FlowNode sample = _synthWishes.Sample(tape);
-                
                 // Replace All References
                 //lock (_hierarchyLock)
                 {
                     IList<Inlet> connectedInlets = tape.Outlet.ConnectedInlets.ToArray();
                     foreach (Inlet inlet in connectedInlets)
                     {
-                        inlet.LinkTo(sample);
+                        inlet.LinkTo(tape.Sample);
                     }
                 }
                 

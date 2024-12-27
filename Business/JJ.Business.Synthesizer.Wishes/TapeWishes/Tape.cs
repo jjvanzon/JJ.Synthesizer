@@ -26,6 +26,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         internal SynthWishes SynthWishes { get; set; }
 
         #region Buff
+        [Obsolete("Prefer Tape properties instead")]
+        public Buff Buff { get; } = new Buff();
+        
         public bool IsBuff => Has(Bytes) || Exists(FilePathResolved);
         
         public byte[] Bytes 
@@ -49,8 +52,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             internal set => Buff.UnderlyingAudioFileOutput = value; 
         }
         
-        [Obsolete("Prefer Tape properties instead")]
-        public Buff Buff { get; } = new Buff();
+        public FlowNode Sample { get; internal set; }
+        
+        public Sample UnderlyingSample => Sample?.UnderlyingSample();
+
+        public void ClearBuff()
+        {
+            Bytes = default;
+            FilePathResolved = default;
+            UnderlyingAudioFileOutput = default;
+            Sample = default;
+        }
+        
         #endregion
 
         #region Identity

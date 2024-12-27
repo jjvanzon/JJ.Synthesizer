@@ -20,12 +20,15 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
-            
+
+            dest.SynthWishes = source.SynthWishes;
+
             // Buff
             dest.Bytes = source.Bytes;
             dest.FilePathResolved = source.FilePathResolved;
             dest.UnderlyingAudioFileOutput = source.UnderlyingAudioFileOutput;
-
+            dest.Sample = source.Sample;
+            
             // Name
             dest.FallBackName = source.FallBackName;
             dest.FilePathSuggested = source.FilePathSuggested;
@@ -98,14 +101,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         internal static void CloneTape(SynthWishes source, Tape dest)
         {
-            dest.SynthWishes = source;
-
+            if (dest == null) throw new ArgumentNullException(nameof(dest));
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            
             CloneConfig(source.Config, dest.Config);
 
+            dest.SynthWishes = source;
             dest.LeadingSilence = source.GetLeadingSilence.Value;
             dest.TrailingSilence = source.GetTrailingSilence.Value;
-            
-        
             dest.Actions.DiskCache.On = source.GetDiskCache;
             dest.Actions.PlayAllTapes.On = source.GetPlayAllTapes;
         }

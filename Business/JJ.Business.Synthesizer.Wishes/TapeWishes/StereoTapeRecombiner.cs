@@ -71,13 +71,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             Tape stereoTape = DeepClone(sourceTape);
             
-            stereoTape.Bytes = default;
-            stereoTape.FilePathResolved = default;
-            stereoTape.UnderlyingAudioFileOutput = default;
+            stereoTape.ClearBuff();
+            stereoTape.ClearHierarchy();
+
             stereoTape.Outlets = default;
             stereoTape.Config.Channel = default;
             stereoTape.NestingLevel = default;
-            stereoTape.ClearHierarchy();
             
             return stereoTape;
         }

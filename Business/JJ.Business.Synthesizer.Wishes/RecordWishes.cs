@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (tape.IsBuff) return;
             MakeBuff(tape);
+            tape.Sample = tape.SynthWishes.Sample(tape);
         }
         
         /// <inheritdoc cref="docs._makebuff" />

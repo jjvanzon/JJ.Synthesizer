@@ -92,9 +92,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             paddedTape.IsPadded = true;
             
             // Clear Buff
-            paddedTape.Bytes = default;
-            paddedTape.FilePathResolved = default;
-            paddedTape.UnderlyingAudioFileOutput = default;
+            paddedTape.ClearBuff();
 
             // Clear Hierarchy
             paddedTape.ClearHierarchy();
