@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private static Tape CloneStereoTape(Tape sourceTape)
         {
-            Tape stereoTape = CloneTape(sourceTape);
+            Tape stereoTape = DeepClone(sourceTape);
             
             stereoTape.Bytes = default;
             stereoTape.FilePathResolved = default;

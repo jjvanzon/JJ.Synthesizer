@@ -8,14 +8,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     internal static class CloneWishes
     {
-        internal static Tape CloneTape(Tape source) 
+        internal static Tape DeepClone(Tape source) 
         {
             var dest = new Tape();
-            CloneTape(source, dest);
+            DeepClone(source, dest);
             return dest;
         }
         
-        internal static void CloneTape(Tape source, Tape dest)
+        internal static void DeepClone(Tape source, Tape dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.TrailingSilence = source.TrailingSilence;
 
             // Config
-            CloneTapeConfig(source.Config, dest.Config);
+            CloneConfig(source.Config, dest.Config);
 
             // Actions
             CloneActions(source.Actions, dest.Actions);
@@ -68,14 +68,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.UnderlyingAudioFileOutput = source.UnderlyingAudioFileOutput;
         }
 
-        internal static TapeConfig CloneTapeConfig(TapeConfig source)
+        internal static TapeConfig CloneConfig(TapeConfig source)
         {
             var dest = new TapeConfig();
-            CloneTapeConfig(source, dest);
+            CloneConfig(source, dest);
             return dest;
         }
         
-        internal static void CloneTapeConfig(TapeConfig source, TapeConfig dest)
+        internal static void CloneConfig(TapeConfig source, TapeConfig dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));

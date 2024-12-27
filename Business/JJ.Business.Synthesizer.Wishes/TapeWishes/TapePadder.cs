@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Tape paddedTape = _tapes.GetOrCreate(newNode, _synthWishes[originalTape.Duration], null, null, null, null, originalTape.FilePathSuggested);
             
             // Copy data from original
-            CloneTape(originalTape, paddedTape);
+            DeepClone(originalTape, paddedTape);
             
             // Clear Buff
             paddedTape.Bytes = default;
