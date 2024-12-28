@@ -194,7 +194,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Help ReSharper not error over unused legacy parameter.
             mustPad = mustPad;
-
+            
             Tape dummyTape = this.CloneTape();
             
             dummyTape.SetSignals(channelSignals);

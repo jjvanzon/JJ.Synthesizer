@@ -269,9 +269,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("Materialize Signal with \"Record\" (Old Method)");
             LogLine("---------------------------------------------");
             
-            Buff signalBuffOld = this.Record(() => Signal(_[frequency], testName), testName);
+            var buffs = new Buff[channels];
+            
+            Buff signalBuffOld 
+                = this.RecordLegacy(() => Signal(_[frequency], testName).AfterRecordChannel(x => buffs[x.i] = x.Buff), testName);
             
             IsNotNull(() => signalBuffOld);
+            //for (int i = 0; i < channels; i++)
+            //{
+            //    IsNotNull(() => buffs[i]);
+            //}
 
             Save(signalBuffOld, testName + "_" + fileCount + "_" + nameof(signalBuffOld));
 
@@ -320,7 +327,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("----------------------------------------");
             LogLine("");
 
-            Buff reloadedSampleBuffOld = this.Record(() => reloadedSampleFlowNodeOld);
+            Buff reloadedSampleBuffOld = this.RecordLegacy(() => reloadedSampleFlowNodeOld);
             IsNotNull(() => reloadedSampleBuffOld);
             
             Save(reloadedSampleBuffOld, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleBuffOld));

@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (action == null) throw new ArgumentNullException(nameof(action));
 
             var dummy = synthWishes[0.5];
-            synthWishes.Record(() => { action(); return dummy; });
+            synthWishes.RecordLegacy(() => { action(); return dummy; });
         }
 
         [Obsolete(ObsoleteMessage, true)]
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 throw new ArgumentNullException(nameof(action));
 
             var dummy = synthWishes[0.5];
-            synthWishes.Save(() => { action(); return dummy; });
+            synthWishes.SaveLegacy(() => { action(); return dummy; });
         }
     }
 
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         // MakeBuff Old (Start-of-Chain)
         
-        [Obsolete(ObsoleteMessage)]
+        [Obsolete(ObsoleteMessage, true)]
         public static Buff MakeBuffOld(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool inMemory, bool mustPad,
@@ -230,7 +230,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             return audioFileOutput;
         }
-
                 
         [Obsolete(ObsoleteMessage, true)]
         private static void ApplyPaddingOld(this SynthWishes synthWishes, IList<FlowNode> channelSignals)
@@ -299,7 +298,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff MakeBuff(
+        public static Buff MakeBuffLegacy(
             this SynthWishes synthWishes,
             FlowNode channel, FlowNode duration, bool inMemory, bool mustPad,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
@@ -335,7 +334,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // MakeBuff Legacy (End-of-Chain)
     
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff MakeBuff(
+        public static Buff MakeBuffLegacy(
             Buff buff, 
             bool inMemory, int courtesyFrames, 
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
@@ -348,19 +347,17 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 buff.UnderlyingAudioFileOutput, inMemory, courtesyFrames, 
                 name, filePath, callerMemberName);
         }
-        
     }
     
     // Record
     
-    // TODO: Make Internal once last overload is fully deprecated.
     [Obsolete(ObsoleteMessage)]
     public static class RecordObsoleteExtensions
     {
         // Record With Func (Start-of-Chain)
         
         [Obsolete(ObsoleteMessage)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -372,7 +369,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -384,7 +381,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -396,7 +393,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -410,7 +407,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // Record With FlowNode (Start-of-Chain)
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             FlowNode signal,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -422,7 +419,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             FlowNode signal, FlowNode duration, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -436,7 +433,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // Record With List of FlowNodes (Start-of-Chain)
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -448,7 +445,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -462,14 +459,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // Record on FlowNode (End-of-Chain)
 
         [Obsolete(ObsoleteMessage, true)]
-        public static FlowNode Record(
+        public static FlowNode RecordLegacy(
             this FlowNode flowNode,
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
             
-            MakeBuff(
+            MakeBuffLegacy(
                 buff,
                 inMemory: true, flowNode.GetCourtesyFrames, name, null, callerMemberName);
 
@@ -477,7 +474,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage, true)]
-        public static FlowNode Record(
+        public static FlowNode RecordLegacy(
             this FlowNode flowNode,
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -493,15 +490,15 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // Record Buff to Buff Extensions (End-of-Chain)
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
+            => MakeBuffLegacy(
                 buff,
                 inMemory: true, ConfigWishes.Static.GetCourtesyFrames, name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
@@ -516,15 +513,15 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // Record Statics (Buff to Buff) (End-Of-Chain)
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => MakeBuff(
+            => MakeBuffLegacy(
                 buff,
                 inMemory: true, ConfigWishes.Static.GetCourtesyFrames, name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Record(
+        public static Buff RecordLegacy(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
@@ -540,17 +537,15 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // On Buffs (End-of-Chain)
 
         [Obsolete(ObsoleteMessage, true)]
-        public static SynthWishes Record(
+        public static SynthWishes RecordLegacy(
             this SynthWishes synthWishes,
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (synthWishes == null)
-                throw new ArgumentNullException(nameof(synthWishes));
-            if (buff == null)
-                throw new ArgumentNullException(nameof(buff));
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
 
-            MakeBuff(
+            MakeBuffLegacy(
                 buff,
                 inMemory: true, synthWishes.GetCourtesyFrames, name, null, callerMemberName);
 
@@ -558,15 +553,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage, true)]
-        public static SynthWishes Record(
+        public static SynthWishes RecordLegacy(
             this SynthWishes synthWishes,
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            if (synthWishes == null)
-                throw new ArgumentNullException(nameof(synthWishes));
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
 
             MakeBuffLegacy(
                 entity,
@@ -582,7 +575,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     internal static class SaveObsoleteExtensions
     {
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Save(
+        public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -594,7 +587,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Save(
+        public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -606,31 +599,30 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff MaterializeSave(
+        public static Buff MaterializeSaveLegacy(
             this SynthWishes synthWishes,
             FlowNode channel,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return synthWishes.MakeBuff(
-                channel, null,
+            return MakeBuffObsoleteExtensions.MakeBuffLegacy(
+                synthWishes, channel, null,
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff MaterializeSave(
+        public static Buff MaterializeSaveLegacy(
             this SynthWishes synthWishes,
             FlowNode channel, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return synthWishes.MakeBuff(
-                channel, duration,
-                inMemory: false, mustPad: true, null, filePath, callerMemberName);
+            return MakeBuffObsoleteExtensions.MakeBuffLegacy(synthWishes, channel, duration,
+                                                             inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Save(
+        public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -642,7 +634,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Save(
+        public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -662,17 +654,17 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // SynthWishes Instance (Start-Of-Chain)
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Play(
+        public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return synthWishes.Play(func, null, name, callerMemberName);
+            return synthWishes.PlayLegacy(func, null, name, callerMemberName);
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Play(
+        public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -689,26 +681,25 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff MaterializePlay(
+        public static Buff MaterializePlayLegacy(
             this SynthWishes synthWishes,
             FlowNode channel,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return synthWishes.MaterializePlay(channel, null, name, callerMemberName);
+            return synthWishes.MaterializePlayLegacy(channel, null, name, callerMemberName);
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff MaterializePlay(
+        public static Buff MaterializePlayLegacy(
             this SynthWishes synthWishes,
             FlowNode channel, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            Buff buff =
-                synthWishes.MakeBuff(
-                    channel, duration,
-                    inMemory: true, mustPad: true, name, null, callerMemberName);
+            Buff buff = MakeBuffObsoleteExtensions.MakeBuffLegacy(
+                synthWishes, channel, duration,
+                inMemory: true, mustPad: true, name, null, callerMemberName);
 
             Buff buff2 = InternalPlay(synthWishes, buff);
 
@@ -716,17 +707,17 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Play(
+        public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return synthWishes.Play(channelSignals, null, name, callerMemberName);
+            return synthWishes.PlayLegacy(channelSignals, null, name, callerMemberName);
         }
         
         [Obsolete(ObsoleteMessage, true)]
-        public static Buff Play(
+        public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
