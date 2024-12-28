@@ -273,10 +273,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 = this.RecordLegacy(() => Signal(_[frequency], testName).AfterRecordChannel(x => buffs[x.i] = x.Buff), testName);
             
             IsNotNull(() => signalBuffOld);
-            //for (int i = 0; i < channels; i++)
-            //{
-            //    IsNotNull(() => buffs[i]);
-            //}
+            for (int i = 0; i < channels; i++)
+            {
+                IsNotNull(() => buffs[i]);
+            }
 
             Save(signalBuffOld, testName + "_" + fileCount + "_" + nameof(signalBuffOld));
 
