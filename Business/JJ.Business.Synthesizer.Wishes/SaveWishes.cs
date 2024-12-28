@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             LogAction(buff, MemberName());
             string filePathResolved = ResolveFilePath(buff.GetAudioFormat, filePath, callerMemberName); // Resolve to use AudioFormat
-            buff.FilePath = InternalSave(buff, callerMemberName, filePathResolved);
+            buff.FilePath = InternalSave(buff, filePathResolved, callerMemberName);
             return buff;
         }
 
