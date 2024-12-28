@@ -252,6 +252,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
             double signalDuration = (1 / frequency) * 16;
             double reloadDuration = signalDuration * 1.01;
+            int fileCount = 0;
 
             WithPadding(0);
             WithChannels(channels);
@@ -263,6 +264,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine(this.ConfigLog(title: ""));
             
             WithAudioLength(signalDuration);
+            fileCount++;
             
             LogLine("");
             LogLine("Materialize Signal with \"Record\" (Old Method)");
@@ -272,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             IsNotNull(() => signalBuffOld);
 
-            Save(signalBuffOld, testName + "_" + nameof(signalBuffOld));
+            Save(signalBuffOld, testName + "_" + fileCount + "_" + nameof(signalBuffOld));
 
             AudioFileOutput signalAudioFileOutputOld = signalBuffOld.UnderlyingAudioFileOutput;
 
@@ -289,7 +291,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Buff signalBuffNew = signalTapeNew.Buff;
             AudioFileOutput signalAudioFileOutputNew = signalBuffNew.UnderlyingAudioFileOutput;
             
-            signalTapeNew.Save(testName + "_" + nameof(signalTapeNew));
+            Save(signalTapeNew, testName + "_" + ++fileCount + "_" + nameof(signalTapeNew));
             
             FlowNode ReloadSampleOld()
             {
@@ -325,7 +327,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Buff reloadedSampleBuffOld = this.Record(ReloadSampleOld);
             IsNotNull(() => reloadedSampleBuffOld);
             
-            Save(reloadedSampleBuffOld, testName + "_" + nameof(reloadedSampleBuffOld));
+            Save(reloadedSampleBuffOld, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleBuffOld));
 
             LogLine();
             LogLine("Reload Sample with \"Run/Intercept\" (New Method)");
@@ -338,6 +340,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => reloadedSampleTapeNew);
             
             Save(reloadedSampleTapeNew, testName + "_" + nameof(reloadedSampleTapeNew));
+            Save(reloadedSampleTapeNew, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleTapeNew));
             
             LogLine("");
             LogLine("Assert AudioFileOutput Properties");
