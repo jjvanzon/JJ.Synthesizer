@@ -241,10 +241,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             bool aligned,
             [CallerMemberName] string callerMemberName = null)
         {
-            Console.WriteLine("");
-            Console.WriteLine("Options");
-            Console.WriteLine("-------");
-            Console.WriteLine("");
+            LogLine("");
+            LogLine("Options");
+            LogLine("-------");
+            LogLine("");
             
             //WithDiskCache();
             
@@ -258,11 +258,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             WithAudioFormat(audioFormat);
             WithSamplingRate(samplingRate);
             
-            Console.WriteLine(this.ConfigLog(title: ""));
+            LogLine(this.ConfigLog(title: ""));
             
-            Console.WriteLine("");
-            Console.WriteLine("Materialize Signal with \"Record\" (Old Method)");
-            Console.WriteLine("---------------------------------------------");
+            LogLine("");
+            LogLine("Materialize Signal with \"Record\" (Old Method)");
+            LogLine("---------------------------------------------");
             
             WithAudioLength(DURATION);
             Buff signalBuffOld = this.Record(() => Signal(_[frequency], callerMemberName), callerMemberName);
@@ -271,10 +271,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             signalBuffOld.Save(callerMemberName + "_" + nameof(signalBuffOld));
 
-            Console.WriteLine("");
-            Console.WriteLine("Materialize Signal with \"Run/Intercept\" (New Method)");
-            Console.WriteLine("----------------------------------------------------");
-            Console.WriteLine("");
+            LogLine("");
+            LogLine("Materialize Signal with \"Run/Intercept\" (New Method)");
+            LogLine("----------------------------------------------------");
+            LogLine("");
 
             WithAudioLength(DURATION);
             Tape signalTapeNew = null;
@@ -285,10 +285,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             signalTapeNew.Save(callerMemberName + "_" + nameof(signalTapeNew));
 
-            Console.WriteLine("");
-            Console.WriteLine("Reload Sample in a FlowNode");
-            Console.WriteLine("---------------------------");
-            Console.WriteLine("");
+            LogLine("");
+            LogLine("Reload Sample in a FlowNode");
+            LogLine("---------------------------");
+            LogLine("");
             
             FlowNode ReloadSampleOld()
             {
@@ -307,10 +307,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             LogLine("Done.");
                 
-            Console.WriteLine("");
-            Console.WriteLine("Reload Sample with \"Record\" (Old Method)");
-            Console.WriteLine("----------------------------------------");
-            Console.WriteLine("");
+            LogLine("");
+            LogLine("Reload Sample with \"Record\" (Old Method)");
+            LogLine("----------------------------------------");
+            LogLine("");
 
             WithAudioLength(DURATION2);
             Buff reloadedSampleBuffOld = this.Record(ReloadSampleOld);
@@ -330,10 +330,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             reloadedSampleTapeNew.Save(callerMemberName + "_" + nameof(reloadedSampleTapeNew));
             
-            Console.WriteLine("");
-            Console.WriteLine("Assert AudioFileOutput Properties");
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine("");
+            LogLine("");
+            LogLine("Assert AudioFileOutput Properties");
+            LogLine("---------------------------------");
+            LogLine("");
 
             string filePath1Expectation = GetFullPath(PrettifyName(callerMemberName) + audioFormat.FileExtension());
             
@@ -359,12 +359,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 audioFormat, channels, bits, samplingRate,
                 filePath2Expectation, DURATION2, callerMemberName);
 
-            Console.WriteLine("Done.");
+            LogLine("Done.");
             
-            Console.WriteLine("");
-            Console.WriteLine("Assert Sample Properties");
-            Console.WriteLine("------------------------");
-            Console.WriteLine("");
+            LogLine("");
+            LogLine("Assert Sample Properties");
+            LogLine("------------------------");
+            LogLine("");
 
             string filePathExpectation = signalAudioFileOutputNew.FilePath;
 
@@ -382,16 +382,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 audioFormat, channels, bits, interpolation, samplingRate,
                 expectedDuration: DURATION, filePathExpectation, callerMemberName);
 
-            Console.WriteLine("Done.");
+            LogLine("Done.");
 
             // Mono
 
             if (channels == 1)
             {
-                Console.WriteLine("");
-                Console.WriteLine("Get Values from Reloaded Sample");
-                Console.WriteLine("-------------------------------");
-                Console.WriteLine("");
+                LogLine("");
+                LogLine("Get Values from Reloaded Sample");
+                LogLine("-------------------------------");
+                LogLine("");
 
                 double[] actualValues =
                 {
@@ -420,29 +420,29 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedValues = expectedValues.Select(RoundValue).ToArray();
 
-                Console.WriteLine("Done.");
+                LogLine("Done.");
                 
-                //Console.WriteLine("");
-                //Console.WriteLine("Save Values");
-                //Console.WriteLine("-----------");
-                //Console.WriteLine("");
+                //LogLine("");
+                //LogLine("Save Values");
+                //LogLine("-----------");
+                //LogLine("");
                 //
                 //Run(() => reloadedSample.AsWav().Save(callerMemberName + "_Values"));
                 //WithAudioFormat(audioFormat);
 
-                Console.WriteLine("");
-                Console.WriteLine("Assert Values");
-                Console.WriteLine("-------------");
-                Console.WriteLine("");
+                LogLine("");
+                LogLine("Assert Values");
+                LogLine("-------------");
+                LogLine("");
 
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedValues.Zip(actualValues, (x,y) => Abs(x - y)).Max();
-                Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
-                Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
-                Console.WriteLine();
-                Console.WriteLine($"{nameof(expectedValues)} = {FormatValues(expectedValues)}");
-                Console.WriteLine($"{nameof(actualValues)}   = {FormatValues(actualValues  )}");
-                Console.WriteLine();
+                LogLine($"{nameof(valueTolerance)}         = {valueTolerance}");
+                LogLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
+                LogLine();
+                LogLine($"{nameof(expectedValues)} = {FormatValues(expectedValues)}");
+                LogLine($"{nameof(actualValues)}   = {FormatValues(actualValues  )}");
+                LogLine();
                 
                 AreEqual(expectedValues[0], actualValues[0], valueTolerance);
                 AreEqual(expectedValues[1], actualValues[1], valueTolerance);
@@ -459,10 +459,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             if (channels == 2)
             {
-                Console.WriteLine("");
-                Console.WriteLine("Get Values from Reloaded Sample");
-                Console.WriteLine("-------------------------------");
-                Console.WriteLine("");
+                LogLine("");
+                LogLine("Get Values from Reloaded Sample");
+                LogLine("-------------------------------");
+                LogLine("");
 
                 double[] actualL =
                 {
@@ -518,12 +518,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedR = expectedR.Select(RoundValue).ToArray();
 
-                Console.WriteLine("Done.");
+                LogLine("Done.");
 
-                //Console.WriteLine("");
-                //Console.WriteLine("Save Values");
-                //Console.WriteLine("-----------");
-                //Console.WriteLine("");
+                //LogLine("");
+                //LogLine("Save Values");
+                //LogLine("-----------");
+                //LogLine("");
 
                 //// TODO: Can't save channels separately this way.
                 //// Stereo sample switches with channel (= Center = 0 = Left)
@@ -532,23 +532,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 //Run(() => reloadedSample.Save(callerMemberName + "_ValuesRight"));
                 //WithChannels(channels).WithAudioFormat(audioFormat);
                 
-                Console.WriteLine("");
-                Console.WriteLine("Assert Values");
-                Console.WriteLine("-------------");
-                Console.WriteLine("");
+                LogLine("");
+                LogLine("Assert Values");
+                LogLine("-------------");
+                LogLine("");
 
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedL.Concat(expectedR).Zip(actualL.Concat(actualR), (x,y) => Abs(x - y)).Max();
 
-                Console.WriteLine($"{nameof(valueTolerance)}         = {valueTolerance}");
-                Console.WriteLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
-                Console.WriteLine();
-                Console.WriteLine($"{nameof(expectedL)} = {FormatValues(expectedL)}");
-                Console.WriteLine($"  {nameof(actualL)} = {FormatValues(actualL  )}");
-                Console.WriteLine();
-                Console.WriteLine($"{nameof(expectedR)} = {FormatValues(expectedR)}");
-                Console.WriteLine($"  {nameof(actualR)} = {FormatValues(actualR  )}");
-                Console.WriteLine();
+                LogLine($"{nameof(valueTolerance)}         = {valueTolerance}");
+                LogLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
+                LogLine();
+                LogLine($"{nameof(expectedL)} = {FormatValues(expectedL)}");
+                LogLine($"  {nameof(actualL)} = {FormatValues(actualL  )}");
+                LogLine();
+                LogLine($"{nameof(expectedR)} = {FormatValues(expectedR)}");
+                LogLine($"  {nameof(actualR)} = {FormatValues(actualR  )}");
+                LogLine();
                 
                 // Left
 
