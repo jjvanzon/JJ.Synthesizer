@@ -190,6 +190,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public int? Channel { get; set; }
         public bool IsMono => Channels == 1;
         public bool IsStereo => Channels == 2;
+        public bool IsLeft => Channel != null && Channel == 0;
+        public bool IsRight => Channel != null && Channel == 1;
+        public bool IsCenter => Channel == null;
+        
         public AudioFileFormatEnum AudioFormat { get; set; }
         /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
         public InterpolationTypeEnum Interpolation { get; set; }
