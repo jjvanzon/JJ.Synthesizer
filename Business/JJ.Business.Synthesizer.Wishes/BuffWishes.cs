@@ -7,7 +7,9 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Framework.Reflection.ExpressionHelper;
@@ -189,14 +191,20 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
             
-            // HACK: Temporary for debugging.
-            //return this.MakeBuffOld(channelSignals, duration, inMemory, mustPad, name, filePath, callerMemberName);
+            channelSignals.ForEach(Assert);
+
+            if (mustPad)
+            {
+                this.ApplyPaddingOld(channelSignals);
+            }
+
+            // Run Parallel Processing
+            if (GetParallelProcessing)
+            {
+                _tapeRunner.RunAllTapes();
+            }
             
-            // Help ReSharper not error over unused legacy parameter.
-            mustPad = mustPad;
-            
-            Tape dummyTape = this.CloneTape();
-            
+            Tape dummyTape = CloneTape(this);
             dummyTape.SetSignals(channelSignals);
             dummyTape.Duration = (duration ?? GetAudioLength).Value;
             dummyTape.Actions.Save.On = !inMemory;
