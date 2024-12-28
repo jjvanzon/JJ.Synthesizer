@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string Descriptor(this TapeActions actions) => LogWishes.Descriptor(actions);
         public static string Descriptor(this AudioFileOutput audioFileOutput) => LogWishes.Descriptor(audioFileOutput);
         public static string Descriptor(this IList<FlowNode> signals) => LogWishes.Descriptor(signals);
-        
+
         public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title) => LogWishes.ConfigLog(title, synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title, string sep) => LogWishes.ConfigLog(title, synthWishes, sep);
@@ -595,13 +595,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 tapeConfig.SamplingRate,
                 tapeConfig.Bits,
                 tapeConfig.Channels,
-                null,
+                tapeConfig.Channel,
                 tapeConfig.AudioFormat,
                 tapeConfig.Interpolation);
             
             return configLog;
         }
-
+        
         // Tapes
         
         internal static string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
