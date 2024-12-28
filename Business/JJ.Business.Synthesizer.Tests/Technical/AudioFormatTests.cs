@@ -246,8 +246,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("-------");
             LogLine("");
             
-            //WithDiskCache();
-            
             int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
             double signalDuration = (1 / frequency) * 16;
@@ -307,13 +305,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("------------------------------------------------------------");
             LogLine("");
             
-            string reloadedName = $"{testName}_Reloaded";
-            FlowNode reloadedSampleFlowNodeNew0 = Sample(signalTapeNew).SetName(reloadedName);
-            Save(reloadedSampleFlowNodeNew0.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
-            FlowNode reloadedSampleFlowNodeNew1 = Sample(signalTapeNew).SetName(reloadedName);
-            Save(reloadedSampleFlowNodeNew1.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
+            FlowNode reloadedSampleFlowNodeChannel0New = Sample(signalTapeNew).SetName($"{testName}_ReloadedChannel0New");
+            Save(reloadedSampleFlowNodeChannel0New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
+            FlowNode reloadedSampleFlowNodeChannel1New = Sample(signalTapeNew).SetName($"{testName}_ReloadedChannel1New");
+            Save(reloadedSampleFlowNodeChannel1New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
 
-            LogLine("Done.");
+            LogLine("Done");
             
             WithAudioLength(reloadDuration);
             
@@ -334,7 +331,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Tape reloadedSampleTapeNew = null;
             
-            Run(() => (GetChannel == 0 ? reloadedSampleFlowNodeNew0 : reloadedSampleFlowNodeNew1).AfterRecord(x => reloadedSampleTapeNew = x));
+            Run(() => (GetChannel == 0 ? reloadedSampleFlowNodeChannel0New : reloadedSampleFlowNodeChannel1New).AfterRecord(x => reloadedSampleTapeNew = x));
             IsNotNull(() => reloadedSampleTapeNew);
             
             Save(reloadedSampleTapeNew, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleTapeNew));
@@ -368,7 +365,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 audioFormat, channels, bits, samplingRate,
                 filePath2Expectation, reloadDuration, testName);
 
-            LogLine("Done.");
+            LogLine("Done");
             
             LogLine("");
             LogLine("Assert Sample Properties");
@@ -383,11 +380,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 expectedDuration: signalDuration, filePathExpectation, testName);
 
             AssertSampleProperties(
-                reloadedSampleFlowNodeNew0,
+                reloadedSampleFlowNodeChannel0New,
                 audioFormat, channels, bits, interpolation, samplingRate,
                 expectedDuration: signalDuration, filePathExpectation, testName);
 
-            LogLine("Done.");
+            LogLine("Done");
 
             // Mono
 
@@ -400,15 +397,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualValuesMonoNew =
                 {
-                    Calculate(reloadedSampleFlowNodeNew0, time: 0.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 1.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 2.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 3.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 4.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 5.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 6.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 7.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew0, time: 8.0 / 8.0 / frequency)
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 0.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 1.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 2.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 3.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 4.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 5.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 6.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 7.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeChannel0New, time: 8.0 / 8.0 / frequency)
                 };
                                                 
                 double[] expectedValuesMono =
@@ -425,7 +422,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedValuesMono = expectedValuesMono.Select(RoundValue).ToArray();
 
-                LogLine("Done.");
+                LogLine("Done");
                 
                 LogLine("");
                 LogLine("Values");
@@ -515,7 +512,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedRightValues = expectedRightValues.Select(RoundValue).ToArray();
 
-                LogLine("Done.");
+                LogLine("Done");
 
                 LogLine("");
                 LogLine("Value Info");
@@ -564,6 +561,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(expectedRightValues[8], actualRightValuesOld[8], valueTolerance);
             
                 LogLine("Done");
+                        
+                //LogPrettyTitle("Assert Left Values New");
+
+                //AreEqual(expectedLeftValues[0], actualLeftValuesNew[0], valueTolerance);
+                //AreEqual(expectedLeftValues[1], actualLeftValuesNew[1], valueTolerance);
+                //AreEqual(expectedLeftValues[2], actualLeftValuesNew[2], valueTolerance);
+                //AreEqual(expectedLeftValues[3], actualLeftValuesNew[3], valueTolerance);
+                //AreEqual(expectedLeftValues[4], actualLeftValuesNew[4], valueTolerance);
+                //AreEqual(expectedLeftValues[5], actualLeftValuesNew[5], valueTolerance);
+                //AreEqual(expectedLeftValues[6], actualLeftValuesNew[6], valueTolerance);
+                //AreEqual(expectedLeftValues[7], actualLeftValuesNew[7], valueTolerance);
+                //AreEqual(expectedLeftValues[8], actualLeftValuesNew[8], valueTolerance);
+                
+                //LogLine("Done");
+
+                //LogPrettyTitle("Assert Right Values New");
+                
+                //AreEqual(expectedRightValues[0], actualRightValuesNew[0], valueTolerance);
+                //AreEqual(expectedRightValues[1], actualRightValuesNew[1], valueTolerance);
+                //AreEqual(expectedRightValues[2], actualRightValuesNew[2], valueTolerance);
+                //AreEqual(expectedRightValues[3], actualRightValuesNew[3], valueTolerance);
+                //AreEqual(expectedRightValues[4], actualRightValuesNew[4], valueTolerance);
+                //AreEqual(expectedRightValues[5], actualRightValuesNew[5], valueTolerance);
+                //AreEqual(expectedRightValues[6], actualRightValuesNew[6], valueTolerance);
+                //AreEqual(expectedRightValues[7], actualRightValuesNew[7], valueTolerance);
+                //AreEqual(expectedRightValues[8], actualRightValuesNew[8], valueTolerance);
+
+                //LogLine("Done");
             }
         }
 
