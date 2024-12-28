@@ -29,15 +29,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string ResolveName(
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
             object nameSource5 = null, object nameSource6 = null, object nameSource7 = null, object nameSource8 = null,
-            object explicitNameSource = null, [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string callerMemberName = null)
         {
-            string explicitName = TryGetName(explicitNameSource);
-            if (!IsNullOrWhiteSpace(explicitName))
-            {
-                // Don't prettify. Used for explicit file names.
-                return explicitName;
-            }
-            
             string name = TryGetName(
                 nameSource1, nameSource2, nameSource3, nameSource4, 
                 nameSource5, nameSource6, nameSource7, nameSource8,
@@ -166,20 +159,32 @@ namespace JJ.Business.Synthesizer.Wishes
             IList<int> ids,
             params object[] filePathSources)
         {
-            string resolvedFileExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSources);
-            string resolvedName = ResolveName(filePathSources, explicitNameSource: filePathSources.ElementAtOrDefault(0));
+            string resolvedExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSources);
+            string minusExtension;
             
-            if (Has(ids))
+            string explicitFilePathSource = filePathSources.ElementAtOrDefault(0) as string;
+            if (Has(explicitFilePathSource))
             {
-                string idDescriptor = IDDescriptor(ids);
-                // Prevent duplicate mentions of the ID.
-                if (!resolvedName.EndsWith("(" + idDescriptor + ")"))
+                minusExtension = explicitFilePathSource;
+            }
+            else
+            {
+                string resolvedName = ResolveName(filePathSources);
+                string resolvedMinusExtension = resolvedName.CutRight(resolvedExtension);
+
+                if (Has(ids))
                 {
-                    resolvedName += " " + idDescriptor;
+                    string idDescriptor = IDDescriptor(ids);
+                    if (!resolvedMinusExtension.EndsWith("(" + idDescriptor + ")")) // Prevent duplicate mentions of the ID.
+                    {
+                        resolvedMinusExtension += " " + idDescriptor;
+                    }
                 }
+                
+                minusExtension = resolvedMinusExtension;
             }
 
-            string resolvedFilePath = ReformatFilePath(resolvedName, resolvedFileExtension);
+            string resolvedFilePath = ReformatFilePath(minusExtension, resolvedExtension);
             return resolvedFilePath;
         }
 
@@ -193,6 +198,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             // Sanitize file path
             string sanitizedFilePath = SanitizeFilePath(filePath, badCharReplacement: " ");
+            string sanitizedFileExtension = SanitizeFilePath(newFileExtension, badCharReplacement: " ");
             
             // Find the full folder path
             string folderPath = GetDirectoryName(sanitizedFilePath);
@@ -202,7 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Replace file extension
             string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath, ConfigWishes.Static.GetFileExtensionMaxLength);
-            string audioFormatExtension = newFileExtension;
+            string audioFormatExtension = sanitizedFileExtension;
             string fileName = fileNameWithoutExtension + audioFormatExtension;
 
             // Combine folder path and new file name
