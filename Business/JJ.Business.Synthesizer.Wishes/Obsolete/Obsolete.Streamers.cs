@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 //  It does so in a thread-safe, interprocess-safe way.)
                 FileStream fileStream;
                 (resolvedFilePath, fileStream) = CreateSafeFileStream(resolvedFilePath, 
-                                                                      maxExtensionLength: ConfigWishes.Default.GetFileExtensionMaxLength);
+                                                                      maxExtensionLength: ConfigWishes.Static.GetFileExtensionMaxLength);
                 calculatorAccessor._stream = fileStream;
                 audioFileOutput.FilePath = resolvedFilePath;
             }
@@ -499,7 +499,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff,
-                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Static.GetCourtesyFrames, name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage, true)]
         public static Buff Record(
@@ -507,7 +507,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
                 entity,
-                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Static.GetCourtesyFrames, name, null, callerMemberName);
 
     }
 
@@ -522,7 +522,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuff(
                 buff,
-                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Static.GetCourtesyFrames, name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage, true)]
         public static Buff Record(
@@ -530,7 +530,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
                 entity,
-                inMemory: true, ConfigWishes.Default.GetCourtesyFrames, name, null, callerMemberName);
+                inMemory: true, ConfigWishes.Static.GetCourtesyFrames, name, null, callerMemberName);
     }
 
     [Obsolete(ObsoleteMessage, true)]

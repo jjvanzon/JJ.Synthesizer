@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath, byte[] bytes, string fileExtension = null)
         {
             // Figure out if must play
-            ConfigWishes configWishes = synthWishes?.Config ?? ConfigWishes.Default;
+            ConfigWishes configWishes = synthWishes?.Config ?? ConfigWishes.Static;
             string resolvedFileExtension = ResolveFileExtension(fileExtension, synthWishes?.GetAudioFormat ?? default, filePath);
             bool mustPlay = configWishes.GetAudioPlayback(resolvedFileExtension);
             

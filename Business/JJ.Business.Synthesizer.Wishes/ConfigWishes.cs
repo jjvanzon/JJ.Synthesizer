@@ -90,9 +90,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         string DebuggerDisplay => GetDebuggerDisplay(this);
 
-        // TODO: Rename to "Static", because "Default" clashes with the concept of default settings, which isn't what's meant here.
         /// <summary> For static contexts use this. </summary>
-        internal static ConfigWishes Default { get; } = new ConfigWishes();
+        internal static ConfigWishes Static { get; } = new ConfigWishes();
 
         // Defaults
 

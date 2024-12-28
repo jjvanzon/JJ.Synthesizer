@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 string value = TryGetName(filePathSource);
                 value = SanitizeFilePath(value);
-                value = GetExtension(value, ConfigWishes.Default.GetFileExtensionMaxLength);
+                value = GetExtension(value, ConfigWishes.Static.GetFileExtensionMaxLength);
                 if (Has(value))
                 {
                     return value;
@@ -201,7 +201,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 : GetFullPath(folderPath);
             
             // Replace file extension
-            string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath, ConfigWishes.Default.GetFileExtensionMaxLength);
+            string fileNameWithoutExtension = GetFileNameWithoutExtension(sanitizedFilePath, ConfigWishes.Static.GetFileExtensionMaxLength);
             string audioFormatExtension = newFileExtension;
             string fileName = fileNameWithoutExtension + audioFormatExtension;
 
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string prettyName = uglyName;
             
-            if (IsFile(prettyName, ConfigWishes.Default.GetFileExtensionMaxLength))
+            if (IsFile(prettyName, ConfigWishes.Static.GetFileExtensionMaxLength))
             {
                 prettyName = GetFileNameWithoutExtension(GetFileName(uglyName));
             }

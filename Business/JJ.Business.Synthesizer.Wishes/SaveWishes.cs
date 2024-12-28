@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 return MakeBuffLegacy(
                     audioFileOutput,
-                    inMemory: false, ConfigWishes.Default.GetCourtesyFrames, 
+                    inMemory: false, ConfigWishes.Static.GetCourtesyFrames, 
                     audioFileOutput.Name, filePath, callerMemberName);
             }
         }
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string resolvedDestFilePath = ResolveFilePath("", destFilePath, callerMemberName);
             
             (string numberedDestFilePath, FileStream fileStream) 
-                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: ConfigWishes.Default.GetFileExtensionMaxLength);
+                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: ConfigWishes.Static.GetFileExtensionMaxLength);
             
             using (fileStream)
             {
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string resolvedDestFilePath = ResolveFilePath("", destFilePath, sourceFilePath, callerMemberName: callerMemberName);
             (string numberedDestFilePath, FileStream destStream) 
-                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: ConfigWishes.Default.GetFileExtensionMaxLength);
+                = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: ConfigWishes.Static.GetFileExtensionMaxLength);
             
             using (var sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (destStream)
