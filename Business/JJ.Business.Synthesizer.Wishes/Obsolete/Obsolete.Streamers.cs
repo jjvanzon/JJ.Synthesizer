@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         // MakeBuff Old (Start-of-Chain)
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffOld(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool inMemory, bool mustPad,
