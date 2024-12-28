@@ -387,12 +387,38 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 audioFormat, channels, bits, interpolation, samplingRate,
                 expectedDuration: signalDuration, filePathExpectation, testName);
 
+            AssertSampleProperties(
+                reloadedSampleFlowNodeChannel1New,
+                audioFormat, channels, bits, interpolation, samplingRate,
+                expectedDuration: signalDuration, filePathExpectation, testName);
+
             LogLine("Done");
 
             // Mono
 
             if (channels == 1)
             {
+                LogLine("");
+                LogLine("Get Mono Values from Sample Reloaded from \"Record\" (Old Method)");
+                LogLine("-----------------------------------------------------------------");
+                LogLine("");
+
+                double[] actualValuesMonoOld =
+                {
+                    Calculate(reloadedSampleFlowNodeOld, time: 0.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 1.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 2.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 3.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 4.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 5.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 6.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 7.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeOld, time: 8.0 / 8.0 / frequency)
+                };
+                
+                // Tame ReSharper
+                actualValuesMonoOld = actualValuesMonoOld;
+                
                 LogLine("");
                 LogLine("Get Mono Values from Sample Reloaded from \"Run/Intercept\" (New Method)");
                 LogLine("----------------------------------------------------------------------");
@@ -414,8 +440,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 LogLine("Done");
 
                 LogLine("");
-                LogLine("Value Info");
-                LogLine("----------");
+                LogLine("Values");
+                LogLine("------");
                 LogLine("");
 
                 double[] expectedValuesMono =
@@ -474,6 +500,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     reloadedSampleFlowNodeOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
                 };
 
+                double[] actualLeftValuesNew =
+                {
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
+                    reloadedSampleFlowNodeChannel0New.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
+                };
+
+                actualLeftValuesNew = actualLeftValuesNew; // Tame ReSharper.
+
                 double[] actualRightValuesOld =
                 {
                     reloadedSampleFlowNodeOld.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
@@ -487,6 +528,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     reloadedSampleFlowNodeOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
                 };
                 
+                double[] actualRightValuesNew =
+                {
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
+                    reloadedSampleFlowNodeChannel1New.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
+                };
+                
+                actualRightValuesNew = actualRightValuesNew; // Tame ReSharper.
+
                 LogLine("Done");
 
                 LogLine("");
