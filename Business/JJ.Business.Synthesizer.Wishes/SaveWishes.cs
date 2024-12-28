@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             LogAction(sample, MemberName());
-            string resolvedFilePath = ResolveFilePath("", filePath, ResolveName(sample, callerMemberName));
+            string resolvedFilePath = ResolveFilePath(sample.AudioFormat(), filePath, ResolveName(sample, callerMemberName));
             return sample.Location = InternalSave(sample.Bytes, resolvedFilePath, callerMemberName);
         }
         
