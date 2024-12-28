@@ -58,6 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(tape);
             MakeBuff(tape, audioFileOutput, callerMemberName);
+            tape.Sample = Sample(tape);
         }
         
         internal AudioFileOutput ConfigureAudioFileOutput(
