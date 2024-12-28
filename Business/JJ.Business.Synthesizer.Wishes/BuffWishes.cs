@@ -250,6 +250,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
             lock (_stereoSpeakerSetupSubstituteLock)
             {
+                _stereoSpeakerSetupSubstitute = CreateStereoSpeakerSetupSubstitute();
+                return _stereoSpeakerSetupSubstitute;
+            }
+        }
+        
+        private SpeakerSetup CreateStereoSpeakerSetupSubstitute()
+        {
                 var channelRepository = CreateRepository<IChannelRepository>(Context);
                 
                 var stereo = new SpeakerSetup
@@ -276,11 +283,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 right.SpeakerSetup = stereo;
                 stereo.SpeakerSetupChannels = new List<SpeakerSetupChannel> { left, right };
                 
-                _stereoSpeakerSetupSubstitute = stereo;
-                
                 return stereo;
             }
-        }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         private static readonly object _monoSpeakerSetupSubstituteLock = new object();
@@ -298,6 +302,13 @@ namespace JJ.Business.Synthesizer.Wishes
             
             lock (_monoSpeakerSetupSubstituteLock)
             {
+                _monoSpeakerSetupSubstitute = CreateMonoSpeakerSetupSubstitute();
+                return _monoSpeakerSetupSubstitute;
+            }
+        }
+        
+        private SpeakerSetup CreateMonoSpeakerSetupSubstitute()
+        {
                 var channelRepository = CreateRepository<IChannelRepository>(Context);
                 
                 var mono = new SpeakerSetup
@@ -313,15 +324,11 @@ namespace JJ.Business.Synthesizer.Wishes
                     Channel = channelRepository.Get((int)ChannelEnum.Single),
                 };
                 
-                
                 center.SpeakerSetup = mono;
                 mono.SpeakerSetupChannels = new List<SpeakerSetupChannel> { center };
                 
-                _monoSpeakerSetupSubstitute = mono;
-                
                 return mono;
             }
-        }
         
         /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
         internal void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
