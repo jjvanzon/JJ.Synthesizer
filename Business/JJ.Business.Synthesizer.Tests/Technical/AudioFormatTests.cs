@@ -241,6 +241,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             bool aligned,
             [CallerMemberName] string testName = null)
         {
+            
             LogLine("");
             LogLine("Options");
             LogLine("-------");
@@ -296,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("-----------------------------------------------------");
             LogLine("");
 
-            string reloadedNameOld = $"{testName}_Reloaded";
+            string reloadedNameOld = $"{testName}_ReloadedOld";
             FlowNode reloadedSampleFlowNodeOld = Sample(signalBuffOld, name: reloadedNameOld);
             Save(reloadedSampleFlowNodeOld.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeOld_UnderlyingSample");
 
@@ -306,9 +307,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("");
             
             FlowNode reloadedSampleFlowNodeChannel0New = Sample(signalTapeNew).SetName($"{testName}_ReloadedChannel0New");
-            Save(reloadedSampleFlowNodeChannel0New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
             FlowNode reloadedSampleFlowNodeChannel1New = Sample(signalTapeNew).SetName($"{testName}_ReloadedChannel1New");
-            Save(reloadedSampleFlowNodeChannel1New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
+            Save(reloadedSampleFlowNodeChannel0New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
+            Save(reloadedSampleFlowNodeChannel1New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel1New_UnderlyingSample");
 
             LogLine("Done");
             
@@ -332,8 +333,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Tape reloadedSampleTapeNew = null;
             
             Run(() => (GetChannel == 0 ? reloadedSampleFlowNodeChannel0New : reloadedSampleFlowNodeChannel1New).AfterRecord(x => reloadedSampleTapeNew = x));
+            
             IsNotNull(() => reloadedSampleTapeNew);
             
+            // Signal still correct here
             Save(reloadedSampleTapeNew, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleTapeNew));
             
             LogLine("");
@@ -408,6 +411,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     Calculate(reloadedSampleFlowNodeChannel0New, time: 8.0 / 8.0 / frequency)
                 };
                                                 
+                LogLine("Done");
+
+                LogLine("");
+                LogLine("Values");
+                LogLine("------");
+                LogLine("");
+                                                
                 double[] expectedValuesMono =
                 {
                     VOLUME *       0.0,
@@ -422,20 +432,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedValuesMono = expectedValuesMono.Select(RoundValue).ToArray();
 
-                LogLine("Done");
-                
-                LogLine("");
-                LogLine("Values");
-                LogLine("------");
-                LogLine("");
-
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequired = expectedValuesMono.Zip(actualValuesMonoNew, (x,y) => Abs(x - y)).Max();
                 LogLine($"{nameof(valueTolerance)}         = {valueTolerance}");
                 LogLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
                 LogLine();
-                LogLine($"{nameof(expectedValuesMono)} = {FormatValues(expectedValuesMono)}");
-                LogLine($"{nameof(actualValuesMonoNew)}   = {FormatValues(actualValuesMonoNew  )}");
+                LogLine($"{nameof(expectedValuesMono)}  = {FormatValues(expectedValuesMono)}");
+                LogLine($"{nameof(actualValuesMonoNew)} = {FormatValues(actualValuesMonoNew)}");
                 LogLine();
                 
                 AreEqual(expectedValuesMono[0], actualValuesMonoNew[0], valueTolerance);
@@ -512,13 +515,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedRightValues = expectedRightValues.Select(RoundValue).ToArray();
 
-                LogLine("Done");
-
-                LogLine("");
-                LogLine("Value Info");
-                LogLine("----------");
-                LogLine("");
-
+                // Value Tolerance
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequiredOld 
                     = expectedLeftValues.Concat(expectedRightValues)
