@@ -37,8 +37,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private const double VOLUME    = 0.50;
         private const double PANNING   = 0.25;
-        private const double DURATION  = 0.25;
-        private const double DURATION2 = DURATION * 1.01;
+        //private const double DURATION  = 0.25;
+        //private const double DURATION2 = DURATION * 1.01;
         private const int    DECIMALS  = 4;
 
         [TestMethod]
@@ -250,6 +250,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
             double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
+            double signalDuration = (1 / frequency) * 16;
+            double reloadDuration = signalDuration * 1.01;
 
             WithPadding(0);
             WithChannels(channels);
@@ -264,7 +266,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("Materialize Signal with \"Record\" (Old Method)");
             LogLine("---------------------------------------------");
             
-            WithAudioLength(DURATION);
+            WithAudioLength(signalDuration);
             Buff signalBuffOld = this.Record(() => Signal(_[frequency], callerMemberName), callerMemberName);
             IsNotNull(() => signalBuffOld);
             AudioFileOutput signalAudioFileOutputOld = signalBuffOld.UnderlyingAudioFileOutput;
@@ -276,7 +278,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("----------------------------------------------------");
             LogLine("");
 
-            WithAudioLength(DURATION);
+            WithAudioLength(signalDuration);
             Tape signalTapeNew = null;
             Run(() => Signal(_[frequency], callerMemberName).AfterRecord(x => signalTapeNew = x, callerMemberName));
             IsNotNull(() => signalTapeNew);
@@ -312,7 +314,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("----------------------------------------");
             LogLine("");
 
-            WithAudioLength(DURATION2);
+            WithAudioLength(reloadDuration);
             Buff reloadedSampleBuffOld = this.Record(ReloadSampleOld);
             IsNotNull(() => reloadedSampleBuffOld);
             
@@ -323,7 +325,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("-----------------------------------------------");
             LogLine("");
 
-            WithAudioLength(DURATION2);
+            WithAudioLength(reloadDuration);
             Tape reloadedSampleTapeNew = null;
             Run(() => ReloadSampleNew().AfterRecord(x => reloadedSampleTapeNew = x));
             IsNotNull(() => reloadedSampleTapeNew);
@@ -340,24 +342,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertAudioFileOutputProperties(
                 signalAudioFileOutputOld,
                 audioFormat, channels, bits, samplingRate,
-                filePath1Expectation, DURATION, callerMemberName);
+                filePath1Expectation, signalDuration, callerMemberName);
             
             AssertAudioFileOutputProperties(
                 signalAudioFileOutputNew,
                 audioFormat, channels, bits, samplingRate,
-                filePath1Expectation, DURATION, callerMemberName);
+                filePath1Expectation, signalDuration, callerMemberName);
 
             string filePath2Expectation = GetFullPath(PrettifyName($"{callerMemberName}_Reloaded") + audioFormat.FileExtension());
             
             AssertAudioFileOutputProperties(
                 reloadedSampleBuffOld.UnderlyingAudioFileOutput,
                 audioFormat, channels, bits, samplingRate,
-                filePath2Expectation, DURATION2, callerMemberName);
+                filePath2Expectation, reloadDuration, callerMemberName);
             
             AssertAudioFileOutputProperties(
                 reloadedSampleTapeNew.UnderlyingAudioFileOutput,
                 audioFormat, channels, bits, samplingRate,
-                filePath2Expectation, DURATION2, callerMemberName);
+                filePath2Expectation, reloadDuration, callerMemberName);
 
             LogLine("Done.");
             
@@ -373,14 +375,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSampleProperties(
                 reloadedSampleOld,
                 audioFormat, channels, bits, interpolation, samplingRate,
-                expectedDuration: DURATION, filePathExpectation, callerMemberName);
+                expectedDuration: signalDuration, filePathExpectation, callerMemberName);
 
             FlowNode reloadedSampleNew = ReloadSampleNew();
 
             AssertSampleProperties(
                 reloadedSampleNew,
                 audioFormat, channels, bits, interpolation, samplingRate,
-                expectedDuration: DURATION, filePathExpectation, callerMemberName);
+                expectedDuration: signalDuration, filePathExpectation, callerMemberName);
 
             LogLine("Done.");
 
@@ -725,7 +727,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsNotNull(() => sample.Bytes);
                 NotEqual(0, () => sample.Bytes.Length);
                 
-                int byteCountExpected  = (int)(audioFileFormatEnum.HeaderLength() + samplingRate * sample.FrameSize() * DURATION);
+                int byteCountExpected  = (int)(audioFileFormatEnum.HeaderLength() + samplingRate * sample.FrameSize() * expectedDuration);
                 int byteCountTolerance = GetByteCountTolerance(bits, channels);
                 
                 string byteCountDescriptor = NewLine +
