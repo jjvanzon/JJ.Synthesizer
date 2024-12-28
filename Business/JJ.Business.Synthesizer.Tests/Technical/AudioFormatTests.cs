@@ -414,10 +414,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 LogLine("Done");
 
                 LogLine("");
-                LogLine("Values");
-                LogLine("------");
+                LogLine("Value Info");
+                LogLine("----------");
                 LogLine("");
-                                                
+
                 double[] expectedValuesMono =
                 {
                     VOLUME *       0.0,
@@ -473,20 +473,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     reloadedSampleFlowNodeOld.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
                     reloadedSampleFlowNodeOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
                 };
-                                
-                double[] expectedLeftValues =
-                {
-                    VOLUME * 0.75 *       0.0,
-                    VOLUME * 0.75 *  Sqrt(.5),
-                    VOLUME * 0.75 *       1.0,
-                    VOLUME * 0.75 *  Sqrt(.5),
-                    VOLUME * 0.75 *       0.0,
-                    VOLUME * 0.75 * -Sqrt(.5),
-                    VOLUME * 0.75 *      -1.0,
-                    VOLUME * 0.75 * -Sqrt(.5),
-                    VOLUME * 0.75 *       0.0
-                };
-                expectedLeftValues = expectedLeftValues.Select(RoundValue).ToArray();
 
                 double[] actualRightValuesOld =
                 {
@@ -501,6 +487,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     reloadedSampleFlowNodeOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
                 };
                 
+                LogLine("Done");
+
+                LogLine("");
+                LogLine("Value Info");
+                LogLine("----------");
+                LogLine("");
+                
+                double[] expectedLeftValues =
+                {
+                    VOLUME * 0.75 *       0.0,
+                    VOLUME * 0.75 *  Sqrt(.5),
+                    VOLUME * 0.75 *       1.0,
+                    VOLUME * 0.75 *  Sqrt(.5),
+                    VOLUME * 0.75 *       0.0,
+                    VOLUME * 0.75 * -Sqrt(.5),
+                    VOLUME * 0.75 *      -1.0,
+                    VOLUME * 0.75 * -Sqrt(.5),
+                    VOLUME * 0.75 *       0.0
+                };
+                expectedLeftValues = expectedLeftValues.Select(RoundValue).ToArray();
+
                 double[] expectedRightValues =
                 {
                     VOLUME * 0.25 *       0.0,
@@ -515,7 +522,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 expectedRightValues = expectedRightValues.Select(RoundValue).ToArray();
 
-                // Value Tolerance
                 double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                 double valueToleranceRequiredOld 
                     = expectedLeftValues.Concat(expectedRightValues)
