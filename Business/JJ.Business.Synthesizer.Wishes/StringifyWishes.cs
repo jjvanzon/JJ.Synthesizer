@@ -65,6 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (Has(rightChannelString))
             {
+                sb.AppendLine();
                 sb.AppendLine("Right Channel:");
                 sb.AppendLine();
                 sb.AppendLine(rightChannelString);

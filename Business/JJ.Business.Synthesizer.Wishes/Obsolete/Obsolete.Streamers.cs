@@ -366,7 +366,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            
             return synthWishes.MakeBuffLegacy(
                 func, null,
                 inMemory: true, default, name, null, callerMemberName);

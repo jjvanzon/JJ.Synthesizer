@@ -586,7 +586,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
         
-        
         internal static string ConfigLog(TapeConfig tapeConfig)
         {
             if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
@@ -602,7 +601,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return configLog;
         }
 
-        
         // Tapes
         
         internal static string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
@@ -808,7 +806,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string channel = ChannelDescriptor(tape)?.ToLower();
             flags.Add(channel);
             
-            if (Has(tape.Duration)) flags.Add($"{tape.Duration}s");
+            if (Has(tape.Duration)) flags.Add($"{tape.Duration:0.###}s");
             
             if (tape.IsPadded)
             {

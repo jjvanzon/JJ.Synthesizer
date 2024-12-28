@@ -122,6 +122,14 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Inject an in-memory stream
                 bytes = new byte[audioFileOutput.FileLengthNeeded(tape.Config.CourtesyFrames)];
+                //if (audioFileOutput.Bits() == 8)
+                //{
+                //    for (int i = 0; i < bytes.Length; i++)
+                //    {
+                //        bytes[i] = 128;
+                //    }
+                //}
+                
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 
@@ -173,6 +181,9 @@ namespace JJ.Business.Synthesizer.Wishes
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (channelSignals == null) throw new ArgumentNullException(nameof(channelSignals));
+            
+            // HACK: Temporary for debugging.
+            //return this.MakeBuffOld(channelSignals, duration, inMemory, mustPad, name, filePath, callerMemberName);
             
             // Help ReSharper not error over unused legacy parameter.
             mustPad = mustPad;
