@@ -33,6 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string Descriptor(this Tape tape) => LogWishes.Descriptor(tape);
         public static string Descriptor(this TapeActions actions) => LogWishes.Descriptor(actions);
         public static string Descriptor(this AudioFileOutput audioFileOutput) => LogWishes.Descriptor(audioFileOutput);
+        public static string Descriptor(this IList<FlowNode> signals) => LogWishes.Descriptor(signals);
         
         public static string ConfigLog(this SynthWishes synthWishes) => LogWishes.ConfigLog(synthWishes);
         public static string ConfigLog(this SynthWishes synthWishes, string title) => LogWishes.ConfigLog(title, synthWishes);
@@ -1045,6 +1046,12 @@ namespace JJ.Business.Synthesizer.Wishes
             
             string joined = Join(" | ", new[] { name, configLog, filePath }.Where(FilledIn));
             return joined;
+        }
+
+        public static string Descriptor(IList<FlowNode> signals)
+        {
+            if (signals == null) throw new ArgumentNullException(nameof(signals));
+            return signals.Count == 0 ? "<Signal=null>" : Join(" | ", signals.Select(x => $"{x}"));
         }
 
         // Math Boost
