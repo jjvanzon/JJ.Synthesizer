@@ -37,8 +37,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private const double VOLUME    = 0.50;
         private const double PANNING   = 0.25;
-        //private const double DURATION  = 0.25;
-        //private const double DURATION2 = DURATION * 1.01;
         private const int    DECIMALS  = 4;
 
         [TestMethod]
