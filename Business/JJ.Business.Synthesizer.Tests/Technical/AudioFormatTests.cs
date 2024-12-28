@@ -292,29 +292,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AudioFileOutput signalAudioFileOutputNew = signalBuffNew.UnderlyingAudioFileOutput;
             
             Save(signalTapeNew, testName + "_" + ++fileCount + "_" + nameof(signalTapeNew));
+
+            LogLine("");
+            LogLine("Reload Sample in a FlowNode for \"Record\" (Old Method)");
+            LogLine("-----------------------------------------------------");
+            LogLine("");
+
+            string reloadedNameOld = $"{testName}_Reloaded";
+            FlowNode reloadedSampleFlowNodeOld = Sample(signalBuffOld, name: reloadedNameOld);
+            Save(reloadedSampleFlowNodeOld.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeOld_UnderlyingSample");
+
+            LogLine("");
+            LogLine("Reload Sample in a FlowNode for \"Run/Intercept\" (New Method)");
+            LogLine("------------------------------------------------------------");
+            LogLine("");
             
-            FlowNode ReloadSampleOld()
-            {
-                LogLine("");
-                LogLine("Reload Sample in a FlowNode for \"Record\" (Old Method)");
-                LogLine("-----------------------------------------------------");
-                LogLine("");
-                string reloadedNameOld = $"{testName}_Reloaded";
-                FlowNode node = Sample(signalBuffOld, name: reloadedNameOld);
-                return node;
-            }
-            
-            FlowNode ReloadSampleNew()
-            {
-                LogLine("");
-                LogLine("Reload Sample in a FlowNode for \"Run/Intercept\" (New Method)");
-                LogLine("------------------------------------------------------------");
-                LogLine("");
-                string reloadedName = $"{testName}_Reloaded";
-                FlowNode node = Sample(signalTapeNew).SetName(reloadedName);
-                return node;
-            }
-            
+            string reloadedName = $"{testName}_Reloaded";
+            FlowNode reloadedSampleFlowNodeNew0 = Sample(signalTapeNew).SetName(reloadedName);
+            Save(reloadedSampleFlowNodeNew0.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
+            FlowNode reloadedSampleFlowNodeNew1 = Sample(signalTapeNew).SetName(reloadedName);
+            Save(reloadedSampleFlowNodeNew1.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
+
             LogLine("Done.");
             
             WithAudioLength(reloadDuration);
@@ -324,7 +322,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("----------------------------------------");
             LogLine("");
 
-            Buff reloadedSampleBuffOld = this.Record(ReloadSampleOld);
+            Buff reloadedSampleBuffOld = this.Record(() => reloadedSampleFlowNodeOld);
             IsNotNull(() => reloadedSampleBuffOld);
             
             Save(reloadedSampleBuffOld, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleBuffOld));
@@ -336,10 +334,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Tape reloadedSampleTapeNew = null;
             
-            Run(() => ReloadSampleNew().AfterRecord(x => reloadedSampleTapeNew = x));
+            Run(() => (GetChannel == 0 ? reloadedSampleFlowNodeNew0 : reloadedSampleFlowNodeNew1).AfterRecord(x => reloadedSampleTapeNew = x));
             IsNotNull(() => reloadedSampleTapeNew);
             
-            Save(reloadedSampleTapeNew, testName + "_" + nameof(reloadedSampleTapeNew));
             Save(reloadedSampleTapeNew, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleTapeNew));
             
             LogLine("");
@@ -380,17 +377,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             string filePathExpectation = signalAudioFileOutputNew.FilePath;
             
-            FlowNode reloadedSampleFlowNodeOld = ReloadSampleOld();
-
             AssertSampleProperties(
                 reloadedSampleFlowNodeOld,
                 audioFormat, channels, bits, interpolation, samplingRate,
                 expectedDuration: signalDuration, filePathExpectation, testName);
 
-            FlowNode reloadedSampleFlowNodeNew = ReloadSampleNew();
-
             AssertSampleProperties(
-                reloadedSampleFlowNodeNew,
+                reloadedSampleFlowNodeNew0,
                 audioFormat, channels, bits, interpolation, samplingRate,
                 expectedDuration: signalDuration, filePathExpectation, testName);
 
@@ -407,15 +400,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 double[] actualValuesMonoNew =
                 {
-                    Calculate(reloadedSampleFlowNodeNew, time: 0.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 1.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 2.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 3.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 4.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 5.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 6.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 7.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeNew, time: 8.0 / 8.0 / frequency)
+                    Calculate(reloadedSampleFlowNodeNew0, time: 0.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 1.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 2.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 3.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 4.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 5.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 6.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 7.0 / 8.0 / frequency),
+                    Calculate(reloadedSampleFlowNodeNew0, time: 8.0 / 8.0 / frequency)
                 };
                                                 
                 double[] expectedValuesMono =
