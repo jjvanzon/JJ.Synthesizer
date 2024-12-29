@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             // Resolve where our data comes from
             name = ResolveName(name, filePath, callerMemberName);
-            filePath = ResolveFilePath(GetAudioFormat, filePath, name, callerMemberName);
+            filePath = ResolveFilePath(GetAudioFormat, filePath, name);
             stream = ResolveStream(stream, bytes, filePath);
             
             // Wrap it in a Sample

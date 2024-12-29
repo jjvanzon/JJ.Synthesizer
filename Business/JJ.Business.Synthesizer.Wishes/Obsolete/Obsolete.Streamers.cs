@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
 
             string resolvedName = ResolveName(name, filePath, audioFileOutput, callerMemberName);
-            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), filePath, resolvedName, callerMemberName);
+            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), filePath, ResolveName(resolvedName, callerMemberName));
 
             audioFileOutput.Name = resolvedName;
             

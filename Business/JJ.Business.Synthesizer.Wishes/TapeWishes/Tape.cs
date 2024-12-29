@@ -77,9 +77,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public string GetFilePath(string filePath = null, [CallerMemberName] string callerMemberName = null)
             => ResolveFilePath(
-                Config.AudioFormat.FileExtension(), Config.AudioFormat, IDs, 
+                Config.AudioFormat.FileExtension(), Config.AudioFormat, 
                 filePath, FilePathResolved, FilePathSuggested, 
-                Outlets, FallBackName, callerMemberName);
+                ResolveName(IDs, Outlets, FallBackName, callerMemberName));
 
         public string FallBackName { get; internal set; }
         public string FilePathSuggested { get; internal set; }

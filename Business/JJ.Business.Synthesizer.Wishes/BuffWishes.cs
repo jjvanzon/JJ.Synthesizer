@@ -73,7 +73,9 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = tape.Descriptor();
-            audioFileOutput.FilePath = ResolveFilePath(tape.Config.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, tape.Outlet, tape.Outlets, tape.FallBackName, callerMemberName);
+            audioFileOutput.FilePath = 
+                ResolveFilePath(tape.Config.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, 
+                    ResolveName(tape.Outlet, tape.Outlets, tape.FallBackName, callerMemberName));
             audioFileOutput.Amplifier = tape.Config.Bits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
@@ -118,7 +120,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
-            string resolvedFilePath = ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(), audioFileOutput, callerMemberName);
+            string resolvedFilePath = 
+                ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(),
+                    ResolveName(audioFileOutput, callerMemberName));
             bool inMemory = !(tape.Actions.DiskCache.On || tape.Actions.Save.On || tape.Actions.SaveChannels.On);
 
             audioFileOutput.Name = resolvedName;
@@ -228,7 +232,7 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.Actions.DiskCache.On = !inMemory;
             dummyTape.Config.CourtesyFrames = courtesyFrames;
             dummyTape.FallBackName = ResolveName(name, dummyTape.FallBackName, filePath, callerMemberName);
-            dummyTape.FilePathSuggested = ResolveFilePath(filePath, dummyTape.FilePathSuggested, name, callerMemberName);
+            dummyTape.FilePathSuggested = ResolveFilePath(filePath, dummyTape.FilePathSuggested, ResolveName(name, callerMemberName));
 
             MakeBuff(dummyTape, audioFileOutput, callerMemberName);
             

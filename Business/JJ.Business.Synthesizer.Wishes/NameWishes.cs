@@ -24,9 +24,17 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class NameWishes
     {
         // ResolveName
-        
+
         /// <inheritdoc cref="docs._resolvename"/>
         public static string ResolveName(
+            object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
+            object nameSource5 = null, object nameSource6 = null, object nameSource7 = null, object nameSource8 = null,
+            [CallerMemberName] string callerMemberName = null)
+            => ResolveName(null, nameSource1, nameSource2, nameSource3, nameSource4, nameSource5, nameSource6, nameSource7, nameSource8, callerMemberName);
+
+        /// <inheritdoc cref="docs._resolvename"/>
+        public static string ResolveName(
+            IList<int> ids,
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
             object nameSource5 = null, object nameSource6 = null, object nameSource7 = null, object nameSource8 = null,
             [CallerMemberName] string callerMemberName = null)
@@ -37,6 +45,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 callerMemberName);
 
             name = PrettifyName(name);
+            
+            if (Has(ids))
+            {
+                string idDescriptor = IDDescriptor(ids);
+                if (!name.EndsWith("(" + idDescriptor + ")")) // Prevent duplicate mentions of the ID.
+                {
+                    name += " " + idDescriptor;
+                }
+            }
             
             return name;
         }
@@ -93,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string ResolveFileExtension(
             string fileExtension, AudioFileFormatEnum audioFileFormat = default, 
-            params object[] filePathSources)
+            params string[] filePathSources)
         {
             if (Has(fileExtension))
             {
@@ -133,56 +150,35 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static string ResolveFilePath(
             AudioFileFormatEnum audioFormat, 
-            object filePathSource1 = null,
-            object filePathSource2 = null,
-            object filePathSource3 = null,
-            object filePathSource4 = null,
-            object filePathSource5 = null,
-            object filePathSource6 = null,
+            string filePathSource1 = null,
+            string filePathSource2 = null,
+            string filePathSource3 = null,
+            string filePathSource4 = null,
+            string filePathSource5 = null,
+            string filePathSource6 = null,
             [CallerMemberName] string callerMemberName = null)
             => ResolveFilePath(default, audioFormat, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension, 
-            object filePathSource1 = null, 
-            object filePathSource2 = null, 
-            object filePathSource3 = null, 
-            object filePathSource4 = null, 
-            object filePathSource5 = null,
-            object filePathSource6 = null,
+            string filePathSource1 = null, 
+            string filePathSource2 = null, 
+            string filePathSource3 = null, 
+            string filePathSource4 = null, 
+            string filePathSource5 = null,
+            string filePathSource6 = null,
             [CallerMemberName] string callerMemberName = null)
             => ResolveFilePath(fileExtension, default, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension,
             AudioFileFormatEnum audioFormat,
-            IList<int> ids,
-            params object[] filePathSources)
+            params string[] filePathSources)
         {
             string resolvedExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSources);
-            string minusExtension;
+            string minusExtension = (filePathSources.FirstOrDefault(FilledIn) ?? "").CutRight(resolvedExtension);
             
-            string explicitFilePathSource = filePathSources.ElementAtOrDefault(0) as string;
-            if (Has(explicitFilePathSource))
-            {
-                minusExtension = explicitFilePathSource;
-            }
-            else
-            {
-                string resolvedName = ResolveName(filePathSources);
-                string resolvedMinusExtension = resolvedName.CutRight(resolvedExtension);
 
-                if (Has(ids))
-                {
-                    string idDescriptor = IDDescriptor(ids);
-                    if (!resolvedMinusExtension.EndsWith("(" + idDescriptor + ")")) // Prevent duplicate mentions of the ID.
-                    {
-                        resolvedMinusExtension += " " + idDescriptor;
-                    }
-                }
-                
-                minusExtension = resolvedMinusExtension;
-            }
 
             string resolvedFilePath = ReformatFilePath(minusExtension, resolvedExtension);
             return resolvedFilePath;

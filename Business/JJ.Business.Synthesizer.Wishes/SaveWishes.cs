@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private static string InternalSave(string sourceFilePath, string destFilePath, string callerMemberName)
         {
-            string resolvedDestFilePath = ResolveFilePath("", destFilePath, sourceFilePath, callerMemberName: callerMemberName);
+            string resolvedDestFilePath = ResolveFilePath("", destFilePath, sourceFilePath, callerMemberName);
             (string numberedDestFilePath, FileStream destStream) 
                 = CreateSafeFileStream(resolvedDestFilePath, maxExtensionLength: ConfigWishes.Static.GetFileExtensionMaxLength);
             

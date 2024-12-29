@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogTitleStrong("Reload Sample into FlowNode Old"); FlowNode reloadedSampleNodeOld;
             {
                 fileName = testName + "_" + fileNum++ + "_reloadedSampleNodeOld";
-                flowNode = Sample(signalBuffOld, name: fileName);
+                flowNode = Sample(signalBuffOld);
                 reloadedSampleNodeOld = flowNode;
                 Save(flowNode.UnderlyingSample(), fileName + "_UnderlyingSample");
             }
@@ -309,18 +309,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogTitleStrong("Record Reloaded Old"); Buff reloadedSampleBuffOld;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleBuffOld);
-                buff = this.RecordLegacy(() => reloadedSampleNodeOld);
+                buff = this.SaveLegacy(() => reloadedSampleNodeOld, fileName);
                 reloadedSampleBuffOld = buff;
                 IsNotNull(() => reloadedSampleBuffOld);
-                Save(buff, fileName);
             }
             
             LogTitleStrong("Record Reloaded New"); Tape reloadedSampleTapeNew = null;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleTapeNew);
-                Run(() => (GetChannel == 0 ? reloadedSampleNodeChan0New : reloadedSampleNodeChan1New).AfterRecord(x => reloadedSampleTapeNew = x));
+                Run(() => (GetChannel == 0 ? reloadedSampleNodeChan0New : reloadedSampleNodeChan1New).Save(fileName).AfterRecord(x => reloadedSampleTapeNew = x));
                 IsNotNull(() => reloadedSampleTapeNew);
-                Save(reloadedSampleTapeNew, fileName);
             }
             
             LogTitleStrong("Assert AudioFileOut Properties");
@@ -354,22 +352,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             LogTitleStrong("Assert Sample Properties");
             {
-                string filePathExpectation = signalAudioFileOutNew.FilePath;
-
                 AssertSampleProperties(
                     reloadedSampleNodeOld,
                     audioFormat, channels, bits, interpolation, samplingRate,
-                    expectedDuration: signalDuration, filePathExpectation, testName);
+                    expectedDuration: signalDuration, testName);
 
                 AssertSampleProperties(
                     reloadedSampleNodeChan0New,
                     audioFormat, channels, bits, interpolation, samplingRate,
-                    expectedDuration: signalDuration, filePathExpectation, testName);
+                    expectedDuration: signalDuration, testName);
 
                 AssertSampleProperties(
                     reloadedSampleNodeChan1New,
                     audioFormat, channels, bits, interpolation, samplingRate,
-                    expectedDuration: signalDuration, filePathExpectation, testName);
+                    expectedDuration: signalDuration, testName);
 
                 LogLine("Done");
             }
@@ -625,7 +621,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
 
-                //LogPrettyTitle("Assert Left Values New");
+                //LogTitleStrong("Assert Left Values New");
                 //{
                 //    AreEqual(expectedLeftValues[0], actualLeftValuesNew[0], valueTolerance);
                 //    AreEqual(expectedLeftValues[1], actualLeftValuesNew[1], valueTolerance);
@@ -639,7 +635,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 //    LogLine("Done");
                 //}
                 
-                //LogPrettyTitle("Assert Right Values New");
+                //LogTitleStrong("Assert Right Values New");
                 //{
                 //    AreEqual(expectedRightValues[0], actualRightValuesNew[0], valueTolerance);
                 //    AreEqual(expectedRightValues[1], actualRightValuesNew[1], valueTolerance);
@@ -691,7 +687,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 IsNotNull(() => audioFileOutput.FilePath);
                 
-                string expectedContains = PrettifyName(callerMemberName);
+                string expectedContains = callerMemberName;
                 
                 // ReSharper disable UnusedVariable
                 (string expectedStart, int number, string expectedEnd) =
@@ -748,7 +744,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             InterpolationTypeEnum interpolationTypeEnum,
             int samplingRate,
             double expectedDuration,
-            string filePath,
             string callerMemberName)
         {
             // Sample Wrapper
@@ -817,11 +812,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Paths
             {
-                filePath = filePath;
-                //string expectedLocation = GetFullPath(filePath);
-                //NotNullOrEmpty(() => sample.Location);
-                //AreEqual(expectedLocation, () => sample.Location);
-
                 string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sample.Name);
                 IsTrue(() => sampleOperator.Name.Contains(expectedName)); 
