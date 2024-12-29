@@ -476,6 +476,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _operand;
 
         /// <summary>
+        /// Returns the operator name, except when it is the same as the operator type name.
+        /// Then it returns a default string.
+        /// </summary>
+        public static object _operatorgetname;
+        
+        /// <summary>
         /// Audio padding is only relevant in case of Save and Play actions. <br/>
         /// Padding before and after the audio can be set separately with the LeadingSilence and TrailingSilence settings. <br/>
         /// The Padding settings is shorthand for setting both LeadingSilence and TrailingSilence at the same time. <br/>

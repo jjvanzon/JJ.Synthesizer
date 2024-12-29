@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
@@ -58,51 +59,29 @@ namespace JJ.Business.Synthesizer.Wishes
             return name;
         }
         
-        private static string TryGetName(params object[] nameSources)
-            => TryGetName((IList<object>)nameSources);
+        private static string TryGetName(params object[] nameSources) => TryGetName((IList<object>)nameSources);
 
         private static string TryGetName(IList<object> nameSources)
         {
             if (nameSources == null) throw new ArgumentNullException(nameof(nameSources));
-            return nameSources.Select(TryGetName).FirstOrDefault(x => !IsNullOrWhiteSpace(x));
+            return nameSources.Select(TryGetName).FirstOrDefault(FilledIn);
         }
                 
         private static string TryGetName(object nameSource)
         {
             switch (nameSource)
             {
-                case null: 
-                    return null;
-
-                case string str: 
-                    return str;
-                                
-                case Outlet outlet: 
-                    return outlet.Operator?.Name;
-                
-                case IEnumerable<object> coll:
-                    return TryGetName(coll.ToArray());
-                
-                case Tape tape:
-                    return tape.GetName();
-                                             
-                case Delegate d: 
-                    return d.Method.Name;
-
-                case AudioFileOutput audioFileOutput:
-                    return TryGetName(audioFileOutput.FilePath, audioFileOutput.Name);
-
-                case FlowNode flowNode: 
-                    return flowNode.Name;
-
-                case Sample sample:
-                    return TryGetName(sample.Location, sample.Name);
-                                           
-                case Buff buff:
-                    return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
-
-                default: 
-                    throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
+                case null: return null;
+                case string str: return str;
+                case Outlet outlet: return outlet.GetName();
+                case IEnumerable<object> coll: return TryGetName(coll.ToArray());
+                case Tape tape: return tape.GetName();
+                case Delegate d: return d.Method.Name;
+                case AudioFileOutput audioFileOutput: return TryGetName(audioFileOutput.FilePath, audioFileOutput.Name);
+                case FlowNode flowNode: return flowNode.Name;
+                case Sample sample: return TryGetName(sample.Location, sample.Name);
+                case Buff buff: return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
+                default: throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
             }
         }
         
@@ -110,21 +89,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string ResolveFileExtension(
             string fileExtension, AudioFileFormatEnum audioFileFormat = default, 
-            params string[] filePathSources)
+            params string[] filePaths)
         {
-            if (Has(fileExtension))
+            if (Has(fileExtension)) return fileExtension;
+            if (Has(audioFileFormat)) return audioFileFormat.FileExtension();
+            
+            foreach (string filePath in filePaths)
             {
-                return fileExtension;
-            }
-                        
-            if (Has(audioFileFormat))
-            {
-                return audioFileFormat.FileExtension();
-            }
-
-            foreach (object filePathSource in filePathSources)
-            {
-                string value = TryGetName(filePathSource);
+                string value = TryGetName(filePath);
                 value = SanitizeFilePath(value);
                 value = GetExtension(value, ConfigWishes.Static.GetFileExtensionMaxLength);
                 if (Has(value))
@@ -137,10 +109,10 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 fileExtension, 
                 audioFileFormat, 
-                filePathSources, 
-                filePathSource1 = filePathSources.ElementAtOrDefault(0),
-                filePathSource2 = filePathSources.ElementAtOrDefault(1),
-                filePathSource3 = filePathSources.ElementAtOrDefault(2)
+                filePaths, 
+                filePath1 = filePaths.ElementAtOrDefault(0),
+                filePath2 = filePaths.ElementAtOrDefault(1),
+                filePath3 = filePaths.ElementAtOrDefault(2)
             };
 
             throw new Exception($"Could not resolve file extension from {exceptionInfo}.");
@@ -150,36 +122,33 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static string ResolveFilePath(
             AudioFileFormatEnum audioFormat, 
-            string filePathSource1 = null,
-            string filePathSource2 = null,
-            string filePathSource3 = null,
-            string filePathSource4 = null,
-            string filePathSource5 = null,
-            string filePathSource6 = null,
+            string filePath1 = null,
+            string filePath2 = null,
+            string filePath3 = null,
+            string filePath4 = null,
+            string filePath5 = null,
+            string filePath6 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(default, audioFormat, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
+            => ResolveFilePath(default, audioFormat, default, filePath1, filePath2, filePath3, filePath4, filePath5, filePath6, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension, 
-            string filePathSource1 = null, 
-            string filePathSource2 = null, 
-            string filePathSource3 = null, 
-            string filePathSource4 = null, 
-            string filePathSource5 = null,
-            string filePathSource6 = null,
+            string filePath1 = null, 
+            string filePath2 = null, 
+            string filePath3 = null, 
+            string filePath4 = null, 
+            string filePath5 = null,
+            string filePath6 = null,
             [CallerMemberName] string callerMemberName = null)
-            => ResolveFilePath(fileExtension, default, default, filePathSource1, filePathSource2, filePathSource3, filePathSource4, filePathSource5, filePathSource6, callerMemberName);
+            => ResolveFilePath(fileExtension, default, default, filePath1, filePath2, filePath3, filePath4, filePath5, filePath6, callerMemberName);
         
         public static string ResolveFilePath(
             string fileExtension,
             AudioFileFormatEnum audioFormat,
-            params string[] filePathSources)
+            params string[] filePaths)
         {
-            string resolvedExtension = ResolveFileExtension(fileExtension, audioFormat, filePathSources);
-            string minusExtension = (filePathSources.FirstOrDefault(FilledIn) ?? "").CutRight(resolvedExtension);
-            
-
-
+            string resolvedExtension = ResolveFileExtension(fileExtension, audioFormat, filePaths);
+            string minusExtension = (filePaths.FirstOrDefault(FilledIn) ?? "").CutRight(resolvedExtension);
             string resolvedFilePath = ReformatFilePath(minusExtension, resolvedExtension);
             return resolvedFilePath;
         }
@@ -211,6 +180,68 @@ namespace JJ.Business.Synthesizer.Wishes
             return Combine(absoluteFolder, fileName);
         }
 
+        // Fluent for Entities
+        
+        /// <inheritdoc cref="docs._operatorgetname" />
+        public static string GetName(Outlet entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return GetName(entity.Operator);
+        }
+
+        /// <inheritdoc cref="docs._operatorgetname" />
+        public static string GetName(Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            if (op.NameIsOperatorTypeName()) return default;
+            return op.Name;
+        }
+
+        /// <inheritdoc cref="docs._names"/>
+        public static Curve SetName(Curve entity, string name)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Name = name;
+            return entity;
+        }
+
+        /// <inheritdoc cref="docs._names"/>
+        public static Sample SetName(Sample entity, string name)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Name = name;
+            return entity;
+        }
+
+        /// <inheritdoc cref="docs._names"/>
+        public static AudioFileOutput SetName(AudioFileOutput entity, string name)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Name = name;
+            return entity;
+        }
+        
+        /// <inheritdoc cref="docs._names"/>
+        public static Outlet SetName(Outlet entity, string name)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Operator.SetName(name);
+            return entity;
+        }
+
+        /// <inheritdoc cref="docs._names"/>
+        public static Operator SetName(Operator op, string name)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            
+            if (!Has(name)) return op;
+            op.Name = name;
+            if (op.AsCurveIn?.Curve != null) op.AsCurveIn.Curve.Name = name;
+            if (op.AsSampleOperator?.Sample != null) op.AsSampleOperator.Sample.Name = name;
+            
+            return op;
+        }
+        
         // Helpers
         
         internal static bool NameIsOperatorTypeName(Operator op)
@@ -221,19 +252,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static bool NameIsOperatorTypeName(string name, string operatorTypeName)
         {
-            if (IsNullOrWhiteSpace(name)) return false;
-
-            if (string.Equals(name, operatorTypeName))
-            {
-                return true;
-            }
-            
-            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
-            if (string.Equals(name, operatorTypeDisplayName, StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-
+            if (!Has(name)) return false;
+            if (operatorTypeName.Is(name)) return true;
+            if (PropertyDisplayNames.ResourceManager.GetString(operatorTypeName).Is(name)) return true;
             return false;
         }
         
@@ -279,6 +300,35 @@ namespace JJ.Business.Synthesizer.Wishes
             => typeof(TType).Assembly.GetName().Name;
     }
 
+    // NameWishes Entity Extensions
+    
+    public static class NameExtensionWishes
+    {
+        // Fluent for Entities
+        
+        /// <inheritdoc cref="docs._operatorgetname" />
+        public static string GetName(this Outlet outlet) => NameWishes.GetName(outlet);
+        /// <inheritdoc cref="docs._operatorgetname" />
+        public static string GetName(this Operator op) => NameWishes.GetName(op);
+        /// <inheritdoc cref="docs._names"/>
+        public static Curve SetName(this Curve entity, string name) => NameWishes.SetName(entity, name);
+        /// <inheritdoc cref="docs._names"/>
+        public static Sample SetName(this Sample entity, string name) => NameWishes.SetName(entity, name);
+        /// <inheritdoc cref="docs._names"/>
+        public static AudioFileOutput SetName(this AudioFileOutput entity, string name) => NameWishes.SetName(entity, name);
+        /// <inheritdoc cref="docs._names"/>
+        public static Outlet SetName(this Outlet entity, string name) => NameWishes.SetName(entity, name);
+        /// <inheritdoc cref="docs._names"/>
+        public static Operator SetName(this Operator op, string name) => NameWishes.SetName(op, name);
+        
+        // Helpers
+        
+        internal static bool NameIsOperatorTypeName(this Operator op) => NameWishes.NameIsOperatorTypeName(op);
+        public static string PrettifyName(this string uglyName) => NameWishes.PrettifyName(uglyName);
+        public static string PrettyTitle(this string uglyName, char underlineChar = '-')
+            => NameWishes.PrettyTitle(uglyName, underlineChar);
+    }
+
     // NameWishes FlowNode
     
     public partial class FlowNode
@@ -293,71 +343,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._names"/>
         public string Name
         {
-            get => !NameIsOperatorTypeName(_underlyingOutlet.Operator) ? _underlyingOutlet.Operator.Name : default;
-            set => _underlyingOutlet.Operator.Name = value;
-        }
-    }
-
-    // NameWishes Entity Extensions
-    
-    public static class NameWishesEntityExtensions
-    {
-        /// <inheritdoc cref="docs._names"/>
-        public static Curve SetName(this Curve entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Name = name;
-            return entity;
-        }
-
-        // NameWishes Samples / AudioFileOutput
-
-        /// <inheritdoc cref="docs._names"/>
-        public static Sample SetName(this Sample entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Name = name;
-            return entity;
-        }
-
-        /// <inheritdoc cref="docs._names"/>
-        public static AudioFileOutput SetName(this AudioFileOutput entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Name = name;
-            return entity;
-        }
-
-        // NameWishes Operators
-
-        /// <inheritdoc cref="docs._names"/>
-        public static Outlet SetName(this Outlet entity, string name)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.Operator.SetName(name);
-            return entity;
-        }
-
-        /// <inheritdoc cref="docs._names"/>
-        public static Operator SetName(this Operator op, string name)
-        {
-            if (op == null) throw new ArgumentNullException(nameof(op));
-            
-            if (IsNullOrWhiteSpace(name)) return op;
-            
-            op.Name = name;
-
-            if (op.AsCurveIn?.Curve != null)
-            {
-                op.AsCurveIn.Curve.Name = name;
-            }
-
-            if (op.AsSampleOperator?.Sample != null)
-            {
-                op.AsSampleOperator.Sample.Name = name;
-            }
-
-            return op;
+            get => _underlyingOutlet.GetName();
+            set => _underlyingOutlet.SetName(value);
         }
     }
 }
