@@ -816,7 +816,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Sample Outlet From Different Sources
             Outlet sampleOutlet_FromOperatorOutlets = sampleOperator.Outlets[0];
-            Outlet sampleOutlet_FromOperatorOutlets           = sampleOperator.Outlets[0];
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
         }
 
