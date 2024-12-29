@@ -426,11 +426,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     expectedValuesMono = expectedValuesMono.Select(RoundValue).ToArray();
 
                     valueTolerance = GetValueTolerance(aligned, interpolation, bits);
-                    
                     double valueToleranceRequiredOld = expectedValuesMono.Zip(actualValuesMonoOld, (x,y) => Abs(x - y)).Max();
                     double valueToleranceRequiredNew = expectedValuesMono.Zip(actualValuesMonoNew, (x,y) => Abs(x - y)).Max();
-                    
-                    LogLine($"{nameof(valueTolerance)}         = {valueTolerance}");
+                    LogLine($"{nameof(valueTolerance)}            = {valueTolerance}");
                     LogLine($"{nameof(valueToleranceRequiredOld)} = {valueToleranceRequiredOld}");
                     LogLine($"{nameof(valueToleranceRequiredNew)} = {valueToleranceRequiredNew}");
                     LogLine();
@@ -565,7 +563,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                     // Value Tolerance
                     valueTolerance = GetValueTolerance(aligned, interpolation, bits);
-                    
                     double valueToleranceRequiredOld = 
                         expectedLeftValues.Concat(expectedRightValues)
                                           .Zip(actualLeftValuesOld.Concat(actualRightValuesOld), (x,y) => Abs(x - y)).Max();
@@ -621,7 +618,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
 
-                //LogTitleStrong("Assert Left Values New");
+                //LogPrettyTitle("Assert Left Values New");
                 //{
                 //    AreEqual(expectedLeftValues[0], actualLeftValuesNew[0], valueTolerance);
                 //    AreEqual(expectedLeftValues[1], actualLeftValuesNew[1], valueTolerance);
@@ -635,7 +632,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 //    LogLine("Done");
                 //}
                 
-                //LogTitleStrong("Assert Right Values New");
+                //LogPrettyTitle("Assert Values Right New");
                 //{
                 //    AreEqual(expectedRightValues[0], actualRightValuesNew[0], valueTolerance);
                 //    AreEqual(expectedRightValues[1], actualRightValuesNew[1], valueTolerance);
@@ -702,13 +699,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     expectedEnd
                 };
                 
-                // Outcommented code lines, because file name can be the TapeDescriptor of a dummy Tape which is hard to simulate.
+                // File name comparison needs to be rather lenient, since file name can be the TapeDescriptor of a dummy Tape which is hard to simulate.
 
-                //IsTrue(Exists(audioFileOutput.FilePath), "Tested expression: Exists(audioFileOutput.FilePath)");
-                
-                //IsTrue(audioFileOutput.FilePath.StartsWith(expectedStart),
-                //    $"Tested Expression: audioFileOutput.FilePath.StartsWith(expectedStart).{NewLine}{values}");
-                
+                //StringWishes.Contains
                 IsTrue(audioFileOutput.FilePath.EndsWith(expectedEnd),
                     $"Tested Expression: audioFileOutput.FilePath.EndsWith(expectedEnd).{NewLine}{values}");
             
@@ -746,7 +739,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double expectedDuration,
             string callerMemberName)
         {
-            // Sample Wrapper
+            // Sample FlowNode
             IsNotNull(() => sampleFlowNode);
             IsNotNull(() => sampleFlowNode.UnderlyingSample());
 
@@ -822,14 +815,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(expectedDuration, sample.GetDuration(), durationTolerance_RatherHigh);
             
             // Sample Outlet From Different Sources
-            //Outlet sampleOutlet_ImplicitConversionFromWrapper = sampleWrapper;
-            //Outlet sampleOutlet_FromWrapperResult             = sampleWrapper.Result;
+            Outlet sampleOutlet_FromOperatorOutlets = sampleOperator.Outlets[0];
             Outlet sampleOutlet_FromOperatorOutlets           = sampleOperator.Outlets[0];
-            //IsNotNull(() => sampleOutlet_ImplicitConversionFromWrapper);
-            //IsNotNull(() => sampleOutlet_FromWrapperResult);
             IsNotNull(() => sampleOutlet_FromOperatorOutlets);
-            //AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromWrapperResult);
-            //AreEqual(sampleOutlet_ImplicitConversionFromWrapper, () => sampleOutlet_FromOperatorOutlets);
         }
 
         // Helpers
