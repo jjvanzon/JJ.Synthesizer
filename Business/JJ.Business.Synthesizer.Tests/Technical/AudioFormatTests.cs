@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
@@ -19,7 +20,6 @@ using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.FileWishesAccessor;
-using static JJ.Business.Synthesizer.Tests.Accessors.StringWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.SaveLegacyStatics;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -249,7 +249,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string   fileName;
             Tape     tape           = default;
             Buff     buff;
-            FlowNode flowNode;
+            FlowNode node;
+            FlowNode node0;
+            FlowNode node1;
 
             LogLine();
             LogLine("Old method: Save(() => Sine(A4).Volume(0.5)).Play();");
@@ -267,22 +269,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 LogConfig("", this);
             }
             
-            LogTitleStrong("Materialize Signal Old"); Buff signalBuffOld; AudioFileOutput signalAudioFileOutOld;
+            LogTitleStrong("Materialize Signal Old"); Buff signalBuffOld;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(signalBuffOld);
                 buff = SaveLegacy(this, () => Signal(freq, testName).SaveChannels(fileName + "_Channel" + GetChannel), fileName);
                 signalBuffOld = buff;
-                signalAudioFileOutOld = buff.UnderlyingAudioFileOutput;
             }
             
-            LogTitleStrong("Materialize Signal New"); Tape signalTapeNew; AudioFileOutput signalAudioFileOutNew;
+            LogTitleStrong("Materialize Signal New"); Tape signalTapeNew;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(signalTapeNew);
                 Run(() => Signal(freq, testName).AfterRecord(x => tape = x, testName)
                                                 .Save(fileName)
                                                 .SaveChannels(fileName + "_Channel" + GetChannel));
                 signalTapeNew = tape;
-                signalAudioFileOutNew = tape.Buff.UnderlyingAudioFileOutput;
             }
             
             WithAudioLength(reloadDuration);
@@ -290,18 +290,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogTitleStrong("Reload Sample into FlowNode Old"); FlowNode reloadedSampleNodeOld;
             {
                 fileName = testName + "_" + fileNum++ + "_reloadedSampleNodeOld";
-                flowNode = Sample(signalBuffOld);
-                reloadedSampleNodeOld = flowNode;
-                Save(flowNode.UnderlyingSample(), fileName + "_UnderlyingSample");
+                node = Sample(signalBuffOld, name: fileName);
+                Save(node.UnderlyingSample(), fileName + "_UnderlyingSample");
+                reloadedSampleNodeOld = node;
             }
             
             LogTitleStrong("Reload Sample into FlowNode New"); FlowNode reloadedSampleNodeChan0New, reloadedSampleNodeChan1New;
             {   
                 fileName = testName + "_" + fileNum++ + "_reloadedSampleNode";
-                reloadedSampleNodeChan0New = Sample(signalTapeNew).SetName(fileName + "Chan0New");
-                reloadedSampleNodeChan1New = Sample(signalTapeNew).SetName(fileName + "Chan1New");
-                Save(reloadedSampleNodeChan0New.UnderlyingSample(), fileName + "Chan0New_UnderlyingSample");
-                Save(reloadedSampleNodeChan1New.UnderlyingSample(), fileName + "Chan1New_UnderlyingSample");
+                node0 = Sample(signalTapeNew).SetName(fileName + "Chan0New");
+                node1 = Sample(signalTapeNew).SetName(fileName + "Chan1New");
+                Save(node0.UnderlyingSample(), fileName + "Chan0New_UnderlyingSample");
+                Save(node1.UnderlyingSample(), fileName + "Chan1New_UnderlyingSample");
+                reloadedSampleNodeChan0New = node0;
+                reloadedSampleNodeChan1New = node1;
             }
 
             LogTitleStrong("Record Reloaded Sample Old"); Buff reloadedSampleBuffOld;
@@ -309,14 +311,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleBuffOld);
                 buff = this.SaveLegacy(() => reloadedSampleNodeOld, fileName);
                 reloadedSampleBuffOld = buff;
-                IsNotNull(() => reloadedSampleBuffOld);
             }
             
-            LogTitleStrong("Record Reloaded Sample New"); Tape reloadedSampleTapeNew = null;
+            LogTitleStrong("Record Reloaded Sample New"); Tape reloadedSampleTapeNew;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleTapeNew);
-                Run(() => (GetChannel == 0 ? reloadedSampleNodeChan0New : reloadedSampleNodeChan1New).Save(fileName).AfterRecord(x => reloadedSampleTapeNew = x));
-                IsNotNull(() => reloadedSampleTapeNew);
+                node0 = reloadedSampleNodeChan0New;
+                node1 = reloadedSampleNodeChan1New;
+                Run(() => (GetChannel == 0 ? node0 : node1).Save(fileName).AfterRecord(x => tape = x));
+                reloadedSampleTapeNew = tape;
             }
             
             LogTitleStrong("Assert AudioFileOut Properties");
@@ -324,12 +327,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 string filePath1Expectation = GetFullPath(testName + audioFormat.FileExtension());
             
                 AssertAudioFileOutProperties(
-                    signalAudioFileOutOld,
+                    signalBuffOld.UnderlyingAudioFileOutput,
                     audioFormat, channels, bits, samplingRate,
                     filePath1Expectation, signalDuration, testName);
             
                 AssertAudioFileOutProperties(
-                    signalAudioFileOutNew,
+                    signalTapeNew.UnderlyingAudioFileOutput,
                     audioFormat, channels, bits, samplingRate,
                     filePath1Expectation, signalDuration, testName);
 
@@ -667,6 +670,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string callerMemberName)
         {
             // AudioFileOutput
+            IsNotNull(() => audioFileOutput);
             IsNotNull(() => audioFileOutput.AudioFileFormat);
             IsNotNull(() => audioFileOutput.SampleDataType);
             IsNotNull(() => audioFileOutput.SpeakerSetup);
@@ -699,7 +703,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 };
                 
                 // File name comparison needs to be rather lenient, since file name can be the TapeDescriptor of a dummy Tape which is hard to simulate.
-
+                
                 //StringWishes.Contains
                 IsTrue(audioFileOutput.FilePath.EndsWith(expectedEnd),
                     $"Tested Expression: audioFileOutput.FilePath.EndsWith(expectedEnd).{NewLine}{values}");
