@@ -6,7 +6,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class JJFrameworkIOWishesAccessor
+    internal static class FileWishesAccessor
     {
         private static readonly Accessor _accessor = CreateAccessor();
         

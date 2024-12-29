@@ -125,7 +125,7 @@
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
     <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
-    <Compile Include="Accessors\JJFrameworkIOWishesAccessor.cs" />
+    <Compile Include="Accessors\FileWishesAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
     <Compile Include="Accessors\StringWishesAccessor.cs" />
