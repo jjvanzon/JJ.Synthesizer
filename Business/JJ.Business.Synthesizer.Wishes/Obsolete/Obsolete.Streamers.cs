@@ -23,7 +23,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
-    internal static class StreamerObsoleteMessages
+    public static class StreamerObsoleteMessages
     {
         public const string ObsoleteMessage =
             "Prefer methods like .Save() and .Play() instead e.g., " +
@@ -32,12 +32,12 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
     // Run
 
-    [Obsolete(ObsoleteMessage, true)]
-    internal static class RunObsoleteStatics
+    [Obsolete(ObsoleteMessage)]
+    public static class RunLegacyStatics
     {
         /// <param name="newInstance">The obsolete parameter</param>
-        [Obsolete(ObsoleteMessage, true)]
-        public static void RunObsolete(SynthWishes synthWishes, Action action, bool newInstance) // 
+        [Obsolete(ObsoleteMessage)]
+        public static void RunLegacy(SynthWishes synthWishes, Action action, bool newInstance) // 
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             if (newInstance)
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             }
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static void RunWithRecordLegacy(SynthWishes synthWishes, Action action)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             synthWishes.RecordLegacy(() => { action(); return dummy; });
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static void RunWithSaveLegacy(SynthWishes synthWishes, Action action)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
@@ -72,30 +72,30 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
     
-    [Obsolete(ObsoleteMessage, true)]
-    internal static class RunObsoleteExtensions
+    [Obsolete(ObsoleteMessage)]
+    public static class RunLegacyExtensions
     {
-        [Obsolete(ObsoleteMessage, true)]
-        public static void RunObsolete(this SynthWishes synthWishes, Action action, bool newInstance)
-            => RunObsoleteStatics.RunObsolete(synthWishes, action, newInstance);
+        [Obsolete(ObsoleteMessage)]
+        public static void RunLegacy(this SynthWishes synthWishes, Action action, bool newInstance)
+            => RunLegacyStatics.RunLegacy(synthWishes, action, newInstance);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static void RunWithRecordLegacy(this SynthWishes synthWishes, Action action)
-            => RunObsoleteStatics.RunWithRecordLegacy(synthWishes, action);
+            => RunLegacyStatics.RunWithRecordLegacy(synthWishes, action);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static void RunWithSaveLegacy(this SynthWishes synthWishes, Action action)
-            => RunObsoleteStatics.RunWithSaveLegacy(synthWishes, action);
+            => RunLegacyStatics.RunWithSaveLegacy(synthWishes, action);
     }
     
     // MakeBuffOld
 
     [Obsolete(ObsoleteMessage)]
-    internal static class MakeBuffOldStatics
+    public static class MakeBuffOldStatics
     {
         // MakeBuff Old (Start-of-Chain)
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffOld(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool inMemory, bool mustPad,
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return buff;
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffOld(
             AudioFileOutput audioFileOutput,
             bool inMemory, int courtesyFrames,
@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return buff;
         }
     
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static AudioFileOutput ConfigureAudioFileOutputOld(
             SynthWishes synthWishes, 
             IList<FlowNode> channelSignals, FlowNode duration,
@@ -281,7 +281,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             }
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static FlowNode ApplyPaddingDelayOld(SynthWishes synthWishes, FlowNode outlet)
         {
             FlowNode leadingSilence = synthWishes.GetLeadingSilence;
@@ -299,25 +299,25 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     }
     
     [Obsolete(ObsoleteMessage)]
-    internal static class MakeBuffOldExtensions
+    public static class MakeBuffOldExtensions
     {
         // MakeBuff Old (Start-of-Chain)
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffOld(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool inMemory, bool mustPad,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
             => MakeBuffOldStatics.MakeBuffOld(synthWishes, channelSignals, duration, inMemory, mustPad, name, filePath, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffOld(
             this AudioFileOutput audioFileOutput,
             bool inMemory, int courtesyFrames,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
             => MakeBuffOldStatics.MakeBuffOld(audioFileOutput, inMemory, courtesyFrames, name, filePath, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static AudioFileOutput ConfigureAudioFileOutputOld(
             this SynthWishes synthWishes, 
             IList<FlowNode> channelSignals, FlowNode duration,
@@ -328,7 +328,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static void ApplyPaddingOld(this SynthWishes synthWishes, IList<FlowNode> channelSignals)
             => MakeBuffOldStatics.ApplyPaddingOld(synthWishes, channelSignals);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static FlowNode ApplyPaddingDelayOld(this SynthWishes synthWishes, FlowNode outlet)
             => MakeBuffOldStatics.ApplyPaddingDelayOld(synthWishes, outlet);
     }
@@ -336,11 +336,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     // MakeBuffLegacy
     
     [Obsolete(ObsoleteMessage)]
-    internal static class MakeBuffLegacyStatics
+    public static class MakeBuffLegacyStatics
     {
         // MakeBuff Legacy (Start-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration, bool inMemory, bool mustPad,
@@ -357,7 +357,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 name, filePath, callerMemberName);
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffLegacy(
             SynthWishes synthWishes,
             FlowNode channel, FlowNode duration, bool inMemory, bool mustPad,
@@ -371,7 +371,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
         
         /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static AudioFileOutput ConfigureAudioFileOutputLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, 
@@ -393,7 +393,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // MakeBuff Legacy (End-of-Chain)
     
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffLegacy(
             Buff buff, 
             bool inMemory, int courtesyFrames, 
@@ -410,18 +410,18 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     }
     
     [Obsolete(ObsoleteMessage)]
-    internal static class MakeBuffLegacyExtensions
+    public static class MakeBuffLegacyExtensions
     {
         // Start-of-Chain
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration, bool inMemory, bool mustPad,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacyStatics.MakeBuffLegacy(synthWishes, func, duration, inMemory, mustPad, name, filePath, callerMemberName);
                                               
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffLegacy(
             this SynthWishes synthWishes,
             FlowNode channel, FlowNode duration, bool inMemory, bool mustPad,
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             => MakeBuffLegacyStatics.MakeBuffLegacy(synthWishes, channel, duration, inMemory, mustPad, name, filePath, callerMemberName);
 
         /// <param name="duration">Nullable. Falls back to AudioLength or else to a 1-second time span.</param>
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static AudioFileOutput ConfigureAudioFileOutputLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, 
@@ -438,7 +438,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // End-of-Chain
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff MakeBuffLegacy(
             this Buff buff, 
             bool inMemory, int courtesyFrames, 
@@ -465,7 +465,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: true, default, name, null, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
@@ -477,7 +477,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: true, default, name, null, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func, bool mustPad,
@@ -489,7 +489,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: true, mustPad, name, null, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration, bool mustPad,
@@ -503,7 +503,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         
         // With FlowNode (Start-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             FlowNode signal,
@@ -515,7 +515,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: true, default, name, null, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             FlowNode signal, FlowNode duration, bool mustPad,
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         
         // With List of FlowNodes (Start-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
@@ -541,7 +541,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: true, default, name, null, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool mustPad,
@@ -555,7 +555,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     
         // On FlowNode (End-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static FlowNode RecordLegacy(
             FlowNode flowNode,
             Buff buff,
@@ -568,7 +568,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return flowNode;
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static FlowNode RecordLegacy(
             FlowNode flowNode,
             AudioFileOutput entity,
@@ -583,7 +583,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     
         // With Buff (End-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static SynthWishes RecordLegacy(
             SynthWishes synthWishes, Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -595,7 +595,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return synthWishes;
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static SynthWishes RecordLegacy(
             SynthWishes synthWishes, AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -609,7 +609,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         
         // On Buff (End-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -618,7 +618,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: true, ConfigWishes.Static.GetCourtesyFrames, 
                 name, null, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -639,21 +639,21 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(synthWishes, func, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(synthWishes, func, duration, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, bool mustPad,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(synthWishes, func, mustPad, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration, bool mustPad,
@@ -662,14 +662,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // With FlowNode (Start-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             FlowNode signal,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(synthWishes, signal, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             FlowNode signal, FlowNode duration, bool mustPad,
@@ -678,14 +678,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // With List of FlowNodes (Start-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(synthWishes, channelSignals, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration, bool mustPad,
@@ -694,14 +694,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // On FlowNode (End-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static FlowNode RecordLegacy(
             this FlowNode flowNode,
             Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(flowNode, buff, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static FlowNode RecordLegacy(
             this FlowNode flowNode,
             AudioFileOutput entity,
@@ -710,13 +710,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // With Buff (End-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static SynthWishes RecordLegacy(
             this SynthWishes synthWishes, Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(synthWishes, buff, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static SynthWishes RecordLegacy(
             this SynthWishes synthWishes, AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -724,13 +724,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         // Ond Buff (End-of-Chain)
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this Buff buff,
             string name = null, [CallerMemberName] string callerMemberName = null)
             => RecordLegacyStatics.RecordLegacy(buff, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff RecordLegacy(
             this AudioFileOutput entity,
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -739,10 +739,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
     // Save (Start-of-Chain)
 
-    [Obsolete(ObsoleteMessage, true)]
-    internal static class SaveObsoleteStatics
+    [Obsolete(ObsoleteMessage)]
+    public static class SaveLegacyStatics
     {
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func,
@@ -754,7 +754,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
@@ -766,7 +766,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             SynthWishes synthWishes,
             FlowNode channel,
@@ -778,7 +778,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             SynthWishes synthWishes,
             FlowNode channel, FlowNode duration,
@@ -790,7 +790,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
@@ -802,7 +802,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 inMemory: false, mustPad: true, null, filePath, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration,
@@ -815,60 +815,60 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
 
-    [Obsolete(ObsoleteMessage, true)]
-    internal static class SaveObsoleteExtensions
+    [Obsolete(ObsoleteMessage)]
+    public static class SaveLegacyExtensions
     {
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveObsoleteStatics.SaveLegacy(synthWishes, func, filePath, callerMemberName);
+            => SaveLegacyStatics.SaveLegacy(synthWishes, func, filePath, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveObsoleteStatics.SaveLegacy(synthWishes, func, duration, filePath, callerMemberName);
+            => SaveLegacyStatics.SaveLegacy(synthWishes, func, duration, filePath, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             FlowNode channel,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveObsoleteStatics.SaveLegacy(synthWishes, channel, filePath, callerMemberName);
+            => SaveLegacyStatics.SaveLegacy(synthWishes, channel, filePath, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             FlowNode channel, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveObsoleteStatics.SaveLegacy(synthWishes, channel, duration, filePath, callerMemberName);
+            => SaveLegacyStatics.SaveLegacy(synthWishes, channel, duration, filePath, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveObsoleteStatics.SaveLegacy(synthWishes, channelSignals, filePath, callerMemberName);
+            => SaveLegacyStatics.SaveLegacy(synthWishes, channelSignals, filePath, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff SaveLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveObsoleteStatics.SaveLegacy(synthWishes, channelSignals, duration, filePath, callerMemberName);
+            => SaveLegacyStatics.SaveLegacy(synthWishes, channelSignals, duration, filePath, callerMemberName);
     }
     
     // Play
 
-    [Obsolete(ObsoleteMessage, true)]
-    internal static class PlayObsoleteStatics
+    [Obsolete(ObsoleteMessage)]
+    public static class PlayLegacyStatics
     {
         // Start-Of-Chain
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func,
@@ -878,7 +878,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return PlayLegacy(synthWishes, func, null, name, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
@@ -894,7 +894,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return buff2;
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             SynthWishes synthWishes,
             FlowNode channel,
@@ -904,7 +904,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return PlayLegacy(synthWishes, channel, null, name, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             SynthWishes synthWishes,
             FlowNode channel, FlowNode duration,
@@ -921,7 +921,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return buff2;
         }
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
@@ -931,7 +931,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return PlayLegacy(synthWishes, channelSignals, null, name, callerMemberName);
         }
         
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration,
@@ -949,51 +949,51 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
 
-    [Obsolete(ObsoleteMessage, true)]
-    internal static class PlayObsoleteExtensions
+    [Obsolete(ObsoleteMessage)]
+    public static class PlayLegacyExtensions
     {
         // Start-Of-Chain
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => PlayObsoleteStatics.PlayLegacy(synthWishes, func, name, callerMemberName);
+            => PlayLegacyStatics.PlayLegacy(synthWishes, func, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             Func<FlowNode> func, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => PlayObsoleteStatics.PlayLegacy(synthWishes, func, duration, name, callerMemberName);
+            => PlayLegacyStatics.PlayLegacy(synthWishes, func, duration, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             FlowNode channel,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => PlayObsoleteStatics.PlayLegacy(synthWishes, channel, name, callerMemberName);
+            => PlayLegacyStatics.PlayLegacy(synthWishes, channel, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             FlowNode channel, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => PlayObsoleteStatics.PlayLegacy(synthWishes, channel, duration, name, callerMemberName);
+            => PlayLegacyStatics.PlayLegacy(synthWishes, channel, duration, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             this SynthWishes synthWishes,
             IList<FlowNode> channelSignals,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => PlayObsoleteStatics.PlayLegacy(synthWishes, channelSignals, name, callerMemberName);
+            => PlayLegacyStatics.PlayLegacy(synthWishes, channelSignals, name, callerMemberName);
 
-        [Obsolete(ObsoleteMessage, true)]
+        [Obsolete(ObsoleteMessage)]
         public static Buff PlayLegacy(
             SynthWishes synthWishes,
             IList<FlowNode> channelSignals, FlowNode duration,
             string name = null, [CallerMemberName] string callerMemberName = null)
-            => PlayObsoleteStatics.PlayLegacy(synthWishes, channelSignals, duration, name, callerMemberName);
+            => PlayLegacyStatics.PlayLegacy(synthWishes, channelSignals, duration, name, callerMemberName);
     }
 }
