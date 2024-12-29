@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Framework.Common;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Persistence.Synthesizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Business.Synthesizer.Wishes.JJ_Framework_Collection_Wishes;
 using static System.Environment;
 using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
+using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Tests.Accessors.JJFrameworkIOWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Testing.AssertHelper;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.RecordLegacyStatics;
+using static JJ.Business.Synthesizer.Tests.Accessors.FileWishesAccessor;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.SaveLegacyStatics;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
 // ReSharper disable ConvertToConstant.Local
@@ -239,429 +243,415 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             bool aligned,
             [CallerMemberName] string testName = null)
         {
-            
-            LogLine("");
-            LogLine("Options");
-            LogLine("-------");
-            LogLine("");
-            
-            int    samplingRate = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
-            double frequency    = aligned ? ALIGNED_FREQUENCY : NON_ALIGNED_FREQUENCY;
-            double signalDuration = (1 / frequency) * 16;
-            double reloadDuration = signalDuration * 1.01;
-            int fileCount = 0;
-            
-            WithPadding(0);
-            WithChannels(channels);
-            WithBits(bits);
-            WithInterpolation(interpolation);
-            WithAudioFormat(audioFormat);
-            WithSamplingRate(samplingRate);
-            
-            LogLine(this.ConfigLog(title: ""));
-
-            WithAudioLength(signalDuration);
-            fileCount++;
-
-            LogLine("");
-            LogLine("Materialize Signal with \"Record\" (Old Method)");
-            LogLine("---------------------------------------------");
-            
-            var buffs = new Buff[channels];
-            
-            Buff signalBuffOld 
-                = this.RecordLegacy(() => Signal(_[frequency], testName).AfterRecordChannel(x => buffs[x.i] = x.Buff), testName);
-            
-            IsNotNull(() => signalBuffOld);
-            for (int i = 0; i < channels; i++)
-            {
-                IsNotNull(() => buffs[i]);
-            }
-
-            Save(signalBuffOld, testName + "_" + fileCount + "_" + nameof(signalBuffOld));
-
-            AudioFileOutput signalAudioFileOutputOld = signalBuffOld.UnderlyingAudioFileOutput;
-            
-            LogLine("");
-            LogLine("Materialize Signal with \"Run/Intercept\" (New Method)");
-            LogLine("----------------------------------------------------");
-            LogLine("");
-
-            Tape signalTapeNew = null;
-            
-            Run(() => Signal(_[frequency], testName).AfterRecord(x => signalTapeNew = x, testName));
-            
-            IsNotNull(() => signalTapeNew);
-            Buff signalBuffNew = signalTapeNew.Buff;
-            AudioFileOutput signalAudioFileOutputNew = signalBuffNew.UnderlyingAudioFileOutput;
-            
-            Save(signalTapeNew, testName + "_" + ++fileCount + "_" + nameof(signalTapeNew));
-
-            LogLine("");
-            LogLine("Reload Sample in a FlowNode for \"Record\" (Old Method)");
-            LogLine("-----------------------------------------------------");
-            LogLine("");
-            
-            string reloadedNameOld = $"{testName}_ReloadedOld";
-            FlowNode reloadedSampleFlowNodeOld = Sample(signalBuffOld, name: reloadedNameOld);
-            Save(reloadedSampleFlowNodeOld.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeOld_UnderlyingSample");
-
-            LogLine("");
-            LogLine("Reload Sample in a FlowNode for \"Run/Intercept\" (New Method)");
-            LogLine("------------------------------------------------------------");
-            LogLine("");
-            
-            FlowNode reloadedSampleFlowNodeChannel0New = Sample(signalTapeNew).SetName($"{testName}_ReloadedChannel0New");
-            FlowNode reloadedSampleFlowNodeChannel1New = Sample(signalTapeNew).SetName($"{testName}_ReloadedChannel1New");
-            Save(reloadedSampleFlowNodeChannel0New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel0New_UnderlyingSample");
-            Save(reloadedSampleFlowNodeChannel1New.UnderlyingSample(), testName + "_" + ++fileCount + "_reloadedSampleFlowNodeChannel1New_UnderlyingSample");
-
-            LogLine("Done");
-
-            WithAudioLength(reloadDuration);
-
-            LogLine("");
-            LogLine("Reload Sample with \"Record\" (Old Method)");
-            LogLine("----------------------------------------");
-            LogLine("");
-
-            Buff reloadedSampleBuffOld = this.RecordLegacy(() => reloadedSampleFlowNodeOld);
-            IsNotNull(() => reloadedSampleBuffOld);
-            
-            Save(reloadedSampleBuffOld, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleBuffOld));
+            int      samplingRate   = aligned ? ALIGNED_SAMPLING_RATE : NON_ALIGNED_SAMPLING_RATE;
+            var      freq           = aligned ? _[ALIGNED_FREQUENCY] : _[NON_ALIGNED_FREQUENCY];
+            double   signalDuration = 1 / freq.Value * 16;
+            double   reloadDuration = signalDuration * 1.01;
+            int      fileNum        = 1;
+            string   fileName;
+            Tape     tape           = default;
+            Buff     buff;
+            FlowNode flowNode;
 
             LogLine();
-            LogLine("Reload Sample with \"Run/Intercept\" (New Method)");
-            LogLine("-----------------------------------------------");
-            LogLine("");
+            LogLine("Old method: Save(() => Sine(A4).Volume(0.5)).Play();");
+            LogLine("New method: Run(MySound); void MySound() => Sine(A4).Volume(0.5).Save().Play();");
 
-            Tape reloadedSampleTapeNew = null;
+            LogPrettyTitle("Options");
+            {
+                WithPadding(0);
+                WithChannels(channels);
+                WithBits(bits);
+                WithInterpolation(interpolation);
+                WithAudioFormat(audioFormat);
+                WithSamplingRate(samplingRate);
+                WithAudioLength(signalDuration);
+                LogConfig("", this);
+            }
             
-            Run(() => (GetChannel == 0 ? reloadedSampleFlowNodeChannel0New : reloadedSampleFlowNodeChannel1New).AfterRecord(x => reloadedSampleTapeNew = x));
+            LogPrettyTitle("Materialize Signal Old"); Buff signalBuffOld; AudioFileOutput signalAudioFileOutOld;
+            {
+                fileName = testName + "_" + fileNum++ + "_" + nameof(signalBuffOld);
+                buff = SaveLegacy(this, () => Signal(freq, testName).SaveChannels(fileName + "_Channel" + GetChannel), fileName);
+                signalBuffOld = buff;
+                signalAudioFileOutOld = buff.UnderlyingAudioFileOutput;
+            }
             
-            IsNotNull(() => reloadedSampleTapeNew);
+            LogPrettyTitle("Materialize Signal New"); Tape signalTapeNew; AudioFileOutput signalAudioFileOutNew;
+            {
+                fileName = testName + "_" + fileNum++ + "_" + nameof(signalTapeNew);
+                Run(() => Signal(freq, testName).AfterRecord(x => tape = x, testName)
+                                                .Save(fileName)
+                                                .SaveChannels(fileName + "_Channel" + GetChannel));
+                signalTapeNew = tape;
+                signalAudioFileOutNew = tape.Buff.UnderlyingAudioFileOutput;
+            }
             
-            // Signal still correct here
-            Save(reloadedSampleTapeNew, testName + "_" + ++fileCount + "_" + nameof(reloadedSampleTapeNew));
+            WithAudioLength(reloadDuration);
+
+            LogPrettyTitle("Reload Sample into FlowNode Old"); FlowNode reloadedSampleNodeOld;
+            {
+                fileName = testName + "_" + fileNum++ + "_reloadedSampleNodeOld";
+                flowNode = Sample(signalBuffOld, name: fileName);
+                reloadedSampleNodeOld = flowNode;
+                Save(flowNode.UnderlyingSample(), fileName + "_UnderlyingSample");
+            }
             
-            LogLine("");
-            LogLine("Assert AudioFileOutput Properties");
-            LogLine("---------------------------------");
-            LogLine("");
+            LogPrettyTitle("Reload Sample into FlowNode New"); FlowNode reloadedSampleNodeChan0New, reloadedSampleNodeChan1New;
+            {   
+                fileName = testName + "_" + fileNum++ + "_reloadedSampleNode";
+                reloadedSampleNodeChan0New = Sample(signalTapeNew).SetName(fileName + "Chan0New");
+                reloadedSampleNodeChan1New = Sample(signalTapeNew).SetName(fileName + "Chan1New");
+                Save(reloadedSampleNodeChan0New.UnderlyingSample(), fileName + "Chan0New_UnderlyingSample");
+                Save(reloadedSampleNodeChan1New.UnderlyingSample(), fileName + "Chan1New_UnderlyingSample");
+            }
 
-            string filePath1Expectation = GetFullPath(PrettifyName(testName) + audioFormat.FileExtension());
+            LogPrettyTitle("Record Reloaded Old"); Buff reloadedSampleBuffOld;
+            {
+                fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleBuffOld);
+                buff = this.RecordLegacy(() => reloadedSampleNodeOld);
+                reloadedSampleBuffOld = buff;
+                IsNotNull(() => reloadedSampleBuffOld);
+                Save(buff, fileName);
+            }
             
-            AssertAudioFileOutputProperties(
-                signalAudioFileOutputOld,
-                audioFormat, channels, bits, samplingRate,
-                filePath1Expectation, signalDuration, testName);
+            LogPrettyTitle("Record Reloaded New"); Tape reloadedSampleTapeNew = null;
+            {
+                fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleTapeNew);
+                Run(() => (GetChannel == 0 ? reloadedSampleNodeChan0New : reloadedSampleNodeChan1New).AfterRecord(x => reloadedSampleTapeNew = x));
+                IsNotNull(() => reloadedSampleTapeNew);
+                Save(reloadedSampleTapeNew, fileName);
+            }
             
-            AssertAudioFileOutputProperties(
-                signalAudioFileOutputNew,
-                audioFormat, channels, bits, samplingRate,
-                filePath1Expectation, signalDuration, testName);
-
-            string filePath2Expectation = GetFullPath(PrettifyName($"{testName}_Reloaded") + audioFormat.FileExtension());
+            LogPrettyTitle("Assert AudioFileOut Properties");
+            {
+                string filePath1Expectation = GetFullPath(PrettifyName(testName) + audioFormat.FileExtension());
             
-            AssertAudioFileOutputProperties(
-                reloadedSampleBuffOld.UnderlyingAudioFileOutput,
-                audioFormat, channels, bits, samplingRate,
-                filePath2Expectation, reloadDuration, testName);
+                AssertAudioFileOutProperties(
+                    signalAudioFileOutOld,
+                    audioFormat, channels, bits, samplingRate,
+                    filePath1Expectation, signalDuration, testName);
             
-            AssertAudioFileOutputProperties(
-                reloadedSampleTapeNew.UnderlyingAudioFileOutput,
-                audioFormat, channels, bits, samplingRate,
-                filePath2Expectation, reloadDuration, testName);
+                AssertAudioFileOutProperties(
+                    signalAudioFileOutNew,
+                    audioFormat, channels, bits, samplingRate,
+                    filePath1Expectation, signalDuration, testName);
 
-            LogLine("Done");
+                string filePath2Expectation = GetFullPath(PrettifyName($"{testName}_Reloaded") + audioFormat.FileExtension());
             
-            LogLine("");
-            LogLine("Assert Sample Properties");
-            LogLine("------------------------");
-            LogLine("");
+                AssertAudioFileOutProperties(
+                    reloadedSampleBuffOld.UnderlyingAudioFileOutput,
+                    audioFormat, channels, bits, samplingRate,
+                    filePath2Expectation, reloadDuration, testName);
+            
+                AssertAudioFileOutProperties(
+                    reloadedSampleTapeNew.UnderlyingAudioFileOutput,
+                    audioFormat, channels, bits, samplingRate,
+                    filePath2Expectation, reloadDuration, testName);
 
-            string filePathExpectation = signalAudioFileOutputNew.FilePath;
+                LogLine("Done");
+            }
+            
+            LogPrettyTitle("Assert Sample Properties");
+            {
+                string filePathExpectation = signalAudioFileOutNew.FilePath;
 
-            AssertSampleProperties(
-                reloadedSampleFlowNodeOld,
-                audioFormat, channels, bits, interpolation, samplingRate,
-                expectedDuration: signalDuration, filePathExpectation, testName);
+                AssertSampleProperties(
+                    reloadedSampleNodeOld,
+                    audioFormat, channels, bits, interpolation, samplingRate,
+                    expectedDuration: signalDuration, filePathExpectation, testName);
 
-            AssertSampleProperties(
-                reloadedSampleFlowNodeChannel0New,
-                audioFormat, channels, bits, interpolation, samplingRate,
-                expectedDuration: signalDuration, filePathExpectation, testName);
+                AssertSampleProperties(
+                    reloadedSampleNodeChan0New,
+                    audioFormat, channels, bits, interpolation, samplingRate,
+                    expectedDuration: signalDuration, filePathExpectation, testName);
 
-            AssertSampleProperties(
-                reloadedSampleFlowNodeChannel1New,
-                audioFormat, channels, bits, interpolation, samplingRate,
-                expectedDuration: signalDuration, filePathExpectation, testName);
+                AssertSampleProperties(
+                    reloadedSampleNodeChan1New,
+                    audioFormat, channels, bits, interpolation, samplingRate,
+                    expectedDuration: signalDuration, filePathExpectation, testName);
 
-            LogLine("Done");
-
+                LogLine("Done");
+            }
+            
             // Mono
 
             if (channels == 1)
             {
-                LogLine("");
-                LogLine("Get Mono Values from Sample Reloaded from \"Record\" (Old Method)");
-                LogLine("-----------------------------------------------------------------");
-                LogLine("");
-
-                double[] actualValuesMonoOld =
+                LogPrettyTitle("Get Mono Values from Sample Reloaded Old"); double[] actualValuesMonoOld;
                 {
-                    Calculate(reloadedSampleFlowNodeOld, time: 0.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 1.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 2.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 3.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 4.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 5.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 6.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 7.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeOld, time: 8.0 / 8.0 / frequency)
-                };
+                    actualValuesMonoOld = new[]
+                    {
+                        Calculate(reloadedSampleNodeOld, time: 0.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 1.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 2.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 3.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 4.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 5.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 6.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 7.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeOld, time: 8.0 / 8.0 / freq.Value)
+                    };
+                    LogLine("Done");
+                }
                 
-                // Tame ReSharper
-                actualValuesMonoOld = actualValuesMonoOld;
-                
-                LogLine("");
-                LogLine("Get Mono Values from Sample Reloaded from \"Run/Intercept\" (New Method)");
-                LogLine("----------------------------------------------------------------------");
-                LogLine("");
-
-                double[] actualValuesMonoNew =
+                LogPrettyTitle("Get Mono Values from Sample Reloaded New"); double[] actualValuesMonoNew;
                 {
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 0.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 1.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 2.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 3.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 4.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 5.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 6.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 7.0 / 8.0 / frequency),
-                    Calculate(reloadedSampleFlowNodeChannel0New, time: 8.0 / 8.0 / frequency)
-                };
-
-                LogLine("Done");
-
-                LogLine("");
-                LogLine("Values");
-                LogLine("------");
-                LogLine("");
-                                                
-                double[] expectedValuesMono =
-                {
-                    VOLUME *       0.0,
-                    VOLUME *  Sqrt(.5),
-                    VOLUME *       1.0,
-                    VOLUME *  Sqrt(.5),
-                    VOLUME *       0.0,
-                    VOLUME * -Sqrt(.5),
-                    VOLUME *      -1.0,
-                    VOLUME * -Sqrt(.5),
-                    VOLUME *       0.0
-                };
-                expectedValuesMono = expectedValuesMono.Select(RoundValue).ToArray();
-
-                double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
-                double valueToleranceRequired = expectedValuesMono.Zip(actualValuesMonoNew, (x,y) => Abs(x - y)).Max();
-                LogLine($"{nameof(valueTolerance)}         = {valueTolerance}");
-                LogLine($"{nameof(valueToleranceRequired)} = {valueToleranceRequired}");
-                LogLine();
-                LogLine($"{nameof(expectedValuesMono)}  = {FormatValues(expectedValuesMono)}");
-                LogLine($"{nameof(actualValuesMonoNew)} = {FormatValues(actualValuesMonoNew)}");
-                LogLine();
+                    actualValuesMonoNew = new[]
+                    {
+                        Calculate(reloadedSampleNodeChan0New, time: 0.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 1.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 2.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 3.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 4.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 5.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 6.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 7.0 / 8.0 / freq.Value),
+                        Calculate(reloadedSampleNodeChan0New, time: 8.0 / 8.0 / freq.Value)
+                    };
+                    
+                    LogLine("Done");
+                }
                 
-                AreEqual(expectedValuesMono[0], actualValuesMonoNew[0], valueTolerance);
-                AreEqual(expectedValuesMono[1], actualValuesMonoNew[1], valueTolerance);
-                AreEqual(expectedValuesMono[2], actualValuesMonoNew[2], valueTolerance);
-                AreEqual(expectedValuesMono[3], actualValuesMonoNew[3], valueTolerance);
-                AreEqual(expectedValuesMono[4], actualValuesMonoNew[4], valueTolerance);
-                AreEqual(expectedValuesMono[5], actualValuesMonoNew[5], valueTolerance);
-                AreEqual(expectedValuesMono[6], actualValuesMonoNew[6], valueTolerance);
-                AreEqual(expectedValuesMono[7], actualValuesMonoNew[7], valueTolerance);
-                AreEqual(expectedValuesMono[8], actualValuesMonoNew[8], valueTolerance);
+                LogPrettyTitle("Values"); double[] expectedValuesMono; double valueTolerance;
+                {
+                    expectedValuesMono = new[]
+                    {
+                        VOLUME *       0.0,
+                        VOLUME *  Sqrt(.5),
+                        VOLUME *       1.0,
+                        VOLUME *  Sqrt(.5),
+                        VOLUME *       0.0,
+                        VOLUME * -Sqrt(.5),
+                        VOLUME *      -1.0,
+                        VOLUME * -Sqrt(.5),
+                        VOLUME *       0.0
+                    };
+                    expectedValuesMono = expectedValuesMono.Select(RoundValue).ToArray();
+
+                    valueTolerance = GetValueTolerance(aligned, interpolation, bits);
+                    
+                    double valueToleranceRequiredOld = expectedValuesMono.Zip(actualValuesMonoOld, (x,y) => Abs(x - y)).Max();
+                    double valueToleranceRequiredNew = expectedValuesMono.Zip(actualValuesMonoNew, (x,y) => Abs(x - y)).Max();
+                    
+                    LogLine($"{nameof(valueTolerance)}         = {valueTolerance}");
+                    LogLine($"{nameof(valueToleranceRequiredOld)} = {valueToleranceRequiredOld}");
+                    LogLine($"{nameof(valueToleranceRequiredNew)} = {valueToleranceRequiredNew}");
+                    LogLine();
+                    LogLine($"{nameof(expectedValuesMono)}  = {FormatValues(expectedValuesMono)}");
+                    LogLine($"{nameof(actualValuesMonoOld)} = {FormatValues(actualValuesMonoOld)}");
+                    LogLine($"{nameof(actualValuesMonoNew)} = {FormatValues(actualValuesMonoNew)}");
+                    LogLine();
+                }
+                
+                LogPrettyTitle("Assert Mono Values Old");
+                {
+                    AreEqual(expectedValuesMono[0], actualValuesMonoOld[0], valueTolerance);
+                    AreEqual(expectedValuesMono[1], actualValuesMonoOld[1], valueTolerance);
+                    AreEqual(expectedValuesMono[2], actualValuesMonoOld[2], valueTolerance);
+                    AreEqual(expectedValuesMono[3], actualValuesMonoOld[3], valueTolerance);
+                    AreEqual(expectedValuesMono[4], actualValuesMonoOld[4], valueTolerance);
+                    AreEqual(expectedValuesMono[5], actualValuesMonoOld[5], valueTolerance);
+                    AreEqual(expectedValuesMono[6], actualValuesMonoOld[6], valueTolerance);
+                    AreEqual(expectedValuesMono[7], actualValuesMonoOld[7], valueTolerance);
+                    AreEqual(expectedValuesMono[8], actualValuesMonoOld[8], valueTolerance);
+                }
+                
+                LogPrettyTitle("Assert Mono Values New");
+                {
+                    AreEqual(expectedValuesMono[0], actualValuesMonoNew[0], valueTolerance);
+                    AreEqual(expectedValuesMono[1], actualValuesMonoNew[1], valueTolerance);
+                    AreEqual(expectedValuesMono[2], actualValuesMonoNew[2], valueTolerance);
+                    AreEqual(expectedValuesMono[3], actualValuesMonoNew[3], valueTolerance);
+                    AreEqual(expectedValuesMono[4], actualValuesMonoNew[4], valueTolerance);
+                    AreEqual(expectedValuesMono[5], actualValuesMonoNew[5], valueTolerance);
+                    AreEqual(expectedValuesMono[6], actualValuesMonoNew[6], valueTolerance);
+                    AreEqual(expectedValuesMono[7], actualValuesMonoNew[7], valueTolerance);
+                    AreEqual(expectedValuesMono[8], actualValuesMonoNew[8], valueTolerance);
+                }
             }
-
+            
             // Stereo
 
             if (channels == 2)
             {
-                LogLine("");
-                LogLine("Get Values from Reloaded Sample from \"Record\" (New Method)");
-                LogLine("----------------------------------------------------------");
-                LogLine("");
-
-                double[] actualLeftValuesOld =
+                LogPrettyTitle("Get Values from Reloaded Sample Old"); double[] actualLeftValuesOld, actualRightValuesOld;
                 {
-                    reloadedSampleFlowNodeOld.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
-                };
+                    actualLeftValuesOld = new []
+                    {
+                        reloadedSampleNodeOld.Calculate(time: 0.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 1.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 2.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 3.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 4.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 5.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 6.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 7.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeOld.Calculate(time: 8.0 / 8.0 / freq.Value, channel: 0)
+                    };
 
-                double[] actualLeftValuesNew =
-                {
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 0.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 1.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 2.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 3.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 4.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 5.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 6.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 7.0 / 8.0 / frequency, channel: 0),
-                    reloadedSampleFlowNodeChannel0New.Calculate(time: 8.0 / 8.0 / frequency, channel: 0)
-                };
-
-                double[] actualRightValuesOld =
-                {
-                    reloadedSampleFlowNodeOld.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeOld.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
-                };
-
-                double[] actualRightValuesNew =
-                {
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 0.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 1.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 2.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 3.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 4.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 5.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 6.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 7.0 / 8.0 / frequency, channel: 1),
-                    reloadedSampleFlowNodeChannel1New.Calculate(time: 8.0 / 8.0 / frequency, channel: 1)
-                };
-
-                LogLine("Done");
+                    actualRightValuesOld = new []
+                    {
+                        reloadedSampleNodeOld.Calculate(time: 0.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 1.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 2.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 3.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 4.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 5.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 6.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 7.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeOld.Calculate(time: 8.0 / 8.0 / freq.Value, channel: 1)
+                    };
+                    
+                    LogLine("Done");
+                }
                 
-                LogLine("");
-                LogLine("Value Info");
-                LogLine("----------");
-                LogLine("");
-
-                double[] expectedLeftValues =
+                LogPrettyTitle("Get Values from Reloaded Sample New"); double[] actualLeftValuesNew, actualRightValuesNew;
                 {
-                    VOLUME * 0.75 *       0.0,
-                    VOLUME * 0.75 *  Sqrt(.5),
-                    VOLUME * 0.75 *       1.0,
-                    VOLUME * 0.75 *  Sqrt(.5),
-                    VOLUME * 0.75 *       0.0,
-                    VOLUME * 0.75 * -Sqrt(.5),
-                    VOLUME * 0.75 *      -1.0,
-                    VOLUME * 0.75 * -Sqrt(.5),
-                    VOLUME * 0.75 *       0.0
-                };
-                expectedLeftValues = expectedLeftValues.Select(RoundValue).ToArray();
+                    actualLeftValuesNew = new []
+                    {
+                        reloadedSampleNodeChan0New.Calculate(time: 0.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 1.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 2.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 3.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 4.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 5.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 6.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 7.0 / 8.0 / freq.Value, channel: 0),
+                        reloadedSampleNodeChan0New.Calculate(time: 8.0 / 8.0 / freq.Value, channel: 0)
+                    };
 
-                double[] expectedRightValues =
+                    actualRightValuesNew = new []
+                    {
+                        reloadedSampleNodeChan1New.Calculate(time: 0.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 1.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 2.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 3.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 4.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 5.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 6.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 7.0 / 8.0 / freq.Value, channel: 1),
+                        reloadedSampleNodeChan1New.Calculate(time: 8.0 / 8.0 / freq.Value, channel: 1)
+                    };
+
+                    LogLine("Done");
+                }
+                
+                LogPrettyTitle("Value Info"); double[] expectedLeftValues, expectedRightValues; double valueTolerance;
                 {
-                    VOLUME * 0.25 *       0.0,
-                    VOLUME * 0.25 *  Sqrt(.5),
-                    VOLUME * 0.25 *       1.0,
-                    VOLUME * 0.25 *  Sqrt(.5),
-                    VOLUME * 0.25 *       0.0,
-                    VOLUME * 0.25 * -Sqrt(.5),
-                    VOLUME * 0.25 *      -1.0,
-                    VOLUME * 0.25 * -Sqrt(.5),
-                    VOLUME * 0.25 *       0.0
-                };
-                expectedRightValues = expectedRightValues.Select(RoundValue).ToArray();
+                    expectedLeftValues = new []
+                    {
+                        VOLUME * 0.75 *       0.0,
+                        VOLUME * 0.75 *  Sqrt(.5),
+                        VOLUME * 0.75 *       1.0,
+                        VOLUME * 0.75 *  Sqrt(.5),
+                        VOLUME * 0.75 *       0.0,
+                        VOLUME * 0.75 * -Sqrt(.5),
+                        VOLUME * 0.75 *      -1.0,
+                        VOLUME * 0.75 * -Sqrt(.5),
+                        VOLUME * 0.75 *       0.0
+                    };
+                    expectedLeftValues = expectedLeftValues.Select(RoundValue).ToArray();
 
-                // Value Tolerance
-                double valueTolerance = GetValueTolerance(aligned, interpolation, bits);
-                double valueToleranceRequiredOld = 
-                    expectedLeftValues.Concat(expectedRightValues)
-                                      .Zip(actualLeftValuesOld.Concat(actualRightValuesOld), (x,y) => Abs(x - y)).Max();
-                double valueToleranceRequiredNew = 
-                    expectedLeftValues.Concat(expectedRightValues)
-                                      .Zip(actualLeftValuesNew.Concat(actualRightValuesNew), (x,y) => Abs(x - y)).Max();
-                LogLine();
-                LogLine("Value tolerance:");
-                LogLine();
-                LogLine($"Used         = {valueTolerance}");
-                LogLine($"Required old = {valueToleranceRequiredOld}");
-                LogLine($"Required new = {valueToleranceRequiredNew}");
-                LogLine();
-                LogLine("Left Signal:");
-                LogLine();
-                LogLine($"Expected   = {FormatValues(expectedLeftValues )}");
-                LogLine($"Actual old = {FormatValues(actualLeftValuesOld)}");
-                LogLine($"Actual new = {FormatValues(actualLeftValuesNew)}");
-                LogLine();
-                LogLine("Right Signal:");
-                LogLine();
-                LogLine($"Expected   = {FormatValues(expectedRightValues )}");
-                LogLine($"Actual old = {FormatValues(actualRightValuesOld)}");
-                LogLine($"Actual new = {FormatValues(actualRightValuesNew)}");
-                LogLine();
+                    expectedRightValues = new []
+                    {
+                        VOLUME * 0.25 *       0.0,
+                        VOLUME * 0.25 *  Sqrt(.5),
+                        VOLUME * 0.25 *       1.0,
+                        VOLUME * 0.25 *  Sqrt(.5),
+                        VOLUME * 0.25 *       0.0,
+                        VOLUME * 0.25 * -Sqrt(.5),
+                        VOLUME * 0.25 *      -1.0,
+                        VOLUME * 0.25 * -Sqrt(.5),
+                        VOLUME * 0.25 *       0.0
+                    };
+                    expectedRightValues = expectedRightValues.Select(RoundValue).ToArray();
+                
+                    // Value Tolerance
+                    valueTolerance = GetValueTolerance(aligned, interpolation, bits);
+                    
+                    double valueToleranceRequiredOld = 
+                        expectedLeftValues.Concat(expectedRightValues)
+                                          .Zip(actualLeftValuesOld.Concat(actualRightValuesOld), (x,y) => Abs(x - y)).Max();
+                    double valueToleranceRequiredNew = 
+                        expectedLeftValues.Concat(expectedRightValues)
+                                          .Zip(actualLeftValuesNew.Concat(actualRightValuesNew), (x,y) => Abs(x - y)).Max();
+                    LogLine();
+                    LogLine("Value tolerance:");
+                    LogLine();
+                    LogLine($"Used         = {valueTolerance}");
+                    LogLine($"Required old = {valueToleranceRequiredOld}");
+                    LogLine($"Required new = {valueToleranceRequiredNew}");
+                    LogLine();
+                    LogLine("Left Signal:");
+                    LogLine();
+                    LogLine($"Expected   = {FormatValues(expectedLeftValues )}");
+                    LogLine($"Actual old = {FormatValues(actualLeftValuesOld)}");
+                    LogLine($"Actual new = {FormatValues(actualLeftValuesNew)}");
+                    LogLine();
+                    LogLine("Right Signal:");
+                    LogLine();
+                    LogLine($"Expected   = {FormatValues(expectedRightValues )}");
+                    LogLine($"Actual old = {FormatValues(actualRightValuesOld)}");
+                    LogLine($"Actual new = {FormatValues(actualRightValuesNew)}");
+                    LogLine();
+                }
 
                 LogPrettyTitle("Assert Left Values Old");
-
-                AreEqual(expectedLeftValues[0], actualLeftValuesOld[0], valueTolerance);
-                AreEqual(expectedLeftValues[1], actualLeftValuesOld[1], valueTolerance);
-                AreEqual(expectedLeftValues[2], actualLeftValuesOld[2], valueTolerance);
-                AreEqual(expectedLeftValues[3], actualLeftValuesOld[3], valueTolerance);
-                AreEqual(expectedLeftValues[4], actualLeftValuesOld[4], valueTolerance);
-                AreEqual(expectedLeftValues[5], actualLeftValuesOld[5], valueTolerance);
-                AreEqual(expectedLeftValues[6], actualLeftValuesOld[6], valueTolerance);
-                AreEqual(expectedLeftValues[7], actualLeftValuesOld[7], valueTolerance);
-                AreEqual(expectedLeftValues[8], actualLeftValuesOld[8], valueTolerance);
+                {
+                    AreEqual(expectedLeftValues[0], actualLeftValuesOld[0], valueTolerance);
+                    AreEqual(expectedLeftValues[1], actualLeftValuesOld[1], valueTolerance);
+                    AreEqual(expectedLeftValues[2], actualLeftValuesOld[2], valueTolerance);
+                    AreEqual(expectedLeftValues[3], actualLeftValuesOld[3], valueTolerance);
+                    AreEqual(expectedLeftValues[4], actualLeftValuesOld[4], valueTolerance);
+                    AreEqual(expectedLeftValues[5], actualLeftValuesOld[5], valueTolerance);
+                    AreEqual(expectedLeftValues[6], actualLeftValuesOld[6], valueTolerance);
+                    AreEqual(expectedLeftValues[7], actualLeftValuesOld[7], valueTolerance);
+                    AreEqual(expectedLeftValues[8], actualLeftValuesOld[8], valueTolerance);
+                    LogLine("Done");
+                }
                 
-                LogLine("Done");
-
                 LogPrettyTitle("Assert Right Values Old");
-                
-                AreEqual(expectedRightValues[0], actualRightValuesOld[0], valueTolerance);
-                AreEqual(expectedRightValues[1], actualRightValuesOld[1], valueTolerance);
-                AreEqual(expectedRightValues[2], actualRightValuesOld[2], valueTolerance);
-                AreEqual(expectedRightValues[3], actualRightValuesOld[3], valueTolerance);
-                AreEqual(expectedRightValues[4], actualRightValuesOld[4], valueTolerance);
-                AreEqual(expectedRightValues[5], actualRightValuesOld[5], valueTolerance);
-                AreEqual(expectedRightValues[6], actualRightValuesOld[6], valueTolerance);
-                AreEqual(expectedRightValues[7], actualRightValuesOld[7], valueTolerance);
-                AreEqual(expectedRightValues[8], actualRightValuesOld[8], valueTolerance);
+                {
+                    AreEqual(expectedRightValues[0], actualRightValuesOld[0], valueTolerance);
+                    AreEqual(expectedRightValues[1], actualRightValuesOld[1], valueTolerance);
+                    AreEqual(expectedRightValues[2], actualRightValuesOld[2], valueTolerance);
+                    AreEqual(expectedRightValues[3], actualRightValuesOld[3], valueTolerance);
+                    AreEqual(expectedRightValues[4], actualRightValuesOld[4], valueTolerance);
+                    AreEqual(expectedRightValues[5], actualRightValuesOld[5], valueTolerance);
+                    AreEqual(expectedRightValues[6], actualRightValuesOld[6], valueTolerance);
+                    AreEqual(expectedRightValues[7], actualRightValuesOld[7], valueTolerance);
+                    AreEqual(expectedRightValues[8], actualRightValuesOld[8], valueTolerance);
+                    LogLine("Done");
+                }
 
-                LogLine("Done");
-            
                 //LogPrettyTitle("Assert Left Values New");
-
-                //AreEqual(expectedLeftValues[0], actualLeftValuesNew[0], valueTolerance);
-                //AreEqual(expectedLeftValues[1], actualLeftValuesNew[1], valueTolerance);
-                //AreEqual(expectedLeftValues[2], actualLeftValuesNew[2], valueTolerance);
-                //AreEqual(expectedLeftValues[3], actualLeftValuesNew[3], valueTolerance);
-                //AreEqual(expectedLeftValues[4], actualLeftValuesNew[4], valueTolerance);
-                //AreEqual(expectedLeftValues[5], actualLeftValuesNew[5], valueTolerance);
-                //AreEqual(expectedLeftValues[6], actualLeftValuesNew[6], valueTolerance);
-                //AreEqual(expectedLeftValues[7], actualLeftValuesNew[7], valueTolerance);
-                //AreEqual(expectedLeftValues[8], actualLeftValuesNew[8], valueTolerance);
+                //{
+                //    AreEqual(expectedLeftValues[0], actualLeftValuesNew[0], valueTolerance);
+                //    AreEqual(expectedLeftValues[1], actualLeftValuesNew[1], valueTolerance);
+                //    AreEqual(expectedLeftValues[2], actualLeftValuesNew[2], valueTolerance);
+                //    AreEqual(expectedLeftValues[3], actualLeftValuesNew[3], valueTolerance);
+                //    AreEqual(expectedLeftValues[4], actualLeftValuesNew[4], valueTolerance);
+                //    AreEqual(expectedLeftValues[5], actualLeftValuesNew[5], valueTolerance);
+                //    AreEqual(expectedLeftValues[6], actualLeftValuesNew[6], valueTolerance);
+                //    AreEqual(expectedLeftValues[7], actualLeftValuesNew[7], valueTolerance);
+                //    AreEqual(expectedLeftValues[8], actualLeftValuesNew[8], valueTolerance);
+                //    LogLine("Done");
+                //}
                 
-                //LogLine("Done");
-
                 //LogPrettyTitle("Assert Right Values New");
-                
-                //AreEqual(expectedRightValues[0], actualRightValuesNew[0], valueTolerance);
-                //AreEqual(expectedRightValues[1], actualRightValuesNew[1], valueTolerance);
-                //AreEqual(expectedRightValues[2], actualRightValuesNew[2], valueTolerance);
-                //AreEqual(expectedRightValues[3], actualRightValuesNew[3], valueTolerance);
-                //AreEqual(expectedRightValues[4], actualRightValuesNew[4], valueTolerance);
-                //AreEqual(expectedRightValues[5], actualRightValuesNew[5], valueTolerance);
-                //AreEqual(expectedRightValues[6], actualRightValuesNew[6], valueTolerance);
-                //AreEqual(expectedRightValues[7], actualRightValuesNew[7], valueTolerance);
-                //AreEqual(expectedRightValues[8], actualRightValuesNew[8], valueTolerance);
-
-                //LogLine("Done");
+                //{
+                //    AreEqual(expectedRightValues[0], actualRightValuesNew[0], valueTolerance);
+                //    AreEqual(expectedRightValues[1], actualRightValuesNew[1], valueTolerance);
+                //    AreEqual(expectedRightValues[2], actualRightValuesNew[2], valueTolerance);
+                //    AreEqual(expectedRightValues[3], actualRightValuesNew[3], valueTolerance);
+                //    AreEqual(expectedRightValues[4], actualRightValuesNew[4], valueTolerance);
+                //    AreEqual(expectedRightValues[5], actualRightValuesNew[5], valueTolerance);
+                //    AreEqual(expectedRightValues[6], actualRightValuesNew[6], valueTolerance);
+                //    AreEqual(expectedRightValues[7], actualRightValuesNew[7], valueTolerance);
+                //    AreEqual(expectedRightValues[8], actualRightValuesNew[8], valueTolerance);
+                //    LogLine("Done");
+                //}
             }
         }
 
@@ -675,7 +665,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             return sound.SetName(callerMemberName);
         }
 
-        static void AssertAudioFileOutputProperties(
+        static void AssertAudioFileOutProperties(
             AudioFileOutput audioFileOutput, 
             AudioFileFormatEnum audioFileFormatEnum,
             int channels, 
