@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private static bool NameMentionsOperatorType(string name, string operatorTypeName)
         {
-            if (IsNullOrWhiteSpace(name))
+            if (!Has(name))
             {
                 return false;
             }
@@ -299,8 +299,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return true;
             }
             
-            string operatorTypeDisplayName = PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
-            if (name.Contains(operatorTypeDisplayName, ignoreCase: true))
+            if (name.Contains(operatorTypeName.ToDisplayName(), ignoreCase: true))
             {
                 return true;
             }

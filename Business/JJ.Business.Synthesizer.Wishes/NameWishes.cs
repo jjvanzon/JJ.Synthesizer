@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return Combine(absoluteFolder, fileName);
         }
 
-        // Fluent for Entities
+        // For Entities
         
         /// <inheritdoc cref="docs._operatorgetname" />
         public static string GetName(Outlet entity)
@@ -242,6 +242,46 @@ namespace JJ.Business.Synthesizer.Wishes
             return op;
         }
         
+        public static string OperatorTypeName(Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return op.OperatorTypeName;
+        }
+
+        public static string OperatorTypeName(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return OperatorTypeName(outlet.Operator);
+        }
+        
+        public static string OperatorTypeName(FlowNode flowNode)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.OperatorTypeName;
+        }
+
+        public static string ToDisplayName(string operatorTypeName) =>  OperatorTypeDisplayName(operatorTypeName);
+
+        public static string OperatorTypeDisplayName(string operatorTypeName) => PropertyDisplayNames.ResourceManager.GetString(operatorTypeName);
+
+        public static string OperatorTypeDisplayName(Operator op)
+        {
+            if (op == null) throw new ArgumentNullException(nameof(op));
+            return OperatorTypeDisplayName(op.OperatorTypeName);
+        }
+        
+        public static string OperatorTypeDisplayName(Outlet outlet)
+        {
+            if (outlet == null) throw new ArgumentNullException(nameof(outlet));
+            return OperatorTypeName(outlet.Operator);
+        }
+        
+        public static string OperatorTypeDisplayName(FlowNode flowNode)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return OperatorTypeName(flowNode.UnderlyingOperator);
+        }
+
         // Helpers
         
         internal static bool NameIsOperatorTypeName(Operator op)
@@ -304,8 +344,6 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameExtensionWishes
     {
-        // Fluent for Entities
-        
         /// <inheritdoc cref="docs._operatorgetname" />
         public static string GetName(this Outlet outlet) => NameWishes.GetName(outlet);
         /// <inheritdoc cref="docs._operatorgetname" />
@@ -320,7 +358,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Outlet SetName(this Outlet entity, string name) => NameWishes.SetName(entity, name);
         /// <inheritdoc cref="docs._names"/>
         public static Operator SetName(this Operator op, string name) => NameWishes.SetName(op, name);
-        
+        public static string OperatorTypeName(this Operator op) => NameWishes.OperatorTypeName(op);
+        public static string OperatorTypeName(this Outlet outlet) => NameWishes.OperatorTypeName(outlet);
+        public static string OperatorTypeName(this FlowNode flowNode) => NameWishes.OperatorTypeName(flowNode);
+        public static string ToDisplayName(this string operatorTypeName) => NameWishes.ToDisplayName(operatorTypeName);
+        public static string OperatorTypeDisplayName(this string operatorTypeName) => NameWishes.OperatorTypeDisplayName(operatorTypeName);
+        public static string OperatorTypeDisplayName(this Operator op) => NameWishes.OperatorTypeDisplayName(op);
+        public static string OperatorTypeDisplayName(this Outlet outlet) => NameWishes.OperatorTypeDisplayName(outlet);
+        public static string OperatorTypeDisplayName(this FlowNode flowNode) => NameWishes.OperatorTypeDisplayName(flowNode);
+
         // Helpers
         
         internal static bool NameIsOperatorTypeName(this Operator op) => NameWishes.NameIsOperatorTypeName(op);
@@ -346,5 +392,8 @@ namespace JJ.Business.Synthesizer.Wishes
             get => _underlyingOutlet.GetName();
             set => _underlyingOutlet.SetName(value);
         }
+
+        public string OperatorTypeName => NameWishes.OperatorTypeName(this);
+        public string OperatorTypeDisplayName => NameWishes.OperatorTypeDisplayName(this);
     }
 }

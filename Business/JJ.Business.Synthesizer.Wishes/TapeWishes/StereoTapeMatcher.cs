@@ -77,10 +77,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 // Match by name
                 var groupedByName = group.GroupBy(x => new 
                 { 
-                    Name = x.GetName(),
                     x.FallBackName, 
                     x.FilePathSuggested,    
-                    SignalName = x.Outlet?.Name, 
+                    SignalName = x.Outlet?.GetName(), 
                     x.Outlet?.Operator?.OperatorTypeName
                 });
                 

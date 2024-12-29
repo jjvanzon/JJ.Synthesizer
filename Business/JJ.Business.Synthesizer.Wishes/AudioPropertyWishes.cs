@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -158,6 +159,12 @@ namespace JJ.Business.Synthesizer.Wishes
             return FileExtension(entity.AudioFileFormat);
         }
         
+        public static string FileExtension(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return tapeConfig.AudioFormat.FileExtension();
+        }
+        
         public static double MaxValue(this int bits) 
             => bits.ToSampleDataTypeEnum().MaxValue();
         
@@ -286,6 +293,12 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             return audioFileOutput.GetAudioFileFormatEnum();
+        }
+        
+        public static AudioFileFormatEnum AudioFormat(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return tapeConfig.AudioFormat;
         }
     }
 
