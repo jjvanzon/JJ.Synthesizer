@@ -569,16 +569,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 return str.IndexOf(substring, ToStringComparison(ignoreCase)) >= 0;
             }
 
-            public static bool Contains(this string name, string[] words, bool ignoreCase = false)
+            public static bool Contains(this string str, string[] words, bool ignoreCase = false)
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
-                return words.Any(x => name.IndexOf(x, ToStringComparison(ignoreCase)) >= 0);
+                if (str == null) throw new ArgumentNullException(nameof(str));
+                return words.Any(x => str.IndexOf(x, ToStringComparison(ignoreCase)) >= 0);
             }
 
-            public static bool Contains(this string name, char[] chars)
+            public static bool Contains(this string str, char[] chars)
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
-                return chars.Any(name.Contains);
+                if (str == null) throw new ArgumentNullException(nameof(str));
+                return chars.Any(str.Contains);
             }
 
             public static StringComparison ToStringComparison(this bool ignoreCase) 
