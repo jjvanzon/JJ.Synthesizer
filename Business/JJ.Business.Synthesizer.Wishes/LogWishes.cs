@@ -341,6 +341,20 @@ namespace JJ.Business.Synthesizer.Wishes
             LogLine();
         }
         
+        public static void LogConfig(SynthWishes synthWishes, string sep) 
+        {
+            LogLine();
+            LogLine(ConfigLog(synthWishes, sep));
+            LogLine();
+        }
+        
+        public static void LogConfig(string title, SynthWishes synthWishes, string sep = default) 
+        {
+            LogLine();
+            LogLine(ConfigLog(title, synthWishes, sep));
+            LogLine();
+        }
+        
         public static string ConfigLog(SynthWishes synthWishes) => ConfigLog("Options", synthWishes, NewLine);
         public static string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("Options", synthWishes, sep);
         public static string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
