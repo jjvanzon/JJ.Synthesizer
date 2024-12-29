@@ -2,6 +2,7 @@
 using System.Reflection;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
@@ -21,6 +22,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => (string)_accessor.InvokeMethod(nameof(PrettyByteCount), byteCount);
 
         public static int CountLines(this string str)
-            => (int)_accessor.InvokeMethod(nameof(CountLines), str);
+            => (int)_accessor.InvokeMethod(MemberName(), str);
+        
+        public static bool Contains(this string str, string substring, bool ignoreCase)
+        => (bool)_accessor.InvokeMethod(MemberName(), str, substring, ignoreCase);
     }
 }
