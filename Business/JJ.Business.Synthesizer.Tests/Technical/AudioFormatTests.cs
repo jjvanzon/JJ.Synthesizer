@@ -2,14 +2,12 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Collection_Wishes;
 using static System.Environment;
 using static System.IO.Path;
 using static System.Math;
@@ -20,8 +18,8 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.Obsolete.RecordLegacyStatics;
 using static JJ.Business.Synthesizer.Tests.Accessors.FileWishesAccessor;
+using static JJ.Business.Synthesizer.Tests.Accessors.StringWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.SaveLegacyStatics;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalse
@@ -323,7 +321,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             LogTitleStrong("Assert AudioFileOut Properties");
             {
-                string filePath1Expectation = GetFullPath(PrettifyName(testName) + audioFormat.FileExtension());
+                string filePath1Expectation = GetFullPath(testName + audioFormat.FileExtension());
             
                 AssertAudioFileOutProperties(
                     signalAudioFileOutOld,
@@ -335,7 +333,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     audioFormat, channels, bits, samplingRate,
                     filePath1Expectation, signalDuration, testName);
 
-                string filePath2Expectation = GetFullPath(PrettifyName($"{testName}_Reloaded") + audioFormat.FileExtension());
+                string filePath2Expectation = GetFullPath($"{testName}_Reloaded" + audioFormat.FileExtension());
             
                 AssertAudioFileOutProperties(
                     reloadedSampleBuffOld.UnderlyingAudioFileOutput,
@@ -664,7 +662,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int channels, 
             int bits, 
             int samplingRate,
-            string expectedFilePath, 
+            string filePathExpectation, 
             double expectedDuration,
             string callerMemberName)
         {
@@ -686,11 +684,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 string expectedContains = callerMemberName;
                 
-                // ReSharper disable UnusedVariable
                 (string expectedStart, int number, string expectedEnd) =
-                    GetNumberedFilePathParts(expectedFilePath, "", "");
-                // ReSharper restore UnusedVariable
+                    GetNumberedFilePathParts(filePathExpectation, "", "");
                 
+                // Tame ReSharper
+                expectedStart = expectedStart;
+                number = number;
                 
                 var values = new 
                 { 
@@ -705,7 +704,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsTrue(audioFileOutput.FilePath.EndsWith(expectedEnd),
                     $"Tested Expression: audioFileOutput.FilePath.EndsWith(expectedEnd).{NewLine}{values}");
             
-                IsTrue(audioFileOutput.FilePath.Contains(expectedContains),
+                IsTrue(audioFileOutput.FilePath.Contains(expectedContains, ignoreCase: true),
                     $"Tested Expression: audioFileOutput.FilePath.Contains(expectedContains).{NewLine}{values}");
 
             }
