@@ -259,7 +259,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return prettyName;
         }
         
-        public static string PrettyTitle(string uglyName)
+        public static string PrettyTitle(string uglyName, char underlineChar = '-')
         {
             string title = PrettifyName(uglyName);
 
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             title = title.WithShortGuids(4);
 
-            string dashes = "".PadRight(title.Length, '-');
+            string dashes = "".PadRight(title.Length, underlineChar);
 
             return title + NewLine + dashes;
         }

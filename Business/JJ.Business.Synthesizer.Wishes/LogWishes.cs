@@ -1019,7 +1019,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 Console.Out.Flush();
             }
         }
-        
+                
+        public static void LogTitleStrong(string title)
+        {
+            string upperCase = (title ?? "").ToUpper();
+            
+            LogLine();
+            LogLine(PrettyTitle(upperCase, underlineChar: '='));
+            LogLine();
+        }
+
         public static void LogTitle(string title)
         {
             LogLine();
