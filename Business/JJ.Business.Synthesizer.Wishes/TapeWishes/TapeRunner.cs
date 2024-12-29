@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(Tape[] tapes)
         {
-            LogPrettyTitle("Post-Processing");
+            LogTitle("Post-Processing");
             
             IList<Tape> relevantStereoChannelTapes
                 = tapes.Where(x => x.Config.IsStereo && x.Config.Channel.HasValue)

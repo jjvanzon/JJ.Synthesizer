@@ -1020,7 +1020,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        public static void LogPrettyTitle(string title)
+        public static void LogTitle(string title)
         {
             LogLine();
             LogLine(PrettyTitle(title));
@@ -1073,7 +1073,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogMathBoostTitle(bool mathBoost)
         {
             if (!mathBoost) return;
-            LogPrettyTitle("Math Boost");
+            LogTitle("Math Boost");
         }
         
         internal static void LogMathBoostDone(bool mathBoost)

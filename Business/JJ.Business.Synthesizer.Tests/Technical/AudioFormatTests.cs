@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogLine("Old method: Save(() => Sine(A4).Volume(0.5)).Play();");
             LogLine("New method: Run(MySound); void MySound() => Sine(A4).Volume(0.5).Save().Play();");
 
-            LogPrettyTitle("Options");
+            LogTitle("Options");
             {
                 WithPadding(0);
                 WithChannels(channels);
@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 LogConfig("", this);
             }
             
-            LogPrettyTitle("Materialize Signal Old"); Buff signalBuffOld; AudioFileOutput signalAudioFileOutOld;
+            LogTitle("Materialize Signal Old"); Buff signalBuffOld; AudioFileOutput signalAudioFileOutOld;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(signalBuffOld);
                 buff = SaveLegacy(this, () => Signal(freq, testName).SaveChannels(fileName + "_Channel" + GetChannel), fileName);
@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 signalAudioFileOutOld = buff.UnderlyingAudioFileOutput;
             }
             
-            LogPrettyTitle("Materialize Signal New"); Tape signalTapeNew; AudioFileOutput signalAudioFileOutNew;
+            LogTitle("Materialize Signal New"); Tape signalTapeNew; AudioFileOutput signalAudioFileOutNew;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(signalTapeNew);
                 Run(() => Signal(freq, testName).AfterRecord(x => tape = x, testName)
@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             WithAudioLength(reloadDuration);
 
-            LogPrettyTitle("Reload Sample into FlowNode Old"); FlowNode reloadedSampleNodeOld;
+            LogTitle("Reload Sample into FlowNode Old"); FlowNode reloadedSampleNodeOld;
             {
                 fileName = testName + "_" + fileNum++ + "_reloadedSampleNodeOld";
                 flowNode = Sample(signalBuffOld, name: fileName);
@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Save(flowNode.UnderlyingSample(), fileName + "_UnderlyingSample");
             }
             
-            LogPrettyTitle("Reload Sample into FlowNode New"); FlowNode reloadedSampleNodeChan0New, reloadedSampleNodeChan1New;
+            LogTitle("Reload Sample into FlowNode New"); FlowNode reloadedSampleNodeChan0New, reloadedSampleNodeChan1New;
             {   
                 fileName = testName + "_" + fileNum++ + "_reloadedSampleNode";
                 reloadedSampleNodeChan0New = Sample(signalTapeNew).SetName(fileName + "Chan0New");
@@ -306,7 +306,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Save(reloadedSampleNodeChan1New.UnderlyingSample(), fileName + "Chan1New_UnderlyingSample");
             }
 
-            LogPrettyTitle("Record Reloaded Old"); Buff reloadedSampleBuffOld;
+            LogTitle("Record Reloaded Old"); Buff reloadedSampleBuffOld;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleBuffOld);
                 buff = this.RecordLegacy(() => reloadedSampleNodeOld);
@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Save(buff, fileName);
             }
             
-            LogPrettyTitle("Record Reloaded New"); Tape reloadedSampleTapeNew = null;
+            LogTitle("Record Reloaded New"); Tape reloadedSampleTapeNew = null;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleTapeNew);
                 Run(() => (GetChannel == 0 ? reloadedSampleNodeChan0New : reloadedSampleNodeChan1New).AfterRecord(x => reloadedSampleTapeNew = x));
@@ -323,7 +323,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Save(reloadedSampleTapeNew, fileName);
             }
             
-            LogPrettyTitle("Assert AudioFileOut Properties");
+            LogTitle("Assert AudioFileOut Properties");
             {
                 string filePath1Expectation = GetFullPath(PrettifyName(testName) + audioFormat.FileExtension());
             
@@ -352,7 +352,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 LogLine("Done");
             }
             
-            LogPrettyTitle("Assert Sample Properties");
+            LogTitle("Assert Sample Properties");
             {
                 string filePathExpectation = signalAudioFileOutNew.FilePath;
 
@@ -378,7 +378,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             if (channels == 1)
             {
-                LogPrettyTitle("Get Mono Values from Sample Reloaded Old"); double[] actualValuesMonoOld;
+                LogTitle("Get Mono Values from Sample Reloaded Old"); double[] actualValuesMonoOld;
                 {
                     actualValuesMonoOld = new[]
                     {
@@ -395,7 +395,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
                 
-                LogPrettyTitle("Get Mono Values from Sample Reloaded New"); double[] actualValuesMonoNew;
+                LogTitle("Get Mono Values from Sample Reloaded New"); double[] actualValuesMonoNew;
                 {
                     actualValuesMonoNew = new[]
                     {
@@ -413,7 +413,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
                 
-                LogPrettyTitle("Values"); double[] expectedValuesMono; double valueTolerance;
+                LogTitle("Values"); double[] expectedValuesMono; double valueTolerance;
                 {
                     expectedValuesMono = new[]
                     {
@@ -444,7 +444,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine();
                 }
                 
-                LogPrettyTitle("Assert Mono Values Old");
+                LogTitle("Assert Mono Values Old");
                 {
                     AreEqual(expectedValuesMono[0], actualValuesMonoOld[0], valueTolerance);
                     AreEqual(expectedValuesMono[1], actualValuesMonoOld[1], valueTolerance);
@@ -457,7 +457,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     AreEqual(expectedValuesMono[8], actualValuesMonoOld[8], valueTolerance);
                 }
                 
-                LogPrettyTitle("Assert Mono Values New");
+                LogTitle("Assert Mono Values New");
                 {
                     AreEqual(expectedValuesMono[0], actualValuesMonoNew[0], valueTolerance);
                     AreEqual(expectedValuesMono[1], actualValuesMonoNew[1], valueTolerance);
@@ -475,7 +475,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             if (channels == 2)
             {
-                LogPrettyTitle("Get Values from Reloaded Sample Old"); double[] actualLeftValuesOld, actualRightValuesOld;
+                LogTitle("Get Values from Reloaded Sample Old"); double[] actualLeftValuesOld, actualRightValuesOld;
                 {
                     actualLeftValuesOld = new []
                     {
@@ -506,7 +506,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
                 
-                LogPrettyTitle("Get Values from Reloaded Sample New"); double[] actualLeftValuesNew, actualRightValuesNew;
+                LogTitle("Get Values from Reloaded Sample New"); double[] actualLeftValuesNew, actualRightValuesNew;
                 {
                     actualLeftValuesNew = new []
                     {
@@ -537,7 +537,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
                 
-                LogPrettyTitle("Value Info"); double[] expectedLeftValues, expectedRightValues; double valueTolerance;
+                LogTitle("Value Info"); double[] expectedLeftValues, expectedRightValues; double valueTolerance;
                 {
                     expectedLeftValues = new []
                     {
@@ -597,7 +597,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine();
                 }
 
-                LogPrettyTitle("Assert Left Values Old");
+                LogTitle("Assert Left Values Old");
                 {
                     AreEqual(expectedLeftValues[0], actualLeftValuesOld[0], valueTolerance);
                     AreEqual(expectedLeftValues[1], actualLeftValuesOld[1], valueTolerance);
@@ -611,7 +611,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
                 
-                LogPrettyTitle("Assert Right Values Old");
+                LogTitle("Assert Right Values Old");
                 {
                     AreEqual(expectedRightValues[0], actualRightValuesOld[0], valueTolerance);
                     AreEqual(expectedRightValues[1], actualRightValuesOld[1], valueTolerance);
