@@ -21,20 +21,20 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     namespace JJ_Framework_Collection_Wishes
     {
-        internal static class CollectionExtensionWishes
+        public static class CollectionExtensionWishes
         { 
-            public static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
+            internal static TimeSpan Sum(this IEnumerable<TimeSpan> timeSpans)
             {
                 if (timeSpans == null) throw new ArgumentNullException(nameof(timeSpans));
                 return timeSpans.Aggregate((x, y) => x + y);
             }
             
-            public static TimeSpan Sum<T>(this IEnumerable<T> source, Func<T, TimeSpan> selector)
+            internal static TimeSpan Sum<T>(this IEnumerable<T> source, Func<T, TimeSpan> selector)
             {
                 return source.Select(selector).Sum();
             }
 
-            public static bool Contains(this IList<string> source, string match, bool ignoreCase = false)
+            internal static bool Contains(this IList<string> source, string match, bool ignoreCase = false)
             {
                 if (source == null) throw new ArgumentNullException(nameof(source));
 
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             /// <inheritdoc cref="docs._onebecomestwo" />
-            public static IList<T> OneBecomesTwo<T>(this IList<T> list)
+            internal static IList<T> OneBecomesTwo<T>(this IList<T> list)
             {
                 if (list == null) throw new ArgumentNullException(nameof(list));
                 if (list.Count == 1) list = new List<T> { list[0], list[0] };
@@ -52,10 +52,10 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             /// <inheritdoc cref="docs._onebecomestwo" />
-            public static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
+            internal static T[] OneBecomesTwo<T>(this T[] list) => OneBecomesTwo((IList<T>)list).ToArray();
             
             /// <inheritdoc cref="docs._frameworkwishproduct" />
-            public static double Product(this IEnumerable<double> collection)
+            internal static double Product(this IEnumerable<double> collection)
             {
                 if (collection == null) throw new ArgumentNullException(nameof(collection));
                 
@@ -72,6 +72,16 @@ namespace JJ.Business.Synthesizer.Wishes
                 
                 return product;
             }
+            
+            public static void ForEach<T>(this IEnumerable<T> enumerable, Action<T, int> action)
+            {
+                int i = 0;
+                foreach (var x in enumerable)
+                {
+                    action(x, i++);
+                }
+            }
+
         }
     }
 
@@ -113,13 +123,6 @@ namespace JJ.Business.Synthesizer.Wishes
             public static bool FilledIn<T>(this IList<T> coll)             => FilledInWishes.FilledIn(coll);
             public static bool FilledIn<T>(this T value)                   => FilledInWishes.FilledIn(value);
             public static bool FilledIn<T>(this T? value) where T : struct => FilledInWishes.FilledIn(value);
-
-            //public static bool Has(this string value)                      => FilledInWishes.Has(value);
-            //public static bool Has(this string value, bool trimSpace)      => FilledInWishes.Has(value, trimSpace);
-            //public static bool Has<T>(this T[] arr)                        => FilledInWishes.Has(arr);
-            //public static bool Has<T>(this IList<T> coll)                  => FilledInWishes.Has(coll);
-            //public static bool Has<T>(this T value)                        => FilledInWishes.Has(value);
-            //public static bool Has<T>(this T? value) where T : struct      => FilledInWishes.Has(value);
 
             public static bool Is(this string value, string comparison, bool ignoreCase = false) => FilledInWishes.Is(value, comparison, ignoreCase);
         }
