@@ -306,7 +306,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Save(reloadedSampleNodeChan1New.UnderlyingSample(), fileName + "Chan1New_UnderlyingSample");
             }
 
-            LogTitleStrong("Record Reloaded Old"); Buff reloadedSampleBuffOld;
+            LogTitleStrong("Record Reloaded Sample Old"); Buff reloadedSampleBuffOld;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleBuffOld);
                 buff = this.SaveLegacy(() => reloadedSampleNodeOld, fileName);
@@ -314,7 +314,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsNotNull(() => reloadedSampleBuffOld);
             }
             
-            LogTitleStrong("Record Reloaded New"); Tape reloadedSampleTapeNew = null;
+            LogTitleStrong("Record Reloaded Sample New"); Tape reloadedSampleTapeNew = null;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleTapeNew);
                 Run(() => (GetChannel == 0 ? reloadedSampleNodeChan0New : reloadedSampleNodeChan1New).Save(fileName).AfterRecord(x => reloadedSampleTapeNew = x));
@@ -576,13 +576,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine($"Required old = {valueToleranceRequiredOld}");
                     LogLine($"Required new = {valueToleranceRequiredNew}");
                     LogLine();
-                    LogLine("Left Signal:");
+                    LogLine("Left:");
                     LogLine();
                     LogLine($"Expected   = {FormatValues(expectedLeftValues )}");
                     LogLine($"Actual old = {FormatValues(actualLeftValuesOld)}");
                     LogLine($"Actual new = {FormatValues(actualLeftValuesNew)}");
                     LogLine();
-                    LogLine("Right Signal:");
+                    LogLine("Right:");
                     LogLine();
                     LogLine($"Expected   = {FormatValues(expectedRightValues )}");
                     LogLine($"Actual old = {FormatValues(actualRightValuesOld)}");
@@ -604,7 +604,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     LogLine("Done");
                 }
                 
-                LogTitleStrong("Assert Right Values Old");
+                LogTitleStrong("Assert Values Right Old");
                 {
                     AreEqual(expectedRightValues[0], actualRightValuesOld[0], valueTolerance);
                     AreEqual(expectedRightValues[1], actualRightValuesOld[1], valueTolerance);
