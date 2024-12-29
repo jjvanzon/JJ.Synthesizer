@@ -17,3 +17,6 @@ resharper_int_align_switch_sections = true
 resharper_int_align_tuple_components = true
 resharper_int_align_variables = true
 
+
+# CS0618: Type or member is obsolete
+dotnet_diagnostic.CS0618.severity = suggestion
