@@ -89,15 +89,15 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             
             // Type
             elements.Add("{Action}");
-        
-            // Name
-            elements.Add(action.Name);
             
             // State
             if      (!action.On && !action.Done) elements.Add("(Off)");
             else if (!action.On &&  action.Done) elements.Add("(Off but Done)");
-            else if ( action.On && !action.Done) elements.Add("(On)");
+            else if ( action.On && !action.Done) elements.Add(">(On)");
             else if ( action.On &&  action.Done) elements.Add("(Done)");
+        
+            // Name
+            elements.Add(action.Name);
             
             // Callback
             if (action.Callback != null) elements.Add("with Callback");
