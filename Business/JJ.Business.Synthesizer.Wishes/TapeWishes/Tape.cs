@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return _outlets.Select(x => SynthWishes[x]).ToList();
         }
         
-        internal void SetSignals(IList<FlowNode> signals)
+        internal void SetSignals(IList<FlowNode> signals) 
             => Outlets = signals?.Select(x => x.UnderlyingOutlet).ToList();
         
         internal void ClearSignals() => Outlets = default;
@@ -143,7 +143,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         #region Config
         public TapeConfig Config { get; } = new TapeConfig();
-        
+
         public bool IsChannel => Config.IsChannel();
         /// <summary> Shorthand for Config.Channel.Value </summary>
         public int i => Config.Channel.Value;
@@ -290,6 +290,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                Type == ActionEnum.SaveChannels || 
                Type == ActionEnum.BeforeRecordChannel || 
                Type == ActionEnum.AfterRecordChannel;
+        
+        public bool IsIntercept
+            => Type == ActionEnum.BeforeRecord ||
+               Type == ActionEnum.AfterRecord ||
+               Type == ActionEnum.BeforeRecordChannel ||
+               Type == ActionEnum.AfterRecordChannel;
+
         public bool IsChannel => Tape.Config.IsChannel();
     }
 
