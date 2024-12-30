@@ -689,8 +689,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _tapeaction;
 
         /// <summary>
-        /// Checks if the action is On, not Done yet, <br/>
-        /// Also checks if it's an Intercept that has its Callback filled in. <br/>
+        /// Determines if the action is effectively active. This isn't just whether it's On.
+        /// Checks if the action is On and not Done yet. <br/>
+        /// Also checks if it's an Intercept that has its callback filled in. <br/>
         /// And checks if it's a Channel action and actually a Channel tape. <br/>
         /// Or the other way around: if it's a Channel but the action is not for channels. <br/>
         /// (It's a little much, but flags are abundant, e.g.,

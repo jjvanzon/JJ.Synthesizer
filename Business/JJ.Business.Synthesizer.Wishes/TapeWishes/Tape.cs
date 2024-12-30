@@ -257,10 +257,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 if (!On) return false;
                 if (Done) return false;
                 if (IsIntercept && Callback == null) return false;
-                if (Tape.Config.IsStereo)
-                {
-                    return IsForChannel == Tape.IsChannel;
-                }
+                if (Tape.Config.IsStereo) return IsForChannel == Tape.IsChannel;
                 return true;
             }
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
@@ -8,71 +7,46 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class VersatileActionRunner
     {
-        private readonly MonoActionRunner _monoActionRunner = new MonoActionRunner();
-        private readonly StereoActionRunner _stereoActionRunner = new StereoActionRunner();
-        private readonly ChannelActionRunner _channelActionRunner = new ChannelActionRunner();
+        private readonly ActionRunner _actionRunner = new ActionRunner();
             
         // Run in Stages of Processing
         
         public void RunBeforeRecord(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            _channelActionRunner.InterceptIfNeeded(tape.Actions.BeforeRecordChannel);
-            _monoActionRunner.InterceptIfNeeded(tape.Actions.BeforeRecord);
+            _actionRunner.InterceptIfNeeded(tape.Actions.BeforeRecordChannel);
+            _actionRunner.InterceptIfNeeded(tape.Actions.BeforeRecord);
         }
         
         public void RunAfterRecord(Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            _channelActionRunner.InterceptIfNeeded(tape.Actions.AfterRecordChannel);
-            _monoActionRunner.InterceptIfNeeded(tape.Actions.AfterRecord);
+            _actionRunner.InterceptIfNeeded(tape.Actions.AfterRecordChannel);
+            _actionRunner.InterceptIfNeeded(tape.Actions.AfterRecord);
         }
         
         public void RunForPostProcessing(IList<Tape> normalTapes, IList<Tape> stereoTapes)
         {
-            _channelActionRunner.CacheToDiskIfNeeded(normalTapes);
-            _monoActionRunner.CacheToDiskIfNeeded(normalTapes);
-            _stereoActionRunner.CacheToDiskIfNeeded(stereoTapes);
+            _actionRunner.CacheToDiskIfNeeded(normalTapes);
+            _actionRunner.CacheToDiskIfNeeded(stereoTapes);
 
             // Mono and channel-specific variations are run per tape instead.
-            _stereoActionRunner.RunAfterRecordIfNeeded(stereoTapes);
+            _actionRunner.RunAfterRecordIfNeeded(stereoTapes);
             
-            _channelActionRunner.SaveIfNeeded(normalTapes);
-            _monoActionRunner.SaveIfNeeded(normalTapes);
-            _stereoActionRunner.SaveIfNeeded(stereoTapes);
+            _actionRunner.SaveIfNeeded(normalTapes);
+            _actionRunner.SaveIfNeeded(stereoTapes);
             
-            _channelActionRunner.PlayForAllTapesIfNeeded(normalTapes);
-            _monoActionRunner.PlayForAllTapesIfNeeded(normalTapes);
-            _stereoActionRunner.PlayForAllTapesIfNeeded(stereoTapes);
+            _actionRunner.PlayForAllTapesIfNeeded(normalTapes);
+            _actionRunner.PlayForAllTapesIfNeeded(stereoTapes);
             
-            _channelActionRunner.PlayIfNeeded(normalTapes);
-            _monoActionRunner.PlayIfNeeded(normalTapes);
-            _stereoActionRunner.PlayIfNeeded(stereoTapes);
+            _actionRunner.PlayIfNeeded(normalTapes);
+            _actionRunner.PlayIfNeeded(stereoTapes);
         }
     }
     
-    internal class ChannelActionRunner : ActionRunnerBase
+    internal class ActionRunner
     {
-        //protected override bool ExtraCondition(TapeAction action)
-        //    => (action.IsChannel && action.IsForChannel);
-    }
-    
-    internal class MonoActionRunner : ActionRunnerBase
-    {
-        //protected override bool ExtraCondition(TapeAction action)
-        //    => (action.Tape.Config.IsMono && !action.IsForChannel);
-    }
-    
-    internal class StereoActionRunner : ActionRunnerBase
-    {
-        //protected override bool ExtraCondition(TapeAction action)
-        //    => (action.Tape.Config.IsStereo && !action.IsForChannel);
-    }
-    
-    internal abstract class ActionRunnerBase
-    {
-        // ReSharper disable once UnusedParameter.Global
-        protected virtual bool ExtraCondition(TapeAction action)
+        protected bool ExtraCondition(TapeAction action)
         {
             return (action.IsChannel && action.IsForChannel) ||
                    (action.Tape.Config.IsMono && !action.IsForChannel) ||
