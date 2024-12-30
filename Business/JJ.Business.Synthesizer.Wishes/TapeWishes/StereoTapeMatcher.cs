@@ -91,10 +91,24 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (_unprocessedTapes.Count > 0)
             {
-                throw new Exception(
+                string unprocessedTapesString = Join(NewLine, _unprocessedTapes.Select(x => "- " + Descriptor(x) + " | " + x.Outlet));
+                
+                string message = 
+                    "Warning: " + NewLine +
                     _unprocessedTapes.Count + " channel tapes could not be matched to a stereo tape:" + NewLine +
-                    Join(NewLine, _unprocessedTapes.Select(x => "- " + Descriptor(x) + " | " + x.Outlet)) + NewLine +
-                    "To avoid duplicates, consider passing names to the Play, Save, Tape or Intercept methods.");
+                    unprocessedTapesString + NewLine +
+                    "Unmatched tapes will be treated as single Mono tapes." + NewLine +
+                    "To avoid duplicates, consider passing names to the Play, Save, Tape or Intercept methods.";
+                
+                LogLine();
+                LogLine(message);
+                LogLine();
+                
+                foreach (Tape tape in _unprocessedTapes.ToArray())
+                {
+                    _matchedPairs.Add((tape, tape));
+                    _unprocessedTapes.Remove(tape);
+                }
             }
             
             return _matchedPairs;
