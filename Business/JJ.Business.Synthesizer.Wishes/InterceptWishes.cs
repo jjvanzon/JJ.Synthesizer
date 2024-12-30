@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.BeforeRecord, signal, duration, name, null, callback, callerMemberName);
+            _tapes.Upsert(ActionEnum.BeforeRecord, signal, duration, name, null, callback, callerMemberName);
             return signal;
         }
 
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.AfterRecord, signal, duration, name, null, callback, callerMemberName);
+            _tapes.Upsert(ActionEnum.AfterRecord, signal, duration, name, null, callback, callerMemberName);
             return signal;
         }
 
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.BeforeRecordChannel, signal, duration, null, name, callback, callerMemberName);
+            _tapes.Upsert(ActionEnum.BeforeRecordChannel, signal, duration, null, name, callback, callerMemberName);
             return signal;
         }
         
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.AfterRecordChannel, signal, duration, name, null, callback, callerMemberName);
+            _tapes.Upsert(ActionEnum.AfterRecordChannel, signal, duration, name, null, callback, callerMemberName);
             return signal;
         }
     }

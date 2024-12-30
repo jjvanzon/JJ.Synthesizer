@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.Save, signal, duration, null, filePath, null, callerMemberName);
+            _tapes.Upsert(ActionEnum.Save, signal, duration, null, filePath, null, callerMemberName);
             return signal;
         }
         
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.SaveChannels, signal, duration, null, filePath, null, callerMemberName);
+            _tapes.Upsert(ActionEnum.SaveChannels, signal, duration, null, filePath, null, callerMemberName);
             return signal;
         }
 

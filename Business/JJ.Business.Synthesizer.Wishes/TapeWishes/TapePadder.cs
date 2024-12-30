@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode newNode = _synthWishes.Delay(_[originalTape.Outlet], originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
             
             // Add tape
-            Tape paddedTape = _tapes.GetOrNew(ActionEnum.Pad, newNode, _[originalTape.Duration], null, originalTape.FilePathSuggested);
+            Tape paddedTape = _tapes.Upsert(ActionEnum.Pad, newNode, _[originalTape.Duration], null, originalTape.FilePathSuggested);
             
             // Copy data from original
             DeepClone(originalTape, paddedTape);

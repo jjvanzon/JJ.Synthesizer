@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public int Count => _tapes.Count;
 
-        public Tape GetOrNew(
+        public Tape Upsert(
             ActionEnum actionType, FlowNode signal, FlowNode duration,
             string name,
             string filePath = null,

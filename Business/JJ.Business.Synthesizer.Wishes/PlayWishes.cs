@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.Play, signal, duration, name, callerMemberName: callerMemberName);
+            _tapes.Upsert(ActionEnum.Play, signal, duration, name, callerMemberName: callerMemberName);
             return signal;
         }
         
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            _tapes.GetOrNew(ActionEnum.PlayChannels, signal, duration, name, callerMemberName: callerMemberName);
+            _tapes.Upsert(ActionEnum.PlayChannels, signal, duration, name, callerMemberName: callerMemberName);
             return signal;
         }
 
