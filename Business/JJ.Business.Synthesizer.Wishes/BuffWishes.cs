@@ -124,13 +124,30 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var audioFileOutput = tape.UnderlyingAudioFileOutput;
 
-            // Process parameter
+            // Names
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = tape.GetFilePath(audioFileOutput.FilePath, callerMemberName);
-            
-            bool inMemory = !(tape.Actions.DiskCache.On || tape.Actions.Save.On || tape.Actions.SaveChannels.On);
-
             audioFileOutput.Name = resolvedName;
+            
+            // On Disk
+            bool onDisk = tape.Actions.DiskCache.On ||
+                          (tape.Actions.Save.On         && !tape.IsChannel) ||
+                          (tape.Actions.SaveChannels.On &&  tape.IsChannel);
+                          
+            if (onDisk)
+            {
+                // Mark Save Actions as Done to avoid duplicate saves.
+                if (tape.Actions.SaveChannels.On && tape.IsChannel)
+                {
+                    tape.Actions.SaveChannels.Done = true;
+                }
+                else if (tape.Actions.Save.On && !tape.IsChannel)
+                {
+                    tape.Actions.Save.Done = true;
+                }
+            }
+
+            bool inMemory = !onDisk;
 
             // Inject stream where back-end originally created it internally.
             byte[] bytes = null;
@@ -164,19 +181,6 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.FilePathResolved = resolvedFilePath;
             tape.Bytes = bytes;
             tape.UnderlyingAudioFileOutput = audioFileOutput;
-
-            if (!inMemory)
-            {
-                // Mark Save Actions as Done to avoid duplicate saves.
-                if (tape.Actions.SaveChannels.On)
-                {
-                    tape.Actions.SaveChannels.Done = true;
-                }
-                else if (tape.Actions.Save.On)
-                {
-                    tape.Actions.Save.Done = true;
-                }
-            }
             
             // Report
             string report = SynthLog(tape, calculationDuration);
