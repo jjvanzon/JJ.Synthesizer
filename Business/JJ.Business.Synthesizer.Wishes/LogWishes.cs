@@ -911,7 +911,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogAction(TapeAction action, string message = null)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
-            LogLine(ActionMessage("Action", action.Type.ToString(), action.Tape.Descriptor(), message));
+            LogLine(ActionMessage("Action", action.Type, action.Tape.Descriptor(), message));
         }
         
         internal static void LogAction(Tape entity, string action, string message = null)
@@ -952,6 +952,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static void LogAction(string typeName, string action, string objectName, string message) 
             => LogLine(ActionMessage(typeName, action, objectName, message));
+
+        public static string ActionMessage(string typeName, ActionEnum action, string objectName, string message)
+            => ActionMessage(typeName, action.ToString(), objectName, message);
         
         public static string ActionMessage(string typeName, string action, string objectName, string message)
         {
