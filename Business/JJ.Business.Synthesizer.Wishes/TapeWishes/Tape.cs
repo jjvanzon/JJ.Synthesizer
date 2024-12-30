@@ -250,15 +250,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool On { get; set; }
         public bool Done { get; set; }
 
-        ///// <summary>
-        ///// Checks if the action is On, not Done yet, <br/>
-        ///// and also whether it's a Channel action and actually a Channel tape, <br/>
-        ///// or the other way around: not a Channel tape, and a non-Channel action. <br/>
-        ///// (It's a little much, but flags are abundant, i.e. non-Channel flags on Channel tapes for later use.)
-        ///// </summary>
-        //public bool Active => On && !Done && 
-        //                      (IsChannel && IsForChannel || 
-        //                       !IsChannel && !IsForChannel);
+        /// <inheritdoc cref="docs._tapeactionactive" />"/>
+        public bool Active
+        {
+            get
+            {
+                if (!On) return false;
+                if (Done) return false;
+                if (IsIntercept && Callback == null) return false;
+                return IsChannel == IsForChannel;
+            }
+        }
         
         /// <summary> Not always there </summary>
         internal Action<Tape> Callback { get; set; }
