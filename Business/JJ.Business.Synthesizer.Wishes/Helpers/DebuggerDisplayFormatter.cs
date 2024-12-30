@@ -91,10 +91,14 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             elements.Add("{Action}");
             
             // State
-            if      (!action.On && !action.Done) elements.Add("(Off)");
-            else if (!action.On &&  action.Done) elements.Add("(Off but Done)");
-            else if ( action.On && !action.Done) elements.Add(">(On)");
-            else if ( action.On &&  action.Done) elements.Add("(Done)");
+           
+            string activeGlyph = default;
+            if (action.Active) activeGlyph = ">";
+            
+            if      (!action.On && !action.Done) elements.Add(activeGlyph + "(Off)");
+            else if (!action.On &&  action.Done) elements.Add(activeGlyph + "(Off but Done)");
+            else if ( action.On && !action.Done) elements.Add(activeGlyph + "(On)");
+            else if ( action.On &&  action.Done) elements.Add(activeGlyph + "(Done)");
         
             // Name
             elements.Add(action.Type.ToString());
@@ -116,7 +120,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (actions == null) throw new ArgumentNullException(nameof(actions));
             string descriptor = actions.Descriptor();
             if (Has(descriptor)) return "{Actions:" + actions.Descriptor() + "}";
-            return "{Actions}";
+            return "{Actions:none}";
         }
 
         internal static string GetDebuggerDisplay(TapeConfig tapeConfig)
