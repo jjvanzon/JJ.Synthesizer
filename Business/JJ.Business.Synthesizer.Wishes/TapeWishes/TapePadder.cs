@@ -12,11 +12,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly SynthWishes _synthWishes;
         private readonly TapeCollection _tapes;
         
+        public readonly CaptureIndexer _;
+
         /// <inheritdoc cref="docs._tapepadder" />
         public TapePadder(SynthWishes synthWishes, TapeCollection tapes)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _tapes = tapes ?? throw new ArgumentNullException(nameof(tapes));
+            _ = new CaptureIndexer(synthWishes);
         }
         
         /// <inheritdoc cref="docs._tapepadder" />
