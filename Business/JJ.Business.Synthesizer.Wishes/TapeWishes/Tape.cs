@@ -270,6 +270,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Callback = default;
             FilePathSuggested = default;
         }
+        
+        public bool IsForChannel 
+            => Type == ActionEnum.PlayChannels || 
+               Type == ActionEnum.SaveChannels || 
+               Type == ActionEnum.BeforeRecordChannel || 
+               Type == ActionEnum.AfterRecordChannel;
     }
 
     /// <inheritdoc cref="docs._tapeaction" />
@@ -322,6 +328,34 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             PlayChannels.Clear();
             BeforeRecordChannel.Clear();
             AfterRecordChannel.Clear();
+        }
+
+        public TapeAction Get(ActionEnum type)
+        {
+            TapeAction action = TryGet(type);
+            if (action == null)
+            {
+                throw new Exception($"{nameof(ActionEnum)} {type} does not have an associated {nameof(TapeAction)} object.");
+            }
+            return action;
+        }
+
+        public TapeAction TryGet(ActionEnum type)
+        {
+            switch (type)
+            {
+                case ActionEnum.Play: return Play;
+                case ActionEnum.Save: return Save;
+                case ActionEnum.BeforeRecord: return BeforeRecord;
+                case ActionEnum.AfterRecord: return AfterRecord;
+                case ActionEnum.PlayChannels: return PlayChannels;
+                case ActionEnum.SaveChannels: return SaveChannels;
+                case ActionEnum.BeforeRecordChannel: return BeforeRecordChannel;
+                case ActionEnum.AfterRecordChannel: return AfterRecordChannel;
+                case ActionEnum.PlayAllTapes: return PlayAllTapes;
+                case ActionEnum.DiskCache: return DiskCache;
+                default: return null;
+            }
         }
     }
 }
