@@ -246,12 +246,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             double   signalDuration = 1 / freq.Value * 16;
             double   reloadDuration = signalDuration * 1.01;
             int      fileNum        = 1;
-            string   fileName;
+            string   fileName, fileName0, fileName1;
             Tape     tape           = default;
             Buff     buff;
-            FlowNode node;
-            FlowNode node0;
-            FlowNode node1;
+            FlowNode node, node0, node1;
 
             Log();
             Log("Old method: Save(() => Sine(A4).Volume(0.5)).Play();");
@@ -265,10 +263,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 WithInterpolation(interpolation);
                 WithAudioFormat(audioFormat);
                 WithSamplingRate(samplingRate);
-                WithAudioLength(signalDuration);
                 LogConfig("", this);
             }
             
+            WithAudioLength(signalDuration);
+        
             LogTitleStrong("Materialize Signal Old"); Buff signalBuffOld;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(signalBuffOld);
@@ -289,19 +288,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             LogTitleStrong("Reload Sample into FlowNode Old"); FlowNode reloadedSampleNodeOld;
             {
-                fileName = testName + "_" + fileNum++ + "_reloadedSampleNodeOld";
-                node = Sample(signalBuffOld, name: fileName);
+                fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleNodeOld);
+                node     = Sample(signalBuffOld, name: fileName);
                 Save(node.UnderlyingSample(), fileName + "_UnderlyingSample");
                 reloadedSampleNodeOld = node;
             }
             
             LogTitleStrong("Reload Sample into FlowNode New"); FlowNode reloadedSampleNodeChan0New, reloadedSampleNodeChan1New;
             {   
-                fileName = testName + "_" + fileNum++ + "_reloadedSampleNode";
-                node0 = Sample(signalTapeNew).SetName(fileName + "Chan0New");
-                node1 = Sample(signalTapeNew).SetName(fileName + "Chan1New");
-                Save(node0.UnderlyingSample(), fileName + "Chan0New_UnderlyingSample");
-                Save(node1.UnderlyingSample(), fileName + "Chan1New_UnderlyingSample");
+                fileName0 = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleNodeChan0New);
+                fileName1 = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleNodeChan1New);
+                node0     = Sample(signalTapeNew).SetName(fileName0);
+                node1     = Sample(signalTapeNew).SetName(fileName1);
+                Save(node0.UnderlyingSample(), fileName0 + "_" + nameof(node0.UnderlyingSample));
+                Save(node1.UnderlyingSample(), fileName1 + "_" + nameof(node1.UnderlyingSample));
                 reloadedSampleNodeChan0New = node0;
                 reloadedSampleNodeChan1New = node1;
             }
@@ -309,7 +309,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogTitleStrong("Record Reloaded Sample Old"); Buff reloadedSampleBuffOld;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleBuffOld);
-                buff = this.SaveLegacy(() => reloadedSampleNodeOld, fileName);
+                buff = this.SaveLegacy(() => reloadedSampleNodeOld.SaveChannels(fileName + "_Channel" + GetChannel), fileName);
                 reloadedSampleBuffOld = buff;
             }
             
@@ -318,7 +318,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 fileName = testName + "_" + fileNum++ + "_" + nameof(reloadedSampleTapeNew);
                 node0 = reloadedSampleNodeChan0New;
                 node1 = reloadedSampleNodeChan1New;
-                Run(() => (GetChannel == 0 ? node0 : node1).Save(fileName).AfterRecord(x => tape = x));
+                Run(() => (GetChannel == 0 ? node0 : node1).AfterRecord(x => tape = x)
+                                                           .Save(fileName)
+                                                           .SaveChannels(fileName + "_Channel" + GetChannel));
                 reloadedSampleTapeNew = tape;
             }
             
@@ -619,7 +621,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     Log("Done");
                 }
 
-                //LogPrettyTitle("Assert Left Values New");
+                //LogTitleStrong("Assert Left Values New");
                 //{
                 //    AreEqual(expectedLeftValues[0], actualLeftValuesNew[0], valueTolerance);
                 //    AreEqual(expectedLeftValues[1], actualLeftValuesNew[1], valueTolerance);
@@ -630,10 +632,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 //    AreEqual(expectedLeftValues[6], actualLeftValuesNew[6], valueTolerance);
                 //    AreEqual(expectedLeftValues[7], actualLeftValuesNew[7], valueTolerance);
                 //    AreEqual(expectedLeftValues[8], actualLeftValuesNew[8], valueTolerance);
-                //    LogLine("Done");
+                //    Log("Done");
                 //}
-                
-                //LogPrettyTitle("Assert Values Right New");
+
+                //LogTitleStrong("Assert Values Right New");
                 //{
                 //    AreEqual(expectedRightValues[0], actualRightValuesNew[0], valueTolerance);
                 //    AreEqual(expectedRightValues[1], actualRightValuesNew[1], valueTolerance);
@@ -644,7 +646,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 //    AreEqual(expectedRightValues[6], actualRightValuesNew[6], valueTolerance);
                 //    AreEqual(expectedRightValues[7], actualRightValuesNew[7], valueTolerance);
                 //    AreEqual(expectedRightValues[8], actualRightValuesNew[8], valueTolerance);
-                //    LogLine("Done");
+                //    Log("Done");
                 //}
             }
         }
