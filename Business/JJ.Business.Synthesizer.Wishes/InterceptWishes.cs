@@ -121,9 +121,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            FlowNode signal, string filePath, 
+            FlowNode signal, string name, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => AfterRecordChannel(signal, null, filePath, callback, callerMemberName);
+            => AfterRecordChannel(signal, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
