@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
@@ -67,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private static Tape CloneStereoTape(Tape sourceTape)
         {
             Tape stereoTape = DeepClone(sourceTape);
-            
+
             stereoTape.ClearSignals();
             stereoTape.ClearBuff();
             stereoTape.ClearHierarchy();
@@ -75,6 +76,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             stereoTape.Config.Channel = default;
             stereoTape.NestingLevel = default;
             
+            // HACK: FilePathSuggested could be channel-specific.
+            // Replace with SaveAction's path if available.
+            if (Has(stereoTape.FilePathSuggested) && 
+                Has(stereoTape.Actions.Save.FilePathSuggested))
+            {
+                stereoTape.FilePathSuggested = stereoTape.Actions.Save.FilePathSuggested;
+            }
+
             return stereoTape;
         }
     }

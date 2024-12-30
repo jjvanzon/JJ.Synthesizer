@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             tape.Sample = Sample(tape);
         }
-        
+
         internal AudioFileOutput ConfigureAudioFileOutput(
             Tape tape, [CallerMemberName] string callerMemberName = null)
         {
@@ -78,9 +78,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutputRepository = CreateRepository<IAudioFileOutputRepository>(Context);
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = tape.Descriptor();
-            audioFileOutput.FilePath = 
-                ResolveFilePath(tape.Config.AudioFormat, tape.FilePathResolved, tape.FilePathSuggested, 
-                    ResolveName(tape.Outlet, tape.Outlets, tape.FallBackName, callerMemberName));
+            audioFileOutput.FilePath = tape.GetFilePath(callerMemberName: callerMemberName);
             audioFileOutput.Amplifier = tape.Config.Bits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
@@ -123,14 +121,14 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (tape.UnderlyingAudioFileOutput == null) throw new ArgumentNullException(nameof(tape.UnderlyingAudioFileOutput));
-
+            
             var audioFileOutput = tape.UnderlyingAudioFileOutput;
 
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
-            string resolvedFilePath = 
-                ResolveFilePath(audioFileOutput.GetAudioFileFormatEnum(), tape.GetFilePath(),
-                    ResolveName(audioFileOutput, callerMemberName));
+            
+            string resolvedFilePath = tape.GetFilePath(audioFileOutput.FilePath, callerMemberName);
+            
             bool inMemory = !(tape.Actions.DiskCache.On || tape.Actions.Save.On || tape.Actions.SaveChannels.On);
 
             audioFileOutput.Name = resolvedName;
@@ -171,8 +169,14 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!inMemory)
             {
                 // Mark Save Actions as Done to avoid duplicate saves.
-                if (tape.Actions.Save.On) tape.Actions.Save.Done = true;
-                if (tape.Actions.SaveChannels.On) tape.Actions.SaveChannels.Done = true;
+                if (tape.Config.Channel == null)
+                {
+                    if (tape.Actions.Save.On) tape.Actions.Save.Done = true;
+                }
+                else
+                {
+                    if (tape.Actions.SaveChannels.On) tape.Actions.SaveChannels.Done = true;
+                }
             }
             
             // Report
@@ -234,7 +238,7 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.Config.CourtesyFrames = courtesyFrames;
             dummyTape.FallBackName = ResolveName(name, dummyTape.FallBackName, filePath, callerMemberName);
             dummyTape.FilePathSuggested = ResolveFilePath(filePath, dummyTape.FilePathSuggested, ResolveName(name, callerMemberName));
-
+            
             InternalMakeBuff(dummyTape, callerMemberName);
             
             return dummyTape.Buff;

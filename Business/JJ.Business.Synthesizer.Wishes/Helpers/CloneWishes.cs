@@ -172,6 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.On = source.On;
             dest.Done = source.Done;
             dest.Callback = source.Callback;
+            dest.FilePathSuggested = source.FilePathSuggested;
         }
     }
     

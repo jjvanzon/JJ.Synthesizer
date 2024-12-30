@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.Save.On = true;
+            tape.Actions.Save.FilePathSuggested = filePath;
             LogAction(tape, "Update");
             return channel;
         }
@@ -51,6 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.SaveChannels.On = true;
+            tape.Actions.SaveChannels.FilePathSuggested = filePath;
             LogAction(tape, "Update");
             return channel;
         }
@@ -63,8 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (action == null) throw new NullException(() => action);
             LogAction(action);
-            string filePathResolved = action.Tape.GetFilePath(filePath);
-            InternalSave(action.Tape.Buff, filePathResolved, callerMemberName);
+            InternalSave(action.Tape.Buff, action.GetFilePath(filePath, callerMemberName), callerMemberName);
             return action;
         }
 
@@ -74,7 +75,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new NullException(() => tape);
             LogAction(tape, MemberName());
-            string filePathResolved = tape.GetFilePath(filePath);
+            string filePathResolved = tape.GetFilePath(filePath, callerMemberName);
             InternalSave(tape.Buff, filePathResolved, callerMemberName);
             return tape;
         }

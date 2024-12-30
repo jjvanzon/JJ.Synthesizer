@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             get { return Sample?.UnderlyingSample(); }
             set => Sample.UnderlyingSample(value);
         }
-
+        
         public void ClearBuff()
         {
             Bytes = default;
@@ -82,13 +82,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public string GetFilePath(string filePath = null, [CallerMemberName] string callerMemberName = null)
             => ResolveFilePath(
                 Config.FileExtension(), Config.AudioFormat(), 
-                filePath, FilePathResolved, FilePathSuggested, 
+                filePath, FilePathResolved, 
+                Actions.SaveChannels.FilePathSuggested, Actions.Save.FilePathSuggested, FilePathSuggested,
                 ResolveName(IDs, Outlets, FallBackName, callerMemberName));
 
         public string FallBackName { get; set; }
         public string FilePathSuggested { get; set; }
         #endregion
-        
+
         #region Signals
         internal Outlet Outlet 
         {
@@ -226,15 +227,30 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         /// <summary> Always filled in. </summary>
         public string Name { get; }
         public bool On { get; set; }
-        public bool Done { get; internal set; }
+        public bool Done { get; set; }
         /// <summary> Not always there </summary>
         internal Action<Tape> Callback { get; set; }
+
+        private string _filePathSuggested;
+
+        /// <summary>
+        /// You can assign it, but it only returns it when the action is On and not Done.
+        /// </summary>
+        public string FilePathSuggested
+        { 
+            get => On && !Done ? _filePathSuggested : default;
+            set => _filePathSuggested = value; 
+        }
+        
+        public string GetFilePath(string filePath, [CallerMemberName] string callerMemberName = null)
+            => Tape.GetFilePath(Has(filePath) ? filePath : FilePathSuggested, callerMemberName);
 
         public void Clear()
         {
             On = default;
             Done = default;
             Callback = default;
+            FilePathSuggested = default;
         }
     }
 
