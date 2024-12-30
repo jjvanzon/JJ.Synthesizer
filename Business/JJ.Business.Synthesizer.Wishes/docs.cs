@@ -688,6 +688,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         public static object _tapeaction;
 
+        /// <summary>
+        /// You can assign it, but it only returns it when the action is On and not Done.
+        /// </summary>
+        public static object _tapeactionfilepathsuggested;
+        
         /// <summary> 
         /// Returns the <c> Tape </c> 's <c> Signal.Name </c> , <c> FallBackName </c> 
         /// or else <c> FilePath </c> in prettified form.

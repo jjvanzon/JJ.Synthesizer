@@ -128,9 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
         
         internal void SetSignals(IList<FlowNode> signals)
-        {
-            Outlets = signals?.Select(x => x.UnderlyingOutlet).ToList();
-        }
+            => Outlets = signals?.Select(x => x.UnderlyingOutlet).ToList();
         
         internal void ClearSignals() => Outlets = default;
         #endregion
@@ -246,14 +244,23 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public ActionEnum Type { get; }
         public bool On { get; set; }
         public bool Done { get; set; }
+
+        ///// <summary>
+        ///// Checks if the action is On, not Done yet, <br/>
+        ///// and also whether it's a Channel action and actually a Channel tape, <br/>
+        ///// or the other way around: not a Channel tape, and a non-Channel action. <br/>
+        ///// (It's a little much, but flags are abundant, i.e. non-Channel flags on Channel tapes for later use.)
+        ///// </summary>
+        //public bool Active => On && !Done && 
+        //                      (IsChannel && IsForChannel || 
+        //                       !IsChannel && !IsForChannel);
+        
         /// <summary> Not always there </summary>
         internal Action<Tape> Callback { get; set; }
 
         private string _filePathSuggested;
 
-        /// <summary>
-        /// You can assign it, but it only returns it when the action is On and not Done.
-        /// </summary>
+        /// <inheritdoc cref="docs._tapeactionfilepathsuggested"/>
         public string FilePathSuggested
         { 
             get => On && !Done ? _filePathSuggested : default;

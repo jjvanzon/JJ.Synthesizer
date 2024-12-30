@@ -104,6 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         // Condition Checking
         
+        // ReSharper disable once UnusedParameter.Global
         protected virtual bool ExtraCondition(TapeAction action) => true;
         
         private bool CanIntercept(TapeAction action)
