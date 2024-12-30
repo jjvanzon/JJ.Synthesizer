@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
             
-            if (!ExtraCondition(action) || !action.On || action.Callback == null) return false;
+            if (!action.On || action.Callback == null || !ExtraCondition(action)) return false;
             
             if (action.Done)
             {
@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
                         
-            if (!ExtraCondition(action) || !action.On) return false;
+            if (!action.On || !ExtraCondition(action)) return false;
             
             if (action.Done)
             {
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
             
-            if (!ExtraCondition(action) || !action.On) return false;
+            if (!action.On || !ExtraCondition(action)) return false;
 
             if (action.Done)
             {
