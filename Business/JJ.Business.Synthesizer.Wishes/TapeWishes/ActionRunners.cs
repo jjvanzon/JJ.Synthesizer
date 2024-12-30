@@ -74,6 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
         public void CacheToDiskIfNeeded(TapeAction action)
         {
+            if (action == null) throw new ArgumentNullException(nameof(action));
             if (!action.Active) return;
             action.Done = true;
             action.Save(action.Tape.Descriptor());

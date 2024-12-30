@@ -130,7 +130,6 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.Name = resolvedName;
             
             // On Disk
-                          
             bool onDisk = tape.Actions.DiskCache.Active ||
                           tape.Actions.Save.Active ||
                           tape.Actions.SaveChannels.Active;

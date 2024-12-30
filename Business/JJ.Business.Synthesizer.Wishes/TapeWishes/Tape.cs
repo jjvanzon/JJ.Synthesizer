@@ -257,12 +257,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             {
                 if (!On) return false;
                 if (Done) return false;
-                if (IsIntercept && Callback == null) return false;
-                if (Tape.Config.IsStereo) return IsForChannel == IsChannel;
                 
-                return (IsChannel && IsForChannel) || // For Channel Tapes
-                       (Tape.Config.IsMono && !IsForChannel) || // For Mono
-                       (Tape.Config.IsStereo && !IsForChannel); // For Stereo.
+                if (IsIntercept && Callback == null) 
+                {
+                    throw new Exception("Intercept action is missing its callback.");
+                }
+                
+                if (Tape.Config.IsStereo) 
+                {
+                    return IsForChannel == IsChannel;
+                }
+                
+                return true;
             }
         }
         
@@ -274,7 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         /// <inheritdoc cref="docs._tapeactionfilepathsuggested"/>
         public string FilePathSuggested
         { 
-            get => On && !Done ? _filePathSuggested : default;
+            get => Active ? _filePathSuggested : default;
             set => _filePathSuggested = value; 
         }
         
