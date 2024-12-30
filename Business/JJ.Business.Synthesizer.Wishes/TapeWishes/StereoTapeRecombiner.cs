@@ -64,15 +64,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return new [] { tapePair.Left.Sample.SetName(name), tapePair.Right.Sample.SetName(name) };
         }
 
-        private IList<FlowNode> RecombineSignalsOld((Tape Left, Tape Right) tapePair) => _synthWishes.GetChannelSignals(
-        () =>
-        {
-            FlowNode signal = _synthWishes.Sample(tapePair.Left).Panning(0) +
-                              _synthWishes.Sample(tapePair.Right).Panning(1);
-
-            return signal.SetName(tapePair.Left);
-        });
-
         private static Tape CloneStereoTape(Tape sourceTape)
         {
             Tape stereoTape = DeepClone(sourceTape);

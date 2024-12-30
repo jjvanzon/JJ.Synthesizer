@@ -135,13 +135,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Inject an in-memory stream
                 bytes = new byte[audioFileOutput.FileLengthNeeded(tape.Config.CourtesyFrames)];
-                //if (audioFileOutput.Bits() == 8)
-                //{
-                //    for (int i = 0; i < bytes.Length; i++)
-                //    {
-                //        bytes[i] = 128;
-                //    }
-                //}
                 
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
