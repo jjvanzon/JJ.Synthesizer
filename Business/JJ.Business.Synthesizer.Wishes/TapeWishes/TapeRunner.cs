@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             tapes.Where(x => x.IsRoot).ForEach(x => Assert(x, "(Root)"));
 
-            LogLine(PlotTapeTree(tapes));
+            Log(PlotTapeTree(tapes));
         }
         
         private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);
@@ -167,11 +167,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             switch (timeOutAction)
             {
                 case Continue:
-                    LogLine(actionMessage);
+                    Log(actionMessage);
                     break;
                     
-                case Log:
-                    LogLine(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
+                case TimeOutActionEnum.Log:
+                    Log(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
                     break;
                 
                 case Stop:

@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             // Report
             string report = SynthLog(tape, calculationDuration);
-            LogLine(report);
+            Log(report);
         }
 
         // MakeBuff Legacy

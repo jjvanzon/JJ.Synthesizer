@@ -253,9 +253,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             FlowNode node0;
             FlowNode node1;
 
-            LogLine();
-            LogLine("Old method: Save(() => Sine(A4).Volume(0.5)).Play();");
-            LogLine("New method: Run(MySound); void MySound() => Sine(A4).Volume(0.5).Save().Play();");
+            Log();
+            Log("Old method: Save(() => Sine(A4).Volume(0.5)).Play();");
+            Log("New method: Run(MySound); void MySound() => Sine(A4).Volume(0.5).Save().Play();");
 
             LogTitleStrong("Options");
             {
@@ -348,7 +348,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     audioFormat, channels, bits, samplingRate,
                     filePath2Expectation, reloadDuration, testName);
 
-                LogLine("Done");
+                Log("Done");
             }
             
             LogTitleStrong("Assert Sample Properties");
@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     audioFormat, channels, bits, interpolation, samplingRate,
                     expectedDuration: signalDuration, testName);
 
-                LogLine("Done");
+                Log("Done");
             }
             
             // Mono
@@ -389,7 +389,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         Calculate(reloadedSampleNodeOld, time: 7.0 / 8.0 / freq.Value),
                         Calculate(reloadedSampleNodeOld, time: 8.0 / 8.0 / freq.Value)
                     };
-                    LogLine("Done");
+                    Log("Done");
                 }
                 
                 LogTitleStrong("Get Mono Values from Sample Reloaded New"); double[] actualValuesMonoNew;
@@ -407,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         Calculate(reloadedSampleNodeChan0New, time: 8.0 / 8.0 / freq.Value)
                     };
                     
-                    LogLine("Done");
+                    Log("Done");
                 }
                 
                 LogTitleStrong("Values"); double[] expectedValuesMono; double valueTolerance;
@@ -429,14 +429,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     valueTolerance = GetValueTolerance(aligned, interpolation, bits);
                     double valueToleranceRequiredOld = expectedValuesMono.Zip(actualValuesMonoOld, (x,y) => Abs(x - y)).Max();
                     double valueToleranceRequiredNew = expectedValuesMono.Zip(actualValuesMonoNew, (x,y) => Abs(x - y)).Max();
-                    LogLine($"{nameof(valueTolerance)}            = {valueTolerance}");
-                    LogLine($"{nameof(valueToleranceRequiredOld)} = {valueToleranceRequiredOld}");
-                    LogLine($"{nameof(valueToleranceRequiredNew)} = {valueToleranceRequiredNew}");
-                    LogLine();
-                    LogLine($"{nameof(expectedValuesMono)}  = {FormatValues(expectedValuesMono)}");
-                    LogLine($"{nameof(actualValuesMonoOld)} = {FormatValues(actualValuesMonoOld)}");
-                    LogLine($"{nameof(actualValuesMonoNew)} = {FormatValues(actualValuesMonoNew)}");
-                    LogLine();
+                    Log($"{nameof(valueTolerance)}            = {valueTolerance}");
+                    Log($"{nameof(valueToleranceRequiredOld)} = {valueToleranceRequiredOld}");
+                    Log($"{nameof(valueToleranceRequiredNew)} = {valueToleranceRequiredNew}");
+                    Log();
+                    Log($"{nameof(expectedValuesMono)}  = {FormatValues(expectedValuesMono)}");
+                    Log($"{nameof(actualValuesMonoOld)} = {FormatValues(actualValuesMonoOld)}");
+                    Log($"{nameof(actualValuesMonoNew)} = {FormatValues(actualValuesMonoNew)}");
+                    Log();
                 }
                 
                 LogTitleStrong("Assert Mono Values Old");
@@ -498,7 +498,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         reloadedSampleNodeOld.Calculate(time: 8.0 / 8.0 / freq.Value, channel: 1)
                     };
                     
-                    LogLine("Done");
+                    Log("Done");
                 }
                 
                 LogTitleStrong("Get Values from Reloaded Sample New"); double[] actualLeftValuesNew, actualRightValuesNew;
@@ -529,7 +529,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         reloadedSampleNodeChan1New.Calculate(time: 8.0 / 8.0 / freq.Value, channel: 1)
                     };
 
-                    LogLine("Done");
+                    Log("Done");
                 }
                 
                 LogTitleStrong("Value Info"); double[] expectedLeftValues, expectedRightValues; double valueTolerance;
@@ -570,25 +570,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     double valueToleranceRequiredNew = 
                         expectedLeftValues.Concat(expectedRightValues)
                                           .Zip(actualLeftValuesNew.Concat(actualRightValuesNew), (x,y) => Abs(x - y)).Max();
-                    LogLine();
-                    LogLine("Value tolerance:");
-                    LogLine();
-                    LogLine($"Used         = {valueTolerance}");
-                    LogLine($"Required old = {valueToleranceRequiredOld}");
-                    LogLine($"Required new = {valueToleranceRequiredNew}");
-                    LogLine();
-                    LogLine("Left:");
-                    LogLine();
-                    LogLine($"Expected   = {FormatValues(expectedLeftValues )}");
-                    LogLine($"Actual old = {FormatValues(actualLeftValuesOld)}");
-                    LogLine($"Actual new = {FormatValues(actualLeftValuesNew)}");
-                    LogLine();
-                    LogLine("Right:");
-                    LogLine();
-                    LogLine($"Expected   = {FormatValues(expectedRightValues )}");
-                    LogLine($"Actual old = {FormatValues(actualRightValuesOld)}");
-                    LogLine($"Actual new = {FormatValues(actualRightValuesNew)}");
-                    LogLine();
+                    Log();
+                    Log("Value tolerance:");
+                    Log();
+                    Log($"Used         = {valueTolerance}");
+                    Log($"Required old = {valueToleranceRequiredOld}");
+                    Log($"Required new = {valueToleranceRequiredNew}");
+                    Log();
+                    Log("Left:");
+                    Log();
+                    Log($"Expected   = {FormatValues(expectedLeftValues )}");
+                    Log($"Actual old = {FormatValues(actualLeftValuesOld)}");
+                    Log($"Actual new = {FormatValues(actualLeftValuesNew)}");
+                    Log();
+                    Log("Right:");
+                    Log();
+                    Log($"Expected   = {FormatValues(expectedRightValues )}");
+                    Log($"Actual old = {FormatValues(actualRightValuesOld)}");
+                    Log($"Actual new = {FormatValues(actualRightValuesNew)}");
+                    Log();
                 }
 
                 LogTitleStrong("Assert Left Values Old");
@@ -602,7 +602,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     AreEqual(expectedLeftValues[6], actualLeftValuesOld[6], valueTolerance);
                     AreEqual(expectedLeftValues[7], actualLeftValuesOld[7], valueTolerance);
                     AreEqual(expectedLeftValues[8], actualLeftValuesOld[8], valueTolerance);
-                    LogLine("Done");
+                    Log("Done");
                 }
                 
                 LogTitleStrong("Assert Values Right Old");
@@ -616,7 +616,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     AreEqual(expectedRightValues[6], actualRightValuesOld[6], valueTolerance);
                     AreEqual(expectedRightValues[7], actualRightValuesOld[7], valueTolerance);
                     AreEqual(expectedRightValues[8], actualRightValuesOld[8], valueTolerance);
-                    LogLine("Done");
+                    Log("Done");
                 }
 
                 //LogPrettyTitle("Assert Left Values New");

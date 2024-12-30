@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 // "Cannot bind to the target method because its signature or security transparency
                 // is not compatible with that of the delegate type."
                 // Honestly I don't know how to solve other than catch the exception.
-                LogLine(
+                Log(
                     $"{PrettyTime()} [RUN] Warning: " +
                     $"Could not start a new SynthWishes for {concreteType.Name}. " +
                     $"Reusing already running SynthWishes.");

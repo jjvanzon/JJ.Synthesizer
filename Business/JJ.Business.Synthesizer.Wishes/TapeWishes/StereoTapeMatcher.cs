@@ -101,9 +101,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 
                 throw new Exception(message);
                 
-                LogLine();
-                LogLine(message);
-                LogLine();
+                Log();
+                Log(message);
+                Log();
                 
                 foreach (Tape tape in _unprocessedTapes.ToArray())
                 {

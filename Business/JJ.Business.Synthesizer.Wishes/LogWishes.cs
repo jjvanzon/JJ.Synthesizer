@@ -336,23 +336,23 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static void LogConfig(SynthWishes synthWishes) 
         {
-            LogLine();
-            LogLine(ConfigLog(synthWishes));
-            LogLine();
+            Log();
+            Log(ConfigLog(synthWishes));
+            Log();
         }
         
         public static void LogConfig(SynthWishes synthWishes, string sep) 
         {
-            LogLine();
-            LogLine(ConfigLog(synthWishes, sep));
-            LogLine();
+            Log();
+            Log(ConfigLog(synthWishes, sep));
+            Log();
         }
         
         public static void LogConfig(string title, SynthWishes synthWishes, string sep = default) 
         {
-            LogLine();
-            LogLine(ConfigLog(title, synthWishes, sep));
-            LogLine();
+            Log();
+            Log(ConfigLog(title, synthWishes, sep));
+            Log();
         }
         
         public static string ConfigLog(SynthWishes synthWishes) => ConfigLog("Options", synthWishes, NewLine);
@@ -911,47 +911,47 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogAction(TapeAction action, string message = null)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
-            LogLine(ActionMessage("Action", action.Type, action.Tape.Descriptor(), message));
+            Log(ActionMessage("Action", action.Type, action.Tape.Descriptor(), message));
         }
         
         internal static void LogAction(Tape entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(nameof(Tape), action, entity.Descriptor(), message));
+            Log(ActionMessage(nameof(Tape), action, entity.Descriptor(), message));
         }
 
         internal static void LogAction(Buff entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(nameof(Buff), action, entity.Name, message));
+            Log(ActionMessage(nameof(Buff), action, entity.Name, message));
         }
 
         internal static void LogAction(Sample entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(nameof(Sample), action, entity.Name, message ?? ConfigLog(entity)));
+            Log(ActionMessage(nameof(Sample), action, entity.Name, message ?? ConfigLog(entity)));
         }
 
         internal static void LogAction(AudioFileOutput entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage("Audio File Out", action, entity.Name, message ?? ConfigLog(entity)));
+            Log(ActionMessage("Audio File Out", action, entity.Name, message ?? ConfigLog(entity)));
         }
         
         internal static void LogAction(FlowNode entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogLine(ActionMessage(nameof(Operator), action, entity.Name, message));
+            Log(ActionMessage(nameof(Operator), action, entity.Name, message));
         }
 
         internal static void LogAction(string typeName, string message) 
-            => LogLine(ActionMessage(typeName, null, null, message));
+            => Log(ActionMessage(typeName, null, null, message));
         
         internal static void LogAction(string typeName, string action, string message) 
-            => LogLine(ActionMessage(typeName, action, null, message));
+            => Log(ActionMessage(typeName, action, null, message));
         
         internal static void LogAction(string typeName, string action, string objectName, string message) 
-            => LogLine(ActionMessage(typeName, action, objectName, message));
+            => Log(ActionMessage(typeName, action, objectName, message));
 
         public static string ActionMessage(string typeName, ActionEnum action, string objectName, string message)
             => ActionMessage(typeName, action.ToString(), objectName, message);
@@ -995,7 +995,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private static readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
 
-        public static void LogLine(string message = default)
+        public static void Log(string message = default)
         {
             lock (_logLock)
             {
@@ -1027,23 +1027,23 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             string upperCase = (title ?? "").ToUpper();
             
-            LogLine();
-            LogLine(PrettyTitle(upperCase, underlineChar: '='));
-            LogLine();
+            Log();
+            Log(PrettyTitle(upperCase, underlineChar: '='));
+            Log();
         }
 
         public static void LogTitle(string title)
         {
-            LogLine();
-            LogLine(PrettyTitle(title));
-            LogLine();
+            Log();
+            Log(PrettyTitle(title));
+            Log();
         }
         
         internal static void LogOutputFile(string filePath, string sourceFilePath = null)
         {
             if (Exists(filePath))
             {
-                LogLine(FormatOutputFile(filePath, sourceFilePath));
+                Log(FormatOutputFile(filePath, sourceFilePath));
             }
         }
 
@@ -1097,40 +1097,40 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
             [CallerMemberName] string opName = null)
-            => LogLine(Pad("Compute const") + $" : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
+            => Log(Pad("Compute const") + $" : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
         
         internal static void LogIdentityOperation(
             FlowNode a, string mathSymbol, FlowNode identityValue,
             [CallerMemberName] string opName = null)
-            => LogLine(Pad("Identity op") + $" : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
+            => Log(Pad("Identity op") + $" : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
         
         internal static void LogIdentityOperation(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
-            => LogLine(Pad($"Identity op ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
+            => Log(Pad($"Identity op ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
         internal static void LogAlwaysOneOptimization(
             FlowNode a, string mathSymbol, FlowNode b,
             [CallerMemberName] string opName = null)
-            => LogLine(Pad("Always 1") + $" : {Stringify(opName, a, mathSymbol, b)} => 1");
+            => Log(Pad("Always 1") + $" : {Stringify(opName, a, mathSymbol, b)} => 1");
         
         internal static void LogAlwaysOneOptimization(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
-            => LogLine(Pad($"Always 1 ({dimension})") + " : " +
+            => Log(Pad($"Always 1 ({dimension})") + " : " +
                        $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
                        $"{Stringify(opName, signal, dimension, "=", 1)}");
         
         internal static void LogInvariance(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
-            => LogLine(Pad($"Invariance ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
+            => Log(Pad($"Invariance ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
         internal static void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result)
-            => LogLine(Pad("Div => mul") + $" : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
+            => Log(Pad("Div => mul") + $" : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
         
         internal static void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter)
-            => LogLine(Pad("Distribute * over +") + $" : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
+            => Log(Pad("Distribute * over +") + $" : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
         
         internal static void LogAdditionOptimizations(
             IList<FlowNode> terms, IList<FlowNode> flattenedTerms, IList<FlowNode> optimizedTerms,
@@ -1141,31 +1141,31 @@ namespace JJ.Business.Synthesizer.Wishes
             bool wasFlattened = terms.Count != flattenedTerms.Count;
             if (wasFlattened)
             {
-                LogLine(Pad($"Flatten {symbol}") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
+                Log(Pad($"Flatten {symbol}") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
             }
             
             bool hasConst0 = consts.Count >= 1 && constant == 0;
             if (hasConst0)
             {
-                LogLine(Pad("Eliminate 0") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
+                Log(Pad("Eliminate 0") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
             
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                LogLine(Pad("Compute const") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
+                Log(Pad("Compute const") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
             
             bool noTermsLeft = terms.Count != 0 && optimizedTerms.Count == 0;
             if (noTermsLeft)
             {
-                LogLine(Pad("0 terms remain") + $" : {Stringify(opName, symbol, terms)} => 0");
+                Log(Pad("0 terms remain") + $" : {Stringify(opName, symbol, terms)} => 0");
             }
             
             bool oneTermLeft = optimizedTerms.Count == 1;
             if (oneTermLeft)
             {
-                LogLine(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
+                Log(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
             }
         }
         
@@ -1178,25 +1178,25 @@ namespace JJ.Business.Synthesizer.Wishes
             bool hasConst1 = consts.Count >= 1 && constant == 1;
             if (hasConst1)
             {
-                LogLine(Pad("Eliminate 1") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
+                Log(Pad("Eliminate 1") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
             
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                LogLine(Pad("Compute const") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
+                Log(Pad("Compute const") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
             
             bool noFactorsLeft = factors.Count != 0 && optimizedFactors.Count == 0;
             if (noFactorsLeft)
             {
-                LogLine(Pad("0 factors remain") + $" : {Stringify(opName, symbol, factors)} => 1");
+                Log(Pad("0 factors remain") + $" : {Stringify(opName, symbol, factors)} => 1");
             }
             
             bool oneFactorLeft = optimizedFactors.Count == 1;
             if (oneFactorLeft)
             {
-                LogLine(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
+                Log(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
             }
         }
         
