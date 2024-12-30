@@ -52,9 +52,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             internal set => Buff.UnderlyingAudioFileOutput = value; 
         }
         
-        public FlowNode Sample { get; internal set; }
+        public FlowNode Sample { get; set; }
         
-        public Sample UnderlyingSample => Sample?.UnderlyingSample();
+        public Sample UnderlyingSample
+        {
+            get { return Sample?.UnderlyingSample(); }
+            set => Sample.UnderlyingSample(value);
+        }
 
         public void ClearBuff()
         {
@@ -81,8 +85,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 filePath, FilePathResolved, FilePathSuggested, 
                 ResolveName(IDs, Outlets, FallBackName, callerMemberName));
 
-        public string FallBackName { get; internal set; }
-        public string FilePathSuggested { get; internal set; }
+        public string FallBackName { get; set; }
+        public string FilePathSuggested { get; set; }
         #endregion
         
         #region Signals
@@ -131,11 +135,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #endregion
 
         #region Durations
-        public double Duration { get; internal set; }
+        public double Duration { get; set; }
         /// <inheritdoc cref="docs._padding"/>
-        public double LeadingSilence { get; internal set; }
+        public double LeadingSilence { get; set; }
         /// <inheritdoc cref="docs._padding"/>
-        public double TrailingSilence { get; internal set; }
+        public double TrailingSilence { get; set; }
         #endregion
         
         #region Config
