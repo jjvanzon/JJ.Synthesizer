@@ -54,40 +54,19 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     internal class ChannelActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action)
-        {
-            bool active = action.Tape.Config.Channel != null && action.IsForChannel;
-            if (active && active != action.Active)
-            {
-                throw new Exception("action.Active did not return true when expected.");
-            }
-            return active;
-        }
+            => action.IsChannel && action.IsForChannel;
     }
     
     internal class MonoActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action)
-        {
-            bool active = action.Tape.Config.IsMono && !action.IsForChannel;
-            if (active && active != action.Active)
-            {
-                throw new Exception("action.Active did not return true when expected.");
-            }
-            return active;
-        }
+            => action.Tape.Config.IsMono && !action.IsForChannel;
     }
     
     internal class StereoActionRunner : ActionRunnerBase
     {
         protected override bool ExtraCondition(TapeAction action)
-        {
-            bool active = action.Tape.Config.IsStereo && !action.IsForChannel;
-            if (active && active != action.Active)
-            {
-                throw new Exception("action.Active did not return true when expected.");
-            }
-            return active;
-        }
+            => action.Tape.Config.IsStereo && !action.IsForChannel;
     }
     
     internal abstract class ActionRunnerBase
@@ -135,16 +114,19 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
             
-            if (!action.On || action.Callback == null) return false;
-            
             if (action.Done)
             {
                 LogAction(action, "Already Intercepted");
                 return false;
             }
             
-            if (!ExtraCondition(action)) return false;
+            if (!action.Active) return false;
             
+            if (!ExtraCondition(action))
+            {
+                return false;
+            }
+
             LogAction(action);
             
             return action.Done = true;
@@ -154,16 +136,19 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
                         
-            if (!action.On) return false;
-            
             if (action.Done)
             {
                 LogAction(action, "Already Saved");
                 LogOutputFile(action.Tape.FilePathResolved);
                 return false;
             }
+            
+            if (!action.Active) return false;
 
-            if (!ExtraCondition(action)) return false;
+            if (!ExtraCondition(action))
+            {
+                return false;
+            }
 
             return action.Done = true;
         }
@@ -172,16 +157,19 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
             
-            if (!action.On) return false;
-            
             if (action.Done)
             {
                 LogAction(action, "Already Played");
                 return false;
             }
             
-            if (!ExtraCondition(action)) return false;
+            if (!action.Active) return false;
             
+            if (!ExtraCondition(action))
+            {
+                return false;
+            }
+
             return action.Done = true;
         }
         

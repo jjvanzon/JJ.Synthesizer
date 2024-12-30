@@ -258,6 +258,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 if (!On) return false;
                 if (Done) return false;
                 if (IsIntercept && Callback == null) return false;
+                //if (Tape.Config.IsStereo && IsForChannel && !IsChannel) return false;
                 if (IsForChannel && Tape.Config.IsStereo && !Tape.Config.IsChannel()) return false;
                 return true;
             }
@@ -285,6 +286,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Callback = default;
             FilePathSuggested = default;
         }
+        
+        public bool IsChannel => Tape.Config.IsChannel();
         
         public bool IsForChannel 
             => Type == ActionEnum.PlayChannels || 

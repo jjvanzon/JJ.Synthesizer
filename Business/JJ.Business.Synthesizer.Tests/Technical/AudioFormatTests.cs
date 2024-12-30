@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 buff = SaveLegacy(this, () => Signal(freq, testName).SaveChannels(fileName + "_Channel" + GetChannel), fileName);
                 signalBuffOld = buff;
             }
-            
+
             LogTitleStrong("Materialize Signal New"); Tape signalTapeNew;
             {
                 fileName = testName + "_" + fileNum++ + "_" + nameof(signalTapeNew);
@@ -283,6 +283,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                                 .SaveChannels(fileName + "_Channel" + GetChannel));
                 signalTapeNew = tape;
             }
+            
+            //return;
             
             WithAudioLength(reloadDuration);
 
@@ -327,7 +329,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             LogTitleStrong("Assert AudioFileOut Properties");
             {
                 string filePath1Expectation = GetFullPath(testName + audioFormat.FileExtension());
-            
+
                 AssertAudioFileOutProperties(
                     signalBuffOld.UnderlyingAudioFileOutput,
                     audioFormat, channels, bits, samplingRate,
