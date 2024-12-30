@@ -210,7 +210,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsRight  => IsChannel(1) && IsStereo;
         public bool IsCenter => IsChannel(0) && IsMono;
     }
-
         
     public enum ActionEnum
     {
@@ -258,8 +257,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 if (!On) return false;
                 if (Done) return false;
                 if (IsIntercept && Callback == null) return false;
-                //if (Tape.Config.IsStereo && IsForChannel && !IsChannel) return false;
-                if (IsForChannel && Tape.Config.IsStereo && !Tape.Config.IsChannel()) return false;
+                if (Tape.Config.IsStereo)
+                {
+                    return IsForChannel == Tape.IsChannel;
+                }
                 return true;
             }
         }

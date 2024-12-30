@@ -53,124 +53,106 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class ChannelActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action)
-            => action.IsChannel && action.IsForChannel;
+        //protected override bool ExtraCondition(TapeAction action)
+        //    => (action.IsChannel && action.IsForChannel);
     }
     
     internal class MonoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action)
-            => action.Tape.Config.IsMono && !action.IsForChannel;
+        //protected override bool ExtraCondition(TapeAction action)
+        //    => (action.Tape.Config.IsMono && !action.IsForChannel);
     }
     
     internal class StereoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action)
-            => action.Tape.Config.IsStereo && !action.IsForChannel;
+        //protected override bool ExtraCondition(TapeAction action)
+        //    => (action.Tape.Config.IsStereo && !action.IsForChannel);
     }
     
     internal abstract class ActionRunnerBase
     {
+        // ReSharper disable once UnusedParameter.Global
+        protected virtual bool ExtraCondition(TapeAction action)
+        {
+            return (action.IsChannel && action.IsForChannel) ||
+                   (action.Tape.Config.IsMono && !action.IsForChannel) ||
+                   (action.Tape.Config.IsStereo && !action.IsForChannel);
+        }
+        
         // Actions Per Item
 
         public void InterceptIfNeeded(TapeAction action)
         {
-            if (CanIntercept(action))
+            if (action == null) throw new NullException(() => action);
+
+            if (!action.Active) return;
+            if (!ExtraCondition(action)) return;
+                        
+            if (action.Done)
             {
+                LogAction(action, "Already Intercepted");
+            }
+            else
+            {
+                action.Done = true;
                 action.Callback(action.Tape);
+                LogAction(action);
             }
         }
        
         public void SaveIfNeeded(TapeAction action)
         {
-            if (CanSave(action))
+            if (action == null) throw new NullException(() => action);
+            
+            if (!action.Active) return;
+            if (!ExtraCondition(action)) return;
+
+            if (action.Done)
             {
+                LogAction(action, "Already Saved");
+                LogOutputFile(action.Tape.FilePathResolved);
+            }
+            else
+            {
+                action.Done = true;
                 action.Save();
             }
         }
 
         public void PlayIfNeeded(TapeAction action)
         {
-            if (CanPlay(action))
+            if (action == null) throw new NullException(() => action);
+            
+            if (!action.Active) return;
+            
+            if (!ExtraCondition(action)) return;
+            
+            if (action.Done)
             {
+                LogAction(action, "Already Played");
+            }
+            else
+            {
+                action.Done = true;
                 action.Play();
             }
         }
             
         public void CacheToDiskIfNeeded(TapeAction action)
         {
-            if (CanSave(action))
-            {
-                action.Save(action.Tape.Descriptor());
-            }
-        }
-        
-        // Condition Checking
-        
-        // ReSharper disable once UnusedParameter.Global
-        protected virtual bool ExtraCondition(TapeAction action) => true;
-        
-        private bool CanIntercept(TapeAction action)
-        {
-            if (action == null) throw new NullException(() => action);
-            
-            if (action.Done)
-            {
-                LogAction(action, "Already Intercepted");
-                return false;
-            }
-            
-            if (!action.Active) return false;
-            
-            if (!ExtraCondition(action))
-            {
-                return false;
-            }
+            if (!action.Active) return;
+            if (!ExtraCondition(action)) return;
 
-            LogAction(action);
-            
-            return action.Done = true;
-        }
-        
-        private bool CanSave(TapeAction action)
-        {
-            if (action == null) throw new NullException(() => action);
-                        
             if (action.Done)
             {
                 LogAction(action, "Already Saved");
                 LogOutputFile(action.Tape.FilePathResolved);
-                return false;
             }
-            
-            if (!action.Active) return false;
-
-            if (!ExtraCondition(action))
+            else
             {
-                return false;
+                action.Done = true;
+                action.Save(action.Tape.Descriptor());
             }
-
-            return action.Done = true;
-        }
-        
-        private bool CanPlay(TapeAction action)
-        {
-            if (action == null) throw new NullException(() => action);
-            
-            if (action.Done)
-            {
-                LogAction(action, "Already Played");
-                return false;
-            }
-            
-            if (!action.Active) return false;
-            
-            if (!ExtraCondition(action))
-            {
-                return false;
-            }
-
-            return action.Done = true;
         }
         
         // Run Lists per Action Type

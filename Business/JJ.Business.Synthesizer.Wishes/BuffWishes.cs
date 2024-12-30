@@ -130,21 +130,17 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.Name = resolvedName;
             
             // On Disk
-            bool onDisk = tape.Actions.DiskCache.On ||
-                          (tape.Actions.Save.On         && !tape.IsChannel) ||
-                          (tape.Actions.SaveChannels.On &&  tape.IsChannel);
                           
+            bool onDisk = tape.Actions.DiskCache.Active ||
+                          tape.Actions.Save.Active ||
+                          tape.Actions.SaveChannels.Active;
+
             if (onDisk)
             {
                 // Mark Save Actions as Done to avoid duplicate saves.
-                if (tape.Actions.SaveChannels.On && tape.IsChannel)
-                {
-                    tape.Actions.SaveChannels.Done = true;
-                }
-                else if (tape.Actions.Save.On && !tape.IsChannel)
-                {
-                    tape.Actions.Save.Done = true;
-                }
+                if (tape.Actions.DiskCache.Active) tape.Actions.DiskCache.Done = true;
+                if (tape.Actions.SaveChannels.Active) tape.Actions.SaveChannels.Done = true;
+                if (tape.Actions.Save.Active) tape.Actions.Save.Done = true;
             }
 
             bool inMemory = !onDisk;
