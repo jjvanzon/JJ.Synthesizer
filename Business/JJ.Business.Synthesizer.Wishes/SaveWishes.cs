@@ -17,40 +17,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class SynthWishes
     {
-        // SynthWishes Instance Save (Mid-Chain)
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Save(
-            FlowNode signal, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => Save(signal, null, filePath, callerMemberName);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode Save(
-            FlowNode signal, FlowNode duration, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            _tapes.Upsert(ActionEnum.Save, signal, duration, null, filePath, null, callerMemberName);
-            return signal;
-        }
-        
-        // SynthWishes Instance SaveChannels (Mid-Chain)
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode SaveChannels(
-            FlowNode signal, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveChannels(signal, null, filePath, callerMemberName);
-        
-        /// <inheritdoc cref="docs._makebuff" />
-        public FlowNode SaveChannels(
-            FlowNode signal, FlowNode duration, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null)
-        {
-            _tapes.Upsert(ActionEnum.SaveChannels, signal, duration, null, filePath, null, callerMemberName);
-            return signal;
-        }
-
         // SynthWishes Statics (Buff-to-Buff) (End-of-Chain)
         
         public static TapeAction Save(
@@ -183,6 +149,40 @@ namespace JJ.Business.Synthesizer.Wishes
             LogOutputFile(numberedDestFilePath, sourceFilePath);
             
             return numberedDestFilePath;
+        }
+        
+        // SynthWishes Instance Save (Mid-Chain)
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Save(
+            FlowNode signal, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => Save(signal, null, filePath, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode Save(
+            FlowNode signal, FlowNode duration, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            _tapes.Upsert(ActionEnum.Save, signal, duration, null, filePath, null, callerMemberName);
+            return signal;
+        }
+        
+        // SynthWishes Instance SaveChannels (Mid-Chain)
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode SaveChannels(
+            FlowNode signal, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+            => SaveChannels(signal, null, filePath, callerMemberName);
+        
+        /// <inheritdoc cref="docs._makebuff" />
+        public FlowNode SaveChannels(
+            FlowNode signal, FlowNode duration, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null)
+        {
+            _tapes.Upsert(ActionEnum.SaveChannels, signal, duration, null, filePath, null, callerMemberName);
+            return signal;
         }
     }
     
