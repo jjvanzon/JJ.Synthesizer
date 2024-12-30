@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode signal, FlowNode duration,
             Action<Tape> beforeRecordCallback, Action<Tape> afterRecordCallback,
             Action<Tape> beforeRecordChannelCallback, Action<Tape> afterRecordChannelCallback,
-            string name, string filePathSuggested, [CallerMemberName] string callerMemberName = null)
+            string name, string filePath, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             CloneTape(_synthWishes, tape);
             
-            if (Has(filePathSuggested)) tape.FilePathSuggested = filePathSuggested;
+            if (Has(filePath)) tape.FilePathSuggested = filePath;
             if (Has(name)) tape.FallbackName = name;
             tape.FallbackName = ResolveName(tape.FallbackName, callerMemberName);
 
