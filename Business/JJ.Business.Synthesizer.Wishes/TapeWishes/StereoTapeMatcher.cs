@@ -99,6 +99,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     "Unmatched tapes will be treated as single Mono tapes." + NewLine +
                     "To avoid duplicates, consider passing names to the Play, Save, Tape or Intercept methods.";
                 
+                throw new Exception(message);
+                
                 LogLine();
                 LogLine(message);
                 LogLine();
