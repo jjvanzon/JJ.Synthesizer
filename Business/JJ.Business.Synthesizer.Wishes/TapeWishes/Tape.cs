@@ -144,6 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #region Config
         public TapeConfig Config { get; } = new TapeConfig();
         
+        public bool IsChannel => Config.IsChannel();
         /// <summary> Shorthand for Config.Channel.Value </summary>
         public int i => Config.Channel.Value;
 
@@ -194,16 +195,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public int Bits { get; set; }
         public int? Channels { get; set; }
         public int? Channel { get; set; }
-        public bool IsMono => Channels == 1;
-        public bool IsStereo => Channels == 2;
-        public bool IsLeft => Channel != null && Channel == 0;
-        public bool IsRight => Channel != null && Channel == 1;
-        public bool IsCenter => Channel == null;
-        
         public AudioFileFormatEnum AudioFormat { get; set; }
         /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
         public InterpolationTypeEnum Interpolation { get; set; }
         public int CourtesyFrames { get; set; }
+
+        // Helpers
+        
+        public bool IsMono => Channels == 1;
+        public bool IsStereo => Channels == 2;
+        public bool IsChannel() => Channel != null;
+        public bool IsChannel(int? channel) => Channel != null && Channel == channel;
+        public bool IsLeft   => IsChannel(0) && IsStereo;
+        public bool IsRight  => IsChannel(1) && IsStereo;
+        public bool IsCenter => IsChannel(0) && IsMono;
     }
 
         
@@ -283,6 +288,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                Type == ActionEnum.SaveChannels || 
                Type == ActionEnum.BeforeRecordChannel || 
                Type == ActionEnum.AfterRecordChannel;
+        public bool IsChannel => Tape.Config.IsChannel();
     }
 
     /// <inheritdoc cref="docs._tapeaction" />
