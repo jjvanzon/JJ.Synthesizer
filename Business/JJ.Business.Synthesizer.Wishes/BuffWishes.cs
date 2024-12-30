@@ -58,8 +58,13 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
 
-            AudioFileOutput audioFileOutput = ConfigureAudioFileOutput(tape);
-            MakeBuff(tape, audioFileOutput, callerMemberName);
+            if (tape.UnderlyingAudioFileOutput == null)
+            {
+                tape.UnderlyingAudioFileOutput = ConfigureAudioFileOutput(tape);
+            }
+            
+            InternalMakeBuff(tape, callerMemberName);
+            
             tape.Sample = Sample(tape);
         }
         
@@ -113,10 +118,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._makebuff" />
-        internal static void MakeBuff(
-            Tape tape, AudioFileOutput audioFileOutput, [CallerMemberName] string callerMemberName = null)
+        internal static void InternalMakeBuff(
+            Tape tape, [CallerMemberName] string callerMemberName = null)
         {
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape.UnderlyingAudioFileOutput == null) throw new ArgumentNullException(nameof(tape.UnderlyingAudioFileOutput));
+
+            var audioFileOutput = tape.UnderlyingAudioFileOutput;
 
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
@@ -227,7 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.FallBackName = ResolveName(name, dummyTape.FallBackName, filePath, callerMemberName);
             dummyTape.FilePathSuggested = ResolveFilePath(filePath, dummyTape.FilePathSuggested, ResolveName(name, callerMemberName));
 
-            MakeBuff(dummyTape, audioFileOutput, callerMemberName);
+            InternalMakeBuff(dummyTape, callerMemberName);
             
             return dummyTape.Buff;
         }
