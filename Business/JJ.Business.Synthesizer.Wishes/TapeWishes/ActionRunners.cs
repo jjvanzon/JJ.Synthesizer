@@ -46,11 +46,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class ActionRunner
     {
+        // ReSharper disable once UnusedParameter.Global
         protected bool ExtraCondition(TapeAction action)
         {
-            return (action.IsChannel && action.IsForChannel) ||
-                   (action.Tape.Config.IsMono && !action.IsForChannel) ||
-                   (action.Tape.Config.IsStereo && !action.IsForChannel);
+            return true;
+
         }
         
         // Actions Per Item
