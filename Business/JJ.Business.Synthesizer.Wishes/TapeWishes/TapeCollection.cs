@@ -9,6 +9,7 @@ using static System.Math;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -25,10 +26,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public int Count => _tapes.Count;
 
         public Tape GetOrNew(
-            FlowNode signal, FlowNode duration, 
-            Action<Tape> beforeRecordCallback, Action<Tape> afterRecordCallback, 
+            FlowNode signal, FlowNode duration,
+            Action<Tape> beforeRecordCallback, Action<Tape> afterRecordCallback,
             Action<Tape> beforeRecordChannelCallback, Action<Tape> afterRecordChannelCallback,
-            string filePathSuggested, [CallerMemberName] string callerMemberName = null)
+            string name, string filePathSuggested, [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -43,7 +44,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneTape(_synthWishes, tape);
             
             if (Has(filePathSuggested)) tape.FilePathSuggested = filePathSuggested;
-            if (Has(callerMemberName)) tape.FallbackName = callerMemberName;
+            if (Has(name)) tape.FallbackName = name;
+            tape.FallbackName = ResolveName(tape.FallbackName, callerMemberName);
 
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);

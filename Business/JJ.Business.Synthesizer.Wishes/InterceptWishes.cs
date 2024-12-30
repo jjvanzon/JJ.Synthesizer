@@ -28,16 +28,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecord(
-            FlowNode signal, string filePath,
+            FlowNode signal, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => BeforeRecord(signal, null, filePath, callback, callerMemberName);
+            => BeforeRecord(signal, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecord(
-            FlowNode signal, FlowNode duration, string filePath,
+            FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, callback, null, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, callback, null, null, null, name, null, callerMemberName);
             tape.Actions.BeforeRecord.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -59,16 +59,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecord(
-            FlowNode signal, string filePath,
+            FlowNode signal, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => AfterRecord(signal, null, filePath, callback, callerMemberName);
+            => AfterRecord(signal, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecord(
-            FlowNode signal, FlowNode duration, string filePath,
+            FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, callback, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, callback, null, null, name, null, callerMemberName);
             tape.Actions.AfterRecord.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -90,16 +90,16 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            FlowNode signal, string filePath, 
+            FlowNode signal, string name, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => BeforeRecordChannel(signal, null, filePath, callback, callerMemberName);
+            => BeforeRecordChannel(signal, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            FlowNode signal, FlowNode duration, string filePath,
+            FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, null, callback, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, callback, null, name, null, callerMemberName);
             tape.Actions.BeforeRecordChannel.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -127,10 +127,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            FlowNode signal, FlowNode duration, string filePath,
+            FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, callback, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, callback, name, null, callerMemberName);
             tape.Actions.AfterRecordChannel.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -154,15 +154,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecord(
-            string filePath,
+            string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.BeforeRecord(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.BeforeRecord(this, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecord(
-            FlowNode duration, string filePath,
+            FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.BeforeRecord(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.BeforeRecord(this, duration, name, callback, callerMemberName);
         
         // FlowNode AfterRecord (Mid-Chain)
         
@@ -179,15 +179,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecord(
-            string filePath,
+            string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.AfterRecord(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.AfterRecord(this, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecord(
-            FlowNode duration, string filePath,
+            FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.AfterRecord(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.AfterRecord(this, duration, name, callback, callerMemberName);
 
         // FlowNode BeforeRecordChannel (Mid-Chain)
        
@@ -204,15 +204,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            string filePath, 
+            string name, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.BeforeRecordChannel(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.BeforeRecordChannel(this, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            FlowNode duration, string filePath,
+            FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.BeforeRecordChannel(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.BeforeRecordChannel(this, duration, name, callback, callerMemberName);
     
         // FlowNode AfterRecordChannel (Mid-Chain)
        
@@ -229,14 +229,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            string filePath, 
+            string name, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.AfterRecordChannel(this, null, filePath, callback, callerMemberName);
+            => _synthWishes.AfterRecordChannel(this, null, name, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            FlowNode duration, string filePath,
+            FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.AfterRecordChannel(this, duration, filePath, callback, callerMemberName);
+            => _synthWishes.AfterRecordChannel(this, duration, name, callback, callerMemberName);
     }
 }
