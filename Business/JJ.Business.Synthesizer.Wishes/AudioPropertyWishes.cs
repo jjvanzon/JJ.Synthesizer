@@ -294,7 +294,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             return audioFileOutput.GetAudioFileFormatEnum();
         }
-        
+
+        public static AudioFileFormatEnum AudioFormat(this Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            return tape.Config.AudioFormat;
+        }
+
         public static AudioFileFormatEnum AudioFormat(this TapeConfig tapeConfig)
         {
             if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
