@@ -22,7 +22,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public IList<(Tape Left, Tape Right)> PairTapes(IList<Tape> tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
-            if (tapes.Count == 1) throw new Exception("Stereo tapes expected, but only 1 channel tape found.");
             
             _unprocessedTapes = tapes.ToHashSet();
             _matchedPairs = new List<(Tape, Tape)>();
