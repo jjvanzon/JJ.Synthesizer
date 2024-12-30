@@ -155,6 +155,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsPadded { get; internal set; }
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get; internal set; }
+                
+        public void ClearChannelActions() => Actions.ClearChannelActions();
+
         #endregion
 
         #region Hierarchy
@@ -278,5 +281,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public TapeAction PlayAllTapes { get; }
         /// <inheritdoc cref="docs._tapeaction" />
         public TapeAction DiskCache { get; }
+        
+        public void ClearChannelActions()
+        {
+            SaveChannels.Clear();
+            PlayChannels.Clear();
+            BeforeRecordChannel.Clear();
+            AfterRecordChannel.Clear();
+        }
     }
 }

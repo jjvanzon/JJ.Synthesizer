@@ -68,10 +68,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             Tape stereoTape = DeepClone(sourceTape);
             
+            stereoTape.ClearSignals();
             stereoTape.ClearBuff();
             stereoTape.ClearHierarchy();
-
-            stereoTape.Outlets = default;
+            stereoTape.ClearChannelActions();
             stereoTape.Config.Channel = default;
             stereoTape.NestingLevel = default;
             
