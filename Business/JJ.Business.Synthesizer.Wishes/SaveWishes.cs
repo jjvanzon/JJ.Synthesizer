@@ -21,40 +21,40 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
-            FlowNode channel, 
+            FlowNode signal, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => Save(channel, null, filePath, callerMemberName);
+            => Save(signal, null, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode Save(
-            FlowNode channel, FlowNode duration, 
+            FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.Save.On = true;
             tape.Actions.Save.FilePathSuggested = filePath;
             LogAction(tape, "Update");
-            return channel;
+            return signal;
         }
         
         // SynthWishes Instance SaveChannels (Mid-Chain)
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannels(
-            FlowNode channel, 
+            FlowNode signal, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => SaveChannels(channel, null, filePath, callerMemberName);
+            => SaveChannels(signal, null, filePath, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode SaveChannels(
-            FlowNode channel, FlowNode duration, 
+            FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.SaveChannels.On = true;
             tape.Actions.SaveChannels.FilePathSuggested = filePath;
             LogAction(tape, "Update");
-            return channel;
+            return signal;
         }
 
         // SynthWishes Statics (Buff-to-Buff) (End-of-Chain)

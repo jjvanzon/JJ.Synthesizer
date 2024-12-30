@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public int Count => _tapes.Count;
 
-        public Tape GetOrCreate(
+        public Tape GetOrNew(
             FlowNode signal, FlowNode duration, 
             Action<Tape> beforeRecordCallback, Action<Tape> afterRecordCallback, 
             Action<Tape> beforeRecordChannelCallback, Action<Tape> afterRecordChannelCallback,
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneTape(_synthWishes, tape);
             
             if (Has(filePathSuggested)) tape.FilePathSuggested = filePathSuggested;
-            if (Has(callerMemberName)) tape.FallBackName = callerMemberName;
+            if (Has(callerMemberName)) tape.FallbackName = callerMemberName;
 
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);

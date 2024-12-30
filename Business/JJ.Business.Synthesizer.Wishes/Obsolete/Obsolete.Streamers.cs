@@ -383,7 +383,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             dummyTape.SetSignals(channelSignals);
             dummyTape.Duration = (duration ?? synthWishes.GetAudioLength).Value;
-            dummyTape.FallBackName = name;
+            dummyTape.FallbackName = name;
             dummyTape.FilePathSuggested = filePath;
 
             LogAction(dummyTape, "Create", "AudioFileOutput Dummy");

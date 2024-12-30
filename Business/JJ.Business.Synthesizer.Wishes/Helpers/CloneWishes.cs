@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.Sample = source.Sample;
             
             // Name
-            dest.FallBackName = source.FallBackName;
+            dest.FallbackName = source.FallbackName;
             dest.FilePathSuggested = source.FilePathSuggested;
         
             // Signals
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         {
             dest.UnderlyingAudioFileOutput = source;
             
-            dest.FallBackName = source.Name;
+            dest.FallbackName = source.Name;
             dest.FilePathSuggested = source.FilePath;
             dest.Duration = source.Duration;
             dest.Config.SamplingRate = source.SamplingRate;

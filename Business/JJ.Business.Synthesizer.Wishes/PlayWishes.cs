@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(signal, duration, null, null, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.Play.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -41,19 +41,19 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannels(
-            FlowNode channelSignal, 
+            FlowNode signal, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
-            => PlayChannels(channelSignal, null, filePath, callerMemberName);
+            => PlayChannels(signal, null, filePath, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode PlayChannels(
-            FlowNode channelSignal, FlowNode duration, 
+            FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(channelSignal, duration, null, null, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, null, filePath, callerMemberName);
             tape.Actions.PlayChannels.On = true;
             LogAction(tape, "Update");
-            return channelSignal;
+            return signal;
         }
 
         // Internals (all on Buffs) (End-of-Chain)

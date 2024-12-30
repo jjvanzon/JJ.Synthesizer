@@ -77,16 +77,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         /// <inheritdoc cref="docs._tapename" />
         public string GetName(string name = null, [CallerMemberName] string callerMemberName = null)
-            => ResolveName(name, Outlets, FallBackName, FilePathSuggested, callerMemberName);
+            => ResolveName(name, Outlets, FallbackName, FilePathSuggested, callerMemberName);
         
         public string GetFilePath(string filePath = null, [CallerMemberName] string callerMemberName = null)
             => ResolveFilePath(
                 Config.FileExtension(), Config.AudioFormat(), 
                 filePath, FilePathResolved, 
                 Actions.SaveChannels.FilePathSuggested, Actions.Save.FilePathSuggested, FilePathSuggested,
-                ResolveName(IDs, Outlets, FallBackName, callerMemberName));
+                ResolveName(IDs, Outlets, FallbackName, callerMemberName));
 
-        public string FallBackName { get; set; }
+        public string FallbackName { get; set; }
         public string FilePathSuggested { get; set; }
         #endregion
 

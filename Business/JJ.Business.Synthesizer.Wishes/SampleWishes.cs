@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.Bytes = bytes;
             dummyTape.FilePathSuggested = filePath;
             dummyTape.FilePathResolved = filePath;
-            dummyTape.FallBackName = ResolveName(name, callerMemberName);
+            dummyTape.FallbackName = ResolveName(name, callerMemberName);
             
             dummyTape.Config.Channel = default; // ???
 

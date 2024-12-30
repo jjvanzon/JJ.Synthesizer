@@ -216,7 +216,7 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.SetSignals(channelSignals);
             dummyTape.Duration = (duration ?? GetAudioLength).Value;
             dummyTape.Actions.Save.On = !inMemory;
-            dummyTape.FallBackName = ResolveName(name, callerMemberName);
+            dummyTape.FallbackName = ResolveName(name, callerMemberName);
             dummyTape.FilePathSuggested = filePath;
 
             LogAction(dummyTape, "Create", "Buff Legacy");
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             dummyTape.Actions.DiskCache.On = !inMemory;
             dummyTape.Config.CourtesyFrames = courtesyFrames;
-            dummyTape.FallBackName = ResolveName(name, dummyTape.FallBackName, filePath, callerMemberName);
+            dummyTape.FallbackName = ResolveName(name, dummyTape.FallbackName, filePath, callerMemberName);
             dummyTape.FilePathSuggested = ResolveFilePath(filePath, dummyTape.FilePathSuggested, ResolveName(name, callerMemberName));
             
             InternalMakeBuff(dummyTape, callerMemberName);

@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string filePath,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(signal, duration, callback, null, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, callback, null, null, null, filePath, callerMemberName);
             tape.Actions.BeforeRecord.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string filePath,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(signal, duration, null, callback, null, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, callback, null, null, filePath, callerMemberName);
             tape.Actions.AfterRecord.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -78,62 +78,62 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            FlowNode channel,
+            FlowNode signal,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => BeforeRecordChannel(channel, null, null, callback, callerMemberName);
+            => BeforeRecordChannel(signal, null, null, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            FlowNode channel, FlowNode duration, 
+            FlowNode signal, FlowNode duration, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => BeforeRecordChannel(channel, duration, null, callback, callerMemberName);
+            => BeforeRecordChannel(signal, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            FlowNode channel, string filePath, 
+            FlowNode signal, string filePath, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => BeforeRecordChannel(channel, null, filePath, callback, callerMemberName);
+            => BeforeRecordChannel(signal, null, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode BeforeRecordChannel(
-            FlowNode channel, FlowNode duration, string filePath,
+            FlowNode signal, FlowNode duration, string filePath,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(channel, duration, null, null, callback, null, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, callback, null, filePath, callerMemberName);
             tape.Actions.BeforeRecordChannel.On = true;
             LogAction(tape, "Update");
-            return channel;
+            return signal;
         }
         
         // Instance AfterRecordChannel (Start-of-Chain)
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            FlowNode channel,
+            FlowNode signal,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => AfterRecordChannel(channel, null, null, callback, callerMemberName);
+            => AfterRecordChannel(signal, null, null, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            FlowNode channel, FlowNode duration, 
+            FlowNode signal, FlowNode duration, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => AfterRecordChannel(channel, duration, null, callback, callerMemberName);
+            => AfterRecordChannel(signal, duration, null, callback, callerMemberName);
         
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            FlowNode channel, string filePath, 
+            FlowNode signal, string filePath, 
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
-            => AfterRecordChannel(channel, null, filePath, callback, callerMemberName);
+            => AfterRecordChannel(signal, null, filePath, callback, callerMemberName);
 
         /// <inheritdoc cref="docs._makebuff" />
         public FlowNode AfterRecordChannel(
-            FlowNode channel, FlowNode duration, string filePath,
+            FlowNode signal, FlowNode duration, string filePath,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrCreate(channel, duration, null, null, null, callback, filePath, callerMemberName);
+            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, callback, filePath, callerMemberName);
             tape.Actions.AfterRecordChannel.On = true;
             LogAction(tape, "Update");
-            return channel;
+            return signal;
         }
     }
 
