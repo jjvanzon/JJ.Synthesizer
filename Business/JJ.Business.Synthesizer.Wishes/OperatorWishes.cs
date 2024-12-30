@@ -89,9 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
         public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
         {
-            /*Tape tape = */_tapes.GetOrNew(ActionEnum.Tape, signal, duration, callerMemberName);
-            //tape.IsTape = true;
-            //LogAction(tape, "Update");
+            _tapes.GetOrNew(ActionEnum.Tape, signal, duration, callerMemberName);
             return signal;
         }
         
