@@ -126,7 +126,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Process parameter
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
-            
             string resolvedFilePath = tape.GetFilePath(audioFileOutput.FilePath, callerMemberName);
             
             bool inMemory = !(tape.Actions.DiskCache.On || tape.Actions.Save.On || tape.Actions.SaveChannels.On);
@@ -169,13 +168,13 @@ namespace JJ.Business.Synthesizer.Wishes
             if (!inMemory)
             {
                 // Mark Save Actions as Done to avoid duplicate saves.
-                if (tape.Config.Channel == null)
+                if (tape.Actions.SaveChannels.On)
                 {
-                    if (tape.Actions.Save.On) tape.Actions.Save.Done = true;
+                    tape.Actions.SaveChannels.Done = true;
                 }
-                else
+                else if (tape.Actions.Save.On)
                 {
-                    if (tape.Actions.SaveChannels.On) tape.Actions.SaveChannels.Done = true;
+                    tape.Actions.Save.Done = true;
                 }
             }
             
