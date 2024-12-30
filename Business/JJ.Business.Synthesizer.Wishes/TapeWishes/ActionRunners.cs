@@ -53,17 +53,41 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class ChannelActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.Channel != null && action.IsForChannel;
+        protected override bool ExtraCondition(TapeAction action)
+        {
+            bool active = action.Tape.Config.Channel != null && action.IsForChannel;
+            if (active && active != action.Active)
+            {
+                throw new Exception("action.Active did not return true when expected.");
+            }
+            return active;
+        }
     }
     
     internal class MonoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.IsMono && !action.IsForChannel;
+        protected override bool ExtraCondition(TapeAction action)
+        {
+            bool active = action.Tape.Config.IsMono && !action.IsForChannel;
+            if (active && active != action.Active)
+            {
+                throw new Exception("action.Active did not return true when expected.");
+            }
+            return active;
+        }
     }
     
     internal class StereoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.IsStereo && !action.IsForChannel;
+        protected override bool ExtraCondition(TapeAction action)
+        {
+            bool active = action.Tape.Config.IsStereo && !action.IsForChannel;
+            if (active && active != action.Active)
+            {
+                throw new Exception("action.Active did not return true when expected.");
+            }
+            return active;
+        }
     }
     
     internal abstract class ActionRunnerBase
@@ -111,13 +135,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
             
-            if (!action.On || action.Callback == null || !ExtraCondition(action)) return false;
+            if (!action.On || action.Callback == null) return false;
             
             if (action.Done)
             {
                 LogAction(action, "Already Intercepted");
                 return false;
             }
+            
+            if (!ExtraCondition(action)) return false;
             
             LogAction(action);
             
@@ -128,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
                         
-            if (!action.On || !ExtraCondition(action)) return false;
+            if (!action.On) return false;
             
             if (action.Done)
             {
@@ -136,7 +162,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 LogOutputFile(action.Tape.FilePathResolved);
                 return false;
             }
-            
+
+            if (!ExtraCondition(action)) return false;
+
             return action.Done = true;
         }
         
@@ -144,13 +172,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             if (action == null) throw new NullException(() => action);
             
-            if (!action.On || !ExtraCondition(action)) return false;
-
+            if (!action.On) return false;
+            
             if (action.Done)
             {
                 LogAction(action, "Already Played");
                 return false;
             }
+            
+            if (!ExtraCondition(action)) return false;
             
             return action.Done = true;
         }

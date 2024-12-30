@@ -258,7 +258,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 if (!On) return false;
                 if (Done) return false;
                 if (IsIntercept && Callback == null) return false;
-                return IsChannel == IsForChannel;
+                if (IsForChannel && Tape.Config.IsStereo && !Tape.Config.IsChannel()) return false;
+                return true;
             }
         }
         
@@ -296,8 +297,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                Type == ActionEnum.AfterRecord ||
                Type == ActionEnum.BeforeRecordChannel ||
                Type == ActionEnum.AfterRecordChannel;
-
-        public bool IsChannel => Tape.Config.IsChannel();
     }
 
     /// <inheritdoc cref="docs._tapeaction" />
