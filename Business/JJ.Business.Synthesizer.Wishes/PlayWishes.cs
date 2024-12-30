@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, null, name, null, callerMemberName);
+            Tape tape = _tapes.GetOrNew(ActionEnum.Play, signal, duration, name, callerMemberName: callerMemberName);
             tape.Actions.Play.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string name = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, null, name, null, callerMemberName);
+            Tape tape = _tapes.GetOrNew(ActionEnum.PlayChannels, signal, duration, name, callerMemberName: callerMemberName);
             tape.Actions.PlayChannels.On = true;
             LogAction(tape, "Update");
             return signal;

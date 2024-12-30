@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, callback, null, null, null, name, null, callerMemberName);
+            Tape tape = _tapes.GetOrNew(ActionEnum.BeforeRecord, signal, duration, name, null, callback, callerMemberName);
             tape.Actions.BeforeRecord.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, callback, null, null, name, null, callerMemberName);
+            Tape tape = _tapes.GetOrNew(ActionEnum.AfterRecord, signal, duration, name, null, callback, callerMemberName);
             tape.Actions.AfterRecord.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, null, callback, null, name, null, callerMemberName);
+            Tape tape = _tapes.GetOrNew(ActionEnum.BeforeRecordChannel, signal, duration, null, name, callback, callerMemberName);
             tape.Actions.BeforeRecordChannel.On = true;
             LogAction(tape, "Update");
             return signal;
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, string name,
             Action<Tape> callback, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(signal, duration, null, null, null, callback, name, null, callerMemberName);
+            Tape tape = _tapes.GetOrNew(ActionEnum.AfterRecordChannel, signal, duration, name, null, callback, callerMemberName);
             tape.Actions.AfterRecordChannel.On = true;
             LogAction(tape, "Update");
             return signal;

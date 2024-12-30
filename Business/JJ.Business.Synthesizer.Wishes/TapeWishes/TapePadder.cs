@@ -3,6 +3,7 @@ using System.Linq;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+// ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -80,10 +81,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (originalTape.LeadingSilence == 0) return originalTape;
             
             // Apply delay
-            FlowNode newNode = _synthWishes.Delay(_synthWishes[originalTape.Outlet], originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
+            FlowNode newNode = _synthWishes.Delay(_[originalTape.Outlet], originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
             
             // Add tape
-            Tape paddedTape = _tapes.GetOrNew(newNode, _synthWishes[originalTape.Duration], null, null, null, null, null, originalTape.FilePathSuggested);
+            Tape paddedTape = _tapes.GetOrNew(ActionEnum.Pad, newNode, _[originalTape.Duration], null, originalTape.FilePathSuggested);
             
             // Copy data from original
             DeepClone(originalTape, paddedTape);

@@ -26,10 +26,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public int Count => _tapes.Count;
 
         public Tape GetOrNew(
-            FlowNode signal, FlowNode duration,
-            Action<Tape> beforeRecordCallback, Action<Tape> afterRecordCallback,
-            Action<Tape> beforeRecordChannelCallback, Action<Tape> afterRecordChannelCallback,
-            string name, string filePath, [CallerMemberName] string callerMemberName = null)
+            ActionEnum actionType, FlowNode signal, FlowNode duration,
+            string name,
+            string filePath = null,
+            Action<Tape> callback = default,
+            [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             
@@ -44,22 +45,21 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             CloneTape(_synthWishes, tape);
             
             if (Has(filePath)) tape.FilePathSuggested = filePath;
-            if (Has(name)) tape.FallbackName = name;
-            tape.FallbackName = ResolveName(tape.FallbackName, callerMemberName);
+            if (Has(callerMemberName)) tape.FallbackName = ResolveName(name, callerMemberName);
 
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
-
-            tape.Actions.BeforeRecord.Callback        = tape.Actions.BeforeRecord.Callback        ?? beforeRecordCallback;
-            tape.Actions.AfterRecord.Callback         = tape.Actions.AfterRecord.Callback         ?? afterRecordCallback;
-            tape.Actions.BeforeRecordChannel.Callback = tape.Actions.BeforeRecordChannel.Callback ?? beforeRecordChannelCallback; 
-            tape.Actions.AfterRecordChannel.Callback  = tape.Actions.AfterRecordChannel.Callback  ?? afterRecordChannelCallback; 
             
-            AssertCallback(tape.Actions.BeforeRecord, beforeRecordCallback);
-            AssertCallback(tape.Actions.AfterRecord, afterRecordCallback);
-            AssertCallback(tape.Actions.BeforeRecordChannel, beforeRecordChannelCallback);
-            AssertCallback(tape.Actions.AfterRecordChannel, afterRecordChannelCallback);
-
+            if (Has(actionType))
+            {
+                TapeAction action = tape.Actions.TryGet(actionType);
+                if (action != null)
+                {
+                    action.Callback = action.Callback ?? callback;
+                    AssertCallback(action, callback);
+                }
+            }
+            
             if (isNew) LogAction(tape, "Create");
             
             return tape;
