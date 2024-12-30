@@ -46,89 +46,39 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class ActionRunner
     {
-        // ReSharper disable once UnusedParameter.Global
-        protected bool ExtraCondition(TapeAction action)
-        {
-            return true;
-
-        }
-        
         // Actions Per Item
 
         public void InterceptIfNeeded(TapeAction action)
         {
             if (action == null) throw new NullException(() => action);
-
             if (!action.Active) return;
-            if (!ExtraCondition(action)) return;
-                        
-            if (action.Done)
-            {
-                LogAction(action, "Already Intercepted");
-            }
-            else
-            {
-                action.Done = true;
-                action.Callback(action.Tape);
-                LogAction(action);
-            }
+            action.Done = true;
+            action.Intercept();
         }
-       
+        
         public void SaveIfNeeded(TapeAction action)
         {
             if (action == null) throw new NullException(() => action);
-            
             if (!action.Active) return;
-            if (!ExtraCondition(action)) return;
-
-            if (action.Done)
-            {
-                LogAction(action, "Already Saved");
-                LogOutputFile(action.Tape.FilePathResolved);
-            }
-            else
-            {
-                action.Done = true;
-                action.Save();
-            }
+            action.Done = true;
+            action.Save();
         }
 
         public void PlayIfNeeded(TapeAction action)
         {
             if (action == null) throw new NullException(() => action);
-            
             if (!action.Active) return;
-            
-            if (!ExtraCondition(action)) return;
-            
-            if (action.Done)
-            {
-                LogAction(action, "Already Played");
-            }
-            else
-            {
-                action.Done = true;
-                action.Play();
-            }
+            action.Done = true;
+            action.Play();
         }
             
         public void CacheToDiskIfNeeded(TapeAction action)
         {
             if (!action.Active) return;
-            if (!ExtraCondition(action)) return;
-
-            if (action.Done)
-            {
-                LogAction(action, "Already Saved");
-                LogOutputFile(action.Tape.FilePathResolved);
-            }
-            else
-            {
-                action.Done = true;
-                action.Save(action.Tape.Descriptor());
-            }
+            action.Done = true;
+            action.Save(action.Tape.Descriptor());
         }
-        
+
         // Run Lists per Action Type
         
         public void RunAfterRecordIfNeeded(IList<Tape> tapes)

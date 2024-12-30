@@ -8,6 +8,23 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    // Executing the Intercept Action
+    
+    internal static class InterceptWishes
+    {
+        internal static void Intercept(TapeAction action)
+        {
+            action.Callback(action.Tape);
+            LogAction(action);
+        }
+    }
+
+    internal static class InterceptExtensions
+    {
+        internal static void Intercept(this TapeAction action)
+            => InterceptWishes.Intercept(action);
+    }
+    
     // Intercept in SynthWishes
 
     public partial class SynthWishes
@@ -128,6 +145,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
     }
+    
+    // Intercept in FlowNode
 
     public partial class FlowNode
     {
