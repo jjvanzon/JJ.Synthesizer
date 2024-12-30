@@ -30,10 +30,10 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(ActionEnum.Save, signal, duration, null, filePath, null, callerMemberName);
-            tape.Actions.Save.On = true;
-            tape.Actions.Save.FilePathSuggested = filePath;
-            LogAction(tape, "Update");
+            /*Tape tape = */_tapes.GetOrNew(ActionEnum.Save, signal, duration, null, filePath, null, callerMemberName);
+            //tape.Actions.Save.On = true;
+            //tape.Actions.Save.FilePathSuggested = filePath;
+            //LogAction(tape, "Update");
             return signal;
         }
         
@@ -50,10 +50,10 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Tape tape = _tapes.GetOrNew(ActionEnum.SaveChannels, signal, duration, null, filePath, null, callerMemberName);
-            tape.Actions.SaveChannels.On = true;
-            tape.Actions.SaveChannels.FilePathSuggested = filePath;
-            LogAction(tape, "Update");
+            /*Tape tape = */_tapes.GetOrNew(ActionEnum.SaveChannels, signal, duration, null, filePath, null, callerMemberName);
+            //tape.Actions.SaveChannels.On = true;
+            //tape.Actions.SaveChannels.FilePathSuggested = filePath;
+            //LogAction(tape, "Update");
             return signal;
         }
 

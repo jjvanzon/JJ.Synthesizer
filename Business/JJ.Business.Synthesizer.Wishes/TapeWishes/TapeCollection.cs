@@ -33,7 +33,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             [CallerMemberName] string callerMemberName = null)
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
-            
+            if (!Has(actionType)) throw new Exception("actionType not specified.");
+
             bool isNew = false;
             if (!_tapes.TryGetValue(signal, out Tape tape))
             {
@@ -50,17 +51,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
             
-            if (Has(actionType))
+            TapeAction action = tape.Actions.TryGet(actionType);
+            if (action != null)
             {
-                TapeAction action = tape.Actions.TryGet(actionType);
-                if (action != null)
-                {
-                    action.Callback = action.Callback ?? callback;
-                    AssertCallback(action, callback);
-                }
+                action.On = true;
+                action.FilePathSuggested = filePath;
+                action.Callback = action.Callback ?? callback;
+                AssertCallback(action, callback);
             }
             
-            if (isNew) LogAction(tape, "Create");
+            LogAction(tape, isNew ? "Create" : "Update");
             
             return tape;
         }
