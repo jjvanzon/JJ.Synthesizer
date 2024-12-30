@@ -208,24 +208,42 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public int CourtesyFrames { get; set; }
     }
 
+        
+    public enum ActionEnum
+    {
+        Undefined,
+        Tape,
+        Pad,
+        Play,
+        Save,
+        BeforeRecord,
+        AfterRecord,
+        PlayChannels,
+        SaveChannels,
+        BeforeRecordChannel,
+        AfterRecordChannel,
+        PlayAllTapes,
+        DiskCache
+    }
+
     /// <inheritdoc cref="docs._tapeaction" />
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeAction
     {
         string DebuggerDisplay => GetDebuggerDisplay(this);
         
-        internal TapeAction(Tape tape, string name)
+        internal TapeAction(Tape tape, ActionEnum actionType)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            if (!Has(name)) throw new Exception($"{nameof(name)} not provided.");
+            if (!Has(actionType)) throw new Exception($"{nameof(actionType)} not provided.");
             Tape = tape;
-            Name = name;
+            Type = actionType;
         }
 
         /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
         /// <summary> Always filled in. </summary>
-        public string Name { get; }
+        public ActionEnum Type { get; }
         public bool On { get; set; }
         public bool Done { get; set; }
         /// <summary> Not always there </summary>
@@ -263,16 +281,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         internal TapeActions(Tape tape)
         {
             Tape = tape ?? throw new ArgumentNullException(nameof(tape));
-            Play = new TapeAction(tape, nameof(Play));
-            Save = new TapeAction(tape, nameof(Save));
-            BeforeRecord = new TapeAction(tape, nameof(BeforeRecord));
-            AfterRecord = new TapeAction(tape, nameof(AfterRecord));
-            PlayChannels = new TapeAction(tape, nameof(PlayChannels));
-            SaveChannels = new TapeAction(tape, nameof(SaveChannels));
-            BeforeRecordChannel = new TapeAction(tape, nameof(BeforeRecordChannel));
-            AfterRecordChannel = new TapeAction(tape, nameof(AfterRecordChannel));
-            PlayAllTapes = new TapeAction(tape, nameof(PlayAllTapes));
-            DiskCache = new TapeAction(tape, nameof(DiskCache));
+            Play = new TapeAction(tape, ActionEnum.Play);
+            Save = new TapeAction(tape, ActionEnum.Save);
+            BeforeRecord = new TapeAction(tape, ActionEnum.BeforeRecord);
+            AfterRecord = new TapeAction(tape, ActionEnum.AfterRecord);
+            PlayChannels = new TapeAction(tape, ActionEnum.PlayChannels);
+            SaveChannels = new TapeAction(tape, ActionEnum.SaveChannels);
+            BeforeRecordChannel = new TapeAction(tape, ActionEnum.BeforeRecordChannel);
+            AfterRecordChannel = new TapeAction(tape, ActionEnum.AfterRecordChannel);
+            PlayAllTapes = new TapeAction(tape, ActionEnum.PlayAllTapes);
+            DiskCache = new TapeAction(tape, ActionEnum.DiskCache);
         }
                 
         /// <summary> Parent. Always filled in. </summary>

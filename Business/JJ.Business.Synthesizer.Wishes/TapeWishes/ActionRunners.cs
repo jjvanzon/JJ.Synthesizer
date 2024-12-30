@@ -53,17 +53,17 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     
     internal class ChannelActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.Channel != null && action.Name.Contains("Channel");
+        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.Channel != null && action.Type.ToString().Contains("Channel");
     }
     
     internal class MonoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.IsMono && !action.Name.Contains("Channel");
+        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.IsMono && !action.Type.ToString().Contains("Channel");
     }
     
     internal class StereoActionRunner : ActionRunnerBase
     {
-        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.IsStereo && !action.Name.Contains("Channel");
+        protected override bool ExtraCondition(TapeAction action) => action.Tape.Config.IsStereo && !action.Type.ToString().Contains("Channel");
     }
     
     internal abstract class ActionRunnerBase

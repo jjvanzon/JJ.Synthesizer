@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             else if ( action.On &&  action.Done) elements.Add("(Done)");
         
             // Name
-            elements.Add(action.Name);
+            elements.Add(action.Type.ToString());
             
             // Callback
             if (action.Callback != null) elements.Add("with Callback");

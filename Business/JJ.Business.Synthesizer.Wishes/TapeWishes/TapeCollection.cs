@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 action.Callback != null &&
                 action.Callback != callback)
             {
-                throw new Exception($"Different {action.Name} {nameof(callback)} passed than already assigned to the {nameof(Tape)}!");
+                throw new Exception($"Different {action.Type} {nameof(callback)} passed than already assigned to the {nameof(Tape)}!");
             }
         }
         

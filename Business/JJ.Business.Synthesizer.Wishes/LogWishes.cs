@@ -911,7 +911,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void LogAction(TapeAction action, string message = null)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
-            LogLine(ActionMessage("Action", action.Name, action.Tape.Descriptor(), message));
+            LogLine(ActionMessage("Action", action.Type.ToString(), action.Tape.Descriptor(), message));
         }
         
         internal static void LogAction(Tape entity, string action, string message = null)
