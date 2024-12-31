@@ -298,10 +298,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return synthWishes.GetAudioFormat;
         }
 
-        public static void AudioFormat(this SynthWishes synthWishes, AudioFileFormatEnum audioFormat)
+        public static SynthWishes AudioFormat(this SynthWishes synthWishes, AudioFileFormatEnum audioFormat)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             synthWishes.WithAudioFormat(audioFormat);
+            return synthWishes;
         }
 
         public static AudioFileFormatEnum AudioFormat(this FlowNode flowNode)
@@ -310,10 +311,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return flowNode.GetAudioFormat;
         }
 
-        public static void AudioFormat(this FlowNode flowNode, AudioFileFormatEnum audioFormat)
+        public static FlowNode AudioFormat(this FlowNode flowNode, AudioFileFormatEnum audioFormat)
         {
             if (flowNode == null) throw new NullException(() => flowNode);
             flowNode.WithAudioFormat(audioFormat);
+            return flowNode;
         }
 
         public static AudioFileFormatEnum AudioFormat(this ConfigWishes configWishes)
@@ -322,10 +324,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return configWishes.GetAudioFormat;
         }
 
-        public static void AudioFormat(this ConfigWishes configWishes, AudioFileFormatEnum audioFormat)
+        public static ConfigWishes AudioFormat(this ConfigWishes configWishes, AudioFileFormatEnum audioFormat)
         {
             if (configWishes == null) throw new NullException(() => configWishes);
             configWishes.WithAudioFormat(audioFormat);
+            return configWishes;
         }
 
         internal static AudioFileFormatEnum AudioFormat(this ConfigSection configSection)
@@ -334,10 +337,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return configSection.AudioFormat ?? default;
         }
 
-        internal static void AudioFormat(this ConfigSection configSection, AudioFileFormatEnum audioFormat)
+        internal static ConfigSection AudioFormat(this ConfigSection configSection, AudioFileFormatEnum audioFormat)
         {
             if (configSection == null) throw new NullException(() => configSection);
             configSection.AudioFormat = audioFormat;
+            return configSection;
         }
 
         public static AudioFileFormatEnum AudioFormat(this Buff buff)
@@ -346,10 +350,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return AudioFormat(buff.UnderlyingAudioFileOutput);
         }
 
-        public static void AudioFormat(this Buff buff, AudioFileFormatEnum audioFormat, IContext context = null)
+        public static Buff AudioFormat(this Buff buff, AudioFileFormatEnum audioFormat, IContext context = null)
         {
             if (buff == null) throw new NullException(() => buff);
             AudioFormat(buff.UnderlyingAudioFileOutput, audioFormat, context);
+            return buff;
         }
 
         public static AudioFileFormatEnum AudioFormat(this Tape tape)
@@ -358,10 +363,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return tape.Config.AudioFormat;
         }
 
-        public static void AudioFormat(this Tape tape, AudioFileFormatEnum audioFormat)
+        public static Tape AudioFormat(this Tape tape, AudioFileFormatEnum audioFormat)
         {
             if (tape == null) throw new NullException(() => tape);
             tape.Config.AudioFormat = audioFormat;
+            return tape;
         }
 
         public static AudioFileFormatEnum AudioFormat(this TapeConfig tapeConfig)
@@ -370,10 +376,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return tapeConfig.AudioFormat;
         }
 
-        public static void AudioFormat(this TapeConfig tapeConfig, AudioFileFormatEnum audioFormat)
+        public static TapeConfig AudioFormat(this TapeConfig tapeConfig, AudioFileFormatEnum audioFormat)
         {
             if (tapeConfig == null) throw new NullException(() => tapeConfig);
             tapeConfig.AudioFormat = audioFormat;
+            return tapeConfig;
         }
 
         public static AudioFileFormatEnum AudioFormat(this TapeAction tapeAction)
@@ -382,10 +389,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return tapeAction.Tape.Config.AudioFormat;
         }
 
-        public static void AudioFormat(this TapeAction tapeAction, AudioFileFormatEnum audioFormat)
+        public static TapeAction AudioFormat(this TapeAction tapeAction, AudioFileFormatEnum audioFormat)
         {
             if (tapeAction == null) throw new NullException(() => tapeAction);
             tapeAction.Tape.Config.AudioFormat = audioFormat;
+            return tapeAction;
         }
 
         public static AudioFileFormatEnum AudioFormat(this TapeActions tapeActions)
@@ -394,10 +402,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return tapeActions.Tape.Config.AudioFormat;
         }
 
-        public static void AudioFormat(this TapeActions tapeActions, AudioFileFormatEnum audioFormat)
+        public static TapeActions AudioFormat(this TapeActions tapeActions, AudioFileFormatEnum audioFormat)
         {
             if (tapeActions == null) throw new NullException(() => tapeActions);
             tapeActions.Tape.Config.AudioFormat = audioFormat;
+            return tapeActions;
         }
 
         public static AudioFileFormatEnum AudioFormat(this Sample sample)
@@ -406,10 +415,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return sample.GetAudioFileFormatEnum();
         }
 
-        public static void AudioFormat(this Sample sample, AudioFileFormatEnum audioFormat, IContext context)
+        public static Sample AudioFormat(this Sample sample, AudioFileFormatEnum audioFormat, IContext context)
         {
             if (sample == null) throw new NullException(() => sample);
             sample.SetAudioFileFormatEnum(audioFormat, context);
+            return sample;
         }
 
         public static AudioFileFormatEnum AudioFormat(this AudioFileOutput audioFileOutput)
@@ -418,10 +428,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return audioFileOutput.GetAudioFileFormatEnum();
         }
 
-        public static void AudioFormat(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFormat, IContext context)
+        public static AudioFileOutput AudioFormat(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFormat, IContext context)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             audioFileOutput.SetAudioFileFormatEnum(audioFormat, context);
+            return audioFileOutput;
         }
     
         #endregion
