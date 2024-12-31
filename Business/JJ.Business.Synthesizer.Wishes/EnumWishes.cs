@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // AudioFileOutput
         
-        public static void SetAudioFormat(
+        public static void SetAudioFileFormatEnum(
             this AudioFileOutput entity, AudioFileFormatEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IAudioFileFormatRepository>(context);
@@ -83,13 +83,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Sample
 
-        public static void SetAudioFormat(this Sample entity, AudioFileFormatEnum enumValue, IContext context = null)
+        public static void SetAudioFileFormatEnum(this Sample entity, AudioFileFormatEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IAudioFileFormatRepository>(context);
             entity.SetAudioFileFormatEnum(enumValue, repository);
         }
 
-        public static void SetInterpolation(this Sample entity, InterpolationTypeEnum enumValue, IContext context = null)
+        public static void SetInterpolationTypeEnum(this Sample entity, InterpolationTypeEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<IInterpolationTypeRepository>(context);
             entity.SetInterpolationTypeEnum(enumValue, repository);
@@ -101,13 +101,12 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetSampleDataTypeEnum(enumValue, repository);
         }
 
-        public static void SetSpeakerSetup(this Sample entity, SpeakerSetupEnum enumValue, IContext context = null)
+        public static void SetSpeakerSetupEnum(this Sample entity, SpeakerSetupEnum enumValue, IContext context = null)
         {
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
             entity.SetSpeakerSetupEnum(enumValue, repository);
         }
     }
-
 
     // To Int/ID
 

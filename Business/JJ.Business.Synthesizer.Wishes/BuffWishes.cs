@@ -43,7 +43,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public string FilePath { get; set; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; internal set; }
 
-        public AudioFileFormatEnum AudioFormat => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
         public string Name => ResolveName(UnderlyingAudioFileOutput, FilePath);
     }
 
@@ -85,7 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
             audioFileOutput.SetBits(tape.Config.Bits, Context);
-            audioFileOutput.SetAudioFormat(tape.Config.AudioFormat, Context);
+            audioFileOutput.SetAudioFileFormatEnum(tape.Config.AudioFormat, Context);
             audioFileOutput.SamplingRate = tape.Config.SamplingRate;
             
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(tape.Outlets.Count);

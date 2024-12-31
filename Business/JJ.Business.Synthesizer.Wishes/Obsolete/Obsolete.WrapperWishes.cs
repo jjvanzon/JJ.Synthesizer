@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetAudioFormat(enumValue, context);
+            wrapper.Sample.AudioFormat(enumValue, context);
         }
 
         // SampleOperatorWrapper.InterpolationType
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetInterpolation(enumValue, context);
+            wrapper.Sample.SetInterpolationTypeEnum(enumValue, context);
         }
 
         // SampleOperatorWrapper.SampleDataType
@@ -303,7 +303,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
             if (wrapper.Sample == null) throw new NullException(() => wrapper.Sample);
-            wrapper.Sample.SetSpeakerSetup(enumValue, context);
+            wrapper.Sample.SetSpeakerSetupEnum(enumValue, context);
         }
 
         // CurveInWrapper.NodeType

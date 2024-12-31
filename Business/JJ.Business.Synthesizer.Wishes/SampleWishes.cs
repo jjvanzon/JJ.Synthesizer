@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Amplifier = 1.0 / sample.MaxValue();
             sample.BytesToSkip = bytesToSkip;
             sample.Location = filePath;
-            sample.SetInterpolation(GetInterpolation, Context);
+            sample.SetInterpolationTypeEnum(GetInterpolation, Context);
 
             var sampleNode = _[_operatorFactory.Sample(sample)];
             
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Name = tape.Descriptor();
             sample.Amplifier = 1.0 / tape.Config.Bits.MaxValue();
             sample.Location = tape.GetFilePath();
-            sample.SetInterpolation(tape.Config.Interpolation, Context);
+            sample.SetInterpolationTypeEnum(tape.Config.Interpolation, Context);
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);
@@ -211,8 +211,8 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.SamplingRate = GetSamplingRate;
             sample.SetBits(GetBits, Context);
             sample.SetChannels(GetChannels, Context);
-            sample.SetAudioFormat(GetAudioFormat, Context);
-            sample.SetInterpolation(GetInterpolation, Context);
+            sample.AudioFormat(GetAudioFormat, Context);
+            sample.SetInterpolationTypeEnum(GetInterpolation, Context);
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);

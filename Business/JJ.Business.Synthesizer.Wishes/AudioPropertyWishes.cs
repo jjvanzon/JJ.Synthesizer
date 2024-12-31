@@ -8,15 +8,23 @@ using System.Diagnostics;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
+using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Derived Audio Properties
-
-    /// <inheritdoc cref="docs._audiopropertyextensionwishes"/>
+    /// <inheritdoc cref="docs._audiopropertywishes"/>
     public static class AudioPropertyExtensionWishes
     {
+        // TODO: For all the object types
+        // TODO: For all the enum(-like) types
+        // TODO: Setters
+        // TODO: Setters should return `this` for fluent chaining.
+        // TODO: Shorthands like IsWav/IsRaw.
+        // TODO: All the audio properties, even if they already exist as properties or otherwise.
+        // TODO: Complete the conversions from enum to something else.
+
         public static int SizeOf(Type sampleDataType)
         {
             if (sampleDataType == typeof(Byte)) return 1;
@@ -34,25 +42,25 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static int SizeOfBitDepth(this AudioFileInfo info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return info.ToWish().SizeOfBitDepth();
         }
 
         public static int SizeOfBitDepth(this AudioInfoWish info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return info.Bits * 8;
         }
 
         public static int SizeOfBitDepth(this Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return SampleDataTypeHelper.SizeOf(entity.GetSampleDataTypeEnum());
         }
 
         public static int SizeOfBitDepth(this AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return SizeOf(entity.GetSampleDataTypeEnum());
         }
 
@@ -67,25 +75,25 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static int Bits(this AudioFileInfo info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return info.ToWish().Bits;
         }
 
         public static int Bits(this Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return Bits(entity.GetSampleDataTypeEnum());
         }
 
         public static int Bits(this AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return Bits(entity.GetSampleDataTypeEnum());
         }
 
         public static int Channels(this AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return entity.GetChannelCount();
         }
 
@@ -96,32 +104,32 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static int FrameSize(this AudioFileInfo info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return info.ToWish().FrameSize();
         }
         
         public static int FrameSize(this AudioInfoWish info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return SizeOfBitDepth(info) * info.Channels;
         }
 
         public static int FrameSize(this Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return SizeOfBitDepth(entity) * entity.GetChannelCount();
         }
 
         public static int FrameSize(this AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return SizeOfBitDepth(entity) * entity.GetChannelCount();
         }
 
         public static int FrameCount(this Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (entity.Bytes == null) throw new ArgumentNullException(nameof(entity.Bytes));
+            if (entity == null) throw new NullException(() => entity);
+            if (entity.Bytes == null) throw new NullException(() => entity.Bytes);
             return entity.Bytes.Length - HeaderLength(entity) / FrameSize(entity);
         }
 
@@ -149,20 +157,20 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return FileExtension(entity.AudioFileFormat);
         }
 
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return FileExtension(entity.AudioFileFormat);
         }
         
         public static string FileExtension(this TapeConfig tapeConfig)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return tapeConfig.AudioFormat.FileExtension();
         }
         
@@ -187,25 +195,25 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static double MaxValue(this AudioFileInfo info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return info.ToWish().MaxValue();
         }
         
         public static double MaxValue(this AudioInfoWish info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return MaxValue(info.Bits);
         }
 
         public static double MaxValue(this Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return MaxValue(entity.GetSampleDataTypeEnum());
         }
 
         public static double MaxValue(this AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return MaxValue(entity.GetSampleDataTypeEnum());
         }
 
@@ -233,14 +241,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return entity.GetAudioFileFormatEnum().HeaderLength();
         }
 
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            if (entity == null) throw new NullException(() => entity);
             return entity.GetAudioFileFormatEnum().HeaderLength();
         }
 
@@ -254,18 +262,20 @@ namespace JJ.Business.Synthesizer.Wishes
                    FrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
         }
 
+        #region AudioLength
+        
         public static double AudioLength(this WavHeaderStruct wavHeader) 
             => wavHeader.GetAudioInfo().AudioLength();
         
         public static double AudioLength(this AudioFileInfo info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             return info.ToWish().AudioLength();
         }
 
         public static double AudioLength(this AudioInfoWish info)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (info == null) throw new NullException(() => info);
             if (info.FrameCount == 0) return 0;
             if (info.Channels == 0) throw new Exception("info.Channels == 0");
             if (info.SamplingRate == 0) throw new Exception("info.SamplingRate == 0");
@@ -274,78 +284,147 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static double AudioLength(this Sample sample)
         {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            if (sample == null) throw new NullException(() => sample);
             return sample.GetDuration();
         }
 
-        // TODO: Setters
-        // TODO: Shorthands like IsWav/IsRaw.
-
+        #endregion
+        
+        #region AudioFormat
+        
         public static AudioFileFormatEnum AudioFormat(this SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return synthWishes.GetAudioFormat;
+        }
+
+        public static void AudioFormat(this SynthWishes synthWishes, AudioFileFormatEnum audioFormat)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.WithAudioFormat(audioFormat);
         }
 
         public static AudioFileFormatEnum AudioFormat(this FlowNode flowNode)
         {
-            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            if (flowNode == null) throw new NullException(() => flowNode);
             return flowNode.GetAudioFormat;
         }
-        
+
+        public static void AudioFormat(this FlowNode flowNode, AudioFileFormatEnum audioFormat)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            flowNode.WithAudioFormat(audioFormat);
+        }
+
         public static AudioFileFormatEnum AudioFormat(this ConfigWishes configWishes)
         {
-            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
+            if (configWishes == null) throw new NullException(() => configWishes);
             return configWishes.GetAudioFormat;
         }
-        
+
+        public static void AudioFormat(this ConfigWishes configWishes, AudioFileFormatEnum audioFormat)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithAudioFormat(audioFormat);
+        }
+
         internal static AudioFileFormatEnum AudioFormat(this ConfigSection configSection)
         {
-            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
+            if (configSection == null) throw new NullException(() => configSection);
             return configSection.AudioFormat ?? default;
         }
-        
+
+        internal static void AudioFormat(this ConfigSection configSection, AudioFileFormatEnum audioFormat)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            configSection.AudioFormat = audioFormat;
+        }
+
         public static AudioFileFormatEnum AudioFormat(this Buff buff)
         {
-            if (buff == null) throw new ArgumentNullException(nameof(buff));
-            return buff.AudioFormat;
+            if (buff == null) throw new NullException(() => buff);
+            return AudioFormat(buff.UnderlyingAudioFileOutput);
         }
-        
+
+        public static void AudioFormat(this Buff buff, AudioFileFormatEnum audioFormat, IContext context = null)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            AudioFormat(buff.UnderlyingAudioFileOutput, audioFormat, context);
+        }
+
         public static AudioFileFormatEnum AudioFormat(this Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             return tape.Config.AudioFormat;
+        }
+
+        public static void AudioFormat(this Tape tape, AudioFileFormatEnum audioFormat)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.AudioFormat = audioFormat;
         }
 
         public static AudioFileFormatEnum AudioFormat(this TapeConfig tapeConfig)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return tapeConfig.AudioFormat;
         }
-        
+
+        public static void AudioFormat(this TapeConfig tapeConfig, AudioFileFormatEnum audioFormat)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.AudioFormat = audioFormat;
+        }
+
         public static AudioFileFormatEnum AudioFormat(this TapeAction tapeAction)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             return tapeAction.Tape.Config.AudioFormat;
         }
-        
+
+        public static void AudioFormat(this TapeAction tapeAction, AudioFileFormatEnum audioFormat)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            tapeAction.Tape.Config.AudioFormat = audioFormat;
+        }
+
         public static AudioFileFormatEnum AudioFormat(this TapeActions tapeActions)
         {
-            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            if (tapeActions == null) throw new NullException(() => tapeActions);
             return tapeActions.Tape.Config.AudioFormat;
+        }
+
+        public static void AudioFormat(this TapeActions tapeActions, AudioFileFormatEnum audioFormat)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            tapeActions.Tape.Config.AudioFormat = audioFormat;
         }
 
         public static AudioFileFormatEnum AudioFormat(this Sample sample)
         {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            if (sample == null) throw new NullException(() => sample);
             return sample.GetAudioFileFormatEnum();
         }
-        
+
+        public static void AudioFormat(this Sample sample, AudioFileFormatEnum audioFormat, IContext context)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            sample.SetAudioFileFormatEnum(audioFormat, context);
+        }
+
         public static AudioFileFormatEnum AudioFormat(this AudioFileOutput audioFileOutput)
         {
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             return audioFileOutput.GetAudioFileFormatEnum();
         }
+
+        public static void AudioFormat(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFormat, IContext context)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            audioFileOutput.SetAudioFileFormatEnum(audioFormat, context);
+        }
+    
+        #endregion
     }
 
     // Info Type

@@ -224,7 +224,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? synthWishes.GetAudioLength).Calculate();
             audioFileOutput.SetBits(synthWishes.GetBits, synthWishes.Context);
-            audioFileOutput.SetAudioFormat(synthWishes.GetAudioFormat, synthWishes.Context);
+            audioFileOutput.AudioFormat(synthWishes.GetAudioFormat, synthWishes.Context);
             audioFileOutput.SamplingRate = synthWishes.GetSamplingRate;
             
             audioFileOutput.SpeakerSetup = synthWishes.GetSubstituteSpeakerSetup(channelSignals.Count);

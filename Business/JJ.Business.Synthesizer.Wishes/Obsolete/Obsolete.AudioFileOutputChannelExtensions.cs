@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            entity.AudioFileOutput.SetAudioFormat(enumValue, context);
+            entity.AudioFileOutput.AudioFormat(enumValue, context);
         }
         
         [Obsolete(ObsoleteMessage)]

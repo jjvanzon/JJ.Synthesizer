@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// as properties or through sub-objects, or Get methods.
         /// They might be repeated here just to standardize everything for fluency.
         /// </summary>
-        public static object _audiopropertyextensionwishes;
+        public static object _audiopropertywishes;
         
         /// <summary> 
         /// Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
