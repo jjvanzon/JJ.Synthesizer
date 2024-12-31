@@ -561,14 +561,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static WavHeaderStruct GetWavHeader(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.GetInfo().GetWavHeader();
+            return wrapper.GetInfo().ToWavHeader();
         }
 
         [Obsolete(ObsoleteMessage)]
         public static AudioInfoWish GetInfo(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.AudioInfoWish();
+            return wrapper.Sample.ToWish();
         }
     }
 }

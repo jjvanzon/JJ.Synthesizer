@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => wavHeader.BitsPerValue;
 
         public static WavHeaderStruct Bits(this WavHeaderStruct wavHeader, int bits) 
-            => wavHeader.AudioInfoWish().Bits(bits).GetWavHeader();
+            => wavHeader.ToWish().Bits(bits).ToWavHeader();
         
         public static int Bits(this AudioFileInfo info)
         {
@@ -410,7 +410,7 @@ namespace JJ.Business.Synthesizer.Wishes
         #region AudioLength
         
         public static double AudioLength(this WavHeaderStruct wavHeader) 
-            => wavHeader.AudioInfoWish().AudioLength();
+            => wavHeader.ToWish().AudioLength();
         
         public static double AudioLength(this AudioFileInfo info)
         {
