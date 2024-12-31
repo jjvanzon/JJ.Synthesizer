@@ -64,19 +64,116 @@ namespace JJ.Business.Synthesizer.Wishes
             return SizeOf(entity.GetSampleDataTypeEnum());
         }
 
+        #region Bits
+        
         public static int Bits(this Type sampleDataType)
             => SizeOf(sampleDataType) * 8;
 
         public static int Bits(this SampleDataTypeEnum enumValue)
             => enumValue.SizeOf() * 8;
-
-        public static int Bits(this WavHeaderStruct wavHeader)
-            => wavHeader.BitsPerValue;
-
-        public static int Bits(this AudioFileInfo info)
+        
+        public static int Bits(this SynthWishes synthWishes)
         {
-            if (info == null) throw new NullException(() => info);
-            return info.ToWish().Bits;
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.GetBits;
+        }
+
+        public static SynthWishes Bits(this SynthWishes synthWishes, int bits)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.WithBits(bits);
+            return synthWishes;
+        }
+
+        public static int Bits(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.GetBits;
+        }
+
+        public static FlowNode Bits(this FlowNode flowNode, int bits)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            flowNode.WithBits(bits);
+            return flowNode;
+        }
+
+        public static int Bits(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return configWishes.GetBits;
+        }
+
+        public static ConfigWishes Bits(this ConfigWishes configWishes, int bits)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithBits(bits);
+            return configWishes;
+        }
+
+        internal static int Bits(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            return configSection.Bits ?? default;
+        }
+
+        internal static ConfigSection Bits(this ConfigSection configSection, int bits)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            configSection.Bits = bits;
+            return configSection;
+        }
+
+        public static int Bits(this Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            return Bits(buff.UnderlyingAudioFileOutput);
+        }
+
+        public static Buff Bits(this Buff buff, int bits)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            Bits(buff.UnderlyingAudioFileOutput, bits);
+            return buff;
+        }
+
+        public static int Bits(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.Config.Bits;
+        }
+
+        public static Tape Bits(this Tape tape, int bits)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.Bits = bits;
+            return tape;
+        }
+
+        public static int Bits(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.Bits;
+        }
+
+        public static TapeConfig Bits(this TapeConfig tapeConfig, int bits)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.Bits = bits;
+            return tapeConfig;
+        }
+
+        public static int Bits(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return tapeAction.Tape.Config.Bits;
+        }
+
+        public static TapeAction Bits(this TapeAction tapeAction, int bits)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            tapeAction.Tape.Config.Bits = bits;
+            return tapeAction;
         }
 
         public static int Bits(this Sample entity)
@@ -84,12 +181,60 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new NullException(() => entity);
             return Bits(entity.GetSampleDataTypeEnum());
         }
-
-        public static int Bits(this AudioFileOutput entity)
+        
+        public static Sample Bits(this Sample sample, int bits)
         {
-            if (entity == null) throw new NullException(() => entity);
-            return Bits(entity.GetSampleDataTypeEnum());
+            if (sample == null) throw new NullException(() => sample);
+            sample.SetBits(bits);
+            return sample;
         }
+        
+        public static int Bits(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            return Bits(audioFileOutput.GetSampleDataTypeEnum());
+        }
+
+        public static AudioFileOutput Bits(this AudioFileOutput audioFileOutput, int bits)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            audioFileOutput.SetBits(bits);
+            return audioFileOutput;
+        }
+
+        public static int Bits(this WavHeaderStruct wavHeader)
+            => wavHeader.BitsPerValue;
+
+        public static WavHeaderStruct Bits(this WavHeaderStruct wavHeader, int bits) 
+            => wavHeader.AudioInfoWish().Bits(bits).GetWavHeader();
+        
+        public static int Bits(this AudioFileInfo info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.BytesPerValue * 8;
+        }
+
+        public static AudioFileInfo Bits(this AudioFileInfo info, int bits)
+        {
+            if (info == null) throw new NullException(() => info);
+            info.BytesPerValue = bits / 8;
+            return info;
+        }
+
+        public static int Bits(this AudioInfoWish infoWish)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            return infoWish.Bits;
+        }
+
+        public static AudioInfoWish Bits(this AudioInfoWish infoWish, int bits)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            infoWish.Bits = bits;
+            return infoWish;
+        }
+        
+        #endregion
 
         public static int Channels(this AudioFileOutput entity)
         {
