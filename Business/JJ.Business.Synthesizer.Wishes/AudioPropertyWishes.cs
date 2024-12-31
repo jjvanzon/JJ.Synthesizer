@@ -170,23 +170,16 @@ namespace JJ.Business.Synthesizer.Wishes
             return audioFileOutput;
         }
         
-        public static AudioFileInfo Bits(this AudioFileInfo infoWish, int bits)
-        {
-            if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.BytesPerValue = bits / 8;
-            return infoWish;
-        }
+        public static int Bits(this WavHeaderStruct wavHeader)
+            => wavHeader.BitsPerValue;
+
+        public static WavHeaderStruct Bits(this WavHeaderStruct wavHeader, int bits) 
+            => wavHeader.ToWish().Bits(bits).ToWavHeader();
 
         public static int Bits(this AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             return infoWish.Bits;
-        }
-        
-        public static int Bits(this AudioFileInfo info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return info.BytesPerValue * 8;
         }
 
         public static AudioInfoWish Bits(this AudioInfoWish infoWish, int bits)
@@ -195,16 +188,23 @@ namespace JJ.Business.Synthesizer.Wishes
             infoWish.Bits = bits;
             return infoWish;
         }
+        
+        public static int Bits(this AudioFileInfo info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.BytesPerValue * 8;
+        }
 
-        public static int Bits(this WavHeaderStruct wavHeader)
-            => wavHeader.BitsPerValue;
-
-        public static WavHeaderStruct Bits(this WavHeaderStruct wavHeader, int bits) 
-            => wavHeader.ToWish().Bits(bits).ToWavHeader();
-
+        public static AudioFileInfo Bits(this AudioFileInfo info, int bits)
+        {
+            if (info == null) throw new NullException(() => info);
+            info.BytesPerValue = bits / 8;
+            return info;
+        }
+                
         public static int Bits(this SampleDataTypeEnum enumValue)
             => enumValue.SizeOfBitDepth() * 8;
-                
+
         public static int Bits(this Type sampleDataType)
             => SizeOfBitDepth(sampleDataType) * 8;
 
@@ -236,12 +236,6 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static ConfigSection SizeOfBitDepth(this ConfigSection configSection, int bytes)
             => Bits(configSection, bytes * 8);
 
-        public static int SizeOfBitDepth(this Buff buff)
-            => Bits(buff) / 8;
-
-        public static Buff SizeOfBitDepth(this Buff buff, int bytes)
-            => Bits(buff, bytes * 8);
-
         public static int SizeOfBitDepth(this Tape tape)
             => Bits(tape) / 8;
 
@@ -254,17 +248,23 @@ namespace JJ.Business.Synthesizer.Wishes
         public static TapeConfig SizeOfBitDepth(this TapeConfig tapeConfig, int bytes)
             => Bits(tapeConfig, bytes * 8);
 
+        public static int SizeOfBitDepth(this TapeActions tapeActions)
+            => Bits(tapeActions) / 8;
+
+        public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes)
+            => Bits(tapeActions, bytes * 8);
+
         public static int SizeOfBitDepth(this TapeAction tapeAction)
             => Bits(tapeAction) / 8;
 
         public static TapeAction SizeOfBitDepth(this TapeAction tapeAction, int bytes)
             => Bits(tapeAction, bytes * 8);
 
-        public static int SizeOfBitDepth(this TapeActions tapeActions)
-            => Bits(tapeActions) / 8;
+        public static int SizeOfBitDepth(this Buff buff)
+            => Bits(buff) / 8;
 
-        public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes)
-            => Bits(tapeActions, bytes * 8);
+        public static Buff SizeOfBitDepth(this Buff buff, int bytes)
+            => Bits(buff, bytes * 8);
 
         public static int SizeOfBitDepth(this Sample sample)
             => Bits(sample) / 8;
@@ -284,17 +284,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct wavHeader, int bytes)
             => Bits(wavHeader, bytes * 8);
 
-        public static int SizeOfBitDepth(this AudioFileInfo info)
-            => Bits(info) / 8;
-
-        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes)
-            => Bits(info, bytes * 8);
-
         public static int SizeOfBitDepth(this AudioInfoWish infoWish)
             => Bits(infoWish) / 8;
 
         public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int bytes)
             => Bits(infoWish, bytes * 8);
+
+        public static int SizeOfBitDepth(this AudioFileInfo info)
+            => Bits(info) / 8;
+
+        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes)
+            => Bits(info, bytes * 8);
 
         public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue)
             => SampleDataTypeHelper.SizeOf(enumValue);
@@ -309,6 +309,185 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static int SizeOfBitDepth(this int bits) 
             => bits / 8;
+
+        #endregion
+
+        #region SamplingRate
+        
+        public static int SamplingRate(this SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.GetSamplingRate;
+        }
+
+        public static SynthWishes SamplingRate(this SynthWishes synthWishes, int samplingRate)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.WithSamplingRate(samplingRate);
+            return synthWishes;
+        }
+
+        public static int SamplingRate(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.GetSamplingRate;
+        }
+
+        public static FlowNode SamplingRate(this FlowNode flowNode, int samplingRate)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            flowNode.WithSamplingRate(samplingRate);
+            return flowNode;
+        }
+
+        public static int SamplingRate(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return configWishes.GetSamplingRate;
+        }
+
+        public static ConfigWishes SamplingRate(this ConfigWishes configWishes, int samplingRate)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithSamplingRate(samplingRate);
+            return configWishes;
+        }
+
+        internal static int SamplingRate(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            return configSection.SamplingRate ?? default;
+        }
+
+        internal static ConfigSection SamplingRate(this ConfigSection configSection, int samplingRate)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            configSection.SamplingRate = samplingRate;
+            return configSection;
+        }
+        
+        public static int SamplingRate(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.Config.SamplingRate;
+        }
+        
+        public static Tape SamplingRate(this Tape tape, int samplingRate)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.SamplingRate = samplingRate;
+            return tape;
+        }
+
+        public static int SamplingRate(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.SamplingRate;
+        }
+
+        public static TapeConfig SamplingRate(this TapeConfig tapeConfig, int samplingRate)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.SamplingRate = samplingRate;
+            return tapeConfig;
+        }
+
+        public static int SamplingRate(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return tapeActions.Tape.Config.SamplingRate;
+        }
+
+        public static TapeActions SamplingRate(this TapeActions tapeActions, int samplingRate)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            tapeActions.Tape.Config.SamplingRate = samplingRate;
+            return tapeActions;
+        }
+
+        public static int SamplingRate(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return tapeAction.Tape.Config.SamplingRate;
+        }
+
+        public static TapeAction SamplingRate(this TapeAction tapeAction, int samplingRate)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            tapeAction.Tape.Config.SamplingRate = samplingRate;
+            return tapeAction;
+        }
+
+        public static int SamplingRate(this Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            return SamplingRate(buff.UnderlyingAudioFileOutput);
+        }
+
+        public static Buff SamplingRate(this Buff buff, int samplingRate)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            SamplingRate(buff.UnderlyingAudioFileOutput, samplingRate);
+            return buff;
+        }
+
+        public static int SamplingRate(this Sample entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return entity.SamplingRate;
+        }
+        
+        public static Sample SamplingRate(this Sample sample, int samplingRate)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            sample.SamplingRate = samplingRate;
+            return sample;
+        }
+        
+        public static int SamplingRate(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            return audioFileOutput.SamplingRate;
+        }
+
+        public static AudioFileOutput SamplingRate(this AudioFileOutput audioFileOutput, int samplingRate)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            audioFileOutput.SamplingRate = samplingRate;
+            return audioFileOutput;
+        }
+        
+        public static int SamplingRate(this WavHeaderStruct wavHeader)
+            => wavHeader.SamplingRate;
+
+        public static WavHeaderStruct SamplingRate(this WavHeaderStruct wavHeader, int samplingRate) 
+            => wavHeader.ToWish().SamplingRate(samplingRate).ToWavHeader();
+
+        public static int SamplingRate(this AudioInfoWish infoWish)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            return infoWish.SamplingRate;
+        }
+
+        public static AudioInfoWish SamplingRate(this AudioInfoWish infoWish, int samplingRate)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            infoWish.SamplingRate = samplingRate;
+            return infoWish;
+        }
+                                
+        public static int SamplingRate(this AudioFileInfo info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.SamplingRate;
+        }
+
+        public static AudioFileInfo SamplingRate(this AudioFileInfo info, int samplingRate)
+        {
+            if (info == null) throw new NullException(() => info);
+            info.SamplingRate = samplingRate;
+            return info;
+        }
 
         #endregion
 
