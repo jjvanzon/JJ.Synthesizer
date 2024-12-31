@@ -671,6 +671,153 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #endregion
 
+        #region AudioFormat
+        
+        public static AudioFileFormatEnum AudioFormat(this SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.GetAudioFormat;
+        }
+
+        public static SynthWishes AudioFormat(this SynthWishes synthWishes, AudioFileFormatEnum audioFormat)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.WithAudioFormat(audioFormat);
+            return synthWishes;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.GetAudioFormat;
+        }
+
+        public static FlowNode AudioFormat(this FlowNode flowNode, AudioFileFormatEnum audioFormat)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            flowNode.WithAudioFormat(audioFormat);
+            return flowNode;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return configWishes.GetAudioFormat;
+        }
+
+        public static ConfigWishes AudioFormat(this ConfigWishes configWishes, AudioFileFormatEnum audioFormat)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithAudioFormat(audioFormat);
+            return configWishes;
+        }
+
+        internal static AudioFileFormatEnum AudioFormat(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            return configSection.AudioFormat ?? default;
+        }
+
+        internal static ConfigSection AudioFormat(this ConfigSection configSection, AudioFileFormatEnum audioFormat)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            configSection.AudioFormat = audioFormat;
+            return configSection;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            return AudioFormat(buff.UnderlyingAudioFileOutput);
+        }
+
+        public static Buff AudioFormat(this Buff buff, AudioFileFormatEnum audioFormat, IContext context = null)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            AudioFormat(buff.UnderlyingAudioFileOutput, audioFormat, context);
+            return buff;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.Config.AudioFormat;
+        }
+
+        public static Tape AudioFormat(this Tape tape, AudioFileFormatEnum audioFormat)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.AudioFormat = audioFormat;
+            return tape;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.AudioFormat;
+        }
+
+        public static TapeConfig AudioFormat(this TapeConfig tapeConfig, AudioFileFormatEnum audioFormat)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.AudioFormat = audioFormat;
+            return tapeConfig;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return tapeAction.Tape.Config.AudioFormat;
+        }
+
+        public static TapeAction AudioFormat(this TapeAction tapeAction, AudioFileFormatEnum audioFormat)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            tapeAction.Tape.Config.AudioFormat = audioFormat;
+            return tapeAction;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return tapeActions.Tape.Config.AudioFormat;
+        }
+
+        public static TapeActions AudioFormat(this TapeActions tapeActions, AudioFileFormatEnum audioFormat)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            tapeActions.Tape.Config.AudioFormat = audioFormat;
+            return tapeActions;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            return sample.GetAudioFileFormatEnum();
+        }
+
+        public static Sample AudioFormat(this Sample sample, AudioFileFormatEnum audioFormat, IContext context)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            sample.SetAudioFileFormatEnum(audioFormat, context);
+            return sample;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            return audioFileOutput.GetAudioFileFormatEnum();
+        }
+
+        public static AudioFileOutput AudioFormat(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFormat, IContext context)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            audioFileOutput.SetAudioFileFormatEnum(audioFormat, context);
+            return audioFileOutput;
+        }
+    
+        #endregion
+
         public static int FrameSize(WavHeaderStruct wavHeader)
         {
             return SizeOfBitDepth(wavHeader) * wavHeader.ChannelCount;
@@ -862,153 +1009,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return sample.GetDuration();
         }
         
-        #endregion
-        
-        #region AudioFormat
-        
-        public static AudioFileFormatEnum AudioFormat(this SynthWishes synthWishes)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetAudioFormat;
-        }
-
-        public static SynthWishes AudioFormat(this SynthWishes synthWishes, AudioFileFormatEnum audioFormat)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithAudioFormat(audioFormat);
-            return synthWishes;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this FlowNode flowNode)
-        {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetAudioFormat;
-        }
-
-        public static FlowNode AudioFormat(this FlowNode flowNode, AudioFileFormatEnum audioFormat)
-        {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithAudioFormat(audioFormat);
-            return flowNode;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this ConfigWishes configWishes)
-        {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetAudioFormat;
-        }
-
-        public static ConfigWishes AudioFormat(this ConfigWishes configWishes, AudioFileFormatEnum audioFormat)
-        {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithAudioFormat(audioFormat);
-            return configWishes;
-        }
-
-        internal static AudioFileFormatEnum AudioFormat(this ConfigSection configSection)
-        {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.AudioFormat ?? default;
-        }
-
-        internal static ConfigSection AudioFormat(this ConfigSection configSection, AudioFileFormatEnum audioFormat)
-        {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.AudioFormat = audioFormat;
-            return configSection;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this Buff buff)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            return AudioFormat(buff.UnderlyingAudioFileOutput);
-        }
-
-        public static Buff AudioFormat(this Buff buff, AudioFileFormatEnum audioFormat, IContext context = null)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            AudioFormat(buff.UnderlyingAudioFileOutput, audioFormat, context);
-            return buff;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this Tape tape)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.AudioFormat;
-        }
-
-        public static Tape AudioFormat(this Tape tape, AudioFileFormatEnum audioFormat)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.AudioFormat = audioFormat;
-            return tape;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this TapeConfig tapeConfig)
-        {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.AudioFormat;
-        }
-
-        public static TapeConfig AudioFormat(this TapeConfig tapeConfig, AudioFileFormatEnum audioFormat)
-        {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.AudioFormat = audioFormat;
-            return tapeConfig;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this TapeAction tapeAction)
-        {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Config.AudioFormat;
-        }
-
-        public static TapeAction AudioFormat(this TapeAction tapeAction, AudioFileFormatEnum audioFormat)
-        {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Config.AudioFormat = audioFormat;
-            return tapeAction;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this TapeActions tapeActions)
-        {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Config.AudioFormat;
-        }
-
-        public static TapeActions AudioFormat(this TapeActions tapeActions, AudioFileFormatEnum audioFormat)
-        {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Config.AudioFormat = audioFormat;
-            return tapeActions;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.GetAudioFileFormatEnum();
-        }
-
-        public static Sample AudioFormat(this Sample sample, AudioFileFormatEnum audioFormat, IContext context)
-        {
-            if (sample == null) throw new NullException(() => sample);
-            sample.SetAudioFileFormatEnum(audioFormat, context);
-            return sample;
-        }
-
-        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return audioFileOutput.GetAudioFileFormatEnum();
-        }
-
-        public static AudioFileOutput AudioFormat(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFormat, IContext context)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.SetAudioFileFormatEnum(audioFormat, context);
-            return audioFileOutput;
-        }
-    
         #endregion
     }
 
