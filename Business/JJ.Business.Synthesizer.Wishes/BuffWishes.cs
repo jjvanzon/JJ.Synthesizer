@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public string FilePath { get; set; }
         public AudioFileOutput UnderlyingAudioFileOutput { get; internal set; }
 
-        public AudioFileFormatEnum GetAudioFormat => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
+        public AudioFileFormatEnum AudioFormat => UnderlyingAudioFileOutput?.GetAudioFileFormatEnum() ?? default;
         public string Name => ResolveName(UnderlyingAudioFileOutput, FilePath);
     }
 
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Helpers
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         internal SpeakerSetup GetSubstituteSpeakerSetup(int channels)
         {
             switch (channels)
@@ -257,13 +257,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         private static readonly object _stereoSpeakerSetupSubstituteLock = new object();
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         private static SpeakerSetup _stereoSpeakerSetupSubstitute;
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         private SpeakerSetup GetStereoSpeakerSetupSubstitute()
         {
             if (_stereoSpeakerSetupSubstitute != null)
@@ -309,13 +309,13 @@ namespace JJ.Business.Synthesizer.Wishes
                 return stereo;
             }
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         private static readonly object _monoSpeakerSetupSubstituteLock = new object();
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         private static SpeakerSetup _monoSpeakerSetupSubstitute;
 
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         private SpeakerSetup GetMonoSpeakerSetupSubstitute()
         {
             if (_monoSpeakerSetupSubstitute != null)
@@ -353,7 +353,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 return mono;
             }
         
-        /// <inheritdoc cref="docs._avoidSpeakerSetupsBackEnd" />
+        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         internal void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).

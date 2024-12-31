@@ -72,10 +72,20 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary> 
         public static object _audiolength;
 
+        /// <summary>
+        /// Attempts to standardize audio properties among objects.
+        /// Those are added in the form of extension methods.
+        /// In some cases they were missing in the back-end objects.
+        /// In other cases they are for API objects, even if they were already otherwise available
+        /// as properties or through sub-objects, or Get methods.
+        /// They might be repeated here just to standardize everything for fluency.
+        /// </summary>
+        public static object _audiopropertyextensionwishes;
+        
         /// <summary> 
         /// Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
         /// </summary> 
-        public static object _avoidSpeakerSetupsBackEnd;
+        public static object _avoidspeakersetupsbackend;
 
         /// <summary> 
         /// Returns the time in seconds of the start of a bar.

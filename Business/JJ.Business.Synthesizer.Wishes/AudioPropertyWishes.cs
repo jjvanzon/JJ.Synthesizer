@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // Derived Audio Properties
     
+    /// <inheritdoc cref="docs._audiopropertyextensionwishes"/>
     public static class AudioPropertyExtensionWishes
     {
         public static int SizeOf(Type sampleDataType)
