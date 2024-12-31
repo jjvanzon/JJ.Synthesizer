@@ -20,8 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // TODO: For all the object types
         // TODO: For all the enum(-like) types
-        // TODO: Setters
-        // TODO: Setters should return `this` for fluent chaining.
+        // TODO: Setters returning `this` for fluent chaining.
         // TODO: Shorthands like IsWav/IsRaw.
         // TODO: All the audio properties, even if they already exist as properties or otherwise.
         // TODO: Complete the conversions from enum to something else.
@@ -208,108 +207,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static int Bits(this Type sampleDataType)
             => SizeOfBitDepth(sampleDataType) * 8;
-
-        #endregion
-        
-        #region SizeOfBitDepth
-        
-        public static int SizeOfBitDepth(this SynthWishes synthWishes)
-            => Bits(synthWishes) / 8;
-
-        public static SynthWishes SizeOfBitDepth(this SynthWishes synthWishes, int bytes)
-            => Bits(synthWishes, bytes * 8);
-
-        public static int SizeOfBitDepth(this FlowNode flowNode)
-            => Bits(flowNode) / 8;
-
-        public static FlowNode SizeOfBitDepth(this FlowNode flowNode, int bytes)
-            => Bits(flowNode, bytes * 8);
-
-        public static int SizeOfBitDepth(this ConfigWishes configWishes)
-            => Bits(configWishes) / 8;
-
-        public static ConfigWishes SizeOfBitDepth(this ConfigWishes configWishes, int bytes)
-            => Bits(configWishes, bytes * 8);
-
-        internal static int SizeOfBitDepth(this ConfigSection configSection)
-            => Bits(configSection) / 8;
-
-        internal static ConfigSection SizeOfBitDepth(this ConfigSection configSection, int bytes)
-            => Bits(configSection, bytes * 8);
-
-        public static int SizeOfBitDepth(this Tape tape)
-            => Bits(tape) / 8;
-
-        public static Tape SizeOfBitDepth(this Tape tape, int bytes)
-            => Bits(tape, bytes * 8);
-
-        public static int SizeOfBitDepth(this TapeConfig tapeConfig)
-            => Bits(tapeConfig) / 8;
-
-        public static TapeConfig SizeOfBitDepth(this TapeConfig tapeConfig, int bytes)
-            => Bits(tapeConfig, bytes * 8);
-
-        public static int SizeOfBitDepth(this TapeActions tapeActions)
-            => Bits(tapeActions) / 8;
-
-        public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes)
-            => Bits(tapeActions, bytes * 8);
-
-        public static int SizeOfBitDepth(this TapeAction tapeAction)
-            => Bits(tapeAction) / 8;
-
-        public static TapeAction SizeOfBitDepth(this TapeAction tapeAction, int bytes)
-            => Bits(tapeAction, bytes * 8);
-
-        public static int SizeOfBitDepth(this Buff buff)
-            => Bits(buff) / 8;
-
-        public static Buff SizeOfBitDepth(this Buff buff, int bytes)
-            => Bits(buff, bytes * 8);
-
-        public static int SizeOfBitDepth(this Sample sample)
-            => Bits(sample) / 8;
-
-        public static Sample SizeOfBitDepth(this Sample sample, int bytes)
-            => Bits(sample, bytes * 8);
-
-        public static int SizeOfBitDepth(this AudioFileOutput audioFileOutput)
-            => Bits(audioFileOutput) / 8;
-
-        public static AudioFileOutput SizeOfBitDepth(this AudioFileOutput audioFileOutput, int bytes)
-            => Bits(audioFileOutput, bytes * 8);
-
-        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
-            => Bits(wavHeader) / 8;
-
-        public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct wavHeader, int bytes)
-            => Bits(wavHeader, bytes * 8);
-
-        public static int SizeOfBitDepth(this AudioInfoWish infoWish)
-            => Bits(infoWish) / 8;
-
-        public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int bytes)
-            => Bits(infoWish, bytes * 8);
-
-        public static int SizeOfBitDepth(this AudioFileInfo info)
-            => Bits(info) / 8;
-
-        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes)
-            => Bits(info, bytes * 8);
-
-        public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue)
-            => SampleDataTypeHelper.SizeOf(enumValue);
-
-        public static int SizeOfBitDepth(Type sampleDataType)
-        {
-            if (sampleDataType == typeof(Byte)) return 1;
-            if (sampleDataType == typeof(Int16)) return 2;
-            if (sampleDataType == typeof(Single)) return 4;
-            throw new ValueNotSupportedException(sampleDataType);
-        }
-
-        public static int SizeOfBitDepth(this int bits) 
-            => bits / 8;
 
         #endregion
                 
@@ -816,6 +713,110 @@ namespace JJ.Business.Synthesizer.Wishes
             return audioFileOutput;
         }
     
+        #endregion
+
+        // Derived Properties
+        
+        #region SizeOfBitDepth
+        
+        public static int SizeOfBitDepth(this SynthWishes synthWishes)
+            => Bits(synthWishes) / 8;
+
+        public static SynthWishes SizeOfBitDepth(this SynthWishes synthWishes, int bytes)
+            => Bits(synthWishes, bytes * 8);
+
+        public static int SizeOfBitDepth(this FlowNode flowNode)
+            => Bits(flowNode) / 8;
+
+        public static FlowNode SizeOfBitDepth(this FlowNode flowNode, int bytes)
+            => Bits(flowNode, bytes * 8);
+
+        public static int SizeOfBitDepth(this ConfigWishes configWishes)
+            => Bits(configWishes) / 8;
+
+        public static ConfigWishes SizeOfBitDepth(this ConfigWishes configWishes, int bytes)
+            => Bits(configWishes, bytes * 8);
+
+        internal static int SizeOfBitDepth(this ConfigSection configSection)
+            => Bits(configSection) / 8;
+
+        internal static ConfigSection SizeOfBitDepth(this ConfigSection configSection, int bytes)
+            => Bits(configSection, bytes * 8);
+
+        public static int SizeOfBitDepth(this Tape tape)
+            => Bits(tape) / 8;
+
+        public static Tape SizeOfBitDepth(this Tape tape, int bytes)
+            => Bits(tape, bytes * 8);
+
+        public static int SizeOfBitDepth(this TapeConfig tapeConfig)
+            => Bits(tapeConfig) / 8;
+
+        public static TapeConfig SizeOfBitDepth(this TapeConfig tapeConfig, int bytes)
+            => Bits(tapeConfig, bytes * 8);
+
+        public static int SizeOfBitDepth(this TapeActions tapeActions)
+            => Bits(tapeActions) / 8;
+
+        public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes)
+            => Bits(tapeActions, bytes * 8);
+
+        public static int SizeOfBitDepth(this TapeAction tapeAction)
+            => Bits(tapeAction) / 8;
+
+        public static TapeAction SizeOfBitDepth(this TapeAction tapeAction, int bytes)
+            => Bits(tapeAction, bytes * 8);
+
+        public static int SizeOfBitDepth(this Buff buff)
+            => Bits(buff) / 8;
+
+        public static Buff SizeOfBitDepth(this Buff buff, int bytes)
+            => Bits(buff, bytes * 8);
+
+        public static int SizeOfBitDepth(this Sample sample)
+            => Bits(sample) / 8;
+
+        public static Sample SizeOfBitDepth(this Sample sample, int bytes)
+            => Bits(sample, bytes * 8);
+
+        public static int SizeOfBitDepth(this AudioFileOutput audioFileOutput)
+            => Bits(audioFileOutput) / 8;
+
+        public static AudioFileOutput SizeOfBitDepth(this AudioFileOutput audioFileOutput, int bytes)
+            => Bits(audioFileOutput, bytes * 8);
+
+        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
+            => Bits(wavHeader) / 8;
+
+        public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct wavHeader, int bytes)
+            => Bits(wavHeader, bytes * 8);
+
+        public static int SizeOfBitDepth(this AudioInfoWish infoWish)
+            => Bits(infoWish) / 8;
+
+        public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int bytes)
+            => Bits(infoWish, bytes * 8);
+
+        public static int SizeOfBitDepth(this AudioFileInfo info)
+            => Bits(info) / 8;
+
+        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes)
+            => Bits(info, bytes * 8);
+
+        public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue)
+            => SampleDataTypeHelper.SizeOf(enumValue);
+
+        public static int SizeOfBitDepth(Type sampleDataType)
+        {
+            if (sampleDataType == typeof(Byte)) return 1;
+            if (sampleDataType == typeof(Int16)) return 2;
+            if (sampleDataType == typeof(Single)) return 4;
+            throw new ValueNotSupportedException(sampleDataType);
+        }
+
+        public static int SizeOfBitDepth(this int bits) 
+            => bits / 8;
+
         #endregion
 
         public static int FrameSize(WavHeaderStruct wavHeader)
