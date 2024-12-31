@@ -25,45 +25,6 @@ namespace JJ.Business.Synthesizer.Wishes
         // TODO: All the audio properties, even if they already exist as properties or otherwise.
         // TODO: Complete the conversions from enum to something else.
 
-        public static int SizeOf(Type sampleDataType)
-        {
-            if (sampleDataType == typeof(Byte)) return 1;
-            if (sampleDataType == typeof(Int16)) return 2;
-            throw new ValueNotSupportedException(sampleDataType);
-        }
-        
-        public static int SizeOf(this SampleDataTypeEnum enumValue)
-            => SampleDataTypeHelper.SizeOf(enumValue);
-        
-        public static int SizeOfBitDepth(this int bits) => bits / 8;
-
-        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
-            => wavHeader.BitsPerValue * 8;
-        
-        public static int SizeOfBitDepth(this AudioFileInfo info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return info.ToWish().SizeOfBitDepth();
-        }
-
-        public static int SizeOfBitDepth(this AudioInfoWish info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return info.Bits * 8;
-        }
-
-        public static int SizeOfBitDepth(this Sample entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return SampleDataTypeHelper.SizeOf(entity.GetSampleDataTypeEnum());
-        }
-
-        public static int SizeOfBitDepth(this AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return SizeOf(entity.GetSampleDataTypeEnum());
-        }
-
         #region Bits
         
         public static int Bits(this Type sampleDataType)
@@ -234,6 +195,51 @@ namespace JJ.Business.Synthesizer.Wishes
             return infoWish;
         }
         
+        #endregion
+        
+        #region SizeOf (BitDepth)
+        
+        public static int SizeOf(Type sampleDataType)
+        {
+            if (sampleDataType == typeof(Byte)) return 1;
+            if (sampleDataType == typeof(Int16)) return 2;
+            if (sampleDataType == typeof(Single)) return 4;
+            throw new ValueNotSupportedException(sampleDataType);
+        }
+        
+        public static int SizeOf(this SampleDataTypeEnum enumValue)
+            => SampleDataTypeHelper.SizeOf(enumValue);
+        
+        public static int SizeOfBitDepth(this int bits) 
+            => bits / 8;
+
+        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
+            => wavHeader.BitsPerValue * 8;
+        
+        public static int SizeOfBitDepth(this AudioFileInfo info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.ToWish().SizeOfBitDepth();
+        }
+
+        public static int SizeOfBitDepth(this AudioInfoWish info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.Bits * 8;
+        }
+
+        public static int SizeOfBitDepth(this Sample entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return SampleDataTypeHelper.SizeOf(entity.GetSampleDataTypeEnum());
+        }
+
+        public static int SizeOfBitDepth(this AudioFileOutput entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return SizeOf(entity.GetSampleDataTypeEnum());
+        }
+
         #endregion
 
         public static int Channels(this AudioFileOutput entity)
