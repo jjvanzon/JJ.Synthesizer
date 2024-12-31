@@ -210,186 +210,91 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #endregion
         
-        #region SizeOf (BitDepth)
+        #region SizeOfBitDepth
         
         public static int SizeOfBitDepth(this SynthWishes synthWishes)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.Bits() / 8;
-        }
+            => Bits(synthWishes) / 8;
 
         public static SynthWishes SizeOfBitDepth(this SynthWishes synthWishes, int bytes)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.Bits(bytes * 8);
-            return synthWishes;
-        }
+            => Bits(synthWishes, bytes * 8);
 
         public static int SizeOfBitDepth(this FlowNode flowNode)
-        {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.Bits() / 8;
-        }
+            => Bits(flowNode) / 8;
 
         public static FlowNode SizeOfBitDepth(this FlowNode flowNode, int bytes)
-        {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.Bits(bytes * 8);
-            return flowNode;
-        }
+            => Bits(flowNode, bytes * 8);
 
         public static int SizeOfBitDepth(this ConfigWishes configWishes)
-        {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.Bits() / 8;
-        }
+            => Bits(configWishes) / 8;
 
         public static ConfigWishes SizeOfBitDepth(this ConfigWishes configWishes, int bytes)
-        {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.Bits(bytes * 8);
-            return configWishes;
-        }
+            => Bits(configWishes, bytes * 8);
 
         internal static int SizeOfBitDepth(this ConfigSection configSection)
-        {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.Bits() / 8;
-        }
+            => Bits(configSection) / 8;
 
         internal static ConfigSection SizeOfBitDepth(this ConfigSection configSection, int bytes)
-        {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.Bits(bytes * 8);
-            return configSection;
-        }
+            => Bits(configSection, bytes * 8);
 
         public static int SizeOfBitDepth(this Buff buff)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            return buff.Bits() / 8;
-        }
+            => Bits(buff) / 8;
 
         public static Buff SizeOfBitDepth(this Buff buff, int bytes)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            buff.Bits(bytes * 8);
-            return buff;
-        }
+            => Bits(buff, bytes * 8);
 
         public static int SizeOfBitDepth(this Tape tape)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Bits() / 8;
-        }
+            => Bits(tape) / 8;
 
         public static Tape SizeOfBitDepth(this Tape tape, int bytes)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Bits(bytes * 8);
-            return tape;
-        }
+            => Bits(tape, bytes * 8);
 
         public static int SizeOfBitDepth(this TapeConfig tapeConfig)
-        {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.Bits() / 8;
-        }
+            => Bits(tapeConfig) / 8;
 
         public static TapeConfig SizeOfBitDepth(this TapeConfig tapeConfig, int bytes)
-        {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.Bits(bytes * 8);
-            return tapeConfig;
-        }
+            => Bits(tapeConfig, bytes * 8);
 
         public static int SizeOfBitDepth(this TapeAction tapeAction)
-        {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Bits() / 8;
-        }
+            => Bits(tapeAction) / 8;
 
         public static TapeAction SizeOfBitDepth(this TapeAction tapeAction, int bytes)
-        {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Bits(bytes * 8);
-            return tapeAction;
-        }
+            => Bits(tapeAction, bytes * 8);
 
         public static int SizeOfBitDepth(this TapeActions tapeActions)
-        {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Bits() / 8;
-        }
+            => Bits(tapeActions) / 8;
 
         public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes)
-        {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Bits(bytes * 8);
-            return tapeActions;
-        }
+            => Bits(tapeActions, bytes * 8);
 
         public static int SizeOfBitDepth(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.Bits() / 8;
-        }
+            => Bits(sample) / 8;
 
         public static Sample SizeOfBitDepth(this Sample sample, int bytes)
-        {
-            if (sample == null) throw new NullException(() => sample);
-            sample.Bits(bytes * 8);
-            return sample;
-        }
+            => Bits(sample, bytes * 8);
 
         public static int SizeOfBitDepth(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return audioFileOutput.Bits() / 8;
-        }
+            => Bits(audioFileOutput) / 8;
 
         public static AudioFileOutput SizeOfBitDepth(this AudioFileOutput audioFileOutput, int bytes)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.Bits(bytes * 8);
-            return audioFileOutput;
-        }
+            => Bits(audioFileOutput, bytes * 8);
 
         public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
-        {
-            return wavHeader.Bits() / 8;
-        }
+            => Bits(wavHeader) / 8;
 
         public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct wavHeader, int bytes)
-        {
-            return wavHeader.Bits(bytes * 8);
-        }
+            => Bits(wavHeader, bytes * 8);
 
         public static int SizeOfBitDepth(this AudioFileInfo info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return info.Bits() / 8;
-        }
+            => Bits(info) / 8;
 
         public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes)
-        {
-            if (info == null) throw new NullException(() => info);
-            info.Bits(bytes * 8);
-            return info;
-        }
+            => Bits(info, bytes * 8);
 
         public static int SizeOfBitDepth(this AudioInfoWish infoWish)
-        {
-            if (infoWish == null) throw new NullException(() => infoWish);
-            return infoWish.Bits() / 8;
-        }
+            => Bits(infoWish) / 8;
 
         public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int bytes)
-        {
-            if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.Bits(bytes * 8);
-            return infoWish;
-        }
+            => Bits(infoWish, bytes * 8);
 
         public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue)
             => SampleDataTypeHelper.SizeOf(enumValue);
