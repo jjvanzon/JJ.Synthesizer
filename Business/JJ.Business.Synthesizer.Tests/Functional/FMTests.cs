@@ -398,9 +398,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             var note = Note(soundWithEvenVolume, delay, volume, duration);
             
-            return note.SetName().Tape(duration);
+            return note.SetName();
         }
-
 
         /// <inheritdoc cref="docs._horn" />
         FlowNode Horn(FlowNode freq = null, FlowNode duration = null)
