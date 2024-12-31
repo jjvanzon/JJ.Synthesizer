@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.GetAudioInfo(frameCount).GetWavHeader();
+            return entity.AudioFileOutput.AudioInfoWish(frameCount).GetWavHeader();
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            var info = entity.AudioFileOutput.GetAudioInfo(frameCount);
+            var info = entity.AudioFileOutput.AudioInfoWish(frameCount);
             info.Channels = 1;
             return info;
         }

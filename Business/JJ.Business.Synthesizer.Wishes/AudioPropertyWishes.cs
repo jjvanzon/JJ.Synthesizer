@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Wishes
         #region AudioLength
         
         public static double AudioLength(this WavHeaderStruct wavHeader) 
-            => wavHeader.GetAudioInfo().AudioLength();
+            => wavHeader.AudioInfoWish().AudioLength();
         
         public static double AudioLength(this AudioFileInfo info)
         {
@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sample == null) throw new NullException(() => sample);
             return sample.GetDuration();
         }
-
+        
         #endregion
         
         #region AudioFormat
