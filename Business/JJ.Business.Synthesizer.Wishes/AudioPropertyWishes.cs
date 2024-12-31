@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -144,10 +145,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return buff;
         }
 
-        public static int Bits(this Sample entity)
+        public static int Bits(this Sample sample)
         {
-            if (entity == null) throw new NullException(() => entity);
-            return Bits(entity.GetSampleDataTypeEnum());
+            if (sample == null) throw new NullException(() => sample);
+            return Bits(sample.GetSampleDataTypeEnum());
         }
         
         public static Sample Bits(this Sample sample, int bits)
@@ -431,10 +432,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return buff;
         }
 
-        public static int SamplingRate(this Sample entity)
+        public static int SamplingRate(this Sample sample)
         {
-            if (entity == null) throw new NullException(() => entity);
-            return entity.SamplingRate;
+            if (sample == null) throw new NullException(() => sample);
+            return sample.SamplingRate;
         }
         
         public static Sample SamplingRate(this Sample sample, int samplingRate)
@@ -490,12 +491,185 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         #endregion
-
-        public static int Channels(this AudioFileOutput entity)
+        
+        #region Channels
+        
+        public static int Channels(this SynthWishes synthWishes)
         {
-            if (entity == null) throw new NullException(() => entity);
-            return entity.GetChannelCount();
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.GetChannels;
         }
+
+        public static SynthWishes Channels(this SynthWishes synthWishes, int channels)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.WithChannels(channels);
+            return synthWishes;
+        }
+
+        public static int Channels(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.GetChannels;
+        }
+
+        public static FlowNode Channels(this FlowNode flowNode, int channels)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            flowNode.WithChannels(channels);
+            return flowNode;
+        }
+
+        public static int Channels(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return configWishes.GetChannels;
+        }
+
+        public static ConfigWishes Channels(this ConfigWishes configWishes, int channels)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithChannels(channels);
+            return configWishes;
+        }
+
+        internal static int Channels(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            return configSection.Channels ?? default;
+        }
+
+        internal static ConfigSection Channels(this ConfigSection configSection, int channels)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            configSection.Channels = channels;
+            return configSection;
+        }
+        
+        public static int Channels(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.Config.Channels;
+        }
+        
+        public static Tape Channels(this Tape tape, int channels)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.Channels = channels;
+            return tape;
+        }
+
+        public static int Channels(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.Channels;
+        }
+
+        public static TapeConfig Channels(this TapeConfig tapeConfig, int channels)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.Channels = channels;
+            return tapeConfig;
+        }
+
+        public static int Channels(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return tapeActions.Tape.Config.Channels;
+        }
+
+        public static TapeActions Channels(this TapeActions tapeActions, int channels)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            tapeActions.Tape.Config.Channels = channels;
+            return tapeActions;
+        }
+
+        public static int Channels(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return tapeAction.Tape.Config.Channels;
+        }
+
+        public static TapeAction Channels(this TapeAction tapeAction, int channels)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            tapeAction.Tape.Config.Channels = channels;
+            return tapeAction;
+        }
+
+        public static int Channels(this Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            return Channels(buff.UnderlyingAudioFileOutput);
+        }
+
+        public static Buff Channels(this Buff buff, int channels)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            Channels(buff.UnderlyingAudioFileOutput, channels);
+            return buff;
+        }
+
+        public static int Channels(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            return sample.GetChannelCount();
+        }
+        
+        public static Sample Channels(this Sample sample, int channels, IContext context = null)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            sample.SetSpeakerSetupEnum(channels.ToSpeakerSetupEnum(), context);
+            return sample;
+        }
+        
+        public static int Channels(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            return audioFileOutput.GetChannelCount();
+        }
+
+        public static AudioFileOutput Channels(this AudioFileOutput audioFileOutput, int channels, IContext context = null)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channels, context);
+            return audioFileOutput;
+        }
+        
+        public static int Channels(this WavHeaderStruct wavHeader)
+            => wavHeader.ChannelCount;
+
+        public static WavHeaderStruct Channels(this WavHeaderStruct wavHeader, int channels) 
+            => wavHeader.ToWish().Channels(channels).ToWavHeader();
+
+        public static int Channels(this AudioInfoWish infoWish)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            return infoWish.Channels;
+        }
+
+        public static AudioInfoWish Channels(this AudioInfoWish infoWish, int channels)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            infoWish.Channels = channels;
+            return infoWish;
+        }
+                                
+        public static int Channels(this AudioFileInfo info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.ChannelCount;
+        }
+
+        public static AudioFileInfo Channels(this AudioFileInfo info, int channels)
+        {
+            if (info == null) throw new NullException(() => info);
+            info.ChannelCount = channels;
+            return info;
+        }
+
+        #endregion
 
         public static int FrameSize(WavHeaderStruct wavHeader)
         {

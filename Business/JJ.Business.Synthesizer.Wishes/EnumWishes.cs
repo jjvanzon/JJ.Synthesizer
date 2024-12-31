@@ -150,12 +150,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int? channels)
-        {
-            if (!Has(channels)) return SpeakerSetupEnum.Undefined;
-            return channels.Value.ToSpeakerSetupEnum();
-        }
-
         public static SpeakerSetupEnum ToSpeakerSetupEnum(this int channels)
         {
             switch (channels)
@@ -164,13 +158,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 case 2: return SpeakerSetupEnum.Stereo;
                 default: throw new ValueNotSupportedException(channels);
             }
-        }
-        
-        public static void SetChannels(this Sample entity, int? channels, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            if (!Has(channels)) entity.SpeakerSetup = null;
-            entity.SetChannels(channels.Value, context);
         }
         
         public static void SetChannels(this Sample entity, int channels, IContext context = null)

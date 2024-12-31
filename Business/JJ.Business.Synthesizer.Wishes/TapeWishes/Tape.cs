@@ -194,7 +194,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public int SamplingRate { get; set; }
         public int Bits { get; set; }
-        public int? Channels { get; set; }
+        public int Channels { get; set; }
         public int? Channel { get; set; }
         public AudioFileFormatEnum AudioFormat { get; set; }
         /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
