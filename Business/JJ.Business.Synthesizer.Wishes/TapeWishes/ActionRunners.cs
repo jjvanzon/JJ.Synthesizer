@@ -27,17 +27,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public void RunForPostProcessing(IList<Tape> normalTapes, IList<Tape> stereoTapes)
         {
-            //_actionRunner.CacheToDiskIfNeeded(normalTapes);
-            //_actionRunner.CacheToDiskIfNeeded(stereoTapes);
-
-            // Mono and channel-specific variations are run per tape instead.
+            // Mono and channel-specific intercepts are run per tape instead.
             _actionRunner.RunAfterRecordIfNeeded(stereoTapes);
             
             _actionRunner.SaveIfNeeded(normalTapes);
             _actionRunner.SaveIfNeeded(stereoTapes);
-            
-            //_actionRunner.PlayForAllTapesIfNeeded(normalTapes);
-            //_actionRunner.PlayForAllTapesIfNeeded(stereoTapes);
             
             _actionRunner.PlayIfNeeded(normalTapes);
             _actionRunner.PlayIfNeeded(stereoTapes);
@@ -71,15 +65,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             action.Done = true;
             action.Play();
         }
-            
-        //public void CacheToDiskIfNeeded(TapeAction action)
-        //{
-        //    if (action == null) throw new ArgumentNullException(nameof(action));
-        //    if (!action.Active) return;
-        //    action.Done = true;
-        //    //action.Save(action.Tape.Descriptor()); // Already used in Tape.GetFilePath
-        //    action.Save();
-        //}
 
         // Run Lists per Action Type
         
@@ -114,23 +99,5 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 PlayIfNeeded(tape.Actions.PlayAllTapes);
             }
         }
-        
-        //public void CacheToDiskIfNeeded(IList<Tape> tapes)
-        //{
-        //    if (tapes == null) throw new NullException(() => tapes);
-        //    foreach (Tape tape in tapes)
-        //    {
-        //        SaveIfNeeded(tape.Actions.DiskCache);
-        //    }
-        //}
-        
-        //public void PlayForAllTapesIfNeeded(IList<Tape> tapes)
-        //{
-        //    if (tapes == null) throw new NullException(() => tapes);
-        //    foreach (Tape tape in tapes)
-        //    {
-        //        PlayIfNeeded(tape.Actions.PlayAllTapes);
-        //    }
-        //}
     }
 }

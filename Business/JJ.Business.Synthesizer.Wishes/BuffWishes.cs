@@ -127,7 +127,6 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutput = tape.UnderlyingAudioFileOutput;
 
             // Names
-            //tape.Actions.DiskCache.FilePathSuggested = tape.Descriptor();
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = tape.GetFilePath(audioFileOutput.FilePath, callerMemberName);
             audioFileOutput.Name = resolvedName;
