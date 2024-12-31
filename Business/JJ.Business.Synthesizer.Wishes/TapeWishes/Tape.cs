@@ -84,7 +84,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             => ResolveFilePath(
                 Config.FileExtension(), Config.AudioFormat(), 
                 filePath, FilePathResolved, 
-                Actions.SaveChannels.FilePathSuggested, Actions.Save.FilePathSuggested, FilePathSuggested,
+                Actions.SaveChannels.FilePathSuggested, Actions.Save.FilePathSuggested, 
+                FilePathSuggested, Actions.DiskCache.FilePathSuggested,
                 ResolveName(IDs, Outlets, FallbackName, callerMemberName));
 
         public string FallbackName { get; set; }
@@ -261,6 +262,16 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 if (IsIntercept && Callback == null) 
                 {
                     throw new Exception("Intercept action is missing its callback.");
+                }
+                
+                if (Type == ActionEnum.DiskCache)
+                {
+                    return true;
+                    // Only return DiskCache as active if a save action isn't already active as well?
+                    // Too fragile.
+                    //return !Tape.Actions.Save.Active && !Tape.Actions.SaveChannels.Active;
+                    //return (!Tape.Actions.Save.Active || Tape.Actions.Save.Done) &&
+                    //       (!Tape.Actions.SaveChannels.Active || Tape.Actions.SaveChannels.Done);
                 }
                 
                 if (Tape.Config.IsStereo) 

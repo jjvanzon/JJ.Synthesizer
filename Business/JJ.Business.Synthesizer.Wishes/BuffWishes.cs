@@ -58,6 +58,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
 
+            tape.Actions.DiskCache.FilePathSuggested = tape.Descriptor();
+            
             if (tape.UnderlyingAudioFileOutput == null)
             {
                 tape.UnderlyingAudioFileOutput = ConfigureAudioFileOutput(tape);
@@ -125,6 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var audioFileOutput = tape.UnderlyingAudioFileOutput;
 
             // Names
+            //tape.Actions.DiskCache.FilePathSuggested = tape.Descriptor();
             string resolvedName = ResolveName(tape.GetName(), audioFileOutput, callerMemberName);
             string resolvedFilePath = tape.GetFilePath(audioFileOutput.FilePath, callerMemberName);
             audioFileOutput.Name = resolvedName;
@@ -133,14 +136,6 @@ namespace JJ.Business.Synthesizer.Wishes
             bool onDisk = tape.Actions.DiskCache.Active ||
                           tape.Actions.Save.Active ||
                           tape.Actions.SaveChannels.Active;
-
-            if (onDisk)
-            {
-                // Mark Save Actions as Done to avoid duplicate saves.
-                if (tape.Actions.DiskCache.Active) tape.Actions.DiskCache.Done = true;
-                if (tape.Actions.SaveChannels.Active) tape.Actions.SaveChannels.Done = true;
-                if (tape.Actions.Save.Active) tape.Actions.Save.Done = true;
-            }
 
             bool inMemory = !onDisk;
 
@@ -171,12 +166,20 @@ namespace JJ.Business.Synthesizer.Wishes
             calculator.Execute();
             stopWatch.Stop();
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
+            
+            if (onDisk)
+            {
+                // Mark Save Actions as Done to avoid duplicate saves.
+                if (tape.Actions.DiskCache.Active) tape.Actions.DiskCache.Done = true;
+                if (tape.Actions.SaveChannels.Active) tape.Actions.SaveChannels.Done = true;
+                if (tape.Actions.Save.Active) tape.Actions.Save.Done = true;
+            }
 
             // Result
             tape.FilePathResolved = resolvedFilePath;
             tape.Bytes = bytes;
             tape.UnderlyingAudioFileOutput = audioFileOutput;
-            
+
             // Report
             string report = SynthLog(tape, calculationDuration);
             Log(report);

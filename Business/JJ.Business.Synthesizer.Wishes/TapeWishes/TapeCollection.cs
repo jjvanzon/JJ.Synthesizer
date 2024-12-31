@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (Has(filePath)) tape.FilePathSuggested = filePath;
             if (Has(callerMemberName)) tape.FallbackName = ResolveName(name, callerMemberName);
-
+            
             double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
             
@@ -60,6 +60,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 AssertCallback(action, callback);
             }
             
+            tape.IsTape = actionType == ActionEnum.Tape;
+
+            //if (tape.Actions.DiskCache.On)
+            //{
+            //    tape.Actions.DiskCache.FilePathSuggested = tape.Descriptor();
+            //}
+
             LogAction(tape, isNew ? "Create" : "Update");
             
             return tape;
