@@ -13,7 +13,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 namespace JJ.Business.Synthesizer.Wishes
 {
     // Derived Audio Properties
-    
+
     /// <inheritdoc cref="docs._audiopropertyextensionwishes"/>
     public static class AudioPropertyExtensionWishes
     {
@@ -278,24 +278,39 @@ namespace JJ.Business.Synthesizer.Wishes
             return sample.GetDuration();
         }
 
-        public static double AudioLength(this AudioFileOutput audioFileOutput)
+        // TODO: Setters
+        // TODO: Shorthands like IsWav/IsRaw.
+
+        public static AudioFileFormatEnum AudioFormat(this SynthWishes synthWishes)
         {
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-            return audioFileOutput.Duration;
-        }
-        
-        public static AudioFileFormatEnum AudioFormat(this Sample sample)
-        {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
-            return sample.GetAudioFileFormatEnum();
-        }
-        
-        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
-            return audioFileOutput.GetAudioFileFormatEnum();
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            return synthWishes.GetAudioFormat;
         }
 
+        public static AudioFileFormatEnum AudioFormat(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.GetAudioFormat;
+        }
+        
+        public static AudioFileFormatEnum AudioFormat(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
+            return configWishes.GetAudioFormat;
+        }
+        
+        internal static AudioFileFormatEnum AudioFormat(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
+            return configSection.AudioFormat ?? default;
+        }
+        
+        public static AudioFileFormatEnum AudioFormat(this Buff buff)
+        {
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            return buff.AudioFormat;
+        }
+        
         public static AudioFileFormatEnum AudioFormat(this Tape tape)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
@@ -306,6 +321,30 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
             return tapeConfig.AudioFormat;
+        }
+        
+        public static AudioFileFormatEnum AudioFormat(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            return tapeAction.Tape.Config.AudioFormat;
+        }
+        
+        public static AudioFileFormatEnum AudioFormat(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            return tapeActions.Tape.Config.AudioFormat;
+        }
+
+        public static AudioFileFormatEnum AudioFormat(this Sample sample)
+        {
+            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            return sample.GetAudioFileFormatEnum();
+        }
+        
+        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            return audioFileOutput.GetAudioFileFormatEnum();
         }
     }
 
