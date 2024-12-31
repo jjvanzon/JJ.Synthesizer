@@ -206,16 +206,16 @@ namespace JJ.Business.Synthesizer.Wishes
             };
         }
 
-        public static AudioFileInfo FromWish(this AudioInfoWish info)
+        public static AudioFileInfo FromWish(this AudioInfoWish infoWish)
         {
-            if (info == null) throw new ArgumentNullException(nameof(info));
+            if (infoWish == null) throw new ArgumentNullException(nameof(infoWish));
 
             return new AudioFileInfo
             {
-                BytesPerValue = info.Bits / 8,
-                ChannelCount = info.Channels,
-                SampleCount = info.FrameCount,
-                SamplingRate = info.SamplingRate
+                BytesPerValue = infoWish.Bits / 8,
+                ChannelCount = infoWish.Channels,
+                SampleCount = infoWish.FrameCount,
+                SamplingRate = infoWish.SamplingRate
             };
         }
 
