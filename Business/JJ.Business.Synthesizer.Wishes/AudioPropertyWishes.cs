@@ -6,6 +6,7 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Diagnostics;
 using System.IO;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
@@ -1305,47 +1306,37 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #endregion
         
+        #region FileExtension
+        
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileFormatEnum enumValue)
+        public static string FileExtension(this AudioFileFormatEnum audioFormat)
         {
-            switch (enumValue)
+            switch (audioFormat)
             {
                 case Wav: return ".wav";
                 case Raw: return ".raw";
-                default:
-                    throw new ValueNotSupportedException(enumValue);
+                default: throw new ValueNotSupportedException(audioFormat);
             }
         }
 
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileFormat enumEntity)
-            => EnumFromEntityWishes.ToEnum(enumEntity).FileExtension();
-
-        /// <inheritdoc cref="docs._fileextension"/>
-        // ReSharper disable once UnusedParameter.Global
-        public static string FileExtension(this WavHeaderStruct wavHeader)
-            => FileExtension(Wav);
-
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Sample entity)
         {
-            if (entity == null) throw new NullException(() => entity);
-            return FileExtension(entity.AudioFileFormat);
-        }
-
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return FileExtension(entity.AudioFileFormat);
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return enumEntity.ToEnum().FileExtension();
         }
         
-        public static string FileExtension(this TapeConfig tapeConfig)
-        {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.AudioFormat.FileExtension();
-        }
-
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => FileExtension(Wav);
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this Sample sample) => AudioFormat(sample).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).FileExtension();
+        
+        #endregion
+        
         public static int FileLengthNeeded(this AudioFileOutput entity, int courtesyFrames)
         {
             // CourtesyBytes to accomodate a floating-point imprecision issue in the audio loop.
