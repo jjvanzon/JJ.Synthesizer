@@ -1186,54 +1186,30 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength) 
             => (ByteCount(bytes, filePath) - headerLength) / frameSize;
 
-        public static int FrameCount(this SynthWishes synthWishes)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return (int)(synthWishes.AudioLength() * synthWishes.SamplingRate());
-        }
-
-        public static int FrameCount(this FlowNode flowNode)
-        {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return (int)(flowNode.AudioLength() * flowNode.SamplingRate());
-        }
-
-        public static int FrameCount(this ConfigWishes configWishes, SynthWishes synthWishes)
-        {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return (int)(configWishes.AudioLength(synthWishes) * configWishes.SamplingRate());
-        }
-
-        internal static int FrameCount(this ConfigSection configSection)
-        {
-            if (configSection == null) throw new NullException(() => configSection);
-            return (int)(configSection.AudioLength() * configSection.SamplingRate());
-        }
+        public static int FrameCount(this SynthWishes synthWishes) 
+            => (int)(AudioLength(synthWishes) * SamplingRate(synthWishes));
         
-        public static int FrameCount(this Tape tape)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            return (int)(tape.AudioLength() * tape.SamplingRate());
-        }
-
-        public static int FrameCount(this TapeConfig tapeConfig)
-        {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return (int)(tapeConfig.AudioLength() * tapeConfig.SamplingRate());
-        }
-
-        public static int FrameCount(this TapeAction tapeAction)
-        {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return (int)(tapeAction.AudioLength() * tapeAction.SamplingRate());
-        }
+        public static int FrameCount(this FlowNode flowNode) 
+            => (int)(AudioLength(flowNode) * SamplingRate(flowNode));
         
-        public static int FrameCount(this TapeActions tapeActions)
-        {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return (int)(tapeActions.AudioLength() * tapeActions.SamplingRate());
-        }
-                        
+        public static int FrameCount(this ConfigWishes configWishes, SynthWishes synthWishes) 
+            => (int)(AudioLength(configWishes, synthWishes) * SamplingRate(configWishes));
+        
+        internal static int FrameCount(this ConfigSection configSection) 
+            => (int)(AudioLength(configSection) * SamplingRate(configSection));
+        
+        public static int FrameCount(this Tape tape) 
+            => (int)(AudioLength(tape) * SamplingRate(tape));
+        
+        public static int FrameCount(this TapeConfig tapeConfig) 
+            => (int)(AudioLength(tapeConfig) * SamplingRate(tapeConfig));
+        
+        public static int FrameCount(this TapeAction tapeAction) 
+            => (int)(AudioLength(tapeAction) * SamplingRate(tapeAction));
+        
+        public static int FrameCount(this TapeActions tapeActions) 
+            => (int)(AudioLength(tapeActions) * SamplingRate(tapeActions));
+        
         public static int FrameCount(this Buff buff)
         {
             if (buff == null) throw new NullException(() => buff);
@@ -1259,12 +1235,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return FrameCount(sample.Bytes, sample.Location, FrameSize(sample), HeaderLength(sample));
         }
 
-        public static int FrameCount(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return (int)(audioFileOutput.AudioLength() * audioFileOutput.SamplingRate());
-        }
-
+        public static int FrameCount(this AudioFileOutput audioFileOutput) 
+            => (int)(AudioLength(audioFileOutput) * SamplingRate(audioFileOutput));
+        
         public static int FrameCount(this WavHeaderStruct wavHeader) 
             => wavHeader.ToWish().FrameCount();
         
