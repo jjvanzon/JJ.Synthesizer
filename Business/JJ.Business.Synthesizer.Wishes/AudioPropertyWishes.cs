@@ -1327,14 +1327,30 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => FileExtension(Wav);
+        public static string FileExtension(this SynthWishes synthWishes) => AudioFormat(synthWishes).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this FlowNode flowNode) => AudioFormat(flowNode).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this ConfigWishes configWishes) => AudioFormat(configWishes).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        internal static string FileExtension(this ConfigSection configSection) => AudioFormat(configSection).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this Tape tape) => AudioFormat(tape).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this TapeActions tapeActions) => AudioFormat(tapeActions).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this TapeAction tapeAction) => AudioFormat(tapeAction).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this Buff buff) => AudioFormat(buff.UnderlyingAudioFileOutput).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Sample sample) => AudioFormat(sample).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).FileExtension();
-        
+        public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => AudioFormat(wavHeader).FileExtension();
+
         #endregion
         
         public static int FileLengthNeeded(this AudioFileOutput entity, int courtesyFrames)
