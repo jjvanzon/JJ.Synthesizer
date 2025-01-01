@@ -1307,6 +1307,34 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #endregion
         
+        #region HeaderLength
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this AudioFileFormatEnum audioFormat)
+        {
+            switch (audioFormat)
+            {
+                case AudioFileFormatEnum.Wav: return 44;
+                case AudioFileFormatEnum.Raw: return 0;
+                default: throw new ValueNotSupportedException(audioFormat);
+            }
+        }
+
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this AudioFileFormat enumEntity) => enumEntity.ToEnum().HeaderLength();
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        // ReSharper disable once UnusedParameter.Global
+        public static int HeaderLength(this WavHeaderStruct wavHeader) => HeaderLength(AudioFileFormatEnum.Wav);
+
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this Sample entity) => AudioFormat(entity).HeaderLength();
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this AudioFileOutput entity) => AudioFormat(entity).HeaderLength();
+
+        #endregion
+        
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileFormatEnum enumValue)
         {
@@ -1346,41 +1374,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return tapeConfig.AudioFormat.FileExtension();
-        }
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormatEnum enumValue)
-        {
-            switch (enumValue)
-            {
-                case AudioFileFormatEnum.Wav: return 44;
-                case AudioFileFormatEnum.Raw: return 0;
-                default:
-                    throw new ValueNotSupportedException(enumValue);
-            }
-        }
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormat enumEntity)
-            => EnumFromEntityWishes.ToEnum(enumEntity).HeaderLength();
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        // ReSharper disable once UnusedParameter.Global
-        public static int HeaderLength(this WavHeaderStruct wavHeader)
-            => HeaderLength(AudioFileFormatEnum.Wav);
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Sample entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return entity.GetAudioFileFormatEnum().HeaderLength();
-        }
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return entity.GetAudioFileFormatEnum().HeaderLength();
         }
 
         public static int FileLengthNeeded(this AudioFileOutput entity, int courtesyFrames)
