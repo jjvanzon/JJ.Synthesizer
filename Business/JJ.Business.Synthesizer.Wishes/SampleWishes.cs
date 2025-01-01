@@ -110,8 +110,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Not detected from header, so we need to set it manually.
                 sample.SamplingRate = GetSamplingRate;
-                sample.SetBits(GetBits, Context);
-                sample.SetChannels(GetChannels, Context);
+                sample.Bits(GetBits, Context);
+                sample.Channels(GetChannels, Context);
             }
 
             sample.Amplifier = 1.0 / sample.MaxValue();
@@ -163,8 +163,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Not detected from header, so we need to set it manually.
                 sample.SamplingRate = tape.Config.SamplingRate;
-                sample.SetChannels(tape.Config.Channels, Context);
-                sample.SetBits(tape.Config.Bits, Context);
+                sample.Channels(tape.Config.Channels, Context);
+                sample.Bits(tape.Config.Bits, Context);
             }
             
             sample.BytesToSkip = bytesToSkip;
@@ -209,10 +209,10 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Location =  location;
             sample.Amplifier = 1.0 / GetBits.MaxValue();
             sample.SamplingRate = GetSamplingRate;
-            sample.SetBits(GetBits, Context);
-            sample.SetChannels(GetChannels, Context);
+            sample.Bits(GetBits, Context);
+            sample.Channels(GetChannels, Context);
             sample.AudioFormat(GetAudioFormat, Context);
-            sample.SetInterpolationTypeEnum(GetInterpolation, Context);
+            sample.Interpolation(GetInterpolation, Context);
             
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);

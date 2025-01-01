@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private SampleDataTypeEnum _sampleDataTypeEnum;
         public int GetBits => _sampleDataTypeEnum != default ? _sampleDataTypeEnum.Bits() : _section.Bits ?? DefaultBits;
-        public void WithBits(int bits) => _sampleDataTypeEnum = bits.ToSampleDataTypeEnum();
+        public void WithBits(int bits) => _sampleDataTypeEnum = bits.BitsToEnum();
         public bool Is32Bit => GetBits == 32;
         public void With32Bit() => WithBits(32);
         public bool Is16Bit => GetBits == 16;
@@ -167,8 +167,8 @@ namespace JJ.Business.Synthesizer.Wishes
         // Channels
         
         private SpeakerSetupEnum _speakerSetupEnum;
-        public int GetChannels => _speakerSetupEnum != default ? _speakerSetupEnum.GetChannels() : _section.Channels ?? DefaultChannels;
-        public void WithChannels(int channels) => _speakerSetupEnum = channels.ToSpeakerSetupEnum();
+        public int GetChannels => _speakerSetupEnum != default ? _speakerSetupEnum.Channels() : _section.Channels ?? DefaultChannels;
+        public void WithChannels(int channels) => _speakerSetupEnum = channels.ChannelsToEnum();
         public bool IsMono => GetChannels == 1;
         public void WithMono() => WithChannels(1);
         public bool IsStereo => GetChannels == 2;

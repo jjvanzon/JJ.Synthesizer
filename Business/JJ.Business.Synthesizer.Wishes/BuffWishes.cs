@@ -83,8 +83,8 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.Amplifier = tape.Config.Bits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
-            audioFileOutput.SetBits(tape.Config.Bits, Context);
-            audioFileOutput.SetAudioFileFormatEnum(tape.Config.AudioFormat, Context);
+            audioFileOutput.Bits(tape.Config.Bits, Context);
+            audioFileOutput.AudioFormat(tape.Config.AudioFormat, Context);
             audioFileOutput.SamplingRate = tape.Config.SamplingRate;
             
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(tape.Outlets.Count, Context);

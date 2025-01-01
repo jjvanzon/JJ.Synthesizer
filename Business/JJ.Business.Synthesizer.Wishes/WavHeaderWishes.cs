@@ -226,7 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => new AudioInfoWish
             {
                 Bits = typeof(TSampleDataType).Bits(),
-                Channels = speakerSetup.GetChannels(),
+                Channels = speakerSetup.Channels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => new AudioInfoWish
             {
                 Bits = sampleDataType.Bits(),
-                Channels = speakerSetup.GetChannels(),
+                Channels = speakerSetup.Channels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };
@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return new AudioInfoWish
             {
                 Bits = sampleDataTypeEnum.Bits(),
-                Channels = speakerSetup.GetChannels(),
+                Channels = speakerSetup.Channels(),
                 SamplingRate = samplingRate,
                 FrameCount = frameCount
             };

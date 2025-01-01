@@ -51,22 +51,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // OperatorWishes.SynthWishes.Panning Dynamic_InvalidChannelEnum
             //ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
-            // AudioFileWishes.Extensions.GetChannelCount SpeakerSetupNotSupported
-            ThrowsException(() => SpeakerSetupEnum.Undefined.GetChannels());
+            // AudioPropertyWishes.Channels SpeakerSetupNotSupported
+            ThrowsException(() => SpeakerSetupEnum.Undefined.Channels());
 
-            // AudioFileWishes.Extensions.GetSpeakerSetupEnum ChannelCountNotSupported
-            ThrowsException(() => 0.ToSpeakerSetupEnum());
+            // AudioPropertyWishes.ChannelsToEnum ChannelCountNotSupported
+            ThrowsException(() => 0.ChannelsToEnum());
 
-            // AudioFileWishes.Extensions.GetSampleDataTypeEnum SampleDataTypeNotSupported
-            ThrowsException(() => EnumSpecialWishes.GetSampleDataTypeEnum<long>());
-
-            // AudioFileWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
+            // AudioPropertyWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.FileExtension());
 
-            // AudioFileWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
+            // AudioPropertyWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
             ThrowsException(() => SampleDataTypeEnum.Undefined.MaxValue());
 
-            // AudioFileWishes.Extensions.GetHeaderLength AudioFileFormatNotSupported
+            // AudioPropertyWishes.Extensions.GetHeaderLength AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.HeaderLength());
         }
 

@@ -1,9 +1,11 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Wishes.AudioPropertyWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -73,22 +75,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void _16BitHelpers_Test()
         {
-            AreEqual(SampleDataTypeEnum.Int16, () => EnumSpecialWishes.GetSampleDataTypeEnum<short>());
+            AreEqual(SampleDataTypeEnum.Int16, () => 16.BitsToEnum());
         }
 
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
         public void _8BitHelpers_Test()
         {
-            AreEqual(SampleDataTypeEnum.Byte, () => EnumSpecialWishes.GetSampleDataTypeEnum<byte>());
+            AreEqual(SampleDataTypeEnum.Byte, () => 8.BitsToEnum());
         }
  
         /// <inheritdoc cref="docs._testaudiopropertywishes"/>
         [TestMethod]
         public void ChannelCountToSpeakerSetup_Test()
         {
-            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ToSpeakerSetupEnum());
-            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ToSpeakerSetupEnum());
+            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ChannelsToEnum());
+            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ChannelsToEnum());
             
         }
     } 

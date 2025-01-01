@@ -7,7 +7,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 // ReSharper disable InvokeAsExtensionMethod
@@ -124,48 +123,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class EnumSpecialWishes
     {
-        // Bits
-        
-        public static void SetBits(this Sample entity, int bits, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
-        }
-        
-        public static void SetBits(this AudioFileOutput entity, int bits, IContext context = null)
-        {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            entity.SetSampleDataTypeEnum(bits.ToSampleDataTypeEnum(), context);
-        }
-
-        // Channels
-       
-        public static int GetChannels(this SpeakerSetupEnum speakerSetupEnum)
-        {
-            switch (speakerSetupEnum)
-            {
-                case SpeakerSetupEnum.Mono: return 1;
-                case SpeakerSetupEnum.Stereo: return 2;
-                default: throw new ValueNotSupportedException(speakerSetupEnum);
-            }
-        }
-
-        public static SpeakerSetupEnum ToSpeakerSetupEnum(this int channels)
-        {
-            switch (channels)
-            {
-                case 1: return SpeakerSetupEnum.Mono;
-                case 2: return SpeakerSetupEnum.Stereo;
-                default: throw new ValueNotSupportedException(channels);
-            }
-        }
-        
-        public static void SetChannels(this Sample entity, int channels, IContext context = null)
-        {
-            var repository = CreateRepository<ISpeakerSetupRepository>(context);
-            entity.SetSpeakerSetupEnum(channels.ToSpeakerSetupEnum(), repository);
-        }
-
         // Channel
         
         public static int ToChannel(this ChannelEnum channelEnum, IContext context = null)
@@ -176,10 +133,10 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public static ChannelEnum ToChannelEnum(this int? channel, int channels)
-            => ToChannelEnum(channel, channels.ToSpeakerSetupEnum());
+            => ToChannelEnum(channel, channels.ChannelsToEnum());
 
         public static ChannelEnum ToChannelEnum(this int channel, int channels)
-            => ToChannelEnum(channel, channels.ToSpeakerSetupEnum());
+            => ToChannelEnum(channel, channels.ChannelsToEnum());
 
         public static ChannelEnum ToChannelEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
             => channel.HasValue ? ToChannelEnum(channel.Value, speakerSetupEnum) : ChannelEnum.Undefined;
@@ -200,27 +157,6 @@ namespace JJ.Business.Synthesizer.Wishes
             
             throw new NotSupportedException(
                 "Unsupported combination of values: " + new { speakerSetupEnum, channel });
-        }
-
-        
-        // SampleDataType
-       
-        public static SampleDataTypeEnum ToSampleDataTypeEnum(this int bits)
-        {
-            switch (bits)
-            {
-                case 8: return SampleDataTypeEnum.Byte;
-                case 16: return SampleDataTypeEnum.Int16;
-                case 32: return SampleDataTypeEnum.Float32;
-                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
-            }
-        }
-
-        public static SampleDataTypeEnum GetSampleDataTypeEnum<TSampleDataType>()
-        {
-            if (typeof(TSampleDataType) == typeof(short)) return SampleDataTypeEnum.Int16;
-            if (typeof(TSampleDataType) == typeof(byte)) return SampleDataTypeEnum.Byte;
-            throw new ValueNotSupportedException(typeof(TSampleDataType));
         }
 
         // SpeakerSetupChannel by ChannelEnum

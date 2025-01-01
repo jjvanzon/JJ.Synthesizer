@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             audioFileOutput.Amplifier = synthWishes.GetBits.MaxValue();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? synthWishes.GetAudioLength).Calculate();
-            audioFileOutput.SetBits(synthWishes.GetBits, synthWishes.Context);
+            audioFileOutput.Bits(synthWishes.GetBits, synthWishes.Context);
             audioFileOutput.AudioFormat(synthWishes.GetAudioFormat, synthWishes.Context);
             audioFileOutput.SamplingRate = synthWishes.GetSamplingRate;
             

@@ -16,15 +16,17 @@ using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 namespace JJ.Business.Synthesizer.Wishes
 {
     /// <inheritdoc cref="docs._audiopropertywishes"/>
-    public static class AudioPropertyExtensionWishes
+    public static class AudioPropertyWishes
     {
         // TODO: For all the object types
         // TODO: For all the enum(-like) types
         // TODO: Setters returning `this` for fluent chaining.
         // TODO: Shorthands like IsWav/IsRaw.
-        // TODO: All the audio properties, even if they already exist as properties or otherwise.
+        // TODO: All the audio properties, even if they already exist as properties or otherwise. (Don't forget: Channel property)
         // TODO: Complete the conversions from enum to something else.
 
+        // Primary Audio Properties
+        
         #region Bits
         
         public static int Bits(this SynthWishes synthWishes)
@@ -150,26 +152,26 @@ namespace JJ.Business.Synthesizer.Wishes
             return Bits(sample.GetSampleDataTypeEnum());
         }
         
-        public static Sample Bits(this Sample sample, int bits)
+        public static Sample Bits(this Sample sample, int bits, IContext context = null)
         {
             if (sample == null) throw new NullException(() => sample);
-            sample.SetBits(bits);
+            sample.SetSampleDataTypeEnum(bits.BitsToEnum(), context);
             return sample;
         }
-        
+
         public static int Bits(this AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             return Bits(audioFileOutput.GetSampleDataTypeEnum());
         }
 
-        public static AudioFileOutput Bits(this AudioFileOutput audioFileOutput, int bits)
+        public static AudioFileOutput Bits(this AudioFileOutput audioFileOutput, int bits, IContext context = null)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.SetBits(bits);
+            audioFileOutput.SetSampleDataTypeEnum(bits.BitsToEnum(), context);
             return audioFileOutput;
         }
-        
+
         public static int Bits(this WavHeaderStruct wavHeader)
             => wavHeader.BitsPerValue;
 
@@ -202,11 +204,40 @@ namespace JJ.Business.Synthesizer.Wishes
             return info;
         }
                 
-        public static int Bits(this SampleDataTypeEnum enumValue)
-            => enumValue.SizeOfBitDepth() * 8;
+        public static int Bits<TValueType>() => Bits(typeof(TValueType));
+        
+        public static int Bits(this Type valueType) 
+        {
+            switch (valueType)
+            {
+                case Type t when t == typeof(Byte): return 8;
+                case Type t when t == typeof(Int16): return 16;
+                case Type t when t == typeof(Single): return 32;
+                default: throw new ValueNotSupportedException(valueType);
+            }
+        }
 
-        public static int Bits(this Type sampleDataType)
-            => SizeOfBitDepth(sampleDataType) * 8;
+        public static int Bits(this SampleDataTypeEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case SampleDataTypeEnum.Byte: return 8;
+                case SampleDataTypeEnum.Int16: return 16;
+                case SampleDataTypeEnum.Float32: return 32;
+                default: throw new ValueNotSupportedException(enumValue);
+            }
+        }
+        
+        public static SampleDataTypeEnum BitsToEnum(this int bits)
+        {
+            switch (bits)
+            {
+                case 8: return SampleDataTypeEnum.Byte;
+                case 16: return SampleDataTypeEnum.Int16;
+                case 32: return SampleDataTypeEnum.Float32;
+                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
+            }
+        }
 
         #endregion
                 
@@ -338,7 +369,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Sample Channels(this Sample sample, int channels, IContext context = null)
         {
             if (sample == null) throw new NullException(() => sample);
-            sample.SetSpeakerSetupEnum(channels.ToSpeakerSetupEnum(), context);
+            sample.SetSpeakerSetupEnum(channels.ChannelsToEnum(), context);
             return sample;
         }
         
@@ -385,6 +416,26 @@ namespace JJ.Business.Synthesizer.Wishes
             if (info == null) throw new NullException(() => info);
             info.ChannelCount = channels;
             return info;
+        }
+        
+        public static int Channels(this SpeakerSetupEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case SpeakerSetupEnum.Mono: return 1;
+                case SpeakerSetupEnum.Stereo: return 2;
+                default: throw new ValueNotSupportedException(enumValue);
+            }
+        }
+
+        public static SpeakerSetupEnum ChannelsToEnum(this int channels)
+        {
+            switch (channels)
+            {
+                case 1: return SpeakerSetupEnum.Mono;
+                case 2: return SpeakerSetupEnum.Stereo;
+                default: throw new ValueNotSupportedException(channels);
+            }
         }
 
         #endregion
@@ -712,100 +763,167 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SetAudioFileFormatEnum(audioFormat, context);
             return audioFileOutput;
         }
+        
+        // ReSharper disable once UnusedParameter.Global
+        public static AudioFileFormatEnum AudioFormat(WavHeaderStruct wavHeader) => AudioFileFormatEnum.Wav;
+        
+        #endregion
+        
+        #region Interpolation
+        
+        public static InterpolationTypeEnum Interpolation(this SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.GetInterpolation;
+        }
+
+        public static SynthWishes Interpolation(this SynthWishes synthWishes, InterpolationTypeEnum interpolation)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.WithInterpolation(interpolation);
+            return synthWishes;
+        }
+
+        public static InterpolationTypeEnum Interpolation(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.GetInterpolation;
+        }
+
+        public static FlowNode Interpolation(this FlowNode flowNode, InterpolationTypeEnum interpolation)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            flowNode.WithInterpolation(interpolation);
+            return flowNode;
+        }
+
+        public static InterpolationTypeEnum Interpolation(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return configWishes.GetInterpolation;
+        }
+
+        public static ConfigWishes Interpolation(this ConfigWishes configWishes, InterpolationTypeEnum interpolation)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithInterpolation(interpolation);
+            return configWishes;
+        }
+
+        internal static InterpolationTypeEnum Interpolation(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            return configSection.Interpolation ?? default;
+        }
+
+        internal static ConfigSection Interpolation(this ConfigSection configSection, InterpolationTypeEnum interpolation)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            configSection.Interpolation = interpolation;
+            return configSection;
+        }
+
+        public static InterpolationTypeEnum Interpolation(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.Config.Interpolation;
+        }
+
+        public static Tape Interpolation(this Tape tape, InterpolationTypeEnum interpolation)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.Interpolation = interpolation;
+            return tape;
+        }
+
+        public static InterpolationTypeEnum Interpolation(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.Interpolation;
+        }
+
+        public static TapeConfig Interpolation(this TapeConfig tapeConfig, InterpolationTypeEnum interpolation)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.Interpolation = interpolation;
+            return tapeConfig;
+        }
+
+        public static InterpolationTypeEnum Interpolation(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return tapeAction.Tape.Config.Interpolation;
+        }
+
+        public static TapeAction Interpolation(this TapeAction tapeAction, InterpolationTypeEnum interpolation)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            tapeAction.Tape.Config.Interpolation = interpolation;
+            return tapeAction;
+        }
+
+        public static InterpolationTypeEnum Interpolation(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return tapeActions.Tape.Config.Interpolation;
+        }
+
+        public static TapeActions Interpolation(this TapeActions tapeActions, InterpolationTypeEnum interpolation)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            tapeActions.Tape.Config.Interpolation = interpolation;
+            return tapeActions;
+        }
+
+        public static InterpolationTypeEnum Interpolation(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            return sample.GetInterpolationTypeEnum();
+        }
+
+        public static Sample Interpolation(this Sample sample, InterpolationTypeEnum interpolation, IContext context)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            sample.SetInterpolationTypeEnum(interpolation, context);
+            return sample;
+        }
     
         #endregion
-
+        
         // Derived Properties
         
         #region SizeOfBitDepth
         
-        public static int SizeOfBitDepth(this SynthWishes synthWishes)
-            => Bits(synthWishes) / 8;
-
-        public static SynthWishes SizeOfBitDepth(this SynthWishes synthWishes, int bytes)
-            => Bits(synthWishes, bytes * 8);
-
-        public static int SizeOfBitDepth(this FlowNode flowNode)
-            => Bits(flowNode) / 8;
-
-        public static FlowNode SizeOfBitDepth(this FlowNode flowNode, int bytes)
-            => Bits(flowNode, bytes * 8);
-
-        public static int SizeOfBitDepth(this ConfigWishes configWishes)
-            => Bits(configWishes) / 8;
-
-        public static ConfigWishes SizeOfBitDepth(this ConfigWishes configWishes, int bytes)
-            => Bits(configWishes, bytes * 8);
-
-        internal static int SizeOfBitDepth(this ConfigSection configSection)
-            => Bits(configSection) / 8;
-
-        internal static ConfigSection SizeOfBitDepth(this ConfigSection configSection, int bytes)
-            => Bits(configSection, bytes * 8);
-
-        public static int SizeOfBitDepth(this Tape tape)
-            => Bits(tape) / 8;
-
-        public static Tape SizeOfBitDepth(this Tape tape, int bytes)
-            => Bits(tape, bytes * 8);
-
-        public static int SizeOfBitDepth(this TapeConfig tapeConfig)
-            => Bits(tapeConfig) / 8;
-
-        public static TapeConfig SizeOfBitDepth(this TapeConfig tapeConfig, int bytes)
-            => Bits(tapeConfig, bytes * 8);
-
-        public static int SizeOfBitDepth(this TapeActions tapeActions)
-            => Bits(tapeActions) / 8;
-
-        public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes)
-            => Bits(tapeActions, bytes * 8);
-
-        public static int SizeOfBitDepth(this TapeAction tapeAction)
-            => Bits(tapeAction) / 8;
-
-        public static TapeAction SizeOfBitDepth(this TapeAction tapeAction, int bytes)
-            => Bits(tapeAction, bytes * 8);
-
-        public static int SizeOfBitDepth(this Buff buff)
-            => Bits(buff) / 8;
-
-        public static Buff SizeOfBitDepth(this Buff buff, int bytes)
-            => Bits(buff, bytes * 8);
-
-        public static int SizeOfBitDepth(this Sample sample)
-            => Bits(sample) / 8;
-
-        public static Sample SizeOfBitDepth(this Sample sample, int bytes)
-            => Bits(sample, bytes * 8);
-
-        public static int SizeOfBitDepth(this AudioFileOutput audioFileOutput)
-            => Bits(audioFileOutput) / 8;
-
-        public static AudioFileOutput SizeOfBitDepth(this AudioFileOutput audioFileOutput, int bytes)
-            => Bits(audioFileOutput, bytes * 8);
-
-        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader)
-            => Bits(wavHeader) / 8;
-
-        public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct wavHeader, int bytes)
-            => Bits(wavHeader, bytes * 8);
-
-        public static int SizeOfBitDepth(this AudioInfoWish infoWish)
-            => Bits(infoWish) / 8;
-
-        public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int bytes)
-            => Bits(infoWish, bytes * 8);
-
-        public static int SizeOfBitDepth(this AudioFileInfo info)
-            => Bits(info) / 8;
-
-        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes)
-            => Bits(info, bytes * 8);
-
-        public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue)
-            => SampleDataTypeHelper.SizeOf(enumValue);
-
+        public static int SizeOfBitDepth(this SynthWishes synthWishes) => Bits(synthWishes) / 8;
+        public static SynthWishes SizeOfBitDepth(this SynthWishes synthWishes, int bytes) => Bits(synthWishes, bytes * 8);
+        public static int SizeOfBitDepth(this FlowNode flowNode) => Bits(flowNode) / 8;
+        public static FlowNode SizeOfBitDepth(this FlowNode flowNode, int bytes) => Bits(flowNode, bytes * 8);
+        public static int SizeOfBitDepth(this ConfigWishes configWishes) => Bits(configWishes) / 8;
+        public static ConfigWishes SizeOfBitDepth(this ConfigWishes configWishes, int bytes) => Bits(configWishes, bytes * 8);
+        internal static int SizeOfBitDepth(this ConfigSection configSection) => Bits(configSection) / 8;
+        internal static ConfigSection SizeOfBitDepth(this ConfigSection configSection, int bytes) => Bits(configSection, bytes * 8);
+        public static int SizeOfBitDepth(this Tape tape) => Bits(tape) / 8;
+        public static Tape SizeOfBitDepth(this Tape tape, int bytes) => Bits(tape, bytes * 8);
+        public static int SizeOfBitDepth(this TapeConfig tapeConfig) => Bits(tapeConfig) / 8;
+        public static TapeConfig SizeOfBitDepth(this TapeConfig tapeConfig, int bytes) => Bits(tapeConfig, bytes * 8);
+        public static int SizeOfBitDepth(this TapeActions tapeActions) => Bits(tapeActions) / 8;
+        public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes) => Bits(tapeActions, bytes * 8);
+        public static int SizeOfBitDepth(this TapeAction tapeAction) => Bits(tapeAction) / 8;
+        public static TapeAction SizeOfBitDepth(this TapeAction tapeAction, int bytes) => Bits(tapeAction, bytes * 8);
+        public static int SizeOfBitDepth(this Buff buff) => Bits(buff) / 8;
+        public static Buff SizeOfBitDepth(this Buff buff, int bytes) => Bits(buff, bytes * 8);
+        public static int SizeOfBitDepth(this Sample sample) => Bits(sample) / 8;
+        public static Sample SizeOfBitDepth(this Sample sample, int bytes) => Bits(sample, bytes * 8);
+        public static int SizeOfBitDepth(this AudioFileOutput audioFileOutput) => Bits(audioFileOutput) / 8;
+        public static AudioFileOutput SizeOfBitDepth(this AudioFileOutput audioFileOutput, int bytes) => Bits(audioFileOutput, bytes * 8);
+        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader) => Bits(wavHeader) / 8;
+        public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct wavHeader, int bytes) => Bits(wavHeader, bytes * 8);
+        public static int SizeOfBitDepth(this AudioInfoWish infoWish) => Bits(infoWish) / 8;
+        public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int bytes) => Bits(infoWish, bytes * 8);
+        public static int SizeOfBitDepth(this AudioFileInfo info) => Bits(info) / 8;
+        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes) => Bits(info, bytes * 8);
+        public static int SizeOfBitDepth(this int bits) => bits / 8;
+        public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue) => SampleDataTypeHelper.SizeOf(enumValue);
         public static int SizeOfBitDepth(Type sampleDataType)
         {
             if (sampleDataType == typeof(Byte)) return 1;
@@ -814,47 +932,99 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new ValueNotSupportedException(sampleDataType);
         }
 
-        public static int SizeOfBitDepth(this int bits) 
-            => bits / 8;
+        #endregion
+        
+        #region FrameSize
+        
+        public static int FrameSize(this SynthWishes synthWishes) => SizeOfBitDepth(synthWishes) * Channels(synthWishes);
+        public static int FrameSize(this FlowNode flowNode) => SizeOfBitDepth(flowNode) * Channels(flowNode);
+        public static int FrameSize(this ConfigWishes configWishes) => SizeOfBitDepth(configWishes) * Channels(configWishes);
+        internal static int FrameSize(this ConfigSection configSection) => SizeOfBitDepth(configSection) * Channels(configSection);
+        public static int FrameSize(this Tape tape) => SizeOfBitDepth(tape) * Channels(tape);
+        public static int FrameSize(this TapeConfig tapeConfig) => SizeOfBitDepth(tapeConfig) * Channels(tapeConfig);
+        public static int FrameSize(this TapeAction tapeAction) => SizeOfBitDepth(tapeAction) * Channels(tapeAction);
+        public static int FrameSize(this TapeActions tapeActions) => SizeOfBitDepth(tapeActions) * Channels(tapeActions);
+        public static int FrameSize(this Buff buff) => SizeOfBitDepth(buff) * Channels(buff);
+        public static int FrameSize(this Sample sample) => SizeOfBitDepth(sample) * Channels(sample);
+        public static int FrameSize(this AudioFileOutput audioFileOutput) => SizeOfBitDepth(audioFileOutput) * Channels(audioFileOutput);
+        public static int FrameSize(this WavHeaderStruct wavHeader) => SizeOfBitDepth(wavHeader) * Channels(wavHeader);
+        public static int FrameSize(this AudioInfoWish infoWish) => SizeOfBitDepth(infoWish) * Channels(infoWish);
+        public static int FrameSize(this AudioFileInfo info) => SizeOfBitDepth(info) * Channels(info);
 
         #endregion
-
-        public static int FrameSize(WavHeaderStruct wavHeader)
+        
+        #region MaxValue
+        
+        public static double MaxValue(this SynthWishes synthWishes) => MaxValue(Bits(synthWishes));
+        public static double MaxValue(this FlowNode flowNode) => MaxValue(Bits(flowNode));
+        public static double MaxValue(this ConfigWishes configWishes) => MaxValue(Bits(configWishes));
+        internal static double MaxValue(this ConfigSection configSection) => MaxValue(Bits(configSection));
+        public static double MaxValue(this Buff buff) => MaxValue(Bits(buff));
+        public static double MaxValue(this Tape tape) => MaxValue(Bits(tape));
+        public static double MaxValue(this TapeConfig tapeConfig) => MaxValue(Bits(tapeConfig));
+        public static double MaxValue(this TapeAction tapeAction) => MaxValue(Bits(tapeAction));
+        public static double MaxValue(this TapeActions tapeActions) => MaxValue(Bits(tapeActions));
+        public static double MaxValue(this Sample sample) => MaxValue(Bits(sample));
+        public static double MaxValue(this AudioFileOutput audioFileOutput) => MaxValue(Bits(audioFileOutput));
+        public static double MaxValue(this WavHeaderStruct wavHeader) => MaxValue(Bits(wavHeader));
+        public static double MaxValue(this AudioFileInfo info) => MaxValue(Bits(info));
+        public static double MaxValue(this AudioInfoWish infoWish) => MaxValue(Bits(infoWish));
+        public static double MaxValue(this int bits) => MaxValue(BitsToEnum(bits));
+        public static double MaxValue(this SampleDataTypeEnum enumValue)
         {
-            return SizeOfBitDepth(wavHeader) * wavHeader.ChannelCount;
+            switch (enumValue)
+            {
+                case SampleDataTypeEnum.Float32: return 1;
+                case SampleDataTypeEnum.Int16: return Int16.MaxValue;
+                // ReSharper disable once PossibleLossOfFraction
+                case SampleDataTypeEnum.Byte: return Byte.MaxValue / 2;
+                default: throw new ValueNotSupportedException(enumValue);
+            }
         }
 
-        public static int FrameSize(this AudioFileInfo info)
+        #endregion
+        
+        // Durations
+        
+        #region AudioLength
+        
+        public static double AudioLength(this WavHeaderStruct wavHeader) 
+            => wavHeader.ToWish().AudioLength();
+        
+        public static double AudioLength(this AudioFileInfo info)
         {
             if (info == null) throw new NullException(() => info);
-            return info.ToWish().FrameSize();
+            return info.ToWish().AudioLength();
+        }
+
+        public static double AudioLength(this AudioInfoWish info)
+        {
+            if (info == null) throw new NullException(() => info);
+            if (info.FrameCount == 0) return 0;
+            if (info.Channels == 0) throw new Exception("info.Channels == 0");
+            if (info.SamplingRate == 0) throw new Exception("info.SamplingRate == 0");
+            return (double)info.FrameCount / info.Channels / info.SamplingRate;
+        }
+
+        public static double AudioLength(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            return sample.GetDuration();
         }
         
-        public static int FrameSize(this AudioInfoWish info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return SizeOfBitDepth(info) * info.Channels;
-        }
+        #endregion
 
-        public static int FrameSize(this Sample entity)
+        #region FrameCount
+        
+        public static int FrameCount(this Sample sample)
         {
-            if (entity == null) throw new NullException(() => entity);
-            return SizeOfBitDepth(entity) * entity.GetChannelCount();
+            if (sample == null) throw new NullException(() => sample);
+            if (sample.Bytes == null) throw new NullException(() => sample.Bytes);
+            return (sample.Bytes.Length - HeaderLength(sample)) / FrameSize(sample);
         }
-
-        public static int FrameSize(this AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return SizeOfBitDepth(entity) * entity.GetChannelCount();
-        }
-
-        public static int FrameCount(this Sample entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (entity.Bytes == null) throw new NullException(() => entity.Bytes);
-            return entity.Bytes.Length - HeaderLength(entity) / FrameSize(entity);
-        }
-
+        
+        #endregion
+        
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileFormatEnum enumValue)
         {
@@ -894,49 +1064,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return tapeConfig.AudioFormat.FileExtension();
-        }
-        
-        public static double MaxValue(this int bits) 
-            => bits.ToSampleDataTypeEnum().MaxValue();
-        
-        public static double MaxValue(this SampleDataTypeEnum enumValue)
-        {
-            switch (enumValue)
-            {
-                case SampleDataTypeEnum.Float32: return 1;
-                case SampleDataTypeEnum.Int16: return Int16.MaxValue;
-                // ReSharper disable once PossibleLossOfFraction
-                case SampleDataTypeEnum.Byte: return Byte.MaxValue / 2;
-                default:
-                    throw new ValueNotSupportedException(enumValue);
-            }
-        }
-        
-        public static double MaxValue(this WavHeaderStruct wavHeader) 
-            => MaxValue(wavHeader.Bits());
-        
-        public static double MaxValue(this AudioFileInfo info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return info.ToWish().MaxValue();
-        }
-        
-        public static double MaxValue(this AudioInfoWish info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return MaxValue(info.Bits);
-        }
-
-        public static double MaxValue(this Sample entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return MaxValue(entity.GetSampleDataTypeEnum());
-        }
-
-        public static double MaxValue(this AudioFileOutput entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return MaxValue(entity.GetSampleDataTypeEnum());
         }
 
         /// <inheritdoc cref="docs._headerlength"/>
@@ -983,34 +1110,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return HeaderLength(entity) +
                    FrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
         }
-
-        #region AudioLength
-        
-        public static double AudioLength(this WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().AudioLength();
-        
-        public static double AudioLength(this AudioFileInfo info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return info.ToWish().AudioLength();
-        }
-
-        public static double AudioLength(this AudioInfoWish info)
-        {
-            if (info == null) throw new NullException(() => info);
-            if (info.FrameCount == 0) return 0;
-            if (info.Channels == 0) throw new Exception("info.Channels == 0");
-            if (info.SamplingRate == 0) throw new Exception("info.SamplingRate == 0");
-            return (double)info.FrameCount / info.Channels / info.SamplingRate;
-        }
-
-        public static double AudioLength(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.GetDuration();
-        }
-        
-        #endregion
     }
 
     // Info Type
