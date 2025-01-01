@@ -1045,8 +1045,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (buff == null) throw new NullException(() => buff);
             return AudioLength(buff.UnderlyingAudioFileOutput);
-            // TODO: From Bytes
-            //return buff.Bytes;
         }
 
         public static Buff AudioLength(this Buff buff, double audioLength)
@@ -1156,7 +1154,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double audioLength)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            // TODO: Use grace frames or Math.Ceiling?
             infoWish.FrameCount = (int)(audioLength * infoWish.SamplingRate);
             return infoWish;
         }
@@ -1170,7 +1167,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static AudioFileInfo AudioLength(this AudioFileInfo info, double audioLength)
         {
             if (info == null) throw new NullException(() => info);
-            // TODO: Use grace frames or Math.Ceiling?
             info.SampleCount = (int)(audioLength * info.SamplingRate);
             return info;
         }
