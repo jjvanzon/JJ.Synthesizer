@@ -22,6 +22,19 @@ using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    /// <inheritdoc cref="docs._audioinfowish"/>
+    [DebuggerDisplay("{DebuggerDisplay}")]
+    public class AudioInfoWish
+    {
+        string DebuggerDisplay => GetDebuggerDisplay(this);
+
+        public int Bits { get; set; }
+        public int Channels { get; set; }
+        public int SamplingRate { get; set; }
+        /// <inheritdoc cref="docs._framecount"/>
+        public int FrameCount { get; set; }
+    }
+
     /// <inheritdoc cref="docs._audiopropertywishes"/>
     public static class AudioPropertyWishes
     {
@@ -1187,29 +1200,32 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength) 
             => (ByteCount(bytes, filePath) - headerLength) / frameSize;
 
+        public static int FrameCount(double audioLength, int samplingRate)
+            => (int)(audioLength * samplingRate);
+        
         public static int FrameCount(this SynthWishes synthWishes) 
-            => (int)(AudioLength(synthWishes) * SamplingRate(synthWishes));
+            => FrameCount(AudioLength(synthWishes), SamplingRate(synthWishes));
         
         public static int FrameCount(this FlowNode flowNode) 
-            => (int)(AudioLength(flowNode) * SamplingRate(flowNode));
+            => FrameCount(AudioLength(flowNode), SamplingRate(flowNode));
         
         public static int FrameCount(this ConfigWishes configWishes, SynthWishes synthWishes) 
-            => (int)(AudioLength(configWishes, synthWishes) * SamplingRate(configWishes));
+            => FrameCount(AudioLength(configWishes, synthWishes), SamplingRate(configWishes));
         
         internal static int FrameCount(this ConfigSection configSection) 
-            => (int)(AudioLength(configSection) * SamplingRate(configSection));
+            => FrameCount(AudioLength(configSection), SamplingRate(configSection));
         
         public static int FrameCount(this Tape tape) 
-            => (int)(AudioLength(tape) * SamplingRate(tape));
+            => FrameCount(AudioLength(tape), SamplingRate(tape));
         
         public static int FrameCount(this TapeConfig tapeConfig) 
-            => (int)(AudioLength(tapeConfig) * SamplingRate(tapeConfig));
+            => FrameCount(AudioLength(tapeConfig), SamplingRate(tapeConfig));
         
         public static int FrameCount(this TapeAction tapeAction) 
-            => (int)(AudioLength(tapeAction) * SamplingRate(tapeAction));
+            => FrameCount(AudioLength(tapeAction), SamplingRate(tapeAction));
         
         public static int FrameCount(this TapeActions tapeActions) 
-            => (int)(AudioLength(tapeActions) * SamplingRate(tapeActions));
+            => FrameCount(AudioLength(tapeActions), SamplingRate(tapeActions));
         
         public static int FrameCount(this Buff buff)
         {
@@ -1237,7 +1253,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         public static int FrameCount(this AudioFileOutput audioFileOutput) 
-            => (int)(AudioLength(audioFileOutput) * SamplingRate(audioFileOutput));
+            => FrameCount(AudioLength(audioFileOutput), SamplingRate(audioFileOutput));
         
         public static int FrameCount(this WavHeaderStruct wavHeader) 
             => wavHeader.ToWish().FrameCount();
@@ -1353,16 +1369,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #endregion
         
-        public static int FileLengthNeeded(this AudioFileOutput entity, int courtesyFrames)
-        {
-            // CourtesyBytes to accomodate a floating-point imprecision issue in the audio loop.
-            // Testing revealed 1 courtesy frame was insufficient, and 2 resolved the issue.
-            // Setting it to 4 frames as a safer margin to prevent errors in the future.
-            int courtesyBytes = FrameSize(entity) * courtesyFrames; 
-            return HeaderLength(entity) +
-                   FrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
-        }
-    
+        #region ByteCount
+        
         public static int ByteCount(byte[] bytes, string filePath)
         {
             if (Has(bytes))
@@ -1381,20 +1389,26 @@ namespace JJ.Business.Synthesizer.Wishes
                 return 0;
             }
         }
-    }
+        
+        public static int ByteCount(int frameCount, int frameSize, int headerLength)
+            => frameCount * frameSize + headerLength;
 
-    // Info Type
-
-    /// <inheritdoc cref="docs._audioinfowish"/>
-    [DebuggerDisplay("{DebuggerDisplay}")]
-    public class AudioInfoWish
-    {
-        string DebuggerDisplay => GetDebuggerDisplay(this);
-
-        public int Bits { get; set; }
-        public int Channels { get; set; }
-        public int SamplingRate { get; set; }
-        /// <inheritdoc cref="docs._framecount"/>
-        public int FrameCount { get; set; }
+        public static int ByteCount(SynthWishes synthWishes) 
+            => ByteCount(FrameCount(synthWishes), FrameSize(synthWishes), HeaderLength(synthWishes));
+    
+        public static int ByteCount(FlowNode flowNode) 
+            => ByteCount(FrameCount(flowNode), FrameSize(flowNode), HeaderLength(flowNode));
+        
+        #endregion
+        
+        public static int FileLengthNeeded(this AudioFileOutput entity, int courtesyFrames)
+        {
+            // CourtesyBytes to accomodate a floating-point imprecision issue in the audio loop.
+            // Testing revealed 1 courtesy frame was insufficient, and 2 resolved the issue.
+            // Setting it to 4 frames as a safer margin to prevent errors in the future.
+            int courtesyBytes = FrameSize(entity) * courtesyFrames; 
+            return HeaderLength(entity) +
+                   FrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
+        }
     }
 }
