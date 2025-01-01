@@ -1216,16 +1216,34 @@ namespace JJ.Business.Synthesizer.Wishes
             => FrameCount(AudioLength(configSection), SamplingRate(configSection));
         
         public static int FrameCount(this Tape tape) 
-            => FrameCount(AudioLength(tape), SamplingRate(tape));
+        {
+            if (tape.IsBuff)
+            {
+                return FrameCount(tape.Bytes, tape.FilePathResolved, FrameSize(tape), HeaderLength(tape));
+            }
+            else
+            {
+                return FrameCount(AudioLength(tape), SamplingRate(tape));
+            }
+        }
         
         public static int FrameCount(this TapeConfig tapeConfig) 
-            => FrameCount(AudioLength(tapeConfig), SamplingRate(tapeConfig));
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return FrameCount(tapeConfig.Tape);
+        }
         
         public static int FrameCount(this TapeAction tapeAction) 
-            => FrameCount(AudioLength(tapeAction), SamplingRate(tapeAction));
+        {
+            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            return FrameCount(tapeAction.Tape);
+        }
         
         public static int FrameCount(this TapeActions tapeActions) 
-            => FrameCount(AudioLength(tapeActions), SamplingRate(tapeActions));
+        {
+            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            return FrameCount(tapeActions.Tape);
+        }
         
         public static int FrameCount(this Buff buff)
         {
