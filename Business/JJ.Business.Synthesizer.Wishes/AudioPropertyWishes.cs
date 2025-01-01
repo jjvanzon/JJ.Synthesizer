@@ -1179,7 +1179,7 @@ namespace JJ.Business.Synthesizer.Wishes
         #endregion
 
         #region FrameCount
-        
+
         public static int FrameCount(this SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -1203,31 +1203,29 @@ namespace JJ.Business.Synthesizer.Wishes
             if (configSection == null) throw new NullException(() => configSection);
             return (int)(configSection.AudioLength() * configSection.SamplingRate());
         }
-
+                
         public static int FrameCount(this Buff buff)
         {
             if (buff == null) throw new NullException(() => buff);
             
-            byte[] bytes = buff.Bytes;
-            string filePath = buff.FilePath;
-            int frameSize = FrameSize(buff);
-            int headerLength = HeaderLength(buff.AudioFormat()); 
+            int frameCount = FrameCount(buff.Bytes, buff.FilePath, FrameSize(buff), HeaderLength(buff));
             
-            int frameCount = FrameCount(bytes, filePath, frameSize, headerLength);
+            if (Has(frameCount))
+            {
+                return frameCount;
+            }
+
+            if (buff.UnderlyingAudioFileOutput != null)
+            {
+                return FrameCount(buff.UnderlyingAudioFileOutput);
+            }
             
-            if (Has(frameCount)) return frameCount;
-            
-            if (buff.UnderlyingAudioFileOutput != null) return FrameCount(buff.UnderlyingAudioFileOutput);
-            
-            throw new Exception("Buff is empty: it has no bytes, file path, or underlying audio file output.");
+            return 0;
         }
-        
-        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength)
-        {
-            int byteCount = ByteCount(bytes, filePath);
-            return (byteCount - headerLength) / frameSize;
-        }
-        
+                
+        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength) 
+            => (ByteCount(bytes, filePath) - headerLength) / frameSize;
+
         public static int ByteCount(byte[] bytes, string filePath)
         {
             if (Has(bytes))
@@ -1246,12 +1244,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 return 0;
             }
         }
-        
+                
         public static int FrameCount(int byteCount, int frameSize, int headerLength)
-        {
-            return (byteCount - headerLength) / frameSize;
-        }
-        
+            => (byteCount - headerLength) / frameSize;
         public static int FrameCount(this Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
@@ -1269,7 +1264,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tapeAction == null) throw new NullException(() => tapeAction);
             return (int)(tapeAction.AudioLength() * tapeAction.SamplingRate());
         }
-
+        
         public static int FrameCount(this TapeActions tapeActions)
         {
             if (tapeActions == null) throw new NullException(() => tapeActions);
@@ -1279,8 +1274,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int FrameCount(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
-            if (sample.Bytes == null) throw new NullException(() => sample.Bytes);
-            return (sample.Bytes.Length - HeaderLength(sample)) / FrameSize(sample);
+            return FrameCount(sample.Bytes, sample.Location, FrameSize(sample), HeaderLength(sample));
         }
 
         public static int FrameCount(this AudioFileOutput audioFileOutput)
@@ -1289,11 +1283,9 @@ namespace JJ.Business.Synthesizer.Wishes
             return (int)(audioFileOutput.AudioLength() * audioFileOutput.SamplingRate());
         }
 
-        public static int FrameCount(this WavHeaderStruct wavHeader)
-        {
-            return wavHeader.ToWish().FrameCount();
-        }
-
+        public static int FrameCount(this WavHeaderStruct wavHeader) 
+            => wavHeader.ToWish().FrameCount();
+        
         public static int FrameCount(this AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
@@ -1307,6 +1299,8 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         #endregion
+        
+        // Files
         
         #region HeaderLength
         
