@@ -1003,7 +1003,102 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         #endregion
+                
+        #region FileExtension
         
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this AudioFileFormatEnum audioFormat)
+        {
+            switch (audioFormat)
+            {
+                case Wav: return ".wav";
+                case Raw: return ".raw";
+                default: throw new ValueNotSupportedException(audioFormat);
+            }
+        }
+
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this AudioFileFormat enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return enumEntity.ToEnum().FileExtension();
+        }
+        
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this SynthWishes synthWishes) => AudioFormat(synthWishes).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this FlowNode flowNode) => AudioFormat(flowNode).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this ConfigWishes configWishes) => AudioFormat(configWishes).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        internal static string FileExtension(this ConfigSection configSection) => AudioFormat(configSection).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this Tape tape) => AudioFormat(tape).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this TapeActions tapeActions) => AudioFormat(tapeActions).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this TapeAction tapeAction) => AudioFormat(tapeAction).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this Buff buff) => AudioFormat(buff.UnderlyingAudioFileOutput).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this Sample sample) => AudioFormat(sample).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => AudioFormat(wavHeader).FileExtension();
+
+        #endregion
+                
+        #region HeaderLength
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this AudioFileFormatEnum audioFormat)
+        {
+            switch (audioFormat)
+            {
+                case Wav: return 44;
+                case Raw: return 0;
+                default: throw new ValueNotSupportedException(audioFormat);
+            }
+        }
+
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this AudioFileFormat enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return enumEntity.ToEnum().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this SynthWishes synthWishes) => AudioFormat(synthWishes).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this FlowNode flowNode) => AudioFormat(flowNode).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this ConfigWishes configWishes) => AudioFormat(configWishes).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static int HeaderLength(this ConfigSection configSection) => AudioFormat(configSection).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this Buff buff) => AudioFormat(buff).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this Tape tape) => AudioFormat(tape).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this TapeAction tapeAction) => AudioFormat(tapeAction).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this TapeActions tapeActions) => AudioFormat(tapeActions).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this Sample sample) => AudioFormat(sample).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).HeaderLength();
+        /// <inheritdoc cref="docs._headerlength"/>
+        // ReSharper disable once UnusedParameter.Global
+        public static int HeaderLength(this WavHeaderStruct wavHeader) => HeaderLength(Wav);
+
+        #endregion
+
         // Durations
         
         #region AudioLength
@@ -1287,103 +1382,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (info == null) throw new NullException(() => info);
             return info.SampleCount;
         }
-
-        #endregion
-        
-        // Files
-        
-        #region HeaderLength
-        
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormatEnum audioFormat)
-        {
-            switch (audioFormat)
-            {
-                case Wav: return 44;
-                case Raw: return 0;
-                default: throw new ValueNotSupportedException(audioFormat);
-            }
-        }
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormat enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return enumEntity.ToEnum().HeaderLength();
-        }
-        
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this SynthWishes synthWishes) => AudioFormat(synthWishes).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this FlowNode flowNode) => AudioFormat(flowNode).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this ConfigWishes configWishes) => AudioFormat(configWishes).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        internal static int HeaderLength(this ConfigSection configSection) => AudioFormat(configSection).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Buff buff) => AudioFormat(buff).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Tape tape) => AudioFormat(tape).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeAction tapeAction) => AudioFormat(tapeAction).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeActions tapeActions) => AudioFormat(tapeActions).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Sample sample) => AudioFormat(sample).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
-        // ReSharper disable once UnusedParameter.Global
-        public static int HeaderLength(this WavHeaderStruct wavHeader) => HeaderLength(Wav);
-
-        #endregion
-        
-        #region FileExtension
-        
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileFormatEnum audioFormat)
-        {
-            switch (audioFormat)
-            {
-                case Wav: return ".wav";
-                case Raw: return ".raw";
-                default: throw new ValueNotSupportedException(audioFormat);
-            }
-        }
-
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileFormat enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return enumEntity.ToEnum().FileExtension();
-        }
-        
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this SynthWishes synthWishes) => AudioFormat(synthWishes).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this FlowNode flowNode) => AudioFormat(flowNode).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this ConfigWishes configWishes) => AudioFormat(configWishes).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        internal static string FileExtension(this ConfigSection configSection) => AudioFormat(configSection).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Tape tape) => AudioFormat(tape).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeActions tapeActions) => AudioFormat(tapeActions).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeAction tapeAction) => AudioFormat(tapeAction).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Buff buff) => AudioFormat(buff.UnderlyingAudioFileOutput).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Sample sample) => AudioFormat(sample).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => AudioFormat(wavHeader).FileExtension();
 
         #endregion
         
