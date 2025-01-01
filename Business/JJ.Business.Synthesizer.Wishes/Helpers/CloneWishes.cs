@@ -72,13 +72,6 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.UnderlyingAudioFileOutput = source.UnderlyingAudioFileOutput;
         }
 
-        internal static TapeConfig CloneConfig(TapeConfig source)
-        {
-            var dest = new TapeConfig();
-            CloneConfig(source, dest);
-            return dest;
-        }
-
         internal static void CloneConfig(TapeConfig source, TapeConfig dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));

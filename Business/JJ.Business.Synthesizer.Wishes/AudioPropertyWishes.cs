@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -71,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static int Bits(this ConfigSection configSection)
         {
             if (configSection == null) throw new NullException(() => configSection);
-            return configSection.Bits ?? default;
+            return configSection.Bits ?? DefaultBits;
         }
 
         internal static ConfigSection Bits(this ConfigSection configSection, int bits)
@@ -285,7 +286,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static int Channels(this ConfigSection configSection)
         {
             if (configSection == null) throw new NullException(() => configSection);
-            return configSection.Channels ?? default;
+            return configSection.Channels ?? DefaultChannels;
         }
 
         internal static ConfigSection Channels(this ConfigSection configSection, int channels)
@@ -484,7 +485,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static int SamplingRate(this ConfigSection configSection)
         {
             if (configSection == null) throw new NullException(() => configSection);
-            return configSection.SamplingRate ?? default;
+            return configSection.SamplingRate ?? DefaultSamplingRate;
         }
 
         internal static ConfigSection SamplingRate(this ConfigSection configSection, int samplingRate)
@@ -663,7 +664,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static AudioFileFormatEnum AudioFormat(this ConfigSection configSection)
         {
             if (configSection == null) throw new NullException(() => configSection);
-            return configSection.AudioFormat ?? default;
+            return configSection.AudioFormat ?? DefaultAudioFormat;
         }
 
         internal static ConfigSection AudioFormat(this ConfigSection configSection, AudioFileFormatEnum audioFormat)
@@ -813,7 +814,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static InterpolationTypeEnum Interpolation(this ConfigSection configSection)
         {
             if (configSection == null) throw new NullException(() => configSection);
-            return configSection.Interpolation ?? default;
+            return configSection.Interpolation ?? DefaultInterpolation;
         }
 
         internal static ConfigSection Interpolation(this ConfigSection configSection, InterpolationTypeEnum interpolation)
@@ -988,22 +989,60 @@ namespace JJ.Business.Synthesizer.Wishes
         
         #region AudioLength
         
-        public static double AudioLength(this WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().AudioLength();
-        
-        public static double AudioLength(this AudioFileInfo info)
+        public static double AudioLength(this SynthWishes synthWishes)
         {
-            if (info == null) throw new NullException(() => info);
-            return info.ToWish().AudioLength();
+            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            return synthWishes.GetAudioLength.Value;
         }
 
-        public static double AudioLength(this AudioInfoWish info)
+        public static double AudioLength(this FlowNode flowNode)
         {
-            if (info == null) throw new NullException(() => info);
-            if (info.FrameCount == 0) return 0;
-            if (info.Channels == 0) throw new Exception("info.Channels == 0");
-            if (info.SamplingRate == 0) throw new Exception("info.SamplingRate == 0");
-            return (double)info.FrameCount / info.Channels / info.SamplingRate;
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.GetAudioLength.Value;
+        }
+
+        public static double AudioLength(this ConfigWishes configWishes, SynthWishes synthWishes)
+        {
+            if (configWishes == null) throw new ArgumentNullException(nameof(configWishes));
+            return configWishes.GetAudioLength(synthWishes).Value;
+        }
+
+        internal static double AudioLength(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new ArgumentNullException(nameof(configSection));
+            return configSection.AudioLength ?? DefaultAudioLength;
+        }
+
+        public static double AudioLength(this Buff buff)
+        {
+            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            return AudioLength(buff.UnderlyingAudioFileOutput);
+            // TODO: From Bytes
+            //return buff.Bytes;
+        }
+
+        public static double AudioLength(this Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            return tape.Duration;
+        }
+
+        public static double AudioLength(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return tapeConfig.Tape.Duration;
+        }
+
+        public static double AudioLength(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            return tapeAction.Tape.Duration;
+        }
+
+        public static double AudioLength(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            return tapeActions.Tape.Duration;
         }
 
         public static double AudioLength(this Sample sample)
@@ -1011,7 +1050,31 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sample == null) throw new NullException(() => sample);
             return sample.GetDuration();
         }
+
+        public static double AudioLength(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
+            return audioFileOutput.Duration;
+        }
+
+        public static double AudioLength(this WavHeaderStruct wavHeader) 
+            => wavHeader.ToWish().AudioLength();
         
+        public static double AudioLength(this AudioInfoWish infoWish)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            if (infoWish.FrameCount == 0) return 0;
+            if (infoWish.Channels == 0) throw new Exception("info.Channels == 0");
+            if (infoWish.SamplingRate == 0) throw new Exception("info.SamplingRate == 0");
+            return (double)infoWish.FrameCount / infoWish.Channels / infoWish.SamplingRate;
+        }
+
+        public static double AudioLength(this AudioFileInfo info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.ToWish().AudioLength();
+        }
+
         #endregion
 
         #region FrameCount

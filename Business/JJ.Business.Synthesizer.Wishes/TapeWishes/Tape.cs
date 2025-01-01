@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public Tape()
         {
+            Config = new TapeConfig(this);
             Actions = new TapeActions(this);
         }
         
@@ -143,7 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #endregion
         
         #region Config
-        public TapeConfig Config { get; } = new TapeConfig();
+        public TapeConfig Config { get; }
 
         public bool IsChannel => Config.IsChannel();
         /// <summary> Shorthand for Config.Channel.Value </summary>
@@ -188,9 +189,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeConfig
     {
+        public Tape Tape { get; }
+        
         string DebuggerDisplay => GetDebuggerDisplay(this);
         
-        internal TapeConfig() { }
+        internal TapeConfig(Tape tape)
+        {
+            Tape = tape ?? throw new ArgumentNullException(nameof(tape));
+        }
         
         public int SamplingRate { get; set; }
         public int Bits { get; set; }
