@@ -5,13 +5,17 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Diagnostics;
+using System.IO;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using JJ.Framework.Reflection;
+using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -1175,13 +1179,132 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #region FrameCount
         
+        public static int FrameCount(this SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return (int)(synthWishes.AudioLength() * synthWishes.SamplingRate());
+        }
+
+        public static int FrameCount(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return (int)(flowNode.AudioLength() * flowNode.SamplingRate());
+        }
+
+        public static int FrameCount(this ConfigWishes configWishes, SynthWishes synthWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return (int)(configWishes.AudioLength(synthWishes) * configWishes.SamplingRate());
+        }
+
+        internal static int FrameCount(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            return (int)(configSection.AudioLength() * configSection.SamplingRate());
+        }
+
+        public static int FrameCount(this Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            
+            byte[] bytes = buff.Bytes;
+            string filePath = buff.FilePath;
+            int frameSize = FrameSize(buff);
+            int headerLength = HeaderLength(buff.AudioFormat()); 
+            
+            int frameCount = FrameCount(bytes, filePath, frameSize, headerLength);
+            
+            if (Has(frameCount)) return frameCount;
+            
+            if (buff.UnderlyingAudioFileOutput != null) return FrameCount(buff.UnderlyingAudioFileOutput);
+            
+            throw new Exception("Buff is empty: it has no bytes, file path, or underlying audio file output.");
+        }
+        
+        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength)
+        {
+            int byteCount = ByteCount(bytes, filePath);
+            return (byteCount - headerLength) / frameSize;
+        }
+        
+        public static int ByteCount(byte[] bytes, string filePath)
+        {
+            if (Has(bytes))
+            {
+                return bytes.Length;
+            }
+            else if (Exists(filePath))
+            {
+                long fileSize = new FileInfo(filePath).Length;
+                int maxSize = int.MaxValue;
+                if (fileSize > maxSize) throw new Exception($"File is too large. Max size = {PrettyByteCount(maxSize)}");
+                return (int)fileSize;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        
+        public static int FrameCount(int byteCount, int frameSize, int headerLength)
+        {
+            return (byteCount - headerLength) / frameSize;
+        }
+        
+        public static int FrameCount(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return (int)(tape.AudioLength() * tape.SamplingRate());
+        }
+
+        public static int FrameCount(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return (int)(tapeConfig.AudioLength() * tapeConfig.SamplingRate());
+        }
+
+        public static int FrameCount(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return (int)(tapeAction.AudioLength() * tapeAction.SamplingRate());
+        }
+
+        public static int FrameCount(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return (int)(tapeActions.AudioLength() * tapeActions.SamplingRate());
+        }
+
         public static int FrameCount(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
             if (sample.Bytes == null) throw new NullException(() => sample.Bytes);
             return (sample.Bytes.Length - HeaderLength(sample)) / FrameSize(sample);
         }
-        
+
+        public static int FrameCount(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            return (int)(audioFileOutput.AudioLength() * audioFileOutput.SamplingRate());
+        }
+
+        public static int FrameCount(this WavHeaderStruct wavHeader)
+        {
+            return wavHeader.ToWish().FrameCount();
+        }
+
+        public static int FrameCount(this AudioInfoWish infoWish)
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            return infoWish.FrameCount;
+        }
+
+        public static int FrameCount(this AudioFileInfo info)
+        {
+            if (info == null) throw new NullException(() => info);
+            return info.SampleCount;
+        }
+
         #endregion
         
         /// <inheritdoc cref="docs._fileextension"/>
