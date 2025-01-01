@@ -1179,6 +1179,12 @@ namespace JJ.Business.Synthesizer.Wishes
         #endregion
 
         #region FrameCount
+                
+        public static int FrameCount(int byteCount, int frameSize, int headerLength)
+            => (byteCount - headerLength) / frameSize;
+                        
+        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength) 
+            => (ByteCount(bytes, filePath) - headerLength) / frameSize;
 
         public static int FrameCount(this SynthWishes synthWishes)
         {
@@ -1203,50 +1209,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (configSection == null) throw new NullException(() => configSection);
             return (int)(configSection.AudioLength() * configSection.SamplingRate());
         }
-                
-        public static int FrameCount(this Buff buff)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            
-            int frameCount = FrameCount(buff.Bytes, buff.FilePath, FrameSize(buff), HeaderLength(buff));
-            
-            if (Has(frameCount))
-            {
-                return frameCount;
-            }
-
-            if (buff.UnderlyingAudioFileOutput != null)
-            {
-                return FrameCount(buff.UnderlyingAudioFileOutput);
-            }
-            
-            return 0;
-        }
-                
-        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength) 
-            => (ByteCount(bytes, filePath) - headerLength) / frameSize;
-
-        public static int ByteCount(byte[] bytes, string filePath)
-        {
-            if (Has(bytes))
-            {
-                return bytes.Length;
-            }
-            else if (Exists(filePath))
-            {
-                long fileSize = new FileInfo(filePath).Length;
-                int maxSize = int.MaxValue;
-                if (fileSize > maxSize) throw new Exception($"File is too large. Max size = {PrettyByteCount(maxSize)}");
-                return (int)fileSize;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-                
-        public static int FrameCount(int byteCount, int frameSize, int headerLength)
-            => (byteCount - headerLength) / frameSize;
+        
         public static int FrameCount(this Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
@@ -1269,6 +1232,25 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (tapeActions == null) throw new NullException(() => tapeActions);
             return (int)(tapeActions.AudioLength() * tapeActions.SamplingRate());
+        }
+                        
+        public static int FrameCount(this Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            
+            int frameCount = FrameCount(buff.Bytes, buff.FilePath, FrameSize(buff), HeaderLength(buff));
+            
+            if (Has(frameCount))
+            {
+                return frameCount;
+            }
+
+            if (buff.UnderlyingAudioFileOutput != null)
+            {
+                return FrameCount(buff.UnderlyingAudioFileOutput);
+            }
+            
+            return 0;
         }
 
         public static int FrameCount(this Sample sample)
@@ -1399,6 +1381,25 @@ namespace JJ.Business.Synthesizer.Wishes
             int courtesyBytes = FrameSize(entity) * courtesyFrames; 
             return HeaderLength(entity) +
                    FrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
+        }
+    
+        public static int ByteCount(byte[] bytes, string filePath)
+        {
+            if (Has(bytes))
+            {
+                return bytes.Length;
+            }
+            else if (Exists(filePath))
+            {
+                long fileSize = new FileInfo(filePath).Length;
+                int maxSize = int.MaxValue;
+                if (fileSize > maxSize) throw new Exception($"File is too large. Max size = {PrettyByteCount(maxSize)}");
+                return (int)fileSize;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 
