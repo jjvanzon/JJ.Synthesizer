@@ -634,6 +634,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #region AudioFormat
         
+        public static AudioFileFormatEnum AudioFormat(this string fileExtension)
+        {
+            if (Is(fileExtension, ".wav")) return Wav;
+            if (Is(fileExtension, ".raw")) return Raw;
+            throw new Exception($"{new{fileExtension}} not supported.");
+        }
+
         public static AudioFileFormatEnum AudioFormat(this SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
