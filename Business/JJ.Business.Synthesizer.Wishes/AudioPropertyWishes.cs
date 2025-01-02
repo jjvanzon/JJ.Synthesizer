@@ -1211,6 +1211,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int HeaderLength(this WavHeaderStruct wavHeader) => HeaderLength(Wav);
 
         #endregion
+        
         #region CourtesyBytes
         
         public static int CourtesyBytes(int courtesyFrames, int frameSize)
