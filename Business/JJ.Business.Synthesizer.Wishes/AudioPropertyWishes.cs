@@ -44,6 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // TODO: Shorthands like IsWav/IsRaw.
         // TODO: All the audio properties, even if they already exist as properties or otherwise. (Don't forget: Channel property)
         // TODO: Complete the conversions from enum to something else.
+        // TODO: Synonyms with prefixes: Get, Set, With + use them for readability.
 
         // Primary Audio Properties
         
@@ -911,7 +912,14 @@ namespace JJ.Business.Synthesizer.Wishes
         #endregion
         
         #region CourtesyFrames
-
+        
+        public static int CourtesyFrames(int courtesyBytes, int frameSize)
+        {
+            if (courtesyBytes < 0) throw new Exception(nameof(frameSize) + " less than 0.");
+            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
+            return courtesyBytes / frameSize;
+        }
+        
         public static int CourtesyFrames(this SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -1208,7 +1216,50 @@ namespace JJ.Business.Synthesizer.Wishes
         #region CourtesyBytes
         
         public static int CourtesyBytes(int courtesyFrames, int frameSize)
-            => courtesyFrames * frameSize;
+        {
+            if (courtesyFrames < 0) throw new Exception(nameof(frameSize) + " less than 0.");
+            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
+            return courtesyFrames * frameSize;
+        }
+        
+        public static int CourtesyBytes(this SynthWishes synthWishes)
+            => CourtesyBytes(CourtesyFrames(synthWishes), FrameSize(synthWishes));
+
+        public static SynthWishes CourtesyBytes(this SynthWishes synthWishes, int courtesyBytes) 
+            => CourtesyFrames(synthWishes, CourtesyFrames(courtesyBytes, FrameSize(synthWishes)));
+        
+        public static int CourtesyBytes(this FlowNode flowNode)
+            => CourtesyBytes(CourtesyFrames(flowNode), FrameSize(flowNode));
+
+        public static FlowNode CourtesyBytes(this FlowNode flowNode, int courtesyBytes) 
+            => CourtesyFrames(flowNode, CourtesyFrames(courtesyBytes, FrameSize(flowNode)));
+        
+        public static int CourtesyBytes(this ConfigWishes configWishes)
+            => CourtesyBytes(CourtesyFrames(configWishes), FrameSize(configWishes));
+
+        internal static int CourtesyBytes(this ConfigSection configSection)
+            => CourtesyBytes(CourtesyFrames(configSection), FrameSize(configSection));
+
+        public static int CourtesyBytes(this Tape tape)
+            => CourtesyBytes(CourtesyFrames(tape), FrameSize(tape));
+
+        public static int CourtesyBytes(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return CourtesyBytes(tapeConfig.Tape);
+        }
+
+        public static int CourtesyBytes(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            return CourtesyBytes(tapeActions.Tape);
+        }
+
+        public static int CourtesyBytes(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            return CourtesyBytes(tapeAction.Tape);
+        }
 
         #endregion
         
@@ -1723,6 +1774,5 @@ namespace JJ.Business.Synthesizer.Wishes
         }
  
         #endregion
-        
     }
 }
