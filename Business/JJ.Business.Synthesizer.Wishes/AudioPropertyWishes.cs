@@ -38,14 +38,6 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._audiopropertywishes"/>
     public static class AudioPropertyWishes
     {
-        // TODO: For all the object types
-        // TODO: For all the enum(-like) types
-        // TODO: Setters returning `this` for fluent chaining.
-        // TODO: Shorthands like IsWav/IsRaw.
-        // TODO: All the audio properties, even if they already exist as properties or otherwise. (Don't forget: Channel property)
-        // TODO: Complete the conversions from enum to something else.
-        // TODO: Synonyms with prefixes: Get, Set, With + use them for readability.
-
         // Primary Audio Properties
         
         #region Bits
