@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes
             public static bool FilledIn<T>(this T value)                   => FilledInWishes.FilledIn(value);
             public static bool FilledIn<T>(this T? value) where T : struct => FilledInWishes.FilledIn(value);
 
-            public static bool Is(this string value, string comparison, bool ignoreCase = false) => FilledInWishes.Is(value, comparison, ignoreCase);
+            public static bool Is(this string value, string comparison, bool ignoreCase = true) => FilledInWishes.Is(value, comparison, ignoreCase);
         }
         
         internal static class FilledInWishes
