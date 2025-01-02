@@ -1140,6 +1140,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this SynthWishes synthWishes) => AudioFormat(synthWishes).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
+        public static SynthWishes FileExtension(this SynthWishes synthWishes, string value) => AudioFormat(synthWishes, AudioFormat(value));
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this FlowNode flowNode) => AudioFormat(flowNode).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this ConfigWishes configWishes) => AudioFormat(configWishes).FileExtension();
