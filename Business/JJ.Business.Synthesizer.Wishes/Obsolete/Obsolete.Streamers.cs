@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.FileLengthNeeded(courtesyFrames)];
+                bytes = new byte[audioFileOutput.BytesNeeded(courtesyFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
             else 

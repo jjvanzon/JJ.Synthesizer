@@ -910,6 +910,112 @@ namespace JJ.Business.Synthesizer.Wishes
     
         #endregion
         
+        #region CourtesyFrames
+
+        public static int CourtesyFrames(this SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.GetCourtesyFrames;
+        }
+        
+        public static SynthWishes CourtesyFrames(this SynthWishes synthWishes, int courtesyFrames)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.WithCourtesyFrames(courtesyFrames);
+        }
+        
+        public static int CourtesyFrames(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.GetCourtesyFrames;
+        }
+        
+        public static FlowNode CourtesyFrames(this FlowNode flowNode, int courtesyFrames)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.WithCourtesyFrames(courtesyFrames);
+        }
+
+        public static int CourtesyFrames(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return configWishes.GetCourtesyFrames;
+        }
+        
+        public static ConfigWishes CourtesyFrames(this ConfigWishes configWishes, int courtesyFrames)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithCourtesyFrames(courtesyFrames);
+            return configWishes;
+        }
+
+        internal static int CourtesyFrames(this ConfigSection configSection)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            return configSection.CourtesyFrames ?? DefaultCourtesyFrames;
+        }
+        
+        internal static ConfigSection CourtesyFrames(this ConfigSection configSection, int courtesyFrames)
+        {
+            if (configSection == null) throw new NullException(() => configSection);
+            configSection.CourtesyFrames = courtesyFrames;
+            return configSection;
+        }
+
+        public static int CourtesyFrames(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.Config.CourtesyFrames;
+        }
+        
+        public static Tape CourtesyFrames(this Tape tape, int courtesyFrames)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.CourtesyFrames = courtesyFrames;
+            return tape;
+        }
+
+        public static int CourtesyFrames(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.CourtesyFrames;
+        }
+
+        public static TapeConfig CourtesyFrames(this TapeConfig tapeConfig, int courtesyFrames)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.CourtesyFrames = courtesyFrames;
+            return tapeConfig;
+        }
+
+        public static int CourtesyFrames(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return CourtesyFrames(tapeActions.Tape);
+        }
+
+        public static TapeActions CourtesyFrames(this TapeActions tapeActions, int courtesyFrames)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            CourtesyFrames(tapeActions.Tape, courtesyFrames);
+            return tapeActions;
+        }
+
+        public static int CourtesyFrames(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return CourtesyFrames(tapeAction.Tape);
+        }
+
+        public static TapeAction CourtesyFrames(this TapeAction tapeAction, int courtesyFrames)
+        {
+            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            CourtesyFrames(tapeAction.Tape, courtesyFrames);
+            return tapeAction;
+        }
+
+        #endregion
+
         // Derived Properties
         
         #region SizeOfBitDepth
@@ -1099,6 +1205,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #endregion
 
+        #region CourtesyBytes
+        
+        public static int CourtesyBytes(int courtesyFrames, int frameSize)
+            => courtesyFrames * frameSize;
+
+        #endregion
+        
         // Durations
         
         #region AudioLength
@@ -1106,8 +1219,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static double AudioLength(int frameCount, int samplingRate)
             => (double)frameCount / samplingRate;
         
-        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength) 
-            => (double)(byteCount - headerLength) / frameSize / samplingRate;
+        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0) 
+            => (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
 
         public static double AudioLength(this SynthWishes synthWishes)
         {
@@ -1472,52 +1585,60 @@ namespace JJ.Business.Synthesizer.Wishes
             return 0;
         }
 
-        public static int ByteCount(int frameCount, int frameSize, int headerLength)
-            => frameCount * frameSize + headerLength;
+        public static int ByteCount(int frameCount, int frameSize, int headerLength, int courtesyFrames = 0)
+            => frameCount * frameSize + headerLength + CourtesyBytes(courtesyFrames, frameSize);
 
         public static int ByteCount(this SynthWishes synthWishes) 
-            => ByteCount(FrameCount(synthWishes), FrameSize(synthWishes), HeaderLength(synthWishes));
+            => ByteCount(FrameCount(synthWishes), FrameSize(synthWishes), HeaderLength(synthWishes), synthWishes.GetCourtesyFrames);
 
         public static SynthWishes ByteCount(this SynthWishes synthWishes, int byteCount) 
-            => AudioLength(synthWishes, AudioLength(byteCount, FrameSize(synthWishes), SamplingRate(synthWishes), HeaderLength(synthWishes)));
+            => AudioLength(synthWishes, AudioLength(byteCount, FrameSize(synthWishes), SamplingRate(synthWishes), HeaderLength(synthWishes), synthWishes.GetCourtesyFrames));
         
         public static int ByteCount(this FlowNode flowNode) 
-            => ByteCount(FrameCount(flowNode), FrameSize(flowNode), HeaderLength(flowNode));
+            => ByteCount(FrameCount(flowNode), FrameSize(flowNode), HeaderLength(flowNode), flowNode.GetCourtesyFrames);
         
         public static FlowNode ByteCount(this FlowNode flowNode, int byteCount) 
-            => AudioLength(flowNode, AudioLength(byteCount, FrameSize(flowNode), SamplingRate(flowNode), HeaderLength(flowNode)));
+            => AudioLength(flowNode, AudioLength(byteCount, FrameSize(flowNode), SamplingRate(flowNode), HeaderLength(flowNode), flowNode.GetCourtesyFrames));
 
         public static int ByteCount(this ConfigWishes configWishes, SynthWishes synthWishes) 
-            => ByteCount(FrameCount(configWishes, synthWishes), FrameSize(configWishes), HeaderLength(configWishes));
+            => ByteCount(FrameCount(configWishes, synthWishes), FrameSize(configWishes), HeaderLength(configWishes), configWishes.GetCourtesyFrames);
        
         public static ConfigWishes ByteCount(this ConfigWishes configWishes, SynthWishes synthWishes, int byteCount)
         {
-            double audioLength = AudioLength(byteCount, FrameSize(configWishes), SamplingRate(configWishes), HeaderLength(configWishes));
+            double audioLength = AudioLength(byteCount, FrameSize(configWishes), SamplingRate(configWishes), HeaderLength(configWishes), configWishes.GetCourtesyFrames);
             AudioLength(configWishes, audioLength, synthWishes);
             return configWishes;
         }
 
         internal static int ByteCount(this ConfigSection configSection) 
-            => ByteCount(FrameCount(configSection), FrameSize(configSection), HeaderLength(configSection));
+            => ByteCount(FrameCount(configSection), FrameSize(configSection), HeaderLength(configSection), configSection.CourtesyFrames ?? ConfigWishes.DefaultCourtesyFrames);
+        
+        //internal static int BytesNeeded(this ConfigSection configSection, int courtesyFrames) 
+        //    => ByteCount(FrameCount(configSection), FrameSize(configSection), HeaderLength(configSection), courtesyFrames);
 
         internal static ConfigSection ByteCount(this ConfigSection configSection, int byteCount) 
             => AudioLength(configSection, AudioLength(byteCount, FrameSize(configSection), SamplingRate(configSection), HeaderLength(configSection)));
 
         public static int ByteCount(this Tape tape)
         {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            
             if (tape.IsBuff)
             {
                 return ByteCount(tape.Bytes, tape.FilePathResolved);
             }
             else
             {
-                return ByteCount(FrameCount(tape), FrameSize(tape), HeaderLength(tape));
+                return ByteCount(FrameCount(tape), FrameSize(tape), HeaderLength(tape), tape.Config.CourtesyFrames);
             }
         }
 
-       public static Tape ByteCount(this Tape tape, int byteCount) 
-            => AudioLength(tape, AudioLength(byteCount, FrameSize(tape), SamplingRate(tape), HeaderLength(tape)));
-
+        public static Tape ByteCount(this Tape tape, int byteCount)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            return tape.AudioLength(AudioLength(byteCount, FrameSize(tape), SamplingRate(tape), HeaderLength(tape), tape.Config.CourtesyFrames));
+        }
+        
         public static int ByteCount(this TapeConfig tapeConfig)
         {
             if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
@@ -1540,7 +1661,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static TapeActions ByteCount(this TapeActions tapeActions, int byteCount)
         {
             if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
-            tapeActions.Tape.ByteCount(byteCount);
+            ByteCount(tapeActions.Tape, byteCount);
             return tapeActions;
         }
 
@@ -1553,11 +1674,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static TapeAction ByteCount(this TapeAction tapeAction, int byteCount)
         {
             if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
-            tapeAction.Tape.ByteCount(byteCount);
+            ByteCount(tapeAction.Tape, byteCount);
             return tapeAction;
         }
 
-        public static int ByteCount(this Buff buff)
+        public static int ByteCount(this Buff buff, int courtesyFrames = 0)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
 
@@ -1570,7 +1691,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (buff.UnderlyingAudioFileOutput != null)
             {
-                return ByteCount(buff.UnderlyingAudioFileOutput);
+                return BytesNeeded(buff.UnderlyingAudioFileOutput, courtesyFrames);
             }
 
             return 0;
@@ -1582,11 +1703,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return ByteCount(sample.Bytes, sample.Location);
         }
 
-        public static int ByteCount(this AudioFileOutput audioFileOutput) 
-            => ByteCount(FrameCount(audioFileOutput), FrameSize(audioFileOutput), HeaderLength(audioFileOutput));
+        public static int ByteCount(this AudioFileOutput entity) 
+            => ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity));
 
-        public static AudioFileOutput ByteCount(this AudioFileOutput audioFileOutput, int byteCount) 
-            => AudioLength(audioFileOutput, AudioLength(byteCount, FrameSize(audioFileOutput), SamplingRate(audioFileOutput), HeaderLength(audioFileOutput)));
+        public static int BytesNeeded(this AudioFileOutput entity, int courtesyFrames = 0) 
+            => ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity), courtesyFrames);
+
+        public static AudioFileOutput ByteCount(this AudioFileOutput entity, int byteCount, int courtesyFrames = 0) 
+            => AudioLength(entity, AudioLength(byteCount, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), courtesyFrames));
 
         public static int ByteCount(this WavHeaderStruct wavHeader) 
             => ByteCount(FrameCount(wavHeader), FrameSize(wavHeader), HeaderLength(wavHeader));
@@ -1600,14 +1724,5 @@ namespace JJ.Business.Synthesizer.Wishes
  
         #endregion
         
-        public static int FileLengthNeeded(this AudioFileOutput entity, int courtesyFrames)
-        {
-            // CourtesyBytes to accomodate a floating-point imprecision issue in the audio loop.
-            // Testing revealed 1 courtesy frame was insufficient, and 2 resolved the issue.
-            // Setting it to 4 frames as a safer margin to prevent errors in the future.
-            int courtesyBytes = FrameSize(entity) * courtesyFrames; 
-            return HeaderLength(entity) +
-                   FrameSize(entity) * (int)(entity.SamplingRate * entity.Duration) + courtesyBytes;
-        }
     }
 }

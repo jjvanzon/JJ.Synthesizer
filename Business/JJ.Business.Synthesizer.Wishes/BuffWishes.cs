@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.FileLengthNeeded(tape.Config.CourtesyFrames)];
+                bytes = new byte[audioFileOutput.BytesNeeded(tape.Config.CourtesyFrames)];
                 
                 calculatorAccessor._stream = new MemoryStream(bytes);
             }
