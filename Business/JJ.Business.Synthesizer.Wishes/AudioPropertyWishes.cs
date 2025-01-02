@@ -1212,7 +1212,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int HeaderLength(this WavHeaderStruct wavHeader) => HeaderLength(Wav);
 
         #endregion
-
         #region CourtesyBytes
         
         public static int CourtesyBytes(int courtesyFrames, int frameSize)
@@ -1237,16 +1236,32 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int CourtesyBytes(this ConfigWishes configWishes)
             => CourtesyBytes(CourtesyFrames(configWishes), FrameSize(configWishes));
 
+        public static ConfigWishes CourtesyBytes(this ConfigWishes configWishes, int courtesyBytes) 
+            => CourtesyFrames(configWishes, CourtesyFrames(courtesyBytes, FrameSize(configWishes)));
+
         internal static int CourtesyBytes(this ConfigSection configSection)
             => CourtesyBytes(CourtesyFrames(configSection), FrameSize(configSection));
 
+        internal static ConfigSection CourtesyBytes(this ConfigSection configSection, int courtesyBytes) 
+            => CourtesyFrames(configSection, CourtesyFrames(courtesyBytes, FrameSize(configSection)));
+
         public static int CourtesyBytes(this Tape tape)
             => CourtesyBytes(CourtesyFrames(tape), FrameSize(tape));
+
+        public static Tape CourtesyBytes(this Tape tape, int courtesyBytes) 
+            => CourtesyFrames(tape, CourtesyFrames(courtesyBytes, FrameSize(tape)));
 
         public static int CourtesyBytes(this TapeConfig tapeConfig)
         {
             if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
             return CourtesyBytes(tapeConfig.Tape);
+        }
+
+        public static TapeConfig CourtesyBytes(this TapeConfig tapeConfig, int courtesyBytes)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            CourtesyBytes(tapeConfig.Tape, courtesyBytes);
+            return tapeConfig;
         }
 
         public static int CourtesyBytes(this TapeActions tapeActions)
@@ -1255,10 +1270,24 @@ namespace JJ.Business.Synthesizer.Wishes
             return CourtesyBytes(tapeActions.Tape);
         }
 
+        public static TapeActions CourtesyBytes(this TapeActions tapeActions, int courtesyBytes)
+        {
+            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            CourtesyBytes(tapeActions.Tape, courtesyBytes);
+            return tapeActions;
+        }
+
         public static int CourtesyBytes(this TapeAction tapeAction)
         {
             if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
             return CourtesyBytes(tapeAction.Tape);
+        }
+
+        public static TapeAction CourtesyBytes(this TapeAction tapeAction, int courtesyBytes)
+        {
+            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            CourtesyBytes(tapeAction.Tape, courtesyBytes);
+            return tapeAction;
         }
 
         #endregion
