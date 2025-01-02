@@ -1144,26 +1144,46 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this FlowNode flowNode) => AudioFormat(flowNode).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
+        public static FlowNode FileExtension(this FlowNode flowNode, string value) => AudioFormat(flowNode, AudioFormat(value));
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this ConfigWishes configWishes) => AudioFormat(configWishes).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static ConfigWishes FileExtension(this ConfigWishes configWishes, string value) => AudioFormat(configWishes, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
         internal static string FileExtension(this ConfigSection configSection) => AudioFormat(configSection).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
+        internal static ConfigSection FileExtension(this ConfigSection configSection, string value) => AudioFormat(configSection, AudioFormat(value));
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Tape tape) => AudioFormat(tape).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static Tape FileExtension(this Tape tape, string value) => AudioFormat(tape, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
+        public static TapeConfig FileExtension(this TapeConfig tapeConfig, string value) => AudioFormat(tapeConfig, AudioFormat(value));
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this TapeActions tapeActions) => AudioFormat(tapeActions).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static TapeActions FileExtension(this TapeActions tapeActions, string value) => AudioFormat(tapeActions, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this TapeAction tapeAction) => AudioFormat(tapeAction).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Buff buff) => AudioFormat(buff.UnderlyingAudioFileOutput).FileExtension();
+        public static TapeAction FileExtension(this TapeAction tapeAction, string value) => AudioFormat(tapeAction, AudioFormat(value));
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this Buff buff) => AudioFormat(buff).FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static Buff FileExtension(this Buff buff, string value) => AudioFormat(buff, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Sample sample) => AudioFormat(sample).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
+        public static Sample FileExtension(this Sample sample, string value, IContext context) => AudioFormat(sample, AudioFormat(value), context);
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
+        public static AudioFileOutput FileExtension(this AudioFileOutput audioFileOutput, string value, IContext context) => AudioFormat(audioFileOutput, AudioFormat(value), context);
+        /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => AudioFormat(wavHeader).FileExtension();
-
+        
         #endregion
                 
         #region HeaderLength
