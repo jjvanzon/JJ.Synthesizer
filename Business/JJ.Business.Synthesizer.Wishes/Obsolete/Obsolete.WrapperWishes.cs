@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this OperatorWrapperBase wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToChannel());
+            => Calculate(wrapper, time, channelEnum.ToIndex());
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this OperatorWrapperBase wrapper, double time = 0, int channel = 0)
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this SampleOperatorWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToChannel());
+            => Calculate(wrapper, time, channelEnum.ToIndex());
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this SampleOperatorWrapper wrapper, double time = 0, int channel = 0)
@@ -115,7 +115,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this CurveInWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToChannel());
+            => Calculate(wrapper, time, channelEnum.ToIndex());
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channel = 0)

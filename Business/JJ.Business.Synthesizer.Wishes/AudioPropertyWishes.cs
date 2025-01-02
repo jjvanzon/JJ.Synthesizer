@@ -6,6 +6,7 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
@@ -19,6 +20,8 @@ using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using static System.Environment;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -449,6 +452,171 @@ namespace JJ.Business.Synthesizer.Wishes
                 case 2: return SpeakerSetupEnum.Stereo;
                 default: throw new ValueNotSupportedException(channels);
             }
+        }
+
+        #endregion
+
+        #region Channel
+        
+        public static int? Channel(this SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.GetChannel;
+        }
+
+        public static SynthWishes Channel(this SynthWishes synthWishes, int? channel)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.WithChannel(channel);
+            return synthWishes;
+        }
+
+        public static int? Channel(this FlowNode flowNode)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.GetChannel;
+        }
+
+        public static FlowNode Channel(this FlowNode flowNode, int? channel)
+        {
+            if (flowNode == null) throw new NullException(() => flowNode);
+            flowNode.WithChannel(channel);
+            return flowNode;
+        }
+
+        public static int? Channel(this ConfigWishes configWishes)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            return configWishes.GetChannel;
+        }
+
+        public static ConfigWishes Channel(this ConfigWishes configWishes, int? channel)
+        {
+            if (configWishes == null) throw new NullException(() => configWishes);
+            configWishes.WithChannel(channel);
+            return configWishes;
+        }
+        
+        public static int? Channel(this Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.Config.Channel;
+        }
+        
+        public static Tape Channel(this Tape tape, int? channel)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            tape.Config.Channel = channel;
+            return tape;
+        }
+
+        public static int? Channel(this TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.Channel;
+        }
+
+        public static TapeConfig Channel(this TapeConfig tapeConfig, int? channel)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            tapeConfig.Channel = channel;
+            return tapeConfig;
+        }
+
+        public static int? Channel(this TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return tapeActions.Tape.Config.Channel;
+        }
+
+        public static TapeActions Channel(this TapeActions tapeActions, int? channel)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            tapeActions.Tape.Config.Channel = channel;
+            return tapeActions;
+        }
+
+        public static int? Channel(this TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return tapeAction.Tape.Config.Channel;
+        }
+
+        public static TapeAction Channel(this TapeAction tapeAction, int? channel)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            tapeAction.Tape.Config.Channel = channel;
+            return tapeAction;
+        }
+
+        public static int? Channel(this Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            return Channel(buff.UnderlyingAudioFileOutput);
+        }
+        
+        public static int? Channel(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            if (audioFileOutput.AudioFileOutputChannels == null) throw new NullException(() => audioFileOutput.AudioFileOutputChannels);
+
+            int channels = audioFileOutput.Channels();
+            int signalCount = audioFileOutput.AudioFileOutputChannels.Count;
+            int? firstChannelIndex = audioFileOutput.AudioFileOutputChannels.ElementAtOrDefault(0)?.Index;
+            
+            // Mono has channel 0 only.
+            if (channels == 1) return 0;
+            
+            if (channels == 2)
+            {
+                if (signalCount == 2)
+                {
+                    // Handles stereo with 2 channels defined, so not specific channel can be returned,
+                    return null;
+                }
+                if (signalCount == 1)
+                {
+                    // By returning index, we handle both "Left-only" and "Right-only" (single channel 1) scenarios.
+                    if (firstChannelIndex != null)
+                    {
+                        return firstChannelIndex;
+                    }
+                }
+            }
+
+            throw new Exception(
+                "Unsupported combination of values: " + NewLine +
+                $"audioFileOutput.Channels = {channels}, " + NewLine +
+                $"audioFileOutput.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + NewLine +
+                $"audioFileOutput.AudioFileOutputChannels[0].Index = {firstChannelIndex} ({nameof(firstChannelIndex)})");
+
+        }
+        
+        public static ChannelEnum ChannelToEnum(this int? channel, int channels)
+            => ChannelToEnum(channel, channels.ChannelsToEnum());
+
+        public static ChannelEnum ChannelToEnum(this int channel, int channels)
+            => ChannelToEnum(channel, channels.ChannelsToEnum());
+
+        public static ChannelEnum ChannelToEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
+            => channel.HasValue ? ChannelToEnum(channel.Value, speakerSetupEnum) : ChannelEnum.Undefined;
+
+        public static ChannelEnum ChannelToEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
+        {
+            switch (speakerSetupEnum)
+            {
+                case SpeakerSetupEnum.Mono:
+                    if (channel == 0) return ChannelEnum.Single;
+                    break;
+                
+                case SpeakerSetupEnum.Stereo:
+                    if (channel == 0) return ChannelEnum.Left;
+                    if (channel == 1) return ChannelEnum.Right;
+                    break;
+            }
+            
+            throw new NotSupportedException(
+                "Unsupported combination of values: " + new { speakerSetupEnum, channel });
         }
 
         #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -176,9 +177,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channel
         
-        private     ChannelEnum _channelEnum = DefaultChannel.ToChannelEnum(DefaultChannels);
-        public int? GetChannel => (_channelEnum == default) ? default(int?) : _channelEnum.ToChannel();
-        public void WithChannel(int? channel) => _channelEnum = channel?.ToChannelEnum(GetChannels) ?? default;
+        private     ChannelEnum _channelEnum = DefaultChannel.ChannelToEnum(DefaultChannels);
+        public int? GetChannel => (_channelEnum == default) ? default(int?) : _channelEnum.ToIndex();
+        public void WithChannel(int? channel) => _channelEnum = channel?.ChannelToEnum(GetChannels) ?? default;
         public bool IsCenter  =>   GetChannels == 1 ? GetChannel == 0 : default;
         public void WithCenter() { WithChannels  (1); WithChannel  (0);        }
         public bool IsLeft    =>   GetChannels == 2 ? GetChannel == 0 : default;

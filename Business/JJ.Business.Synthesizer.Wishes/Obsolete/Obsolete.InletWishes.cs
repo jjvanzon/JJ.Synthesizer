@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Inlet inlet, double time, ChannelEnum channelEnum)
-            => Calculate(inlet, time, channelEnum.ToChannel());
+            => Calculate(inlet, time, channelEnum.ToIndex());
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Inlet inlet, double time = 0, int channel = 0)

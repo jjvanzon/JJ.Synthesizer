@@ -17,7 +17,8 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         public const string ObsoleteMessage = 
             "Direct use of enum-like entities is discourage. " +
-            "Use the enums instead, like AudioFormat/AudioFileFormatEnum and Bits/SampleDataTypeEnum.";
+            "Use the enums or integers instead, like AudioFormat/AudioFileFormatEnum and int Bits," +
+            "and an integer instead of using ChannelEnum.";
     }
 
     [Obsolete(ObsoleteMessage)]
@@ -87,6 +88,20 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     [Obsolete(ObsoleteMessage)]
     public static class ObsoleteSpecialEnumWishes
     {
+        // ToIndex for ChannelEnum
+                                
+        [Obsolete(ObsoleteMessage)]
+        public static int ToIndex(this ChannelEnum channelEnum)
+        {
+            switch (channelEnum)
+            {
+                case ChannelEnum.Single: return 0;
+                case ChannelEnum.Left: return 0;
+                case ChannelEnum.Right: return 1;
+                default: throw new ArgumentOutOfRangeException(nameof(channelEnum), channelEnum, null);
+            }
+        }
+
         // SpeakerSetupChannel by Channel
 
         [Obsolete(ObsoleteMessage)]

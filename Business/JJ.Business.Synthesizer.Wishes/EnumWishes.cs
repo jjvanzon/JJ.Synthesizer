@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -123,42 +124,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class EnumSpecialWishes
     {
-        // Channel
-        
-        public static int ToChannel(this ChannelEnum channelEnum, IContext context = null)
-        {
-            IChannelRepository channelRepository = CreateRepository<IChannelRepository>(context);
-            Channel channelEnumEntity = channelRepository.Get((int)channelEnum);
-            return channelEnumEntity.Index;
-        }
-
-        public static ChannelEnum ToChannelEnum(this int? channel, int channels)
-            => ToChannelEnum(channel, channels.ChannelsToEnum());
-
-        public static ChannelEnum ToChannelEnum(this int channel, int channels)
-            => ToChannelEnum(channel, channels.ChannelsToEnum());
-
-        public static ChannelEnum ToChannelEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
-            => channel.HasValue ? ToChannelEnum(channel.Value, speakerSetupEnum) : ChannelEnum.Undefined;
-
-        public static ChannelEnum ToChannelEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
-        {
-            switch (speakerSetupEnum)
-            {
-                case SpeakerSetupEnum.Mono:
-                    if (channel == 0) return ChannelEnum.Single;
-                    break;
-                
-                case SpeakerSetupEnum.Stereo:
-                    if (channel == 0) return ChannelEnum.Left;
-                    if (channel == 1) return ChannelEnum.Right;
-                    break;
-            }
-            
-            throw new NotSupportedException(
-                "Unsupported combination of values: " + new { speakerSetupEnum, channel });
-        }
-
         // SpeakerSetupChannel by ChannelEnum
 
         public static SpeakerSetupChannel GetSpeakerSetupChannel(
@@ -200,11 +165,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
-            => audioFileOutput.AudioFileOutputChannels.SingleOrDefault(x => x.Index == channelEnum.ToChannel());
+            => audioFileOutput.AudioFileOutputChannels.SingleOrDefault(x => x.Index == channelEnum.ToIndex());
         
         public static AudioFileOutputChannel GetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
-            => audioFileOutput.AudioFileOutputChannels.Single(x => x.Index == channelEnum.ToChannel());
+            => audioFileOutput.AudioFileOutputChannels.Single(x => x.Index == channelEnum.ToIndex());
         
         // SetNodeType for whole Curve
 

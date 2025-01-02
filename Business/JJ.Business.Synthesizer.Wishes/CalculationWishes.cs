@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Linq;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 
@@ -58,28 +59,13 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Sample
 
-        public static double Calculate(this Sample sample, double time, Channel channel)
-        {
-            if (channel == null) throw new ArgumentNullException(nameof(channel));
-            return Calculate(sample, time, channel.Index);
-        }
-
-        public static double Calculate(this Sample sample, double time, ChannelEnum channelEnum)
-            => Calculate(sample, time, channelEnum.ToChannel());
-
         public static double Calculate(this Sample sample, double time, int channel)
             => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channel, time);
 
         // Operator
 
-        public static double Calculate(this Outlet outlet, double time, ChannelEnum channelEnum)
-            => Calculate(outlet, time, channelEnum.ToChannel());
-
         public static double Calculate(this Outlet outlet, double time = 0, int channel = 0) 
             => new OperatorCalculator(channel).CalculateValue(outlet, time);
-
-        public static double Calculate(this Operator op, double time, ChannelEnum channelEnum)
-            => Calculate(op, time, channelEnum.ToChannel());
 
         public static double Calculate(this Operator op, double time = 0, int channel = 0)
         {
@@ -102,7 +88,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
             return Calculate(outlet, time, channel);
         }
-
     }
 
     // Complexity
