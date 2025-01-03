@@ -268,6 +268,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SampleDataType BitsToEntity(this int bits, IContext context) 
             => bits.BitsToEnum().ToEntity(context);
         
+        public static bool Is8Bit (SynthWishes entity)          { if (entity == null) throw new NullException(() => entity); return entity.Is8Bit     ; }
+        public static bool Is16Bit(SynthWishes entity)          { if (entity == null) throw new NullException(() => entity); return entity.Is16Bit    ; }
+        public static bool Is32Bit(SynthWishes entity)          { if (entity == null) throw new NullException(() => entity); return entity.Is32Bit    ; }
+        public static SynthWishes With8Bit (SynthWishes entity) { if (entity == null) throw new NullException(() => entity); return entity.With8Bit() ; }
+        public static SynthWishes With16Bit(SynthWishes entity) { if (entity == null) throw new NullException(() => entity); return entity.With16Bit(); }
+        public static SynthWishes With32Bit(SynthWishes entity) { if (entity == null) throw new NullException(() => entity); return entity.With16Bit(); }
+        
         #endregion
                 
         #region Channels
