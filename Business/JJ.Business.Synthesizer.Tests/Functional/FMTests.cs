@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         void FM_RippleBass_Melody2() => _[RippleBassMelody2].DeepEcho().Volume(0.33).Save().Play();
         
         [TestMethod] public void FM_RippleNote_SharpMetallic_Test() => Run(FM_RippleNote_SharpMetallic);
-        void FM_RippleNote_SharpMetallic() => A3[RippleNote_SharpMetallic, _[2.2]].DeepEcho().Volume(0.33).Save().Play();
+        void FM_RippleNote_SharpMetallic() => WithAudioPlayback(false).A3[RippleNote_SharpMetallic, _[2.2]].DeepEcho().Volume(0.33).Save().Play();
         
         [TestMethod] public void FM_RippleSound_Clean_Test() => Run(FM_RippleSound_Clean);
         void FM_RippleSound_Clean() => Fluent(RippleSound_Clean(_, _[4])).DeepEcho().Volume(0.5).Save().Play();
@@ -139,8 +139,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod] public void FM_RippleSound_CoolDouble_Test() => Run(FM_RippleSound_CoolDouble);
         void FM_RippleSound_CoolDouble() => _[RippleSound_CoolDouble, A5, 3].DeepEcho().Volume(0.33).Save().Play();
         
-        [TestMethod] public void FM_Noise_Beating_Test() => WithAudioPlayback(false).Run(FM_Noise_Beating);
-        void FM_Noise_Beating() => _[A4, Create_FM_Noise_Beating, vol: 1, len: _[5]].MildEcho().Volume(0.25).Save().Play();
+        [TestMethod] public void FM_Noise_Beating_Test() => Run(FM_Noise_Beating);
+        void FM_Noise_Beating() => WithAudioPlayback(false) [A4, Create_FM_Noise_Beating, vol: 1, len: _[5]].MildEcho().Volume(0.25).Save().Play();
         
         // Jingle
 

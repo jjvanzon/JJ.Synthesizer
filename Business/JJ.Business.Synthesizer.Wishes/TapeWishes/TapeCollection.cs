@@ -15,12 +15,13 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class TapeCollection : IEnumerable<Tape>
     {
-        private readonly SynthWishes _synthWishes;
+        private SynthWishes SynthWishes { get; }
+
         private readonly Dictionary<Outlet, Tape> _tapes = new Dictionary<Outlet, Tape>();
         
         public TapeCollection(SynthWishes synthWishes)
         {
-            _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+            SynthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
         }
         
         public int Count => _tapes.Count;
@@ -43,12 +44,12 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 tape.Outlet = signal;
             }
             
-            CloneTape(_synthWishes, tape);
+            CloneTape(SynthWishes, tape);
             
             if (Has(filePath)) tape.FilePathSuggested = filePath;
             if (Has(callerMemberName)) tape.FallbackName = ResolveName(name, callerMemberName);
             
-            double newDuration = (duration ?? _synthWishes.GetAudioLength).Value;
+            double newDuration = (duration ?? SynthWishes.GetAudioLength).Value;
             tape.Duration = Max(tape.Duration, newDuration);
             
             TapeAction action = tape.Actions.TryGet(actionType);
@@ -61,11 +62,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             }
             
             tape.IsTape = actionType == ActionEnum.Tape;
-
-            //if (tape.Actions.DiskCache.On)
-            //{
-            //    tape.Actions.DiskCache.FilePathSuggested = tape.Descriptor();
-            //}
 
             LogAction(tape, isNew ? "Create" : "Update");
             

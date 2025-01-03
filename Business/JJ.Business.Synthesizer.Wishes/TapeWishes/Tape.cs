@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     public class Tape
     {
         string DebuggerDisplay => GetDebuggerDisplay(this);
-        
+
         public Tape()
         {
             Config = new TapeConfig(this);
@@ -189,6 +189,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeConfig
     {
+        public SynthWishes SynthWishes => Tape.SynthWishes;
+
         public Tape Tape { get; }
         
         string DebuggerDisplay => GetDebuggerDisplay(this);
@@ -248,6 +250,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Tape = tape;
             Type = actionType;
         }
+
+        public SynthWishes SynthWishes => Tape.SynthWishes;
 
         /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
@@ -341,7 +345,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             PlayAllTapes = new TapeAction(tape, ActionEnum.PlayAllTapes);
             DiskCache = new TapeAction(tape, ActionEnum.DiskCache);
         }
-                
+        
+        public SynthWishes SynthWishes => Tape.SynthWishes;
+        
         /// <summary> Parent. Always filled in. </summary>
         public Tape Tape { get; }
         /// <inheritdoc cref="docs._tapeaction" />

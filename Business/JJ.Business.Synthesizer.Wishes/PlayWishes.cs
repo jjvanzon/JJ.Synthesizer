@@ -218,8 +218,8 @@ namespace JJ.Business.Synthesizer.Wishes
     /// <inheritdoc cref="docs._makebuff" />
     public static class PlayExtensionWishes
     {
-        public static TapeAction Play(this TapeAction action) => SynthWishes.InternalPlay(null, action);
-        public static Tape Play(this Tape tape) => SynthWishes.InternalPlay(null, tape);
+        public static TapeAction Play(this TapeAction action) => SynthWishes.InternalPlay(action?.SynthWishes, action);
+        public static Tape Play(this Tape tape) => SynthWishes.InternalPlay(tape?.SynthWishes, tape);
         public static Buff Play(this Buff buff) => SynthWishes.InternalPlay(null, buff);
         public static Buff Play(this AudioFileOutput audioFileOutput) => SynthWishes.InternalPlay(null, audioFileOutput);
         public static Buff Play(this Sample sample) => SynthWishes.InternalPlay(null, sample);
