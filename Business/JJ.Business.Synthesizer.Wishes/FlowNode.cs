@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
+// ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -16,6 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _underlyingOutlet = firstOperand ?? throw new ArgumentNullException(nameof(firstOperand));
             Operands = new FluentOperandList(this);
+            _ = new CaptureIndexer(synthWishes);
         }
  
         private readonly SynthWishes _synthWishes;
@@ -27,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FluentOperandList Operands { get; }
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public CaptureIndexer _ => _synthWishes._;
+        public CaptureIndexer _;
 
         // Conversion Operators
         

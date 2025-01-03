@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     internal static class ObsoleteCalculationWishesMessages
     {
         public const string ObsoleteMessage = 
-            "Use of Channel entities and ChannelEnum is discourage. " +
+            "The use of Channel entities and ChannelEnum is discourage. " +
             "Use the integers 0 and 1 instead. 0 is center channel in case of mono, " +
             "and in case of stereo, left is 0 and right is 1.";
     }
@@ -49,6 +49,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (op == null) throw new ArgumentNullException(nameof(op));
             if (!Has(channelEnum)) throw new Exception($"{nameof(channelEnum)} not defined.");
             return op.Calculate(time, channelEnum.Channel().Value);
+        }
+                
+        [Obsolete(ObsoleteMessage)]
+        public static double Calculate(this FlowNode flowNode, double time, ChannelEnum channelEnum)
+        {
+            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
+            return flowNode.UnderlyingOutlet.Calculate(time, channelEnum);
         }
     }
 }

@@ -21,8 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     internal static class InterceptExtensions
     {
-        internal static void Intercept(this TapeAction action)
-            => InterceptWishes.Intercept(action);
+        internal static void Intercept(this TapeAction action) => InterceptWishes.Intercept(action);
     }
     
     // Intercept in SynthWishes

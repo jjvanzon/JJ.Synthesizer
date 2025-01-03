@@ -173,14 +173,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[Func<FlowNode> command] 
-            => _synthWishes[command];
+            => _[command];
         
         // 1 Parameter
         
         /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode> command] 
-            => _synthWishes[command, this];
+            => _[command, this];
         
         // 2 Parameters
         
@@ -188,12 +188,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null] 
-            => _synthWishes[command, this, param2];
+            => _[command, this, param2];
 
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode> command,
             double param2]
-            => _synthWishes[command, this, param2];
+            => _[command, this, param2];
 
         // 3 Parameters
 
@@ -201,25 +201,25 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null] 
-            => _synthWishes[command, this, param2, param3];
+            => _[command, this, param2, param3];
 
         /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param2, FlowNode param3 = null]
-            => _synthWishes[command, this, param2, param3];
+            => _[command, this, param2, param3];
 
         /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param2, double param3]
-            => _synthWishes[command, this, param2, param3];
+            => _[command, this, param2, param3];
 
         /// <inheritdoc cref="docs._commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param2, double param3]
-            => _synthWishes[command, this, param2, param3];
+            => _[command, this, param2, param3];
 
         // 4 Parameters
 
@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null] 
-            => _synthWishes[command, this, param2, param3, param4];
+            => _[command, this, param2, param3, param4];
 
         // 5 Parameters
         
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null] 
-            => _synthWishes[command, this, param2, param3, param4, param5];
+            => _[command, this, param2, param3, param4, param5];
 
         // 6 Parameters
         
@@ -244,7 +244,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
             FlowNode param6 = null] 
-            => _synthWishes[command, this, param2, param3, param4, param5, param6];
+            => _[command, this, param2, param3, param4, param5, param6];
 
         // 7 Parameters
         
@@ -253,7 +253,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
             FlowNode param6 = null, FlowNode param7 = null] 
-            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7];
+            => _[command, this, param2, param3, param4, param5, param6, param7];
 
         // 8 Parameters
         
@@ -262,7 +262,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
             FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null] 
-            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7, param8];
+            => _[command, this, param2, param3, param4, param5, param6, param7, param8];
 
         // 9 Parameters
         
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
             FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null] 
-            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7, param8, param9];
+            => _[command, this, param2, param3, param4, param5, param6, param7, param8, param9];
 
         // 10 Parameters
         
@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
             FlowNode param6 = null, FlowNode param7 = null, FlowNode param8 = null, FlowNode param9 = null, FlowNode param10 = null] 
-            => _synthWishes[command, this, param2, param3, param4, param5, param6, param7, param8, param9, param10];
+            => _[command, this, param2, param3, param4, param5, param6, param7, param8, param9, param10];
     }
     
     // Command Notation for CaptureIndexer

@@ -15,7 +15,6 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static System.Char;
 using static System.Environment;
 using static System.IO.File;
 using static System.String;

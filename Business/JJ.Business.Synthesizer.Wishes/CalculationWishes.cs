@@ -39,12 +39,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
             return flowNode.UnderlyingOutlet.Calculate(time);
         }
-        
-        public static double Calculate(this FlowNode flowNode, double time, ChannelEnum channelEnum)
-        {
-            if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
-            return flowNode.UnderlyingOutlet.Calculate(time, channelEnum);
-        }
 
         public static double Calculate(this FlowNode flowNode, double time, int channel)
         {
@@ -54,12 +48,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Curve
 
-        public static double Calculate(this Curve curve, double time)
+        public static double Calculate(this Curve curve, double time = 0)
             => new CurveCalculator(curve).CalculateValue(time);
 
         // Sample
 
-        public static double Calculate(this Sample sample, double time, int channel)
+        public static double Calculate(this Sample sample, double time = 0, int channel = 0)
             => SampleCalculatorFactory.CreateSampleCalculator(sample).CalculateValue(channel, time);
 
         // Operator

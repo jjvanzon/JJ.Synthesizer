@@ -1144,7 +1144,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode WithLeafCheckTimeOut(double? seconds) { _synthWishes.WithLeafCheckTimeOut(seconds); return this; }
         
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public TimeOutActionEnum TimeOutAction => _synthWishes.GetTimeOutAction;
+        public TimeOutActionEnum GetTimeOutAction => _synthWishes.GetTimeOutAction;
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public FlowNode WithTimeOutAction(TimeOutActionEnum action) { _synthWishes.WithTimeOutAction(action); return this; }
         

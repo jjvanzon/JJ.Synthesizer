@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
