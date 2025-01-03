@@ -57,8 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SynthWishes Bits(this SynthWishes entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithBits(value);
-            return entity;
+            return entity.WithBits(value);
         }
 
         public static int Bits(this FlowNode entity)
@@ -70,8 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode Bits(this FlowNode entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithBits(value);
-            return entity;
+            return entity.WithBits(value);
         }
 
         public static int Bits(this ConfigWishes entity)
@@ -83,8 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes Bits(this ConfigWishes entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithBits(value);
-            return entity;
+            return entity.WithBits(value);
         }
 
         internal static int Bits(this ConfigSection entity)
@@ -271,8 +268,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SampleDataType BitsToEntity(this int bits, IContext context) 
             => bits.BitsToEnum().ToEntity(context);
         
-        
-        
         #endregion
                 
         #region Channels
@@ -286,8 +281,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SynthWishes Channels(this SynthWishes entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithChannels(value);
-            return entity;
+            return entity.WithChannels(value);
         }
 
         public static int Channels(this FlowNode entity)
@@ -299,8 +293,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode Channels(this FlowNode entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithChannels(value);
-            return entity;
+            return entity.WithChannels(value);
         }
 
         public static int Channels(this ConfigWishes entity)
@@ -312,8 +305,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes Channels(this ConfigWishes entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithChannels(value);
-            return entity;
+            return entity.WithChannels(value);
         }
 
         internal static int Channels(this ConfigSection entity)
@@ -498,8 +490,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SynthWishes Channel(this SynthWishes entity, int? value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithChannel(value);
-            return entity;
+            return entity.WithChannel(value);
         }
 
         public static int? Channel(this FlowNode entity)
@@ -511,8 +502,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode Channel(this FlowNode entity, int? value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithChannel(value);
-            return entity;
+            return entity.WithChannel(value);
         }
 
         public static int? Channel(this ConfigWishes entity)
@@ -524,8 +514,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes Channel(this ConfigWishes entity, int? value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithChannel(value);
-            return entity;
+            return entity.WithChannel(value);
         }
         
         public static int? Channel(this Tape entity)
@@ -700,8 +689,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SynthWishes SamplingRate(this SynthWishes entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithSamplingRate(value);
-            return entity;
+            return entity.WithSamplingRate(value);
         }
 
         public static int SamplingRate(this FlowNode entity)
@@ -713,8 +701,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode SamplingRate(this FlowNode entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithSamplingRate(value);
-            return entity;
+            return entity.WithSamplingRate(value);
         }
 
         public static int SamplingRate(this ConfigWishes entity)
@@ -726,8 +713,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes SamplingRate(this ConfigWishes entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithSamplingRate(value);
-            return entity;
+            return entity.WithSamplingRate(value);
         }
 
         internal static int SamplingRate(this ConfigSection entity)
@@ -886,8 +872,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SynthWishes AudioFormat(this SynthWishes entity, AudioFileFormatEnum value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithAudioFormat(value);
-            return entity;
+            return entity.WithAudioFormat(value);
         }
 
         public static AudioFileFormatEnum AudioFormat(this FlowNode entity)
@@ -899,8 +884,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode AudioFormat(this FlowNode entity, AudioFileFormatEnum value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithAudioFormat(value);
-            return entity;
+            return entity.WithAudioFormat(value);
         }
 
         public static AudioFileFormatEnum AudioFormat(this ConfigWishes entity)
@@ -912,8 +896,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes AudioFormat(this ConfigWishes entity, AudioFileFormatEnum value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithAudioFormat(value);
-            return entity;
+            return entity.WithAudioFormat(value);
         }
 
         internal static AudioFileFormatEnum AudioFormat(this ConfigSection entity)
@@ -1050,8 +1033,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SynthWishes Interpolation(this SynthWishes entity, InterpolationTypeEnum value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithInterpolation(value);
-            return entity;
+            return entity.WithInterpolation(value);
         }
 
         public static InterpolationTypeEnum Interpolation(this FlowNode entity)
@@ -1063,8 +1045,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static FlowNode Interpolation(this FlowNode entity, InterpolationTypeEnum value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithInterpolation(value);
-            return entity;
+            return entity.WithInterpolation(value);
         }
 
         public static InterpolationTypeEnum Interpolation(this ConfigWishes entity)
@@ -1076,8 +1057,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes Interpolation(this ConfigWishes entity, InterpolationTypeEnum value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithInterpolation(value);
-            return entity;
+            return entity.WithInterpolation(value);
         }
 
         internal static InterpolationTypeEnum Interpolation(this ConfigSection entity)
@@ -1221,8 +1201,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes CourtesyFrames(this ConfigWishes entity, int value)
         {
             if (entity == null) throw new NullException(() => entity);
-            entity.WithCourtesyFrames(value);
-            return entity;
+            return entity.WithCourtesyFrames(value);
         }
 
         internal static int CourtesyFrames(this ConfigSection entity)
