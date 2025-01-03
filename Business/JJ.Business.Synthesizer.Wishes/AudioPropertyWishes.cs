@@ -255,12 +255,12 @@ namespace JJ.Business.Synthesizer.Wishes
         [Obsolete(ObsoleteMessage)]
         public static SampleDataTypeEnum BitsToEnum(this int bits)
         {
-            switch (bits)
+            switch (AssertBits(bits))
             {
-                case 8: return SampleDataTypeEnum.Byte;
-                case 16: return SampleDataTypeEnum.Int16;
                 case 32: return SampleDataTypeEnum.Float32;
-                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
+                case 16: return SampleDataTypeEnum.Int16;
+                case 8: return SampleDataTypeEnum.Byte;
+                default: return default;
             }
         }
         
@@ -465,11 +465,11 @@ namespace JJ.Business.Synthesizer.Wishes
         [Obsolete(ObsoleteMessage)]
         public static SpeakerSetupEnum ChannelsToEnum(this int channels)
         {
-            switch (channels)
+            switch (AssertChannels(channels))
             {
                 case 1: return SpeakerSetupEnum.Mono;
                 case 2: return SpeakerSetupEnum.Stereo;
-                default: throw new ValueNotSupportedException(channels);
+                default: return default;
             }
         }
         
@@ -1361,13 +1361,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static double MaxValue(this AudioInfoWish infoWish) => MaxValue(Bits(infoWish));
         public static double MaxValue(this int bits)
         {
-            switch (bits)
+            switch (AssertBits(bits))
             {
                 case 32: return 1;
-                case 16: return Int16.MaxValue;
-                // ReSharper disable once PossibleLossOfFraction
+                case 16: return Int16.MaxValue; // ReSharper disable once PossibleLossOfFraction
                 case 8: return byte.MaxValue / 2;
-                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
+                default: return default;
             }
         }
         

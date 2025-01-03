@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Set invalid ChannelEnum
             var configAccessor = new ConfigWishesAccessor(Config);
-            configAccessor._channelEnum = (ChannelEnum)3;
+            configAccessor._channel = 3;
 
             // OperatorWishes.SynthWishes.ChannelIndex InvalidChannelEnum
             //ThrowsException(() => { _channelEnum = GetChannel.ToChannelEnum(GetChannels.ToSpeakerSetupEnum()); });

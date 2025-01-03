@@ -14,8 +14,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private readonly SynthWishes _;
         private readonly TapeCollection _tapes;
         
-        //public readonly CaptureIndexer _;
-
         /// <inheritdoc cref="docs._tapepadder" />
         public TapePadder(SynthWishes synthWishes, TapeCollection tapes)
         {

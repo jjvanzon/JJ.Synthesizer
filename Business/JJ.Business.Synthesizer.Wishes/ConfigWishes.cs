@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -92,7 +93,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         /// <summary> For static contexts use this. </summary>
         internal static ConfigWishes Static { get; } = new ConfigWishes();
-
+        
         // Defaults
 
         // Audio Quality
@@ -150,13 +151,74 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
+        // Conditions
+        
+        private static string BitsNotSupportedMessage(int? bits) => $"Bits = {bits} not supported. Supported values: 8, 16, 32.";
+        private static string ChannelsNotSupportedMessage(int? channels) => $"Channels = {channels} not supported. Supported values: 1, 2.";
+        private static string ChannelNotSupportedMessage(int? channel) => $"Channel = {channel} not supported. Supported values: 0, 1.";
+        
+        [AssertionMethod]
+        internal static int AssertBits(int bits)
+        {
+            switch (bits)
+            {
+                case 32: case 16: case 8: break; 
+                default: throw new Exception(BitsNotSupportedMessage(bits)); 
+            }
+            return bits;
+        }
+        
+        [AssertionMethod]
+        internal static int? AssertBits(int? bits)
+        {
+            switch (bits)
+            {
+                case 32: case 16: case 8: case null: break; 
+                default: throw new Exception(BitsNotSupportedMessage(bits)); 
+            }
+            return bits;
+        }
+                
+        [AssertionMethod]
+        internal static int AssertChannels(int channels)
+        {
+            switch (channels)
+            {
+                case 1: case 2: break; 
+                default: throw new Exception(ChannelsNotSupportedMessage(channels)); 
+            }
+            return channels;
+        }
+                
+        [AssertionMethod]
+        internal static int? AssertChannel(int? channel)
+        {
+            switch (channel)
+            {
+                case null: case 0: case 1: break; 
+                default: throw new Exception(ChannelNotSupportedMessage(channel)); 
+            }
+            return channel;
+        }
+                
+        [AssertionMethod]
+        internal static int AssertChannel(int channel)
+        {
+            switch (channel)
+            {
+                case 0: case 1: break; 
+                default: throw new Exception(ChannelNotSupportedMessage(channel)); 
+            }
+            return channel;
+        }
+
         // Audio Quality
         
         // Bits
         
-        private SampleDataTypeEnum _sampleDataTypeEnum;
-        public int GetBits => _sampleDataTypeEnum != default ? _sampleDataTypeEnum.Bits() : _section.Bits ?? DefaultBits;
-        public ConfigWishes WithBits(int bits) { _sampleDataTypeEnum = bits.BitsToEnum(); return this; }
+        private int? _bits;
+        public int GetBits => AssertBits(_bits ?? _section.Bits ?? DefaultBits);
+        public ConfigWishes WithBits(int? bits) { _bits = AssertBits(bits); return this; }
         public bool Is32Bit => GetBits == 32;
         public ConfigWishes With32Bit() => WithBits(32);
         public bool Is16Bit => GetBits == 16;
@@ -166,9 +228,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channels
         
-        private SpeakerSetupEnum _speakerSetupEnum;
-        public int GetChannels => _speakerSetupEnum != default ? _speakerSetupEnum.Channels() : _section.Channels ?? DefaultChannels;
-        public ConfigWishes WithChannels(int channels) { _speakerSetupEnum = channels.ChannelsToEnum(); return this; }
+        private int _channels;
+        public int GetChannels => Has(_channels) ? _channels : AssertChannels(_section.Channels ?? DefaultChannels);
+        public ConfigWishes WithChannels(int channels) { _channels = AssertChannels(channels); return this; }
         public bool IsMono => GetChannels == 1;
         public ConfigWishes WithMono() => WithChannels(1);
         public bool IsStereo => GetChannels == 2;
@@ -176,9 +238,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channel
         
-        private     ChannelEnum _channelEnum;
-        public int? GetChannel => (_channelEnum == default) ? default(int?) : _channelEnum.Channel();
-        public ConfigWishes WithChannel(int? channel) { _channelEnum = channel.ToEnum(GetChannels); return this; }
+        private int? _channel;
+        public int? GetChannel => AssertChannel(_channel ?? DefaultChannel);
+        public ConfigWishes WithChannel(int? channel) { _channel = AssertChannel(channel); return this; }
         public bool         IsCenter  =>   GetChannels == 1 ? GetChannel == 0 : default;
         public ConfigWishes WithCenter() { WithChannels  (1); WithChannel  (0); return this; }
         public bool         IsLeft    =>   GetChannels == 2 ? GetChannel == 0 : default;
@@ -238,7 +300,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // AudioFormat
         
         private AudioFileFormatEnum _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat => _audioFormat != default ? _audioFormat : _section.AudioFormat ?? DefaultAudioFormat;
+        public AudioFileFormatEnum GetAudioFormat => Has(_audioFormat) ? _audioFormat : _section.AudioFormat ?? DefaultAudioFormat;
         public ConfigWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { _audioFormat = audioFormat; return this; }
         public bool IsWav => GetAudioFormat == Wav;
         public ConfigWishes AsWav() => WithAudioFormat(Wav);
@@ -248,7 +310,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Interpolation
         
         private InterpolationTypeEnum _interpolation;
-        public InterpolationTypeEnum GetInterpolation => _interpolation != default ? _interpolation : _section.Interpolation ?? DefaultInterpolation;
+        public InterpolationTypeEnum GetInterpolation => Has(_interpolation) ? _interpolation : _section.Interpolation ?? DefaultInterpolation;
         public ConfigWishes WithInterpolation(InterpolationTypeEnum interpolation) { _interpolation = interpolation; return this; }
         public bool IsLinear => GetInterpolation == Line;
         public ConfigWishes WithLinear() => WithInterpolation(Line);

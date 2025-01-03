@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public ConfigWishesAccessor(ConfigWishes obj) 
             => _accessor = new Accessor(obj, typeof(ConfigWishes));
         
-        public ChannelEnum _channelEnum
+        public int _channel
         {
-            get => (ChannelEnum)_accessor.GetFieldValue(MemberName());
+            get => (int)_accessor.GetFieldValue(MemberName());
             set => _accessor.SetFieldValue(MemberName(), value);
         }
     }
