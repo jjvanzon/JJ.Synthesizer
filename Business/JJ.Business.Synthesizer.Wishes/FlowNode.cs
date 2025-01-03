@@ -17,19 +17,18 @@ namespace JJ.Business.Synthesizer.Wishes
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
             _underlyingOutlet = firstOperand ?? throw new ArgumentNullException(nameof(firstOperand));
             Operands = new FluentOperandList(this);
-            _ = new CaptureIndexer(synthWishes);
         }
  
-        private readonly SynthWishes _synthWishes;
-        public Outlet UnderlyingOutlet => _underlyingOutlet;
 
-        private readonly Outlet _underlyingOutlet;
+        private readonly SynthWishes _synthWishes;
         public SynthWishes SynthWishes => _synthWishes;
+        public SynthWishes _ => _synthWishes;
+
+        public Outlet UnderlyingOutlet => _underlyingOutlet;
+        private readonly Outlet _underlyingOutlet;
         
         public FluentOperandList Operands { get; }
 
-        /// <inheritdoc cref="docs._captureindexer" />
-        public CaptureIndexer _;
 
         // Conversion Operators
         

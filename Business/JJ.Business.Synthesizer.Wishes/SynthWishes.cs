@@ -43,7 +43,14 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public readonly CaptureIndexer _;
+        public SynthWishes _ { get; }
+
+        /// <summary>
+        /// Crazy conversion operator, reintroducing the discard notation _
+        /// sort of, for FlowNodes.
+        /// </summary>
+        // ReSharper disable once UnusedParameter.Global
+        public static implicit operator FlowNode(SynthWishes synthWishes) => null;
 
         public SynthWishes()
             : this(ServiceFactory.CreateContext())
@@ -61,7 +68,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
             
-            _ = new CaptureIndexer(this);
+            _ = this;
             bar = new BarIndexer(this);
             bars = new BarsIndexer(this);
             beat = new BeatIndexer(this);

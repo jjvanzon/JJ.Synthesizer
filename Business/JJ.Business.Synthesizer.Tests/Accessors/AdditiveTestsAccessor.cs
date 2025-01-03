@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public CaptureIndexer _ => _baseAccessor._;
+        public SynthWishes _ => _baseAccessor._;
         
         /// <inheritdoc cref="docs._metallophone"/>
         public FlowNode MetallophoneJingle()

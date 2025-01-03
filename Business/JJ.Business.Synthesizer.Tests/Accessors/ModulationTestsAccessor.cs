@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public CaptureIndexer _ => _baseAccessor._; 
+        public SynthWishes _ => _baseAccessor._; 
 
         public void WithLeft() => _obj.WithLeft();
         public void WithRight() => _obj.WithRight();

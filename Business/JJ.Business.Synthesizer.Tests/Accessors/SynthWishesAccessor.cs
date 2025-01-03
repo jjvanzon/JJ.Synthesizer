@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => _accessor = new Accessor(obj, typeof(SynthWishes));
 
         /// <inheritdoc cref="docs._captureindexer" />
-        public CaptureIndexer _ 
-            => (CaptureIndexer)_accessor.GetFieldValue(nameof(_));
+        public SynthWishes _ 
+            => (SynthWishes)_accessor.GetPropertyValue(nameof(_));
 
         public void Run(Action action)
             => _accessor.InvokeMethod(MemberName(), action);
