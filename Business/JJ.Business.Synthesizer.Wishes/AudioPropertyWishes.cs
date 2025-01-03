@@ -271,6 +271,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SampleDataType BitsToEntity(this int bits, IContext context) 
             => bits.BitsToEnum().ToEntity(context);
         
+        
+        
         #endregion
                 
         #region Channels
