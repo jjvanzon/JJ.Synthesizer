@@ -1,30 +1,30 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Framework.Common;
-using JJ.Persistence.Synthesizer;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
+using JJ.Framework.Common;
+using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Persistence;
-using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using JJ.Framework.Reflection;
+using static System.Environment;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
-using static JJ.Business.Synthesizer.Wishes.SynthWishes;
-using static System.Environment;
-using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -48,154 +48,154 @@ namespace JJ.Business.Synthesizer.Wishes
         
         #region Bits
         
-        public static int Bits(this SynthWishes synthWishes)
+        public static int Bits(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetBits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetBits;
         }
 
-        public static SynthWishes Bits(this SynthWishes synthWishes, int bits)
+        public static SynthWishes Bits(this SynthWishes entity, int value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithBits(bits);
-            return synthWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithBits(value);
+            return entity;
         }
 
-        public static int Bits(this FlowNode flowNode)
+        public static int Bits(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetBits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetBits;
         }
 
-        public static FlowNode Bits(this FlowNode flowNode, int bits)
+        public static FlowNode Bits(this FlowNode entity, int value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithBits(bits);
-            return flowNode;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithBits(value);
+            return entity;
         }
 
-        public static int Bits(this ConfigWishes configWishes)
+        public static int Bits(this ConfigWishes entity)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetBits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetBits;
         }
 
-        public static ConfigWishes Bits(this ConfigWishes configWishes, int bits)
+        public static ConfigWishes Bits(this ConfigWishes entity, int value)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithBits(bits);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithBits(value);
+            return entity;
         }
 
-        internal static int Bits(this ConfigSection configSection)
+        internal static int Bits(this ConfigSection entity)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.Bits ?? DefaultBits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Bits ?? DefaultBits;
         }
 
-        internal static ConfigSection Bits(this ConfigSection configSection, int bits)
+        internal static ConfigSection Bits(this ConfigSection entity, int value)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.Bits = bits;
-            return configSection;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Bits = value;
+            return entity;
         }
         
-        public static int Bits(this Tape tape)
+        public static int Bits(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.Bits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Config.Bits;
         }
         
-        public static Tape Bits(this Tape tape, int bits)
+        public static Tape Bits(this Tape entity, int value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.Bits = bits;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Config.Bits = value;
+            return entity;
         }
 
-        public static int Bits(this TapeConfig tapeConfig)
+        public static int Bits(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.Bits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Bits;
         }
 
-        public static TapeConfig Bits(this TapeConfig tapeConfig, int bits)
+        public static TapeConfig Bits(this TapeConfig entity, int value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.Bits = bits;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Bits = value;
+            return entity;
         }
 
-        public static int Bits(this TapeActions tapeActions)
+        public static int Bits(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Config.Bits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Bits;
         }
 
-        public static TapeActions Bits(this TapeActions tapeActions, int bits)
+        public static TapeActions Bits(this TapeActions entity, int value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Config.Bits = bits;
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Bits = value;
+            return entity;
         }
 
-        public static int Bits(this TapeAction tapeAction)
+        public static int Bits(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Config.Bits;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Bits;
         }
 
-        public static TapeAction Bits(this TapeAction tapeAction, int bits)
+        public static TapeAction Bits(this TapeAction entity, int value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Config.Bits = bits;
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Bits = value;
+            return entity;
         }
 
-        public static int Bits(this Buff buff)
+        public static int Bits(this Buff entity)
         {
-            if (buff == null) throw new NullException(() => buff);
-            return Bits(buff.UnderlyingAudioFileOutput);
+            if (entity == null) throw new NullException(() => entity);
+            return Bits(entity.UnderlyingAudioFileOutput);
         }
 
-        public static Buff Bits(this Buff buff, int bits)
+        public static Buff Bits(this Buff entity, int value)
         {
-            if (buff == null) throw new NullException(() => buff);
-            Bits(buff.UnderlyingAudioFileOutput, bits);
-            return buff;
+            if (entity == null) throw new NullException(() => entity);
+            Bits(entity.UnderlyingAudioFileOutput, value);
+            return entity;
         }
 
-        public static int Bits(this Sample sample)
+        public static int Bits(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return Bits(sample.GetSampleDataTypeEnum());
+            if (entity == null) throw new NullException(() => entity);
+            return Bits(entity.GetSampleDataTypeEnum());
         }
         
-        public static Sample Bits(this Sample sample, int bits, IContext context = null)
+        public static Sample Bits(this Sample entity, int value, IContext context = null)
         {
-            if (sample == null) throw new NullException(() => sample);
-            sample.SetSampleDataTypeEnum(bits.BitsToEnum(), context);
-            return sample;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SetSampleDataTypeEnum(value.BitsToEnum(), context);
+            return entity;
         }
 
-        public static int Bits(this AudioFileOutput audioFileOutput)
+        public static int Bits(this AudioFileOutput entity)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return Bits(audioFileOutput.GetSampleDataTypeEnum());
+            if (entity == null) throw new NullException(() => entity);
+            return Bits(entity.GetSampleDataTypeEnum());
         }
 
-        public static AudioFileOutput Bits(this AudioFileOutput audioFileOutput, int bits, IContext context = null)
+        public static AudioFileOutput Bits(this AudioFileOutput entity, int value, IContext context = null)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.SetSampleDataTypeEnum(bits.BitsToEnum(), context);
-            return audioFileOutput;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SetSampleDataTypeEnum(value.BitsToEnum(), context);
+            return entity;
         }
 
-        public static int Bits(this WavHeaderStruct wavHeader)
-            => wavHeader.BitsPerValue;
+        public static int Bits(this WavHeaderStruct entity)
+            => entity.BitsPerValue;
 
-        public static WavHeaderStruct Bits(this WavHeaderStruct wavHeader, int bits) 
-            => wavHeader.ToWish().Bits(bits).ToWavHeader();
+        public static WavHeaderStruct Bits(this WavHeaderStruct entity, int value) 
+            => entity.ToWish().Bits(value).ToWavHeader();
 
         public static int Bits(this AudioInfoWish infoWish)
         {
@@ -203,10 +203,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return infoWish.Bits;
         }
 
-        public static AudioInfoWish Bits(this AudioInfoWish infoWish, int bits)
+        public static AudioInfoWish Bits(this AudioInfoWish infoWish, int value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.Bits = bits;
+            infoWish.Bits = value;
             return infoWish;
         }
         
@@ -216,10 +216,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return info.BytesPerValue * 8;
         }
 
-        public static AudioFileInfo Bits(this AudioFileInfo info, int bits)
+        public static AudioFileInfo Bits(this AudioFileInfo info, int value)
         {
             if (info == null) throw new NullException(() => info);
-            info.BytesPerValue = bits / 8;
+            info.BytesPerValue = value / 8;
             return info;
         }
                 
@@ -275,154 +275,154 @@ namespace JJ.Business.Synthesizer.Wishes
                 
         #region Channels
         
-        public static int Channels(this SynthWishes synthWishes)
+        public static int Channels(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetChannels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannels;
         }
 
-        public static SynthWishes Channels(this SynthWishes synthWishes, int channels)
+        public static SynthWishes Channels(this SynthWishes entity, int value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithChannels(channels);
-            return synthWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithChannels(value);
+            return entity;
         }
 
-        public static int Channels(this FlowNode flowNode)
+        public static int Channels(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetChannels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannels;
         }
 
-        public static FlowNode Channels(this FlowNode flowNode, int channels)
+        public static FlowNode Channels(this FlowNode entity, int value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithChannels(channels);
-            return flowNode;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithChannels(value);
+            return entity;
         }
 
-        public static int Channels(this ConfigWishes configWishes)
+        public static int Channels(this ConfigWishes entity)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetChannels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannels;
         }
 
-        public static ConfigWishes Channels(this ConfigWishes configWishes, int channels)
+        public static ConfigWishes Channels(this ConfigWishes entity, int value)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithChannels(channels);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithChannels(value);
+            return entity;
         }
 
-        internal static int Channels(this ConfigSection configSection)
+        internal static int Channels(this ConfigSection entity)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.Channels ?? DefaultChannels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Channels ?? DefaultChannels;
         }
 
-        internal static ConfigSection Channels(this ConfigSection configSection, int channels)
+        internal static ConfigSection Channels(this ConfigSection entity, int value)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.Channels = channels;
-            return configSection;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Channels = value;
+            return entity;
         }
         
-        public static int Channels(this Tape tape)
+        public static int Channels(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.Channels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Config.Channels;
         }
         
-        public static Tape Channels(this Tape tape, int channels)
+        public static Tape Channels(this Tape entity, int value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.Channels = channels;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Config.Channels = value;
+            return entity;
         }
 
-        public static int Channels(this TapeConfig tapeConfig)
+        public static int Channels(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.Channels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Channels;
         }
 
-        public static TapeConfig Channels(this TapeConfig tapeConfig, int channels)
+        public static TapeConfig Channels(this TapeConfig entity, int value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.Channels = channels;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Channels = value;
+            return entity;
         }
 
-        public static int Channels(this TapeActions tapeActions)
+        public static int Channels(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Config.Channels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Channels;
         }
 
-        public static TapeActions Channels(this TapeActions tapeActions, int channels)
+        public static TapeActions Channels(this TapeActions entity, int value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Config.Channels = channels;
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Channels = value;
+            return entity;
         }
 
-        public static int Channels(this TapeAction tapeAction)
+        public static int Channels(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Config.Channels;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Channels;
         }
 
-        public static TapeAction Channels(this TapeAction tapeAction, int channels)
+        public static TapeAction Channels(this TapeAction entity, int value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Config.Channels = channels;
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Channels = value;
+            return entity;
         }
 
-        public static int Channels(this Buff buff)
+        public static int Channels(this Buff entity)
         {
-            if (buff == null) throw new NullException(() => buff);
-            return Channels(buff.UnderlyingAudioFileOutput);
+            if (entity == null) throw new NullException(() => entity);
+            return Channels(entity.UnderlyingAudioFileOutput);
         }
 
-        public static Buff Channels(this Buff buff, int channels)
+        public static Buff Channels(this Buff entity, int value)
         {
-            if (buff == null) throw new NullException(() => buff);
-            Channels(buff.UnderlyingAudioFileOutput, channels);
-            return buff;
+            if (entity == null) throw new NullException(() => entity);
+            Channels(entity.UnderlyingAudioFileOutput, value);
+            return entity;
         }
 
-        public static int Channels(this Sample sample)
+        public static int Channels(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.GetChannelCount();
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannelCount();
         }
         
-        public static Sample Channels(this Sample sample, int channels, IContext context = null)
+        public static Sample Channels(this Sample entity, int value, IContext context = null)
         {
-            if (sample == null) throw new NullException(() => sample);
-            sample.SetSpeakerSetupEnum(channels.ChannelsToEnum(), context);
-            return sample;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SetSpeakerSetupEnum(value.ChannelsToEnum(), context);
+            return entity;
         }
         
-        public static int Channels(this AudioFileOutput audioFileOutput)
+        public static int Channels(this AudioFileOutput entity)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return audioFileOutput.GetChannelCount();
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannelCount();
         }
 
-        public static AudioFileOutput Channels(this AudioFileOutput audioFileOutput, int channels, IContext context = null)
+        public static AudioFileOutput Channels(this AudioFileOutput entity, int value, IContext context = null)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channels, context);
-            return audioFileOutput;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SpeakerSetup = GetSubstituteSpeakerSetup(value, context);
+            return entity;
         }
         
-        public static int Channels(this WavHeaderStruct wavHeader)
-            => wavHeader.ChannelCount;
+        public static int Channels(this WavHeaderStruct entity)
+            => entity.ChannelCount;
 
-        public static WavHeaderStruct Channels(this WavHeaderStruct wavHeader, int channels) 
-            => wavHeader.ToWish().Channels(channels).ToWavHeader();
+        public static WavHeaderStruct Channels(this WavHeaderStruct entity, int value) 
+            => entity.ToWish().Channels(value).ToWavHeader();
 
         public static int Channels(this AudioInfoWish infoWish)
         {
@@ -430,10 +430,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return infoWish.Channels;
         }
 
-        public static AudioInfoWish Channels(this AudioInfoWish infoWish, int channels)
+        public static AudioInfoWish Channels(this AudioInfoWish infoWish, int value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.Channels = channels;
+            infoWish.Channels = value;
             return infoWish;
         }
                                 
@@ -443,10 +443,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return info.ChannelCount;
         }
 
-        public static AudioFileInfo Channels(this AudioFileInfo info, int channels)
+        public static AudioFileInfo Channels(this AudioFileInfo info, int value)
         {
             if (info == null) throw new NullException(() => info);
-            info.ChannelCount = channels;
+            info.ChannelCount = value;
             return info;
         }
         
@@ -487,111 +487,111 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #region Channel
         
-        public static int? Channel(this SynthWishes synthWishes)
+        public static int? Channel(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetChannel;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannel;
         }
 
-        public static SynthWishes Channel(this SynthWishes synthWishes, int? channel)
+        public static SynthWishes Channel(this SynthWishes entity, int? value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithChannel(channel);
-            return synthWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithChannel(value);
+            return entity;
         }
 
-        public static int? Channel(this FlowNode flowNode)
+        public static int? Channel(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetChannel;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannel;
         }
 
-        public static FlowNode Channel(this FlowNode flowNode, int? channel)
+        public static FlowNode Channel(this FlowNode entity, int? value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithChannel(channel);
-            return flowNode;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithChannel(value);
+            return entity;
         }
 
-        public static int? Channel(this ConfigWishes configWishes)
+        public static int? Channel(this ConfigWishes entity)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetChannel;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetChannel;
         }
 
-        public static ConfigWishes Channel(this ConfigWishes configWishes, int? channel)
+        public static ConfigWishes Channel(this ConfigWishes entity, int? value)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithChannel(channel);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithChannel(value);
+            return entity;
         }
         
-        public static int? Channel(this Tape tape)
+        public static int? Channel(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.Channel;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Config.Channel;
         }
         
-        public static Tape Channel(this Tape tape, int? channel)
+        public static Tape Channel(this Tape entity, int? value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.Channel = channel;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Config.Channel = value;
+            return entity;
         }
 
-        public static int? Channel(this TapeConfig tapeConfig)
+        public static int? Channel(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.Channel;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Channel;
         }
 
-        public static TapeConfig Channel(this TapeConfig tapeConfig, int? channel)
+        public static TapeConfig Channel(this TapeConfig entity, int? value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.Channel = channel;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Channel = value;
+            return entity;
         }
 
-        public static int? Channel(this TapeActions tapeActions)
+        public static int? Channel(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Config.Channel;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Channel;
         }
 
-        public static TapeActions Channel(this TapeActions tapeActions, int? channel)
+        public static TapeActions Channel(this TapeActions entity, int? value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Config.Channel = channel;
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Channel = value;
+            return entity;
         }
 
-        public static int? Channel(this TapeAction tapeAction)
+        public static int? Channel(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Config.Channel;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Channel;
         }
 
-        public static TapeAction Channel(this TapeAction tapeAction, int? channel)
+        public static TapeAction Channel(this TapeAction entity, int? value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Config.Channel = channel;
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Channel = value;
+            return entity;
         }
 
-        public static int? Channel(this Buff buff)
+        public static int? Channel(this Buff entity)
         {
-            if (buff == null) throw new NullException(() => buff);
-            return Channel(buff.UnderlyingAudioFileOutput);
+            if (entity == null) throw new NullException(() => entity);
+            return Channel(entity.UnderlyingAudioFileOutput);
         }
         
-        public static int? Channel(this AudioFileOutput audioFileOutput)
+        public static int? Channel(this AudioFileOutput entity)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            if (audioFileOutput.AudioFileOutputChannels == null) throw new NullException(() => audioFileOutput.AudioFileOutputChannels);
+            if (entity == null) throw new NullException(() => entity);
+            if (entity.AudioFileOutputChannels == null) throw new NullException(() => entity.AudioFileOutputChannels);
 
-            int channels = audioFileOutput.Channels();
-            int signalCount = audioFileOutput.AudioFileOutputChannels.Count;
-            int? firstChannelIndex = audioFileOutput.AudioFileOutputChannels.ElementAtOrDefault(0)?.Index;
+            int channels = entity.Channels();
+            int signalCount = entity.AudioFileOutputChannels.Count;
+            int? firstChannelIndex = entity.AudioFileOutputChannels.ElementAtOrDefault(0)?.Index;
             
             // Mono has channel 0 only.
             if (channels == 1) return 0;
@@ -615,9 +615,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
             throw new Exception(
                 "Unsupported combination of values: " + NewLine +
-                $"audioFileOutput.Channels = {channels}, " + NewLine +
-                $"audioFileOutput.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + NewLine +
-                $"audioFileOutput.AudioFileOutputChannels[0].Index = {firstChannelIndex} ({nameof(firstChannelIndex)})");
+                $"entity.Channels = {channels}, " + NewLine +
+                $"entity.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + NewLine +
+                $"entity.AudioFileOutputChannels[0].Index = {firstChannelIndex} ({nameof(firstChannelIndex)})");
 
         }
         
@@ -691,154 +691,154 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #region SamplingRate
         
-        public static int SamplingRate(this SynthWishes synthWishes)
+        public static int SamplingRate(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetSamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetSamplingRate;
         }
 
-        public static SynthWishes SamplingRate(this SynthWishes synthWishes, int samplingRate)
+        public static SynthWishes SamplingRate(this SynthWishes entity, int value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithSamplingRate(samplingRate);
-            return synthWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithSamplingRate(value);
+            return entity;
         }
 
-        public static int SamplingRate(this FlowNode flowNode)
+        public static int SamplingRate(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetSamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetSamplingRate;
         }
 
-        public static FlowNode SamplingRate(this FlowNode flowNode, int samplingRate)
+        public static FlowNode SamplingRate(this FlowNode entity, int value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithSamplingRate(samplingRate);
-            return flowNode;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithSamplingRate(value);
+            return entity;
         }
 
-        public static int SamplingRate(this ConfigWishes configWishes)
+        public static int SamplingRate(this ConfigWishes entity)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetSamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetSamplingRate;
         }
 
-        public static ConfigWishes SamplingRate(this ConfigWishes configWishes, int samplingRate)
+        public static ConfigWishes SamplingRate(this ConfigWishes entity, int value)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithSamplingRate(samplingRate);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithSamplingRate(value);
+            return entity;
         }
 
-        internal static int SamplingRate(this ConfigSection configSection)
+        internal static int SamplingRate(this ConfigSection entity)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.SamplingRate ?? DefaultSamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.SamplingRate ?? DefaultSamplingRate;
         }
 
-        internal static ConfigSection SamplingRate(this ConfigSection configSection, int samplingRate)
+        internal static ConfigSection SamplingRate(this ConfigSection entity, int value)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.SamplingRate = samplingRate;
-            return configSection;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SamplingRate = value;
+            return entity;
         }
         
-        public static int SamplingRate(this Tape tape)
+        public static int SamplingRate(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.SamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Config.SamplingRate;
         }
         
-        public static Tape SamplingRate(this Tape tape, int samplingRate)
+        public static Tape SamplingRate(this Tape entity, int value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.SamplingRate = samplingRate;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Config.SamplingRate = value;
+            return entity;
         }
 
-        public static int SamplingRate(this TapeConfig tapeConfig)
+        public static int SamplingRate(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.SamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.SamplingRate;
         }
 
-        public static TapeConfig SamplingRate(this TapeConfig tapeConfig, int samplingRate)
+        public static TapeConfig SamplingRate(this TapeConfig entity, int value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.SamplingRate = samplingRate;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SamplingRate = value;
+            return entity;
         }
 
-        public static int SamplingRate(this TapeActions tapeActions)
+        public static int SamplingRate(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Config.SamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.SamplingRate;
         }
 
-        public static TapeActions SamplingRate(this TapeActions tapeActions, int samplingRate)
+        public static TapeActions SamplingRate(this TapeActions entity, int value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Config.SamplingRate = samplingRate;
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.SamplingRate = value;
+            return entity;
         }
 
-        public static int SamplingRate(this TapeAction tapeAction)
+        public static int SamplingRate(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Config.SamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.SamplingRate;
         }
 
-        public static TapeAction SamplingRate(this TapeAction tapeAction, int samplingRate)
+        public static TapeAction SamplingRate(this TapeAction entity, int value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Config.SamplingRate = samplingRate;
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.SamplingRate = value;
+            return entity;
         }
 
-        public static int SamplingRate(this Buff buff)
+        public static int SamplingRate(this Buff entity)
         {
-            if (buff == null) throw new NullException(() => buff);
-            return SamplingRate(buff.UnderlyingAudioFileOutput);
+            if (entity == null) throw new NullException(() => entity);
+            return SamplingRate(entity.UnderlyingAudioFileOutput);
         }
 
-        public static Buff SamplingRate(this Buff buff, int samplingRate)
+        public static Buff SamplingRate(this Buff entity, int value)
         {
-            if (buff == null) throw new NullException(() => buff);
-            SamplingRate(buff.UnderlyingAudioFileOutput, samplingRate);
-            return buff;
+            if (entity == null) throw new NullException(() => entity);
+            SamplingRate(entity.UnderlyingAudioFileOutput, value);
+            return entity;
         }
 
-        public static int SamplingRate(this Sample sample)
+        public static int SamplingRate(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.SamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.SamplingRate;
         }
         
-        public static Sample SamplingRate(this Sample sample, int samplingRate)
+        public static Sample SamplingRate(this Sample entity, int value)
         {
-            if (sample == null) throw new NullException(() => sample);
-            sample.SamplingRate = samplingRate;
-            return sample;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SamplingRate = value;
+            return entity;
         }
         
-        public static int SamplingRate(this AudioFileOutput audioFileOutput)
+        public static int SamplingRate(this AudioFileOutput entity)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return audioFileOutput.SamplingRate;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.SamplingRate;
         }
 
-        public static AudioFileOutput SamplingRate(this AudioFileOutput audioFileOutput, int samplingRate)
+        public static AudioFileOutput SamplingRate(this AudioFileOutput entity, int value)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.SamplingRate = samplingRate;
-            return audioFileOutput;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SamplingRate = value;
+            return entity;
         }
         
-        public static int SamplingRate(this WavHeaderStruct wavHeader)
-            => wavHeader.SamplingRate;
+        public static int SamplingRate(this WavHeaderStruct entity)
+            => entity.SamplingRate;
 
-        public static WavHeaderStruct SamplingRate(this WavHeaderStruct wavHeader, int samplingRate) 
-            => wavHeader.ToWish().SamplingRate(samplingRate).ToWavHeader();
+        public static WavHeaderStruct SamplingRate(this WavHeaderStruct entity, int value) 
+            => entity.ToWish().SamplingRate(value).ToWavHeader();
 
         public static int SamplingRate(this AudioInfoWish infoWish)
         {
@@ -846,10 +846,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return infoWish.SamplingRate;
         }
 
-        public static AudioInfoWish SamplingRate(this AudioInfoWish infoWish, int samplingRate)
+        public static AudioInfoWish SamplingRate(this AudioInfoWish infoWish, int value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.SamplingRate = samplingRate;
+            infoWish.SamplingRate = value;
             return infoWish;
         }
                                 
@@ -859,10 +859,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return info.SamplingRate;
         }
 
-        public static AudioFileInfo SamplingRate(this AudioFileInfo info, int samplingRate)
+        public static AudioFileInfo SamplingRate(this AudioFileInfo info, int value)
         {
             if (info == null) throw new NullException(() => info);
-            info.SamplingRate = samplingRate;
+            info.SamplingRate = value;
             return info;
         }
 
@@ -877,150 +877,150 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new Exception($"{new{fileExtension}} not supported.");
         }
 
-        public static AudioFileFormatEnum AudioFormat(this SynthWishes synthWishes)
+        public static AudioFileFormatEnum AudioFormat(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetAudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioFormat;
         }
 
-        public static SynthWishes AudioFormat(this SynthWishes synthWishes, AudioFileFormatEnum audioFormat)
+        public static SynthWishes AudioFormat(this SynthWishes entity, AudioFileFormatEnum value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithAudioFormat(audioFormat);
-            return synthWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithAudioFormat(value);
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this FlowNode flowNode)
+        public static AudioFileFormatEnum AudioFormat(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetAudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioFormat;
         }
 
-        public static FlowNode AudioFormat(this FlowNode flowNode, AudioFileFormatEnum audioFormat)
+        public static FlowNode AudioFormat(this FlowNode entity, AudioFileFormatEnum value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithAudioFormat(audioFormat);
-            return flowNode;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithAudioFormat(value);
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this ConfigWishes configWishes)
+        public static AudioFileFormatEnum AudioFormat(this ConfigWishes entity)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetAudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioFormat;
         }
 
-        public static ConfigWishes AudioFormat(this ConfigWishes configWishes, AudioFileFormatEnum audioFormat)
+        public static ConfigWishes AudioFormat(this ConfigWishes entity, AudioFileFormatEnum value)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithAudioFormat(audioFormat);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithAudioFormat(value);
+            return entity;
         }
 
-        internal static AudioFileFormatEnum AudioFormat(this ConfigSection configSection)
+        internal static AudioFileFormatEnum AudioFormat(this ConfigSection entity)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.AudioFormat ?? DefaultAudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.AudioFormat ?? DefaultAudioFormat;
         }
 
-        internal static ConfigSection AudioFormat(this ConfigSection configSection, AudioFileFormatEnum audioFormat)
+        internal static ConfigSection AudioFormat(this ConfigSection entity, AudioFileFormatEnum value)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.AudioFormat = audioFormat;
-            return configSection;
+            if (entity == null) throw new NullException(() => entity);
+            entity.AudioFormat = value;
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this Buff buff)
+        public static AudioFileFormatEnum AudioFormat(this Buff entity)
         {
-            if (buff == null) throw new NullException(() => buff);
-            return AudioFormat(buff.UnderlyingAudioFileOutput);
+            if (entity == null) throw new NullException(() => entity);
+            return AudioFormat(entity.UnderlyingAudioFileOutput);
         }
 
-        public static Buff AudioFormat(this Buff buff, AudioFileFormatEnum audioFormat, IContext context = null)
+        public static Buff AudioFormat(this Buff entity, AudioFileFormatEnum value, IContext context = null)
         {
-            if (buff == null) throw new NullException(() => buff);
-            AudioFormat(buff.UnderlyingAudioFileOutput, audioFormat, context);
-            return buff;
+            if (entity == null) throw new NullException(() => entity);
+            AudioFormat(entity.UnderlyingAudioFileOutput, value, context);
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this Tape tape)
+        public static AudioFileFormatEnum AudioFormat(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.AudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Config.AudioFormat;
         }
 
-        public static Tape AudioFormat(this Tape tape, AudioFileFormatEnum audioFormat)
+        public static Tape AudioFormat(this Tape entity, AudioFileFormatEnum value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.AudioFormat = audioFormat;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Config.AudioFormat = value;
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this TapeConfig tapeConfig)
+        public static AudioFileFormatEnum AudioFormat(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.AudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.AudioFormat;
         }
 
-        public static TapeConfig AudioFormat(this TapeConfig tapeConfig, AudioFileFormatEnum audioFormat)
+        public static TapeConfig AudioFormat(this TapeConfig entity, AudioFileFormatEnum value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.AudioFormat = audioFormat;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.AudioFormat = value;
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this TapeAction tapeAction)
+        public static AudioFileFormatEnum AudioFormat(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Config.AudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.AudioFormat;
         }
 
-        public static TapeAction AudioFormat(this TapeAction tapeAction, AudioFileFormatEnum audioFormat)
+        public static TapeAction AudioFormat(this TapeAction entity, AudioFileFormatEnum value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Config.AudioFormat = audioFormat;
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.AudioFormat = value;
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this TapeActions tapeActions)
+        public static AudioFileFormatEnum AudioFormat(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Config.AudioFormat;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.AudioFormat;
         }
 
-        public static TapeActions AudioFormat(this TapeActions tapeActions, AudioFileFormatEnum audioFormat)
+        public static TapeActions AudioFormat(this TapeActions entity, AudioFileFormatEnum value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Config.AudioFormat = audioFormat;
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.AudioFormat = value;
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this Sample sample)
+        public static AudioFileFormatEnum AudioFormat(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.GetAudioFileFormatEnum();
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioFileFormatEnum();
         }
 
-        public static Sample AudioFormat(this Sample sample, AudioFileFormatEnum audioFormat, IContext context)
+        public static Sample AudioFormat(this Sample entity, AudioFileFormatEnum value, IContext context)
         {
-            if (sample == null) throw new NullException(() => sample);
-            sample.SetAudioFileFormatEnum(audioFormat, context);
-            return sample;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SetAudioFileFormatEnum(value, context);
+            return entity;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput audioFileOutput)
+        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput entity)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return audioFileOutput.GetAudioFileFormatEnum();
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioFileFormatEnum();
         }
 
-        public static AudioFileOutput AudioFormat(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFormat, IContext context)
+        public static AudioFileOutput AudioFormat(this AudioFileOutput entity, AudioFileFormatEnum value, IContext context)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.SetAudioFileFormatEnum(audioFormat, context);
-            return audioFileOutput;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SetAudioFileFormatEnum(value, context);
+            return entity;
         }
         
-        public static AudioFileFormatEnum AudioFormat([UsedImplicitly] WavHeaderStruct wavHeader) => Wav;
+        public static AudioFileFormatEnum AudioFormat([UsedImplicitly] WavHeaderStruct entity) => Wav;
         
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormat entity) 
@@ -1041,121 +1041,121 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #region Interpolation
 
-        public static InterpolationTypeEnum Interpolation(this SynthWishes synthWishes)
+        public static InterpolationTypeEnum Interpolation(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetInterpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetInterpolation;
         }
 
-        public static SynthWishes Interpolation(this SynthWishes synthWishes, InterpolationTypeEnum interpolation)
+        public static SynthWishes Interpolation(this SynthWishes entity, InterpolationTypeEnum value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithInterpolation(interpolation);
-            return synthWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithInterpolation(value);
+            return entity;
         }
 
-        public static InterpolationTypeEnum Interpolation(this FlowNode flowNode)
+        public static InterpolationTypeEnum Interpolation(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetInterpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetInterpolation;
         }
 
-        public static FlowNode Interpolation(this FlowNode flowNode, InterpolationTypeEnum interpolation)
+        public static FlowNode Interpolation(this FlowNode entity, InterpolationTypeEnum value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithInterpolation(interpolation);
-            return flowNode;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithInterpolation(value);
+            return entity;
         }
 
-        public static InterpolationTypeEnum Interpolation(this ConfigWishes configWishes)
+        public static InterpolationTypeEnum Interpolation(this ConfigWishes entity)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetInterpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetInterpolation;
         }
 
-        public static ConfigWishes Interpolation(this ConfigWishes configWishes, InterpolationTypeEnum interpolation)
+        public static ConfigWishes Interpolation(this ConfigWishes entity, InterpolationTypeEnum value)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithInterpolation(interpolation);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithInterpolation(value);
+            return entity;
         }
 
-        internal static InterpolationTypeEnum Interpolation(this ConfigSection configSection)
+        internal static InterpolationTypeEnum Interpolation(this ConfigSection entity)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.Interpolation ?? DefaultInterpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Interpolation ?? DefaultInterpolation;
         }
 
-        internal static ConfigSection Interpolation(this ConfigSection configSection, InterpolationTypeEnum interpolation)
+        internal static ConfigSection Interpolation(this ConfigSection entity, InterpolationTypeEnum value)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.Interpolation = interpolation;
-            return configSection;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Interpolation = value;
+            return entity;
         }
 
-        public static InterpolationTypeEnum Interpolation(this Tape tape)
+        public static InterpolationTypeEnum Interpolation(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.Interpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Config.Interpolation;
         }
 
-        public static Tape Interpolation(this Tape tape, InterpolationTypeEnum interpolation)
+        public static Tape Interpolation(this Tape entity, InterpolationTypeEnum value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.Interpolation = interpolation;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Config.Interpolation = value;
+            return entity;
         }
 
-        public static InterpolationTypeEnum Interpolation(this TapeConfig tapeConfig)
+        public static InterpolationTypeEnum Interpolation(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.Interpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Interpolation;
         }
 
-        public static TapeConfig Interpolation(this TapeConfig tapeConfig, InterpolationTypeEnum interpolation)
+        public static TapeConfig Interpolation(this TapeConfig entity, InterpolationTypeEnum value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.Interpolation = interpolation;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Interpolation = value;
+            return entity;
         }
 
-        public static InterpolationTypeEnum Interpolation(this TapeAction tapeAction)
+        public static InterpolationTypeEnum Interpolation(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Config.Interpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Interpolation;
         }
 
-        public static TapeAction Interpolation(this TapeAction tapeAction, InterpolationTypeEnum interpolation)
+        public static TapeAction Interpolation(this TapeAction entity, InterpolationTypeEnum value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Config.Interpolation = interpolation;
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Interpolation = value;
+            return entity;
         }
 
-        public static InterpolationTypeEnum Interpolation(this TapeActions tapeActions)
+        public static InterpolationTypeEnum Interpolation(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Config.Interpolation;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Config.Interpolation;
         }
 
-        public static TapeActions Interpolation(this TapeActions tapeActions, InterpolationTypeEnum interpolation)
+        public static TapeActions Interpolation(this TapeActions entity, InterpolationTypeEnum value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Config.Interpolation = interpolation;
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Config.Interpolation = value;
+            return entity;
         }
 
-        public static InterpolationTypeEnum Interpolation(this Sample sample)
+        public static InterpolationTypeEnum Interpolation(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.GetInterpolationTypeEnum();
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetInterpolationTypeEnum();
         }
 
-        public static Sample Interpolation(this Sample sample, InterpolationTypeEnum interpolation, IContext context)
+        public static Sample Interpolation(this Sample entity, InterpolationTypeEnum value, IContext context)
         {
-            if (sample == null) throw new NullException(() => sample);
-            sample.SetInterpolationTypeEnum(interpolation, context);
-            return sample;
+            if (entity == null) throw new NullException(() => entity);
+            entity.SetInterpolationTypeEnum(value, context);
+            return entity;
         }
     
         [Obsolete(ObsoleteMessage)]
@@ -1188,106 +1188,106 @@ namespace JJ.Business.Synthesizer.Wishes
             return courtesyBytes / frameSize;
         }
         
-        public static int CourtesyFrames(this SynthWishes synthWishes)
+        public static int CourtesyFrames(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetCourtesyFrames;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetCourtesyFrames;
         }
         
-        public static SynthWishes CourtesyFrames(this SynthWishes synthWishes, int courtesyFrames)
+        public static SynthWishes CourtesyFrames(this SynthWishes entity, int value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.WithCourtesyFrames(courtesyFrames);
+            if (entity == null) throw new NullException(() => entity);
+            return entity.WithCourtesyFrames(value);
         }
         
-        public static int CourtesyFrames(this FlowNode flowNode)
+        public static int CourtesyFrames(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetCourtesyFrames;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetCourtesyFrames;
         }
         
-        public static FlowNode CourtesyFrames(this FlowNode flowNode, int courtesyFrames)
+        public static FlowNode CourtesyFrames(this FlowNode entity, int value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.WithCourtesyFrames(courtesyFrames);
+            if (entity == null) throw new NullException(() => entity);
+            return entity.WithCourtesyFrames(value);
         }
 
-        public static int CourtesyFrames(this ConfigWishes configWishes)
+        public static int CourtesyFrames(this ConfigWishes entity)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetCourtesyFrames;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetCourtesyFrames;
         }
         
-        public static ConfigWishes CourtesyFrames(this ConfigWishes configWishes, int courtesyFrames)
+        public static ConfigWishes CourtesyFrames(this ConfigWishes entity, int value)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithCourtesyFrames(courtesyFrames);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithCourtesyFrames(value);
+            return entity;
         }
 
-        internal static int CourtesyFrames(this ConfigSection configSection)
+        internal static int CourtesyFrames(this ConfigSection entity)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.CourtesyFrames ?? DefaultCourtesyFrames;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.CourtesyFrames ?? DefaultCourtesyFrames;
         }
         
-        internal static ConfigSection CourtesyFrames(this ConfigSection configSection, int courtesyFrames)
+        internal static ConfigSection CourtesyFrames(this ConfigSection entity, int value)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.CourtesyFrames = courtesyFrames;
-            return configSection;
+            if (entity == null) throw new NullException(() => entity);
+            entity.CourtesyFrames = value;
+            return entity;
         }
 
-        public static int CourtesyFrames(this Tape tape)
+        public static int CourtesyFrames(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Config.CourtesyFrames;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Config.CourtesyFrames;
         }
         
-        public static Tape CourtesyFrames(this Tape tape, int courtesyFrames)
+        public static Tape CourtesyFrames(this Tape entity, int value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Config.CourtesyFrames = courtesyFrames;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Config.CourtesyFrames = value;
+            return entity;
         }
 
-        public static int CourtesyFrames(this TapeConfig tapeConfig)
+        public static int CourtesyFrames(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.CourtesyFrames;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.CourtesyFrames;
         }
 
-        public static TapeConfig CourtesyFrames(this TapeConfig tapeConfig, int courtesyFrames)
+        public static TapeConfig CourtesyFrames(this TapeConfig entity, int value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.CourtesyFrames = courtesyFrames;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.CourtesyFrames = value;
+            return entity;
         }
 
-        public static int CourtesyFrames(this TapeActions tapeActions)
+        public static int CourtesyFrames(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return CourtesyFrames(tapeActions.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return CourtesyFrames(entity.Tape);
         }
 
-        public static TapeActions CourtesyFrames(this TapeActions tapeActions, int courtesyFrames)
+        public static TapeActions CourtesyFrames(this TapeActions entity, int value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            CourtesyFrames(tapeActions.Tape, courtesyFrames);
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            CourtesyFrames(entity.Tape, value);
+            return entity;
         }
 
-        public static int CourtesyFrames(this TapeAction tapeAction)
+        public static int CourtesyFrames(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return CourtesyFrames(tapeAction.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return CourtesyFrames(entity.Tape);
         }
 
-        public static TapeAction CourtesyFrames(this TapeAction tapeAction, int courtesyFrames)
+        public static TapeAction CourtesyFrames(this TapeAction entity, int value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            CourtesyFrames(tapeAction.Tape, courtesyFrames);
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            CourtesyFrames(entity.Tape, value);
+            return entity;
         }
 
         #endregion
@@ -1296,34 +1296,34 @@ namespace JJ.Business.Synthesizer.Wishes
         
         #region SizeOfBitDepth
         
-        public static int SizeOfBitDepth(this SynthWishes synthWishes) => Bits(synthWishes) / 8;
-        public static SynthWishes SizeOfBitDepth(this SynthWishes synthWishes, int bytes) => Bits(synthWishes, bytes * 8);
-        public static int SizeOfBitDepth(this FlowNode flowNode) => Bits(flowNode) / 8;
-        public static FlowNode SizeOfBitDepth(this FlowNode flowNode, int bytes) => Bits(flowNode, bytes * 8);
-        public static int SizeOfBitDepth(this ConfigWishes configWishes) => Bits(configWishes) / 8;
-        public static ConfigWishes SizeOfBitDepth(this ConfigWishes configWishes, int bytes) => Bits(configWishes, bytes * 8);
-        internal static int SizeOfBitDepth(this ConfigSection configSection) => Bits(configSection) / 8;
-        internal static ConfigSection SizeOfBitDepth(this ConfigSection configSection, int bytes) => Bits(configSection, bytes * 8);
-        public static int SizeOfBitDepth(this Tape tape) => Bits(tape) / 8;
-        public static Tape SizeOfBitDepth(this Tape tape, int bytes) => Bits(tape, bytes * 8);
-        public static int SizeOfBitDepth(this TapeConfig tapeConfig) => Bits(tapeConfig) / 8;
-        public static TapeConfig SizeOfBitDepth(this TapeConfig tapeConfig, int bytes) => Bits(tapeConfig, bytes * 8);
-        public static int SizeOfBitDepth(this TapeActions tapeActions) => Bits(tapeActions) / 8;
-        public static TapeActions SizeOfBitDepth(this TapeActions tapeActions, int bytes) => Bits(tapeActions, bytes * 8);
-        public static int SizeOfBitDepth(this TapeAction tapeAction) => Bits(tapeAction) / 8;
-        public static TapeAction SizeOfBitDepth(this TapeAction tapeAction, int bytes) => Bits(tapeAction, bytes * 8);
-        public static int SizeOfBitDepth(this Buff buff) => Bits(buff) / 8;
-        public static Buff SizeOfBitDepth(this Buff buff, int bytes) => Bits(buff, bytes * 8);
-        public static int SizeOfBitDepth(this Sample sample) => Bits(sample) / 8;
-        public static Sample SizeOfBitDepth(this Sample sample, int bytes) => Bits(sample, bytes * 8);
-        public static int SizeOfBitDepth(this AudioFileOutput audioFileOutput) => Bits(audioFileOutput) / 8;
-        public static AudioFileOutput SizeOfBitDepth(this AudioFileOutput audioFileOutput, int bytes) => Bits(audioFileOutput, bytes * 8);
-        public static int SizeOfBitDepth(this WavHeaderStruct wavHeader) => Bits(wavHeader) / 8;
-        public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct wavHeader, int bytes) => Bits(wavHeader, bytes * 8);
+        public static int SizeOfBitDepth(this SynthWishes entity) => Bits(entity) / 8;
+        public static SynthWishes SizeOfBitDepth(this SynthWishes entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this FlowNode entity) => Bits(entity) / 8;
+        public static FlowNode SizeOfBitDepth(this FlowNode entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this ConfigWishes entity) => Bits(entity) / 8;
+        public static ConfigWishes SizeOfBitDepth(this ConfigWishes entity, int value) => Bits(entity, value * 8);
+        internal static int SizeOfBitDepth(this ConfigSection entity) => Bits(entity) / 8;
+        internal static ConfigSection SizeOfBitDepth(this ConfigSection entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this Tape entity) => Bits(entity) / 8;
+        public static Tape SizeOfBitDepth(this Tape entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this TapeConfig entity) => Bits(entity) / 8;
+        public static TapeConfig SizeOfBitDepth(this TapeConfig entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this TapeActions entity) => Bits(entity) / 8;
+        public static TapeActions SizeOfBitDepth(this TapeActions entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this TapeAction entity) => Bits(entity) / 8;
+        public static TapeAction SizeOfBitDepth(this TapeAction entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this Buff entity) => Bits(entity) / 8;
+        public static Buff SizeOfBitDepth(this Buff entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this Sample entity) => Bits(entity) / 8;
+        public static Sample SizeOfBitDepth(this Sample entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this AudioFileOutput entity) => Bits(entity) / 8;
+        public static AudioFileOutput SizeOfBitDepth(this AudioFileOutput entity, int value) => Bits(entity, value * 8);
+        public static int SizeOfBitDepth(this WavHeaderStruct entity) => Bits(entity) / 8;
+        public static WavHeaderStruct SizeOfBitDepth(this WavHeaderStruct entity, int value) => Bits(entity, value * 8);
         public static int SizeOfBitDepth(this AudioInfoWish infoWish) => Bits(infoWish) / 8;
-        public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int bytes) => Bits(infoWish, bytes * 8);
+        public static AudioInfoWish SizeOfBitDepth(this AudioInfoWish infoWish, int value) => Bits(infoWish, value * 8);
         public static int SizeOfBitDepth(this AudioFileInfo info) => Bits(info) / 8;
-        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes) => Bits(info, bytes * 8);
+        public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int value) => Bits(info, value * 8);
         public static int SizeOfBitDepth(this int bits) => bits / 8;
         public static int SizeOfBitDepth(Type sampleDataType)
         {
@@ -1339,18 +1339,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         #region FrameSize
         
-        public static int FrameSize(this SynthWishes synthWishes) => SizeOfBitDepth(synthWishes) * Channels(synthWishes);
-        public static int FrameSize(this FlowNode flowNode) => SizeOfBitDepth(flowNode) * Channels(flowNode);
-        public static int FrameSize(this ConfigWishes configWishes) => SizeOfBitDepth(configWishes) * Channels(configWishes);
-        internal static int FrameSize(this ConfigSection configSection) => SizeOfBitDepth(configSection) * Channels(configSection);
-        public static int FrameSize(this Tape tape) => SizeOfBitDepth(tape) * Channels(tape);
-        public static int FrameSize(this TapeConfig tapeConfig) => SizeOfBitDepth(tapeConfig) * Channels(tapeConfig);
-        public static int FrameSize(this TapeAction tapeAction) => SizeOfBitDepth(tapeAction) * Channels(tapeAction);
-        public static int FrameSize(this TapeActions tapeActions) => SizeOfBitDepth(tapeActions) * Channels(tapeActions);
-        public static int FrameSize(this Buff buff) => SizeOfBitDepth(buff) * Channels(buff);
-        public static int FrameSize(this Sample sample) => SizeOfBitDepth(sample) * Channels(sample);
-        public static int FrameSize(this AudioFileOutput audioFileOutput) => SizeOfBitDepth(audioFileOutput) * Channels(audioFileOutput);
-        public static int FrameSize(this WavHeaderStruct wavHeader) => SizeOfBitDepth(wavHeader) * Channels(wavHeader);
+        public static int FrameSize(this SynthWishes entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this FlowNode entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this ConfigWishes entity) => SizeOfBitDepth(entity) * Channels(entity);
+        internal static int FrameSize(this ConfigSection entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this Tape entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this TapeConfig entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this TapeAction entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this TapeActions entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this Buff entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this Sample entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this AudioFileOutput entity) => SizeOfBitDepth(entity) * Channels(entity);
+        public static int FrameSize(this WavHeaderStruct entity) => SizeOfBitDepth(entity) * Channels(entity);
         public static int FrameSize(this AudioInfoWish infoWish) => SizeOfBitDepth(infoWish) * Channels(infoWish);
         public static int FrameSize(this AudioFileInfo info) => SizeOfBitDepth(info) * Channels(info);
         
@@ -1366,18 +1366,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         #region MaxValue
         
-        public static double MaxValue(this SynthWishes synthWishes) => MaxValue(Bits(synthWishes));
-        public static double MaxValue(this FlowNode flowNode) => MaxValue(Bits(flowNode));
-        public static double MaxValue(this ConfigWishes configWishes) => MaxValue(Bits(configWishes));
-        internal static double MaxValue(this ConfigSection configSection) => MaxValue(Bits(configSection));
-        public static double MaxValue(this Buff buff) => MaxValue(Bits(buff));
-        public static double MaxValue(this Tape tape) => MaxValue(Bits(tape));
-        public static double MaxValue(this TapeConfig tapeConfig) => MaxValue(Bits(tapeConfig));
-        public static double MaxValue(this TapeAction tapeAction) => MaxValue(Bits(tapeAction));
-        public static double MaxValue(this TapeActions tapeActions) => MaxValue(Bits(tapeActions));
-        public static double MaxValue(this Sample sample) => MaxValue(Bits(sample));
-        public static double MaxValue(this AudioFileOutput audioFileOutput) => MaxValue(Bits(audioFileOutput));
-        public static double MaxValue(this WavHeaderStruct wavHeader) => MaxValue(Bits(wavHeader));
+        public static double MaxValue(this SynthWishes entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this FlowNode entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this ConfigWishes entity) => MaxValue(Bits(entity));
+        internal static double MaxValue(this ConfigSection entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this Buff entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this Tape entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this TapeConfig entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this TapeAction entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this TapeActions entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this Sample entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this AudioFileOutput entity) => MaxValue(Bits(entity));
+        public static double MaxValue(this WavHeaderStruct entity) => MaxValue(Bits(entity));
         public static double MaxValue(this AudioFileInfo info) => MaxValue(Bits(info));
         public static double MaxValue(this AudioInfoWish infoWish) => MaxValue(Bits(infoWish));
         public static double MaxValue(this int bits)
@@ -1418,51 +1418,51 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this SynthWishes synthWishes) => AudioFormat(synthWishes).FileExtension();
+        public static string FileExtension(this SynthWishes entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static SynthWishes FileExtension(this SynthWishes synthWishes, string value) => AudioFormat(synthWishes, AudioFormat(value));
+        public static SynthWishes FileExtension(this SynthWishes entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this FlowNode flowNode) => AudioFormat(flowNode).FileExtension();
+        public static string FileExtension(this FlowNode entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static FlowNode FileExtension(this FlowNode flowNode, string value) => AudioFormat(flowNode, AudioFormat(value));
+        public static FlowNode FileExtension(this FlowNode entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this ConfigWishes configWishes) => AudioFormat(configWishes).FileExtension();
+        public static string FileExtension(this ConfigWishes entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static ConfigWishes FileExtension(this ConfigWishes configWishes, string value) => AudioFormat(configWishes, AudioFormat(value));
+        public static ConfigWishes FileExtension(this ConfigWishes entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        internal static string FileExtension(this ConfigSection configSection) => AudioFormat(configSection).FileExtension();
+        internal static string FileExtension(this ConfigSection entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        internal static ConfigSection FileExtension(this ConfigSection configSection, string value) => AudioFormat(configSection, AudioFormat(value));
+        internal static ConfigSection FileExtension(this ConfigSection entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Tape tape) => AudioFormat(tape).FileExtension();
+        public static string FileExtension(this Tape entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static Tape FileExtension(this Tape tape, string value) => AudioFormat(tape, AudioFormat(value));
+        public static Tape FileExtension(this Tape entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).FileExtension();
+        public static string FileExtension(this TapeConfig entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static TapeConfig FileExtension(this TapeConfig tapeConfig, string value) => AudioFormat(tapeConfig, AudioFormat(value));
+        public static TapeConfig FileExtension(this TapeConfig entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeActions tapeActions) => AudioFormat(tapeActions).FileExtension();
+        public static string FileExtension(this TapeActions entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static TapeActions FileExtension(this TapeActions tapeActions, string value) => AudioFormat(tapeActions, AudioFormat(value));
+        public static TapeActions FileExtension(this TapeActions entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeAction tapeAction) => AudioFormat(tapeAction).FileExtension();
+        public static string FileExtension(this TapeAction entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static TapeAction FileExtension(this TapeAction tapeAction, string value) => AudioFormat(tapeAction, AudioFormat(value));
+        public static TapeAction FileExtension(this TapeAction entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Buff buff) => AudioFormat(buff).FileExtension();
+        public static string FileExtension(this Buff entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static Buff FileExtension(this Buff buff, string value) => AudioFormat(buff, AudioFormat(value));
+        public static Buff FileExtension(this Buff entity, string value) => AudioFormat(entity, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Sample sample) => AudioFormat(sample).FileExtension();
+        public static string FileExtension(this Sample entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static Sample FileExtension(this Sample sample, string value, IContext context) => AudioFormat(sample, AudioFormat(value), context);
+        public static Sample FileExtension(this Sample entity, string value, IContext context) => AudioFormat(entity, AudioFormat(value), context);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).FileExtension();
+        public static string FileExtension(this AudioFileOutput entity) => AudioFormat(entity).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileOutput FileExtension(this AudioFileOutput audioFileOutput, string value, IContext context) => AudioFormat(audioFileOutput, AudioFormat(value), context);
+        public static AudioFileOutput FileExtension(this AudioFileOutput entity, string value, IContext context) => AudioFormat(entity, AudioFormat(value), context);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => AudioFormat(wavHeader).FileExtension();
+        public static string FileExtension([UsedImplicitly] this WavHeaderStruct entity) => AudioFormat(entity).FileExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
@@ -1488,30 +1488,30 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this SynthWishes synthWishes) => AudioFormat(synthWishes).HeaderLength();
+        public static int HeaderLength(this SynthWishes entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this FlowNode flowNode) => AudioFormat(flowNode).HeaderLength();
+        public static int HeaderLength(this FlowNode entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this ConfigWishes configWishes) => AudioFormat(configWishes).HeaderLength();
+        public static int HeaderLength(this ConfigWishes entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static int HeaderLength(this ConfigSection configSection) => AudioFormat(configSection).HeaderLength();
+        internal static int HeaderLength(this ConfigSection entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Buff buff) => AudioFormat(buff).HeaderLength();
+        public static int HeaderLength(this Buff entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Tape tape) => AudioFormat(tape).HeaderLength();
+        public static int HeaderLength(this Tape entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeConfig tapeConfig) => AudioFormat(tapeConfig).HeaderLength();
+        public static int HeaderLength(this TapeConfig entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeAction tapeAction) => AudioFormat(tapeAction).HeaderLength();
+        public static int HeaderLength(this TapeAction entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeActions tapeActions) => AudioFormat(tapeActions).HeaderLength();
+        public static int HeaderLength(this TapeActions entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Sample sample) => AudioFormat(sample).HeaderLength();
+        public static int HeaderLength(this Sample entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileOutput audioFileOutput) => AudioFormat(audioFileOutput).HeaderLength();
+        public static int HeaderLength(this AudioFileOutput entity) => AudioFormat(entity).HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
         // ReSharper disable once UnusedParameter.Global
-        public static int HeaderLength(this WavHeaderStruct wavHeader) => HeaderLength(Wav);
+        public static int HeaderLength(this WavHeaderStruct entity) => HeaderLength(Wav);
         /// <inheritdoc cref="docs._headerlength"/>
         [Obsolete(ObsoleteMessage)] 
         public static int HeaderLength(this AudioFileFormat enumEntity) => AudioFormat(enumEntity).HeaderLength();
@@ -1527,73 +1527,73 @@ namespace JJ.Business.Synthesizer.Wishes
             return courtesyFrames * frameSize;
         }
         
-        public static int CourtesyBytes(this SynthWishes synthWishes)
-            => CourtesyBytes(CourtesyFrames(synthWishes), FrameSize(synthWishes));
+        public static int CourtesyBytes(this SynthWishes entity)
+            => CourtesyBytes(CourtesyFrames(entity), FrameSize(entity));
 
-        public static SynthWishes CourtesyBytes(this SynthWishes synthWishes, int courtesyBytes) 
-            => CourtesyFrames(synthWishes, CourtesyFrames(courtesyBytes, FrameSize(synthWishes)));
+        public static SynthWishes CourtesyBytes(this SynthWishes entity, int value) 
+            => CourtesyFrames(entity, CourtesyFrames(value, FrameSize(entity)));
         
-        public static int CourtesyBytes(this FlowNode flowNode)
-            => CourtesyBytes(CourtesyFrames(flowNode), FrameSize(flowNode));
+        public static int CourtesyBytes(this FlowNode entity)
+            => CourtesyBytes(CourtesyFrames(entity), FrameSize(entity));
 
-        public static FlowNode CourtesyBytes(this FlowNode flowNode, int courtesyBytes) 
-            => CourtesyFrames(flowNode, CourtesyFrames(courtesyBytes, FrameSize(flowNode)));
+        public static FlowNode CourtesyBytes(this FlowNode entity, int value) 
+            => CourtesyFrames(entity, CourtesyFrames(value, FrameSize(entity)));
         
-        public static int CourtesyBytes(this ConfigWishes configWishes)
-            => CourtesyBytes(CourtesyFrames(configWishes), FrameSize(configWishes));
+        public static int CourtesyBytes(this ConfigWishes entity)
+            => CourtesyBytes(CourtesyFrames(entity), FrameSize(entity));
 
-        public static ConfigWishes CourtesyBytes(this ConfigWishes configWishes, int courtesyBytes) 
-            => CourtesyFrames(configWishes, CourtesyFrames(courtesyBytes, FrameSize(configWishes)));
+        public static ConfigWishes CourtesyBytes(this ConfigWishes entity, int value) 
+            => CourtesyFrames(entity, CourtesyFrames(value, FrameSize(entity)));
 
-        internal static int CourtesyBytes(this ConfigSection configSection)
-            => CourtesyBytes(CourtesyFrames(configSection), FrameSize(configSection));
+        internal static int CourtesyBytes(this ConfigSection entity)
+            => CourtesyBytes(CourtesyFrames(entity), FrameSize(entity));
 
-        internal static ConfigSection CourtesyBytes(this ConfigSection configSection, int courtesyBytes) 
-            => CourtesyFrames(configSection, CourtesyFrames(courtesyBytes, FrameSize(configSection)));
+        internal static ConfigSection CourtesyBytes(this ConfigSection entity, int value) 
+            => CourtesyFrames(entity, CourtesyFrames(value, FrameSize(entity)));
 
-        public static int CourtesyBytes(this Tape tape)
-            => CourtesyBytes(CourtesyFrames(tape), FrameSize(tape));
+        public static int CourtesyBytes(this Tape entity)
+            => CourtesyBytes(CourtesyFrames(entity), FrameSize(entity));
 
-        public static Tape CourtesyBytes(this Tape tape, int courtesyBytes) 
-            => CourtesyFrames(tape, CourtesyFrames(courtesyBytes, FrameSize(tape)));
+        public static Tape CourtesyBytes(this Tape entity, int value) 
+            => CourtesyFrames(entity, CourtesyFrames(value, FrameSize(entity)));
 
-        public static int CourtesyBytes(this TapeConfig tapeConfig)
+        public static int CourtesyBytes(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return CourtesyBytes(tapeConfig.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return CourtesyBytes(entity.Tape);
         }
 
-        public static TapeConfig CourtesyBytes(this TapeConfig tapeConfig, int courtesyBytes)
+        public static TapeConfig CourtesyBytes(this TapeConfig entity, int value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            CourtesyBytes(tapeConfig.Tape, courtesyBytes);
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            CourtesyBytes(entity.Tape, value);
+            return entity;
         }
 
-        public static int CourtesyBytes(this TapeActions tapeActions)
+        public static int CourtesyBytes(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return CourtesyBytes(tapeActions.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return CourtesyBytes(entity.Tape);
         }
 
-        public static TapeActions CourtesyBytes(this TapeActions tapeActions, int courtesyBytes)
+        public static TapeActions CourtesyBytes(this TapeActions entity, int value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            CourtesyBytes(tapeActions.Tape, courtesyBytes);
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            CourtesyBytes(entity.Tape, value);
+            return entity;
         }
 
-        public static int CourtesyBytes(this TapeAction tapeAction)
+        public static int CourtesyBytes(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return CourtesyBytes(tapeAction.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return CourtesyBytes(entity.Tape);
         }
 
-        public static TapeAction CourtesyBytes(this TapeAction tapeAction, int courtesyBytes)
+        public static TapeAction CourtesyBytes(this TapeAction entity, int value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            CourtesyBytes(tapeAction.Tape, courtesyBytes);
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            CourtesyBytes(entity.Tape, value);
+            return entity;
         }
 
         #endregion
@@ -1608,158 +1608,158 @@ namespace JJ.Business.Synthesizer.Wishes
         public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
             => (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
 
-        public static double AudioLength(this SynthWishes synthWishes)
+        public static double AudioLength(this SynthWishes entity)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.GetAudioLength.Value;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioLength.Value;
         }
 
-        public static SynthWishes AudioLength(this SynthWishes synthWishes, double audioLength)
+        public static SynthWishes AudioLength(this SynthWishes entity, double value)
         {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.WithAudioLength(audioLength);
-            return synthWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithAudioLength(value);
+            return entity;
         }
 
-        public static double AudioLength(this FlowNode flowNode)
+        public static double AudioLength(this FlowNode entity)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            return flowNode.GetAudioLength.Value;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioLength.Value;
         }
 
-        public static FlowNode AudioLength(this FlowNode flowNode, double audioLength)
+        public static FlowNode AudioLength(this FlowNode entity, double value)
         {
-            if (flowNode == null) throw new NullException(() => flowNode);
-            flowNode.WithAudioLength(audioLength);
-            return flowNode;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithAudioLength(value);
+            return entity;
         }
 
-        public static double AudioLength(this ConfigWishes configWishes, SynthWishes synthWishes)
+        public static double AudioLength(this ConfigWishes entity, SynthWishes synthWishes)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            return configWishes.GetAudioLength(synthWishes).Value;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetAudioLength(synthWishes).Value;
         }
 
-        public static ConfigWishes AudioLength(this ConfigWishes configWishes, double audioLength, SynthWishes synthWishes)
+        public static ConfigWishes AudioLength(this ConfigWishes entity, double value, SynthWishes synthWishes)
         {
-            if (configWishes == null) throw new NullException(() => configWishes);
-            configWishes.WithAudioLength(audioLength, synthWishes);
-            return configWishes;
+            if (entity == null) throw new NullException(() => entity);
+            entity.WithAudioLength(value, synthWishes);
+            return entity;
         }
 
-        internal static double AudioLength(this ConfigSection configSection)
+        internal static double AudioLength(this ConfigSection entity)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            return configSection.AudioLength ?? DefaultAudioLength;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.AudioLength ?? DefaultAudioLength;
         }
 
-        internal static ConfigSection AudioLength(this ConfigSection configSection, double audioLength)
+        internal static ConfigSection AudioLength(this ConfigSection entity, double value)
         {
-            if (configSection == null) throw new NullException(() => configSection);
-            configSection.AudioLength = audioLength;
-            return configSection;
+            if (entity == null) throw new NullException(() => entity);
+            entity.AudioLength = value;
+            return entity;
         }
 
-        public static double AudioLength(this Buff buff)
+        public static double AudioLength(this Buff entity)
         {
-            if (buff == null) throw new NullException(() => buff);
+            if (entity == null) throw new NullException(() => entity);
             // TODO: From bytes[] / filePath?
-            return AudioLength(buff.UnderlyingAudioFileOutput);
+            return AudioLength(entity.UnderlyingAudioFileOutput);
         }
 
-        public static Buff AudioLength(this Buff buff, double audioLength)
+        public static Buff AudioLength(this Buff entity, double value)
         {
-            if (buff == null) throw new NullException(() => buff);
-            if (buff.UnderlyingAudioFileOutput == null) throw new NullException(() => buff.UnderlyingAudioFileOutput);
-            buff.UnderlyingAudioFileOutput.AudioLength(audioLength);
-            return buff;
+            if (entity == null) throw new NullException(() => entity);
+            if (entity.UnderlyingAudioFileOutput == null) throw new NullException(() => entity.UnderlyingAudioFileOutput);
+            entity.UnderlyingAudioFileOutput.AudioLength(value);
+            return entity;
         }
 
-        public static double AudioLength(this Tape tape)
+        public static double AudioLength(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
-            return tape.Duration;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Duration;
         }
 
-        public static Tape AudioLength(this Tape tape, double audioLength)
+        public static Tape AudioLength(this Tape entity, double value)
         {
-            if (tape == null) throw new NullException(() => tape);
-            tape.Duration = audioLength;
-            return tape;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Duration = value;
+            return entity;
         }
 
-        public static double AudioLength(this TapeConfig tapeConfig)
+        public static double AudioLength(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return tapeConfig.Tape.Duration;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Duration;
         }
 
-        public static TapeConfig AudioLength(this TapeConfig tapeConfig, double audioLength)
+        public static TapeConfig AudioLength(this TapeConfig entity, double value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            tapeConfig.Tape.Duration = audioLength;
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Duration = value;
+            return entity;
         }
 
-        public static double AudioLength(this TapeAction tapeAction)
+        public static double AudioLength(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return tapeAction.Tape.Duration;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Duration;
         }
 
-        public static TapeAction AudioLength(this TapeAction tapeAction, double audioLength)
+        public static TapeAction AudioLength(this TapeAction entity, double value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            tapeAction.Tape.Duration = audioLength;
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Duration = value;
+            return entity;
         }
 
-        public static double AudioLength(this TapeActions tapeActions)
+        public static double AudioLength(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return tapeActions.Tape.Duration;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Tape.Duration;
         }
 
-        public static TapeActions AudioLength(this TapeActions tapeActions, double audioLength)
+        public static TapeActions AudioLength(this TapeActions entity, double value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            tapeActions.Tape.Duration = audioLength;
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Tape.Duration = value;
+            return entity;
         }
 
-        public static double AudioLength(this Sample sample)
+        public static double AudioLength(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return sample.GetDuration();
+            if (entity == null) throw new NullException(() => entity);
+            return entity.GetDuration();
         }
 
-        public static Sample AudioLength(this Sample sample, double audioLength)
+        public static Sample AudioLength(this Sample entity, double value)
         {
-            if (sample == null) throw new NullException(() => sample);
-            double originalAudioLength = sample.AudioLength();
-            sample.SamplingRate = (int)(sample.SamplingRate * audioLength / originalAudioLength);
-            return sample;
+            if (entity == null) throw new NullException(() => entity);
+            double originalAudioLength = entity.AudioLength();
+            entity.SamplingRate = (int)(entity.SamplingRate * value / originalAudioLength);
+            return entity;
         }
 
-        public static double AudioLength(this AudioFileOutput audioFileOutput)
+        public static double AudioLength(this AudioFileOutput entity)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            return audioFileOutput.Duration;
+            if (entity == null) throw new NullException(() => entity);
+            return entity.Duration;
         }
 
-        public static AudioFileOutput AudioLength(this AudioFileOutput audioFileOutput, double audioLength)
+        public static AudioFileOutput AudioLength(this AudioFileOutput entity, double value)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            audioFileOutput.Duration = audioLength;
-            return audioFileOutput;
+            if (entity == null) throw new NullException(() => entity);
+            entity.Duration = value;
+            return entity;
         }
 
-        public static double AudioLength(this WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().AudioLength();
+        public static double AudioLength(this WavHeaderStruct entity) 
+            => entity.ToWish().AudioLength();
 
-        public static WavHeaderStruct AudioLength(this WavHeaderStruct wavHeader, double audioLength)
+        public static WavHeaderStruct AudioLength(this WavHeaderStruct entity, double value)
         {
-            return wavHeader.ToWish().AudioLength(audioLength).ToWavHeader();
+            return entity.ToWish().AudioLength(value).ToWavHeader();
         }
         
         public static double AudioLength(this AudioInfoWish infoWish)
@@ -1771,10 +1771,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return (double)infoWish.FrameCount / infoWish.Channels / infoWish.SamplingRate;
         }
         
-        public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double audioLength)
+        public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.FrameCount = (int)(audioLength * infoWish.SamplingRate);
+            infoWish.FrameCount = (int)(value * infoWish.SamplingRate);
             return infoWish;
         }
 
@@ -1784,10 +1784,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return info.ToWish().AudioLength();
         }
 
-        public static AudioFileInfo AudioLength(this AudioFileInfo info, double audioLength)
+        public static AudioFileInfo AudioLength(this AudioFileInfo info, double value)
         {
             if (info == null) throw new NullException(() => info);
-            info.SampleCount = (int)(audioLength * info.SamplingRate);
+            info.SampleCount = (int)(value * info.SamplingRate);
             return info;
         }
 
@@ -1804,122 +1804,122 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int FrameCount(double audioLength, int samplingRate)
             => (int)(audioLength * samplingRate);
 
-        public static int FrameCount(this SynthWishes synthWishes) 
-            => FrameCount(AudioLength(synthWishes), SamplingRate(synthWishes));
+        public static int FrameCount(this SynthWishes entity) 
+            => FrameCount(AudioLength(entity), SamplingRate(entity));
 
-        public static SynthWishes FrameCount(this SynthWishes synthWishes, int frameCount) 
-            => AudioLength(synthWishes, AudioLength(frameCount, SamplingRate(synthWishes)));
+        public static SynthWishes FrameCount(this SynthWishes entity, int value) 
+            => AudioLength(entity, AudioLength(value, SamplingRate(entity)));
         
-        public static int FrameCount(this FlowNode flowNode) 
-            => FrameCount(AudioLength(flowNode), SamplingRate(flowNode));
+        public static int FrameCount(this FlowNode entity) 
+            => FrameCount(AudioLength(entity), SamplingRate(entity));
 
-        public static FlowNode FrameCount(this FlowNode flowNode, int frameCount) 
-            => AudioLength(flowNode, AudioLength(frameCount, SamplingRate(flowNode)));
+        public static FlowNode FrameCount(this FlowNode entity, int value) 
+            => AudioLength(entity, AudioLength(value, SamplingRate(entity)));
         
-        public static int FrameCount(this ConfigWishes configWishes, SynthWishes synthWishes) 
-            => FrameCount(AudioLength(configWishes, synthWishes), SamplingRate(configWishes));
+        public static int FrameCount(this ConfigWishes entity, SynthWishes synthWishes) 
+            => FrameCount(AudioLength(entity, synthWishes), SamplingRate(entity));
 
-        public static ConfigWishes FrameCount(this ConfigWishes configWishes, SynthWishes synthWishes, int frameCount) 
-            => AudioLength(configWishes, AudioLength(frameCount, SamplingRate(configWishes)), synthWishes);
+        public static ConfigWishes FrameCount(this ConfigWishes entity, int value, SynthWishes synthWishes) 
+            => AudioLength(entity, AudioLength(value, SamplingRate(entity)), synthWishes);
         
-        internal static int FrameCount(this ConfigSection configSection) 
-            => FrameCount(AudioLength(configSection), SamplingRate(configSection));
+        internal static int FrameCount(this ConfigSection entity) 
+            => FrameCount(AudioLength(entity), SamplingRate(entity));
 
-        internal static ConfigSection FrameCount(this ConfigSection configSection, int frameCount) 
-            => AudioLength(configSection, AudioLength(frameCount, SamplingRate(configSection)));
+        internal static ConfigSection FrameCount(this ConfigSection entity, int value) 
+            => AudioLength(entity, AudioLength(value, SamplingRate(entity)));
         
-        public static int FrameCount(this Tape tape)
+        public static int FrameCount(this Tape entity)
         {
-            if (tape.IsBuff)
+            if (entity.IsBuff)
             {
-                return FrameCount(tape.Bytes, tape.FilePathResolved, FrameSize(tape), HeaderLength(tape));
+                return FrameCount(entity.Bytes, entity.FilePathResolved, FrameSize(entity), HeaderLength(entity));
             }
             else
             {
-                return FrameCount(AudioLength(tape), SamplingRate(tape));
+                return FrameCount(AudioLength(entity), SamplingRate(entity));
             }
         }
 
-        public static Tape FrameCount(this Tape tape, int frameCount) 
-            => AudioLength(tape, AudioLength(frameCount, SamplingRate(tape)));
+        public static Tape FrameCount(this Tape entity, int value) 
+            => AudioLength(entity, AudioLength(value, SamplingRate(entity)));
         
-        public static int FrameCount(this TapeConfig tapeConfig)
+        public static int FrameCount(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return FrameCount(tapeConfig.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return FrameCount(entity.Tape);
         }
 
-        public static TapeConfig FrameCount(this TapeConfig tapeConfig, int frameCount)
+        public static TapeConfig FrameCount(this TapeConfig entity, int value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            FrameCount(tapeConfig.Tape, frameCount);
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            FrameCount(entity.Tape, value);
+            return entity;
         }
 
-        public static int FrameCount(this TapeAction tapeAction)
+        public static int FrameCount(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return FrameCount(tapeAction.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return FrameCount(entity.Tape);
         }
 
-        public static TapeAction FrameCount(this TapeAction tapeAction, int frameCount)
+        public static TapeAction FrameCount(this TapeAction entity, int value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            FrameCount(tapeAction.Tape, frameCount);
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            FrameCount(entity.Tape, value);
+            return entity;
         }
 
-        public static int FrameCount(this TapeActions tapeActions)
+        public static int FrameCount(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return FrameCount(tapeActions.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return FrameCount(entity.Tape);
         }
 
-        public static TapeActions FrameCount(this TapeActions tapeActions, int frameCount)
+        public static TapeActions FrameCount(this TapeActions entity, int value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            FrameCount(tapeActions.Tape, frameCount);
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            FrameCount(entity.Tape, value);
+            return entity;
         }
 
-        public static int FrameCount(this Buff buff)
+        public static int FrameCount(this Buff entity)
         {
-            if (buff == null) throw new NullException(() => buff);
+            if (entity == null) throw new NullException(() => entity);
 
-            int frameCount = FrameCount(buff.Bytes, buff.FilePath, FrameSize(buff), HeaderLength(buff));
+            int frameCount = FrameCount(entity.Bytes, entity.FilePath, FrameSize(entity), HeaderLength(entity));
 
             if (Has(frameCount))
             {
                 return frameCount;
             }
 
-            if (buff.UnderlyingAudioFileOutput != null)
+            if (entity.UnderlyingAudioFileOutput != null)
             {
-                return FrameCount(buff.UnderlyingAudioFileOutput);
+                return FrameCount(entity.UnderlyingAudioFileOutput);
             }
 
             return 0;
         }
 
-        public static int FrameCount(this Sample sample)
+        public static int FrameCount(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return FrameCount(sample.Bytes, sample.Location, FrameSize(sample), HeaderLength(sample));
+            if (entity == null) throw new NullException(() => entity);
+            return FrameCount(entity.Bytes, entity.Location, FrameSize(entity), HeaderLength(entity));
         }
 
-        public static int FrameCount(this AudioFileOutput audioFileOutput) 
-            => FrameCount(AudioLength(audioFileOutput), SamplingRate(audioFileOutput));
+        public static int FrameCount(this AudioFileOutput entity) 
+            => FrameCount(AudioLength(entity), SamplingRate(entity));
 
-        public static AudioFileOutput FrameCount(this AudioFileOutput audioFileOutput, int frameCount) 
-            => AudioLength(audioFileOutput, AudioLength(frameCount, SamplingRate(audioFileOutput)));
+        public static AudioFileOutput FrameCount(this AudioFileOutput entity, int value) 
+            => AudioLength(entity, AudioLength(value, SamplingRate(entity)));
         
-        public static int FrameCount(this WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().FrameCount();
+        public static int FrameCount(this WavHeaderStruct entity) 
+            => entity.ToWish().FrameCount();
 
-        public static WavHeaderStruct FrameCount(this WavHeaderStruct wavHeader, int frameCount)
+        public static WavHeaderStruct FrameCount(this WavHeaderStruct entity, int value)
         {
-            AudioInfoWish infoWish = wavHeader.ToWish();
-            AudioLength(infoWish, AudioLength(frameCount, infoWish.SamplingRate));
+            AudioInfoWish infoWish = entity.ToWish();
+            AudioLength(infoWish, AudioLength(value, infoWish.SamplingRate));
             return infoWish.ToWavHeader();
         }
 
@@ -1929,10 +1929,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return infoWish.FrameCount;
         }
 
-        public static AudioInfoWish FrameCount(this AudioInfoWish infoWish, int frameCount)
+        public static AudioInfoWish FrameCount(this AudioInfoWish infoWish, int value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.FrameCount = frameCount;
+            infoWish.FrameCount = value;
             return infoWish;
         }
 
@@ -1942,10 +1942,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return info.SampleCount;
         }
 
-        public static AudioFileInfo FrameCount(this AudioFileInfo info, int frameCount)
+        public static AudioFileInfo FrameCount(this AudioFileInfo info, int value)
         {
             if (info == null) throw new NullException(() => info);
-            info.SampleCount = frameCount;
+            info.SampleCount = value;
             return info;
         }
 
@@ -1974,113 +1974,113 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int ByteCount(int frameCount, int frameSize, int headerLength, int courtesyFrames = 0)
             => frameCount * frameSize + headerLength + CourtesyBytes(courtesyFrames, frameSize);
 
-        public static int ByteCount(this SynthWishes synthWishes) 
-            => ByteCount(FrameCount(synthWishes), FrameSize(synthWishes), HeaderLength(synthWishes), CourtesyFrames(synthWishes));
+        public static int ByteCount(this SynthWishes entity) 
+            => ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity), CourtesyFrames(entity));
 
-        public static SynthWishes ByteCount(this SynthWishes synthWishes, int byteCount) 
-            => AudioLength(synthWishes, AudioLength(byteCount, FrameSize(synthWishes), SamplingRate(synthWishes), HeaderLength(synthWishes), CourtesyFrames(synthWishes)));
+        public static SynthWishes ByteCount(this SynthWishes entity, int value) 
+            => AudioLength(entity, AudioLength(value, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), CourtesyFrames(entity)));
         
-        public static int ByteCount(this FlowNode flowNode) 
-            => ByteCount(FrameCount(flowNode), FrameSize(flowNode), HeaderLength(flowNode), CourtesyFrames(flowNode));
+        public static int ByteCount(this FlowNode entity) 
+            => ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity), CourtesyFrames(entity));
         
-        public static FlowNode ByteCount(this FlowNode flowNode, int byteCount) 
-            => AudioLength(flowNode, AudioLength(byteCount, FrameSize(flowNode), SamplingRate(flowNode), HeaderLength(flowNode), CourtesyFrames(flowNode)));
+        public static FlowNode ByteCount(this FlowNode entity, int value) 
+            => AudioLength(entity, AudioLength(value, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), CourtesyFrames(entity)));
 
-        public static int ByteCount(this ConfigWishes configWishes, SynthWishes synthWishes) 
-            => ByteCount(FrameCount(configWishes, synthWishes), FrameSize(configWishes), HeaderLength(configWishes), CourtesyFrames(configWishes));
+        public static int ByteCount(this ConfigWishes entity, SynthWishes synthWishes) 
+            => ByteCount(FrameCount(entity, synthWishes), FrameSize(entity), HeaderLength(entity), CourtesyFrames(entity));
        
-        public static ConfigWishes ByteCount(this ConfigWishes configWishes, SynthWishes synthWishes, int byteCount)
+        public static ConfigWishes ByteCount(this ConfigWishes entity, int value, SynthWishes synthWishes)
         {
-            double audioLength = AudioLength(byteCount, FrameSize(configWishes), SamplingRate(configWishes), HeaderLength(configWishes), CourtesyFrames(configWishes));
-            AudioLength(configWishes, audioLength, synthWishes);
-            return configWishes;
+            double audioLength = AudioLength(value, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), CourtesyFrames(entity));
+            AudioLength(entity, audioLength, synthWishes);
+            return entity;
         }
 
-        internal static int ByteCount(this ConfigSection configSection) 
-            => ByteCount(FrameCount(configSection), FrameSize(configSection), HeaderLength(configSection), CourtesyFrames(configSection));
+        internal static int ByteCount(this ConfigSection entity) 
+            => ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity), CourtesyFrames(entity));
 
-        internal static ConfigSection ByteCount(this ConfigSection configSection, int byteCount) 
-            => AudioLength(configSection, AudioLength(byteCount, FrameSize(configSection), SamplingRate(configSection), HeaderLength(configSection), CourtesyFrames(configSection)));
+        internal static ConfigSection ByteCount(this ConfigSection entity, int value) 
+            => AudioLength(entity, AudioLength(value, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), CourtesyFrames(entity)));
 
-        public static int ByteCount(this Tape tape)
+        public static int ByteCount(this Tape entity)
         {
-            if (tape == null) throw new NullException(() => tape);
+            if (entity == null) throw new NullException(() => entity);
             
-            if (tape.IsBuff)
+            if (entity.IsBuff)
             {
-                return ByteCount(tape.Bytes, tape.FilePathResolved);
+                return ByteCount(entity.Bytes, entity.FilePathResolved);
             }
             else
             {
-                return ByteCount(FrameCount(tape), FrameSize(tape), HeaderLength(tape), tape.Config.CourtesyFrames);
+                return ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity), entity.Config.CourtesyFrames);
             }
         }
 
-        public static Tape ByteCount(this Tape tape, int byteCount) 
-            => AudioLength(tape, AudioLength(byteCount, FrameSize(tape), SamplingRate(tape), HeaderLength(tape), CourtesyFrames(tape)));
+        public static Tape ByteCount(this Tape entity, int value) 
+            => AudioLength(entity, AudioLength(value, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), CourtesyFrames(entity)));
         
-        public static int ByteCount(this TapeConfig tapeConfig)
+        public static int ByteCount(this TapeConfig entity)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            return ByteCount(tapeConfig.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return ByteCount(entity.Tape);
         }
 
-        public static TapeConfig ByteCount(this TapeConfig tapeConfig, int byteCount)
+        public static TapeConfig ByteCount(this TapeConfig entity, int value)
         {
-            if (tapeConfig == null) throw new NullException(() => tapeConfig);
-            ByteCount(tapeConfig.Tape, byteCount);
-            return tapeConfig;
+            if (entity == null) throw new NullException(() => entity);
+            ByteCount(entity.Tape, value);
+            return entity;
         }
         
-        public static int ByteCount(this TapeActions tapeActions)
+        public static int ByteCount(this TapeActions entity)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            return ByteCount(tapeActions.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return ByteCount(entity.Tape);
         }
 
-        public static TapeActions ByteCount(this TapeActions tapeActions, int byteCount)
+        public static TapeActions ByteCount(this TapeActions entity, int value)
         {
-            if (tapeActions == null) throw new NullException(() => tapeActions);
-            ByteCount(tapeActions.Tape, byteCount);
-            return tapeActions;
+            if (entity == null) throw new NullException(() => entity);
+            ByteCount(entity.Tape, value);
+            return entity;
         }
 
-        public static int ByteCount(this TapeAction tapeAction)
+        public static int ByteCount(this TapeAction entity)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            return ByteCount(tapeAction.Tape);
+            if (entity == null) throw new NullException(() => entity);
+            return ByteCount(entity.Tape);
         }
 
-        public static TapeAction ByteCount(this TapeAction tapeAction, int byteCount)
+        public static TapeAction ByteCount(this TapeAction entity, int value)
         {
-            if (tapeAction == null) throw new NullException(() => tapeAction);
-            ByteCount(tapeAction.Tape, byteCount);
-            return tapeAction;
+            if (entity == null) throw new NullException(() => entity);
+            ByteCount(entity.Tape, value);
+            return entity;
         }
 
-        public static int ByteCount(this Buff buff, int courtesyFrames = 0)
+        public static int ByteCount(this Buff entity, int courtesyFrames = 0)
         {
-            if (buff == null) throw new NullException(() => buff);
+            if (entity == null) throw new NullException(() => entity);
 
-            int byteCount = ByteCount(buff.Bytes, buff.FilePath);
+            int byteCount = ByteCount(entity.Bytes, entity.FilePath);
 
             if (Has(byteCount))
             {
                 return byteCount;
             }
 
-            if (buff.UnderlyingAudioFileOutput != null)
+            if (entity.UnderlyingAudioFileOutput != null)
             {
-                return BytesNeeded(buff.UnderlyingAudioFileOutput, courtesyFrames);
+                return BytesNeeded(entity.UnderlyingAudioFileOutput, courtesyFrames);
             }
 
             return 0;
         }
 
-        public static int ByteCount(this Sample sample)
+        public static int ByteCount(this Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            return ByteCount(sample.Bytes, sample.Location);
+            if (entity == null) throw new NullException(() => entity);
+            return ByteCount(entity.Bytes, entity.Location);
         }
 
         public static int ByteCount(this AudioFileOutput entity) 
@@ -2089,16 +2089,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int BytesNeeded(this AudioFileOutput entity, int courtesyFrames = 0) 
             => ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity), courtesyFrames);
 
-        public static AudioFileOutput ByteCount(this AudioFileOutput entity, int byteCount, int courtesyFrames = 0) 
-            => AudioLength(entity, AudioLength(byteCount, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), courtesyFrames));
+        public static AudioFileOutput ByteCount(this AudioFileOutput entity, int value, int courtesyFrames = 0) 
+            => AudioLength(entity, AudioLength(value, FrameSize(entity), SamplingRate(entity), HeaderLength(entity), courtesyFrames));
 
-        public static int ByteCount(this WavHeaderStruct wavHeader) 
-            => ByteCount(FrameCount(wavHeader), FrameSize(wavHeader), HeaderLength(wavHeader));
+        public static int ByteCount(this WavHeaderStruct entity) 
+            => ByteCount(FrameCount(entity), FrameSize(entity), HeaderLength(entity));
 
-        public static WavHeaderStruct ByteCount(this WavHeaderStruct wavHeader, int byteCount, int courtesyFrames = 0)
+        public static WavHeaderStruct ByteCount(this WavHeaderStruct entity, int value, int courtesyFrames = 0)
         {
-            var wish = wavHeader.ToWish();
-            double audioLength = AudioLength(byteCount, FrameSize(wish), SamplingRate(wish), HeaderLength(Wav), courtesyFrames);
+            var wish = entity.ToWish();
+            double audioLength = AudioLength(value, FrameSize(wish), SamplingRate(wish), HeaderLength(Wav), courtesyFrames);
             return wish.AudioLength(audioLength).ToWavHeader();
         }
  
