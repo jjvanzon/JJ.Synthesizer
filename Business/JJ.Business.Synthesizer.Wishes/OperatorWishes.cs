@@ -15,22 +15,6 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    // Indexers
-    
-    /// <inheritdoc cref="docs._captureindexer" />
-    public partial class CaptureIndexer
-    {
-        // Fluent
-        
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[Outlet outlet] => _synthWishes[outlet];
-
-        // Values
-        
-        /// <inheritdoc cref="docs._captureindexer" />
-        public FlowNode this[double value] => _synthWishes[value];
-    }
-
     // SynthWishes Operators
 
     public partial class SynthWishes

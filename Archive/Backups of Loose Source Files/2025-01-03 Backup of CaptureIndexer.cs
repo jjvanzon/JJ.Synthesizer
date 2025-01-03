@@ -6,11 +6,11 @@ namespace JJ.Business.Synthesizer.Wishes
     public partial class CaptureIndexer
     {
         private readonly SynthWishes _synthWishes;
-        
+
         /// <inheritdoc cref="docs._captureindexer" />
-        internal CaptureIndexer(SynthWishes synthWishes) 
+        internal CaptureIndexer(SynthWishes synthWishes)
             => _synthWishes = synthWishes;
-        
+
         // ReSharper disable once UnusedParameter.Global
         /// <summary>
         /// Crazy conversion operator, reintroducing the discard notation _

@@ -62,7 +62,6 @@
     <Compile Include="RecordWishes.cs" />
     <Compile Include="InterceptWishes.cs" />
     <Compile Include="CalculationWishes.cs" />
-    <Compile Include="CaptureIndexer.cs" />
     <Compile Include="CommandWishes.cs" />
     <Compile Include="FlowNode.cs" />
     <Compile Include="LogWishes.cs" />
@@ -166,6 +165,7 @@
     <Content Include="app.config.example.xml" />
     <Compile Include="OperatorWishes.cs" />
     <Compile Include="ArithmeticWishes.cs" />
+    <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
     <None Include="packages.config" />
     <Compile Include="ConfigWishes.cs" />
   </ItemGroup>
