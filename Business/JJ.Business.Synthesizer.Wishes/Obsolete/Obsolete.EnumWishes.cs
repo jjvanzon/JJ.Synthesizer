@@ -139,18 +139,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class ObsoleteSpecialEnumWishes
     {
         // ToIndex for ChannelEnum
-                                
-        [Obsolete(ObsoleteMessage)]
-        public static int ToIndex(this ChannelEnum channelEnum)
-        {
-            switch (channelEnum)
-            {
-                case ChannelEnum.Single: return 0;
-                case ChannelEnum.Left: return 0;
-                case ChannelEnum.Right: return 1;
-                default: throw new ArgumentOutOfRangeException(nameof(channelEnum), channelEnum, null);
-            }
-        }
 
         // SpeakerSetupChannel by Channel
 

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteCalculationWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -15,8 +17,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             "and in case of stereo, left is 0 and right is 1.";
     }
 
+    [Obsolete(ObsoleteMessage)]
     public static class ObsoleteCalculationExtensionWishes
     {
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Sample sample, double time, Channel channel)
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
@@ -24,22 +28,27 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return sample.Calculate(time, channel.Index);
         }
 
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Sample sample, double time, ChannelEnum channelEnum)
         {
             if (sample == null) throw new ArgumentNullException(nameof(sample));
-            return sample.Calculate(time, channelEnum.ToIndex());
+            return sample.Calculate(time, channelEnum.Channel().Value);
         }
         
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Outlet outlet, double time, ChannelEnum channelEnum)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
-            return outlet.Calculate(time, channelEnum.ToIndex());
+            if (!Has(channelEnum)) throw new Exception($"{nameof(channelEnum)} not defined.");
+            return outlet.Calculate(time, channelEnum.Channel().Value);
         }
         
+        [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Operator op, double time, ChannelEnum channelEnum)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
-            return op.Calculate(time, channelEnum.ToIndex());
+            if (!Has(channelEnum)) throw new Exception($"{nameof(channelEnum)} not defined.");
+            return op.Calculate(time, channelEnum.Channel().Value);
         }
     }
 }

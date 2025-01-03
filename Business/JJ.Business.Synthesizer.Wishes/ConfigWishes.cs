@@ -177,9 +177,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channel
         
-        private     ChannelEnum _channelEnum = DefaultChannel.ToEnum(DefaultChannels);
-        public int? GetChannel => (_channelEnum == default) ? default(int?) : _channelEnum.ToIndex();
-        public void WithChannel(int? channel) => _channelEnum = channel?.ToEnum(GetChannels) ?? default;
+        private     ChannelEnum _channelEnum;
+        public int? GetChannel => (_channelEnum == default) ? default(int?) : _channelEnum.Channel();
+        public void WithChannel(int? channel) => _channelEnum = channel.ToEnum(GetChannels);
         public bool IsCenter  =>   GetChannels == 1 ? GetChannel == 0 : default;
         public void WithCenter() { WithChannels  (1); WithChannel  (0);        }
         public bool IsLeft    =>   GetChannels == 2 ? GetChannel == 0 : default;

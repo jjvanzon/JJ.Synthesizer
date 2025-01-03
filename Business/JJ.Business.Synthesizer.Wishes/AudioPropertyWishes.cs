@@ -591,7 +591,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             int channels = entity.Channels();
             int signalCount = entity.AudioFileOutputChannels.Count;
-            int? firstChannelIndex = entity.AudioFileOutputChannels.ElementAtOrDefault(0)?.Index;
+            int? firstChannelNumber = entity.AudioFileOutputChannels.ElementAtOrDefault(0)?.Channel();
             
             // Mono has channel 0 only.
             if (channels == 1) return 0;
@@ -606,9 +606,9 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (signalCount == 1)
                 {
                     // By returning index, we handle both "Left-only" and "Right-only" (single channel 1) scenarios.
-                    if (firstChannelIndex != null)
+                    if (firstChannelNumber != null)
                     {
-                        return firstChannelIndex;
+                        return firstChannelNumber;
                     }
                 }
             }
@@ -617,13 +617,27 @@ namespace JJ.Business.Synthesizer.Wishes
                 "Unsupported combination of values: " + NewLine +
                 $"entity.Channels = {channels}, " + NewLine +
                 $"entity.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + NewLine +
-                $"entity.AudioFileOutputChannels[0].Index = {firstChannelIndex} ({nameof(firstChannelIndex)})");
-
+                $"entity.AudioFileOutputChannels[0].Index = {firstChannelNumber} ({nameof(firstChannelNumber)})");
+        }
+        
+        public static int Channel(this AudioFileOutputChannel entity)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            return entity.Index;
+        }
+        
+        public static AudioFileOutputChannel Channel(this AudioFileOutputChannel entity, int channel)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            entity.Index = channel;
+            return entity;
         }
         
         [Obsolete(ObsoleteMessage)]
-        public static int? Channel(this Channel enumEntity) 
-            => enumEntity?.ToEnum().Channel();
+        public static int? Channel(this Channel enumEntity)
+        {
+            return enumEntity?.Index;
+        }
         
         [Obsolete(ObsoleteMessage)]
         public static int? Channel(this ChannelEnum enumValue)
@@ -641,14 +655,6 @@ namespace JJ.Business.Synthesizer.Wishes
         [Obsolete(ObsoleteMessage)]
         public static ChannelEnum ToEnum(this int? channel, int channels)
             => ToEnum(channel, channels.ChannelsToEnum());
-
-        [Obsolete(ObsoleteMessage)]
-        public static ChannelEnum ToEnum(this int channel, int channels)
-            => ToEnum(channel, channels.ChannelsToEnum());
-
-        [Obsolete(ObsoleteMessage)]
-        public static ChannelEnum ToEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
-            => ToEnum((int?)channel, speakerSetupEnum);
 
         [Obsolete(ObsoleteMessage)]
         public static ChannelEnum ToEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
@@ -670,18 +676,10 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new NotSupportedException(
                 "Unsupported combination of values: " + new { speakerSetupEnum, channel });
         }
-                
-        [Obsolete(ObsoleteMessage)]
-        public static Channel ToEntity(this int? channel, int channels, IContext context)
-            => ToEnum(channel, channels).ToEntity(context);
 
         [Obsolete(ObsoleteMessage)]
         public static Channel ToEntity(this int channel, int channels, IContext context)
             => ToEnum(channel, channels).ToEntity(context);
-        
-        [Obsolete(ObsoleteMessage)]
-        public static Channel ToEntity(this int? channel, SpeakerSetupEnum speakerSetupEnum, IContext context)
-            => ToEnum(channel, speakerSetupEnum).ToEntity(context);
 
         [Obsolete(ObsoleteMessage)]
         public static Channel ToEntity(this int channel, SpeakerSetupEnum speakerSetupEnum, IContext context)

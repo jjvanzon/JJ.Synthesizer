@@ -9,6 +9,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.WrappersObsoleteMessages;
 
 // ReSharper disable NotResolvedInText
@@ -93,8 +94,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this OperatorWrapperBase wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
-
+        {
+            if (!Has(channelEnum)) throw new Exception($"{nameof(channelEnum)} not defined.");
+            return Calculate(wrapper, time, channelEnum.Channel().Value);
+        }
+        
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this OperatorWrapperBase wrapper, double time = 0, int channel = 0)
         {
@@ -104,8 +108,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this SampleOperatorWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
-
+        {
+            if (!Has(channelEnum)) throw new Exception($"{nameof(channelEnum)} not defined.");
+            return Calculate(wrapper, time, channelEnum.Channel().Value);
+        }
+        
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this SampleOperatorWrapper wrapper, double time = 0, int channel = 0)
         {
@@ -115,8 +122,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this CurveInWrapper wrapper, double time, ChannelEnum channelEnum)
-            => Calculate(wrapper, time, channelEnum.ToIndex());
-
+        {
+            if (!Has(channelEnum)) throw new Exception($"{nameof(channelEnum)} not defined.");
+            return Calculate(wrapper, time, channelEnum.Channel().Value);
+        }
+        
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this CurveInWrapper wrapper, double time = 0, int channel = 0)
         {

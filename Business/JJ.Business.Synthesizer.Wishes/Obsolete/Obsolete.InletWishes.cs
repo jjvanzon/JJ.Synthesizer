@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Names;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.InletObsoleteMessages;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
@@ -24,8 +25,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Inlet inlet, double time, ChannelEnum channelEnum)
-            => Calculate(inlet, time, channelEnum.ToIndex());
-
+        {
+            if (!Has(channelEnum)) throw new Exception($"{nameof(channelEnum)} not defined.");
+            return Calculate(inlet, time, channelEnum.Channel().Value);
+        }
+        
         [Obsolete(ObsoleteMessage)]
         public static double Calculate(this Inlet inlet, double time = 0, int channel = 0)
         {

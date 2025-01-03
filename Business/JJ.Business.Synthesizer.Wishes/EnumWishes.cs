@@ -104,11 +104,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static AudioFileOutputChannel TryGetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
-            => audioFileOutput.AudioFileOutputChannels.SingleOrDefault(x => x.Index == channelEnum.ToIndex());
+            => audioFileOutput.AudioFileOutputChannels.SingleOrDefault(x => x.Channel() == channelEnum.Channel());
         
         public static AudioFileOutputChannel GetAudioFileOutputChannel(
             this AudioFileOutput audioFileOutput, ChannelEnum channelEnum)
-            => audioFileOutput.AudioFileOutputChannels.Single(x => x.Index == channelEnum.ToIndex());
+            => audioFileOutput.AudioFileOutputChannels.Single(x => x.Channel() == channelEnum.Channel());
         
         // SetNodeType for whole Curve
 

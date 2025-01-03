@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes
                     // Fool AudioFileOutput(Calculator) to use ChannelIndex 1 for its mono output.
                     if (tape.Config.IsRight)
                     {
-                        audioFileOutput.AudioFileOutputChannels[0].Index = 1;
+                        audioFileOutput.AudioFileOutputChannels[0].Channel(1);
                     }
 
                     break;
