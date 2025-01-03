@@ -15,45 +15,6 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public static class EnumFromEntityWishes
-    {
-        public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (AudioFileFormatEnum)enumEntity.ID;
-        }
-
-        public static ChannelEnum ToEnum(this Channel enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (ChannelEnum)enumEntity.ID;
-        }
-
-        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (InterpolationTypeEnum)enumEntity.ID;
-        }
-
-        public static NodeTypeEnum ToEnum(this NodeType enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (NodeTypeEnum)enumEntity.ID;
-        }
-
-        public static SampleDataTypeEnum ToEnum(this SampleDataType enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (SampleDataTypeEnum)enumEntity.ID;
-        }
-
-        public static SpeakerSetupEnum ToEnum(this SpeakerSetup enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (SpeakerSetupEnum)enumEntity.ID;
-        }
-    }
-
     /// <inheritdoc cref="docs._setenumwishes"/>
     public static class EnumSetterWishes
     {
@@ -64,13 +25,6 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             var repository = CreateRepository<IAudioFileFormatRepository>(context);
             entity.SetAudioFileFormatEnum(enumValue, repository);
-        }
-        
-        public static void SetSampleDataTypeEnum(
-            this AudioFileOutput entity, SampleDataTypeEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<ISampleDataTypeRepository>(context);
-            entity.SetSampleDataTypeEnum(enumValue, repository);
         }
 
         // Node
@@ -94,18 +48,6 @@ namespace JJ.Business.Synthesizer.Wishes
             var repository = CreateRepository<IInterpolationTypeRepository>(context);
             entity.SetInterpolationTypeEnum(enumValue, repository);
         }
-
-        public static void SetSampleDataTypeEnum(this Sample entity, SampleDataTypeEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<ISampleDataTypeRepository>(context);
-            entity.SetSampleDataTypeEnum(enumValue, repository);
-        }
-
-        public static void SetSpeakerSetupEnum(this Sample entity, SpeakerSetupEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<ISpeakerSetupRepository>(context);
-            entity.SetSpeakerSetupEnum(enumValue, repository);
-        }
     }
 
     // To Int/ID
@@ -113,10 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes
     public static class EnumToIDWishes
     {
         public static int ToID(this AudioFileFormatEnum enumValue) => (int)enumValue;
-        public static int ToID(this ChannelEnum enumValue) => (int)enumValue;
         public static int ToID(this InterpolationTypeEnum enumValue) => (int)enumValue;
-        public static int ToID(this SampleDataTypeEnum enumValue) => (int)enumValue;
-        public static int ToID(this SpeakerSetupEnum enumValue) => (int)enumValue;
         public static int ToID(this NodeTypeEnum enumValue) => (int)enumValue;
     }
 

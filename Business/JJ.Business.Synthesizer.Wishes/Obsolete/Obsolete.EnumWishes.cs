@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
@@ -16,73 +17,122 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     internal static class ObsoleteEnumWishesMessages
     {
         public const string ObsoleteMessage = 
-            "Direct use of enum-like entities is discourage. " +
-            "Use the enums or integers instead, like AudioFormat/AudioFileFormatEnum and int Bits," +
-            "and an integer instead of using ChannelEnum.";
+            "Direct use of enum-like entities is discouraged. Use for legacy purposes. " +
+            "Prefer using integers or enums directly, like AudioFormat/AudioFileFormatEnum," +
+            "integer Bits, and int instead of ChannelEnum. ";
     }
 
     [Obsolete(ObsoleteMessage)]
     public static class ObsoleteEnumToEntityWishes
     {
-        [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormat ToEntity(this AudioFileFormatEnum enumValue, IContext context = null)
-        {
-            var repository = CreateRepository<IAudioFileFormatRepository>(context);
-            return repository.Get((int)enumValue);
-        }
 
         [Obsolete(ObsoleteMessage)]
-        public static Channel ToEntity(this ChannelEnum enumValue, IContext context = null)
+        public static Channel ToEntity(this ChannelEnum enumValue, IContext context)
         {
+            if (enumValue == default) return default;
             var repository = CreateRepository<IChannelRepository>(context);
             return repository.Get((int)enumValue);
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context = null)
+        public static NodeType ToEntity(this NodeTypeEnum enumValue, IContext context)
         {
-            var repository = CreateRepository<IInterpolationTypeRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-
-        [Obsolete(ObsoleteMessage)]
-        public static NodeType ToEntity(this NodeTypeEnum enumValue, IContext context = null)
-        {
+            if (enumValue == default) return default;
             var repository = CreateRepository<INodeTypeRepository>(context);
             return repository.Get((int)enumValue);
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataType ToEntity(this SampleDataTypeEnum enumValue, IContext context = null)
+        public static SampleDataType ToEntity(this SampleDataTypeEnum enumValue, IContext context)
         {
+            if (enumValue == default) return default;
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
             return repository.Get((int)enumValue);
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup ToEntity(this SpeakerSetupEnum enumValue, IContext context = null)
+        public static SpeakerSetup ToEntity(this SpeakerSetupEnum enumValue, IContext context)
         {
+            if (enumValue == default) return default;
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
             return repository.Get((int)enumValue);
         }
     }
-
+    
+    
     [Obsolete(ObsoleteMessage)]
-    public static class ObsoleteAudioFileExtensionWishes 
-    { 
+    public static class ObsoleteEntityToEnumWishes
+    {
         [Obsolete(ObsoleteMessage)]
-        public static int SizeOf(this SampleDataType enumEntity)
-            => SampleDataTypeHelper.SizeOf(enumEntity);
-
-        [Obsolete(ObsoleteMessage)]
-        public static int GetBits(this SampleDataType enumEntity)
+        public static ChannelEnum ToEnum(this Channel enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return EnumFromEntityWishes.ToEnum(enumEntity).Bits();
+            return (ChannelEnum)enumEntity.ID;
         }
-    
-        public static double GetNominalMax(this SampleDataType enumEntity)
-            => EnumFromEntityWishes.ToEnum(enumEntity).MaxValue();
+
+        [Obsolete(ObsoleteMessage)]
+        public static NodeTypeEnum ToEnum(this NodeType enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (NodeTypeEnum)enumEntity.ID;
+        }
+
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum ToEnum(this SampleDataType enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (SampleDataTypeEnum)enumEntity.ID;
+        }
+
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetupEnum ToEnum(this SpeakerSetup enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (SpeakerSetupEnum)enumEntity.ID;
+        }
+    }
+
+    /// <inheritdoc cref="docs._setenumwishes"/>
+    [Obsolete(ObsoleteMessage)]
+    public static class ObsoleteEnumSetterWishes
+    {
+        // AudioFileOutput
+        
+        [Obsolete(ObsoleteMessage)]
+        public static void SetSampleDataTypeEnum(this AudioFileOutput entity, SampleDataTypeEnum enumValue, IContext context = null)
+        {
+            var repository = CreateRepository<ISampleDataTypeRepository>(context);
+            entity.SetSampleDataTypeEnum(enumValue, repository);
+        }
+        
+        // Sample
+        
+        [Obsolete(ObsoleteMessage)]
+        public static void SetSampleDataTypeEnum(this Sample entity, SampleDataTypeEnum enumValue, IContext context = null)
+        {
+            var repository = CreateRepository<ISampleDataTypeRepository>(context);
+            entity.SetSampleDataTypeEnum(enumValue, repository);
+        }
+
+        [Obsolete(ObsoleteMessage)]
+        public static void SetSpeakerSetupEnum(this Sample entity, SpeakerSetupEnum enumValue, IContext context = null)
+        {
+            var repository = CreateRepository<ISpeakerSetupRepository>(context);
+            entity.SetSpeakerSetupEnum(enumValue, repository);
+        }
+    }
+
+    // To ID
+
+    [Obsolete(ObsoleteMessage)]
+    public static class ObsoleteEnumToIDWishes
+    {
+        [Obsolete(ObsoleteMessage)]
+        public static int ToID(this ChannelEnum enumValue) => (int)enumValue;
+        [Obsolete(ObsoleteMessage)]
+        public static int ToID(this SampleDataTypeEnum enumValue) => (int)enumValue;
+        [Obsolete(ObsoleteMessage)]
+        public static int ToID(this SpeakerSetupEnum enumValue) => (int)enumValue;
     }
 
     [Obsolete(ObsoleteMessage)]

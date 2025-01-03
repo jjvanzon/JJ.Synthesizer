@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,7 +9,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class EnumWishesTests
+    public class EnumWishesTests : SynthWishes
     {
         // ToEntity
 
@@ -17,7 +18,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var enumValue = AudioFileFormatEnum.Wav;
 
-            AudioFileFormat enumEntity = enumValue.ToEntity();
+            AudioFileFormat enumEntity = enumValue.ToEntity(Context);
 
             IsNotNull(() => enumEntity);
             AreEqual((int)enumValue, () => enumEntity.ID);
@@ -29,7 +30,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var enumValue = ChannelEnum.Left;
 
-            Channel enumEntity = enumValue.ToEntity();
+            Channel enumEntity = enumValue.ToEntity(Context);
 
             IsNotNull(() => enumEntity);
             AreEqual((int)enumValue, () => enumEntity.ID);
@@ -41,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var enumValue = InterpolationTypeEnum.Line;
 
-            InterpolationType enumEntity = enumValue.ToEntity();
+            InterpolationType enumEntity = enumValue.ToEntity(Context);
 
             IsNotNull(() => enumEntity);
             AreEqual((int)enumValue, () => enumEntity.ID);
@@ -53,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var enumValue = NodeTypeEnum.Line;
 
-            NodeType enumEntity = enumValue.ToEntity();
+            NodeType enumEntity = enumValue.ToEntity(Context);
 
             IsNotNull(() => enumEntity);
             AreEqual((int)enumValue, () => enumEntity.ID);
@@ -65,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var enumValue = SampleDataTypeEnum.Int16;
 
-            SampleDataType enumEntity = enumValue.ToEntity();
+            SampleDataType enumEntity = enumValue.ToEntity(Context);
 
             IsNotNull(() => enumEntity);
             AreEqual((int)enumValue, () => enumEntity.ID);
@@ -77,7 +78,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var enumValue = SpeakerSetupEnum.Stereo;
 
-            SpeakerSetup enumEntity = enumValue.ToEntity();
+            SpeakerSetup enumEntity = enumValue.ToEntity(Context);
 
             IsNotNull(() => enumEntity);
             AreEqual((int)enumValue, () => enumEntity.ID);

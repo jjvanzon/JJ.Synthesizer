@@ -10,6 +10,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
@@ -20,8 +21,10 @@ using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -233,6 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
+        [Obsolete(ObsoleteMessage)]
         public static int Bits(this SampleDataTypeEnum enumValue)
         {
             switch (enumValue)
@@ -244,6 +248,14 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
+        [Obsolete(ObsoleteMessage)]
+        public static int Bits(this SampleDataType enumEntity)
+        {
+            if (enumEntity == null) throw new NullException(() => enumEntity);
+            return enumEntity.ToEnum().Bits();
+        }
+
+        [Obsolete(ObsoleteMessage)]
         public static SampleDataTypeEnum BitsToEnum(this int bits)
         {
             switch (bits)
@@ -254,7 +266,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
             }
         }
-
+        
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType BitsToEntity(this int bits, IContext context) 
+            => bits.BitsToEnum().ToEntity(context);
+        
         #endregion
                 
         #region Channels
@@ -434,6 +450,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return info;
         }
         
+        [Obsolete(ObsoleteMessage)]
         public static int Channels(this SpeakerSetupEnum enumValue)
         {
             switch (enumValue)
@@ -443,7 +460,15 @@ namespace JJ.Business.Synthesizer.Wishes
                 default: throw new ValueNotSupportedException(enumValue);
             }
         }
+        
+        [Obsolete(ObsoleteMessage)]
+        public static int Channels(this SpeakerSetup enumEntity)
+        {
+            if (enumEntity == null) throw new NullException(() => enumEntity);
+            return enumEntity.ToEnum().Channels();
+        }
 
+        [Obsolete(ObsoleteMessage)]
         public static SpeakerSetupEnum ChannelsToEnum(this int channels)
         {
             switch (channels)
@@ -453,6 +478,10 @@ namespace JJ.Business.Synthesizer.Wishes
                 default: throw new ValueNotSupportedException(channels);
             }
         }
+        
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) 
+            => channels.ChannelsToEnum().ToEntity(context);
 
         #endregion
 
@@ -592,17 +621,40 @@ namespace JJ.Business.Synthesizer.Wishes
 
         }
         
-        public static ChannelEnum ChannelToEnum(this int? channel, int channels)
-            => ChannelToEnum(channel, channels.ChannelsToEnum());
-
-        public static ChannelEnum ChannelToEnum(this int channel, int channels)
-            => ChannelToEnum(channel, channels.ChannelsToEnum());
-
-        public static ChannelEnum ChannelToEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
-            => channel.HasValue ? ChannelToEnum(channel.Value, speakerSetupEnum) : ChannelEnum.Undefined;
-
-        public static ChannelEnum ChannelToEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
+        [Obsolete(ObsoleteMessage)]
+        public static int? Channel(this Channel enumEntity) 
+            => enumEntity?.ToEnum().Channel();
+        
+        [Obsolete(ObsoleteMessage)]
+        public static int? Channel(this ChannelEnum enumValue)
         {
+            switch (enumValue)
+            {
+                case ChannelEnum.Single: return 0;
+                case ChannelEnum.Left: return 0;
+                case ChannelEnum.Right: return 1;
+                case ChannelEnum.Undefined: return null;
+                default: throw new ValueNotSupportedException(enumValue);
+            }
+        }
+
+        [Obsolete(ObsoleteMessage)]
+        public static ChannelEnum ToEnum(this int? channel, int channels)
+            => ToEnum(channel, channels.ChannelsToEnum());
+
+        [Obsolete(ObsoleteMessage)]
+        public static ChannelEnum ToEnum(this int channel, int channels)
+            => ToEnum(channel, channels.ChannelsToEnum());
+
+        [Obsolete(ObsoleteMessage)]
+        public static ChannelEnum ToEnum(this int channel, SpeakerSetupEnum speakerSetupEnum)
+            => ToEnum((int?)channel, speakerSetupEnum);
+
+        [Obsolete(ObsoleteMessage)]
+        public static ChannelEnum ToEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
+        {
+            if (channel == default) return default;
+            
             switch (speakerSetupEnum)
             {
                 case SpeakerSetupEnum.Mono:
@@ -618,7 +670,23 @@ namespace JJ.Business.Synthesizer.Wishes
             throw new NotSupportedException(
                 "Unsupported combination of values: " + new { speakerSetupEnum, channel });
         }
+                
+        [Obsolete(ObsoleteMessage)]
+        public static Channel ToEntity(this int? channel, int channels, IContext context)
+            => ToEnum(channel, channels).ToEntity(context);
 
+        [Obsolete(ObsoleteMessage)]
+        public static Channel ToEntity(this int channel, int channels, IContext context)
+            => ToEnum(channel, channels).ToEntity(context);
+        
+        [Obsolete(ObsoleteMessage)]
+        public static Channel ToEntity(this int? channel, SpeakerSetupEnum speakerSetupEnum, IContext context)
+            => ToEnum(channel, speakerSetupEnum).ToEntity(context);
+
+        [Obsolete(ObsoleteMessage)]
+        public static Channel ToEntity(this int channel, SpeakerSetupEnum speakerSetupEnum, IContext context)
+            => ToEnum(channel, speakerSetupEnum).ToEntity(context);
+        
         #endregion
 
         #region SamplingRate
@@ -952,13 +1020,27 @@ namespace JJ.Business.Synthesizer.Wishes
             return audioFileOutput;
         }
         
-        // ReSharper disable once UnusedParameter.Global
-        public static AudioFileFormatEnum AudioFormat(WavHeaderStruct wavHeader) => Wav;
+        public static AudioFileFormatEnum AudioFormat([UsedImplicitly] WavHeaderStruct wavHeader) => Wav;
+        
+        [Obsolete(ObsoleteMessage)]
+        public static AudioFileFormatEnum AudioFormat(this AudioFileFormat entity) 
+            => ToEnum(entity);
+        
+        [Obsolete(ObsoleteMessage)]
+        public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (AudioFileFormatEnum)enumEntity.ID;
+        }
+        
+        [Obsolete(ObsoleteMessage)]
+        public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context) 
+            => CreateRepository<IAudioFileFormatRepository>(context).Get(audioFormat.ToID());
         
         #endregion
-        
+
         #region Interpolation
-        
+
         public static InterpolationTypeEnum Interpolation(this SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -1076,6 +1158,25 @@ namespace JJ.Business.Synthesizer.Wishes
             return sample;
         }
     
+        [Obsolete(ObsoleteMessage)]
+        public static InterpolationTypeEnum Interpolation(this InterpolationType entity) 
+            => ToEnum(entity);
+        
+        [Obsolete(ObsoleteMessage)]
+        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return (InterpolationTypeEnum)enumEntity.ID;
+        }
+
+        [Obsolete(ObsoleteMessage)]
+        public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context)
+        {
+            if (enumValue == default) return default;
+            var repository = CreateRepository<IInterpolationTypeRepository>(context);
+            return repository.Get((int)enumValue);
+        }
+
         #endregion
         
         #region CourtesyFrames
@@ -1184,7 +1285,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static TapeAction CourtesyFrames(this TapeAction tapeAction, int courtesyFrames)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             CourtesyFrames(tapeAction.Tape, courtesyFrames);
             return tapeAction;
         }
@@ -1224,7 +1325,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int SizeOfBitDepth(this AudioFileInfo info) => Bits(info) / 8;
         public static AudioFileInfo SizeOfBitDepth(this AudioFileInfo info, int bytes) => Bits(info, bytes * 8);
         public static int SizeOfBitDepth(this int bits) => bits / 8;
-        public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue) => SampleDataTypeHelper.SizeOf(enumValue);
         public static int SizeOfBitDepth(Type sampleDataType)
         {
             if (sampleDataType == typeof(Byte)) return 1;
@@ -1232,6 +1332,8 @@ namespace JJ.Business.Synthesizer.Wishes
             if (sampleDataType == typeof(Single)) return 4;
             throw new ValueNotSupportedException(sampleDataType);
         }
+        [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataTypeEnum enumValue) => SampleDataTypeHelper.SizeOf(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataType enumEntity) => SampleDataTypeHelper.SizeOf(enumEntity);
 
         #endregion
         
@@ -1251,6 +1353,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int FrameSize(this WavHeaderStruct wavHeader) => SizeOfBitDepth(wavHeader) * Channels(wavHeader);
         public static int FrameSize(this AudioInfoWish infoWish) => SizeOfBitDepth(infoWish) * Channels(infoWish);
         public static int FrameSize(this AudioFileInfo info) => SizeOfBitDepth(info) * Channels(info);
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int FrameSize(this (SampleDataType sampleDataType, SpeakerSetup speakerSetup) entities) 
+            => SizeOfBitDepth(entities.sampleDataType) * Channels(entities.speakerSetup);
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int FrameSize(this (SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums) 
+            => SizeOfBitDepth(enums.sampleDataTypeEnum) * Channels(enums.speakerSetupEnum);
 
         #endregion
         
@@ -1270,19 +1380,28 @@ namespace JJ.Business.Synthesizer.Wishes
         public static double MaxValue(this WavHeaderStruct wavHeader) => MaxValue(Bits(wavHeader));
         public static double MaxValue(this AudioFileInfo info) => MaxValue(Bits(info));
         public static double MaxValue(this AudioInfoWish infoWish) => MaxValue(Bits(infoWish));
-        public static double MaxValue(this int bits) => MaxValue(BitsToEnum(bits));
-        public static double MaxValue(this SampleDataTypeEnum enumValue)
+        public static double MaxValue(this int bits)
         {
-            switch (enumValue)
+            switch (bits)
             {
-                case SampleDataTypeEnum.Float32: return 1;
-                case SampleDataTypeEnum.Int16: return Int16.MaxValue;
+                case 32: return 1;
+                case 16: return Int16.MaxValue;
                 // ReSharper disable once PossibleLossOfFraction
-                case SampleDataTypeEnum.Byte: return Byte.MaxValue / 2;
-                default: throw new ValueNotSupportedException(enumValue);
+                case 8: return byte.MaxValue / 2;
+                default: throw new Exception($"Bits = {bits} not supported. Supported values: 8, 16, 32.");
             }
         }
-
+        
+        [Obsolete(ObsoleteMessage)]
+        public static double GetMaxValue(this SampleDataType enumEntity)
+        {
+            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            return enumEntity.ToEnum().MaxValue();
+        }
+        
+        [Obsolete(ObsoleteMessage)]
+        public static double MaxValue(this SampleDataTypeEnum enumValue) => enumValue.Bits().MaxValue();
+        
         #endregion
                 
         #region FileExtension
@@ -1298,13 +1417,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
 
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileFormat enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return enumEntity.ToEnum().FileExtension();
-        }
-        
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this SynthWishes synthWishes) => AudioFormat(synthWishes).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
@@ -1352,6 +1464,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension([UsedImplicitly] this WavHeaderStruct wavHeader) => AudioFormat(wavHeader).FileExtension();
         
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)]
+        public static string FileExtension(this AudioFileFormat enumEntity)
+        {
+            if (enumEntity == null) throw new NullException(() => enumEntity);
+            return enumEntity.ToEnum().FileExtension();
+        }
+
         #endregion
                 
         #region HeaderLength
@@ -1365,13 +1485,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 case Raw: return 0;
                 default: throw new ValueNotSupportedException(audioFormat);
             }
-        }
-
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormat enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return enumEntity.ToEnum().HeaderLength();
         }
         
         /// <inheritdoc cref="docs._headerlength"/>
@@ -1399,7 +1512,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._headerlength"/>
         // ReSharper disable once UnusedParameter.Global
         public static int HeaderLength(this WavHeaderStruct wavHeader) => HeaderLength(Wav);
-
+        /// <inheritdoc cref="docs._headerlength"/>
+        [Obsolete(ObsoleteMessage)] 
+        public static int HeaderLength(this AudioFileFormat enumEntity) => AudioFormat(enumEntity).HeaderLength();
+        
         #endregion
         
         #region CourtesyBytes
@@ -1443,39 +1559,39 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static int CourtesyBytes(this TapeConfig tapeConfig)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return CourtesyBytes(tapeConfig.Tape);
         }
 
         public static TapeConfig CourtesyBytes(this TapeConfig tapeConfig, int courtesyBytes)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             CourtesyBytes(tapeConfig.Tape, courtesyBytes);
             return tapeConfig;
         }
 
         public static int CourtesyBytes(this TapeActions tapeActions)
         {
-            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            if (tapeActions == null) throw new NullException(() => tapeActions);
             return CourtesyBytes(tapeActions.Tape);
         }
 
         public static TapeActions CourtesyBytes(this TapeActions tapeActions, int courtesyBytes)
         {
-            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            if (tapeActions == null) throw new NullException(() => tapeActions);
             CourtesyBytes(tapeActions.Tape, courtesyBytes);
             return tapeActions;
         }
 
         public static int CourtesyBytes(this TapeAction tapeAction)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             return CourtesyBytes(tapeAction.Tape);
         }
 
         public static TapeAction CourtesyBytes(this TapeAction tapeAction, int courtesyBytes)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             CourtesyBytes(tapeAction.Tape, courtesyBytes);
             return tapeAction;
         }
@@ -1729,39 +1845,39 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static int FrameCount(this TapeConfig tapeConfig)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return FrameCount(tapeConfig.Tape);
         }
 
         public static TapeConfig FrameCount(this TapeConfig tapeConfig, int frameCount)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             FrameCount(tapeConfig.Tape, frameCount);
             return tapeConfig;
         }
 
         public static int FrameCount(this TapeAction tapeAction)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             return FrameCount(tapeAction.Tape);
         }
 
         public static TapeAction FrameCount(this TapeAction tapeAction, int frameCount)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             FrameCount(tapeAction.Tape, frameCount);
             return tapeAction;
         }
 
         public static int FrameCount(this TapeActions tapeActions)
         {
-            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            if (tapeActions == null) throw new NullException(() => tapeActions);
             return FrameCount(tapeActions.Tape);
         }
 
         public static TapeActions FrameCount(this TapeActions tapeActions, int frameCount)
         {
-            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            if (tapeActions == null) throw new NullException(() => tapeActions);
             FrameCount(tapeActions.Tape, frameCount);
             return tapeActions;
         }
@@ -1855,7 +1971,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return 0;
         }
 
-        // TODO: Use courtesyBytes instead of courtesyFrames?
         public static int ByteCount(int frameCount, int frameSize, int headerLength, int courtesyFrames = 0)
             => frameCount * frameSize + headerLength + CourtesyBytes(courtesyFrames, frameSize);
 
@@ -1889,7 +2004,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static int ByteCount(this Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            if (tape == null) throw new NullException(() => tape);
             
             if (tape.IsBuff)
             {
@@ -1906,46 +2021,46 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static int ByteCount(this TapeConfig tapeConfig)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return ByteCount(tapeConfig.Tape);
         }
 
         public static TapeConfig ByteCount(this TapeConfig tapeConfig, int byteCount)
         {
-            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
             ByteCount(tapeConfig.Tape, byteCount);
             return tapeConfig;
         }
         
         public static int ByteCount(this TapeActions tapeActions)
         {
-            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            if (tapeActions == null) throw new NullException(() => tapeActions);
             return ByteCount(tapeActions.Tape);
         }
 
         public static TapeActions ByteCount(this TapeActions tapeActions, int byteCount)
         {
-            if (tapeActions == null) throw new ArgumentNullException(nameof(tapeActions));
+            if (tapeActions == null) throw new NullException(() => tapeActions);
             ByteCount(tapeActions.Tape, byteCount);
             return tapeActions;
         }
 
         public static int ByteCount(this TapeAction tapeAction)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             return ByteCount(tapeAction.Tape);
         }
 
         public static TapeAction ByteCount(this TapeAction tapeAction, int byteCount)
         {
-            if (tapeAction == null) throw new ArgumentNullException(nameof(tapeAction));
+            if (tapeAction == null) throw new NullException(() => tapeAction);
             ByteCount(tapeAction.Tape, byteCount);
             return tapeAction;
         }
 
         public static int ByteCount(this Buff buff, int courtesyFrames = 0)
         {
-            if (buff == null) throw new ArgumentNullException(nameof(buff));
+            if (buff == null) throw new NullException(() => buff);
 
             int byteCount = ByteCount(buff.Bytes, buff.FilePath);
 
@@ -1964,7 +2079,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static int ByteCount(this Sample sample)
         {
-            if (sample == null) throw new ArgumentNullException(nameof(sample));
+            if (sample == null) throw new NullException(() => sample);
             return ByteCount(sample.Bytes, sample.Location);
         }
 
