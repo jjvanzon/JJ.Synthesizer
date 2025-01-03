@@ -4,14 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteCalculationWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
     internal static class ObsoleteCalculationWishesMessages
     {
         public const string ObsoleteMessage = 
-            "Use of Channel entities and ChannelEnum is discourage. Use the integers 0 and 1 instead. 0 is center channel in case of mono, and left channel in case of stereo. 1 is right channel in case of stereo.";
+            "Use of Channel entities and ChannelEnum is discourage. " +
+            "Use the integers 0 and 1 instead. 0 is center channel in case of mono, " +
+            "and in case of stereo, left is 0 and right is 1.";
     }
 
     public static class ObsoleteCalculationExtensionWishes
