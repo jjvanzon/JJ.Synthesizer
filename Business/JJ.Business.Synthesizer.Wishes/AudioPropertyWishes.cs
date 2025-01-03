@@ -268,13 +268,108 @@ namespace JJ.Business.Synthesizer.Wishes
         public static SampleDataType BitsToEntity(this int bits, IContext context) 
             => bits.BitsToEnum().ToEntity(context);
         
-        public static bool Is8Bit (SynthWishes entity)          { if (entity == null) throw new NullException(() => entity); return entity.Is8Bit     ; }
-        public static bool Is16Bit(SynthWishes entity)          { if (entity == null) throw new NullException(() => entity); return entity.Is16Bit    ; }
-        public static bool Is32Bit(SynthWishes entity)          { if (entity == null) throw new NullException(() => entity); return entity.Is32Bit    ; }
-        public static SynthWishes With8Bit (SynthWishes entity) { if (entity == null) throw new NullException(() => entity); return entity.With8Bit() ; }
-        public static SynthWishes With16Bit(SynthWishes entity) { if (entity == null) throw new NullException(() => entity); return entity.With16Bit(); }
-        public static SynthWishes With32Bit(SynthWishes entity) { if (entity == null) throw new NullException(() => entity); return entity.With16Bit(); }
+        public   static bool Is8Bit (SynthWishes        entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (FlowNode           entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (ConfigWishes       entity) => Bits(entity)   == 8;
+        internal static bool Is8Bit (ConfigSection      entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (Tape               entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (TapeConfig         entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (TapeActions        entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (TapeAction         entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (Buff               entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (Sample             entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (AudioFileOutput    entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (WavHeaderStruct    entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (AudioInfoWish      entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (AudioFileInfo      entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (Type               entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (SampleDataTypeEnum entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit (SampleDataType     entity) => Bits(entity)   == 8;
+        public   static bool Is8Bit <TValue>                 () => Bits<TValue>() == 8;
         
+        public   static bool Is16Bit(SynthWishes        entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(FlowNode           entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(ConfigWishes       entity) => Bits(entity)   == 16;
+        internal static bool Is16Bit(ConfigSection      entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(Tape               entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(TapeConfig         entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(TapeActions        entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(TapeAction         entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(Buff               entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(Sample             entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(AudioFileOutput    entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(WavHeaderStruct    entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(AudioInfoWish      entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(AudioFileInfo      entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(Type               entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(SampleDataTypeEnum entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit(SampleDataType     entity) => Bits(entity)   == 16;
+        public   static bool Is16Bit<TValue>                 () => Bits<TValue>() == 16;
+
+        public   static bool Is32Bit(SynthWishes        entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(FlowNode           entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(ConfigWishes       entity) => Bits(entity)   == 32;
+        internal static bool Is32Bit(ConfigSection      entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(Tape               entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(TapeConfig         entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(TapeActions        entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(TapeAction         entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(Buff               entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(Sample             entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(AudioFileOutput    entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(WavHeaderStruct    entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(AudioInfoWish      entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(AudioFileInfo      entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(Type               entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(SampleDataTypeEnum entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit(SampleDataType     entity) => Bits(entity)   == 32;
+        public   static bool Is32Bit<TValue>                 () => Bits<TValue>() == 32;
+
+        public   static SynthWishes      With8Bit (SynthWishes     entity)  => Bits(entity, 8 );
+        public   static FlowNode         With8Bit (FlowNode        entity)  => Bits(entity, 8 );
+        public   static ConfigWishes     With8Bit (ConfigWishes    entity)  => Bits(entity, 8 );
+        internal static ConfigSection    With8Bit (ConfigSection   entity)  => Bits(entity, 8 );
+        public   static Tape             With8Bit (Tape            entity)  => Bits(entity, 8 );
+        public   static TapeConfig       With8Bit (TapeConfig      entity)  => Bits(entity, 8 );
+        public   static TapeActions      With8Bit (TapeActions     entity)  => Bits(entity, 8 );
+        public   static TapeAction       With8Bit (TapeAction      entity)  => Bits(entity, 8 );
+        public   static Buff             With8Bit (Buff            entity)  => Bits(entity, 8 );
+        public   static Sample           With8Bit (Sample          entity)  => Bits(entity, 8 );
+        public   static AudioFileOutput  With8Bit (AudioFileOutput entity)  => Bits(entity, 8 );
+        public   static WavHeaderStruct  With8Bit (WavHeaderStruct entity)  => Bits(entity, 8 );
+        public   static AudioInfoWish    With8Bit (AudioInfoWish   entity)  => Bits(entity, 8 );
+        public   static AudioFileInfo    With8Bit (AudioFileInfo   entity)  => Bits(entity, 8 );
+
+        public   static SynthWishes      With16Bit(SynthWishes     entity)  => Bits(entity, 16);
+        public   static FlowNode         With16Bit(FlowNode        entity)  => Bits(entity, 16);
+        public   static ConfigWishes     With16Bit(ConfigWishes    entity)  => Bits(entity, 16);
+        internal static ConfigSection    With16Bit(ConfigSection   entity)  => Bits(entity, 16);
+        public   static Tape             With16Bit(Tape            entity)  => Bits(entity, 16);
+        public   static TapeConfig       With16Bit(TapeConfig      entity)  => Bits(entity, 16);
+        public   static TapeActions      With16Bit(TapeActions     entity)  => Bits(entity, 16);
+        public   static TapeAction       With16Bit(TapeAction      entity)  => Bits(entity, 16);
+        public   static Buff             With16Bit(Buff            entity)  => Bits(entity, 16);
+        public   static Sample           With16Bit(Sample          entity)  => Bits(entity, 16);
+        public   static AudioFileOutput  With16Bit(AudioFileOutput entity)  => Bits(entity, 16);
+        public   static WavHeaderStruct  With16Bit(WavHeaderStruct entity)  => Bits(entity, 16);
+        public   static AudioInfoWish    With16Bit(AudioInfoWish   entity)  => Bits(entity, 16);
+        public   static AudioFileInfo    With16Bit(AudioFileInfo   entity)  => Bits(entity, 16);
+
+        public   static SynthWishes      With32Bit(SynthWishes     entity)  => Bits(entity, 32);
+        public   static FlowNode         With32Bit(FlowNode        entity)  => Bits(entity, 32);
+        public   static ConfigWishes     With32Bit(ConfigWishes    entity)  => Bits(entity, 32);
+        internal static ConfigSection    With32Bit(ConfigSection   entity)  => Bits(entity, 32);
+        public   static Tape             With32Bit(Tape            entity)  => Bits(entity, 32);
+        public   static TapeConfig       With32Bit(TapeConfig      entity)  => Bits(entity, 32);
+        public   static TapeActions      With32Bit(TapeActions     entity)  => Bits(entity, 32);
+        public   static TapeAction       With32Bit(TapeAction      entity)  => Bits(entity, 32);
+        public   static Buff             With32Bit(Buff            entity)  => Bits(entity, 32);
+        public   static Sample           With32Bit(Sample          entity)  => Bits(entity, 32);
+        public   static AudioFileOutput  With32Bit(AudioFileOutput entity)  => Bits(entity, 32);
+        public   static WavHeaderStruct  With32Bit(WavHeaderStruct entity)  => Bits(entity, 32);
+        public   static AudioInfoWish    With32Bit(AudioInfoWish   entity)  => Bits(entity, 32);
+        public   static AudioFileInfo    With32Bit(AudioFileInfo   entity)  => Bits(entity, 32);
+
         #endregion
                 
         #region Channels
