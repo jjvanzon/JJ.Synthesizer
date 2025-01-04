@@ -82,9 +82,9 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public int TapeCount => _tapes.Count;
 
-        public SynthWishes Run(Action action) { RunOnNewInstance(action); return this; }
+        public SynthWishes Run(Action action) => RunOnNew(action);
         
-        internal void RunOnNewInstance(Action action)
+        internal SynthWishes RunOnNew(Action action)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 var newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
             
                 // Run the action on the new instance
-                newInstance.RunOnThisInstance(() => newAction());
+                return newInstance.RunOnThis(() => newAction());
             }
             catch (ArgumentException)
             {
@@ -116,11 +116,11 @@ namespace JJ.Business.Synthesizer.Wishes
                     $"Could not start a new SynthWishes for {concreteType.Name}. " +
                     $"Reusing already running SynthWishes.");
                 
-                RunOnThisInstance(action);
+                return RunOnThis(action);
             }            
         }
         
-        internal void RunOnThisInstance(Action action)
+        public SynthWishes RunOnThis(Action action)
         {
             RunChannelSignals(action);
 
@@ -134,6 +134,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 throw new Exception("Run method cannot work without ParallelProcessing.");
             }
+            
+            return this;
         }
         
         

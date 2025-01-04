@@ -37,16 +37,16 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     {
         /// <param name="newInstance">The obsolete parameter</param>
         [Obsolete(ObsoleteMessage)]
-        public static void RunLegacy(SynthWishes synthWishes, Action action, bool newInstance) // 
+        public static void RunLegacy(SynthWishes synthWishes, Action action, bool newInstance)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
             if (newInstance)
             {
-                synthWishes.RunOnNewInstance(action);
+                synthWishes.RunOnNew(action);
             }
             else
             {
-                synthWishes.RunOnThisInstance(action);
+                synthWishes.RunOnThis(action);
             }
         }
 
