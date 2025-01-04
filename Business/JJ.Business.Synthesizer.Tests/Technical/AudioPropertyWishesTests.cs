@@ -1,7 +1,6 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
@@ -20,6 +19,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class AudioPropertyWishesTests : SynthWishes
     {
+        
+            
         // Bits
 
         [TestMethod] 
@@ -27,72 +28,54 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Arrange
             int bits = 8;
-            
             WithBits(bits);
+            var x = CreateEntities();
+            x.ConfigSectionAccessor.Bits = bits;
             
-            SynthWishes synthWishes = this;
-            FlowNode flowNode = _[3];
-            ConfigWishes configWishes = Config;
-            ConfigSectionAccessor configSectionAccessor = GetConfigSectionAccessor();
-            configSectionAccessor.Bits = bits;
-            Tape tape = GetTape(flowNode);
-            TapeConfig tapeConfig = tape.Config;
-            TapeActions tapeActions = tape.Actions;
-            TapeAction tapeAction = tape.Actions.AfterRecord;
-            Buff buff = tape.Buff;
-            Sample sample = tape.UnderlyingSample;
-            AudioFileOutput audioFileOutput = tape.UnderlyingAudioFileOutput;
-            WavHeaderStruct wavHeader = sample.ToWavHeader();
-            AudioInfoWish audioInfoWish = wavHeader.ToWish();
-            AudioFileInfo audioFileInfo = audioInfoWish.FromWish();
-            Type type = typeof(byte);
-            SampleDataTypeEnum sampleDataTypeEnum = sample.GetSampleDataTypeEnum();
-            SampleDataType sampleDataType = sample.SampleDataType;
-
             // Assert
-            AreEqual(bits, () => synthWishes.Bits());
-            AreEqual(bits, () => flowNode.Bits());
-            AreEqual(bits, () => configWishes.Bits());
-            AreEqual(bits, () => configSectionAccessor.Bits());
-            AreEqual(bits, () => tape.Bits());
-            AreEqual(bits, () => tapeConfig.Bits());
-            AreEqual(bits, () => tapeActions.Bits());
-            AreEqual(bits, () => tapeAction.Bits());
-            AreEqual(bits, () => buff.Bits());
-            AreEqual(bits, () => sample.Bits());
-            AreEqual(bits, () => audioFileOutput.Bits());
-            AreEqual(bits, () => wavHeader.Bits());
-            AreEqual(bits, () => audioInfoWish.Bits());
-            AreEqual(bits, () => audioFileInfo.Bits());
-            AreEqual(bits, () => sampleDataTypeEnum.Bits());
-            AreEqual(bits, () => sampleDataType.Bits());
-            AreEqual(bits, () => type.Bits());
+            AreEqual(bits, () => x.SynthWishes.Bits());
+            AreEqual(bits, () => x.FlowNode.Bits());
+            AreEqual(bits, () => x.ConfigWishes.Bits());
+            AreEqual(bits, () => x.ConfigSectionAccessor.Bits());
+            AreEqual(bits, () => x.Tape.Bits());
+            AreEqual(bits, () => x.TapeConfig.Bits());
+            AreEqual(bits, () => x.TapeActions.Bits());
+            AreEqual(bits, () => x.TapeAction.Bits());
+            AreEqual(bits, () => x.Buff.Bits());
+            AreEqual(bits, () => x.Sample.Bits());
+            AreEqual(bits, () => x.AudioFileOutput.Bits());
+            AreEqual(bits, () => x.WavHeader.Bits());
+            AreEqual(bits, () => x.AudioInfoWish.Bits());
+            AreEqual(bits, () => x.AudioFileInfo.Bits());
+            AreEqual(bits, () => x.SampleDataTypeEnum.Bits());
+            AreEqual(bits, () => x.SampleDataType.Bits());
+            AreEqual(bits, () => x.Type.Bits());
             AreEqual(bits, () => Bits<byte>());
             
             // Assert Conversion-Style
-            AreEqual(bits, () => sampleDataTypeEnum.EnumToBits());
-            AreEqual(bits, () => sampleDataType.EntityToBits());
-            AreEqual(bits, () => type.TypeToBits());
+            AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
+            AreEqual(bits, () => x.SampleDataType.EntityToBits());
+            AreEqual(bits, () => x.Type.TypeToBits());
             AreEqual(bits, () => TypeToBits<byte>());
             
             // Assert Shorthand
-            IsTrue(() => synthWishes.Is8Bit());
-            IsTrue(() => flowNode.Is8Bit());
-            IsTrue(() => configWishes.Is8Bit());
-            IsTrue(() => configSectionAccessor.Is8Bit());
-            IsTrue(() => tape.Is8Bit());
-            IsTrue(() => tapeConfig.Is8Bit());
-            IsTrue(() => tapeActions.Is8Bit());
-            IsTrue(() => tapeAction.Is8Bit());
-            IsTrue(() => buff.Is8Bit());
-            IsTrue(() => sample.Is8Bit());
-            IsTrue(() => audioFileOutput.Is8Bit());
-            IsTrue(() => wavHeader.Is8Bit());
-            IsTrue(() => audioInfoWish.Is8Bit());
-            IsTrue(() => audioFileInfo.Is8Bit());
-            IsTrue(() => sampleDataTypeEnum.Is8Bit());
-            IsTrue(() => sampleDataType.Is8Bit());
-            IsTrue(() => type.Is8Bit());
+            IsTrue(() => x.SynthWishes.Is8Bit());
+            IsTrue(() => x.FlowNode.Is8Bit());
+            IsTrue(() => x.ConfigWishes.Is8Bit());
+            IsTrue(() => x.ConfigSectionAccessor.Is8Bit());
+            IsTrue(() => x.Tape.Is8Bit());
+            IsTrue(() => x.TapeConfig.Is8Bit());
+            IsTrue(() => x.TapeActions.Is8Bit());
+            IsTrue(() => x.TapeAction.Is8Bit());
+            IsTrue(() => x.Buff.Is8Bit());
+            IsTrue(() => x.Sample.Is8Bit());
+            IsTrue(() => x.AudioFileOutput.Is8Bit());
+            IsTrue(() => x.WavHeader.Is8Bit());
+            IsTrue(() => x.AudioInfoWish.Is8Bit());
+            IsTrue(() => x.AudioFileInfo.Is8Bit());
+            IsTrue(() => x.SampleDataTypeEnum.Is8Bit());
+            IsTrue(() => x.SampleDataType.Is8Bit());
+            IsTrue(() => x.Type.Is8Bit());
             IsTrue(() => Is8Bit<byte>());
         }
         
@@ -107,7 +90,70 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Helpers
         
-        private Tape GetTape(FlowNode flowNode)
+        private class Entities
+        {
+            public SynthWishes           SynthWishes           { get; set; }
+            public FlowNode              FlowNode              { get; set; }
+            public ConfigWishes          ConfigWishes          { get; set; }
+            public ConfigSectionAccessor ConfigSectionAccessor { get; set; }
+            public Tape                  Tape                  { get; set; }
+            public TapeConfig            TapeConfig            { get; set; }
+            public TapeActions           TapeActions           { get; set; }
+            public TapeAction            TapeAction            { get; set; }
+            public Buff                  Buff                  { get; set; }
+            public Sample                Sample                { get; set; }
+            public AudioFileOutput       AudioFileOutput       { get; set; }
+            public WavHeaderStruct       WavHeader             { get; set; }
+            public AudioInfoWish         AudioInfoWish         { get; set; }
+            public AudioFileInfo         AudioFileInfo         { get; set; }
+            public Type                  Type                  { get; set; }
+            public SampleDataTypeEnum    SampleDataTypeEnum    { get; set; }
+            public SampleDataType        SampleDataType        { get; set; }
+        }
+        
+        private Entities CreateEntities()
+        {
+            SynthWishes           synthWishes           = this;
+            FlowNode              flowNode              = _[3];
+            ConfigWishes          configWishes          = Config;
+            ConfigSectionAccessor configSectionAccessor = GetConfigSectionAccessor();
+            Tape                  tape                  = CreateTape(flowNode);
+            TapeConfig            tapeConfig            = tape.Config;
+            TapeActions           tapeActions           = tape.Actions;
+            TapeAction            tapeAction            = tape.Actions.AfterRecord;
+            Buff                  buff                  = tape.Buff;
+            Sample                sample                = tape.UnderlyingSample;
+            AudioFileOutput       audioFileOutput       = tape.UnderlyingAudioFileOutput;
+            WavHeaderStruct       wavHeader             = sample.ToWavHeader();
+            AudioInfoWish         audioInfoWish         = wavHeader.ToWish();
+            AudioFileInfo         audioFileInfo         = audioInfoWish.FromWish();
+            Type                  type                  = typeof(byte);
+            SampleDataTypeEnum    sampleDataTypeEnum    = sample.GetSampleDataTypeEnum();
+            SampleDataType        sampleDataType        = sample.SampleDataType;
+            
+            return new Entities
+            {
+                SynthWishes           = synthWishes,
+                FlowNode              = flowNode,
+                ConfigWishes          = configWishes,
+                ConfigSectionAccessor = configSectionAccessor,
+                Tape                  = tape,
+                TapeConfig            = tapeConfig,
+                TapeActions           = tapeActions,
+                TapeAction            = tapeAction,
+                Buff                  = buff,
+                Sample                = sample,
+                AudioFileOutput       = audioFileOutput,
+                WavHeader             = wavHeader,
+                AudioInfoWish         = audioInfoWish,
+                AudioFileInfo         = audioFileInfo,
+                Type                  = type,
+                SampleDataTypeEnum    = sampleDataTypeEnum,
+                SampleDataType        = sampleDataType
+            };
+        }
+        
+        private Tape CreateTape(FlowNode flowNode)
         {
             Tape tape = null;
             Run(() => flowNode.AfterRecord(x => tape = x));
@@ -117,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         private ConfigSectionAccessor GetConfigSectionAccessor() 
             => new ConfigWishesAccessor(Config)._section;
-        
+
         // Old
         
         /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
