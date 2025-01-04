@@ -185,7 +185,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 // Stateless
                 NotEqual(y.WavHeader,          () => y.WavHeader         .Bits(bits));
                 NotEqual(y.SampleDataTypeEnum, () => y.SampleDataTypeEnum.Bits(bits));
-                NotEqual(y.SampleDataTypeEnum, () => y.SampleDataTypeEnum.Bits(bits));
                 NotEqual(y.SampleDataType,     () => y.SampleDataType    .Bits(bits, y.Context));
                 NotEqual(y.Type,               () => y.Type              .Bits(bits));
             }
