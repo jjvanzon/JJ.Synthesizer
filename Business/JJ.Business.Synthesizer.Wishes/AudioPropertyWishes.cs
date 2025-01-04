@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
@@ -1339,19 +1340,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return obj;
         }
 
-        public static AudioFileFormatEnum AudioFormat(this Buff obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return AudioFormat(obj.UnderlyingAudioFileOutput);
-        }
-
-        public static Buff AudioFormat(this Buff obj, AudioFileFormatEnum value, IContext context)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            AudioFormat(obj.UnderlyingAudioFileOutput, value, context);
-            return obj;
-        }
-
         public static AudioFileFormatEnum AudioFormat(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -1404,6 +1392,19 @@ namespace JJ.Business.Synthesizer.Wishes
             return obj;
         }
 
+        public static AudioFileFormatEnum AudioFormat(this Buff obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return AudioFormat(obj.UnderlyingAudioFileOutput);
+        }
+
+        public static Buff AudioFormat(this Buff obj, AudioFileFormatEnum value, IContext context)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            AudioFormat(obj.UnderlyingAudioFileOutput, value, context);
+            return obj;
+        }
+
         public static AudioFileFormatEnum AudioFormat(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -1431,15 +1432,22 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         // ReSharper disable once UnusedParameter.Global
-        public static AudioFileFormatEnum AudioFormat(WavHeaderStruct obj) => Wav;
+        public static AudioFileFormatEnum AudioFormat(this WavHeaderStruct obj) => Wav;
 
-        public static AudioFileFormatEnum AudioFormat(this string fileExtension)
-        {
-            if (Is(fileExtension, ".wav")) return Wav;
-            if (Is(fileExtension, ".raw")) return Raw;
-            throw new Exception($"{new{fileExtension}} not supported.");
-        }
-        
+        public static AudioFileFormatEnum AudioFormat(this string fileExtension) => ExtensionToAudioFormat(fileExtension);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        public static string AudioFormat(this string fileExtension, AudioFileFormatEnum audioFormat) 
+            => FileExtension(audioFormat);
+
+        public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum obj) => obj;
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum obj, AudioFileFormatEnum value)
+            => value;
+
         [Obsolete(ObsoleteMessage)] public static AudioFileFormatEnum AudioFormat(this AudioFileFormat obj) => ToEnum(obj);
 
         /// <inheritdoc cref="docs._quasisetter" />
@@ -1457,11 +1465,96 @@ namespace JJ.Business.Synthesizer.Wishes
         
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context) 
             => CreateRepository<IAudioFileFormatRepository>(context).Get(audioFormat.ToID());
-        
+
+        public static AudioFileFormatEnum ExtensionToAudioFormat(this string fileExtension)
+        {
+            if (Is(fileExtension, ".wav")) return Wav;
+            if (Is(fileExtension, ".raw")) return Raw;
+            throw new Exception($"{new{fileExtension}} not supported.");
+        }
+
+        public static string AudioFormatToExtension(this AudioFileFormatEnum obj)
+        {
+            switch (obj)
+            {
+                case Wav: return ".wav";
+                case Raw: return ".raw";
+                default: throw new ValueNotSupportedException(obj);
+            }
+        }
+
         // AudioFormat Shorthand
         
-        // TODO
+        public   static bool IsWav(this SynthWishes         obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this FlowNode            obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this ConfigWishes        obj) => AudioFormat(obj) == Wav;
+        internal static bool IsWav(this ConfigSection       obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this TapeConfig          obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this TapeAction          obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this TapeActions         obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this Buff                obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this Sample              obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this AudioFileOutput     obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this WavHeaderStruct     obj) => AudioFormat(obj) == Wav;
+        public   static bool IsWav(this string    fileExtension) => AudioFormat(fileExtension) == Wav;
+        public   static bool IsWav(this AudioFileFormatEnum obj) => AudioFormat(obj) == Wav;
+        [Obsolete(ObsoleteMessage)]
+        public   static bool IsWav(this AudioFileFormat     obj) => AudioFormat(obj) == Wav;
         
+        public   static bool IsRaw(this SynthWishes         obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this FlowNode            obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this ConfigWishes        obj) => AudioFormat(obj) == Raw;
+        internal static bool IsRaw(this ConfigSection       obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this TapeConfig          obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this TapeAction          obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this TapeActions         obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this Buff                obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this Sample              obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this AudioFileOutput     obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this WavHeaderStruct     obj) => AudioFormat(obj) == Raw;
+        public   static bool IsRaw(this string    fileExtension) => AudioFormat(fileExtension) == Raw;
+        public   static bool IsRaw(this AudioFileFormatEnum obj) => AudioFormat(obj) == Raw;
+        [Obsolete(ObsoleteMessage)]
+        public   static bool IsRaw(this AudioFileFormat  obj) => AudioFormat(obj) == Raw;
+        
+        public   static SynthWishes         AsWav(this SynthWishes         obj) => AudioFormat(obj, Wav);
+        public   static FlowNode            AsWav(this FlowNode            obj) => AudioFormat(obj, Wav);
+        public   static ConfigWishes        AsWav(this ConfigWishes        obj) => AudioFormat(obj, Wav);
+        internal static ConfigSection       AsWav(this ConfigSection       obj) => AudioFormat(obj, Wav);
+        public   static Buff                AsWav(this Buff                obj, IContext context) => AudioFormat(obj, Wav, context);
+        public   static Tape                AsWav(this Tape                obj) => AudioFormat(obj, Wav);
+        public   static TapeConfig          AsWav(this TapeConfig          obj) => AudioFormat(obj, Wav);
+        public   static TapeAction          AsWav(this TapeAction          obj) => AudioFormat(obj, Wav);
+        public   static TapeActions         AsWav(this TapeActions         obj) => AudioFormat(obj, Wav);
+        public   static Sample              AsWav(this Sample              obj, IContext context) => AudioFormat(obj, Wav, context);
+        public   static AudioFileOutput     AsWav(this AudioFileOutput     obj, IContext context) => AudioFormat(obj, Wav, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public   static string              AsWav(this string    fileExtension) => AudioFormat(fileExtension, Wav);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public   static AudioFileFormatEnum AsWav(this AudioFileFormatEnum obj) => AudioFormat(obj, Raw);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public   static AudioFileFormat     AsWav(this AudioFileFormat     obj, IContext context) => AudioFormat(obj, Wav, context);
+        
+        public   static SynthWishes         AsRaw(this SynthWishes         obj) => AudioFormat(obj, Raw);
+        public   static FlowNode            AsRaw(this FlowNode            obj) => AudioFormat(obj, Raw);
+        public   static ConfigWishes        AsRaw(this ConfigWishes        obj) => AudioFormat(obj, Raw);
+        internal static ConfigSection       AsRaw(this ConfigSection       obj) => AudioFormat(obj, Raw);
+        public   static Buff                AsRaw(this Buff                obj, IContext context) => AudioFormat(obj, Raw, context);
+        public   static Tape                AsRaw(this Tape                obj) => AudioFormat(obj, Raw);
+        public   static TapeConfig          AsRaw(this TapeConfig          obj) => AudioFormat(obj, Raw);
+        public   static TapeAction          AsRaw(this TapeAction          obj) => AudioFormat(obj, Raw);
+        public   static TapeActions         AsRaw(this TapeActions         obj) => AudioFormat(obj, Raw);
+        public   static Sample              AsRaw(this Sample              obj, IContext context) => AudioFormat(obj, Raw, context);
+        public   static AudioFileOutput     AsRaw(this AudioFileOutput     obj, IContext context) => AudioFormat(obj, Raw, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public   static string              AsRaw(this string    fileExtension) => AudioFormat(fileExtension, Raw);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public   static AudioFileFormatEnum AsRaw(this AudioFileFormatEnum obj) => AudioFormat(obj, Raw);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public   static AudioFileFormat     AsRaw(this AudioFileFormat     obj, IContext context) => AudioFormat(obj, Raw, context);
+
         #endregion
 
         #region Interpolation
@@ -1580,6 +1673,12 @@ namespace JJ.Business.Synthesizer.Wishes
             return obj;
         }
     
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => obj;
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj, InterpolationTypeEnum value) => value;
+
         [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => ToEnum(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
@@ -1601,6 +1700,62 @@ namespace JJ.Business.Synthesizer.Wishes
             return repository.Get((int)enumValue);
         }
 
+        // Interpolation Shorthand
+        
+        public   static bool IsLinear(this SynthWishes           obj) => Interpolation(obj) == Line;
+        public   static bool IsLinear(this FlowNode              obj) => Interpolation(obj) == Line;
+        public   static bool IsLinear(this ConfigWishes          obj) => Interpolation(obj) == Line;
+        internal static bool IsLinear(this ConfigSection         obj) => Interpolation(obj) == Line;
+        public   static bool IsLinear(this TapeConfig            obj) => Interpolation(obj) == Line;
+        public   static bool IsLinear(this TapeAction            obj) => Interpolation(obj) == Line;
+        public   static bool IsLinear(this TapeActions           obj) => Interpolation(obj) == Line;
+        public   static bool IsLinear(this Sample                obj) => Interpolation(obj) == Line;
+        public   static bool IsLinear(this InterpolationTypeEnum obj) => Interpolation(obj) == Line;
+        [Obsolete(ObsoleteMessage)]
+        public   static bool IsLinear(this InterpolationType     obj) => Interpolation(obj) == Line;
+        
+        public   static bool IsBlocky(this SynthWishes           obj) => Interpolation(obj) == Block;
+        public   static bool IsBlocky(this FlowNode              obj) => Interpolation(obj) == Block;
+        public   static bool IsBlocky(this ConfigWishes          obj) => Interpolation(obj) == Block;
+        internal static bool IsBlocky(this ConfigSection         obj) => Interpolation(obj) == Block;
+        public   static bool IsBlocky(this TapeConfig            obj) => Interpolation(obj) == Block;
+        public   static bool IsBlocky(this TapeAction            obj) => Interpolation(obj) == Block;
+        public   static bool IsBlocky(this TapeActions           obj) => Interpolation(obj) == Block;
+        public   static bool IsBlocky(this Sample                obj) => Interpolation(obj) == Block;
+        public   static bool IsBlocky(this InterpolationTypeEnum obj) => Interpolation(obj) == Block;
+        [Obsolete(ObsoleteMessage)]
+        public   static bool IsBlocky(this InterpolationType  obj) => Interpolation(obj) == Block;
+        
+        public   static SynthWishes           Linear(this SynthWishes         obj) => Interpolation(obj, Line);
+        public   static FlowNode              Linear(this FlowNode            obj) => Interpolation(obj, Line);
+        public   static ConfigWishes          Linear(this ConfigWishes        obj) => Interpolation(obj, Line);
+        internal static ConfigSection         Linear(this ConfigSection       obj) => Interpolation(obj, Line);
+        public   static Tape                  Linear(this Tape                obj) => Interpolation(obj, Line);
+        public   static TapeConfig            Linear(this TapeConfig          obj) => Interpolation(obj, Line);
+        public   static TapeAction            Linear(this TapeAction          obj) => Interpolation(obj, Line);
+        public   static TapeActions           Linear(this TapeActions         obj) => Interpolation(obj, Line);
+        public   static Sample                Linear(this Sample              obj, IContext context) => Interpolation(obj, Line, context);
+        /// <inheritdoc cref="docs._quisetter" />
+        public   static InterpolationTypeEnum Linear(this InterpolationTypeEnum obj) => Interpolation(obj, Block);
+        /// <inheritdoc cref="docs._quisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public   static InterpolationType     Linear(this InterpolationType     obj, IContext context) => Interpolation(obj, Line, context);
+        
+        public   static SynthWishes           Blocky(this SynthWishes           obj) => Interpolation(obj, Block);
+        public   static FlowNode              Blocky(this FlowNode              obj) => Interpolation(obj, Block);
+        public   static ConfigWishes          Blocky(this ConfigWishes          obj) => Interpolation(obj, Block);
+        internal static ConfigSection         Blocky(this ConfigSection         obj) => Interpolation(obj, Block);
+        public   static Tape                  Blocky(this Tape                  obj) => Interpolation(obj, Block);
+        public   static TapeConfig            Blocky(this TapeConfig            obj) => Interpolation(obj, Block);
+        public   static TapeAction            Blocky(this TapeAction            obj) => Interpolation(obj, Block);
+        public   static TapeActions           Blocky(this TapeActions           obj) => Interpolation(obj, Block);
+        public   static Sample                Blocky(this Sample                obj, IContext context) => Interpolation(obj, Block, context);
+        /// <inheritdoc cref="docs._quisetter" />
+        public   static InterpolationTypeEnum Blocky(this InterpolationTypeEnum obj) => Interpolation(obj, Block);
+        /// <inheritdoc cref="docs._quisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public   static InterpolationType     Blocky(this InterpolationType     obj, IContext context) => Interpolation(obj, Block, context);
+        
         #endregion
         
         #region CourtesyFrames
@@ -1880,43 +2035,24 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileFormatEnum obj)
-        {
-            switch (obj)
-            {
-                case Wav: return ".wav";
-                case Raw: return ".raw";
-                default: throw new ValueNotSupportedException(obj);
-            }
-        }
+            => AudioFormatToExtension(obj);
 
         /// <inheritdoc cref="docs._fileextension"/>
         // ReSharper disable once UnusedParameter.Global
         public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value)
-        {
-            if (Is(value, ".wav")) return Wav;
-            if (Is(value, ".raw")) return Wav;
-            throw new ValueNotSupportedException(value);
-        }
+            => ExtensionToAudioFormat(value);
 
         /// <inheritdoc cref="docs._fileextension"/>
-        [Obsolete(ObsoleteMessage)] public static string FileExtension(this AudioFileFormat obj) 
+        [Obsolete(ObsoleteMessage)] public static string FileExtension(this AudioFileFormat obj)
         {
-            switch (obj.ToEnum())
-            {
-                case Wav: return ".wav";
-                case Raw: return ".raw";
-                default: throw new ValueNotSupportedException(obj);
-            }
+            if (obj == null) throw new NullException(() => obj);
+            return obj.ToEnum().FileExtension();
         }
         
         /// <inheritdoc cref="docs._fileextension"/>
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
-        {
-            if (Is(value, ".wav")) return Wav.ToEntity(context);
-            if (Is(value, ".raw")) return Raw.ToEntity(context);
-            throw new ValueNotSupportedException(value);
-        }
+            => ExtensionToAudioFormat(value).ToEntity(context);
 
         #endregion
                 
