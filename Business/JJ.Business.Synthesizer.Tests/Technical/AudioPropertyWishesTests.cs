@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
@@ -32,6 +33,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             SynthWishes synthWishes = this;
             FlowNode flowNode = _[3];
             ConfigWishes configWishes = Config;
+            ConfigSectionAccessor configSectionAccessor = GetConfigSectionAccessor();
+            configSectionAccessor.Bits = bits;
             Tape tape = GetTape(flowNode);
             TapeConfig tapeConfig = tape.Config;
             TapeActions tapeActions = tape.Actions;
@@ -50,6 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits, () => synthWishes.Bits());
             AreEqual(bits, () => flowNode.Bits());
             AreEqual(bits, () => configWishes.Bits());
+            AreEqual(bits, () => configSectionAccessor.Bits());
             AreEqual(bits, () => tape.Bits());
             AreEqual(bits, () => tapeConfig.Bits());
             AreEqual(bits, () => tapeActions.Bits());
@@ -75,6 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => synthWishes.Is8Bit());
             IsTrue(() => flowNode.Is8Bit());
             IsTrue(() => configWishes.Is8Bit());
+            IsTrue(() => configSectionAccessor.Is8Bit());
             IsTrue(() => tape.Is8Bit());
             IsTrue(() => tapeConfig.Is8Bit());
             IsTrue(() => tapeActions.Is8Bit());
@@ -89,8 +94,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => sampleDataType.Is8Bit());
             IsTrue(() => type.Is8Bit());
             IsTrue(() => Is8Bit<byte>());
-            
-            // TODO: ConfigSection
         }
         
         [TestMethod]
@@ -111,6 +114,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => tape);
             return tape;
         }
+                
+        private ConfigSectionAccessor GetConfigSectionAccessor() 
+            => new ConfigWishesAccessor(Config)._section;
         
         // Old
         

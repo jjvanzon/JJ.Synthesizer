@@ -123,6 +123,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
+    <Compile Include="Accessors\AudioPropertyWishesAccessor.cs" />
+    <Compile Include="Accessors\ConfigSectionAccessor.cs" />
     <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
     <Compile Include="Accessors\FileWishesAccessor.cs" />

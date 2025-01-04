@@ -17,5 +17,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             get => (int)_accessor.GetFieldValue(MemberName());
             set => _accessor.SetFieldValue(MemberName(), value);
         }
+        
+        public ConfigSectionAccessor _section 
+            => new ConfigSectionAccessor(_accessor.GetFieldValue(MemberName()));
     }
 }
