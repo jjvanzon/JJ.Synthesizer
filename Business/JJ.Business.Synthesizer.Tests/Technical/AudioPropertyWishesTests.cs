@@ -22,13 +22,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     {
         // Bits
 
-        [TestMethod] public void Test8BitGetters() => TestBitGetters(8);
+        [TestMethod] public void TestBitsGetters()
+        {
+            TestBitsGetters(8);
+            TestBitsGetters(16);
+            TestBitsGetters(32);
+        }
         
-        [TestMethod] public void Test16BitGetters() => TestBitGetters(16);
-        
-        [TestMethod] public void Test32BitGetters() => TestBitGetters(32);
-        
-        void TestBitGetters(int bits)
+        void TestBitsGetters(int bits)
         {
             var x = CreateEntities(bits);
 
@@ -55,7 +56,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits, () => x.Type.TypeToBits());
         }
         
-        [TestMethod] public void Test8BitGetters_Shorthand()
+        [TestMethod] public void TestBitsGetters_8BitShorthand()
         {
             var x = CreateEntities(8);
             
@@ -78,7 +79,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.Type.Is8Bit());
         }
         
-        [TestMethod] public void Test16BitGetters_Shorthand()
+        [TestMethod] public void TestBitsGetters_16BitShorthand()
         {
             var x = CreateEntities(16);
             
@@ -101,7 +102,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.Type.Is16Bit());
         }
                 
-        [TestMethod] public void Test32BitGetters_Shorthand()
+        [TestMethod] public void TestBitsGetters_32BitShorthand()
         {
             var x = CreateEntities(32);
             
@@ -124,7 +125,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.Type.Is32Bit());
         }
                 
-        [TestMethod] public void TestBitGetters_FromTypeArguments()
+        [TestMethod] public void TestBitsGetters_FromTypeArguments()
         {
             // Getters
             AreEqual(8, () => Bits<byte>());
@@ -149,33 +150,39 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // TODO: Test more thoroughly, because one call can determine setting for another, making certain assertions ineffective.
             
             // Arrange
-            
             int bits = 8;
             int differentBits = 16;
-            
             var x = CreateEntities(bits);
             var with8Bit = CreateEntities(8);
             var with16Bit = CreateEntities(16);
             var with32Bit = CreateEntities(32);
 
-            // Act
+            // Assert Setters
             {
                 var y = CreateEntities(differentBits);
+                
+                // Global effect
+                AreEqual(y.ConfigSection,      () => y.ConfigSection     .Bits(bits));
 
+                // In tandem with SynthWishes
                 AreEqual(y.SynthWishes,        () => y.SynthWishes       .Bits(bits));
                 AreEqual(y.FlowNode,           () => y.FlowNode          .Bits(bits));
                 AreEqual(y.ConfigWishes,       () => y.ConfigWishes      .Bits(bits));
-                AreEqual(y.ConfigSection,      () => y.ConfigSection     .Bits(bits));
+                
+                // In tandem with Tape
                 AreEqual(y.Tape,               () => y.Tape              .Bits(bits));
                 AreEqual(y.TapeConfig,         () => y.TapeConfig        .Bits(bits));
                 AreEqual(y.TapeActions,        () => y.TapeActions       .Bits(bits));
                 AreEqual(y.TapeAction,         () => y.TapeAction        .Bits(bits));
+                
+                // Independent after Taping
                 AreEqual(y.Buff,               () => y.Buff              .Bits(bits, y.Context));
                 AreEqual(y.Sample,             () => y.Sample            .Bits(bits, y.Context));
                 AreEqual(y.AudioFileOutput,    () => y.AudioFileOutput   .Bits(bits, y.Context));
                 AreEqual(y.AudioInfoWish,      () => y.AudioInfoWish     .Bits(bits));
                 AreEqual(y.AudioFileInfo,      () => y.AudioFileInfo     .Bits(bits));
 
+                // Stateless
                 NotEqual(y.WavHeader,          () => y.WavHeader         .Bits(bits));
                 NotEqual(y.SampleDataTypeEnum, () => y.SampleDataTypeEnum.Bits(bits));
                 NotEqual(y.SampleDataTypeEnum, () => y.SampleDataTypeEnum.Bits(bits));
@@ -183,35 +190,46 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 NotEqual(y.Type,               () => y.Type              .Bits(bits));
             }
 
-            // Assert Conversion-Style
+            // Assert Conversion-Style Setters
             {
                 AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
                 AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
                 AreEqual(x.Type,               () => bits.BitsToType());
             }
-            
-            // Assert Shorthand
-            AreEqual(with32Bit.SynthWishes,        () => with32Bit.SynthWishes       .With8Bit());
-            AreEqual(with32Bit.FlowNode,           () => with32Bit.FlowNode          .With8Bit());
-            AreEqual(with32Bit.ConfigWishes,       () => with32Bit.ConfigWishes      .With8Bit());
-            AreEqual(with32Bit.ConfigSection,      () => with32Bit.ConfigSection     .With8Bit());
-            AreEqual(with32Bit.Tape,               () => with32Bit.Tape              .With8Bit());
-            AreEqual(with32Bit.TapeConfig,         () => with32Bit.TapeConfig        .With8Bit());
-            AreEqual(with32Bit.TapeActions,        () => with32Bit.TapeActions       .With8Bit());
-            AreEqual(with32Bit.TapeAction,         () => with32Bit.TapeAction        .With8Bit());
-            AreEqual(with32Bit.Buff,               () => with32Bit.Buff              .With8Bit(with32Bit.Context));
-            AreEqual(with32Bit.Sample,             () => with32Bit.Sample            .With8Bit(with32Bit.Context));
-            AreEqual(with32Bit.AudioFileOutput,    () => with32Bit.AudioFileOutput   .With8Bit(with32Bit.Context));
-            AreEqual(with32Bit.AudioInfoWish,      () => with32Bit.AudioInfoWish     .With8Bit());
-            AreEqual(with32Bit.AudioFileInfo,      () => with32Bit.AudioFileInfo     .With8Bit());
 
-            NotEqual(with32Bit.WavHeader,          () => with32Bit.WavHeader         .With8Bit());
-            NotEqual(with32Bit.SampleDataTypeEnum, () => with32Bit.SampleDataTypeEnum.With8Bit());
-            NotEqual(with32Bit.SampleDataType,     () => with32Bit.SampleDataType    .With8Bit(with32Bit.Context));
-            NotEqual(with32Bit.Type,               () => with32Bit.Type              .With8Bit());
+            // Assert Shorthand Setters
+            {
+                // Global effect
+                AreEqual(with32Bit.ConfigSection,      () => with32Bit.ConfigSection     .With8Bit());
 
-            AreEqual(typeof(byte), () => With8Bit<byte>());
+                // In tandem wit SynthWishes
+                AreEqual(with32Bit.SynthWishes,        () => with32Bit.SynthWishes       .With8Bit());
+                AreEqual(with32Bit.FlowNode,           () => with32Bit.FlowNode          .With8Bit());
+                AreEqual(with32Bit.ConfigWishes,       () => with32Bit.ConfigWishes      .With8Bit());
+                
+                // In tandem with Tape
+                AreEqual(with32Bit.Tape,               () => with32Bit.Tape              .With8Bit());
+                AreEqual(with32Bit.TapeConfig,         () => with32Bit.TapeConfig        .With8Bit());
+                AreEqual(with32Bit.TapeActions,        () => with32Bit.TapeActions       .With8Bit());
+                AreEqual(with32Bit.TapeAction,         () => with32Bit.TapeAction        .With8Bit());
+                
+                // Independent after Taping
+                AreEqual(with32Bit.Buff,               () => with32Bit.Buff              .With8Bit(with32Bit.Context));
+                AreEqual(with32Bit.Sample,             () => with32Bit.Sample            .With8Bit(with32Bit.Context));
+                AreEqual(with32Bit.AudioFileOutput,    () => with32Bit.AudioFileOutput   .With8Bit(with32Bit.Context));
+                AreEqual(with32Bit.AudioInfoWish,      () => with32Bit.AudioInfoWish     .With8Bit());
+                AreEqual(with32Bit.AudioFileInfo,      () => with32Bit.AudioFileInfo     .With8Bit());
+
+                // Stateless
+                NotEqual(with32Bit.WavHeader,          () => with32Bit.WavHeader         .With8Bit());
+                NotEqual(with32Bit.SampleDataTypeEnum, () => with32Bit.SampleDataTypeEnum.With8Bit());
+                NotEqual(with32Bit.SampleDataType,     () => with32Bit.SampleDataType    .With8Bit(with32Bit.Context));
+                NotEqual(with32Bit.Type,               () => with32Bit.Type              .With8Bit());
+                
+                AreEqual(typeof(byte), () => With8Bit<byte>());
+            }
             
+            // Restore config section
             x.ConfigSection.Bits = ConfigWishes.DefaultBits;
         }
         
@@ -302,7 +320,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             AreEqual(SpeakerSetupEnum.Mono,   () => 1.ChannelsToEnum());
             AreEqual(SpeakerSetupEnum.Stereo, () => 2.ChannelsToEnum());
-            
         }
     } 
 }
