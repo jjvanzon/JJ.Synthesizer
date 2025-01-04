@@ -754,11 +754,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Mono(this SpeakerSetupEnum obj) => Channels(obj, 1);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup     Mono(this SpeakerSetup     obj, IContext context) => Channels(obj, 1, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Mono(this SpeakerSetup obj, IContext context) => Channels(obj, 1, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum      Mono(this ChannelEnum      obj) => Channels(obj, 1);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Mono(this ChannelEnum obj) => Channels(obj, 1);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel          Mono(this Channel          obj, IContext context) => Channels(obj, 1, context);
+        [Obsolete(ObsoleteMessage)] public static Channel Mono(this Channel obj, IContext context) => Channels(obj, 1, context);
 
         public   static SynthWishes      Stereo(this SynthWishes      obj) => Channels(obj, 2);
         public   static FlowNode         Stereo(this FlowNode         obj) => Channels(obj, 2);
@@ -777,11 +777,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Stereo(this SpeakerSetupEnum obj) => Channels(obj, 2);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup     Stereo(this SpeakerSetup     obj, IContext context) => Channels(obj, 2, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Stereo(this SpeakerSetup obj, IContext context) => Channels(obj, 2, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum      Stereo(this ChannelEnum      obj) => Channels(obj, 2);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(this ChannelEnum obj) => Channels(obj, 2);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel          Stereo(this Channel          obj, IContext context) => Channels(obj, 2, context);
+        [Obsolete(ObsoleteMessage)] public static Channel Stereo(this Channel obj, IContext context) => Channels(obj, 2, context);
 
         #endregion
 
@@ -1030,6 +1030,86 @@ namespace JJ.Business.Synthesizer.Wishes
             return EnumToChannel(entity.ToEnum());
         }
 
+        // Channel Shorthand
+        
+        public static bool IsCenter (this SynthWishes     obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this FlowNode        obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this ConfigWishes    obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this Tape            obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this TapeConfig      obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this TapeActions     obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this TapeAction      obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this Buff            obj) => IsMono  (obj) && Channel(obj) == 0;
+        public static bool IsCenter (this AudioFileOutput obj) => IsMono  (obj) && Channel(obj) == 0;
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this ChannelEnum obj) => IsMono(obj) && Channel(obj) == 0;
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this Channel     obj) => IsMono(obj) && Channel(obj) == 0;
+        
+        public static bool IsLeft   (this SynthWishes     obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this FlowNode        obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this ConfigWishes    obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this Tape            obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this TapeConfig      obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this TapeActions     obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this TapeAction      obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this Buff            obj) => IsStereo(obj) && Channel(obj) == 0;
+        public static bool IsLeft   (this AudioFileOutput obj) => IsStereo(obj) && Channel(obj) == 0;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this ChannelEnum obj) => IsStereo(obj) && Channel(obj) == 0;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this Channel     obj) => IsStereo(obj) && Channel(obj) == 0;
+        
+        public static bool IsRight (this SynthWishes     obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this FlowNode        obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this ConfigWishes    obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this Tape            obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this TapeConfig      obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this TapeActions     obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this TapeAction      obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this Buff            obj) => IsStereo(obj) && Channel(obj) == 1;
+        public static bool IsRight (this AudioFileOutput obj) => IsStereo(obj) && Channel(obj) == 1;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this ChannelEnum obj) => IsStereo(obj) && Channel(obj) == 1;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this Channel     obj) => IsStereo(obj) && Channel(obj) == 1;
+        
+        public static SynthWishes     Center (this SynthWishes     obj                  ) => Mono(obj         ).Channel(0);
+        public static FlowNode        Center (this FlowNode        obj                  ) => Mono(obj         ).Channel(0);
+        public static ConfigWishes    Center (this ConfigWishes    obj                  ) => Mono(obj         ).Channel(0);
+        public static Tape            Center (this Tape            obj                  ) => Mono(obj         ).Channel(0);
+        public static TapeConfig      Center (this TapeConfig      obj                  ) => Mono(obj         ).Channel(0);
+        public static TapeActions     Center (this TapeActions     obj                  ) => Mono(obj         ).Channel(0);
+        public static TapeAction      Center (this TapeAction      obj                  ) => Mono(obj         ).Channel(0);
+        public static Buff            Center (this Buff            obj, IContext context) => Mono(obj, context).Channel(0);
+        public static AudioFileOutput Center (this AudioFileOutput obj, IContext context) => Mono(obj, context).Channel(0);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Center(this ChannelEnum obj) => Mono(obj).Channel(0);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Center(this Channel obj, IContext context) => Mono(obj, context).Channel(0, context);
+        
+        public static SynthWishes     Left (this SynthWishes     obj                  ) => Stereo(obj         ).Channel(0);
+        public static FlowNode        Left (this FlowNode        obj                  ) => Stereo(obj         ).Channel(0);
+        public static ConfigWishes    Left (this ConfigWishes    obj                  ) => Stereo(obj         ).Channel(0);
+        public static Tape            Left (this Tape            obj                  ) => Stereo(obj         ).Channel(0);
+        public static TapeConfig      Left (this TapeConfig      obj                  ) => Stereo(obj         ).Channel(0);
+        public static TapeActions     Left (this TapeActions     obj                  ) => Stereo(obj         ).Channel(0);
+        public static TapeAction      Left (this TapeAction      obj                  ) => Stereo(obj         ).Channel(0);
+        public static Buff            Left (this Buff            obj, IContext context) => Stereo(obj, context).Channel(0);
+        public static AudioFileOutput Left (this AudioFileOutput obj, IContext context) => Stereo(obj, context).Channel(0);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum obj) => Stereo(obj).Channel(0);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Left(this Channel obj, IContext context) => Stereo(obj, context).Channel(0, context);
+        
+        public static SynthWishes     Right (this SynthWishes     obj                  ) => Stereo(obj         ).Channel(1);
+        public static FlowNode        Right (this FlowNode        obj                  ) => Stereo(obj         ).Channel(1);
+        public static ConfigWishes    Right (this ConfigWishes    obj                  ) => Stereo(obj         ).Channel(1);
+        public static Tape            Right (this Tape            obj                  ) => Stereo(obj         ).Channel(1);
+        public static TapeConfig      Right (this TapeConfig      obj                  ) => Stereo(obj         ).Channel(1);
+        public static TapeActions     Right (this TapeActions     obj                  ) => Stereo(obj         ).Channel(1);
+        public static TapeAction      Right (this TapeAction      obj                  ) => Stereo(obj         ).Channel(1);
+        public static Buff            Right (this Buff            obj, IContext context) => Stereo(obj, context).Channel(1);
+        public static AudioFileOutput Right (this AudioFileOutput obj, IContext context) => Stereo(obj, context).Channel(1);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum obj) => Stereo(obj).Channel(1);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Right(this Channel obj, IContext context) => Stereo(obj, context).Channel(1, context);
+        
         #endregion
 
         #region SamplingRate
@@ -1210,13 +1290,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         #region AudioFormat
         
-        public static AudioFileFormatEnum AudioFormat(this string fileExtension)
-        {
-            if (Is(fileExtension, ".wav")) return Wav;
-            if (Is(fileExtension, ".raw")) return Raw;
-            throw new Exception($"{new{fileExtension}} not supported.");
-        }
-
         public static AudioFileFormatEnum AudioFormat(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -1359,14 +1432,22 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // ReSharper disable once UnusedParameter.Global
         public static AudioFileFormatEnum AudioFormat(WavHeaderStruct obj) => Wav;
+
+        public static AudioFileFormatEnum AudioFormat(this string fileExtension)
+        {
+            if (Is(fileExtension, ".wav")) return Wav;
+            if (Is(fileExtension, ".raw")) return Raw;
+            throw new Exception($"{new{fileExtension}} not supported.");
+        }
         
         [Obsolete(ObsoleteMessage)] public static AudioFileFormatEnum AudioFormat(this AudioFileFormat obj) => ToEnum(obj);
 
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static AudioFileFormat AudioFormat(this AudioFileFormat obj, AudioFileFormatEnum value, IContext context) => ToEntity(value, context);
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormat AudioFormat(this AudioFileFormat obj, AudioFileFormatEnum value, IContext context) 
+            => ToEntity(value, context);
         
-        // AudioFormat, Conversion-Style
+        // Conversion-Style AudioFormat
         
         [Obsolete(ObsoleteMessage)] public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
         {
@@ -1376,6 +1457,10 @@ namespace JJ.Business.Synthesizer.Wishes
         
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context) 
             => CreateRepository<IAudioFileFormatRepository>(context).Get(audioFormat.ToID());
+        
+        // AudioFormat Shorthand
+        
+        // TODO
         
         #endregion
 
@@ -1808,12 +1893,9 @@ namespace JJ.Business.Synthesizer.Wishes
         // ReSharper disable once UnusedParameter.Global
         public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value)
         {
-            switch (value)
-            {
-                case ".wav": return Wav;
-                case ".raw": return Raw;
-                default: throw new ValueNotSupportedException(value);
-            }
+            if (Is(value, ".wav")) return Wav;
+            if (Is(value, ".raw")) return Wav;
+            throw new ValueNotSupportedException(value);
         }
 
         /// <inheritdoc cref="docs._fileextension"/>
@@ -1831,12 +1913,9 @@ namespace JJ.Business.Synthesizer.Wishes
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
         {
-            switch (value)
-            {
-                case ".wav": return Wav.ToEntity(context);
-                case ".raw": return Raw.ToEntity(context);
-                default: throw new ValueNotSupportedException(value);
-            }
+            if (Is(value, ".wav")) return Wav.ToEntity(context);
+            if (Is(value, ".raw")) return Raw.ToEntity(context);
+            throw new ValueNotSupportedException(value);
         }
 
         #endregion
