@@ -142,7 +142,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => Is32Bit<float>());
         }
 
-        [TestMethod] public void Test8BitSetters()
+        [DoNotParallelize] 
+        [TestMethod]
+        public void TestBitsSetters_8Bit()
         {
             // TODO: Test more thoroughly, because one call can determine setting for another, making certain assertions ineffective.
             
@@ -209,6 +211,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             NotEqual(with32Bit.Type,               () => with32Bit.Type              .With8Bit());
 
             AreEqual(typeof(byte), () => With8Bit<byte>());
+            
+            x.ConfigSection.Bits = ConfigWishes.DefaultBits;
         }
         
         // Helpers
