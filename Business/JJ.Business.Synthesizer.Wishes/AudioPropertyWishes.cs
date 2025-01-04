@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int Bits(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return Bits(obj.GetSampleDataTypeEnum());
+            return EnumToBits(obj.GetSampleDataTypeEnum());
         }
         
         public static Sample Bits(this Sample obj, int value, IContext context)
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int Bits(this AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return Bits(obj.GetSampleDataTypeEnum());
+            return EnumToBits(obj.GetSampleDataTypeEnum());
         }
 
         public static AudioFileOutput Bits(this AudioFileOutput obj, int value, IContext context)
