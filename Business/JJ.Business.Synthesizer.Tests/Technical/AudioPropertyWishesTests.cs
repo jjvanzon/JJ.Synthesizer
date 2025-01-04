@@ -22,14 +22,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     {
         // Bits
 
-        [TestMethod]
-        public void _8BitGetterTests()
+        [TestMethod] public void Test8BitGetters() => TestBitGetters(8);
+        
+        [TestMethod] public void Test16BitGetters() => TestBitGetters(16);
+        
+        [TestMethod] public void Test32BitGetters() => TestBitGetters(32);
+        
+        void TestBitGetters(int bits)
         {
-            // Arrange
-            int bits = 8;
             var x = CreateEntities(bits);
-            
-            // Assert
+
             AreEqual(bits, () => x.SynthWishes.Bits());
             AreEqual(bits, () => x.FlowNode.Bits());
             AreEqual(bits, () => x.ConfigWishes.Bits());
@@ -47,15 +49,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits, () => x.SampleDataTypeEnum.Bits());
             AreEqual(bits, () => x.SampleDataType.Bits());
             AreEqual(bits, () => x.Type.Bits());
-            AreEqual(bits, () => Bits<byte>());
-            
-            // Assert Conversion-Style
+                    
             AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
             AreEqual(bits, () => x.SampleDataType.EntityToBits());
             AreEqual(bits, () => x.Type.TypeToBits());
-            AreEqual(bits, () => TypeToBits<byte>());
+        }
+        
+        [TestMethod] public void Test8BitGetters_Shorthand()
+        {
+            var x = CreateEntities(8);
             
-            // Assert Shorthand
             IsTrue(() => x.SynthWishes.Is8Bit());
             IsTrue(() => x.FlowNode.Is8Bit());
             IsTrue(() => x.ConfigWishes.Is8Bit());
@@ -73,12 +76,76 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.SampleDataTypeEnum.Is8Bit());
             IsTrue(() => x.SampleDataType.Is8Bit());
             IsTrue(() => x.Type.Is8Bit());
-            IsTrue(() => Is8Bit<byte>());
         }
         
-        [TestMethod]
-        public void _8BitSetterTests()
+        [TestMethod] public void Test16BitGetters_Shorthand()
         {
+            var x = CreateEntities(16);
+            
+            IsTrue(() => x.SynthWishes.Is16Bit());
+            IsTrue(() => x.FlowNode.Is16Bit());
+            IsTrue(() => x.ConfigWishes.Is16Bit());
+            IsTrue(() => x.ConfigSection.Is16Bit());
+            IsTrue(() => x.Tape.Is16Bit());
+            IsTrue(() => x.TapeConfig.Is16Bit());
+            IsTrue(() => x.TapeActions.Is16Bit());
+            IsTrue(() => x.TapeAction.Is16Bit());
+            IsTrue(() => x.Buff.Is16Bit());
+            IsTrue(() => x.Sample.Is16Bit());
+            IsTrue(() => x.AudioFileOutput.Is16Bit());
+            IsTrue(() => x.WavHeader.Is16Bit());
+            IsTrue(() => x.AudioInfoWish.Is16Bit());
+            IsTrue(() => x.AudioFileInfo.Is16Bit());
+            IsTrue(() => x.SampleDataTypeEnum.Is16Bit());
+            IsTrue(() => x.SampleDataType.Is16Bit());
+            IsTrue(() => x.Type.Is16Bit());
+        }
+                
+        [TestMethod] public void Test32BitGetters_Shorthand()
+        {
+            var x = CreateEntities(32);
+            
+            IsTrue(() => x.SynthWishes.Is32Bit());
+            IsTrue(() => x.FlowNode.Is32Bit());
+            IsTrue(() => x.ConfigWishes.Is32Bit());
+            IsTrue(() => x.ConfigSection.Is32Bit());
+            IsTrue(() => x.Tape.Is32Bit());
+            IsTrue(() => x.TapeConfig.Is32Bit());
+            IsTrue(() => x.TapeActions.Is32Bit());
+            IsTrue(() => x.TapeAction.Is32Bit());
+            IsTrue(() => x.Buff.Is32Bit());
+            IsTrue(() => x.Sample.Is32Bit());
+            IsTrue(() => x.AudioFileOutput.Is32Bit());
+            IsTrue(() => x.WavHeader.Is32Bit());
+            IsTrue(() => x.AudioInfoWish.Is32Bit());
+            IsTrue(() => x.AudioFileInfo.Is32Bit());
+            IsTrue(() => x.SampleDataTypeEnum.Is32Bit());
+            IsTrue(() => x.SampleDataType.Is32Bit());
+            IsTrue(() => x.Type.Is32Bit());
+        }
+                
+        [TestMethod] public void TestBitGetters_FromTypeArguments()
+        {
+            // Getters
+            AreEqual(8, () => Bits<byte>());
+            AreEqual(16, () => Bits<Int16>());
+            AreEqual(32, () => Bits<float>());
+        
+            // Conversion-Style Getters
+            AreEqual(8, () => TypeToBits<byte>());
+            AreEqual(16, () => TypeToBits<Int16>());
+            AreEqual(32, () => TypeToBits<float>());
+
+            // Shorthand Getters            
+            IsTrue(() => Is8Bit<byte>());
+            IsTrue(() => Is16Bit<Int16>());
+            IsTrue(() => Is32Bit<float>());
+        }
+
+        [TestMethod] public void Test8BitSetters()
+        {
+            // TODO: Test more thoroughly, because one call can determine setting for another, making certain assertions ineffective.
+            
             // Arrange
             
             int bits = 8;
@@ -220,80 +287,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             return tape;
         }
                 
-        private ConfigSectionAccessor GetConfigSectionAccessor(SynthWishes synthWishes) => new ConfigWishesAccessor(synthWishes.Config)._section;
+        private ConfigSectionAccessor GetConfigSectionAccessor(SynthWishes synthWishes) 
+            => new ConfigWishesAccessor(synthWishes.Config)._section;
 
         // Old
-        
-        ///// <inheritdoc cref="docs._testaudiopropertywishesold"/>
-        //[TestMethod] 
-        //public void MonoExtensions_Test()
-        //{
-        //    Tape tape = null;
-        //    Run(() => WithMono().Sine().AfterRecord(x => tape = x));
-        //    IsNotNull(() => tape);
-        //    AudioFileOutput audioFileOutputMono = tape.UnderlyingAudioFileOutput;
-        //    IsNotNull(() => audioFileOutputMono);
-        //    IsNotNull(() => audioFileOutputMono.SpeakerSetup);
-        //    AreEqual(SpeakerSetupEnum.Mono, () => audioFileOutputMono.SpeakerSetup.ToEnum());
-        //}
-
-        ///// <inheritdoc cref="docs._testaudiopropertywishesold"/>
-        //[TestMethod]
-        //public void StereoExtensions_Test()
-        //{
-        //    Tape tape = null;
-        //    Run(() => WithStereo().Sine().AfterRecord(x => tape = x).Save());
-        //    IsNotNull(() => tape);
-        //    AudioFileOutput audioFileOutputStereo = tape.UnderlyingAudioFileOutput;
-        //    IsNotNull(() => audioFileOutputStereo);
-        //    IsNotNull(() => audioFileOutputStereo.SpeakerSetup);
-        //    AreEqual(SpeakerSetupEnum.Stereo, () => audioFileOutputStereo.SpeakerSetup.ToEnum());
-        //}
-
-        ///// <inheritdoc cref="docs._testaudiopropertywishesold"/>
-        //[TestMethod]
-        //public void WavExtensions_Test()
-        //{
-        //    Tape tape = null;
-        //    Run(() => AsWav().Sine().AfterRecord(x => tape = x).Save());
-        //    IsNotNull(() => tape);
-            
-        //    AudioFileOutput audioFileOutputWav = tape.UnderlyingAudioFileOutput;
-        //    IsNotNull(() => audioFileOutputWav);
-        //    IsNotNull(() => audioFileOutputWav.AudioFileFormat);
-        //    AreEqual(".wav", () => audioFileOutputWav.AudioFileFormat.FileExtension());
-        //    AreEqual(".wav", () => audioFileOutputWav.GetAudioFileFormatEnum().FileExtension());
-        //    AreEqual(44,     () => audioFileOutputWav.AudioFileFormat.HeaderLength());
-        //    AreEqual(44,     () => audioFileOutputWav.GetAudioFileFormatEnum().HeaderLength());
-        //}
-
-        ///// <inheritdoc cref="docs._testaudiopropertywishesold"/>
-        //[TestMethod]
-        //public void RawExtensions_Test()
-        //{
-        //    AudioFileOutput audioFileOutputRaw = null;
-        //    Run(() => AsRaw().Sine().Save().AfterRecord(x => audioFileOutputRaw = x.UnderlyingAudioFileOutput));
-        //    IsNotNull(() => audioFileOutputRaw);
-        //    IsNotNull(() => audioFileOutputRaw.AudioFileFormat);
-        //    AreEqual(".raw", () => audioFileOutputRaw.AudioFileFormat.FileExtension());
-        //    AreEqual(".raw", () => audioFileOutputRaw.GetAudioFileFormatEnum().FileExtension());
-        //    AreEqual(0,      () => audioFileOutputRaw.AudioFileFormat.HeaderLength());
-        //    AreEqual(0,      () => audioFileOutputRaw.GetAudioFileFormatEnum().HeaderLength());
-        //}
-
-        /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
-        [TestMethod]
-        public void _16BitHelpers_Test()
-        {
-            AreEqual(SampleDataTypeEnum.Int16, () => 16.BitsToEnum());
-        }
-
-        /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
-        [TestMethod]
-        public void _8BitHelpers_Test()
-        {
-            AreEqual(SampleDataTypeEnum.Byte, () => 8.BitsToEnum());
-        }
  
         /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
         [TestMethod]
