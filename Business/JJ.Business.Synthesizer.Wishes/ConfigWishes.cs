@@ -97,50 +97,50 @@ namespace JJ.Business.Synthesizer.Wishes
         // Defaults
 
         // Audio Quality
-
-        internal const int                   DefaultBits          = 32;
-        internal const int                   DefaultChannels      = 1;
-        internal static readonly int?        DefaultChannel       = null;
-        internal const int                   DefaultSamplingRate  = 48000;
-        internal const AudioFileFormatEnum   DefaultAudioFormat   = Wav;
-        internal const InterpolationTypeEnum DefaultInterpolation = Line;
+        
+        public const int                   DefaultBits          = 32;
+        public const int                   DefaultChannels      = 1;
+        public static readonly int?        DefaultChannel       = null;
+        public const int                   DefaultSamplingRate  = 48000;
+        public const AudioFileFormatEnum   DefaultAudioFormat   = Wav;
+        public const InterpolationTypeEnum DefaultInterpolation = Line;
 
         // Audio Lengths
         
         /// <inheritdoc cref="docs._notelength" />
-        internal const double DefaultNoteLength      = 0.50;
-        internal const double DefaultBarLength       = 1.00;
-        internal const double DefaultBeatLength      = 0.25;
-        internal const double DefaultAudioLength     = 1.00;
-        internal const double DefaultLeadingSilence  = 0.25;
-        internal const double DefaultTrailingSilence = 0.25;
+        public const double DefaultNoteLength      = 0.50;
+        public const double DefaultBarLength       = 1.00;
+        public const double DefaultBeatLength      = 0.25;
+        public const double DefaultAudioLength     = 1.00;
+        public const double DefaultLeadingSilence  = 0.25;
+        public const double DefaultTrailingSilence = 0.25;
         
         // Feature Toggles
         
-        internal const bool   DefaultAudioPlayback      = true;
-        internal const bool   DefaultDiskCache          = false;
-        internal const bool   DefaultMathBoost          = true;
-        internal const bool   DefaultParallelProcessing = true;
-        internal const bool   DefaultPlayAllTapes       = false;
+        public const bool   DefaultAudioPlayback      = true;
+        public const bool   DefaultDiskCache          = false;
+        public const bool   DefaultMathBoost          = true;
+        public const bool   DefaultParallelProcessing = true;
+        public const bool   DefaultPlayAllTapes       = false;
 
         // Tooling
         
-        internal const bool   DefaultToolingAudioPlayback                  = false;
-        internal const bool   DefaultToolingImpersonation                  = false;
-        internal const int    DefaultNCrunchSamplingRate                   = 150;
-        internal const int    DefaultNCrunchSamplingRateLongRunning        = 8;
-        internal const int    DefaultAzurePipelinesSamplingRate            = 1500;
-        internal const int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
+        public const bool   DefaultToolingAudioPlayback                  = false;
+        public const bool   DefaultToolingImpersonation                  = false;
+        public const int    DefaultNCrunchSamplingRate                   = 150;
+        public const int    DefaultNCrunchSamplingRateLongRunning        = 8;
+        public const int    DefaultAzurePipelinesSamplingRate            = 1500;
+        public const int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
         
         // Misc Settings
         
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        internal const double            DefaultLeafCheckTimeOut       = 60;
+        public const double            DefaultLeafCheckTimeOut       = 60;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        internal const TimeOutActionEnum DefaultTimeOutAction          = Continue;
-        internal const int               DefaultCourtesyFrames         = 4;
-        internal const int               DefaultFileExtensionMaxLength = 4;
-        internal const string            DefaultLongTestCategory       = "Long";
+        public const TimeOutActionEnum DefaultTimeOutAction          = Continue;
+        public const int               DefaultCourtesyFrames         = 4;
+        public const int               DefaultFileExtensionMaxLength = 4;
+        public const string            DefaultLongTestCategory       = "Long";
 
         // Environment Variables
         
