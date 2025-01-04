@@ -301,140 +301,140 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Bits Shorthand
         
-        public   static bool Is8Bit (SynthWishes        obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (FlowNode           obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (ConfigWishes       obj) => Bits(obj)      == 8;
-        internal static bool Is8Bit (ConfigSection      obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (Tape               obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (TapeConfig         obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (TapeActions        obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (TapeAction         obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (Buff               obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (Sample             obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (AudioFileOutput    obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (WavHeaderStruct    obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (AudioInfoWish      obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (AudioFileInfo      obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this SynthWishes        obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this FlowNode           obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this ConfigWishes       obj) => Bits(obj)      == 8;
+        internal static bool Is8Bit (this ConfigSection      obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this Tape               obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this TapeConfig         obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this TapeActions        obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this TapeAction         obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this Buff               obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this Sample             obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this AudioFileOutput    obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this WavHeaderStruct    obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this AudioInfoWish      obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this AudioFileInfo      obj) => Bits(obj)      == 8;
         [Obsolete(ObsoleteMessage)]                                            
-        public   static bool Is8Bit (SampleDataTypeEnum obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this SampleDataTypeEnum obj) => Bits(obj)      == 8;
         [Obsolete(ObsoleteMessage)]                                            
-        public   static bool Is8Bit (SampleDataType     obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit (Type               obj) => Bits(obj)      == 8;
-        public   static bool Is8Bit <TValue>              () => Bits<TValue>() == 8;
+        public   static bool Is8Bit (this SampleDataType     obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit (this Type               obj) => Bits(obj)      == 8;
+        public   static bool Is8Bit <TValue>                   () => Bits<TValue>() == 8;
         
-        public   static bool Is16Bit(SynthWishes        obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(FlowNode           obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(ConfigWishes       obj) => Bits(obj)      == 16;
-        internal static bool Is16Bit(ConfigSection      obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(Tape               obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(TapeConfig         obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(TapeActions        obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(TapeAction         obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(Buff               obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(Sample             obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(AudioFileOutput    obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(WavHeaderStruct    obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(AudioInfoWish      obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(AudioFileInfo      obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this SynthWishes        obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this FlowNode           obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this ConfigWishes       obj) => Bits(obj)      == 16;
+        internal static bool Is16Bit(this ConfigSection      obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this Tape               obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this TapeConfig         obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this TapeActions        obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this TapeAction         obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this Buff               obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this Sample             obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this AudioFileOutput    obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this WavHeaderStruct    obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this AudioInfoWish      obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this AudioFileInfo      obj) => Bits(obj)      == 16;
         [Obsolete(ObsoleteMessage)]                                          
-        public   static bool Is16Bit(SampleDataTypeEnum obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this SampleDataTypeEnum obj) => Bits(obj)      == 16;
         [Obsolete(ObsoleteMessage)]                                          
-        public   static bool Is16Bit(SampleDataType     obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit(Type               obj) => Bits(obj)      == 16;
-        public   static bool Is16Bit<TValue>              () => Bits<TValue>() == 16;
+        public   static bool Is16Bit(this SampleDataType     obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit(this Type               obj) => Bits(obj)      == 16;
+        public   static bool Is16Bit<TValue>                   () => Bits<TValue>() == 16;
 
-        public   static bool Is32Bit(SynthWishes        obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(FlowNode           obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(ConfigWishes       obj) => Bits(obj)      == 32;
-        internal static bool Is32Bit(ConfigSection      obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(Tape               obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(TapeConfig         obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(TapeActions        obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(TapeAction         obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(Buff               obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(Sample             obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(AudioFileOutput    obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(WavHeaderStruct    obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(AudioInfoWish      obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(AudioFileInfo      obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this SynthWishes        obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this FlowNode           obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this ConfigWishes       obj) => Bits(obj)      == 32;
+        internal static bool Is32Bit(this ConfigSection      obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this Tape               obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this TapeConfig         obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this TapeActions        obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this TapeAction         obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this Buff               obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this Sample             obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this AudioFileOutput    obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this WavHeaderStruct    obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this AudioInfoWish      obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this AudioFileInfo      obj) => Bits(obj)      == 32;
         [Obsolete(ObsoleteMessage)]                                           
-        public   static bool Is32Bit(SampleDataTypeEnum obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this SampleDataTypeEnum obj) => Bits(obj)      == 32;
         [Obsolete(ObsoleteMessage)]                                           
-        public   static bool Is32Bit(SampleDataType     obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit(Type               obj) => Bits(obj)      == 32;
-        public   static bool Is32Bit<TValue>              () => Bits<TValue>() == 32;
+        public   static bool Is32Bit(this SampleDataType     obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit(this Type               obj) => Bits(obj)      == 32;
+        public   static bool Is32Bit<TValue>                   () => Bits<TValue>() == 32;
 
-        public   static SynthWishes        With8Bit (SynthWishes        obj)                   => Bits(obj,    8);
-        public   static FlowNode           With8Bit (FlowNode           obj)                   => Bits(obj,    8);
-        public   static ConfigWishes       With8Bit (ConfigWishes       obj)                   => Bits(obj,    8);
-        internal static ConfigSection      With8Bit (ConfigSection      obj)                   => Bits(obj,    8);
-        public   static Tape               With8Bit (Tape               obj)                   => Bits(obj,    8);
-        public   static TapeConfig         With8Bit (TapeConfig         obj)                   => Bits(obj,    8);
-        public   static TapeActions        With8Bit (TapeActions        obj)                   => Bits(obj,    8);
-        public   static TapeAction         With8Bit (TapeAction         obj)                   => Bits(obj,    8);
-        public   static Buff               With8Bit (Buff               obj, IContext context) => Bits(obj,    8, context);
-        public   static Sample             With8Bit (Sample             obj, IContext context) => Bits(obj,    8, context);
-        public   static AudioFileOutput    With8Bit (AudioFileOutput    obj, IContext context) => Bits(obj,    8, context);
-        public   static WavHeaderStruct    With8Bit (WavHeaderStruct    obj)                   => Bits(obj,    8);
-        public   static AudioInfoWish      With8Bit (AudioInfoWish      obj)                   => Bits(obj,    8);
-        public   static AudioFileInfo      With8Bit (AudioFileInfo      obj)                   => Bits(obj,    8);
+        public   static SynthWishes        With8Bit (this SynthWishes        obj)                   => Bits(obj,    8);
+        public   static FlowNode           With8Bit (this FlowNode           obj)                   => Bits(obj,    8);
+        public   static ConfigWishes       With8Bit (this ConfigWishes       obj)                   => Bits(obj,    8);
+        internal static ConfigSection      With8Bit (this ConfigSection      obj)                   => Bits(obj,    8);
+        public   static Tape               With8Bit (this Tape               obj)                   => Bits(obj,    8);
+        public   static TapeConfig         With8Bit (this TapeConfig         obj)                   => Bits(obj,    8);
+        public   static TapeActions        With8Bit (this TapeActions        obj)                   => Bits(obj,    8);
+        public   static TapeAction         With8Bit (this TapeAction         obj)                   => Bits(obj,    8);
+        public   static Buff               With8Bit (this Buff               obj, IContext context) => Bits(obj,    8, context);
+        public   static Sample             With8Bit (this Sample             obj, IContext context) => Bits(obj,    8, context);
+        public   static AudioFileOutput    With8Bit (this AudioFileOutput    obj, IContext context) => Bits(obj,    8, context);
+        public   static WavHeaderStruct    With8Bit (this WavHeaderStruct    obj)                   => Bits(obj,    8);
+        public   static AudioInfoWish      With8Bit (this AudioInfoWish      obj)                   => Bits(obj,    8);
+        public   static AudioFileInfo      With8Bit (this AudioFileInfo      obj)                   => Bits(obj,    8);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type With8Bit(Type obj) => Bits(obj, 8);
+        public static Type With8Bit(this Type obj) => Bits(obj, 8);
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With8Bit<TValue>() => Bits<TValue>(8);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With8Bit(SampleDataTypeEnum obj) => Bits(obj, 8);
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With8Bit(this SampleDataTypeEnum obj) => Bits(obj, 8);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With8Bit(SampleDataType obj, IContext context) => Bits(obj, 8, context);
+        [Obsolete(ObsoleteMessage)] public static SampleDataType With8Bit(this SampleDataType obj, IContext context) => Bits(obj, 8, context);
 
-        public   static SynthWishes        With16Bit(SynthWishes        obj)                   => Bits(obj,    16);
-        public   static FlowNode           With16Bit(FlowNode           obj)                   => Bits(obj,    16);
-        public   static ConfigWishes       With16Bit(ConfigWishes       obj)                   => Bits(obj,    16);
-        internal static ConfigSection      With16Bit(ConfigSection      obj)                   => Bits(obj,    16);
-        public   static Tape               With16Bit(Tape               obj)                   => Bits(obj,    16);
-        public   static TapeConfig         With16Bit(TapeConfig         obj)                   => Bits(obj,    16);
-        public   static TapeActions        With16Bit(TapeActions        obj)                   => Bits(obj,    16);
-        public   static TapeAction         With16Bit(TapeAction         obj)                   => Bits(obj,    16);
-        public   static Buff               With16Bit(Buff               obj, IContext context) => Bits(obj,    16, context);
-        public   static Sample             With16Bit(Sample             obj, IContext context) => Bits(obj,    16, context);
-        public   static AudioFileOutput    With16Bit(AudioFileOutput    obj, IContext context) => Bits(obj,    16, context);
-        public   static WavHeaderStruct    With16Bit(WavHeaderStruct    obj)                   => Bits(obj,    16);
-        public   static AudioInfoWish      With16Bit(AudioInfoWish      obj)                   => Bits(obj,    16);
-        public   static AudioFileInfo      With16Bit(AudioFileInfo      obj)                   => Bits(obj,    16);
+        public   static SynthWishes        With16Bit(this SynthWishes        obj)                   => Bits(obj,    16);
+        public   static FlowNode           With16Bit(this FlowNode           obj)                   => Bits(obj,    16);
+        public   static ConfigWishes       With16Bit(this ConfigWishes       obj)                   => Bits(obj,    16);
+        internal static ConfigSection      With16Bit(this ConfigSection      obj)                   => Bits(obj,    16);
+        public   static Tape               With16Bit(this Tape               obj)                   => Bits(obj,    16);
+        public   static TapeConfig         With16Bit(this TapeConfig         obj)                   => Bits(obj,    16);
+        public   static TapeActions        With16Bit(this TapeActions        obj)                   => Bits(obj,    16);
+        public   static TapeAction         With16Bit(this TapeAction         obj)                   => Bits(obj,    16);
+        public   static Buff               With16Bit(this Buff               obj, IContext context) => Bits(obj,    16, context);
+        public   static Sample             With16Bit(this Sample             obj, IContext context) => Bits(obj,    16, context);
+        public   static AudioFileOutput    With16Bit(this AudioFileOutput    obj, IContext context) => Bits(obj,    16, context);
+        public   static WavHeaderStruct    With16Bit(this WavHeaderStruct    obj)                   => Bits(obj,    16);
+        public   static AudioInfoWish      With16Bit(this AudioInfoWish      obj)                   => Bits(obj,    16);
+        public   static AudioFileInfo      With16Bit(this AudioFileInfo      obj)                   => Bits(obj,    16);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type With16Bit(Type obj) => Bits(obj, 16);
+        public static Type With16Bit(this Type obj) => Bits(obj, 16);
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With16Bit<TValue>() => Bits<TValue>(16);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With16Bit(SampleDataTypeEnum obj) => Bits(obj, 16);
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With16Bit(this SampleDataTypeEnum obj) => Bits(obj, 16);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With16Bit(SampleDataType obj, IContext context) => Bits(obj, 16, context);
+        [Obsolete(ObsoleteMessage)] public static SampleDataType With16Bit(this SampleDataType obj, IContext context) => Bits(obj, 16, context);
 
-        public   static SynthWishes        With32Bit(SynthWishes        obj)                   => Bits(obj,    32);
-        public   static FlowNode           With32Bit(FlowNode           obj)                   => Bits(obj,    32);
-        public   static ConfigWishes       With32Bit(ConfigWishes       obj)                   => Bits(obj,    32);
-        internal static ConfigSection      With32Bit(ConfigSection      obj)                   => Bits(obj,    32);
-        public   static Tape               With32Bit(Tape               obj)                   => Bits(obj,    32);
-        public   static TapeConfig         With32Bit(TapeConfig         obj)                   => Bits(obj,    32);
-        public   static TapeActions        With32Bit(TapeActions        obj)                   => Bits(obj,    32);
-        public   static TapeAction         With32Bit(TapeAction         obj)                   => Bits(obj,    32);
-        public   static Buff               With32Bit(Buff               obj, IContext context) => Bits(obj,    32, context);
-        public   static Sample             With32Bit(Sample             obj, IContext context) => Bits(obj,    32, context);
-        public   static AudioFileOutput    With32Bit(AudioFileOutput    obj, IContext context) => Bits(obj,    32, context);
-        public   static WavHeaderStruct    With32Bit(WavHeaderStruct    obj)                   => Bits(obj,    32);
-        public   static AudioInfoWish      With32Bit(AudioInfoWish      obj)                   => Bits(obj,    32);
-        public   static AudioFileInfo      With32Bit(AudioFileInfo      obj)                   => Bits(obj,    32);
+        public   static SynthWishes        With32Bit(this SynthWishes        obj)                   => Bits(obj,    32);
+        public   static FlowNode           With32Bit(this FlowNode           obj)                   => Bits(obj,    32);
+        public   static ConfigWishes       With32Bit(this ConfigWishes       obj)                   => Bits(obj,    32);
+        internal static ConfigSection      With32Bit(this ConfigSection      obj)                   => Bits(obj,    32);
+        public   static Tape               With32Bit(this Tape               obj)                   => Bits(obj,    32);
+        public   static TapeConfig         With32Bit(this TapeConfig         obj)                   => Bits(obj,    32);
+        public   static TapeActions        With32Bit(this TapeActions        obj)                   => Bits(obj,    32);
+        public   static TapeAction         With32Bit(this TapeAction         obj)                   => Bits(obj,    32);
+        public   static Buff               With32Bit(this Buff               obj, IContext context) => Bits(obj,    32, context);
+        public   static Sample             With32Bit(this Sample             obj, IContext context) => Bits(obj,    32, context);
+        public   static AudioFileOutput    With32Bit(this AudioFileOutput    obj, IContext context) => Bits(obj,    32, context);
+        public   static WavHeaderStruct    With32Bit(this WavHeaderStruct    obj)                   => Bits(obj,    32);
+        public   static AudioInfoWish      With32Bit(this AudioInfoWish      obj)                   => Bits(obj,    32);
+        public   static AudioFileInfo      With32Bit(this AudioFileInfo      obj)                   => Bits(obj,    32);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type With32Bit(Type obj) => Bits(obj, 32);
+        public static Type With32Bit(this Type obj) => Bits(obj, 32);
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With32Bit<TValue>() => Bits<TValue>(32);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(SampleDataTypeEnum obj) => Bits(obj, 32);
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(this SampleDataTypeEnum obj) => Bits(obj, 32);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With32Bit(SampleDataType obj, IContext context) => Bits(obj, 32, context);
+        [Obsolete(ObsoleteMessage)] public static SampleDataType With32Bit(this SampleDataType obj, IContext context) => Bits(obj, 32, context);
 
         #endregion
                 
