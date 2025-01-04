@@ -220,27 +220,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return obj;
         }
         
-        [Obsolete(ObsoleteMessage)]
-        public static int Bits(this SampleDataTypeEnum obj) => EnumToBits(obj);
+        public static int Bits(this Type valueType) => TypeToBits(valueType);
         
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum Bits(this SampleDataTypeEnum obj, int value) => BitsToEnum(value);
-        
-        [Obsolete(ObsoleteMessage)]
-        public static int Bits(this SampleDataType obj) => EntityToBits(obj);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)]
-        public static SampleDataType Bits(this SampleDataType obj, int value, IContext context) => BitsToEntity(value, context);
-
-        public static int Bits(this Type obj) => TypeToBits(obj);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        public static Type Bits(this Type obj, int value) => BitsToType(value);
+        public static Type Bits(this Type valueType, int value) => BitsToType(value);
         
         public static int Bits<TValueType>() => TypeToBits<TValueType>();
         
@@ -248,51 +232,26 @@ namespace JJ.Business.Synthesizer.Wishes
         // ReSharper disable once UnusedTypeParameter
         public static Type Bits<TValueType>(int value) => BitsToType(value);
 
-        // Bits Conversion-Style
-                
-        [Obsolete(ObsoleteMessage)]
-        public static int EnumToBits(this SampleDataTypeEnum obj)
-        {
-            switch (obj)
-            {
-                case SampleDataTypeEnum.Byte: return 8;
-                case SampleDataTypeEnum.Int16: return 16;
-                case SampleDataTypeEnum.Float32: return 32;
-                default: throw new ValueNotSupportedException(obj);
-            }
-        }
+        [Obsolete(ObsoleteMessage)] public static int Bits(this SampleDataTypeEnum obj) => EnumToBits(obj);
         
-        [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum BitsToEnum(this int bits)
-        {
-            switch (AssertBits(bits))
-            {
-                case 32: return SampleDataTypeEnum.Float32;
-                case 16: return SampleDataTypeEnum.Int16;
-                case 8: return SampleDataTypeEnum.Byte;
-                default: return default;
-            }
-        }
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Bits(this SampleDataTypeEnum obj, int value) => BitsToEnum(value);
         
-        public static int EntityToBits(this SampleDataType obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.ToEnum().EnumToBits();
-        }
+        [Obsolete(ObsoleteMessage)] public static int Bits(this SampleDataType obj) => EntityToBits(obj);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static SampleDataType Bits(this SampleDataType obj, int value, IContext context) => BitsToEntity(value, context);
 
-        [Obsolete(ObsoleteMessage)]
-        public static SampleDataType BitsToEntity(this int bits, IContext context) 
-            => bits.BitsToEnum().ToEntity(context);
+        // Bits Conversion-Style
         
         public static int TypeToBits(this Type obj) 
         {
-            switch (obj)
-            {
-                case Type t when t == typeof(byte): return 8;
-                case Type t when t == typeof(Int16): return 16;
-                case Type t when t == typeof(float): return 32;
-                default: throw new ValueNotSupportedException(obj);
-            }
+            if (obj == typeof(byte)) return 8;
+            if (obj == typeof(Int16)) return 16;
+            if (obj == typeof(float)) return 32;
+            throw new ValueNotSupportedException(obj);
         }
         
         public static int TypeToBits<T>() => TypeToBits(typeof(T));
@@ -307,6 +266,37 @@ namespace JJ.Business.Synthesizer.Wishes
                 default: return default;
             }
         }
+                
+        [Obsolete(ObsoleteMessage)] public static int EnumToBits(this SampleDataTypeEnum obj)
+        {
+            switch (obj)
+            {
+                case SampleDataTypeEnum.Byte: return 8;
+                case SampleDataTypeEnum.Int16: return 16;
+                case SampleDataTypeEnum.Float32: return 32;
+                default: throw new ValueNotSupportedException(obj);
+            }
+        }
+        
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum BitsToEnum(this int bits)
+        {
+            switch (AssertBits(bits))
+            {
+                case 32: return SampleDataTypeEnum.Float32;
+                case 16: return SampleDataTypeEnum.Int16;
+                case 8: return SampleDataTypeEnum.Byte;
+                default: return default;
+            }
+        }
+        
+        [Obsolete(ObsoleteMessage)] public static int EntityToBits(this SampleDataType obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return obj.ToEnum().EnumToBits();
+        }
+
+        [Obsolete(ObsoleteMessage)] public static SampleDataType BitsToEntity(this int bits, IContext context) 
+            => bits.BitsToEnum().ToEntity(context);
         
         // Bits Shorthand
         
@@ -389,13 +379,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static AudioFileInfo      With8Bit (AudioFileInfo      obj)                   => Bits(obj,    8);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With8Bit(SampleDataTypeEnum obj) => Bits(obj, 8);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With8Bit(SampleDataType obj, IContext context) => Bits(obj, 8, context);
-        /// <inheritdoc cref="docs._quasisetter" />
         public static Type With8Bit(Type obj) => Bits(obj, 8);
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With8Bit<TValue>() => Bits<TValue>(8);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With8Bit(SampleDataTypeEnum obj) => Bits(obj, 8);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataType With8Bit(SampleDataType obj, IContext context) => Bits(obj, 8, context);
 
         public   static SynthWishes        With16Bit(SynthWishes        obj)                   => Bits(obj,    16);
         public   static FlowNode           With16Bit(FlowNode           obj)                   => Bits(obj,    16);
@@ -413,13 +403,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static AudioFileInfo      With16Bit(AudioFileInfo      obj)                   => Bits(obj,    16);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With16Bit(SampleDataTypeEnum obj) => Bits(obj, 16);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With16Bit(SampleDataType obj, IContext context) => Bits(obj, 16, context);
-        /// <inheritdoc cref="docs._quasisetter" />
         public static Type With16Bit(Type obj) => Bits(obj, 16);
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With16Bit<TValue>() => Bits<TValue>(16);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With16Bit(SampleDataTypeEnum obj) => Bits(obj, 16);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataType With16Bit(SampleDataType obj, IContext context) => Bits(obj, 16, context);
 
         public   static SynthWishes        With32Bit(SynthWishes        obj)                   => Bits(obj,    32);
         public   static FlowNode           With32Bit(FlowNode           obj)                   => Bits(obj,    32);
@@ -437,13 +427,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static AudioFileInfo      With32Bit(AudioFileInfo      obj)                   => Bits(obj,    32);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(SampleDataTypeEnum obj) => Bits(obj, 32);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With32Bit(SampleDataType obj, IContext context) => Bits(obj, 32, context);
-        /// <inheritdoc cref="docs._quasisetter" />
         public static Type With32Bit(Type obj) => Bits(obj, 32);
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With32Bit<TValue>() => Bits<TValue>(32);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(SampleDataTypeEnum obj) => Bits(obj, 32);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataType With32Bit(SampleDataType obj, IContext context) => Bits(obj, 32, context);
 
         #endregion
                 
@@ -595,70 +585,119 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct Channels(this WavHeaderStruct obj, int value) 
             => obj.ToWish().Channels(value).ToWavHeader();
 
-        public static int Channels(this AudioInfoWish infoWish)
+        public static int Channels(this AudioInfoWish obj)
         {
-            if (infoWish == null) throw new NullException(() => infoWish);
-            return infoWish.Channels;
+            if (obj == null) throw new NullException(() => obj);
+            return obj.Channels;
         }
 
-        public static AudioInfoWish Channels(this AudioInfoWish infoWish, int value)
+        public static AudioInfoWish Channels(this AudioInfoWish obj, int value)
         {
-            if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.Channels = value;
-            return infoWish;
+            if (obj == null) throw new NullException(() => obj);
+            obj.Channels = value;
+            return obj;
         }
                                 
-        public static int Channels(this AudioFileInfo info)
+        public static int Channels(this AudioFileInfo obj)
         {
-            if (info == null) throw new NullException(() => info);
-            return info.ChannelCount;
+            if (obj == null) throw new NullException(() => obj);
+            return obj.ChannelCount;
         }
 
-        public static AudioFileInfo Channels(this AudioFileInfo info, int value)
+        public static AudioFileInfo Channels(this AudioFileInfo obj, int value)
         {
-            if (info == null) throw new NullException(() => info);
-            info.ChannelCount = value;
-            return info;
+            if (obj == null) throw new NullException(() => obj);
+            obj.ChannelCount = value;
+            return obj;
         }
         
         [Obsolete(ObsoleteMessage)]
-        public static int Channels(this SpeakerSetupEnum enumValue)
+        public static int Channels(this SpeakerSetupEnum obj) => EnumToChannels(obj);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Channels(this SpeakerSetupEnum obj, int value) => ChannelsToEnum(value);
+        
+        [Obsolete(ObsoleteMessage)] public static int Channels(this ChannelEnum obj) => EnumToChannels(obj);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(this ChannelEnum obj, int value) => ChannelsToEnum(value, Channel(obj));
+
+        [Obsolete(ObsoleteMessage)] public static int Channels(this SpeakerSetup obj) => EntityToChannels(obj);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Channels(this SpeakerSetup obj, int value, IContext context) => ChannelsToEntity(value, context);
+
+        [Obsolete(ObsoleteMessage)] public static int Channels(this Channel obj) => EntityToChannels(obj);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Channels(this Channel obj, int channels, IContext context) => ChannelsToEntity(channels, Channel(obj), context);
+        
+        // Channels Conversion-Style
+
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(this int channels)
+        {
+            switch (channels)
+            {
+                case 0: return SpeakerSetupEnum.Undefined;
+                case 1: return SpeakerSetupEnum.Mono;
+                case 2: return SpeakerSetupEnum.Stereo;
+                default: throw new Exception($"{new { channels }} not supported.");
+            }
+        }
+
+        [Obsolete(ObsoleteMessage)] public static int EnumToChannels(this SpeakerSetupEnum enumValue)
         {
             switch (enumValue)
             {
                 case SpeakerSetupEnum.Mono: return 1;
                 case SpeakerSetupEnum.Stereo: return 2;
+                case SpeakerSetupEnum.Undefined: return 0;
                 default: throw new ValueNotSupportedException(enumValue);
             }
         }
-        
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum enumValue, int channels) => ChannelsToEnum(channels);
-        
-        [Obsolete(ObsoleteMessage)]
-        public static int Channels(this SpeakerSetup enumEntity)
-        {
-            if (enumEntity == null) throw new NullException(() => enumEntity);
-            return enumEntity.ToEnum().Channels();
-        }
-        
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static SpeakerSetup Channels(this SpeakerSetup enumValue, int channels, IContext context) => ChannelsToEntity(channels, context);
 
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetupEnum ChannelsToEnum(this int channels)
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelsToEnum(this int channels, int? channel)
         {
-            switch (AssertChannels(channels))
+            if (!Has(channel)) return ChannelEnum.Undefined;
+            if (channels == 1 && channel == 0) return ChannelEnum.Single;
+            if (channels == 2 && channel == 0) return ChannelEnum.Left;
+            if (channels == 2 && channel == 1) return ChannelEnum.Right;
+            throw new Exception($"Unsupported combination of values {new { channels, channel }}");
+        }
+
+        [Obsolete(ObsoleteMessage)] public static int EnumToChannels(this ChannelEnum channelEnum)
+        {
+            switch (channelEnum)
             {
-                case 1: return SpeakerSetupEnum.Mono;
-                case 2: return SpeakerSetupEnum.Stereo;
-                default: return default;
+                case ChannelEnum.Single: return 1;
+                case ChannelEnum.Left: return 2;
+                case ChannelEnum.Right: return 2;
+                default: throw new ValueNotSupportedException(channelEnum);
             }
         }
         
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) 
-            => channels.ChannelsToEnum().ToEntity(context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) 
+            => ChannelsToEnum(channels).ToEntity(context);
+        
+        [Obsolete(ObsoleteMessage)] public static int EntityToChannels(this SpeakerSetup entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return EnumToChannels(entity.ToEnum());
+        }
+
+        [Obsolete(ObsoleteMessage)] public static Channel ChannelsToEntity(this int channels, int? channel, IContext context) 
+            => ChannelsToEnum(channels, channel).ToEntity(context);
+        
+        [Obsolete(ObsoleteMessage)] public static int EntityToChannels(this Channel entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return EnumToChannels(entity.ToEnum());
+        }
+
+        // Channels Shorthand
 
         public   static bool IsMono  (this SynthWishes      obj) => Channels(obj) == 1;
         public   static bool IsMono  (this FlowNode         obj) => Channels(obj) == 1;
@@ -674,10 +713,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static bool IsMono  (this WavHeaderStruct  obj) => Channels(obj) == 1;
         public   static bool IsMono  (this AudioInfoWish    obj) => Channels(obj) == 1;
         public   static bool IsMono  (this AudioFileInfo    obj) => Channels(obj) == 1;
-        [Obsolete(ObsoleteMessage)]
-        public   static bool IsMono  (this SpeakerSetupEnum obj) => Channels(obj) == 1;
-        [Obsolete(ObsoleteMessage)]
-        public   static bool IsMono  (this SpeakerSetup     obj) => Channels(obj) == 1;
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this SpeakerSetupEnum obj) => Channels(obj) == 1;
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this SpeakerSetup     obj) => Channels(obj) == 1;
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this ChannelEnum      obj) => Channels(obj) == 1;
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this Channel          obj) => Channels(obj) == 1;
         
         public   static bool IsStereo(this SynthWishes      obj) => Channels(obj) == 2;
         public   static bool IsStereo(this FlowNode         obj) => Channels(obj) == 2;
@@ -693,10 +732,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static bool IsStereo(this WavHeaderStruct  obj) => Channels(obj) == 2;
         public   static bool IsStereo(this AudioInfoWish    obj) => Channels(obj) == 2;
         public   static bool IsStereo(this AudioFileInfo    obj) => Channels(obj) == 2;
-        [Obsolete(ObsoleteMessage)]
-        public   static bool IsStereo(this SpeakerSetupEnum obj) => Channels(obj) == 2;
-        [Obsolete(ObsoleteMessage)]
-        public   static bool IsStereo(this SpeakerSetup     obj) => Channels(obj) == 2;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetupEnum obj) => Channels(obj) == 2;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetup     obj) => Channels(obj) == 2;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => Channels(obj) == 2;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel          obj) => Channels(obj) == 2;
 
         public   static SynthWishes      Mono  (this SynthWishes      obj) => Channels(obj, 1);
         public   static FlowNode         Mono  (this FlowNode         obj) => Channels(obj, 1);
@@ -712,10 +751,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static WavHeaderStruct  Mono  (this WavHeaderStruct  obj) => Channels(obj, 1);
         public   static AudioInfoWish    Mono  (this AudioInfoWish    obj) => Channels(obj, 1);
         public   static AudioFileInfo    Mono  (this AudioFileInfo    obj) => Channels(obj, 1);
-        [Obsolete(ObsoleteMessage)]
-        public   static SpeakerSetupEnum Mono  (this SpeakerSetupEnum obj) => Channels(obj, 1);
-        [Obsolete(ObsoleteMessage)]
-        public   static SpeakerSetup     Mono  (this SpeakerSetup     obj, IContext context) => Channels(obj, 1, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Mono(this SpeakerSetupEnum obj) => Channels(obj, 1);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup     Mono(this SpeakerSetup     obj, IContext context) => Channels(obj, 1, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum      Mono(this ChannelEnum      obj) => Channels(obj, 1);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel          Mono(this Channel          obj, IContext context) => Channels(obj, 1, context);
 
         public   static SynthWishes      Stereo(this SynthWishes      obj) => Channels(obj, 2);
         public   static FlowNode         Stereo(this FlowNode         obj) => Channels(obj, 2);
@@ -731,10 +774,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static WavHeaderStruct  Stereo(this WavHeaderStruct  obj) => Channels(obj, 2);
         public   static AudioInfoWish    Stereo(this AudioInfoWish    obj) => Channels(obj, 2);
         public   static AudioFileInfo    Stereo(this AudioFileInfo    obj) => Channels(obj, 2);
-        [Obsolete(ObsoleteMessage)]
-        public   static SpeakerSetupEnum Stereo(this SpeakerSetupEnum obj) => Channels(obj, 2);
-        [Obsolete(ObsoleteMessage)]
-        public   static SpeakerSetup     Stereo(this SpeakerSetup     obj, IContext context) => Channels(obj, 2, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Stereo(this SpeakerSetupEnum obj) => Channels(obj, 2);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup     Stereo(this SpeakerSetup     obj, IContext context) => Channels(obj, 2, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum      Stereo(this ChannelEnum      obj) => Channels(obj, 2);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel          Stereo(this Channel          obj, IContext context) => Channels(obj, 2, context);
 
         #endregion
 
@@ -831,7 +878,24 @@ namespace JJ.Business.Synthesizer.Wishes
         public static int? Channel(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
+            if (obj.UnderlyingAudioFileOutput == null) return default;
             return Channel(obj.UnderlyingAudioFileOutput);
+        }
+
+        public static Buff Channel(this Buff obj, int? value)
+        {
+            if (obj == null) throw new NullException(() => obj);
+
+            if (obj.UnderlyingAudioFileOutput == null && value == null) 
+            {
+                // Both null is ok.
+                return obj;
+            }
+
+            // Otherwise, let this method throw error upon null UnderlyingAudioFileOutput.
+            Channel(obj.UnderlyingAudioFileOutput, value);
+            
+            return obj;
         }
         
         public static int? Channel(this AudioFileOutput obj)
@@ -869,45 +933,72 @@ namespace JJ.Business.Synthesizer.Wishes
                 $"obj.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + NewLine +
                 $"obj.AudioFileOutputChannels[0].Index = {firstChannelNumber} ({nameof(firstChannelNumber)})");
         }
-        
+
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput Channel(this AudioFileOutput obj, int? value)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
+            if (obj.AudioFileOutputChannels.Contains(null)) throw new Exception("obj.AudioFileOutputChannels contains nulls.");
+
+            if (value.HasValue)
+            {
+                if (obj.AudioFileOutputChannels.Count != 1)
+                {
+                    throw new Exception("Can only set Channel property for AudioFileOutputs with only 1 channel.");
+                }
+
+                obj.AudioFileOutputChannels[0].Index = value.Value;
+            }
+            else
+            {
+                for (int i = 0; i < obj.AudioFileOutputChannels.Count; i++)
+                {
+                    obj.AudioFileOutputChannels[i].Index = i;
+                }
+            }
+            
+            return obj;
+        }
+
         public static int Channel(this AudioFileOutputChannel obj)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             return obj.Index;
         }
         
-        public static AudioFileOutputChannel Channel(this AudioFileOutputChannel obj, int channel)
+        public static AudioFileOutputChannel Channel(this AudioFileOutputChannel obj, int value)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
-            obj.Index = channel;
+            obj.Index = value;
             return obj;
         }
         
-        [Obsolete(ObsoleteMessage)]
-        public static int? Channel(this Channel enumEntity)
-        {
-            return enumEntity?.Index;
-        }
+        [Obsolete(ObsoleteMessage)] public static int? Channel(this ChannelEnum obj) => EnumToChannel(obj);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(this ChannelEnum obj, int? channel) => ChannelToEnum(channel, Channels(obj));
+        [Obsolete(ObsoleteMessage)] public static int? Channel(this Channel obj) => obj?.Index;
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Channel(this Channel obj, int? channel, IContext context) => ChannelToEntity(channel, Channels(obj), context);
         
-        [Obsolete(ObsoleteMessage)]
-        public static int? Channel(this ChannelEnum enumValue)
+        // Channel, Conversion-Style
+
+        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel(this ChannelEnum obj)
         {
-            switch (enumValue)
+            switch (obj)
             {
                 case ChannelEnum.Single: return 0;
                 case ChannelEnum.Left: return 0;
                 case ChannelEnum.Right: return 1;
                 case ChannelEnum.Undefined: return null;
-                default: throw new ValueNotSupportedException(enumValue);
+                default: throw new ValueNotSupportedException(obj);
             }
         }
 
-        [Obsolete(ObsoleteMessage)]
-        public static ChannelEnum ToEnum(this int? channel, int channels)
-            => ToEnum(channel, channels.ChannelsToEnum());
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? channel, int channels)
+            => ChannelToEnum(channel, channels.ChannelsToEnum());
 
-        [Obsolete(ObsoleteMessage)]
-        public static ChannelEnum ToEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
         {
             if (channel == default) return default;
             
@@ -927,18 +1018,22 @@ namespace JJ.Business.Synthesizer.Wishes
                 "Unsupported combination of values: " + new { speakerSetupEnum, channel });
         }
 
-        [Obsolete(ObsoleteMessage)]
-        public static Channel ToEntity(this int channel, int channels, IContext context)
-            => ToEnum(channel, channels).ToEntity(context);
+        [Obsolete(ObsoleteMessage)] public static Channel ChannelToEntity(this int? channel, int channels, IContext context)
+            => ChannelToEnum(channel, channels).ToEntity(context);
 
-        [Obsolete(ObsoleteMessage)]
-        public static Channel ToEntity(this int channel, SpeakerSetupEnum speakerSetupEnum, IContext context)
-            => ToEnum(channel, speakerSetupEnum).ToEntity(context);
+        [Obsolete(ObsoleteMessage)] public static Channel ChannelToEntity(this int? channel, SpeakerSetupEnum speakerSetupEnum, IContext context)
+            => ChannelToEnum(channel, speakerSetupEnum).ToEntity(context);
         
+        [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(this Channel entity)
+        {
+            if (entity == null) return null;
+            return EnumToChannel(entity.ToEnum());
+        }
+
         #endregion
 
         #region SamplingRate
-        
+
         public static int SamplingRate(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -1262,21 +1357,24 @@ namespace JJ.Business.Synthesizer.Wishes
             return obj;
         }
         
-        public static AudioFileFormatEnum AudioFormat([UsedImplicitly] WavHeaderStruct obj) => Wav;
+        // ReSharper disable once UnusedParameter.Global
+        public static AudioFileFormatEnum AudioFormat(WavHeaderStruct obj) => Wav;
         
-        [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormatEnum AudioFormat(this AudioFileFormat obj) 
-            => ToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormatEnum AudioFormat(this AudioFileFormat obj) => ToEnum(obj);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormat AudioFormat(this AudioFileFormat obj, AudioFileFormatEnum value, IContext context) => ToEntity(value, context);
         
-        [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
+        // AudioFormat, Conversion-Style
+        
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
             return (AudioFileFormatEnum)enumEntity.ID;
         }
         
-        [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context) 
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context) 
             => CreateRepository<IAudioFileFormatRepository>(context).Get(audioFormat.ToID());
         
         #endregion
@@ -1397,19 +1495,21 @@ namespace JJ.Business.Synthesizer.Wishes
             return obj;
         }
     
-        [Obsolete(ObsoleteMessage)]
-        public static InterpolationTypeEnum Interpolation(this InterpolationType obj) 
-            => ToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => ToEnum(obj);
         
-        [Obsolete(ObsoleteMessage)]
-        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static InterpolationType Interpolation(this InterpolationType obj, InterpolationTypeEnum value, IContext context) => ToEntity(value, context);
+
+        // Interpolation, Conversion-Style
+        
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
         {
             if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
             return (InterpolationTypeEnum)enumEntity.ID;
         }
 
-        [Obsolete(ObsoleteMessage)]
-        public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context)
+        [Obsolete(ObsoleteMessage)] public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context)
         {
             if (enumValue == default) return default;
             var repository = CreateRepository<IInterpolationTypeRepository>(context);
@@ -1562,33 +1662,23 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static AudioInfoWish      SizeOfBitDepth(this AudioInfoWish      obj, int byteSize) => Bits(obj, byteSize * 8);
         public   static int                SizeOfBitDepth(this AudioFileInfo      obj) => Bits(obj) / 8;
         public   static AudioFileInfo      SizeOfBitDepth(this AudioFileInfo      obj, int byteSize) => Bits(obj, byteSize * 8);
-        [Obsolete(ObsoleteMessage)]
-        public   static int                SizeOfBitDepth(this SampleDataTypeEnum obj) => SizeOf(obj);
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public   static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum obj, int byteSize) => BitsToEnum(byteSize * 8);
-        [Obsolete(ObsoleteMessage)]
-        public   static int                SizeOfBitDepth(this SampleDataType     obj) => SizeOf(obj);
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public   static SampleDataType     SizeOfBitDepth(this SampleDataType     obj, int byteSize, IContext context) => BitsToEntity(byteSize * 8, context);
-        public   static int                SizeOfBitDepth(this int                bits  ) => bits / 8; // ReSharper disable once UnusedParameter.Global
-        public   static int                SizeOfBitDepth(this int                bits,   int byteSize) => byteSize;
         
-        public static int SizeOfBitDepth(this Type obj)
-        {
-            if (obj == typeof(byte)) return 1;
-            if (obj == typeof(Int16)) return 2;
-            if (obj == typeof(float)) return 4;
-            throw new ValueNotSupportedException(obj);
-        }
-        
+        public static int SizeOfBitDepth(this int bits) => bits / 8;
+        /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        public static Type SizeOfBitDepth(this Type obj, int byteSize) 
-        {
-            if (byteSize == 1) return typeof(byte);
-            if (byteSize == 2) return typeof(Int16);
-            if (byteSize == 4) return typeof(float);
-            throw new Exception($"{new { byteSize }} not supported.");
-        }
+        public static int SizeOfBitDepth(this int bits, int byteSize) => byteSize;
+        public static int SizeOfBitDepth(this Type obj) => TypeToBits(obj) / 8;
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        public static Type SizeOfBitDepth(this Type obj, int byteSize) => BitsToType(byteSize * 8);
+        [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataTypeEnum obj) => SizeOf(obj);
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum obj, int byteSize) => BitsToEnum(byteSize * 8);
+        [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataType obj) => SizeOf(obj);
+        /// <inheritdoc cref="docs._quasisetter" />
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static SampleDataType SizeOfBitDepth(this SampleDataType obj, int byteSize, IContext context) => BitsToEntity(byteSize * 8, context);
 
         #endregion
         
@@ -1621,20 +1711,26 @@ namespace JJ.Business.Synthesizer.Wishes
         
         #region MaxValue
         
-        public static double MaxValue(this SynthWishes obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this FlowNode obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this ConfigWishes obj) => MaxValue(Bits(obj));
-        internal static double MaxValue(this ConfigSection obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this Buff obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this Tape obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this TapeConfig obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this TapeAction obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this TapeActions obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this Sample obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this AudioFileOutput obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this WavHeaderStruct obj) => MaxValue(Bits(obj));
-        public static double MaxValue(this AudioFileInfo info) => MaxValue(Bits(info));
-        public static double MaxValue(this AudioInfoWish infoWish) => MaxValue(Bits(infoWish));
+        public   static double MaxValue(this SynthWishes     obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this FlowNode        obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this ConfigWishes    obj) => Bits(obj).MaxValue();
+        internal static double MaxValue(this ConfigSection   obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this Buff            obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this Tape            obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this TapeConfig      obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this TapeAction      obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this TapeActions     obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this Sample          obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this AudioFileOutput obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this WavHeaderStruct obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this AudioFileInfo   obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this AudioInfoWish   obj) => Bits(obj).MaxValue();
+        public   static double MaxValue(this Type valueType) => Bits(valueType).MaxValue();
+        public   static double MaxValue<TValue>() => Bits<TValue>().MaxValue();
+        
+        [Obsolete(ObsoleteMessage)] public static double MaxValue(this SampleDataType     obj) => Bits(obj).MaxValue();
+        [Obsolete(ObsoleteMessage)] public static double MaxValue(this SampleDataTypeEnum obj) => Bits(obj).MaxValue();
+        
         public static double MaxValue(this int bits)
         {
             switch (AssertBits(bits))
@@ -1646,39 +1742,18 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        [Obsolete(ObsoleteMessage)]
-        public static double GetMaxValue(this SampleDataType enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return enumEntity.ToEnum().MaxValue();
-        }
-        
-        [Obsolete(ObsoleteMessage)]
-        public static double MaxValue(this SampleDataTypeEnum enumValue) => enumValue.Bits().MaxValue();
-        
         #endregion
                 
         #region FileExtension
-        
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileFormatEnum audioFormat)
-        {
-            switch (audioFormat)
-            {
-                case Wav: return ".wav";
-                case Raw: return ".raw";
-                default: throw new ValueNotSupportedException(audioFormat);
-            }
-        }
 
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this SynthWishes obj) => AudioFormat(obj).FileExtension();
+        public static string      FileExtension(this SynthWishes obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static SynthWishes FileExtension(this SynthWishes obj, string value) => AudioFormat(obj, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this FlowNode obj) => AudioFormat(obj).FileExtension();
+        public static string      FileExtension(this FlowNode obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static FlowNode FileExtension(this FlowNode obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static FlowNode     FileExtension(this FlowNode obj, string value) => AudioFormat(obj, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this ConfigWishes obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
@@ -1719,27 +1794,54 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string FileExtension([UsedImplicitly] this WavHeaderStruct obj) => AudioFormat(obj).FileExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
-        [Obsolete(ObsoleteMessage)]
-        public static string FileExtension(this AudioFileFormat enumEntity)
+        public static string FileExtension(this AudioFileFormatEnum obj)
         {
-            if (enumEntity == null) throw new NullException(() => enumEntity);
-            return enumEntity.ToEnum().FileExtension();
+            switch (obj)
+            {
+                case Wav: return ".wav";
+                case Raw: return ".raw";
+                default: throw new ValueNotSupportedException(obj);
+            }
+        }
+
+        /// <inheritdoc cref="docs._fileextension"/>
+        // ReSharper disable once UnusedParameter.Global
+        public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value)
+        {
+            switch (value)
+            {
+                case ".wav": return Wav;
+                case ".raw": return Raw;
+                default: throw new ValueNotSupportedException(value);
+            }
+        }
+
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)] public static string FileExtension(this AudioFileFormat obj) 
+        {
+            switch (obj.ToEnum())
+            {
+                case Wav: return ".wav";
+                case Raw: return ".raw";
+                default: throw new ValueNotSupportedException(obj);
+            }
+        }
+        
+        /// <inheritdoc cref="docs._fileextension"/>
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
+        {
+            switch (value)
+            {
+                case ".wav": return Wav.ToEntity(context);
+                case ".raw": return Raw.ToEntity(context);
+                default: throw new ValueNotSupportedException(value);
+            }
         }
 
         #endregion
                 
         #region HeaderLength
-        
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormatEnum audioFormat)
-        {
-            switch (audioFormat)
-            {
-                case Wav: return 44;
-                case Raw: return 0;
-                default: throw new ValueNotSupportedException(audioFormat);
-            }
-        }
         
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this SynthWishes obj) => AudioFormat(obj).HeaderLength();
@@ -1766,9 +1868,20 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._headerlength"/>
         // ReSharper disable once UnusedParameter.Global
         public static int HeaderLength(this WavHeaderStruct obj) => HeaderLength(Wav);
+                
         /// <inheritdoc cref="docs._headerlength"/>
-        [Obsolete(ObsoleteMessage)] 
-        public static int HeaderLength(this AudioFileFormat enumEntity) => AudioFormat(enumEntity).HeaderLength();
+        public static int HeaderLength(this AudioFileFormatEnum obj)
+        {
+            switch (obj)
+            {
+                case Wav: return 44;
+                case Raw: return 0;
+                default: throw new ValueNotSupportedException(obj);
+            }
+        }
+
+        /// <inheritdoc cref="docs._headerlength"/>
+        [Obsolete(ObsoleteMessage)] public static int HeaderLength(this AudioFileFormat obj) => AudioFormat(obj).HeaderLength();
         
         #endregion
         

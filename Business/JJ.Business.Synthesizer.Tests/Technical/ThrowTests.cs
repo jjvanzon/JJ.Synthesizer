@@ -52,10 +52,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
             // AudioPropertyWishes.Channels SpeakerSetupNotSupported
-            ThrowsException(() => SpeakerSetupEnum.Undefined.Channels());
+            //ThrowsException(() => SpeakerSetupEnum.Undefined.Channels());
 
             // AudioPropertyWishes.ChannelsToEnum ChannelCountNotSupported
-            ThrowsException(() => 0.ChannelsToEnum());
+            //ThrowsException(() => 0.ChannelsToEnum());
 
             // AudioPropertyWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.FileExtension());

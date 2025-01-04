@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             switch (bits)
             {
-                case 32: case 16: case 8: case null: break; 
+                case null: case 0: case 32: case 16: case 8:  break; 
                 default: throw new Exception(BitsNotSupportedMessage(bits)); 
             }
             return bits;
@@ -189,16 +189,16 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             return channels;
         }
-                
+                       
         [AssertionMethod]
-        internal static int? AssertChannel(int? channel)
+        internal static int? AssertChannels(int? channels)
         {
-            switch (channel)
+            switch (channels)
             {
-                case null: case 0: case 1: break; 
-                default: throw new Exception(ChannelNotSupportedMessage(channel)); 
+                case null: case 0: case 1: case 2: break; 
+                default: throw new Exception(ChannelsNotSupportedMessage(channels)); 
             }
-            return channel;
+            return channels;
         }
                 
         [AssertionMethod]
@@ -207,6 +207,17 @@ namespace JJ.Business.Synthesizer.Wishes
             switch (channel)
             {
                 case 0: case 1: break; 
+                default: throw new Exception(ChannelNotSupportedMessage(channel)); 
+            }
+            return channel;
+        }
+        
+        [AssertionMethod]
+        internal static int? AssertChannel(int? channel)
+        {
+            switch (channel)
+            {
+                case null: case 0: case 1: break; 
                 default: throw new Exception(ChannelNotSupportedMessage(channel)); 
             }
             return channel;

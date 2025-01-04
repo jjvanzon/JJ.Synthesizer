@@ -141,6 +141,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _captureindexer;
 
         /// <summary>
+        /// When AudioFileOutput has 1 channel, it will set the channel index of that channel to the supplied value.
+        /// This way AudioFileOutput stand in to function as left-only or right-only.
+        /// If the AudioFileOutput has 2 channels, the channel value has to be null,
+        /// and it will reset the channel indexes to the order in which the channels occur in the list.
+        /// That way you can revert an AudioFileOutput back to normal Mono or Stereo mode.
+        /// </summary>
+        public static object _channeltoaudiofileoutput;
+
+        /// <summary>
         /// <strong>Command Indexers</strong><br/>
         /// Allows notation such as <c>[ Panbrello ]</c> to apply the specified command
         /// to the current <see cref="FlowNode">FlowNode</see>.
@@ -678,19 +687,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _note;
 
         /// <summary>
-        /// E.g., <c> sampleDataType.With32Bit() </c>: returns a <c> SampleDataType </c> entity. <br/> associated with 32-bit audio.
-        /// A different <c> SampleDataType </c> is returned than went in. <br/><br/>
+        /// Unsettling setters for the unsettable.<br/><br/>
         /// 
-        /// <strong> Programming technicalities: </strong> <br/> <br/>
+        /// E.g., <c> sampleDataType.With32Bit() </c> returns a different entity than went in. <br/>
+        /// The method left the input object completely untouched, because it is immutable. <br/> <br/>
         /// 
+        /// <strong> Programming Technicalities </strong> <br/> <br/>
+        ///
         /// These quasi-setters are a strange kind of value setters. <br/>
         /// They are executed upon objects they don't even use. <br/>
-        /// The <c> this </c> object before the dot <c> . </c> is only used to discriminate between types of objects. <br/>
-        /// So when you have <c> sampleDataTypeEnum.With32Bit() </c> it returns an <c> enum </c>, instead the <c> SampleDataType </c> entity. <br/>
-        /// Another example: <c> With8Bit&lt;float&gt;() </c> returns <c> typeof(byte) </c> even though we mentioned <c> float </c> in the call. <br/>
+        /// The <c> this </c> object before the dot <c> . </c> is only used to discriminate between object types. <br/>
+        /// So when you have <c> sampleDataTypeEnum.With32Bit() </c> it returns an <c> enum </c>. <br/>
+        /// Another example: <c> With8Bit&lt;float&gt;() </c> returns <c> typeof(byte) </c> even though the call mentioned <c> float </c> not <c>byte</c>. <br/>
         /// What happens is that it returns the 8-bit variation of a data type compatible to what a float data type is to 32-bit audio. <br/>
         /// These kinds of quasi-setters are used for immutable types and structs. Instead of setting a property of the target object, <br/>
-        /// they return a new object, that has that different property. It makes these immutable types have setters with fluent syntax, <br/>
+        /// they return a different object, that has that different property. It makes these immutable types have setters with fluent syntax, <br/>
         /// just like types that are mutable, allowing for consistent fluent syntax throughout.
         /// </summary>
         public static object _quasisetter;
