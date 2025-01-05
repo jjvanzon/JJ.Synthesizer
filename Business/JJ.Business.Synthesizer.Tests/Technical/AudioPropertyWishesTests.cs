@@ -30,14 +30,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         void Bits_Getters_Normal(int bits)
         {
-            var x = new TestEntities(s => s.WithBits(bits));
+            var x = new TestEntities(bits);
             x.GlobalBound_Bits_Equal(DefaultBits);
             x.All_Bits_Equal(bits);
         }
         
         [TestMethod] public void Bits_Getters_8BitShorthand()
         {
-            var x = new TestEntities(s => s.With8Bit());
+            var x = new TestEntities(bits: 8);
 
             // Global-Bound
             IsFalse(() => x.ConfigSection.Is8Bit());
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod] public void Bits_Getters_16BitShorthand()
         {
-            var x = new TestEntities(s => s.With16Bit());
+            var x = new TestEntities(bits: 16);
             
             // Global-Bound
             IsFalse(() => x.ConfigSection.Is16Bit());
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         [TestMethod] public void Bits_Getters_32BitShorthand()
         {
-            var x = new TestEntities(y => y.With32Bit());
+            var x = new TestEntities(bits: 32);
             
             // Global-Bound
             IsTrue(() => x.ConfigSection.Is32Bit());
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int[] values = { 8, 16, 32 };
             foreach (int bits in values)
             {
-                var x = new TestEntities(s => s.WithBits(bits));
+                var x = new TestEntities(bits);
                 AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
                 AreEqual(bits, () => x.SampleDataType.EntityToBits());
                 AreEqual(bits, () => x.Type.TypeToBits());
@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         void Bits_Setters_Normal_ShallowTest(int from, int to)
         {
-            var x = new TestEntities(s => s.WithBits(from));
+            var x = new TestEntities(from);
 
             // SynthWishes-Bound
             AreEqual(x.SynthWishes,  () => x.SynthWishes.Bits(to));
@@ -308,7 +308,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             foreach (int bits in new[] { 8, 16, 32 })
             {
-                var x = new TestEntities(s => s.WithBits(bits));
+                var x = new TestEntities(bits);
                 AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
                 AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
                 AreEqual(x.Type,               () => bits.BitsToType());
@@ -352,7 +352,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         void Bits_Setters_IndependentsAndImmutables(int from, int to)
         {
-            var x = new TestEntities(s => s.WithBits(from));
+            var x = new TestEntities(from);
             
             // Test Mutations
 
@@ -407,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         [TestMethod] public void Bits_Setters_8Bit_Shorthand_ShallowTest()
         {
-            var x = new TestEntities(s => s.With32Bit());
+            var x = new TestEntities(bits: 32);
             
             // SynthWishes-Bound
             AreEqual(x.SynthWishes,  () => x.SynthWishes.With8Bit());
@@ -438,7 +438,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod] public void Bits_Setters_16Bit_Shorthand_ShallowTest()
         {
-            var x = new TestEntities(s => s.With32Bit());
+            var x = new TestEntities(bits: 32);
             
             // SynthWishes-Bound
             AreEqual(x.SynthWishes,  () => x.SynthWishes.With16Bit());
@@ -469,7 +469,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod] public void Bits_Setters_32Bit_Shorthand_ShallowTest()
         {
-            var x = new TestEntities(s => s.With16Bit());
+            var x = new TestEntities(bits: 16);
             
             // SynthWishes-Bound
             AreEqual(x.SynthWishes,  () => x.SynthWishes.With32Bit());
@@ -502,7 +502,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             { // Check Before Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 // SynthWishes-Bound
                 IsFalse(() => x.SynthWishes.Is8Bit());
@@ -533,7 +533,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // SynthWishes-Bound Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 { // Change-Check
                     
@@ -606,7 +606,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // Tape-Bound Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 { // Change-Check
                     
@@ -688,7 +688,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // Buff-Bound Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 { // Change-Check
                     
@@ -776,7 +776,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             { // Check Before Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 // SynthWishes-Bound
                 IsFalse(() => x.SynthWishes.Is16Bit());
@@ -807,7 +807,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // SynthWishes-Bound Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 { // Change-Check
                     
@@ -880,7 +880,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // Tape-Bound Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 { // Change-Check
                     
@@ -962,7 +962,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // Buff-Bound Change
                 
-                var x = new TestEntities(s => s.With32Bit());
+                var x = new TestEntities(bits: 32);
                 
                 { // Change-Check
                     
@@ -1050,7 +1050,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             { // Check Before Change
                 
-                var x = new TestEntities(s => s.With16Bit());
+                var x = new TestEntities(bits: 16);
                 
                 // SynthWishes-Bound
                 IsFalse(() => x.SynthWishes.Is32Bit());
@@ -1081,7 +1081,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // SynthWishes-Bound Change
                 
-                var x = new TestEntities(s => s.With16Bit());
+                var x = new TestEntities(bits: 16);
                 
                 { // Change-Check
                     
@@ -1154,7 +1154,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // Tape-Bound Change
                 
-                var x = new TestEntities(s => s.With16Bit());
+                var x = new TestEntities(bits: 16);
                 
                 { // Change-Check
                     
@@ -1236,7 +1236,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             { // Buff-Bound Change
                 
-                var x = new TestEntities(s => s.With16Bit());
+                var x = new TestEntities(bits: 16);
                 
                 { // Change-Check
                     
@@ -1322,7 +1322,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod] public void Bits_Setters_8Bit_Shorthand_ChangingIndependentAndImmutables()
         {
-            var x = new TestEntities(s => s.With32Bit());
+            var x = new TestEntities(bits: 32);
             
             // Test Mutations
 
@@ -1383,7 +1383,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         [TestMethod] public void Bits_Setters_16Bit_Shorthand_ChangingIndependentAndImmutables()
         {
-            var x = new TestEntities(s => s.With32Bit());
+            var x = new TestEntities(bits: 32);
             
             // Test Mutations
 
@@ -1444,7 +1444,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         [TestMethod] public void Bits_Setters_32Bit_Shorthand_ChangingIndependentAndImmutables()
         {
-            var x = new TestEntities(s => s.With16Bit());
+            var x = new TestEntities(bits: 16);
             
             // Test Mutations
 
@@ -1537,9 +1537,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public SampleDataType        SampleDataType     { get; private set; }
             public Type                  Type               { get; private set; }
 
-            public TestEntities(int bits) : this(x => x.WithBits(bits));
+            public TestEntities(int bits) : this(x => x.WithBits(bits)) 
+            { }
             
-            public TestEntities(Action<SynthWishes> initialize = null) 
+            private TestEntities(Action<SynthWishes> initialize = null) 
             {
                 // SynthWishes-Bound
                 SynthWishes  = new SynthWishes();
