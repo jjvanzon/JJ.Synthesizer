@@ -35,48 +35,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             x.All_Bits_Equal(bits);
         }
         
-        
-        [TestMethod] public void Bits_Getters_ConversionStyle()
-        {
-            int[] values = { 8, 16, 32 };
-            foreach (int bits in values)
-            {
-                var x = new TestEntities(s => s.WithBits(bits));
-                AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
-                AreEqual(bits, () => x.SampleDataType.EntityToBits());
-                AreEqual(bits, () => x.Type.TypeToBits());
-            }
-            
-            // For test coverage
-            ThrowsException(() => default(Type).TypeToBits());
-        }
-
-        [TestMethod] public void Bits_Getters_FromTypeArguments()
-        {
-            // Getters
-            AreEqual(8, () => Bits<byte>());
-            AreEqual(16, () => Bits<short>());
-            AreEqual(32, () => Bits<float>());
-        
-            // Conversion-Style Getters
-            AreEqual(8, () => TypeToBits<byte>());
-            AreEqual(16, () => TypeToBits<short>());
-            AreEqual(32, () => TypeToBits<float>());
-
-            // Shorthand Getters            
-            IsTrue(() => Is8Bit<byte>());
-            IsFalse(() => Is8Bit<short>());
-            IsFalse(() => Is8Bit<float>());
-
-            IsFalse(() => Is16Bit<byte>());
-            IsTrue(() => Is16Bit<short>());
-            IsFalse(() => Is16Bit<float>());
-
-            IsFalse(() => Is32Bit<byte>());
-            IsFalse(() => Is32Bit<short>());
-            IsTrue(() => Is32Bit<float>());
-        }
-        
         [TestMethod] public void Bits_Getters_8BitShorthand()
         {
             var x = new TestEntities(s => s.With8Bit());
@@ -177,6 +135,47 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.SampleDataTypeEnum.Is32Bit());
             IsTrue(() => x.SampleDataType.Is32Bit());
             IsTrue(() => x.Type.Is32Bit());
+        }
+                
+        [TestMethod] public void Bits_Getters_ConversionStyle()
+        {
+            int[] values = { 8, 16, 32 };
+            foreach (int bits in values)
+            {
+                var x = new TestEntities(s => s.WithBits(bits));
+                AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
+                AreEqual(bits, () => x.SampleDataType.EntityToBits());
+                AreEqual(bits, () => x.Type.TypeToBits());
+            }
+            
+            // For test coverage
+            ThrowsException(() => default(Type).TypeToBits());
+        }
+
+        [TestMethod] public void Bits_Getters_FromTypeArguments()
+        {
+            // Getters
+            AreEqual(8, () => Bits<byte>());
+            AreEqual(16, () => Bits<short>());
+            AreEqual(32, () => Bits<float>());
+        
+            // Conversion-Style Getters
+            AreEqual(8, () => TypeToBits<byte>());
+            AreEqual(16, () => TypeToBits<short>());
+            AreEqual(32, () => TypeToBits<float>());
+
+            // Shorthand Getters            
+            IsTrue(() => Is8Bit<byte>());
+            IsFalse(() => Is8Bit<short>());
+            IsFalse(() => Is8Bit<float>());
+
+            IsFalse(() => Is16Bit<byte>());
+            IsTrue(() => Is16Bit<short>());
+            IsFalse(() => Is16Bit<float>());
+
+            IsFalse(() => Is32Bit<byte>());
+            IsFalse(() => Is32Bit<short>());
+            IsTrue(() => Is32Bit<float>());
         }
 
         // Bit Setters
