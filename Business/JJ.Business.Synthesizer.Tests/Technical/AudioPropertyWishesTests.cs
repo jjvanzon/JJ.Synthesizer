@@ -231,29 +231,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 x.All_Bits_Equal(from);
             }
             
-            // SynthWishes-Bound Changes
-            { 
-                // Init
-                var x = new TestEntities(s => s.WithBits(from));
-                x.All_Bits_Equal(from);
-                    
-                // Change!
-                x.ConfigWishes.Bits(to);
-                    
-                // Assert
-                x.SynthBound_Bits_Equal(to);
-                x.TapeBound_Bits_Equal(from);
-                x.BuffBound_Bits_Equal(from);
-                x.Independent_Bits_Equal(from);
-                x.Immutable_Bits_Equal(from);
-                
-                // After Record
-                x.Record();
-                
-                // Assert
-                x.All_Bits_Equal(to);
-            }
-            
+            Test_SynthBound_Bits_Change(from, to, (x,y) => x.SynthWishes.Bits(y));
+            Test_SynthBound_Bits_Change(from, to, (x,y) => x.FlowNode.Bits(y));
+            Test_SynthBound_Bits_Change(from, to, (x,y) => x.ConfigWishes.Bits(y));
+        
             // Tape-Bound Changes
             { 
                 // Init
@@ -302,6 +283,30 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 // Assert
                 x.All_Bits_Equal(from);
             }
+        }
+        
+        void Test_SynthBound_Bits_Change(int from, int to, Action<TestEntities, int> changePropDelegate)
+        {
+            // Init
+            var x = new TestEntities(s => s.WithBits(from));
+            x.All_Bits_Equal(from);
+            
+            // Change!
+            //x.ConfigWishes.Bits(to);
+            changePropDelegate(x, to);
+            
+            // Assert
+            x.SynthBound_Bits_Equal(to);
+            x.TapeBound_Bits_Equal(from);
+            x.BuffBound_Bits_Equal(from);
+            x.Independent_Bits_Equal(from);
+            x.Immutable_Bits_Equal(from);
+            
+            // After Record
+            x.Record();
+            
+            // Assert
+            x.All_Bits_Equal(to);
         }
         
         [TestMethod] public void Bits_Setters_ConversionStyle()
