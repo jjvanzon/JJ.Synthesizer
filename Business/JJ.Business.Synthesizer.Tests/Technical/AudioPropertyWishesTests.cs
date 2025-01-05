@@ -629,7 +629,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(to, () => typeAfter.Bits());
         }    
         
-        // Bit Setters - ShortHand
+        // Bit Setters - Shorthand
                 
         [TestMethod] public void Bits_Setters_8Bit_Shorthand_ShallowTest()
         {
@@ -662,7 +662,69 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             NotEqual(x.Type,               () => x.Type.With8Bit());
         }
 
-        [TestMethod] public void Bits_Setters_8Bit_ShortHand()
+        [TestMethod] public void Bits_Setters_16Bit_Shorthand_ShallowTest()
+        {
+            var x = new TestEntities(s => s.With32Bit());
+            
+            // SynthWishes-Bound
+            AreEqual(x.SynthWishes,  () => x.SynthWishes.With16Bit());
+            AreEqual(x.FlowNode,     () => x.FlowNode.With16Bit());
+            AreEqual(x.ConfigWishes, () => x.ConfigWishes.With16Bit());
+            
+            // Tape-Bound
+            AreEqual(x.Tape,        () => x.Tape.With16Bit());
+            AreEqual(x.TapeConfig,  () => x.TapeConfig.With16Bit());
+            AreEqual(x.TapeActions, () => x.TapeActions.With16Bit());
+            AreEqual(x.TapeAction,  () => x.TapeAction.With16Bit());
+            
+            // Buff-Bound
+            AreEqual(x.Buff,            () => x.Buff.With16Bit(x.Context));
+            AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With16Bit(x.Context));
+            
+            // Independent after Taping
+            AreEqual(x.Sample,        () => x.Sample.With16Bit(x.Context));
+            AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With16Bit());
+            AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With16Bit());
+            
+            // Immutable
+            NotEqual(x.WavHeader,          () => x.WavHeader.With16Bit());
+            NotEqual(x.SampleDataTypeEnum, () => x.SampleDataTypeEnum.With16Bit());
+            NotEqual(x.SampleDataType,     () => x.SampleDataType.With16Bit(x.Context));
+            NotEqual(x.Type,               () => x.Type.With16Bit());
+        }
+        
+        [TestMethod] public void Bits_Setters_32Bit_Shorthand_ShallowTest()
+        {
+            var x = new TestEntities(s => s.With16Bit());
+            
+            // SynthWishes-Bound
+            AreEqual(x.SynthWishes,  () => x.SynthWishes.With32Bit());
+            AreEqual(x.FlowNode,     () => x.FlowNode.With32Bit());
+            AreEqual(x.ConfigWishes, () => x.ConfigWishes.With32Bit());
+            
+            // Tape-Bound
+            AreEqual(x.Tape,        () => x.Tape.With32Bit());
+            AreEqual(x.TapeConfig,  () => x.TapeConfig.With32Bit());
+            AreEqual(x.TapeActions, () => x.TapeActions.With32Bit());
+            AreEqual(x.TapeAction,  () => x.TapeAction.With32Bit());
+            
+            // Buff-Bound
+            AreEqual(x.Buff,            () => x.Buff.With32Bit(x.Context));
+            AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With32Bit(x.Context));
+            
+            // Independent after Taping
+            AreEqual(x.Sample,        () => x.Sample.With32Bit(x.Context));
+            AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With32Bit());
+            AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With32Bit());
+            
+            // Immutable
+            NotEqual(x.WavHeader,          () => x.WavHeader.With32Bit());
+            NotEqual(x.SampleDataTypeEnum, () => x.SampleDataTypeEnum.With32Bit());
+            NotEqual(x.SampleDataType,     () => x.SampleDataType.With32Bit(x.Context));
+            NotEqual(x.Type,               () => x.Type.With32Bit());
+        }
+
+        [TestMethod] public void Bits_Setters_8Bit_Shorthand()
         {
             { // Check Before Change
                 
@@ -935,8 +997,556 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
         }
+        
+        [TestMethod] public void Bits_Setters_16Bit_Shorthand()
+        {
+            { // Check Before Change
+                
+                var x = new TestEntities(s => s.With32Bit());
+                
+                // SynthWishes-Bound
+                IsFalse(() => x.SynthWishes.Is16Bit());
+                IsFalse(() => x.FlowNode.Is16Bit());
+                IsFalse(() => x.ConfigWishes.Is16Bit());
+                
+                // Tape-Bound
+                IsFalse(() => x.Tape.Is16Bit());
+                IsFalse(() => x.TapeConfig.Is16Bit());
+                IsFalse(() => x.TapeActions.Is16Bit());
+                IsFalse(() => x.TapeAction.Is16Bit());
+                
+                // Buff-Bound
+                IsFalse(() => x.Buff.Is16Bit());
+                IsFalse(() => x.AudioFileOutput.Is16Bit());
+                
+                // Independent after Taping
+                IsFalse(() => x.Sample.Is16Bit());
+                IsFalse(() => x.AudioInfoWish.Is16Bit());
+                IsFalse(() => x.AudioFileInfo.Is16Bit());
+                
+                // Immutable
+                IsFalse(() => x.WavHeader.Is16Bit());
+                IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
+                IsFalse(() => x.SampleDataType.Is16Bit());
+                IsFalse(() => x.Type.Is16Bit());
+            }
+            
+            { // SynthWishes-Bound Change
+                
+                var x = new TestEntities(s => s.With32Bit());
+                
+                { // Change-Check
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is16Bit());
+                    IsFalse(() => x.FlowNode.Is16Bit());
+                    IsFalse(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Change!
+                    x.ConfigWishes.With16Bit();
+                    
+                    // SynthWishes-Bound
+                    IsTrue(() => x.SynthWishes.Is16Bit());
+                    IsTrue(() => x.FlowNode.Is16Bit());
+                    IsTrue(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is16Bit());
+                    IsFalse(() => x.TapeConfig.Is16Bit());
+                    IsFalse(() => x.TapeActions.Is16Bit());
+                    IsFalse(() => x.TapeAction.Is16Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is16Bit());
+                    IsFalse(() => x.AudioFileOutput.Is16Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is16Bit());
+                    IsFalse(() => x.AudioInfoWish.Is16Bit());
+                    IsFalse(() => x.AudioFileInfo.Is16Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is16Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
+                    IsFalse(() => x.SampleDataType.Is16Bit());
+                    IsFalse(() => x.Type.Is16Bit());
+                }
+                
+                { // After-Record
+                    
+                    x.Record();
+                    
+                    // SynthWishes-Bound
+                    IsTrue(() => x.SynthWishes.Is16Bit());
+                    IsTrue(() => x.FlowNode.Is16Bit());
+                    IsTrue(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Tape-Bound
+                    IsTrue(() => x.Tape.Is16Bit());
+                    IsTrue(() => x.TapeConfig.Is16Bit());
+                    IsTrue(() => x.TapeActions.Is16Bit());
+                    IsTrue(() => x.TapeAction.Is16Bit());
+                    
+                    // Buff-Bound
+                    IsTrue(() => x.Buff.Is16Bit());
+                    IsTrue(() => x.AudioFileOutput.Is16Bit());
+                    
+                    // Independent after Taping
+                    IsTrue(() => x.Sample.Is16Bit());
+                    IsTrue(() => x.AudioInfoWish.Is16Bit());
+                    IsTrue(() => x.AudioFileInfo.Is16Bit());
+                    
+                    // Immutable
+                    IsTrue(() => x.WavHeader.Is16Bit());
+                    IsTrue(() => x.SampleDataTypeEnum.Is16Bit());
+                    IsTrue(() => x.SampleDataType.Is16Bit());
+                    IsTrue(() => x.Type.Is16Bit());
+                }
+            }
+            
+            { // Tape-Bound Change
+                
+                var x = new TestEntities(s => s.With32Bit());
+                
+                { // Change-Check
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is16Bit());
+                    IsFalse(() => x.FlowNode.Is16Bit());
+                    IsFalse(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is16Bit());
+                    IsFalse(() => x.TapeConfig.Is16Bit());
+                    IsFalse(() => x.TapeActions.Is16Bit());
+                    IsFalse(() => x.TapeAction.Is16Bit());
+                    
+                    // Change!
+                    x.TapeAction.With16Bit();
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is16Bit());
+                    IsFalse(() => x.FlowNode.Is16Bit());
+                    IsFalse(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Tape-Bound
+                    IsTrue(() => x.Tape.Is16Bit());
+                    IsTrue(() => x.TapeConfig.Is16Bit());
+                    IsTrue(() => x.TapeActions.Is16Bit());
+                    IsTrue(() => x.TapeAction.Is16Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is16Bit());
+                    IsFalse(() => x.AudioFileOutput.Is16Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is16Bit());
+                    IsFalse(() => x.AudioInfoWish.Is16Bit());
+                    IsFalse(() => x.AudioFileInfo.Is16Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is16Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
+                    IsFalse(() => x.SampleDataType.Is16Bit());
+                    IsFalse(() => x.Type.Is16Bit());
+                }
+                
+                { // After-Record
+                    
+                    x.Record();
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is16Bit());
+                    IsFalse(() => x.FlowNode.Is16Bit());
+                    IsFalse(() => x.ConfigWishes.Is16Bit());
+                    
+                    // By Design: Currently can't re-record over the same tape.
+                    // So you always get a new tape, overwriting the changed values upon record.
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is16Bit());
+                    IsFalse(() => x.TapeConfig.Is16Bit());
+                    IsFalse(() => x.TapeActions.Is16Bit());
+                    IsFalse(() => x.TapeAction.Is16Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is16Bit());
+                    IsFalse(() => x.AudioFileOutput.Is16Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is16Bit());
+                    IsFalse(() => x.AudioInfoWish.Is16Bit());
+                    IsFalse(() => x.AudioFileInfo.Is16Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is16Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
+                    IsFalse(() => x.SampleDataType.Is16Bit());
+                    IsFalse(() => x.Type.Is16Bit());
+                }
+            }
+            
+            { // Buff-Bound Change
+                
+                var x = new TestEntities(s => s.With32Bit());
+                
+                { // Change-Check
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is16Bit());
+                    IsFalse(() => x.FlowNode.Is16Bit());
+                    IsFalse(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is16Bit());
+                    IsFalse(() => x.TapeConfig.Is16Bit());
+                    IsFalse(() => x.TapeActions.Is16Bit());
+                    IsFalse(() => x.TapeAction.Is16Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is16Bit());
+                    IsFalse(() => x.AudioFileOutput.Is16Bit());
+                    
+                    // Change!
+                    x.AudioFileOutput.With16Bit(x.Context);
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is16Bit());
+                    IsFalse(() => x.FlowNode.Is16Bit());
+                    IsFalse(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is16Bit());
+                    IsFalse(() => x.TapeConfig.Is16Bit());
+                    IsFalse(() => x.TapeActions.Is16Bit());
+                    IsFalse(() => x.TapeAction.Is16Bit());
+                    
+                    // Buff-Bound
+                    IsTrue(() => x.Buff.Is16Bit());
+                    IsTrue(() => x.AudioFileOutput.Is16Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is16Bit());
+                    IsFalse(() => x.AudioInfoWish.Is16Bit());
+                    IsFalse(() => x.AudioFileInfo.Is16Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is16Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
+                    IsFalse(() => x.SampleDataType.Is16Bit());
+                    IsFalse(() => x.Type.Is16Bit());
+                }
+                
+                { // After Record
+                    
+                    x.Record();
+                    
+                    // Overwritten with original SynthWishes settings.
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is16Bit());
+                    IsFalse(() => x.FlowNode.Is16Bit());
+                    IsFalse(() => x.ConfigWishes.Is16Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is16Bit());
+                    IsFalse(() => x.TapeConfig.Is16Bit());
+                    IsFalse(() => x.TapeActions.Is16Bit());
+                    IsFalse(() => x.TapeAction.Is16Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is16Bit());
+                    IsFalse(() => x.AudioFileOutput.Is16Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is16Bit());
+                    IsFalse(() => x.AudioInfoWish.Is16Bit());
+                    IsFalse(() => x.AudioFileInfo.Is16Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is16Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
+                    IsFalse(() => x.SampleDataType.Is16Bit());
+                    IsFalse(() => x.Type.Is16Bit());
+                }
+            }
+        }
 
-        [TestMethod] public void Bits_Setters_8Bit_ShortHand_ChangingIndependentAndImmutables()
+        [TestMethod] public void Bits_Setters_32Bit_Shorthand()
+        {
+            { // Check Before Change
+                
+                var x = new TestEntities(s => s.With16Bit());
+                
+                // SynthWishes-Bound
+                IsFalse(() => x.SynthWishes.Is32Bit());
+                IsFalse(() => x.FlowNode.Is32Bit());
+                IsFalse(() => x.ConfigWishes.Is32Bit());
+                
+                // Tape-Bound
+                IsFalse(() => x.Tape.Is32Bit());
+                IsFalse(() => x.TapeConfig.Is32Bit());
+                IsFalse(() => x.TapeActions.Is32Bit());
+                IsFalse(() => x.TapeAction.Is32Bit());
+                
+                // Buff-Bound
+                IsFalse(() => x.Buff.Is32Bit());
+                IsFalse(() => x.AudioFileOutput.Is32Bit());
+                
+                // Independent after Taping
+                IsFalse(() => x.Sample.Is32Bit());
+                IsFalse(() => x.AudioInfoWish.Is32Bit());
+                IsFalse(() => x.AudioFileInfo.Is32Bit());
+                
+                // Immutable
+                IsFalse(() => x.WavHeader.Is32Bit());
+                IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
+                IsFalse(() => x.SampleDataType.Is32Bit());
+                IsFalse(() => x.Type.Is32Bit());
+            }
+            
+            { // SynthWishes-Bound Change
+                
+                var x = new TestEntities(s => s.With16Bit());
+                
+                { // Change-Check
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is32Bit());
+                    IsFalse(() => x.FlowNode.Is32Bit());
+                    IsFalse(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Change!
+                    x.ConfigWishes.With32Bit();
+                    
+                    // SynthWishes-Bound
+                    IsTrue(() => x.SynthWishes.Is32Bit());
+                    IsTrue(() => x.FlowNode.Is32Bit());
+                    IsTrue(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is32Bit());
+                    IsFalse(() => x.TapeConfig.Is32Bit());
+                    IsFalse(() => x.TapeActions.Is32Bit());
+                    IsFalse(() => x.TapeAction.Is32Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is32Bit());
+                    IsFalse(() => x.AudioFileOutput.Is32Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is32Bit());
+                    IsFalse(() => x.AudioInfoWish.Is32Bit());
+                    IsFalse(() => x.AudioFileInfo.Is32Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is32Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
+                    IsFalse(() => x.SampleDataType.Is32Bit());
+                    IsFalse(() => x.Type.Is32Bit());
+                }
+                
+                { // After-Record
+                    
+                    x.Record();
+                    
+                    // SynthWishes-Bound
+                    IsTrue(() => x.SynthWishes.Is32Bit());
+                    IsTrue(() => x.FlowNode.Is32Bit());
+                    IsTrue(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Tape-Bound
+                    IsTrue(() => x.Tape.Is32Bit());
+                    IsTrue(() => x.TapeConfig.Is32Bit());
+                    IsTrue(() => x.TapeActions.Is32Bit());
+                    IsTrue(() => x.TapeAction.Is32Bit());
+                    
+                    // Buff-Bound
+                    IsTrue(() => x.Buff.Is32Bit());
+                    IsTrue(() => x.AudioFileOutput.Is32Bit());
+                    
+                    // Independent after Taping
+                    IsTrue(() => x.Sample.Is32Bit());
+                    IsTrue(() => x.AudioInfoWish.Is32Bit());
+                    IsTrue(() => x.AudioFileInfo.Is32Bit());
+                    
+                    // Immutable
+                    IsTrue(() => x.WavHeader.Is32Bit());
+                    IsTrue(() => x.SampleDataTypeEnum.Is32Bit());
+                    IsTrue(() => x.SampleDataType.Is32Bit());
+                    IsTrue(() => x.Type.Is32Bit());
+                }
+            }
+            
+            { // Tape-Bound Change
+                
+                var x = new TestEntities(s => s.With16Bit());
+                
+                { // Change-Check
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is32Bit());
+                    IsFalse(() => x.FlowNode.Is32Bit());
+                    IsFalse(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is32Bit());
+                    IsFalse(() => x.TapeConfig.Is32Bit());
+                    IsFalse(() => x.TapeActions.Is32Bit());
+                    IsFalse(() => x.TapeAction.Is32Bit());
+                    
+                    // Change!
+                    x.TapeAction.With32Bit();
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is32Bit());
+                    IsFalse(() => x.FlowNode.Is32Bit());
+                    IsFalse(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Tape-Bound
+                    IsTrue(() => x.Tape.Is32Bit());
+                    IsTrue(() => x.TapeConfig.Is32Bit());
+                    IsTrue(() => x.TapeActions.Is32Bit());
+                    IsTrue(() => x.TapeAction.Is32Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is32Bit());
+                    IsFalse(() => x.AudioFileOutput.Is32Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is32Bit());
+                    IsFalse(() => x.AudioInfoWish.Is32Bit());
+                    IsFalse(() => x.AudioFileInfo.Is32Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is32Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
+                    IsFalse(() => x.SampleDataType.Is32Bit());
+                    IsFalse(() => x.Type.Is32Bit());
+                }
+                
+                { // After-Record
+                    
+                    x.Record();
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is32Bit());
+                    IsFalse(() => x.FlowNode.Is32Bit());
+                    IsFalse(() => x.ConfigWishes.Is32Bit());
+                    
+                    // By Design: Currently can't re-record over the same tape.
+                    // So you always get a new tape, overwriting the changed values upon record.
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is32Bit());
+                    IsFalse(() => x.TapeConfig.Is32Bit());
+                    IsFalse(() => x.TapeActions.Is32Bit());
+                    IsFalse(() => x.TapeAction.Is32Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is32Bit());
+                    IsFalse(() => x.AudioFileOutput.Is32Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is32Bit());
+                    IsFalse(() => x.AudioInfoWish.Is32Bit());
+                    IsFalse(() => x.AudioFileInfo.Is32Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is32Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
+                    IsFalse(() => x.SampleDataType.Is32Bit());
+                    IsFalse(() => x.Type.Is32Bit());
+                }
+            }
+            
+            { // Buff-Bound Change
+                
+                var x = new TestEntities(s => s.With16Bit());
+                
+                { // Change-Check
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is32Bit());
+                    IsFalse(() => x.FlowNode.Is32Bit());
+                    IsFalse(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is32Bit());
+                    IsFalse(() => x.TapeConfig.Is32Bit());
+                    IsFalse(() => x.TapeActions.Is32Bit());
+                    IsFalse(() => x.TapeAction.Is32Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is32Bit());
+                    IsFalse(() => x.AudioFileOutput.Is32Bit());
+                    
+                    // Change!
+                    x.AudioFileOutput.With32Bit(x.Context);
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is32Bit());
+                    IsFalse(() => x.FlowNode.Is32Bit());
+                    IsFalse(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is32Bit());
+                    IsFalse(() => x.TapeConfig.Is32Bit());
+                    IsFalse(() => x.TapeActions.Is32Bit());
+                    IsFalse(() => x.TapeAction.Is32Bit());
+                    
+                    // Buff-Bound
+                    IsTrue(() => x.Buff.Is32Bit());
+                    IsTrue(() => x.AudioFileOutput.Is32Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is32Bit());
+                    IsFalse(() => x.AudioInfoWish.Is32Bit());
+                    IsFalse(() => x.AudioFileInfo.Is32Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is32Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
+                    IsFalse(() => x.SampleDataType.Is32Bit());
+                    IsFalse(() => x.Type.Is32Bit());
+                }
+                
+                { // After Record
+                    
+                    x.Record();
+                    
+                    // Overwritten with original SynthWishes settings.
+                    
+                    // SynthWishes-Bound
+                    IsFalse(() => x.SynthWishes.Is32Bit());
+                    IsFalse(() => x.FlowNode.Is32Bit());
+                    IsFalse(() => x.ConfigWishes.Is32Bit());
+                    
+                    // Tape-Bound
+                    IsFalse(() => x.Tape.Is32Bit());
+                    IsFalse(() => x.TapeConfig.Is32Bit());
+                    IsFalse(() => x.TapeActions.Is32Bit());
+                    IsFalse(() => x.TapeAction.Is32Bit());
+                    
+                    // Buff-Bound
+                    IsFalse(() => x.Buff.Is32Bit());
+                    IsFalse(() => x.AudioFileOutput.Is32Bit());
+                    
+                    // Independent after Taping
+                    IsFalse(() => x.Sample.Is32Bit());
+                    IsFalse(() => x.AudioInfoWish.Is32Bit());
+                    IsFalse(() => x.AudioFileInfo.Is32Bit());
+                    
+                    // Immutable
+                    IsFalse(() => x.WavHeader.Is32Bit());
+                    IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
+                    IsFalse(() => x.SampleDataType.Is32Bit());
+                    IsFalse(() => x.Type.Is32Bit());
+                }
+            }
+        }
+
+        [TestMethod] public void Bits_Setters_8Bit_Shorthand_ChangingIndependentAndImmutables()
         {
             var x = new TestEntities(s => s.With32Bit());
             
@@ -997,7 +1607,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => typeAfter.Is8Bit());
 }
                 
-        [TestMethod] public void Bits_Setters_16Bit_ShortHand_ChangingIndependentAndImmutables()
+        [TestMethod] public void Bits_Setters_16Bit_Shorthand_ChangingIndependentAndImmutables()
         {
             var x = new TestEntities(s => s.With32Bit());
             
@@ -1058,7 +1668,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => typeAfter.Is16Bit());
         }
                 
-        [TestMethod] public void Bits_Setters_32Bit_ShortHand_ChangingIndependentAndImmutables()
+        [TestMethod] public void Bits_Setters_32Bit_Shorthand_ChangingIndependentAndImmutables()
         {
             var x = new TestEntities(s => s.With16Bit());
             
