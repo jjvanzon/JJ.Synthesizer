@@ -223,90 +223,85 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Bits_Setters_Normal(32, 16);
             Bits_Setters_Normal(16, 32);
         }
-        void Bits_Setters_Normal(int from, int to)
+        void Bits_Setters_Normal(int init, int value)
         {
             // Check Before Change
             { 
-                var x = new TestEntities(s => s.WithBits(from));
-                x.All_Bits_Equal(from);
+                var x = new TestEntities(init);
+                x.All_Bits_Equal(init);
             }
             
-            Test_SynthBound_Bits_Change(from, to, (x,y) => x.SynthWishes.Bits(y));
-            Test_SynthBound_Bits_Change(from, to, (x,y) => x.FlowNode.Bits(y));
-            Test_SynthBound_Bits_Change(from, to, (x,y) => x.ConfigWishes.Bits(y));
-        
-            // Tape-Bound Changes
-            { 
-                // Init
-                var x = new TestEntities(s => s.WithBits(from));
-                x.All_Bits_Equal(from);
+            // Synth-Bound Changes
+            
+            TestSynthBoundChange(x => x.SynthWishes.Bits(value));
+            TestSynthBoundChange(x => x.FlowNode.Bits(value));
+            TestSynthBoundChange(x => x.ConfigWishes.Bits(value));
+            
+            void TestSynthBoundChange(Action<TestEntities> change)
+            {
+                var x = new TestEntities(init);
+                x.All_Bits_Equal(init);
                 
-                // Change!
-                x.TapeAction.Bits(to);
+                change(x);
                 
-                // Assert
-                x.SynthBound_Bits_Equal(from);
-                x.TapeBound_Bits_Equal(to);
-                x.BuffBound_Bits_Equal(from);
-                x.Independent_Bits_Equal(from);
-                x.Immutable_Bits_Equal(from);
+                x.SynthBound_Bits_Equal(value);
+                x.TapeBound_Bits_Equal(init);
+                x.BuffBound_Bits_Equal(init);
+                x.Independent_Bits_Equal(init);
+                x.Immutable_Bits_Equal(init);
                 
-                // After Record
                 x.Record();
                 
-                // Assert
-
-                // By Design: Currently you can't record over the same tape.
-                // So you always get a new tape, overwriting the changed values.
-                x.All_Bits_Equal(from);
+                x.All_Bits_Equal(value);
+            }
+            
+            // Tape-Bound Changes
+            
+            TestTapeBoundChange(x => x.Tape.Bits(value));
+            TestTapeBoundChange(x => x.TapeConfig.Bits(value));
+            TestTapeBoundChange(x => x.TapeActions.Bits(value));
+            TestTapeBoundChange(x => x.TapeAction.Bits(value));
+            
+            void TestTapeBoundChange(Action<TestEntities> change)
+            {
+                var x = new TestEntities(init);
+                x.All_Bits_Equal(init);
+                
+                change(x);
+                
+                x.SynthBound_Bits_Equal(init);
+                x.TapeBound_Bits_Equal(value);
+                x.BuffBound_Bits_Equal(init);
+                x.Independent_Bits_Equal(init);
+                x.Immutable_Bits_Equal(init);
+                
+                x.Record();
+                
+                x.All_Bits_Equal(init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
             
             // Buff-Bound Changes
+            
+            TestBuffBoundChange(x => x.Buff.Bits(value, x.Context));
+            TestBuffBoundChange(x => x.AudioFileOutput.Bits(value, x.Context));
+            
+            void TestBuffBoundChange(Action<TestEntities> change)
             {    
-                // Init   
-                var x = new TestEntities(s => s.WithBits(from));
-                x.All_Bits_Equal(from);
+                var x = new TestEntities(init);
+                x.All_Bits_Equal(init);
                 
-                // Change!
-                x.AudioFileOutput.Bits(to, x.Context);
+                change(x);
 
-                // Assert
-                x.SynthBound_Bits_Equal(from);
-                x.TapeBound_Bits_Equal(from);
-                x.BuffBound_Bits_Equal(to);
-                x.Independent_Bits_Equal(from);
-                x.Immutable_Bits_Equal(from);
+                x.SynthBound_Bits_Equal(init);
+                x.TapeBound_Bits_Equal(init);
+                x.BuffBound_Bits_Equal(value);
+                x.Independent_Bits_Equal(init);
+                x.Immutable_Bits_Equal(init);
                 
-                // After-Record
                 x.Record();
                 
-                // Assert
-                x.All_Bits_Equal(from);
+                x.All_Bits_Equal(init);
             }
-        }
-        
-        void Test_SynthBound_Bits_Change(int from, int to, Action<TestEntities, int> changePropDelegate)
-        {
-            // Init
-            var x = new TestEntities(s => s.WithBits(from));
-            x.All_Bits_Equal(from);
-            
-            // Change!
-            //x.ConfigWishes.Bits(to);
-            changePropDelegate(x, to);
-            
-            // Assert
-            x.SynthBound_Bits_Equal(to);
-            x.TapeBound_Bits_Equal(from);
-            x.BuffBound_Bits_Equal(from);
-            x.Independent_Bits_Equal(from);
-            x.Immutable_Bits_Equal(from);
-            
-            // After Record
-            x.Record();
-            
-            // Assert
-            x.All_Bits_Equal(to);
         }
         
         [TestMethod] public void Bits_Setters_ConversionStyle()
@@ -1541,6 +1536,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public SampleDataTypeEnum    SampleDataTypeEnum { get; private set; }
             public SampleDataType        SampleDataType     { get; private set; }
             public Type                  Type               { get; private set; }
+
+            public TestEntities(int bits) : this(x => x.WithBits(bits));
             
             public TestEntities(Action<SynthWishes> initialize = null) 
             {
