@@ -24,10 +24,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             Obj = obj;
         }
         
-        public int? Bits
-        {
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            //set => _accessor.SetPropertyValue(MemberName(), value);
-        }
+        public int? Bits => (int?)_accessor.GetPropertyValue(MemberName());
     }
 }
