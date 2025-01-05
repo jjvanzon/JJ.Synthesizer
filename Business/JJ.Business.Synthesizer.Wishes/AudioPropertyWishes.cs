@@ -90,13 +90,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (obj == null) throw new NullException(() => obj);
             return obj.Bits ?? DefaultBits;
         }
-
-        //internal static ConfigSection Bits(this ConfigSection obj, int value)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    obj.Bits = value;
-        //    return obj;
-        //}
         
         public static int Bits(this Tape obj)
         {
@@ -367,7 +360,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes        With8Bit (this SynthWishes        obj)                   => Bits(obj,    8);
         public   static FlowNode           With8Bit (this FlowNode           obj)                   => Bits(obj,    8);
         public   static ConfigWishes       With8Bit (this ConfigWishes       obj)                   => Bits(obj,    8);
-        //internal static ConfigSection      With8Bit (this ConfigSection      obj)                   => Bits(obj,    8);
         public   static Tape               With8Bit (this Tape               obj)                   => Bits(obj,    8);
         public   static TapeConfig         With8Bit (this TapeConfig         obj)                   => Bits(obj,    8);
         public   static TapeActions        With8Bit (this TapeActions        obj)                   => Bits(obj,    8);
@@ -391,7 +383,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes        With16Bit(this SynthWishes        obj)                   => Bits(obj,    16);
         public   static FlowNode           With16Bit(this FlowNode           obj)                   => Bits(obj,    16);
         public   static ConfigWishes       With16Bit(this ConfigWishes       obj)                   => Bits(obj,    16);
-        //internal static ConfigSection      With16Bit(this ConfigSection      obj)                   => Bits(obj,    16);
         public   static Tape               With16Bit(this Tape               obj)                   => Bits(obj,    16);
         public   static TapeConfig         With16Bit(this TapeConfig         obj)                   => Bits(obj,    16);
         public   static TapeActions        With16Bit(this TapeActions        obj)                   => Bits(obj,    16);
@@ -415,7 +406,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes        With32Bit(this SynthWishes        obj)                   => Bits(obj,    32);
         public   static FlowNode           With32Bit(this FlowNode           obj)                   => Bits(obj,    32);
         public   static ConfigWishes       With32Bit(this ConfigWishes       obj)                   => Bits(obj,    32);
-        //internal static ConfigSection      With32Bit(this ConfigSection      obj)                   => Bits(obj,    32);
         public   static Tape               With32Bit(this Tape               obj)                   => Bits(obj,    32);
         public   static TapeConfig         With32Bit(this TapeConfig         obj)                   => Bits(obj,    32);
         public   static TapeActions        With32Bit(this TapeActions        obj)                   => Bits(obj,    32);
@@ -481,13 +471,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels ?? DefaultChannels;
         }
-
-        //internal static ConfigSection Channels(this ConfigSection obj, int value)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    obj.Channels = value;
-        //    return obj;
-        //}
         
         public static int Channels(this Tape obj)
         {
@@ -741,7 +724,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes      Mono  (this SynthWishes      obj) => Channels(obj, 1);
         public   static FlowNode         Mono  (this FlowNode         obj) => Channels(obj, 1);
         public   static ConfigWishes     Mono  (this ConfigWishes     obj) => Channels(obj, 1);
-        //internal static ConfigSection    Mono  (this ConfigSection    obj) => Channels(obj, 1);
         public   static Tape             Mono  (this Tape             obj) => Channels(obj, 1);
         public   static TapeConfig       Mono  (this TapeConfig       obj) => Channels(obj, 1);
         public   static TapeActions      Mono  (this TapeActions      obj) => Channels(obj, 1);
@@ -764,7 +746,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes      Stereo(this SynthWishes      obj) => Channels(obj, 2);
         public   static FlowNode         Stereo(this FlowNode         obj) => Channels(obj, 2);
         public   static ConfigWishes     Stereo(this ConfigWishes     obj) => Channels(obj, 2);
-        //internal static ConfigSection    Stereo(this ConfigSection    obj) => Channels(obj, 2);
         public   static Tape             Stereo(this Tape             obj) => Channels(obj, 2);
         public   static TapeConfig       Stereo(this TapeConfig       obj) => Channels(obj, 2);
         public   static TapeActions      Stereo(this TapeActions      obj) => Channels(obj, 2);
@@ -1156,13 +1137,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (obj == null) throw new NullException(() => obj);
             return obj.SamplingRate ?? DefaultSamplingRate;
         }
-
-        //internal static ConfigSection SamplingRate(this ConfigSection obj, int value)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    obj.SamplingRate = value;
-        //    return obj;
-        //}
         
         public static int SamplingRate(this Tape obj)
         {
@@ -1332,13 +1306,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (obj == null) throw new NullException(() => obj);
             return obj.AudioFormat ?? DefaultAudioFormat;
         }
-        
-        //internal static ConfigSection AudioFormat(this ConfigSection obj, AudioFileFormatEnum value)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    obj.AudioFormat = value;
-        //    return obj;
-        //}
 
         public static AudioFileFormatEnum AudioFormat(this Tape obj)
         {
@@ -1520,7 +1487,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes         AsWav(this SynthWishes         obj) => AudioFormat(obj, Wav);
         public   static FlowNode            AsWav(this FlowNode            obj) => AudioFormat(obj, Wav);
         public   static ConfigWishes        AsWav(this ConfigWishes        obj) => AudioFormat(obj, Wav);
-        //internal static ConfigSection       AsWav(this ConfigSection       obj) => AudioFormat(obj, Wav);
         public   static Buff                AsWav(this Buff                obj, IContext context) => AudioFormat(obj, Wav, context);
         public   static Tape                AsWav(this Tape                obj) => AudioFormat(obj, Wav);
         public   static TapeConfig          AsWav(this TapeConfig          obj) => AudioFormat(obj, Wav);
@@ -1539,7 +1505,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes         AsRaw(this SynthWishes         obj) => AudioFormat(obj, Raw);
         public   static FlowNode            AsRaw(this FlowNode            obj) => AudioFormat(obj, Raw);
         public   static ConfigWishes        AsRaw(this ConfigWishes        obj) => AudioFormat(obj, Raw);
-        //internal static ConfigSection       AsRaw(this ConfigSection       obj) => AudioFormat(obj, Raw);
         public   static Buff                AsRaw(this Buff                obj, IContext context) => AudioFormat(obj, Raw, context);
         public   static Tape                AsRaw(this Tape                obj) => AudioFormat(obj, Raw);
         public   static TapeConfig          AsRaw(this TapeConfig          obj) => AudioFormat(obj, Raw);
@@ -1600,13 +1565,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (obj == null) throw new NullException(() => obj);
             return obj.Interpolation ?? DefaultInterpolation;
         }
-
-        //internal static ConfigSection Interpolation(this ConfigSection obj, InterpolationTypeEnum value)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    obj.Interpolation = value;
-        //    return obj;
-        //}
 
         public static InterpolationTypeEnum Interpolation(this Tape obj)
         {
@@ -1729,7 +1687,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes           Linear(this SynthWishes         obj) => Interpolation(obj, Line);
         public   static FlowNode              Linear(this FlowNode            obj) => Interpolation(obj, Line);
         public   static ConfigWishes          Linear(this ConfigWishes        obj) => Interpolation(obj, Line);
-        //internal static ConfigSection         Linear(this ConfigSection       obj) => Interpolation(obj, Line);
         public   static Tape                  Linear(this Tape                obj) => Interpolation(obj, Line);
         public   static TapeConfig            Linear(this TapeConfig          obj) => Interpolation(obj, Line);
         public   static TapeAction            Linear(this TapeAction          obj) => Interpolation(obj, Line);
@@ -1744,7 +1701,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static SynthWishes           Blocky(this SynthWishes           obj) => Interpolation(obj, Block);
         public   static FlowNode              Blocky(this FlowNode              obj) => Interpolation(obj, Block);
         public   static ConfigWishes          Blocky(this ConfigWishes          obj) => Interpolation(obj, Block);
-        //internal static ConfigSection         Blocky(this ConfigSection         obj) => Interpolation(obj, Block);
         public   static Tape                  Blocky(this Tape                  obj) => Interpolation(obj, Block);
         public   static TapeConfig            Blocky(this TapeConfig            obj) => Interpolation(obj, Block);
         public   static TapeAction            Blocky(this TapeAction            obj) => Interpolation(obj, Block);
@@ -1808,13 +1764,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (obj == null) throw new NullException(() => obj);
             return obj.CourtesyFrames ?? DefaultCourtesyFrames;
         }
-        
-        //internal static ConfigSection CourtesyFrames(this ConfigSection obj, int value)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    obj.CourtesyFrames = value;
-        //    return obj;
-        //}
 
         public static int CourtesyFrames(this Tape obj)
         {
@@ -1881,7 +1830,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static int                SizeOfBitDepth(this ConfigWishes       obj) => Bits(obj) / 8;
         public   static ConfigWishes       SizeOfBitDepth(this ConfigWishes       obj, int byteSize) => Bits(obj, byteSize * 8);
         internal static int                SizeOfBitDepth(this ConfigSection      obj) => Bits(obj) / 8;
-        //internal static ConfigSection      SizeOfBitDepth(this ConfigSection      obj, int byteSize) => Bits(obj, byteSize * 8);
         public   static int                SizeOfBitDepth(this Tape               obj) => Bits(obj) / 8;
         public   static Tape               SizeOfBitDepth(this Tape               obj, int byteSize) => Bits(obj, byteSize * 8);
         public   static int                SizeOfBitDepth(this TapeConfig         obj) => Bits(obj) / 8;
@@ -2000,8 +1948,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static ConfigWishes FileExtension(this ConfigWishes obj, string value) => AudioFormat(obj, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
         internal static string FileExtension(this ConfigSection obj) => AudioFormat(obj).FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        //internal static ConfigSection FileExtension(this ConfigSection obj, string value) => AudioFormat(obj, AudioFormat(value));
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Tape obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
@@ -2130,9 +2076,6 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static int CourtesyBytes(this ConfigSection obj)
             => CourtesyBytes(CourtesyFrames(obj), FrameSize(obj));
 
-        //internal static ConfigSection CourtesyBytes(this ConfigSection obj, int value) 
-        //    => CourtesyFrames(obj, CourtesyFrames(value, FrameSize(obj)));
-
         public static int CourtesyBytes(this Tape obj)
             => CourtesyBytes(CourtesyFrames(obj), FrameSize(obj));
 
@@ -2234,13 +2177,6 @@ namespace JJ.Business.Synthesizer.Wishes
             if (obj == null) throw new NullException(() => obj);
             return obj.AudioLength ?? DefaultAudioLength;
         }
-
-        //internal static ConfigSection AudioLength(this ConfigSection obj, double value)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    obj.AudioLength = value;
-        //    return obj;
-        //}
 
         public static double AudioLength(this Buff obj)
         {
@@ -2406,9 +2342,6 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static int FrameCount(this ConfigSection obj) 
             => FrameCount(AudioLength(obj), SamplingRate(obj));
-
-        //internal static ConfigSection FrameCount(this ConfigSection obj, int value) 
-        //    => AudioLength(obj, AudioLength(value, SamplingRate(obj)));
         
         public static int FrameCount(this Tape obj)
         {
@@ -2580,9 +2513,6 @@ namespace JJ.Business.Synthesizer.Wishes
 
         internal static int ByteCount(this ConfigSection obj) 
             => ByteCount(FrameCount(obj), FrameSize(obj), HeaderLength(obj), CourtesyFrames(obj));
-
-        //internal static ConfigSection ByteCount(this ConfigSection obj, int value) 
-        //    => AudioLength(obj, AudioLength(value, FrameSize(obj), SamplingRate(obj), HeaderLength(obj), CourtesyFrames(obj)));
 
         public static int ByteCount(this Tape obj)
         {
