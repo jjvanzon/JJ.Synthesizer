@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 case 8 : return typeof(byte);
                 case 16: return typeof(Int16);
                 case 32: return typeof(float);
-                default: return default;
+                default: return default; // ncrunch: no coverage
             }
         }
                 
@@ -279,7 +279,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 case 32: return SampleDataTypeEnum.Float32;
                 case 16: return SampleDataTypeEnum.Int16;
                 case 8: return SampleDataTypeEnum.Byte;
-                default: return default;
+                default: return default; // ncrunch: no coverage
             }
         }
         
@@ -357,9 +357,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static bool Is32Bit(this Type               obj) => Bits(obj)      == 32;
         public   static bool Is32Bit<TValue>                   () => Bits<TValue>() == 32;
 
-        public   static SynthWishes        With8Bit (this SynthWishes        obj)                   => Bits(obj,    8);
-        public   static FlowNode           With8Bit (this FlowNode           obj)                   => Bits(obj,    8);
-        public   static ConfigWishes       With8Bit (this ConfigWishes       obj)                   => Bits(obj,    8);
+        // Outcommented = method already present in object.
+        //public   static SynthWishes        With8Bit (this SynthWishes        obj)                   => Bits(obj,    8);
+        //public   static FlowNode           With8Bit (this FlowNode           obj)                   => Bits(obj,    8);
+        //public   static ConfigWishes       With8Bit (this ConfigWishes       obj)                   => Bits(obj,    8);
         public   static Tape               With8Bit (this Tape               obj)                   => Bits(obj,    8);
         public   static TapeConfig         With8Bit (this TapeConfig         obj)                   => Bits(obj,    8);
         public   static TapeActions        With8Bit (this TapeActions        obj)                   => Bits(obj,    8);
@@ -380,9 +381,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType With8Bit(this SampleDataType obj, IContext context) => Bits(obj, 8, context);
 
-        public   static SynthWishes        With16Bit(this SynthWishes        obj)                   => Bits(obj,    16);
-        public   static FlowNode           With16Bit(this FlowNode           obj)                   => Bits(obj,    16);
-        public   static ConfigWishes       With16Bit(this ConfigWishes       obj)                   => Bits(obj,    16);
+        // Outcommented = method already present in object.
+        //public   static SynthWishes        With16Bit(this SynthWishes        obj)                   => Bits(obj,    16);
+        //public   static FlowNode           With16Bit(this FlowNode           obj)                   => Bits(obj,    16);
+        //public   static ConfigWishes       With16Bit(this ConfigWishes       obj)                   => Bits(obj,    16);
         public   static Tape               With16Bit(this Tape               obj)                   => Bits(obj,    16);
         public   static TapeConfig         With16Bit(this TapeConfig         obj)                   => Bits(obj,    16);
         public   static TapeActions        With16Bit(this TapeActions        obj)                   => Bits(obj,    16);
@@ -403,9 +405,10 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType With16Bit(this SampleDataType obj, IContext context) => Bits(obj, 16, context);
 
-        public   static SynthWishes        With32Bit(this SynthWishes        obj)                   => Bits(obj,    32);
-        public   static FlowNode           With32Bit(this FlowNode           obj)                   => Bits(obj,    32);
-        public   static ConfigWishes       With32Bit(this ConfigWishes       obj)                   => Bits(obj,    32);
+        // Outcommented = method already present in object.
+        //public   static SynthWishes        With32Bit(this SynthWishes        obj)                   => Bits(obj,    32);
+        //public   static FlowNode           With32Bit(this FlowNode           obj)                   => Bits(obj,    32);
+        //public   static ConfigWishes       With32Bit(this ConfigWishes       obj)                   => Bits(obj,    32);
         public   static Tape               With32Bit(this Tape               obj)                   => Bits(obj,    32);
         public   static TapeConfig         With32Bit(this TapeConfig         obj)                   => Bits(obj,    32);
         public   static TapeActions        With32Bit(this TapeActions        obj)                   => Bits(obj,    32);

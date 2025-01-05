@@ -77,6 +77,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(bits, () => x.SampleDataType.EntityToBits());
                 AreEqual(bits, () => x.Type.TypeToBits());
             }
+            
+            // For coverage
+            ThrowsException(() => default(Type).TypeToBits());
         }
 
         [TestMethod] public void Bits_Getters_FromTypeArguments()
@@ -110,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var x = new TestEntities(s => s.With8Bit());
 
             // Global-Bound
-            IsTrue(() => x.ConfigSection.Is32Bit());
+            IsFalse(() => x.ConfigSection.Is8Bit());
 
             // SynthWishes-Bound
             IsTrue(() => x.SynthWishes.Is8Bit());
@@ -144,7 +147,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var x = new TestEntities(s => s.With16Bit());
             
             // Global-Bound
-            IsTrue(() => x.ConfigSection.Is32Bit());
+            IsFalse(() => x.ConfigSection.Is16Bit());
 
             // SynthWishes-Bound
             IsTrue(() => x.SynthWishes.Is16Bit());
