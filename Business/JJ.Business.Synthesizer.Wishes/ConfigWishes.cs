@@ -228,7 +228,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Bits
         
         private int? _bits;
-        public int GetBits => AssertBits(_bits ?? _section.Bits ?? DefaultBits);
+        public int GetBits => Has(_bits) ? _bits.Value : AssertBits(_section.Bits ?? DefaultBits);
         public ConfigWishes WithBits(int? bits) { _bits = AssertBits(bits); return this; }
         public bool Is32Bit => GetBits == 32;
         public ConfigWishes With32Bit() => WithBits(32);
@@ -239,9 +239,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channels
         
-        private int _channels;
-        public int GetChannels => Has(_channels) ? _channels : AssertChannels(_section.Channels ?? DefaultChannels);
-        public ConfigWishes WithChannels(int channels) { _channels = AssertChannels(channels); return this; }
+        private int? _channels;
+        public int GetChannels => Has(_channels) ? _channels.Value : AssertChannels(_section.Channels ?? DefaultChannels);
+        public ConfigWishes WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
         public bool IsMono => GetChannels == 1;
         public ConfigWishes WithMono() => WithChannels(1);
         public bool IsStereo => GetChannels == 2;
@@ -262,18 +262,18 @@ namespace JJ.Business.Synthesizer.Wishes
         // SamplingRate
         
         /// <inheritdoc cref="docs._getsamplingrate" />
-        internal int _samplingRate;
+        internal int? _samplingRate;
         /// <inheritdoc cref="docs._getsamplingrate" />
-        public ConfigWishes WithSamplingRate(int value) { _samplingRate = value; return this; }
+        public ConfigWishes WithSamplingRate(int? value) { _samplingRate = value; return this; }
         
         /// <inheritdoc cref="docs._withsamplingrate"/>
         public int GetSamplingRate
         {
             get
             {
-                if (_samplingRate != 0)
+                if (Has(_samplingRate))
                 {
-                    return _samplingRate;
+                    return _samplingRate.Value;
                 }
                 
                 if (IsUnderNCrunch)
@@ -310,9 +310,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // AudioFormat
         
-        private AudioFileFormatEnum _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat => Has(_audioFormat) ? _audioFormat : _section.AudioFormat ?? DefaultAudioFormat;
-        public ConfigWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { _audioFormat = audioFormat; return this; }
+        private AudioFileFormatEnum? _audioFormat;
+        public AudioFileFormatEnum GetAudioFormat => Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? DefaultAudioFormat;
+        public ConfigWishes WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = audioFormat; return this; }
         public bool IsWav => GetAudioFormat == Wav;
         public ConfigWishes AsWav() => WithAudioFormat(Wav);
         public bool IsRaw => GetAudioFormat == Raw;
@@ -320,9 +320,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Interpolation
         
-        private InterpolationTypeEnum _interpolation;
-        public InterpolationTypeEnum GetInterpolation => Has(_interpolation) ? _interpolation : _section.Interpolation ?? DefaultInterpolation;
-        public ConfigWishes WithInterpolation(InterpolationTypeEnum interpolation) { _interpolation = interpolation; return this; }
+        private InterpolationTypeEnum? _interpolation;
+        public InterpolationTypeEnum GetInterpolation => Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? DefaultInterpolation;
+        public ConfigWishes WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = interpolation; return this; }
         public bool IsLinear => GetInterpolation == Line;
         public ConfigWishes WithLinear() => WithInterpolation(Line);
         public bool IsBlocky => GetInterpolation == Block;
@@ -727,12 +727,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public ConfigWishes WithLeafCheckTimeOut(double? seconds) { _leafCheckTimeOut = seconds; return this; }
         
         /// <inheritdoc cref="docs._timeoutaction" />
-        private TimeOutActionEnum _timeOutAction;
+        private TimeOutActionEnum? _timeOutAction;
         /// <inheritdoc cref="docs._timeoutaction" />
         // ReSharper disable once PossibleInvalidOperationException
-        public TimeOutActionEnum GetTimeOutAction => FilledIn(_timeOutAction) ? _timeOutAction : _section.TimeOutAction ?? DefaultTimeOutAction;
+        public TimeOutActionEnum GetTimeOutAction => Has(_timeOutAction) ? _timeOutAction.Value : _section.TimeOutAction ?? DefaultTimeOutAction;
         /// <inheritdoc cref="docs._timeoutaction" />
-        public ConfigWishes WithTimeOutAction(TimeOutActionEnum action) { _timeOutAction = action; return this; }
+        public ConfigWishes WithTimeOutAction(TimeOutActionEnum? action) { _timeOutAction = action; return this; }
                
         /// <inheritdoc cref="docs._courtesyframes" />
         private int? _courtesyFrames;
@@ -750,8 +750,8 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(_longTestCategory)) return _longTestCategory;
-                if (!string.IsNullOrWhiteSpace(_section.LongTestCategory)) return _section.LongTestCategory;
+                if (Has(_longTestCategory)) return _longTestCategory;
+                if (Has(_section.LongTestCategory)) return _section.LongTestCategory;
                 return DefaultLongTestCategory;
             }
         }
@@ -867,7 +867,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Audio Quality
         
         public int GetBits => Config.GetBits;
-        public SynthWishes WithBits(int bits) { Config.WithBits(bits); return this; }
+        public SynthWishes WithBits(int? bits) { Config.WithBits(bits); return this; }
         public bool Is32Bit => Config.Is32Bit;
         public SynthWishes With32Bit() { Config.With32Bit(); return this; }
         public bool Is16Bit => Config.Is16Bit;
@@ -876,7 +876,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes With8Bit() { Config.With8Bit(); return this; }
         
         public int GetChannels => Config.GetChannels;
-        public SynthWishes WithChannels(int channels) { Config.WithChannels(channels); return this; }
+        public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
         public bool IsMono => Config.IsMono;
         public SynthWishes WithMono() { Config.WithMono(); return this; }
         public bool IsStereo => Config.IsStereo;
@@ -894,17 +894,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._getsamplingrate" />
         public int GetSamplingRate => Config.GetSamplingRate;
         /// <inheritdoc cref="docs._withsamplingrate"/>
-        public SynthWishes WithSamplingRate(int value) { Config.WithSamplingRate(value); return this; }
+        public SynthWishes WithSamplingRate(int? value) { Config.WithSamplingRate(value); return this; }
         
         public AudioFileFormatEnum GetAudioFormat => Config.GetAudioFormat;
-        public SynthWishes WithAudioFormat(AudioFileFormatEnum audioFormat) { Config.WithAudioFormat(audioFormat); return this; }
+        public SynthWishes WithAudioFormat(AudioFileFormatEnum? audioFormat) { Config.WithAudioFormat(audioFormat); return this; }
         public bool IsWav => Config.IsWav;
         public SynthWishes AsWav() { Config.AsWav(); return this; }
         public bool IsRaw => Config.IsRaw;
         public SynthWishes AsRaw() { Config.AsRaw(); return this; }
         
         public InterpolationTypeEnum GetInterpolation => Config.GetInterpolation;
-        public SynthWishes WithInterpolation(InterpolationTypeEnum interpolation) { Config.WithInterpolation(interpolation); return this; }
+        public SynthWishes WithInterpolation(InterpolationTypeEnum? interpolation) { Config.WithInterpolation(interpolation); return this; }
         public bool IsLinear => Config.IsLinear;
         public SynthWishes WithLinear() {Config.WithLinear(); return this; }
         public bool IsBlocky => Config.IsBlocky;
@@ -1034,7 +1034,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public TimeOutActionEnum GetTimeOutAction => Config.GetTimeOutAction;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public SynthWishes WithTimeOutAction(TimeOutActionEnum action) { Config.WithTimeOutAction(action); return this; }
+        public SynthWishes WithTimeOutAction(TimeOutActionEnum? action) { Config.WithTimeOutAction(action); return this; }
         
         /// <inheritdoc cref="docs._courtesyframes" />
         public int GetCourtesyFrames => Config.GetCourtesyFrames;
@@ -1052,7 +1052,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Audio Quality
         
         public int GetBits => _synthWishes.GetBits;
-        public FlowNode WithBits(int bits) { _synthWishes.WithBits(bits); return this; }
+        public FlowNode WithBits(int? bits) { _synthWishes.WithBits(bits); return this; }
         public bool Is32Bit => _synthWishes.Is32Bit;
         public FlowNode With32Bit() { _synthWishes.With32Bit(); return this; }
         public bool Is16Bit => _synthWishes.Is16Bit;
@@ -1079,17 +1079,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._getsamplingrate" />
         public int GetSamplingRate => _synthWishes.GetSamplingRate;
         /// <inheritdoc cref="docs._withsamplingrate"/>
-        public FlowNode WithSamplingRate(int value) { _synthWishes.WithSamplingRate(value); return this; }
+        public FlowNode WithSamplingRate(int? value) { _synthWishes.WithSamplingRate(value); return this; }
 
         public AudioFileFormatEnum GetAudioFormat => _synthWishes.GetAudioFormat;
-        public FlowNode WithAudioFormat(AudioFileFormatEnum audioFormat) { _synthWishes.WithAudioFormat(audioFormat); return this; }
+        public FlowNode WithAudioFormat(AudioFileFormatEnum? audioFormat) { _synthWishes.WithAudioFormat(audioFormat); return this; }
         public bool IsWav => _synthWishes.IsWav;
         public FlowNode AsWav() { _synthWishes.AsWav(); return this; }
         public bool IsRaw => _synthWishes.IsRaw;
         public FlowNode AsRaw() { _synthWishes.AsRaw(); return this; }
 
         public InterpolationTypeEnum GetInterpolation => _synthWishes.GetInterpolation;
-        public FlowNode WithInterpolation(InterpolationTypeEnum interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
+        public FlowNode WithInterpolation(InterpolationTypeEnum? interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
         public bool IsLinear => _synthWishes.IsLinear;
         public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public bool IsBlocky => _synthWishes.IsBlocky;
@@ -1219,7 +1219,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public TimeOutActionEnum GetTimeOutAction => _synthWishes.GetTimeOutAction;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public FlowNode WithTimeOutAction(TimeOutActionEnum action) { _synthWishes.WithTimeOutAction(action); return this; }
+        public FlowNode WithTimeOutAction(TimeOutActionEnum? action) { _synthWishes.WithTimeOutAction(action); return this; }
         
         /// <inheritdoc cref="docs._courtesyframes" />
         public int GetCourtesyFrames => _synthWishes.GetCourtesyFrames;
