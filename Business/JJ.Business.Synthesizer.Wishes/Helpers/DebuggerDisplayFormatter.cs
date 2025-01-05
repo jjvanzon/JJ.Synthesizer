@@ -21,11 +21,11 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
             if (!obj.IsConst)
             { 
-                elements.Add(obj.Calculate() + " = ");
+                elements.Add($"{obj.Calculate()}");
+                elements.Add("=");
             }
 
             elements.Add($"{obj}");
-
             elements.Add(FormatTypeName(obj));
 
             return Join(" ", elements);

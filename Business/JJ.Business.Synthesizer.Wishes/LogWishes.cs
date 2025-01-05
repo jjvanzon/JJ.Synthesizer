@@ -379,8 +379,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return ConfigLog(title, buff.UnderlyingAudioFileOutput, sep);
         }
         
-        public static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("Audio Info", audioInfoWish);
-        public static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("Audio Info", audioInfoWish, sep);
+        public static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("", audioInfoWish);
+        public static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("", audioInfoWish, sep);
         public static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
         {
             if (audioInfoWish == null) throw new NullException(()  => audioInfoWish);
