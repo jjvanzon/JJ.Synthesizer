@@ -12,7 +12,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.AudioPropertyWishes;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
-// ReSharper disable UnusedVariable
 #pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -196,46 +195,42 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int bits = 8;
             int differentBits = 16;
             
-            var x = new TestEntities(s => s.WithBits(bits));
-            var with8Bit  = new TestEntities(s => s.With8Bit());
-            var with16Bit = new TestEntities(s => s.With16Bit());
-            var with32Bit = new TestEntities(s => s.With32Bit());
+            TestEntities x;
 
             // Assert Setters
             {
-                var y = new TestEntities(s => s.WithBits(differentBits));
-
-                // Global level: ConfigSection is immutable
-
+                x = new TestEntities(s => s.WithBits(differentBits));
+            
                 // SynthWishes-Bound
-                AreEqual(y.SynthWishes, () => y.SynthWishes.Bits(bits));
-                AreEqual(y.FlowNode, () => y.FlowNode.Bits(bits));
-                AreEqual(y.ConfigWishes, () => y.ConfigWishes.Bits(bits));
+                AreEqual(x.SynthWishes, () => x.SynthWishes.Bits(bits));
+                AreEqual(x.FlowNode, () => x.FlowNode.Bits(bits));
+                AreEqual(x.ConfigWishes, () => x.ConfigWishes.Bits(bits));
 
                 // Tape-Bound
-                AreEqual(y.Tape, () => y.Tape.Bits(bits));
-                AreEqual(y.TapeConfig, () => y.TapeConfig.Bits(bits));
-                AreEqual(y.TapeActions, () => y.TapeActions.Bits(bits));
-                AreEqual(y.TapeAction, () => y.TapeAction.Bits(bits));
+                AreEqual(x.Tape, () => x.Tape.Bits(bits));
+                AreEqual(x.TapeConfig, () => x.TapeConfig.Bits(bits));
+                AreEqual(x.TapeActions, () => x.TapeActions.Bits(bits));
+                AreEqual(x.TapeAction, () => x.TapeAction.Bits(bits));
 
                 // Buff-Bound
-                AreEqual(y.Buff, () => y.Buff.Bits(bits, y.Context));
-                AreEqual(y.AudioFileOutput, () => y.AudioFileOutput.Bits(bits, y.Context));
+                AreEqual(x.Buff, () => x.Buff.Bits(bits, x.Context));
+                AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Bits(bits, x.Context));
 
                 // Independent after Taping
-                AreEqual(y.Sample, () => y.Sample.Bits(bits, y.Context));
-                AreEqual(y.AudioInfoWish, () => y.AudioInfoWish.Bits(bits));
-                AreEqual(y.AudioFileInfo, () => y.AudioFileInfo.Bits(bits));
+                AreEqual(x.Sample, () => x.Sample.Bits(bits, x.Context));
+                AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.Bits(bits));
+                AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.Bits(bits));
 
                 // Immutable
-                NotEqual(y.WavHeader, () => y.WavHeader.Bits(bits));
-                NotEqual(y.SampleDataTypeEnum, () => y.SampleDataTypeEnum.Bits(bits));
-                NotEqual(y.SampleDataType, () => y.SampleDataType.Bits(bits, y.Context));
-                NotEqual(y.Type, () => y.Type.Bits(bits));
+                NotEqual(x.WavHeader, () => x.WavHeader.Bits(bits));
+                NotEqual(x.SampleDataTypeEnum, () => x.SampleDataTypeEnum.Bits(bits));
+                NotEqual(x.SampleDataType, () => x.SampleDataType.Bits(bits, x.Context));
+                NotEqual(x.Type, () => x.Type.Bits(bits));
             }
-
             // Assert Conversion-Style Setters
             {
+                x = new TestEntities(s => s.WithBits(bits));
+
                 AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
                 AreEqual(x.SampleDataType, () => bits.BitsToEntity(x.Context));
                 AreEqual(x.Type, () => bits.BitsToType());
@@ -243,33 +238,33 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert Shorthand Setters
             {
-                // Global level: ConfigSection is immutable
+                x = new TestEntities(s => s.WithBits(differentBits));
 
                 // SynthWishes-Bound
-                AreEqual(with32Bit.SynthWishes, () => with32Bit.SynthWishes.With8Bit());
-                AreEqual(with32Bit.FlowNode, () => with32Bit.FlowNode.With8Bit());
-                AreEqual(with32Bit.ConfigWishes, () => with32Bit.ConfigWishes.With8Bit());
+                AreEqual(x.SynthWishes, () => x.SynthWishes.With8Bit());
+                AreEqual(x.FlowNode, () => x.FlowNode.With8Bit());
+                AreEqual(x.ConfigWishes, () => x.ConfigWishes.With8Bit());
 
                 // Tape-Bound
-                AreEqual(with32Bit.Tape, () => with32Bit.Tape.With8Bit());
-                AreEqual(with32Bit.TapeConfig, () => with32Bit.TapeConfig.With8Bit());
-                AreEqual(with32Bit.TapeActions, () => with32Bit.TapeActions.With8Bit());
-                AreEqual(with32Bit.TapeAction, () => with32Bit.TapeAction.With8Bit());
+                AreEqual(x.Tape, () => x.Tape.With8Bit());
+                AreEqual(x.TapeConfig, () => x.TapeConfig.With8Bit());
+                AreEqual(x.TapeActions, () => x.TapeActions.With8Bit());
+                AreEqual(x.TapeAction, () => x.TapeAction.With8Bit());
 
                 // Buff-Bound
-                AreEqual(with32Bit.Buff, () => with32Bit.Buff.With8Bit(with32Bit.Context));
-                AreEqual(with32Bit.AudioFileOutput, () => with32Bit.AudioFileOutput.With8Bit(with32Bit.Context));
+                AreEqual(x.Buff, () => x.Buff.With8Bit(x.Context));
+                AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With8Bit(x.Context));
 
                 // Independent after Taping
-                AreEqual(with32Bit.Sample, () => with32Bit.Sample.With8Bit(with32Bit.Context));
-                AreEqual(with32Bit.AudioInfoWish, () => with32Bit.AudioInfoWish.With8Bit());
-                AreEqual(with32Bit.AudioFileInfo, () => with32Bit.AudioFileInfo.With8Bit());
+                AreEqual(x.Sample, () => x.Sample.With8Bit(x.Context));
+                AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With8Bit());
+                AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With8Bit());
 
                 // Immutable
-                NotEqual(with32Bit.WavHeader, () => with32Bit.WavHeader.With8Bit());
-                NotEqual(with32Bit.SampleDataTypeEnum, () => with32Bit.SampleDataTypeEnum.With8Bit());
-                NotEqual(with32Bit.SampleDataType, () => with32Bit.SampleDataType.With8Bit(with32Bit.Context));
-                NotEqual(with32Bit.Type, () => with32Bit.Type.With8Bit());
+                NotEqual(x.WavHeader, () => x.WavHeader.With8Bit());
+                NotEqual(x.SampleDataTypeEnum, () => x.SampleDataTypeEnum.With8Bit());
+                NotEqual(x.SampleDataType, () => x.SampleDataType.With8Bit(x.Context));
+                NotEqual(x.Type, () => x.Type.With8Bit());
 
                 AreEqual(typeof(byte), () => With8Bit<byte>());
             }
@@ -283,86 +278,136 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Arrange
             int bits = 8;
             int differentBits = 16;
-            
-            var x         = new TestEntities(s => s.WithBits(bits));
-            var with8Bit  = new TestEntities(s => s.With8Bit());
-            var with16Bit = new TestEntities(s => s.With16Bit());
-            var with32Bit = new TestEntities(s => s.With32Bit());
-
-            TestEntities y;
 
             // Assert Setters
             {
-                // SynthWishes-Bound Mutations
+                // SynthWishes Mutation
                 {
-                    y = new TestEntities(s => s.WithBits(differentBits));
-                    
-                    // Global level: ConfigSection is immutable
+                    var x = new TestEntities(s => s.WithBits(differentBits));
 
                     // SynthWishes-Bound
-                    y.SynthWishes.Bits(bits);
+                    AreEqual(differentBits, () => x.SynthWishes.Bits());
+                    AreEqual(differentBits, () => x.FlowNode.Bits());
+                    AreEqual(differentBits, () => x.ConfigWishes.Bits());
+                                        
+                    x.SynthWishes.Bits(bits);
                     
-                    AreEqual(bits, () => y.SynthWishes.Bits());
-                    AreEqual(bits, () => y.FlowNode.Bits());
-                    AreEqual(bits, () => y.ConfigWishes.Bits());
-
-                    y.Record();
-                    
+                    // SynthWishes-Bound
+                    AreEqual(bits, () => x.SynthWishes.Bits());
+                    AreEqual(bits, () => x.FlowNode.Bits());
+                    AreEqual(bits, () => x.ConfigWishes.Bits());
+                                        
                     // Tape-Bound
-                    AreEqual(bits, () => y.Tape.Bits());
-                    AreEqual(bits, () => y.TapeConfig.Bits());
-                    AreEqual(bits, () => y.TapeActions.Bits());
-                    AreEqual(bits, () => y.TapeAction.Bits());
+                    AreEqual(differentBits, () => x.Tape.Bits());
+                    AreEqual(differentBits, () => x.TapeConfig.Bits());
+                    AreEqual(differentBits, () => x.TapeActions.Bits());
+                    AreEqual(differentBits, () => x.TapeAction.Bits());
 
                     // Buff-Bound
-                    AreEqual(bits, () => y.Buff.Bits());
-                    AreEqual(bits, () => y.AudioFileOutput.Bits());
+                    AreEqual(differentBits, () => x.Buff.Bits());
+                    AreEqual(differentBits, () => x.AudioFileOutput.Bits());
 
                     // Independent after Taping
-                    AreEqual(bits, () => y.Sample.Bits());
-                    AreEqual(bits, () => y.AudioInfoWish.Bits());
-                    AreEqual(bits, () => y.AudioFileInfo.Bits());
+                    AreEqual(differentBits, () => x.Sample.Bits());
+                    AreEqual(differentBits, () => x.AudioInfoWish.Bits());
+                    AreEqual(differentBits, () => x.AudioFileInfo.Bits());
 
                     // Immutable
-                    AreEqual(bits, () => y.WavHeader.Bits());
-                    AreEqual(bits, () => y.SampleDataTypeEnum.Bits());
-                    AreEqual(bits, () => y.SampleDataType.Bits());
-                    AreEqual(bits, () => y.Type.Bits());
+                    AreEqual(differentBits, () => x.WavHeader.Bits());
+                    AreEqual(differentBits, () => x.SampleDataTypeEnum.Bits());
+                    AreEqual(differentBits, () => x.SampleDataType.Bits());
+                    AreEqual(differentBits, () => x.Type.Bits());
+
+                    x.Record();
+                    
+                    // Tape-Bound
+                    AreEqual(bits, () => x.Tape.Bits());
+                    AreEqual(bits, () => x.TapeConfig.Bits());
+                    AreEqual(bits, () => x.TapeActions.Bits());
+                    AreEqual(bits, () => x.TapeAction.Bits());
+
+                    // Buff-Bound
+                    AreEqual(bits, () => x.Buff.Bits());
+                    AreEqual(bits, () => x.AudioFileOutput.Bits());
+
+                    // Independent after Taping
+                    AreEqual(bits, () => x.Sample.Bits());
+                    AreEqual(bits, () => x.AudioInfoWish.Bits());
+                    AreEqual(bits, () => x.AudioFileInfo.Bits());
+
+                    // Immutable
+                    AreEqual(bits, () => x.WavHeader.Bits());
+                    AreEqual(bits, () => x.SampleDataTypeEnum.Bits());
+                    AreEqual(bits, () => x.SampleDataType.Bits());
+                    AreEqual(bits, () => x.Type.Bits());
                 }
-
-                y = new TestEntities(s => s.WithBits(differentBits));
-
-                // Global level: ConfigSection is immutable
                 
-                // SynthWishes-Bound
-                AreEqual(y.SynthWishes, () => y.SynthWishes.Bits(bits));
-                AreEqual(y.FlowNode, () => y.FlowNode.Bits(bits));
-                AreEqual(y.ConfigWishes, () => y.ConfigWishes.Bits(bits));
+                // FlowNode Mutation
+                {
+                    var x = new TestEntities(s => s.WithBits(differentBits));
+                    
+                    // SynthWishes-Bound
+                    AreEqual(differentBits, () => x.SynthWishes.Bits());
+                    AreEqual(differentBits, () => x.FlowNode.Bits());
+                    AreEqual(differentBits, () => x.ConfigWishes.Bits());
+                    
+                    x.FlowNode.Bits(bits);
 
-                // Tape-Bound
-                AreEqual(y.Tape, () => y.Tape.Bits(bits));
-                AreEqual(y.TapeConfig, () => y.TapeConfig.Bits(bits));
-                AreEqual(y.TapeActions, () => y.TapeActions.Bits(bits));
-                AreEqual(y.TapeAction, () => y.TapeAction.Bits(bits));
+                    // SynthWishes-Bound
+                    AreEqual(bits, () => x.SynthWishes.Bits());
+                    AreEqual(bits, () => x.FlowNode.Bits());
+                    AreEqual(bits, () => x.ConfigWishes.Bits());
 
-                // Buff-Bound
-                AreEqual(y.Buff, () => y.Buff.Bits(bits, y.Context));
-                AreEqual(y.AudioFileOutput, () => y.AudioFileOutput.Bits(bits, y.Context));
+                    // Tape-Bound
+                    AreEqual(differentBits, () => x.Tape.Bits());
+                    AreEqual(differentBits, () => x.TapeConfig.Bits());
+                    AreEqual(differentBits, () => x.TapeActions.Bits());
+                    AreEqual(differentBits, () => x.TapeAction.Bits());
 
-                // Independent after Taping
-                AreEqual(y.Sample, () => y.Sample.Bits(bits, y.Context));
-                AreEqual(y.AudioInfoWish, () => y.AudioInfoWish.Bits(bits));
-                AreEqual(y.AudioFileInfo, () => y.AudioFileInfo.Bits(bits));
+                    // Buff-Bound
+                    AreEqual(differentBits, () => x.Buff.Bits());
+                    AreEqual(differentBits, () => x.AudioFileOutput.Bits());
 
-                // Immutable
-                NotEqual(y.WavHeader, () => y.WavHeader.Bits(bits));
-                NotEqual(y.SampleDataTypeEnum, () => y.SampleDataTypeEnum.Bits(bits));
-                NotEqual(y.SampleDataType, () => y.SampleDataType.Bits(bits, y.Context));
-                NotEqual(y.Type, () => y.Type.Bits(bits));
+                    // Independent after Taping
+                    AreEqual(differentBits, () => x.Sample.Bits());
+                    AreEqual(differentBits, () => x.AudioInfoWish.Bits());
+                    AreEqual(differentBits, () => x.AudioFileInfo.Bits());
+
+                    // Immutable
+                    AreEqual(differentBits, () => x.WavHeader.Bits());
+                    AreEqual(differentBits, () => x.SampleDataTypeEnum.Bits());
+                    AreEqual(differentBits, () => x.SampleDataType.Bits());
+                    AreEqual(differentBits, () => x.Type.Bits());
+
+                    x.Record();
+                    
+                    // Tape-Bound
+                    AreEqual(bits, () => x.Tape.Bits());
+                    AreEqual(bits, () => x.TapeConfig.Bits());
+                    AreEqual(bits, () => x.TapeActions.Bits());
+                    AreEqual(bits, () => x.TapeAction.Bits());
+
+                    // Buff-Bound
+                    AreEqual(bits, () => x.Buff.Bits());
+                    AreEqual(bits, () => x.AudioFileOutput.Bits());
+
+                    // Independent after Taping
+                    AreEqual(bits, () => x.Sample.Bits());
+                    AreEqual(bits, () => x.AudioInfoWish.Bits());
+                    AreEqual(bits, () => x.AudioFileInfo.Bits());
+
+                    // Immutable
+                    AreEqual(bits, () => x.WavHeader.Bits());
+                    AreEqual(bits, () => x.SampleDataTypeEnum.Bits());
+                    AreEqual(bits, () => x.SampleDataType.Bits());
+                    AreEqual(bits, () => x.Type.Bits());
+                }
             }
 
             // Assert Conversion-Style Setters
             {
+                var x = new TestEntities(s => s.WithBits(bits));
+                
                 // Immutable
                 AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
                 AreEqual(x.SampleDataType, () => bits.BitsToEntity(x.Context));
@@ -371,33 +416,33 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Assert Shorthand Setters
             {
-                // Global level: ConfigSection is immutable
-
+                var x = new TestEntities(s => s.WithBits(differentBits));
+                
                 // SynthWishes-Bound
-                AreEqual(with32Bit.SynthWishes, () => with32Bit.SynthWishes.With8Bit());
-                AreEqual(with32Bit.FlowNode, () => with32Bit.FlowNode.With8Bit());
-                AreEqual(with32Bit.ConfigWishes, () => with32Bit.ConfigWishes.With8Bit());
+                AreEqual(x.SynthWishes, () => x.SynthWishes.With8Bit());
+                AreEqual(x.FlowNode, () => x.FlowNode.With8Bit());
+                AreEqual(x.ConfigWishes, () => x.ConfigWishes.With8Bit());
 
                 // Tape-Bound
-                AreEqual(with32Bit.Tape, () => with32Bit.Tape.With8Bit());
-                AreEqual(with32Bit.TapeConfig, () => with32Bit.TapeConfig.With8Bit());
-                AreEqual(with32Bit.TapeActions, () => with32Bit.TapeActions.With8Bit());
-                AreEqual(with32Bit.TapeAction, () => with32Bit.TapeAction.With8Bit());
+                AreEqual(x.Tape, () => x.Tape.With8Bit());
+                AreEqual(x.TapeConfig, () => x.TapeConfig.With8Bit());
+                AreEqual(x.TapeActions, () => x.TapeActions.With8Bit());
+                AreEqual(x.TapeAction, () => x.TapeAction.With8Bit());
 
                 // Buff-Bound
-                AreEqual(with32Bit.Buff, () => with32Bit.Buff.With8Bit(with32Bit.Context));
-                AreEqual(with32Bit.AudioFileOutput, () => with32Bit.AudioFileOutput.With8Bit(with32Bit.Context));
+                AreEqual(x.Buff, () => x.Buff.With8Bit(x.Context));
+                AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With8Bit(x.Context));
 
                 // Independent after Taping
-                AreEqual(with32Bit.Sample, () => with32Bit.Sample.With8Bit(with32Bit.Context));
-                AreEqual(with32Bit.AudioInfoWish, () => with32Bit.AudioInfoWish.With8Bit());
-                AreEqual(with32Bit.AudioFileInfo, () => with32Bit.AudioFileInfo.With8Bit());
+                AreEqual(x.Sample, () => x.Sample.With8Bit(x.Context));
+                AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With8Bit());
+                AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With8Bit());
 
                 // Immutable
-                NotEqual(with32Bit.WavHeader, () => with32Bit.WavHeader.With8Bit());
-                NotEqual(with32Bit.SampleDataTypeEnum, () => with32Bit.SampleDataTypeEnum.With8Bit());
-                NotEqual(with32Bit.SampleDataType, () => with32Bit.SampleDataType.With8Bit(with32Bit.Context));
-                NotEqual(with32Bit.Type, () => with32Bit.Type.With8Bit());
+                NotEqual(x.WavHeader, () => x.WavHeader.With8Bit());
+                NotEqual(x.SampleDataTypeEnum, () => x.SampleDataTypeEnum.With8Bit());
+                NotEqual(x.SampleDataType, () => x.SampleDataType.With8Bit(x.Context));
+                NotEqual(x.Type, () => x.Type.With8Bit());
 
                 AreEqual(typeof(byte), () => With8Bit<byte>());
             }
