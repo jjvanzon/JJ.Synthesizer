@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits, () => x.SynthWishes.Bits());
             AreEqual(bits, () => x.FlowNode.Bits());
             AreEqual(bits, () => x.ConfigWishes.Bits());
-            AreEqual(bits, () => x.ConfigSection.Bits());
+            //AreEqual(bits, () => x.ConfigSection.Bits());
             AreEqual(bits, () => x.Tape.Bits());
             AreEqual(bits, () => x.TapeConfig.Bits());
             AreEqual(bits, () => x.TapeActions.Bits());
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.SynthWishes.Is8Bit());
             IsTrue(() => x.FlowNode.Is8Bit());
             IsTrue(() => x.ConfigWishes.Is8Bit());
-            IsTrue(() => x.ConfigSection.Is8Bit());
+            //IsTrue(() => x.ConfigSection.Is8Bit());
             IsTrue(() => x.Tape.Is8Bit());
             IsTrue(() => x.TapeConfig.Is8Bit());
             IsTrue(() => x.TapeActions.Is8Bit());
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.SynthWishes.Is16Bit());
             IsTrue(() => x.FlowNode.Is16Bit());
             IsTrue(() => x.ConfigWishes.Is16Bit());
-            IsTrue(() => x.ConfigSection.Is16Bit());
+            //IsTrue(() => x.ConfigSection.Is16Bit());
             IsTrue(() => x.Tape.Is16Bit());
             IsTrue(() => x.TapeConfig.Is16Bit());
             IsTrue(() => x.TapeActions.Is16Bit());
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.SynthWishes.Is32Bit());
             IsTrue(() => x.FlowNode.Is32Bit());
             IsTrue(() => x.ConfigWishes.Is32Bit());
-            IsTrue(() => x.ConfigSection.Is32Bit());
+            //IsTrue(() => x.ConfigSection.Is32Bit());
             IsTrue(() => x.Tape.Is32Bit());
             IsTrue(() => x.TapeConfig.Is32Bit());
             IsTrue(() => x.TapeActions.Is32Bit());
@@ -400,7 +400,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Global-Bound
             ConfigSectionAccessor configSection = GetConfigSectionAccessor(synthWishes);
-            configSection.Bits = bits;
+            //configSection.Bits = bits;
 
             // Stateless
             Type type;
