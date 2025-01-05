@@ -295,7 +295,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestBits_Set_RegularSetters(32, 16);
             TestBits_Set_RegularSetters(16, 32);
         }
-        
         void TestBits_Set_RegularSetters(int from, int to)
         {
             { // Check Before Change
@@ -566,6 +565,113 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
         
+        [TestMethod] public void TestBits_Set_IndependentsAndImmutables()
+        {
+            TestBits_Set_IndependentsAndImmutables(from: 32, to: 8);
+            TestBits_Set_IndependentsAndImmutables(from: 32, to: 16);
+            TestBits_Set_IndependentsAndImmutables(from: 16, to: 32);
+        }
+        void TestBits_Set_IndependentsAndImmutables(int from, int to)
+        {
+            var x = new TestEntities(s => s.WithBits(from));
+            
+            // Test Changing
+
+            // Independent after Taping
+            AreEqual(from, () => x.Sample.Bits());
+            x.Sample.Bits(to, x.Context);
+            AreEqual(to, () => x.Sample.Bits());
+            
+            AreEqual(from, () => x.AudioInfoWish.Bits());
+            x.AudioInfoWish.Bits(to);
+            AreEqual(to, () => x.AudioInfoWish.Bits());
+            
+            AreEqual(from, () => x.AudioFileInfo.Bits());
+            x.AudioFileInfo.Bits(to);
+            AreEqual(to, () => x.AudioFileInfo.Bits());
+
+            // Immutable                        
+            AreEqual(from, () => x.WavHeader.Bits());
+            var wavHeaderAfter = x.WavHeader.Bits(to);
+            AreEqual(from, () => x.WavHeader.Bits());
+            AreEqual(to,   () => wavHeaderAfter.Bits());
+            
+            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
+            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.Bits(to);
+            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
+            AreEqual(to,   () => sampleDataTypeEnumAfter.Bits());
+            
+            AreEqual(from, () => x.SampleDataType.Bits());
+            var sampleDataTypeAfter = x.SampleDataType.Bits(to, x.Context);
+            AreEqual(from, () => x.SampleDataType.Bits());
+            AreEqual(to,   () => sampleDataTypeAfter.Bits());
+            
+            AreEqual(from, () => x.Type.Bits());
+            var typeAfter = x.Type.Bits(to);
+            AreEqual(from, () => x.Type.Bits());
+            AreEqual(to,   () => typeAfter.Bits());
+
+            // Test After-Record
+                
+            x.Record();
+
+            // Independent after Taping
+            AreEqual(from, () => x.Sample.Bits());
+            AreEqual(from, () => x.AudioInfoWish.Bits());
+            AreEqual(from, () => x.AudioFileInfo.Bits());
+
+            // Immutable
+            AreEqual(from, () => x.WavHeader.Bits());
+            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
+            AreEqual(from, () => x.SampleDataType.Bits());
+            AreEqual(from, () => x.Type.Bits());
+        
+            AreEqual(to, () => wavHeaderAfter.Bits());
+            AreEqual(to, () => sampleDataTypeEnumAfter.Bits());
+            AreEqual(to, () => sampleDataTypeAfter.Bits());
+            AreEqual(to, () => typeAfter.Bits());
+        }    
+                
+        [TestMethod] public void TestBits_Set_ConversionStyle()
+        {
+            foreach (int bits in new[] { 8, 16, 32 })
+            {
+                var x = new TestEntities(s => s.WithBits(bits));
+                AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
+                AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
+                AreEqual(x.Type,               () => bits.BitsToType());
+            }
+        }
+
+        [TestMethod] public void TestBits_Set_FromTypeArguments()
+        {
+            // Setters
+            AreEqual(typeof(byte), () => Bits<byte>(8));
+            AreEqual(typeof(byte), () => Bits<short>(8));
+            AreEqual(typeof(byte), () => Bits<float>(8));
+            
+            AreEqual(typeof(short), () => Bits<byte>(16));
+            AreEqual(typeof(short), () => Bits<short>(16));
+            AreEqual(typeof(short), () => Bits<float>(16));
+            
+            AreEqual(typeof(float), () => Bits<byte>(32));
+            AreEqual(typeof(float), () => Bits<short>(32));
+            AreEqual(typeof(float), () => Bits<float>(32));
+
+            // 'Shorthand' Setters
+            AreEqual(typeof(byte), () => With8Bit<byte>());
+            AreEqual(typeof(byte), () => With8Bit<short>());
+            AreEqual(typeof(byte), () => With8Bit<float>());
+
+            AreEqual(typeof(short), () => With16Bit<byte>());
+            AreEqual(typeof(short), () => With16Bit<short>());
+            AreEqual(typeof(short), () => With16Bit<float>());
+
+            AreEqual(typeof(float), () => With32Bit<byte>());
+            AreEqual(typeof(float), () => With32Bit<short>());
+            AreEqual(typeof(float), () => With32Bit<float>());
+        }
+                
         [TestMethod] public void TestBits_Set_8Bit_ShortHand()
         {
             { // Check Before Change
@@ -839,74 +945,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
         }
-        
-        [TestMethod] public void TestBits_Set_IndependentsAndImmutables()
-        {
-            TestBits_Set_IndependentsAndImmutables(from: 32, to: 8);
-            TestBits_Set_IndependentsAndImmutables(from: 32, to: 16);
-            TestBits_Set_IndependentsAndImmutables(from: 16, to: 32);
-        }
-        void TestBits_Set_IndependentsAndImmutables(int from, int to)
-        {
-            var x = new TestEntities(s => s.WithBits(from));
-            
-            // Test Changing
 
-            // Independent after Taping
-            AreEqual(from, () => x.Sample.Bits());
-            x.Sample.Bits(to, x.Context);
-            AreEqual(to, () => x.Sample.Bits());
-            
-            AreEqual(from, () => x.AudioInfoWish.Bits());
-            x.AudioInfoWish.Bits(to);
-            AreEqual(to, () => x.AudioInfoWish.Bits());
-            
-            AreEqual(from, () => x.AudioFileInfo.Bits());
-            x.AudioFileInfo.Bits(to);
-            AreEqual(to, () => x.AudioFileInfo.Bits());
-
-            // Immutable                        
-            AreEqual(from, () => x.WavHeader.Bits());
-            var wavHeaderAfter = x.WavHeader.Bits(to);
-            AreEqual(from, () => x.WavHeader.Bits());
-            AreEqual(to,   () => wavHeaderAfter.Bits());
-            
-            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
-            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.Bits(to);
-            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
-            AreEqual(to,   () => sampleDataTypeEnumAfter.Bits());
-            
-            AreEqual(from, () => x.SampleDataType.Bits());
-            var sampleDataTypeAfter = x.SampleDataType.Bits(to, x.Context);
-            AreEqual(from, () => x.SampleDataType.Bits());
-            AreEqual(to,   () => sampleDataTypeAfter.Bits());
-            
-            AreEqual(from, () => x.Type.Bits());
-            var typeAfter = x.Type.Bits(to);
-            AreEqual(from, () => x.Type.Bits());
-            AreEqual(to,   () => typeAfter.Bits());
-
-            // Test After-Record
-                
-            x.Record();
-
-            // Independent after Taping
-            AreEqual(from, () => x.Sample.Bits());
-            AreEqual(from, () => x.AudioInfoWish.Bits());
-            AreEqual(from, () => x.AudioFileInfo.Bits());
-
-            // Immutable
-            AreEqual(from, () => x.WavHeader.Bits());
-            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
-            AreEqual(from, () => x.SampleDataType.Bits());
-            AreEqual(from, () => x.Type.Bits());
-        
-            AreEqual(to, () => wavHeaderAfter.Bits());
-            AreEqual(to, () => sampleDataTypeEnumAfter.Bits());
-            AreEqual(to, () => sampleDataTypeAfter.Bits());
-            AreEqual(to, () => typeAfter.Bits());
-        }    
-        
         [TestMethod] public void TestBits_Set_8Bit_ShortHand_ChangingIndependentAndImmutables()
         {
             var x = new TestEntities(s => s.With32Bit());
@@ -1088,46 +1127,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => sampleDataTypeEnumAfter.Is32Bit());
             IsTrue(() => sampleDataTypeAfter.Is32Bit());
             IsTrue(() => typeAfter.Is32Bit());
-        }
-        
-        [TestMethod] public void TestBits_Set_ConversionStyle()
-        {
-            foreach (int bits in new[] { 8, 16, 32 })
-            {
-                var x = new TestEntities(s => s.WithBits(bits));
-                AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
-                AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
-                AreEqual(x.Type,               () => bits.BitsToType());
-            }
-        }
-
-        [TestMethod] public void TestBits_Set_FromTypeArguments()
-        {
-            // Setters
-            AreEqual(typeof(byte), () => Bits<byte>(8));
-            AreEqual(typeof(byte), () => Bits<short>(8));
-            AreEqual(typeof(byte), () => Bits<float>(8));
-            
-            AreEqual(typeof(short), () => Bits<byte>(16));
-            AreEqual(typeof(short), () => Bits<short>(16));
-            AreEqual(typeof(short), () => Bits<float>(16));
-            
-            AreEqual(typeof(float), () => Bits<byte>(32));
-            AreEqual(typeof(float), () => Bits<short>(32));
-            AreEqual(typeof(float), () => Bits<float>(32));
-
-            // 'Shorthand' Setters
-            AreEqual(typeof(byte), () => With8Bit<byte>());
-            AreEqual(typeof(byte), () => With8Bit<short>());
-            AreEqual(typeof(byte), () => With8Bit<float>());
-
-            AreEqual(typeof(short), () => With16Bit<byte>());
-            AreEqual(typeof(short), () => With16Bit<short>());
-            AreEqual(typeof(short), () => With16Bit<float>());
-
-            AreEqual(typeof(float), () => With32Bit<byte>());
-            AreEqual(typeof(float), () => With32Bit<short>());
-            AreEqual(typeof(float), () => With32Bit<float>());
         }
 
         // Helpers
