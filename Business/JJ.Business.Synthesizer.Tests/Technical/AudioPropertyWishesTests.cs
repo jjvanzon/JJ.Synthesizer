@@ -197,7 +197,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             TestEntities x;
 
-            // Assert Setters
+            // Regular Setter Methods
             {
                 x = new TestEntities(s => s.WithBits(differentBits));
             
@@ -227,7 +227,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 NotEqual(x.SampleDataType, () => x.SampleDataType.Bits(bits, x.Context));
                 NotEqual(x.Type, () => x.Type.Bits(bits));
             }
-            // Assert Conversion-Style Setters
+            
+            // Conversion-Style
             {
                 x = new TestEntities(s => s.WithBits(bits));
 
@@ -236,7 +237,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(x.Type, () => bits.BitsToType());
             }
 
-            // Assert Shorthand Setters
+            // Shorthand
             {
                 x = new TestEntities(s => s.WithBits(differentBits));
 
@@ -266,6 +267,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 NotEqual(x.SampleDataType, () => x.SampleDataType.With8Bit(x.Context));
                 NotEqual(x.Type, () => x.Type.With8Bit());
 
+                // With Type Arguments
                 AreEqual(typeof(byte), () => With8Bit<byte>());
             }
         }
@@ -279,7 +281,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int before = 16;
             int after = 8;
             
-            { // Assert Setters
+            { // Regular Setter Methods
                 
                 { // Check Before Change
                     
@@ -358,7 +360,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         AreEqual(before, () => x.Type.Bits());
                     }
 
-                    { // After-Record Checks
+                    { // After Record
                         x.Record();
                         
                         // SynthWishes-Bound
@@ -436,7 +438,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         AreEqual(before, () => x.Type.Bits());
                     }
                     
-                    { // After-Record Checks
+                    { // After Record
                         x.Record();
                         
                         // SynthWishes-Bound
@@ -444,7 +446,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         AreEqual(before, () => x.FlowNode.Bits());
                         AreEqual(before, () => x.ConfigWishes.Bits());
 
-                        // By Design: Currently can't re-record over the same tape, so you always get a new tape.
+                        // By Design: Currently can't re-record over the same tape.
+                        // So you always get a new tape, overwriting the changed values upon record.
                         
                         // Tape-Bound
                         AreEqual(before, () => x.Tape.Bits());
@@ -520,7 +523,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         AreEqual(before, () => x.Type.Bits());
                     }
 
-                    { // After-Record Checks
+                    { // After-Record
+                        
                         x.Record();
                         
                         // SynthWishes-Bound
@@ -617,7 +621,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                         AreEqual(after, () => typeAfter.Bits());
                     }
 
-                    { // After-Record Checks
+                    { // After-Record
+                        
                         x.Record();
                         
                         // SynthWishes-Bound
@@ -655,47 +660,370 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
 
-            // Assert Conversion-Style Setters
-            {
-                var x = new TestEntities(s => s.WithBits(after));
+            { // Conversion-Style Setters
                 
                 // Immutable
-                AreEqual(x.SampleDataTypeEnum, () => after.BitsToEnum());
-                AreEqual(x.SampleDataType, () => after.BitsToEntity(x.Context));
-                AreEqual(x.Type, () => after.BitsToType());
+                { 
+                    var x = new TestEntities(s => s.WithBits(before));
+                    AreEqual(x.SampleDataTypeEnum, () => before.BitsToEnum());
+                    AreEqual(x.SampleDataType, () => before.BitsToEntity(x.Context));
+                    AreEqual(x.Type, () => before.BitsToType());
+                }
+                { 
+                    var x = new TestEntities(s => s.WithBits(after));
+                    AreEqual(x.SampleDataTypeEnum, () => after.BitsToEnum());
+                    AreEqual(x.SampleDataType, () => after.BitsToEntity(x.Context));
+                    AreEqual(x.Type, () => after.BitsToType());
+                }
             }
 
-            // Assert Shorthand Setters
-            {
-                var x = new TestEntities(s => s.WithBits(before));
+            { // Shorthand Setters
                 
-                // SynthWishes-Bound
-                AreEqual(x.SynthWishes, () => x.SynthWishes.With8Bit());
-                AreEqual(x.FlowNode, () => x.FlowNode.With8Bit());
-                AreEqual(x.ConfigWishes, () => x.ConfigWishes.With8Bit());
+                { // Check Before Change
+                
+                    var x = new TestEntities(s => s.WithBits(before));
+                    
+                    // SynthWishes-Bound
+                    AreEqual(false, () => x.SynthWishes.Is8Bit());
+                    AreEqual(false, () => x.FlowNode.Is8Bit());
+                    AreEqual(false, () => x.ConfigWishes.Is8Bit());
 
-                // Tape-Bound
-                AreEqual(x.Tape, () => x.Tape.With8Bit());
-                AreEqual(x.TapeConfig, () => x.TapeConfig.With8Bit());
-                AreEqual(x.TapeActions, () => x.TapeActions.With8Bit());
-                AreEqual(x.TapeAction, () => x.TapeAction.With8Bit());
+                    // Tape-Bound
+                    AreEqual(false, () => x.Tape.Is8Bit());
+                    AreEqual(false, () => x.TapeConfig.Is8Bit());
+                    AreEqual(false, () => x.TapeActions.Is8Bit());
+                    AreEqual(false, () => x.TapeAction.Is8Bit());
+                    
+                    // Buff-Bound
+                    AreEqual(false, () => x.Buff.Is8Bit());
+                    AreEqual(false, () => x.AudioFileOutput.Is8Bit());
+                    
+                    // Independent after Taping
+                    AreEqual(false, () => x.Sample.Is8Bit());
+                    AreEqual(false, () => x.AudioInfoWish.Is8Bit());
+                    AreEqual(false, () => x.AudioFileInfo.Is8Bit());
+                    
+                    // Immutable
+                    AreEqual(false, () => x.WavHeader.Is8Bit());
+                    AreEqual(false, () => x.SampleDataTypeEnum.Is8Bit());
+                    AreEqual(false, () => x.SampleDataType.Is8Bit());
+                    AreEqual(false, () => x.Type.Is8Bit());
+                }
 
-                // Buff-Bound
-                AreEqual(x.Buff, () => x.Buff.With8Bit(x.Context));
-                AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With8Bit(x.Context));
+                { // SynthWishes-Bound Change
+                    
+                    var x = new TestEntities(s => s.WithBits(before));
 
-                // Independent after Taping
-                AreEqual(x.Sample, () => x.Sample.With8Bit(x.Context));
-                AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With8Bit());
-                AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With8Bit());
+                    { // Change-Check
+                        
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
 
-                // Immutable
-                NotEqual(x.WavHeader, () => x.WavHeader.With8Bit());
-                NotEqual(x.SampleDataTypeEnum, () => x.SampleDataTypeEnum.With8Bit());
-                NotEqual(x.SampleDataType, () => x.SampleDataType.With8Bit(x.Context));
-                NotEqual(x.Type, () => x.Type.With8Bit());
+                        // Change!
+                        x.ConfigWishes.With8Bit();
 
-                AreEqual(typeof(byte), () => With8Bit<byte>());
+                        // SynthWishes-Bound
+                        IsTrue(() => x.SynthWishes.Is8Bit());
+                        IsTrue(() => x.FlowNode.Is8Bit());
+                        IsTrue(() => x.ConfigWishes.Is8Bit());
+
+                        // Tape-Bound
+                        IsFalse(() => x.Tape.Is8Bit());
+                        IsFalse(() => x.TapeConfig.Is8Bit());
+                        IsFalse(() => x.TapeActions.Is8Bit());
+                        IsFalse(() => x.TapeAction.Is8Bit());
+                        
+                        // Buff-Bound
+                        IsFalse(() => x.Buff.Is8Bit());
+                        IsFalse(() => x.AudioFileOutput.Is8Bit());
+                        
+                        // Independent after Taping
+                        IsFalse(() => x.Sample.Is8Bit());
+                        IsFalse(() => x.AudioInfoWish.Is8Bit());
+                        IsFalse(() => x.AudioFileInfo.Is8Bit());
+                        
+                        // Immutable
+                        IsFalse(() => x.WavHeader.Is8Bit());
+                        IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+                        IsFalse(() => x.SampleDataType.Is8Bit());
+                        IsFalse(() => x.Type.Is8Bit());
+                    }
+                    
+                    { // After-Record
+                        
+                        x.Record();
+                        
+                        // SynthWishes-Bound
+                        IsTrue(() => x.SynthWishes.Is8Bit());
+                        IsTrue(() => x.FlowNode.Is8Bit());
+                        IsTrue(() => x.ConfigWishes.Is8Bit());
+
+                        // Tape-Bound
+                        IsTrue(() => x.Tape.Is8Bit());
+                        IsTrue(() => x.TapeConfig.Is8Bit());
+                        IsTrue(() => x.TapeActions.Is8Bit());
+                        IsTrue(() => x.TapeAction.Is8Bit());
+                        
+                        // Buff-Bound
+                        IsTrue(() => x.Buff.Is8Bit());
+                        IsTrue(() => x.AudioFileOutput.Is8Bit());
+                        
+                        // Independent after Taping
+                        IsTrue(() => x.Sample.Is8Bit());
+                        IsTrue(() => x.AudioInfoWish.Is8Bit());
+                        IsTrue(() => x.AudioFileInfo.Is8Bit());
+                        
+                        // Immutable
+                        IsTrue(() => x.WavHeader.Is8Bit());
+                        IsTrue(() => x.SampleDataTypeEnum.Is8Bit());
+                        IsTrue(() => x.SampleDataType.Is8Bit());
+                        IsTrue(() => x.Type.Is8Bit());
+                    }
+                }
+
+                { // Tape-Bound Change
+                    
+                    var x = new TestEntities(s => s.WithBits(before));
+
+                    { // Change-Check
+                        
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+
+                        // Tape-Bound
+                        IsFalse(() => x.Tape.Is8Bit());
+                        IsFalse(() => x.TapeConfig.Is8Bit());
+                        IsFalse(() => x.TapeActions.Is8Bit());
+                        IsFalse(() => x.TapeAction.Is8Bit());
+                        
+                        // Change!
+                        x.TapeAction.With8Bit();
+                        
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+
+                        // Tape-Bound
+                        IsTrue(() => x.Tape.Is8Bit());
+                        IsTrue(() => x.TapeConfig.Is8Bit());
+                        IsTrue(() => x.TapeActions.Is8Bit());
+                        IsTrue(() => x.TapeAction.Is8Bit());
+
+                        // Buff-Bound
+                        IsFalse(() => x.Buff.Is8Bit());
+                        IsFalse(() => x.AudioFileOutput.Is8Bit());
+                        
+                        // Independent after Taping
+                        IsFalse(() => x.Sample.Is8Bit());
+                        IsFalse(() => x.AudioInfoWish.Is8Bit());
+                        IsFalse(() => x.AudioFileInfo.Is8Bit());
+                        
+                        // Immutable
+                        IsFalse(() => x.WavHeader.Is8Bit());
+                        IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+                        IsFalse(() => x.SampleDataType.Is8Bit());
+                        IsFalse(() => x.Type.Is8Bit());
+                    }
+
+                    { // After-Record
+
+                        x.Record();
+
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+
+                        // By Design: Currently can't re-record over the same tape.
+                        // So you always get a new tape, overwriting the changed values upon record.
+                        
+                        // Tape-Bound
+                        IsFalse(() => x.Tape.Is8Bit());
+                        IsFalse(() => x.TapeConfig.Is8Bit());
+                        IsFalse(() => x.TapeActions.Is8Bit());
+                        IsFalse(() => x.TapeAction.Is8Bit());
+
+                        // Buff-Bound
+                        IsFalse(() => x.Buff.Is8Bit());
+                        IsFalse(() => x.AudioFileOutput.Is8Bit());
+                        
+                        // Independent after Taping
+                        IsFalse(() => x.Sample.Is8Bit());
+                        IsFalse(() => x.AudioInfoWish.Is8Bit());
+                        IsFalse(() => x.AudioFileInfo.Is8Bit());
+                        
+                        // Immutable
+                        IsFalse(() => x.WavHeader.Is8Bit());
+                        IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+                        IsFalse(() => x.SampleDataType.Is8Bit());
+                        IsFalse(() => x.Type.Is8Bit());
+                    }
+                }
+
+                { // Buff-Bound Change
+
+                    var x = new TestEntities(s => s.WithBits(before));
+                    
+                    { // Change-Check
+                        
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+
+                        // Tape-Bound
+                        IsFalse(() => x.Tape.Is8Bit());
+                        IsFalse(() => x.TapeConfig.Is8Bit());
+                        IsFalse(() => x.TapeActions.Is8Bit());
+                        IsFalse(() => x.TapeAction.Is8Bit());
+
+                        // Buff-Bound
+                        IsFalse(() => x.Buff.Is8Bit());
+                        IsFalse(() => x.AudioFileOutput.Is8Bit());
+
+                        // Change!
+                        x.AudioFileOutput.With8Bit(x.Context);
+                        
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+
+                        // Tape-Bound
+                        IsFalse(() => x.Tape.Is8Bit());
+                        IsFalse(() => x.TapeConfig.Is8Bit());
+                        IsFalse(() => x.TapeActions.Is8Bit());
+                        IsFalse(() => x.TapeAction.Is8Bit());
+
+                        // Buff-Bound
+                        IsTrue(() => x.Buff.Is8Bit());
+                        IsTrue(() => x.AudioFileOutput.Is8Bit());
+                        
+                        // Independent after Taping
+                        IsFalse(() => x.Sample.Is8Bit());
+                        IsFalse(() => x.AudioInfoWish.Is8Bit());
+                        IsFalse(() => x.AudioFileInfo.Is8Bit());
+                        
+                        // Immutable
+                        IsFalse(() => x.WavHeader.Is8Bit());
+                        IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+                        IsFalse(() => x.SampleDataType.Is8Bit());
+                        IsFalse(() => x.Type.Is8Bit());
+                    }
+                    
+                    { // After Record
+                    
+                        x.Record();
+                        
+                        // Overwritten with original SynthWishes settings.
+                        
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+
+                        // Tape-Bound
+                        IsFalse(() => x.Tape.Is8Bit());
+                        IsFalse(() => x.TapeConfig.Is8Bit());
+                        IsFalse(() => x.TapeActions.Is8Bit());
+                        IsFalse(() => x.TapeAction.Is8Bit());
+
+                        // Buff-Bound
+                        IsFalse(() => x.Buff.Is8Bit());
+                        IsFalse(() => x.AudioFileOutput.Is8Bit());
+                        
+                        // Independent after Taping
+                        IsFalse(() => x.Sample.Is8Bit());
+                        IsFalse(() => x.AudioInfoWish.Is8Bit());
+                        IsFalse(() => x.AudioFileInfo.Is8Bit());
+                        
+                        // Immutable
+                        IsFalse(() => x.WavHeader.Is8Bit());
+                        IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+                        IsFalse(() => x.SampleDataType.Is8Bit());
+                        IsFalse(() => x.Type.Is8Bit());
+                    }
+                }
+
+                { // Independent/Immutables Change
+                    
+                    var x = new TestEntities(s => s.WithBits(before));
+
+                    WavHeaderStruct wavHeaderAfter;
+                    SampleDataTypeEnum sampleDataTypeEnumAfter;
+                    SampleDataType sampleDataTypeAfter;
+                    Type typeAfter;
+
+                    { // Change-Check
+
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+                        
+                        // SynthWishes-Bound
+                        IsFalse(() => x.SynthWishes.Is8Bit());
+                        IsFalse(() => x.FlowNode.Is8Bit());
+                        IsFalse(() => x.ConfigWishes.Is8Bit());
+                                            
+                        // Tape-Bound
+                        IsFalse(() => x.Tape.Is8Bit());
+                        IsFalse(() => x.TapeConfig.Is8Bit());
+                        IsFalse(() => x.TapeActions.Is8Bit());
+                        IsFalse(() => x.TapeAction.Is8Bit());
+
+                        // Buff-Bound
+                        IsFalse(() => x.Buff.Is8Bit());
+                        IsFalse(() => x.AudioFileOutput.Is8Bit());
+
+                        // Independent after Taping
+                        IsFalse(() => x.Sample.Is8Bit());
+                        x.Sample.With8Bit(x.Context);
+                        IsTrue(() => x.Sample.Is8Bit());
+                        
+                        IsFalse(() => x.AudioInfoWish.Is8Bit());
+                        x.AudioInfoWish.With8Bit();
+                        IsTrue(() => x.AudioInfoWish.Is8Bit());
+                                                
+                        IsFalse(() => x.AudioFileInfo.Is8Bit());
+                        x.AudioFileInfo.With8Bit();
+                        IsTrue(() => x.AudioFileInfo.Is8Bit());
+
+                        // Immutable                        
+                        IsFalse(() => x.WavHeader.Is8Bit());
+                        wavHeaderAfter = x.WavHeader.With8Bit();
+                        IsFalse(() => x.WavHeader.Is8Bit());
+                        IsTrue(() => wavHeaderAfter.Is8Bit());
+                        
+                        IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+                        sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With8Bit();
+                        IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+                        IsTrue(() => sampleDataTypeEnumAfter.Is8Bit());
+
+                        IsFalse(() => x.SampleDataType.Is8Bit());
+                        sampleDataTypeAfter = x.SampleDataType.With8Bit(x.Context);
+                        IsFalse(() => x.SampleDataType.Is8Bit());
+                        IsTrue(() => sampleDataTypeAfter.Is8Bit());
+
+                        IsFalse(() => x.Type.Is8Bit());
+                        typeAfter = x.Type.With8Bit();
+                        IsFalse(() => x.Type.Is8Bit());
+                        IsTrue(() => typeAfter.Is8Bit());
+                    }
+                }
+            }
+
+            { // With Type Arguments
+                
+                AreEqual(typeof(byte), () => Bits<float>(8));
+                AreEqual(typeof(byte), () => With8Bit<float>());
+                AreEqual(false, () => Is8Bit<float>());
+                AreEqual(true, () => Is8Bit<byte>());
             }
         }
 
@@ -745,7 +1073,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 ConfigSection = new ConfigWishesAccessor(ConfigWishes)._section; 
 
                 // Initialize
-                SynthWishes.WithAudioLength(1 / 440d); // Records 1 sinusoid cycle
+                SynthWishes.WithSamplingRate(375);
+                SynthWishes.WithAudioLength(1 / 440d); // 1 sinusoid cycle
                 initialize?.Invoke(SynthWishes);
                 
                 Record();
