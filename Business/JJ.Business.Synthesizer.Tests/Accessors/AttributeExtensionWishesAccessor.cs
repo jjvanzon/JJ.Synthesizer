@@ -13,11 +13,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly Accessor _accessor = new Accessor(typeof(AttributeExtensionWishes));
         
         public static int Bits(this ConfigSectionAccessor obj) => (int)_accessor.InvokeMethod(MemberName(), obj.Obj);
-        
         public static bool Is8Bit(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
-        
         public static bool Is16Bit(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
-        
         public static bool Is32Bit(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
+
+        public static int Channels(this ConfigSectionAccessor obj) => (int)_accessor.InvokeMethod(MemberName(),  obj.Obj);
+        public static bool IsMono(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(),   obj.Obj);
+        public static bool IsStereo(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
+
     }
 }

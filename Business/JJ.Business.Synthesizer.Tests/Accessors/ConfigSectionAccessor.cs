@@ -25,5 +25,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
         
         public int? Bits => (int?)_accessor.GetPropertyValue(MemberName());
+        public int? Channels => (int?)_accessor.GetPropertyValue(MemberName());
     }
 }

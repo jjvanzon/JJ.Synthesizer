@@ -3,13 +3,13 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum ChannelsToEnum(this int channels, int? channel)
         {
-            if (!FilledInWishes.Has(channel)) return ChannelEnum.Undefined;
+            if (!Has(channel)) return ChannelEnum.Undefined;
             if (channels == 1 && channel == 0) return ChannelEnum.Single;
             if (channels == 2 && channel == 0) return ChannelEnum.Left;
             if (channels == 2 && channel == 1) return ChannelEnum.Right;
