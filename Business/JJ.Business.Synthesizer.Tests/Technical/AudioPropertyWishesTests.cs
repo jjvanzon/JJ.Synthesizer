@@ -22,15 +22,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class AudioPropertyWishesTests
     {
         // Bits
-
-        [TestMethod] public void Test_Bits_Normal()
+                
+        [TestMethod] public void Test_Bits_ConfigSection()
         {
-            Test_Bits_Normal(32, 8);
-            Test_Bits_Normal(32, 16);
-            Test_Bits_Normal(16, 32);
+            // Global-Bound. Immutable.
+            var configSection = GetConfigSectionAccessor();
+            
+            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits);
+            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits());
+            AreEqual(ConfigWishes.DefaultBits == 8, () => configSection.Is8Bit());
+            AreEqual(ConfigWishes.DefaultBits == 16, () => configSection.Is16Bit());
+            AreEqual(ConfigWishes.DefaultBits == 32, () => configSection.Is32Bit());
+        }
+
+        [TestMethod] public void Test_Bits_InTandem()
+        {
+            Test_Bits_InTandem(32, 8);
+            Test_Bits_InTandem(32, 16);
+            Test_Bits_InTandem(16, 32);
         }
         
-        void Test_Bits_Normal(int init, int value)
+        void Test_Bits_InTandem(int init, int value)
         {
             // Check Before Change
             { 
@@ -169,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Bits With Type Arguments
         
-        [TestMethod] public void Test_Bits_WithTypeArguments()
+        [TestMethod] public void Test_Bits_TypeArguments()
         {
             // Getters
             AreEqual(8, () => Bits<byte>());
@@ -348,14 +360,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Bits for Immutables
 
-        [TestMethod] public void Test_Bits_Immutables()
+        [TestMethod] public void Test_Bits_Immutable()
         {
-            Test_Bits_Immutables(init: 32, value: 8);
-            Test_Bits_Immutables(init: 32, value: 16);
-            Test_Bits_Immutables(init: 16, value: 32);
+            Test_Bits_Immutable(init: 32, value: 8);
+            Test_Bits_Immutable(init: 32, value: 16);
+            Test_Bits_Immutable(init: 16, value: 32);
         }
         
-        void Test_Bits_Immutables(int init, int value)
+        void Test_Bits_Immutable(int init, int value)
         {
             var x = new TestEntities(init);
 
@@ -458,11 +470,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Helpers
 
+        private ConfigSectionAccessor GetConfigSectionAccessor() => new ConfigWishesAccessor(new SynthWishes().Config)._section;
+
         private class TestEntities
         {
-            // Global-Bound
-            public ConfigSectionAccessor ConfigSection      { get; private set; }
-
             // SynthWishes-Bound
             public SynthWishes           SynthWishes        { get; private set; }
             public IContext              Context            { get; private set; }
@@ -493,7 +504,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public TestEntities(int bits) => Initialize(bits);
 
             private TestEntities(Action<SynthWishes> initialize = null) => Initialize(initialize);
-                        
+            
             public void Initialize(int bits)
             {
                 Initialize(x => x.WithBits(bits));
@@ -506,9 +517,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Context      = SynthWishes.Context;
                 ConfigWishes = SynthWishes.Config;
                 FlowNode     = SynthWishes.Sine();
-                
-                // Global-Bound
-                ConfigSection = new ConfigWishesAccessor(ConfigWishes)._section;
                 
                 // Initialize
                 SynthWishes.WithSamplingRate(100);
@@ -552,15 +560,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     default: throw new Exception($"{new { bits }} not supported.");
                 }
             }
-                    
-            public void GlobalBound_Bits_Equal(int bits)
-            {
-                AreEqual(bits, () => ConfigSection.Bits());
-            }
 
             public void Assert_All_Bits(int bits)
             {
-                //GlobalBound_Bits_Equal(bits); // Skip because stays the same.
                 Assert_SynthBound_Bits(bits);
                 Assert_TapeBound_Bits(bits);
                 Assert_BuffBound_Bits(bits);
