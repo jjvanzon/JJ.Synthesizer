@@ -628,7 +628,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> 
         /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
         /// </summary> 
-        public static object _relatedobjectextensions;
+        public static object _underlyingextensions;
 
         /// <summary> 
         /// Creates a Sample by reading the file at the given <paramref name="filePath" /> or Stream or Byte array.

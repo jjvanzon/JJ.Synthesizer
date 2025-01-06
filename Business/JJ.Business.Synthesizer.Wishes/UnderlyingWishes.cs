@@ -4,10 +4,10 @@ using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    /// <inheritdoc cref="docs._relatedobjectextensions"/>
+    /// <inheritdoc cref="docs._underlyingextensions"/>
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._relatedobjectextensions"/>
+        /// <inheritdoc cref="docs._underlyingextensions"/>
         public Operator UnderlyingOperator => _underlyingOutlet.Operator;
 
         /// <inheritdoc cref="docs._underlyingcurve" />"/>
@@ -23,8 +23,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode UnderlyingSample(Sample sample) { _underlyingOutlet.UnderlyingSample(sample); return this; }
     }
 
-    /// <inheritdoc cref="docs._relatedobjectextensions"/>
-    public static class RelatedObjectExtensionWishes
+    /// <inheritdoc cref="docs._underlyingextensions"/>
+    public static class UnderlyingExtensionWishes
     {
         /// <inheritdoc cref="docs._underlyingcurve" />"/>
         public static Curve UnderlyingCurve(this Outlet outlet)

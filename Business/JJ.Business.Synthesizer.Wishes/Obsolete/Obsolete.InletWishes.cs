@@ -127,10 +127,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
     
-    // InletWishes from RelatedObjectWishes
+    // InletWishes from UnderlyingWishes
 
     [Obsolete(ObsoleteMessage)]
-    public static class InletRelatedObjectExtensions 
+    public static class UnderlyingInletExtensions 
     {
         [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._getcurve" />"/>

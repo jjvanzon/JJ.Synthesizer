@@ -391,13 +391,13 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
 
-    // WrapperWishes From RelatedObjectsWishes
+    // WrapperWishes From UnderlyingWishes
 
     [Obsolete(ObsoleteMessage)]
-    public static class RelatedObjectWrapperExtensions
+    public static class UnderlyingWrapperExtensions
     {
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="docs._relatedobjectextensions"/>
+        /// <inheritdoc cref="docs._underlyingextensions"/>
         public static Operator Operator(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="docs._relatedobjectextensions"/>
+        /// <inheritdoc cref="docs._underlyingextensions"/>
         public static Operator Operator(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
