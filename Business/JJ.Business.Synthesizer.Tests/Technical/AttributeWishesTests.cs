@@ -11,7 +11,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.AudioPropertyWishes;
+using static JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class AudioPropertyWishesTests
+    public class AttributeWishesTests
     {
         // Bits
 
@@ -421,9 +421,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Global-Bound. Immutable. Get-only.
             var configSection = GetConfigSectionAccessor();
             
-            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits);
-            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits());
-            AreEqual(ConfigWishes.DefaultBits == 8, () => configSection.Is8Bit());
+            AreEqual(ConfigWishes.DefaultBits,       () => configSection.Bits);
+            AreEqual(ConfigWishes.DefaultBits,       () => configSection.Bits());
+            AreEqual(ConfigWishes.DefaultBits == 8,  () => configSection.Is8Bit());
             AreEqual(ConfigWishes.DefaultBits == 16, () => configSection.Is16Bit());
             AreEqual(ConfigWishes.DefaultBits == 32, () => configSection.Is32Bit());
         }
@@ -507,7 +507,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Old
  
-        /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
+        /// <inheritdoc cref="docs._testattributewishesold"/>
         [TestMethod]
         public void ChannelCountToSpeakerSetup_Test()
         {
@@ -712,7 +712,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
     }
     
-    internal static class AudioPropertyWishesTestExtensions
+    internal static class AttributeWishesTestExtensions
     {
         public static void Assert_Bit_Getters(this AudioFileInfo audioFileInfo, int bits)
         {

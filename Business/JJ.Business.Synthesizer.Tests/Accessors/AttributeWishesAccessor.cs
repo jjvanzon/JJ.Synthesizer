@@ -8,9 +8,9 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class AudioPropertyWishesAccessor
+    internal static class AttributeWishesAccessor
     {
-        private static readonly Accessor _accessor = new Accessor(typeof(AudioPropertyWishes));
+        private static readonly Accessor _accessor = new Accessor(typeof(AttributeWishes));
         
         public static int Bits(this ConfigSectionAccessor obj) => (int)_accessor.InvokeMethod(MemberName(), obj.Obj);
         

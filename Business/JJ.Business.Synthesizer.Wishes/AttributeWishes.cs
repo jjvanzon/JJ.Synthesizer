@@ -42,8 +42,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public int FrameCount { get; set; }
     }
 
-    /// <inheritdoc cref="docs._audiopropertywishes"/>
-    public static class AudioPropertyWishes
+    /// <inheritdoc cref="docs._attributewishes"/>
+    public static class AttributeWishes
     {
         // Primary Audio Properties
         

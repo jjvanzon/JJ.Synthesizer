@@ -123,7 +123,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
-    <Compile Include="Accessors\AudioPropertyWishesAccessor.cs" />
+    <Compile Include="Accessors\AttributeWishesAccessor.cs" />
     <Compile Include="Accessors\ConfigSectionAccessor.cs" />
     <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
@@ -136,7 +136,7 @@
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />
-    <Compile Include="Technical\AudioPropertyWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Accessors\SampleManagerAccessor.cs" />
     <Compile Include="Accessors\SynthWishesAccessor.cs" />

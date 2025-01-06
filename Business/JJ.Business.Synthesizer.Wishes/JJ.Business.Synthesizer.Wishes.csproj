@@ -53,7 +53,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="AudioPropertyWishes.cs" />
+    <Compile Include="AttributeWishes.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
     <Compile Include="Helpers\PropertyNameWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />

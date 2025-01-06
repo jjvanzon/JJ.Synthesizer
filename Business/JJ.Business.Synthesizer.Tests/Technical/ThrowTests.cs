@@ -51,19 +51,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // OperatorWishes.SynthWishes.Panning Dynamic_InvalidChannelEnum
             //ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
-            // AudioPropertyWishes.Channels SpeakerSetupNotSupported
+            // AttributeWishes.Channels SpeakerSetupNotSupported
             //ThrowsException(() => SpeakerSetupEnum.Undefined.Channels());
 
-            // AudioPropertyWishes.ChannelsToEnum ChannelCountNotSupported
+            // AttributeWishes.ChannelsToEnum ChannelCountNotSupported
             //ThrowsException(() => 0.ChannelsToEnum());
 
-            // AudioPropertyWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
+            // AttributeWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.FileExtension());
 
-            // AudioPropertyWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
+            // AttributeWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
             ThrowsException(() => SampleDataTypeEnum.Undefined.MaxValue());
 
-            // AudioPropertyWishes.Extensions.GetHeaderLength AudioFileFormatNotSupported
+            // AttributeWishes.Extensions.GetHeaderLength AudioFileFormatNotSupported
             ThrowsException(() => AudioFileFormatEnum.Undefined.HeaderLength());
         }
 
