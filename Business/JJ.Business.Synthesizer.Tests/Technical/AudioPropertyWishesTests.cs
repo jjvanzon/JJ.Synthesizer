@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Bits With Type Arguments
         
-        [TestMethod] public void Bits_Getters_FromTypeArguments()
+        [TestMethod] public void Bits_WithTypeArguments()
         {
             // Getters
             AreEqual(8, () => Bits<byte>());
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(16, () => TypeToBits<short>());
             AreEqual(32, () => TypeToBits<float>());
 
-            // Shorthand Getters            
+            // Shorthand Getters          
             IsTrue(() => Is8Bit<byte>());
             IsFalse(() => Is8Bit<short>());
             IsFalse(() => Is8Bit<float>());
@@ -192,10 +192,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsFalse(() => Is32Bit<byte>());
             IsFalse(() => Is32Bit<short>());
             IsTrue(() => Is32Bit<float>());
-        }
 
-        [TestMethod] public void Bits_Setters_FromTypeArguments()
-        {
             // Setters
             AreEqual(typeof(byte), () => Bits<byte>(8));
             AreEqual(typeof(byte), () => Bits<short>(8));
@@ -225,30 +222,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Bits Conversion-Style
                 
-        [TestMethod] public void Bits_Getters_ConversionStyle()
-        {
-            int[] values = { 8, 16, 32 };
-            foreach (int bits in values)
-            {
-                var x = new TestEntities(bits);
-                AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
-                AreEqual(bits, () => x.SampleDataType.EntityToBits());
-                AreEqual(bits, () => x.Type.TypeToBits());
-            }
-            
-            // For test coverage
-            ThrowsException(() => default(Type).TypeToBits());
-        }
-
-        [TestMethod] public void Bits_Setters_ConversionStyle()
+        [TestMethod] public void Bits_ConversionStyle()
         {
             foreach (int bits in new[] { 8, 16, 32 })
             {
                 var x = new TestEntities(bits);
+                
+                // Getters
                 AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
                 AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
                 AreEqual(x.Type,               () => bits.BitsToType());
+            
+                // Setters
+                AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
+                AreEqual(bits, () => x.SampleDataType    .EntityToBits());
+                AreEqual(bits, () => x.Type              .TypeToBits());
             }
+            
+            // For test coverage
+            ThrowsException(() => default(Type).TypeToBits());
         }
         
         // Bits for Independently Changeable or Immutable
