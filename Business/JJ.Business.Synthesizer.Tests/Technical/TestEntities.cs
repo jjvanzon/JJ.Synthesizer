@@ -16,7 +16,10 @@ using static JJ.Framework.Testing.AssertHelper;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     internal class TestEntities
-    {
+    {        
+        // Global-Bound (read-only)
+        public static ConfigSectionAccessor GetConfigSectionAccessor() => new ConfigWishesAccessor(new SynthWishes().Config)._section;
+
         // SynthWishes-Bound
         public SynthWishes           SynthWishes        { get; private set; }
         public IContext              Context            { get; private set; }
@@ -46,17 +49,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public Type               Type               { get; private set; }
         public SpeakerSetupEnum   SpeakerSetupEnum   { get; private set; }
         public SpeakerSetup       SpeakerSetup       { get; private set; }
+        public ChannelEnum        ChannelEnum        { get; private set; }
+        public Channel            Channel            { get; private set; }
         
-        public static ConfigSectionAccessor GetConfigSectionAccessor() => new ConfigWishesAccessor(new SynthWishes().Config)._section;
+        public TestEntities(int? bits = default, int? channels = default, int? channel = default) => Initialize(bits, channels, channel);
         
-        public TestEntities(int? bits = default, int? channels = default) => Initialize(bits, channels);
-
-        private TestEntities(Action<SynthWishes> initialize = null) => Initialize(initialize);
+        public TestEntities(Action<SynthWishes> initialize) => Initialize(initialize);
         
-        public void Initialize(int? bits = default, int? channels = default)
+        public void Initialize(int? bits = default, int? channels = default, int? channel = default)
         {
             Initialize(x => x.WithBits(bits)
-                             .WithChannels(channels));
+                             .WithChannels(channels)
+                             .WithChannel(channel));
         }
         
         public void Initialize(Action<SynthWishes> initialize)
@@ -71,6 +75,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Initialize
             SynthWishes.WithSamplingRate(100);
             initialize?.Invoke(SynthWishes);
+            
+            ChannelEnum = SynthWishes.GetChannel.ChannelToEnum(SynthWishes.GetChannels);
+            Channel     = SynthWishes.GetChannel.ChannelToEntity(SynthWishes.GetChannels, Context);
             
             Record();
         }
