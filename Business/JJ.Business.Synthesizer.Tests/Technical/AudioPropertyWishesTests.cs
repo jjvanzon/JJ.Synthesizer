@@ -43,18 +43,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => x.SynthWishes.Bits(value));
                 AssertProp(x => x.FlowNode.Bits(value));
                 AssertProp(x => x.ConfigWishes.Bits(value));
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.SynthWishes.With8Bit();
                     if (value == 16) x.SynthWishes.With16Bit();
                     if (value == 32) x.SynthWishes.With32Bit();
                 });
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.FlowNode.With8Bit();
                     if (value == 16) x.FlowNode.With16Bit();
                     if (value == 32) x.FlowNode.With32Bit();
                 });
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.ConfigWishes.With8Bit();
@@ -87,24 +90,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => x.TapeConfig.Bits(value));
                 AssertProp(x => x.TapeActions.Bits(value));
                 AssertProp(x => x.TapeAction.Bits(value));
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.Tape.With8Bit();
                     if (value == 16) x.Tape.With16Bit();
                     if (value == 32) x.Tape.With32Bit();
                 });
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.TapeConfig.With8Bit();
                     if (value == 16) x.TapeConfig.With16Bit();
                     if (value == 32) x.TapeConfig.With32Bit();
                 });
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.TapeActions.With8Bit();
                     if (value == 16) x.TapeActions.With16Bit();
                     if (value == 32) x.TapeActions.With32Bit();
                 });
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.TapeAction.With8Bit();
@@ -135,12 +142,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 AssertProp(x => x.Buff.Bits(value, x.Context));
                 AssertProp(x => x.AudioFileOutput.Bits(value, x.Context));
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.Buff.With8Bit(x.Context);
                     if (value == 16) x.Buff.With16Bit(x.Context);
                     if (value == 32) x.Buff.With32Bit(x.Context);
                 });
+                
                 AssertProp(x =>
                 {
                     if (value == 8) x.AudioFileOutput.With8Bit(x.Context);
@@ -184,6 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Sample
             {
                 AssertProp(() => x.Sample.Bits(value, x.Context));
+                
                 AssertProp(() =>
                 {
                     if (value == 8) x.Sample.With8Bit(x.Context);
@@ -213,6 +223,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // AudioInfoWish
             {
                 AssertProp(() => x.AudioInfoWish.Bits(value));
+                
                 AssertProp(() =>
                 {
                     if (value == 8) x.AudioInfoWish.With8Bit();
@@ -242,6 +253,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // AudioFileInfo
             {
                 AssertProp(() => x.AudioFileInfo.Bits(value));
+                
                 AssertProp(() =>
                 {
                     if (value == 8) x.AudioFileInfo.With8Bit();
@@ -285,6 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var wavHeaders = new List<WavHeaderStruct>();
             {
                 AssertProp(() => x.WavHeader.Bits(value));
+                
                 AssertProp(() => 
                 {
                     if (value == 8) return x.WavHeader.With8Bit();
@@ -296,9 +309,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
                     x.WavHeader.Assert_Bit_Getters(init);
+                    
                     var wavHeader2 = setter();
+                    
                     x.WavHeader.Assert_Bit_Getters(init);
                     wavHeader2.Assert_Bit_Getters(value);
+                    
                     wavHeaders.Add(wavHeader2);
                 }
             }
@@ -306,6 +322,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var sampleDataTypeEnums = new List<SampleDataTypeEnum>();
             {
                 AssertProp(() => x.SampleDataTypeEnum.Bits(value));
+                
                 AssertProp(() => 
                 {
                     if (value == 8) return x.SampleDataTypeEnum.With8Bit();
@@ -317,9 +334,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 void AssertProp(Func<SampleDataTypeEnum> setter)
                 {
                     x.SampleDataTypeEnum.Assert_Bit_Getters(init);
+                    
                     var sampleDataTypeEnum2 = setter();
+                    
                     x.SampleDataTypeEnum.Assert_Bit_Getters(init);
                     sampleDataTypeEnum2.Assert_Bit_Getters(value);
+                    
                     sampleDataTypeEnums.Add(sampleDataTypeEnum2);
                 }
             }
@@ -327,6 +347,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var sampleDataTypes = new List<SampleDataType>();
             {
                 AssertProp(() => x.SampleDataType.Bits(value, x.Context));
+                
                 AssertProp(() => 
                 {
                     if (value == 8) return x.SampleDataType.With8Bit(x.Context);
@@ -338,9 +359,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 void AssertProp(Func<SampleDataType> setter)
                 {
                     x.SampleDataType.Assert_Bit_Getters(init);
+
                     var sampleDataType2 = setter();
+                    
                     x.SampleDataType.Assert_Bit_Getters(init);
                     sampleDataType2.Assert_Bit_Getters(value);
+                    
                     sampleDataTypes.Add(sampleDataType2);
                 }
             }
@@ -348,6 +372,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var types = new List<Type>();
             {
                 AssertProp(() => x.Type.Bits(value));
+                
                 AssertProp(() => 
                 {
                     if (value == 8) return x.Type.With8Bit();
@@ -359,9 +384,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 void AssertProp(Func<Type> setter)
                 {
                     x.Type.Assert_Bit_Getters(init);
+                    
                     var type2 = setter();
+                    
                     x.Type.Assert_Bit_Getters(init);
                     type2.Assert_Bit_Getters(value);
+                    
                     types.Add(type2);
                 }
             }
