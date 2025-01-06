@@ -13,6 +13,8 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.AudioPropertyWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+
 #pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -41,8 +43,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Synth-Bound Changes
             {
                 AssertProp(x => AreEqual(x.SynthWishes,  () => x.SynthWishes.Bits(value)));
+                AssertProp(x => AreEqual(x.SynthWishes,        x.SynthWishes.WithBits(value)));
                 AssertProp(x => AreEqual(x.FlowNode,     () => x.FlowNode.Bits(value)));
+                AssertProp(x => AreEqual(x.FlowNode,           x.FlowNode.WithBits(value)));
                 AssertProp(x => AreEqual(x.ConfigWishes, () => x.ConfigWishes.Bits(value)));
+                AssertProp(x => AreEqual(x.ConfigWishes,       x.ConfigWishes.WithBits(value)));
                 
                 AssertProp(x =>
                 {
@@ -86,10 +91,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Tape-Bound Changes
             {
-                AssertProp(x => AreEqual(x.Tape, () => x.Tape.Bits(value)));
-                AssertProp(x => AreEqual(x.TapeConfig, () => x.TapeConfig.Bits(value)));
+                AssertProp(x => AreEqual(x.Tape,        () => x.Tape.Bits(value)));
+                AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig.Bits(value)));
+                AssertProp(x =>                               x.TapeConfig.Bits = value);
                 AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.Bits(value)));
-                AssertProp(x => AreEqual(x.TapeAction, () => x.TapeAction.Bits(value)));
+                AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction.Bits(value)));
                 
                 AssertProp(x =>
                 {
@@ -140,7 +146,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Buff-Bound Changes
             {
-                AssertProp(x => AreEqual(x.Buff, () => x.Buff.Bits(value, x.Context)));
+                AssertProp(x => AreEqual(x.Buff,            () => x.Buff.Bits(value, x.Context)));
                 AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Bits(value, x.Context)));
                 
                 AssertProp(x =>
@@ -223,10 +229,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // AudioInfoWish
             {
                 AssertProp(() => AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.Bits(value)));
+                AssertProp(() =>                                 x.AudioInfoWish.Bits = value);
                 
                 AssertProp(() =>
                 {
-                    if (value == 8) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With8Bit());
+                    if (value ==  8) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With8Bit());
                     if (value == 16) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With16Bit());
                     if (value == 32) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With32Bit());
                 });
@@ -256,7 +263,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 AssertProp(() =>
                 {
-                    if (value == 8) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With8Bit());
+                    if (value ==  8) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With8Bit());
                     if (value == 16) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With16Bit());
                     if (value == 32) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With32Bit());
                 });
@@ -325,7 +332,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 AssertProp(() => 
                 {
-                    if (value == 8) return x.SampleDataTypeEnum.With8Bit();
+                    if (value ==  8) return x.SampleDataTypeEnum.With8Bit();
                     if (value == 16) return x.SampleDataTypeEnum.With16Bit();
                     if (value == 32) return x.SampleDataTypeEnum.With32Bit();
                     return default; // ncrunch: no coverage
@@ -368,7 +375,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     sampleDataTypes.Add(sampleDataType2);
                 }
             }
-                                    
+            
             var types = new List<Type>();
             {
                 AssertProp(() => x.Type.Bits(value));
@@ -620,26 +627,39 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public void Assert_SynthBound_Bits(int bits)
             {
                 AreEqual(bits, () => SynthWishes.Bits());
+                AreEqual(bits, () => SynthWishes.GetBits);
                 AreEqual(bits, () => FlowNode.Bits());
+                AreEqual(bits, () => FlowNode.GetBits);
                 AreEqual(bits, () => ConfigWishes.Bits());
+                AreEqual(bits, () => ConfigWishes.GetBits);
                 
                 AreEqual(bits == 8, () => SynthWishes.Is8Bit());
+                AreEqual(bits == 8, () => SynthWishes.Is8Bit);
                 AreEqual(bits == 8, () => FlowNode.Is8Bit());
+                AreEqual(bits == 8, () => FlowNode.Is8Bit);
                 AreEqual(bits == 8, () => ConfigWishes.Is8Bit());
+                AreEqual(bits == 8, () => ConfigWishes.Is8Bit);
                 
                 AreEqual(bits == 16, () => SynthWishes.Is16Bit());
+                AreEqual(bits == 16, () => SynthWishes.Is16Bit);
                 AreEqual(bits == 16, () => FlowNode.Is16Bit());
+                AreEqual(bits == 16, () => FlowNode.Is16Bit);
                 AreEqual(bits == 16, () => ConfigWishes.Is16Bit());
+                AreEqual(bits == 16, () => ConfigWishes.Is16Bit);
                 
                 AreEqual(bits == 32, () => SynthWishes.Is32Bit());
+                AreEqual(bits == 32, () => SynthWishes.Is32Bit);
                 AreEqual(bits == 32, () => FlowNode.Is32Bit());
+                AreEqual(bits == 32, () => FlowNode.Is32Bit);
                 AreEqual(bits == 32, () => ConfigWishes.Is32Bit());
+                AreEqual(bits == 32, () => ConfigWishes.Is32Bit);
             }
             
             public void Assert_TapeBound_Bits(int bits)
             {
                 AreEqual(bits, () => Tape.Bits());
                 AreEqual(bits, () => TapeConfig.Bits());
+                AreEqual(bits, () => TapeConfig.Bits);
                 AreEqual(bits, () => TapeActions.Bits());
                 AreEqual(bits, () => TapeAction.Bits());
                 
@@ -713,6 +733,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public static void Assert_Bit_Getters(this AudioInfoWish audioInfoWish, int bits)
         {
             AreEqual(bits,       () => audioInfoWish.Bits());
+            AreEqual(bits,       () => audioInfoWish.Bits);
             AreEqual(bits == 8,  () => audioInfoWish.Is8Bit());
             AreEqual(bits == 16, () => audioInfoWish.Is16Bit());
             AreEqual(bits == 32, () => audioInfoWish.Is32Bit());
@@ -721,6 +742,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public static void Assert_Bit_Getters(this WavHeaderStruct wavHeader, int bits)
         {
             AreEqual(bits,       () => wavHeader.Bits());
+            AreEqual(bits,       () => wavHeader.BitsPerValue);
             AreEqual(bits == 8,  () => wavHeader.Is8Bit());
             AreEqual(bits == 16, () => wavHeader.Is16Bit());
             AreEqual(bits == 32, () => wavHeader.Is32Bit());
