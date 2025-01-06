@@ -53,10 +53,23 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AttributeWishes\FrameCountWishes.cs" />
+    <Compile Include="AttributeWishes\AudioLengthWishes.cs" />
+    <Compile Include="AttributeWishes\CourtesyByteWishes.cs" />
+    <Compile Include="AttributeWishes\HeaderLengthWishes.cs" />
+    <Compile Include="AttributeWishes\FileExtensionWishes.cs" />
+    <Compile Include="AttributeWishes\MaxValueWishes.cs" />
+    <Compile Include="AttributeWishes\FrameSizeWishes.cs" />
+    <Compile Include="AttributeWishes\SizeOfWishes.cs" />
+    <Compile Include="AttributeWishes\CourtesyFrameWishes.cs" />
+    <Compile Include="AttributeWishes\InterpolationWishes.cs" />
+    <Compile Include="AttributeWishes\AudioFormatWishes.cs" />
+    <Compile Include="AttributeWishes\SamplingRateWishes.cs" />
+    <Compile Include="AttributeWishes\AudioInfoWish.cs" />
     <Compile Include="AttributeWishes\ChannelWishes.cs" />
     <Compile Include="AttributeWishes\ChannelsWishes.cs" />
     <Compile Include="AttributeWishes\BitWishes.cs" />
-    <Compile Include="AttributeWishes\AttributeWishes.cs" />
+    <Compile Include="AttributeWishes\ByteCountWishes.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
     <Compile Include="Helpers\PropertyNameWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
