@@ -161,7 +161,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     x.Immutable_Bits_Equal(init);
                     
                     x.Record();
-                    
                     x.All_Bits_Equal(init);
                 }
             }
@@ -244,30 +243,121 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => default(Type).TypeToBits());
         }
         
-        // Bits for Independently Changeable or Immutable
+        // Bits for Independently Changeable
         
-        [TestMethod] public void Bits_IndependentsAndImmutables()
+        [TestMethod] public void Bits_Independents()
         {
-            Bits_IndependentsAndImmutables(init: 32, value: 8);
-            Bits_IndependentsAndImmutables(init: 32, value: 16);
-            Bits_IndependentsAndImmutables(init: 16, value: 32);
+            Bits_Independents(init: 32, value: 8);
+            Bits_Independents(init: 32, value: 16);
+            Bits_Independents(init: 16, value: 32);
         }
-        void Bits_IndependentsAndImmutables(int init, int value)
+        
+        void Bits_Independents(int init, int value)
+        {
+            // Independent after Taping
+            var x = new TestEntities(init);
+
+            // Sample
+            {
+                TestSetter(() => x.Sample.Bits(value, x.Context));
+                TestSetter(() =>
+                {
+                    if (value == 8) x.Sample.With8Bit(x.Context);
+                    if (value == 16) x.Sample.With16Bit(x.Context);
+                    if (value == 32) x.Sample.With32Bit(x.Context);
+                });
+                
+                void TestSetter(Action setter)
+                {
+                    x.Initialize(init);
+                    x.All_Bits_Equal(init);
+                    
+                    setter();
+                    
+                    x.Sample.Assert_Bits(value);
+                    
+                    x.AudioInfoWish.Assert_Bits(init);
+                    x.AudioFileInfo.Assert_Bits(init);
+                    x.Immutable_Bits_Equal(init);
+                    x.Bound_Bits_Equal(init);
+
+                    x.Record();
+                    x.All_Bits_Equal(init);
+                }
+            }
+            
+            // AudioInfoWish
+            {
+                TestSetter(() => x.AudioInfoWish.Bits(value));
+                TestSetter(() =>
+                {
+                    if (value == 8) x.AudioInfoWish.With8Bit();
+                    if (value == 16) x.AudioInfoWish.With16Bit();
+                    if (value == 32) x.AudioInfoWish.With32Bit();
+                });
+                
+                void TestSetter(Action setter)
+                {
+                    x.Initialize(init);
+                    x.All_Bits_Equal(init);
+                    
+                    setter();
+                    
+                    x.AudioInfoWish.Assert_Bits(value);
+                    
+                    x.AudioFileInfo.Assert_Bits(init);
+                    x.Sample.Assert_Bits(init);
+                    x.Immutable_Bits_Equal(init);
+                    x.Bound_Bits_Equal(init);
+
+                    x.Record();
+                    x.All_Bits_Equal(init);
+                }
+            }
+                        
+            // AudioFileInfo
+            {
+                TestSetter(() => x.AudioFileInfo.Bits(value));
+                TestSetter(() =>
+                {
+                    if (value == 8) x.AudioFileInfo.With8Bit();
+                    if (value == 16) x.AudioFileInfo.With16Bit();
+                    if (value == 32) x.AudioFileInfo.With32Bit();
+                });
+                
+                void TestSetter(Action setter)
+                {
+                    x.Initialize(init);
+                    x.All_Bits_Equal(init);
+                    
+                    setter();
+                    
+                    x.AudioFileInfo.Assert_Bits(value);
+                    
+                    x.AudioInfoWish.Assert_Bits(init);
+                    x.Sample.Assert_Bits(init);
+                    x.Bound_Bits_Equal(init);
+                    x.Immutable_Bits_Equal(init);
+
+                    x.Record();
+                    x.All_Bits_Equal(init);
+                }
+            }
+        }
+        
+        // Bits for Immutables
+
+        [TestMethod] public void Bits_Immutables()
+        {
+            Bits_Immutables(init: 32, value: 8);
+            Bits_Immutables(init: 32, value: 16);
+            Bits_Immutables(init: 16, value: 32);
+        }
+        
+        void Bits_Immutables(int init, int value)
         {
             var x = new TestEntities(init);
-            
-            // Independent after Taping
-            x.Sample.Assert_Bits(init);
-            x.Sample.Bits(value, x.Context);
-            x.Sample.Assert_Bits(value);
-            
-            x.AudioInfoWish.Assert_Bits(init);
-            x.AudioInfoWish.Bits(value);
-            x.AudioInfoWish.Assert_Bits(value);
-            
-            x.AudioFileInfo.Assert_Bits(init);
-            x.AudioFileInfo.Bits(value);
-            x.AudioFileInfo.Assert_Bits(value);
+
             
             // Immutable
             x.WavHeader.Assert_Bits(init);
@@ -303,32 +393,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             type2              .Assert_Bits(value);
         }
 
-
-        [TestMethod] public void Bits_IndependentsAndImmutables_8Bit_Shorthand()
+        [TestMethod] public void Bits_Immutables_8Bit_Shorthand()
         {
             var init = 32;
             var value = 8;
             var x = new TestEntities(init);
-
-            // Independent after Taping
-            x.Sample.Assert_Bits(init);
-            x.Sample.With8Bit(x.Context);
-            x.Sample.Assert_Bits(value);
-            
-            x.AudioInfoWish.Assert_Bits(init);
-            x.AudioInfoWish.With8Bit();
-            x.AudioInfoWish.Assert_Bits(value);
-                        
-            x.AudioFileInfo.Assert_Bits(init);
-            x.AudioFileInfo.With8Bit();
-            x.AudioFileInfo.Assert_Bits(value);
 
             // Immutable                        
             x.WavHeader.Assert_Bits(init);
             var wavHeaderAfter = x.WavHeader.With8Bit();
             x.WavHeader.Assert_Bits(init);
             wavHeaderAfter.Assert_Bits(value);
-            
+
             x.SampleDataTypeEnum.Assert_Bits(init);
             var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With8Bit();
             x.SampleDataTypeEnum.Assert_Bits(init);
@@ -357,24 +433,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             typeAfter.Assert_Bits(value);
         }
                 
-        [TestMethod] public void Bits_IndependentsAndImmutables_16Bit_Shorthand()
+        [TestMethod] public void Bits_Immutables_16Bit_Shorthand()
         {
             var init = 32;
             var value = 16;
             var x = new TestEntities(init);
-            
-            // Independent after Taping
-            x.Sample.Assert_Bits(init);
-            x.Sample.With16Bit(x.Context);
-            x.Sample.Assert_Bits(value);
-            
-            x.AudioInfoWish.Assert_Bits(init);
-            x.AudioInfoWish.With16Bit();
-            x.AudioInfoWish.Assert_Bits(value);
-                        
-            x.AudioFileInfo.Assert_Bits(init);
-            x.AudioFileInfo.With16Bit();
-            x.AudioFileInfo.Assert_Bits(value);
 
             // Immutable                        
             x.WavHeader.Assert_Bits(init);
@@ -410,26 +473,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             typeAfter.Assert_Bits(value);
         }
                 
-        [TestMethod] public void Bits_IndependentsAndImmutables_32Bit_Shorthand()
+        [TestMethod] public void Bits_Immutables_32Bit_Shorthand()
         {
             var init = 16;
             var value = 32;
             var x = new TestEntities(init);
-            
-            // Test Mutations
-
-            // Independent after Taping
-            x.Sample.Assert_Bits(init);
-            x.Sample.With32Bit(x.Context);
-            x.Sample.Assert_Bits(value);
-            
-            x.AudioInfoWish.Assert_Bits(init);
-            x.AudioInfoWish.With32Bit();
-            x.AudioInfoWish.Assert_Bits(value);
-                        
-            x.AudioFileInfo.Assert_Bits(init);
-            x.AudioFileInfo.With32Bit();
-            x.AudioFileInfo.Assert_Bits(value);
 
             // Immutable                        
             x.WavHeader.Assert_Bits(init);
@@ -470,13 +518,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private class TestEntities
         {
             // Global-Bound
-            public ConfigSectionAccessor ConfigSection      { get; }
+            public ConfigSectionAccessor ConfigSection      { get; private set; }
 
             // SynthWishes-Bound
-            public SynthWishes           SynthWishes        { get; }
-            public IContext              Context            { get; }
-            public FlowNode              FlowNode           { get; }
-            public ConfigWishes          ConfigWishes       { get; }
+            public SynthWishes           SynthWishes        { get; private set; }
+            public IContext              Context            { get; private set; }
+            public FlowNode              FlowNode           { get; private set; }
+            public ConfigWishes          ConfigWishes       { get; private set; }
 
             // Tape-Bound
             public Tape                  Tape               { get; private set; }
@@ -499,10 +547,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public SampleDataType        SampleDataType     { get; private set; }
             public Type                  Type               { get; private set; }
 
-            public TestEntities(int bits) : this(x => x.WithBits(bits)) 
-            { }
+            public TestEntities(int bits) => Initialize(bits);
+
+            private TestEntities(Action<SynthWishes> initialize = null) => Initialize(initialize);
+                        
+            public void Initialize(int bits)
+            {
+                Initialize(x => x.WithBits(bits));
+            }
             
-            private TestEntities(Action<SynthWishes> initialize = null) 
+            public void Initialize(Action<SynthWishes> initialize)
             {
                 // SynthWishes-Bound
                 SynthWishes  = new SynthWishes();
@@ -511,15 +565,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 FlowNode     = SynthWishes.Sine();
                 
                 // Global-Bound
-                ConfigSection = new ConfigWishesAccessor(ConfigWishes)._section; 
-
+                ConfigSection = new ConfigWishesAccessor(ConfigWishes)._section;
+                
                 // Initialize
                 SynthWishes.WithSamplingRate(100);
                 initialize?.Invoke(SynthWishes);
                 
                 Record();
             }
-
+            
             public void Record()
             {
                 // Record
@@ -569,6 +623,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 BuffBound_Bits_Equal(bits);
                 Independent_Bits_Equal(bits);
                 Immutable_Bits_Equal(bits);
+            }
+
+            public void Bound_Bits_Equal(int bits)
+            {
+                SynthBound_Bits_Equal(bits);
+                TapeBound_Bits_Equal(bits);
+                BuffBound_Bits_Equal(bits);
             }
 
             public void SynthBound_Bits_Equal(int bits)
