@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;

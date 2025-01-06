@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;

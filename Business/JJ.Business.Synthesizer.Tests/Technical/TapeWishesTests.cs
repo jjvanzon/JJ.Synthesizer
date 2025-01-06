@@ -8,6 +8,7 @@ using System.Linq;
 using System;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 // ReSharper disable ParameterHidesMember

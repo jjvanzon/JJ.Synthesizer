@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;

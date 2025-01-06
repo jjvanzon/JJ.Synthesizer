@@ -123,7 +123,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Accessors\AdditiveTestsAccessor.cs" />
-    <Compile Include="Accessors\AttributeWishesAccessor.cs" />
+    <Compile Include="Accessors\AttributeExtensionWishesAccessor.cs" />
     <Compile Include="Accessors\ConfigSectionAccessor.cs" />
     <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />

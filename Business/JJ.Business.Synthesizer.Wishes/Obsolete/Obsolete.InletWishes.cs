@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;

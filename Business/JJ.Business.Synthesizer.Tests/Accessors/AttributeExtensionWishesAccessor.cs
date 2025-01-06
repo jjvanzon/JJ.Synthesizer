@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class AttributeWishesAccessor
+    internal static class AttributeExtensionWishesAccessor
     {
-        private static readonly Accessor _accessor = new Accessor(typeof(AttributeWishes));
+        private static readonly Accessor _accessor = new Accessor(typeof(AttributeExtensionWishes));
         
         public static int Bits(this ConfigSectionAccessor obj) => (int)_accessor.InvokeMethod(MemberName(), obj.Obj);
         
