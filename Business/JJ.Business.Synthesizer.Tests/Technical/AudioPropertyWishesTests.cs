@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.AudioPropertyWishes;
@@ -304,46 +305,48 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(value, () => typeAfter.Bits());
         }
 
+
         [TestMethod] public void Bits_IndependentsAndImmutables_8Bit_Shorthand()
         {
             var init = 32;
+            var value = 8;
             var x = new TestEntities(init);
             
             // Test Mutations
 
             // Independent after Taping
-            IsFalse(() => x.Sample.Is8Bit());
+            x.Sample.Assert_Bits(init);
             x.Sample.With8Bit(x.Context);
-            IsTrue(() => x.Sample.Is8Bit());
+            x.Sample.Assert_Bits(value);
             
-            IsFalse(() => x.AudioInfoWish.Is8Bit());
+            x.AudioInfoWish.Assert_Bits(init);
             x.AudioInfoWish.With8Bit();
-            IsTrue(() => x.AudioInfoWish.Is8Bit());
-                                    
-            IsFalse(() => x.AudioFileInfo.Is8Bit());
+            x.AudioInfoWish.Assert_Bits(value);
+                        
+            x.AudioFileInfo.Assert_Bits(init);
             x.AudioFileInfo.With8Bit();
-            IsTrue(() => x.AudioFileInfo.Is8Bit());
+            x.AudioFileInfo.Assert_Bits(value);
 
             // Immutable                        
-            IsFalse(() => x.WavHeader.Is8Bit());
+            x.WavHeader.Assert_Bits(init);
             var wavHeaderAfter = x.WavHeader.With8Bit();
-            IsFalse(() => x.WavHeader.Is8Bit());
-            IsTrue(() => wavHeaderAfter.Is8Bit());
+            x.WavHeader.Assert_Bits(init);
+            wavHeaderAfter.Assert_Bits(value);
             
-            IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
+            x.SampleDataTypeEnum.Assert_Bits(init);
             var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With8Bit();
-            IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
-            IsTrue(() => sampleDataTypeEnumAfter.Is8Bit());
+            x.SampleDataTypeEnum.Assert_Bits(init);
+            sampleDataTypeEnumAfter.Assert_Bits(value);
 
-            IsFalse(() => x.SampleDataType.Is8Bit());
+            x.SampleDataType.Assert_Bits(init);
             var sampleDataTypeAfter = x.SampleDataType.With8Bit(x.Context);
-            IsFalse(() => x.SampleDataType.Is8Bit());
-            IsTrue(() => sampleDataTypeAfter.Is8Bit());
+            x.SampleDataType.Assert_Bits(init);
+            sampleDataTypeAfter.Assert_Bits(value);
 
-            IsFalse(() => x.Type.Is8Bit());
+            x.Type.Assert_Bits(init);
             var typeAfter = x.Type.With8Bit();
-            IsFalse(() => x.Type.Is8Bit());
-            IsTrue(() => typeAfter.Is8Bit());
+            x.Type.Assert_Bits(init);
+            typeAfter.Assert_Bits(value);
         
             // Test After Record
             x.Record();
@@ -352,10 +355,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             x.All_Bits_Equal(init);
         
             // Except for our variables
-            IsTrue(() => wavHeaderAfter.Is8Bit());
-            IsTrue(() => sampleDataTypeEnumAfter.Is8Bit());
-            IsTrue(() => sampleDataTypeAfter.Is8Bit());
-            IsTrue(() => typeAfter.Is8Bit());
+            wavHeaderAfter.Assert_Bits(value);
+            sampleDataTypeEnumAfter.Assert_Bits(value);
+            sampleDataTypeAfter.Assert_Bits(value);
+            typeAfter.Assert_Bits(value);
         }
                 
         [TestMethod] public void Bits_IndependentsAndImmutables_16Bit_Shorthand()
@@ -632,48 +635,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public void Independent_Bits_Equal(int bits)
             {
                 // Independent after Taping
-                
-                AreEqual(bits, () => Sample.Bits());
-                AreEqual(bits, () => AudioInfoWish.Bits());
-                AreEqual(bits, () => AudioFileInfo.Bits());
-            
-                AreEqual(bits == 8, () => Sample.Is8Bit());
-                AreEqual(bits == 8, () => AudioInfoWish.Is8Bit());
-                AreEqual(bits == 8, () => AudioFileInfo.Is8Bit());
-                                
-                AreEqual(bits == 16, () => Sample.Is16Bit());
-                AreEqual(bits == 16, () => AudioInfoWish.Is16Bit());
-                AreEqual(bits == 16, () => AudioFileInfo.Is16Bit());
-                                
-                AreEqual(bits == 32, () => Sample.Is32Bit());
-                AreEqual(bits == 32, () => AudioInfoWish.Is32Bit());
-                AreEqual(bits == 32, () => AudioFileInfo.Is32Bit());
+                Sample.Assert_Bits(bits);
+                AudioInfoWish.Assert_Bits(bits);
+                AudioFileInfo.Assert_Bits(bits);
             }
 
             public void Immutable_Bits_Equal(int bits)
             {
-                AreEqual(bits, () => WavHeader.Bits());
-                AreEqual(bits, () => SampleDataTypeEnum.Bits());
-                AreEqual(bits, () => SampleDataType.Bits());
-                AreEqual(bits, () => Type.Bits());
-
-                AreEqual(bits == 8, () => WavHeader.Is8Bit());
-                AreEqual(bits == 8, () => SampleDataTypeEnum.Is8Bit());
-                AreEqual(bits == 8, () => SampleDataType.Is8Bit());
-                AreEqual(bits == 8, () => Type.Is8Bit());
-
-                AreEqual(bits == 16, () => WavHeader.Is16Bit());
-                AreEqual(bits == 16, () => SampleDataTypeEnum.Is16Bit());
-                AreEqual(bits == 16, () => SampleDataType.Is16Bit());
-                AreEqual(bits == 16, () => Type.Is16Bit());
-            
-                AreEqual(bits == 32, () => WavHeader.Is32Bit());
-                AreEqual(bits == 32, () => SampleDataTypeEnum.Is32Bit());
-                AreEqual(bits == 32, () => SampleDataType.Is32Bit());
-                AreEqual(bits == 32, () => Type.Is32Bit());
+                WavHeader.Assert_Bits(bits);
+                SampleDataTypeEnum.Assert_Bits(bits);
+                SampleDataType.Assert_Bits(bits);
+                Type.Assert_Bits(bits);
             }
         }
-
+    
         // Old
  
         /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
@@ -682,6 +657,67 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             AreEqual(SpeakerSetupEnum.Mono,   () => 1.ChannelsToEnum());
             AreEqual(SpeakerSetupEnum.Stereo, () => 2.ChannelsToEnum());
+        }
+    }
+    
+    internal static class AudioPropertyWishesTestExtensions
+    {
+        public static void Assert_Bits(this AudioFileInfo audioFileInfo, int bits)
+        {
+            AreEqual(bits,       () => audioFileInfo.Bits());
+            AreEqual(bits == 8,  () => audioFileInfo.Is8Bit());
+            AreEqual(bits == 16, () => audioFileInfo.Is16Bit());
+            AreEqual(bits == 32, () => audioFileInfo.Is32Bit());
+        }
+        
+        public static void Assert_Bits(this Sample sample, int bits)
+        {
+            AreEqual(bits, () => sample.Bits());
+            AreEqual(bits == 8, () => sample.Is8Bit());
+            AreEqual(bits == 16, () => sample.Is16Bit());
+            AreEqual(bits == 32, () => sample.Is32Bit());
+        }
+        
+        public static void Assert_Bits(this AudioInfoWish audioInfoWish, int bits)
+        {
+            AreEqual(bits, () => audioInfoWish.Bits());
+            AreEqual(bits == 8, () => audioInfoWish.Is8Bit());
+            AreEqual(bits == 16, () => audioInfoWish.Is16Bit());
+            AreEqual(bits == 32, () => audioInfoWish.Is32Bit());
+        }
+
+        public static void Assert_Bits(this WavHeaderStruct wavHeader, int bits)
+        {
+            AreEqual(bits,       () => wavHeader.Bits());
+            AreEqual(bits == 8,  () => wavHeader.Is8Bit());
+            AreEqual(bits == 16, () => wavHeader.Is16Bit());
+            AreEqual(bits == 32, () => wavHeader.Is32Bit());
+        }
+        
+        public static void Assert_Bits(this SampleDataTypeEnum sampleDataTypeEnum, int bits)
+        {
+            AreEqual(bits,       () => sampleDataTypeEnum.Bits());
+            AreEqual(bits == 8,  () => sampleDataTypeEnum.Is8Bit());
+            AreEqual(bits == 16, () => sampleDataTypeEnum.Is16Bit());
+            AreEqual(bits == 32, () => sampleDataTypeEnum.Is32Bit());
+        }
+        
+        public static void Assert_Bits(this SampleDataType sampleDataType, int bits)
+        {
+            if (sampleDataType == null) throw new NullException(() => sampleDataType);
+            AreEqual(bits,       () => sampleDataType.Bits());
+            AreEqual(bits == 8,  () => sampleDataType.Is8Bit());
+            AreEqual(bits == 16, () => sampleDataType.Is16Bit());
+            AreEqual(bits == 32, () => sampleDataType.Is32Bit());
+        }
+        
+        public static void Assert_Bits(this Type type, int bits)
+        {
+            if (type == null) throw new NullException(() => type);
+            AreEqual(bits,       () => type.Bits());
+            AreEqual(bits == 8,  () => type.Is8Bit());
+            AreEqual(bits == 16, () => type.Is16Bit());
+            AreEqual(bits == 32, () => type.Is32Bit());
         }
     } 
 }
