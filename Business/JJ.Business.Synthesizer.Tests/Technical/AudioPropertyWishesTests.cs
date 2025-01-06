@@ -230,77 +230,80 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 var x = new TestEntities(init);
                 x.All_Bits_Equal(init);
             }
-            
-            // Synth-Bound Changes
-            
-            TestSynthBoundChange(x => x.SynthWishes.Bits(value));
-            TestSynthBoundChange(x => x.FlowNode.Bits(value));
-            TestSynthBoundChange(x => x.ConfigWishes.Bits(value));
-            
-            void TestSynthBoundChange(Action<TestEntities> change)
-            {
-                var x = new TestEntities(init);
-                x.All_Bits_Equal(init);
-                
-                change(x);
-                
-                x.SynthBound_Bits_Equal(value);
-                x.TapeBound_Bits_Equal(init);
-                x.BuffBound_Bits_Equal(init);
-                x.Independent_Bits_Equal(init);
-                x.Immutable_Bits_Equal(init);
-                
-                x.Record();
-                
-                x.All_Bits_Equal(value);
-            }
-            
-            // Tape-Bound Changes
-            
-            TestTapeBoundChange(x => x.Tape.Bits(value));
-            TestTapeBoundChange(x => x.TapeConfig.Bits(value));
-            TestTapeBoundChange(x => x.TapeActions.Bits(value));
-            TestTapeBoundChange(x => x.TapeAction.Bits(value));
-            
-            void TestTapeBoundChange(Action<TestEntities> change)
-            {
-                var x = new TestEntities(init);
-                x.All_Bits_Equal(init);
-                
-                change(x);
-                
-                x.SynthBound_Bits_Equal(init);
-                x.TapeBound_Bits_Equal(value);
-                x.BuffBound_Bits_Equal(init);
-                x.Independent_Bits_Equal(init);
-                x.Immutable_Bits_Equal(init);
-                
-                x.Record();
-                
-                x.All_Bits_Equal(init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
-            }
-            
-            // Buff-Bound Changes
-            
-            TestBuffBoundChange(x => x.Buff.Bits(value, x.Context));
-            TestBuffBoundChange(x => x.AudioFileOutput.Bits(value, x.Context));
-            
-            void TestBuffBoundChange(Action<TestEntities> change)
-            {    
-                var x = new TestEntities(init);
-                x.All_Bits_Equal(init);
-                
-                change(x);
 
-                x.SynthBound_Bits_Equal(init);
-                x.TapeBound_Bits_Equal(init);
-                x.BuffBound_Bits_Equal(value);
-                x.Independent_Bits_Equal(init);
-                x.Immutable_Bits_Equal(init);
+            // Synth-Bound Changes
+            {
+                TestSetter(x => x.SynthWishes.Bits(value));
+                TestSetter(x => x.FlowNode.Bits(value));
+                TestSetter(x => x.ConfigWishes.Bits(value));
                 
-                x.Record();
+                void TestSetter(Action<TestEntities> setter)
+                {
+                    var x = new TestEntities(init);
+                    x.All_Bits_Equal(init);
+                    
+                    setter(x);
+                    
+                    x.SynthBound_Bits_Equal(value);
+                    x.TapeBound_Bits_Equal(init);
+                    x.BuffBound_Bits_Equal(init);
+                    x.Independent_Bits_Equal(init);
+                    x.Immutable_Bits_Equal(init);
+                    
+                    x.Record();
+                    
+                    x.All_Bits_Equal(value);
+                }
+            }
+
+            // Tape-Bound Changes
+            {
+                TestSetter(x => x.Tape.Bits(value));
+                TestSetter(x => x.TapeConfig.Bits(value));
+                TestSetter(x => x.TapeActions.Bits(value));
+                TestSetter(x => x.TapeAction.Bits(value));
                 
-                x.All_Bits_Equal(init);
+                void TestSetter(Action<TestEntities> setter)
+                {
+                    var x = new TestEntities(init);
+                    x.All_Bits_Equal(init);
+                    
+                    setter(x);
+                    
+                    x.SynthBound_Bits_Equal(init);
+                    x.TapeBound_Bits_Equal(value);
+                    x.BuffBound_Bits_Equal(init);
+                    x.Independent_Bits_Equal(init);
+                    x.Immutable_Bits_Equal(init);
+                    
+                    x.Record();
+                    
+                    x.All_Bits_Equal(init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+                }
+            }
+
+            // Buff-Bound Changes
+            {
+                TestSetter(x => x.Buff.Bits(value, x.Context));
+                TestSetter(x => x.AudioFileOutput.Bits(value, x.Context));
+                
+                void TestSetter(Action<TestEntities> setter)
+                {    
+                    var x = new TestEntities(init);
+                    x.All_Bits_Equal(init);
+                    
+                    setter(x);
+
+                    x.SynthBound_Bits_Equal(init);
+                    x.TapeBound_Bits_Equal(init);
+                    x.BuffBound_Bits_Equal(value);
+                    x.Independent_Bits_Equal(init);
+                    x.Immutable_Bits_Equal(init);
+                    
+                    x.Record();
+                    
+                    x.All_Bits_Equal(init);
+                }
             }
         }
         
@@ -1608,26 +1611,87 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Independent_Bits_Equal(bits);
                 Immutable_Bits_Equal(bits);
             }
-            
+
             public void SynthBound_Bits_Equal(int bits)
             {
                 AreEqual(bits, () => SynthWishes.Bits());
                 AreEqual(bits, () => FlowNode.Bits());
                 AreEqual(bits, () => ConfigWishes.Bits());
+                
+                switch (bits)
+                {
+                    case 8: CheckSynthBoundIs8Bit(); break;
+                    case 16: CheckSynthBoundIs16Bit(); break;
+                    case 32: CheckSynthBoundIs32Bit(); break;
+                }
             }
-            
+                                    
+            private void CheckSynthBoundIs8Bit(bool expected = true)
+            {
+                AreEqual(expected, () => SynthWishes.Is8Bit());
+                AreEqual(expected, () => FlowNode.Is8Bit());
+                AreEqual(expected, () => ConfigWishes.Is8Bit());
+            }
+                        
+            private void CheckSynthBoundIs16Bit(bool expected = true)
+            {
+                AreEqual(expected, () => SynthWishes.Is16Bit());
+                AreEqual(expected, () => FlowNode.Is16Bit());
+                AreEqual(expected, () => ConfigWishes.Is16Bit());
+            }
+                        
+            private void CheckSynthBoundIs32Bit(bool expected = true)
+            {
+                AreEqual(expected, () => SynthWishes.Is32Bit());
+                AreEqual(expected, () => FlowNode.Is32Bit());
+                AreEqual(expected, () => ConfigWishes.Is32Bit());
+            }
+
             public void TapeBound_Bits_Equal(int bits)
             {
                 AreEqual(bits, () => Tape.Bits());
                 AreEqual(bits, () => TapeConfig.Bits());
                 AreEqual(bits, () => TapeActions.Bits());
                 AreEqual(bits, () => TapeAction.Bits());
+                
+                switch (bits)
+                {
+                    case 8:
+                        IsTrue(() => Tape.Is8Bit());
+                        IsTrue(() => TapeConfig.Is8Bit());
+                        IsTrue(() => TapeActions.Is8Bit());
+                        IsTrue(() => TapeAction.Is8Bit());
+                        break;
+                    
+                    case 16:
+                        IsTrue(() => Tape.Is16Bit());
+                        IsTrue(() => TapeConfig.Is16Bit());
+                        IsTrue(() => TapeActions.Is16Bit());
+                        IsTrue(() => TapeAction.Is16Bit());
+                        break;
+                    
+                    case 32:
+                        IsTrue(() => Tape.Is32Bit());
+                        IsTrue(() => TapeConfig.Is32Bit());
+                        IsTrue(() => TapeActions.Is32Bit());
+                        IsTrue(() => TapeAction.Is32Bit());
+                        break;
+                }
             }
             
             public void BuffBound_Bits_Equal(int bits)
             {
                 AreEqual(bits, () => Buff.Bits());
                 AreEqual(bits, () => AudioFileOutput.Bits());
+                
+                AreEqual(bits == 8, () => Buff.Is8Bit());
+                AreEqual(bits == 8, () => AudioFileOutput.Is8Bit());
+                
+                AreEqual(bits == 16, () => Buff.Is16Bit());
+                AreEqual(bits == 16, () => AudioFileOutput.Is16Bit());
+                
+                AreEqual(bits == 32, () => Buff.Is32Bit());
+                AreEqual(bits == 32, () => AudioFileOutput.Is32Bit());
             }
 
             public void Independent_Bits_Equal(int bits)
@@ -1635,6 +1699,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(bits, () => Sample.Bits());
                 AreEqual(bits, () => AudioInfoWish.Bits());
                 AreEqual(bits, () => AudioFileInfo.Bits());
+            
+                AreEqual(bits == 8, () => Sample.Is8Bit());
+                AreEqual(bits == 8, () => AudioInfoWish.Is8Bit());
+                AreEqual(bits == 8, () => AudioFileInfo.Is8Bit());
+                                
+                AreEqual(bits == 16, () => Sample.Is16Bit());
+                AreEqual(bits == 16, () => AudioInfoWish.Is16Bit());
+                AreEqual(bits == 16, () => AudioFileInfo.Is16Bit());
+                                
+                AreEqual(bits == 32, () => Sample.Is32Bit());
+                AreEqual(bits == 32, () => AudioInfoWish.Is32Bit());
+                AreEqual(bits == 32, () => AudioFileInfo.Is32Bit());
             }
 
             public void Immutable_Bits_Equal(int bits)
@@ -1643,6 +1719,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AreEqual(bits, () => SampleDataTypeEnum.Bits());
                 AreEqual(bits, () => SampleDataType.Bits());
                 AreEqual(bits, () => Type.Bits());
+
+                AreEqual(bits == 8, () => WavHeader.Is8Bit());
+                AreEqual(bits == 8, () => SampleDataTypeEnum.Is8Bit());
+                AreEqual(bits == 8, () => SampleDataType.Is8Bit());
+                AreEqual(bits == 8, () => Type.Is8Bit());
+
+                AreEqual(bits == 16, () => WavHeader.Is16Bit());
+                AreEqual(bits == 16, () => SampleDataTypeEnum.Is16Bit());
+                AreEqual(bits == 16, () => SampleDataType.Is16Bit());
+                AreEqual(bits == 16, () => Type.Is16Bit());
+            
+                AreEqual(bits == 32, () => WavHeader.Is32Bit());
+                AreEqual(bits == 32, () => SampleDataTypeEnum.Is32Bit());
+                AreEqual(bits == 32, () => SampleDataType.Is32Bit());
+                AreEqual(bits == 32, () => Type.Is32Bit());
             }
         }
 
