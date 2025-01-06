@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public SpeakerSetupEnum   SpeakerSetupEnum   { get; private set; }
         public SpeakerSetup       SpeakerSetup       { get; private set; }
         public ChannelEnum        ChannelEnum        { get; private set; }
-        public Channel            Channel            { get; private set; }
+        public Channel            ChannelEntity      { get; private set; }
         
         public TestEntities(int? bits = default, int? channels = default, int? channel = default) => Initialize(bits, channels, channel);
         
@@ -77,7 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             initialize?.Invoke(SynthWishes);
             
             ChannelEnum = SynthWishes.GetChannel.ChannelToEnum(SynthWishes.GetChannels);
-            Channel     = SynthWishes.GetChannel.ChannelToEntity(SynthWishes.GetChannels, Context);
+            ChannelEntity     = SynthWishes.GetChannel.ChannelToEntity(SynthWishes.GetChannels, Context);
             
             Record();
         }
