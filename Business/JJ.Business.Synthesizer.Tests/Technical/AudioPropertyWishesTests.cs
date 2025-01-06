@@ -22,18 +22,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class AudioPropertyWishesTests
     {
         // Bits
-                
-        [TestMethod] public void Test_Bits_ConfigSection()
-        {
-            // Global-Bound. Immutable.
-            var configSection = GetConfigSectionAccessor();
-            
-            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits);
-            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits());
-            AreEqual(ConfigWishes.DefaultBits == 8, () => configSection.Is8Bit());
-            AreEqual(ConfigWishes.DefaultBits == 16, () => configSection.Is16Bit());
-            AreEqual(ConfigWishes.DefaultBits == 32, () => configSection.Is32Bit());
-        }
 
         [TestMethod] public void Test_Bits_InTandem()
         {
@@ -177,83 +165,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     x.Assert_All_Bits(init);
                 }
             }
-        }
-
-        // Bits With Type Arguments
-        
-        [TestMethod] public void Test_Bits_TypeArguments()
-        {
-            // Getters
-            AreEqual(8, () => Bits<byte>());
-            AreEqual(16, () => Bits<short>());
-            AreEqual(32, () => Bits<float>());
-        
-            // Conversion-Style Getters
-            AreEqual(8, () => TypeToBits<byte>());
-            AreEqual(16, () => TypeToBits<short>());
-            AreEqual(32, () => TypeToBits<float>());
-
-            // Shorthand Getters          
-            IsTrue(() => Is8Bit<byte>());
-            IsFalse(() => Is8Bit<short>());
-            IsFalse(() => Is8Bit<float>());
-
-            IsFalse(() => Is16Bit<byte>());
-            IsTrue(() => Is16Bit<short>());
-            IsFalse(() => Is16Bit<float>());
-
-            IsFalse(() => Is32Bit<byte>());
-            IsFalse(() => Is32Bit<short>());
-            IsTrue(() => Is32Bit<float>());
-
-            // Setters
-            AreEqual(typeof(byte), () => Bits<byte>(8));
-            AreEqual(typeof(byte), () => Bits<short>(8));
-            AreEqual(typeof(byte), () => Bits<float>(8));
-            
-            AreEqual(typeof(short), () => Bits<byte>(16));
-            AreEqual(typeof(short), () => Bits<short>(16));
-            AreEqual(typeof(short), () => Bits<float>(16));
-            
-            AreEqual(typeof(float), () => Bits<byte>(32));
-            AreEqual(typeof(float), () => Bits<short>(32));
-            AreEqual(typeof(float), () => Bits<float>(32));
-
-            // 'Shorthand' Setters
-            AreEqual(typeof(byte), () => With8Bit<byte>());
-            AreEqual(typeof(byte), () => With8Bit<short>());
-            AreEqual(typeof(byte), () => With8Bit<float>());
-
-            AreEqual(typeof(short), () => With16Bit<byte>());
-            AreEqual(typeof(short), () => With16Bit<short>());
-            AreEqual(typeof(short), () => With16Bit<float>());
-
-            AreEqual(typeof(float), () => With32Bit<byte>());
-            AreEqual(typeof(float), () => With32Bit<short>());
-            AreEqual(typeof(float), () => With32Bit<float>());
-        }
-        
-        // Bits Conversion-Style
-                
-        [TestMethod] public void Test_Bits_ConversionStyle()
-        {
-            foreach (int bits in new[] { 8, 16, 32 })
-            {
-                var x = new TestEntities(bits);
-                
-                // Getters
-                AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
-                AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
-                AreEqual(x.Type,               () => bits.BitsToType());
-            
-                // Setters
-                AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
-                AreEqual(bits, () => x.SampleDataType    .EntityToBits());
-                AreEqual(bits, () => x.Type              .TypeToBits());
-            }
-            
-            // For test coverage
-            ThrowsException(() => default(Type).TypeToBits());
         }
         
         // Bits for Independently Changeable
@@ -468,6 +379,107 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             types              .ForEach(t => t.Assert_Bit_Getters(value));
         }
 
+        // Bits in ConfigSection
+        
+        [TestMethod] public void Test_Bits_ConfigSection()
+        {
+            // Global-Bound. Immutable.
+            var configSection = GetConfigSectionAccessor();
+            
+            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits);
+            AreEqual(ConfigWishes.DefaultBits, () => configSection.Bits());
+            AreEqual(ConfigWishes.DefaultBits == 8, () => configSection.Is8Bit());
+            AreEqual(ConfigWishes.DefaultBits == 16, () => configSection.Is16Bit());
+            AreEqual(ConfigWishes.DefaultBits == 32, () => configSection.Is32Bit());
+        }
+                
+        // Bits Conversion-Style
+        
+        [TestMethod] public void Test_Bits_ConversionStyle()
+        {
+            foreach (int bits in new[] { 8, 16, 32 })
+            {
+                var x = new TestEntities(bits);
+                
+                // Getters
+                AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
+                AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
+                AreEqual(x.Type,               () => bits.BitsToType());
+            
+                // Setters
+                AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
+                AreEqual(bits, () => x.SampleDataType    .EntityToBits());
+                AreEqual(bits, () => x.Type              .TypeToBits());
+            }
+            
+            // For test coverage
+            ThrowsException(() => default(Type).TypeToBits());
+        }
+
+        // Bits With Type Arguments
+        
+        [TestMethod] public void Test_Bits_TypeArguments()
+        {
+            // Getters
+            AreEqual(8, () => Bits<byte>());
+            AreEqual(16, () => Bits<short>());
+            AreEqual(32, () => Bits<float>());
+        
+            // Conversion-Style Getters
+            AreEqual(8, () => TypeToBits<byte>());
+            AreEqual(16, () => TypeToBits<short>());
+            AreEqual(32, () => TypeToBits<float>());
+
+            // Shorthand Getters          
+            IsTrue(() => Is8Bit<byte>());
+            IsFalse(() => Is8Bit<short>());
+            IsFalse(() => Is8Bit<float>());
+
+            IsFalse(() => Is16Bit<byte>());
+            IsTrue(() => Is16Bit<short>());
+            IsFalse(() => Is16Bit<float>());
+
+            IsFalse(() => Is32Bit<byte>());
+            IsFalse(() => Is32Bit<short>());
+            IsTrue(() => Is32Bit<float>());
+
+            // Setters
+            AreEqual(typeof(byte), () => Bits<byte>(8));
+            AreEqual(typeof(byte), () => Bits<short>(8));
+            AreEqual(typeof(byte), () => Bits<float>(8));
+            
+            AreEqual(typeof(short), () => Bits<byte>(16));
+            AreEqual(typeof(short), () => Bits<short>(16));
+            AreEqual(typeof(short), () => Bits<float>(16));
+            
+            AreEqual(typeof(float), () => Bits<byte>(32));
+            AreEqual(typeof(float), () => Bits<short>(32));
+            AreEqual(typeof(float), () => Bits<float>(32));
+
+            // 'Shorthand' Setters
+            AreEqual(typeof(byte), () => With8Bit<byte>());
+            AreEqual(typeof(byte), () => With8Bit<short>());
+            AreEqual(typeof(byte), () => With8Bit<float>());
+
+            AreEqual(typeof(short), () => With16Bit<byte>());
+            AreEqual(typeof(short), () => With16Bit<short>());
+            AreEqual(typeof(short), () => With16Bit<float>());
+
+            AreEqual(typeof(float), () => With32Bit<byte>());
+            AreEqual(typeof(float), () => With32Bit<short>());
+            AreEqual(typeof(float), () => With32Bit<float>());
+        }
+        
+        // Old
+ 
+        /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
+        [TestMethod]
+        public void ChannelCountToSpeakerSetup_Test()
+        {
+            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ChannelsToEnum());
+            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ChannelsToEnum());
+        }
+
         // Helpers
 
         private ConfigSectionAccessor GetConfigSectionAccessor() => new ConfigWishesAccessor(new SynthWishes().Config)._section;
@@ -649,16 +661,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 SampleDataType.Assert_Bit_Getters(bits);
                 Type.Assert_Bit_Getters(bits);
             }
-        }
-    
-        // Old
- 
-        /// <inheritdoc cref="docs._testaudiopropertywishesold"/>
-        [TestMethod]
-        public void ChannelCountToSpeakerSetup_Test()
-        {
-            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ChannelsToEnum());
-            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ChannelsToEnum());
         }
     }
     
