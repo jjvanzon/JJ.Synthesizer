@@ -22,10 +22,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class AttributeWishesTests
+    public class BitWishesTests
     {
-        // Bits
-
         [TestMethod] public void Test_Bits_InTandem()
         {
             Test_Bits_InTandem(32, 8);
