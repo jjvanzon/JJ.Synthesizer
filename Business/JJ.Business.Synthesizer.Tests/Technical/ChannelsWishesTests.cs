@@ -404,7 +404,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Test_Channels_Channel_Combo_Getter(2, 0); // Stereo/Left
             Test_Channels_Channel_Combo_Getter(2, 1); // Stereo/Right
             
-            // Test_Channels_Channel_Combo_Change(from: 1, to: 2, channel: 0);
+            //Test_Channels_Channel_Combo_Change(from: 1, to: 2, channel: 0);
         }
 
         void Test_Channels_Channel_Combo_Getter(int channels, int channel)
@@ -415,39 +415,70 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             x.Channel    .Assert_Channels_Getters(channels);
         }
         
-        private TestEntities CreateTestEntities(int channels, int channel) => new TestEntities(x => x.WithChannels(channels).WithChannel(channel));
-        
         void Test_Channels_Channel_Combo_Change(int from, int to, int channel)
         {
-            TestEntities x = default;
+            var x = CreateTestEntities(from, channel);
 
-            AssertProp(() => x.ChannelEnum.Channels(to));
-            AssertProp(() => x.Channel    .Channels(to, x.Context));
-            AssertProp(() =>
+            // Attempt 2
+            var channelEnums = new List<ChannelEnum>();
             {
-                if (to == 1) x.ChannelEnum.Mono();
-                if (to == 2) x.ChannelEnum.Stereo();
-            });
-            AssertProp(() =>
-            {
-                if (to == 1) x.Channel.Mono(x.Context);
-                if (to == 2) x.Channel.Stereo(x.Context);
-            });
-            
-            void AssertProp(Action setter)
-            {
-                x = CreateTestEntities(from, channel);
+                AssertProp(() => x.ChannelEnum.Channels(to));
                 
-                x.ChannelEnum.Assert_Channels_Getters(from);
-                x.Channel    .Assert_Channels_Getters(from);
-                
-                setter();
+                AssertProp(() =>
+                {
+                    if (to == 1) return x.ChannelEnum.Mono();
+                    if (to == 2) return x.ChannelEnum.Stereo();
+                    return default; // ncrunch: no coverage
+                });
 
-                x.ChannelEnum.Assert_Channels_Getters(to);
-                x.Channel    .Assert_Channels_Getters(to);
+                void AssertProp(Func<ChannelEnum> setter)
+                {
+                    x = CreateTestEntities(from, channel);
+                    
+                    x.ChannelEnum.Assert_Channels_Getters(from);
+                    
+                    var channelEnum2 = setter();
+
+                    x.ChannelEnum.Assert_Channels_Getters(from);
+                    channelEnum2.Assert_Channels_Getters(to);
+                    
+                    channelEnums.Add(channelEnum2);
+                }
             }
 
+            // Attempt 1
+            {
+                AssertProp(() => x.ChannelEnum.Channels(to));
+                AssertProp(() => x.Channel    .Channels(to, x.Context));
+                AssertProp(() =>
+                {
+                    if (to == 1) x.ChannelEnum.Mono();
+                    if (to == 2) x.ChannelEnum.Stereo();
+                });
+                AssertProp(() =>
+                {
+                    if (to == 1) x.Channel.Mono(x.Context);
+                    if (to == 2) x.Channel.Stereo(x.Context);
+                });
+                
+                void AssertProp(Action setter)
+                {
+                    x = CreateTestEntities(from, channel);
+                    
+                    x.ChannelEnum.Assert_Channels_Getters(from);
+                    x.Channel    .Assert_Channels_Getters(from);
+                    
+                    setter();
+
+                    x.ChannelEnum.Assert_Channels_Getters(to);
+                    x.Channel    .Assert_Channels_Getters(to);
+                }
+            }
         }
+
+        // Helper
+        
+        private TestEntities CreateTestEntities(int channels, int channel) => new TestEntities(x => x.WithChannels(channels).WithChannel(channel));
         
         // Old
  
