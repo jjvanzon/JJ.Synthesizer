@@ -245,68 +245,69 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Bits for Independently Changeable or Immutable
         
-        [TestMethod] public void Bits_Setters_IndependentsAndImmutables()
+        [TestMethod] public void Bits_IndependentsAndImmutables()
         {
-            Bits_Setters_IndependentsAndImmutables(from: 32, to: 8);
-            Bits_Setters_IndependentsAndImmutables(from: 32, to: 16);
-            Bits_Setters_IndependentsAndImmutables(from: 16, to: 32);
+            Bits_IndependentsAndImmutables(init: 32, value: 8);
+            Bits_IndependentsAndImmutables(init: 32, value: 16);
+            Bits_IndependentsAndImmutables(init: 16, value: 32);
         }
-        void Bits_Setters_IndependentsAndImmutables(int from, int to)
+        void Bits_IndependentsAndImmutables(int init, int value)
         {
-            var x = new TestEntities(from);
+            var x = new TestEntities(init);
             
             // Test Mutations
 
             // Independent after Taping
-            AreEqual(from, () => x.Sample.Bits());
-            x.Sample.Bits(to, x.Context);
-            AreEqual(to, () => x.Sample.Bits());
+            AreEqual(init, () => x.Sample.Bits());
+            x.Sample.Bits(value, x.Context);
+            AreEqual(value, () => x.Sample.Bits());
             
-            AreEqual(from, () => x.AudioInfoWish.Bits());
-            x.AudioInfoWish.Bits(to);
-            AreEqual(to, () => x.AudioInfoWish.Bits());
+            AreEqual(init, () => x.AudioInfoWish.Bits());
+            x.AudioInfoWish.Bits(value);
+            AreEqual(value, () => x.AudioInfoWish.Bits());
             
-            AreEqual(from, () => x.AudioFileInfo.Bits());
-            x.AudioFileInfo.Bits(to);
-            AreEqual(to, () => x.AudioFileInfo.Bits());
+            AreEqual(init, () => x.AudioFileInfo.Bits());
+            x.AudioFileInfo.Bits(value);
+            AreEqual(value, () => x.AudioFileInfo.Bits());
 
             // Immutable                        
-            AreEqual(from, () => x.WavHeader.Bits());
-            var wavHeaderAfter = x.WavHeader.Bits(to);
-            AreEqual(from, () => x.WavHeader.Bits());
-            AreEqual(to,   () => wavHeaderAfter.Bits());
+            AreEqual(init, () => x.WavHeader.Bits());
+            var wavHeaderAfter = x.WavHeader.Bits(value);
+            AreEqual(init, () => x.WavHeader.Bits());
+            AreEqual(value,   () => wavHeaderAfter.Bits());
             
-            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
-            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.Bits(to);
-            AreEqual(from, () => x.SampleDataTypeEnum.Bits());
-            AreEqual(to,   () => sampleDataTypeEnumAfter.Bits());
+            AreEqual(init, () => x.SampleDataTypeEnum.Bits());
+            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.Bits(value);
+            AreEqual(init, () => x.SampleDataTypeEnum.Bits());
+            AreEqual(value,   () => sampleDataTypeEnumAfter.Bits());
             
-            AreEqual(from, () => x.SampleDataType.Bits());
-            var sampleDataTypeAfter = x.SampleDataType.Bits(to, x.Context);
-            AreEqual(from, () => x.SampleDataType.Bits());
-            AreEqual(to,   () => sampleDataTypeAfter.Bits());
+            AreEqual(init, () => x.SampleDataType.Bits());
+            var sampleDataTypeAfter = x.SampleDataType.Bits(value, x.Context);
+            AreEqual(init, () => x.SampleDataType.Bits());
+            AreEqual(value,   () => sampleDataTypeAfter.Bits());
             
-            AreEqual(from, () => x.Type.Bits());
-            var typeAfter = x.Type.Bits(to);
-            AreEqual(from, () => x.Type.Bits());
-            AreEqual(to,   () => typeAfter.Bits());
+            AreEqual(init, () => x.Type.Bits());
+            var typeAfter = x.Type.Bits(value);
+            AreEqual(init, () => x.Type.Bits());
+            AreEqual(value,   () => typeAfter.Bits());
             
             // Test After-Record
             x.Record();
 
             // All is reset
-            x.All_Bits_Equal(from);
+            x.All_Bits_Equal(init);
         
             // Except for our variables
-            AreEqual(to, () => wavHeaderAfter.Bits());
-            AreEqual(to, () => sampleDataTypeEnumAfter.Bits());
-            AreEqual(to, () => sampleDataTypeAfter.Bits());
-            AreEqual(to, () => typeAfter.Bits());
+            AreEqual(value, () => wavHeaderAfter.Bits());
+            AreEqual(value, () => sampleDataTypeEnumAfter.Bits());
+            AreEqual(value, () => sampleDataTypeAfter.Bits());
+            AreEqual(value, () => typeAfter.Bits());
         }
 
-        [TestMethod] public void Bits_Setters_8Bit_Shorthand_ChangingIndependentAndImmutables()
+        [TestMethod] public void Bits_IndependentsAndImmutables_8Bit_Shorthand()
         {
-            var x = new TestEntities(bits: 32);
+            var init = 32;
+            var x = new TestEntities(init);
             
             // Test Mutations
 
@@ -345,29 +346,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => typeAfter.Is8Bit());
         
             // Test After Record
-            
             x.Record();
-
-            // Independent after Taping
-            IsFalse(() => x.Sample.Is8Bit());
-            IsFalse(() => x.AudioInfoWish.Is8Bit());
-            IsFalse(() => x.AudioFileInfo.Is8Bit());
-
-            // Immutable
-            IsFalse(() => x.WavHeader.Is8Bit());
-            IsFalse(() => x.SampleDataTypeEnum.Is8Bit());
-            IsFalse(() => x.SampleDataType.Is8Bit());
-            IsFalse(() => x.Type.Is8Bit());
+            
+            // All is reset
+            x.All_Bits_Equal(init);
         
+            // Except for our variables
             IsTrue(() => wavHeaderAfter.Is8Bit());
             IsTrue(() => sampleDataTypeEnumAfter.Is8Bit());
             IsTrue(() => sampleDataTypeAfter.Is8Bit());
             IsTrue(() => typeAfter.Is8Bit());
-}
+        }
                 
-        [TestMethod] public void Bits_Setters_16Bit_Shorthand_ChangingIndependentAndImmutables()
+        [TestMethod] public void Bits_IndependentsAndImmutables_16Bit_Shorthand()
         {
-            var x = new TestEntities(bits: 32);
+            var init = 32;
+            var x = new TestEntities(init);
             
             // Test Mutations
 
@@ -406,29 +400,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => typeAfter.Is16Bit());
         
             // Test After Record
-            
             x.Record();
 
-            // Independent after Taping
-            IsFalse(() => x.Sample.Is16Bit());
-            IsFalse(() => x.AudioInfoWish.Is16Bit());
-            IsFalse(() => x.AudioFileInfo.Is16Bit());
-
-            // Immutable
-            IsFalse(() => x.WavHeader.Is16Bit());
-            IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
-            IsFalse(() => x.SampleDataType.Is16Bit());
-            IsFalse(() => x.Type.Is16Bit());
-        
+            // All is reset
+            x.All_Bits_Equal(init);
+            
+            // Except for our variables
             IsTrue(() => wavHeaderAfter.Is16Bit());
             IsTrue(() => sampleDataTypeEnumAfter.Is16Bit());
             IsTrue(() => sampleDataTypeAfter.Is16Bit());
             IsTrue(() => typeAfter.Is16Bit());
         }
                 
-        [TestMethod] public void Bits_Setters_32Bit_Shorthand_ChangingIndependentAndImmutables()
+        [TestMethod] public void Bits_IndependentsAndImmutables_32Bit_Shorthand()
         {
-            var x = new TestEntities(bits: 16);
+            int init = 16;
+            var x = new TestEntities(init);
             
             // Test Mutations
 
@@ -467,20 +454,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => typeAfter.Is32Bit());
         
             // Test After Record
-            
             x.Record();
 
-            // Independent after Taping
-            IsFalse(() => x.Sample.Is32Bit());
-            IsFalse(() => x.AudioInfoWish.Is32Bit());
-            IsFalse(() => x.AudioFileInfo.Is32Bit());
-
-            // Immutable
-            IsFalse(() => x.WavHeader.Is32Bit());
-            IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
-            IsFalse(() => x.SampleDataType.Is32Bit());
-            IsFalse(() => x.Type.Is32Bit());
+            // All is reset
+            x.All_Bits_Equal(init);
         
+            // Except for our variables
             IsTrue(() => wavHeaderAfter.Is32Bit());
             IsTrue(() => sampleDataTypeEnumAfter.Is32Bit());
             IsTrue(() => sampleDataTypeAfter.Is32Bit());
