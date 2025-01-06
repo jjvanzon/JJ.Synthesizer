@@ -15,9 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Durations
-        
-        #region ByteCount
+        // A Duration Attribute
 
         public static int ByteCount(byte[] bytes, string filePath)
         {
@@ -164,7 +162,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             double audioLength = AudioLength(value, FrameSize(wish), SamplingRate(wish), HeaderLength(Wav), courtesyFrames);
             return wish.AudioLength(audioLength).ToWavHeader();
         }
- 
-        #endregion
     }
 }

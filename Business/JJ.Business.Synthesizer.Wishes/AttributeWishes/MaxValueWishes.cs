@@ -11,9 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Derived Properties
-        
-        #region MaxValue
+        // A Derived Attribute
         
         public   static double MaxValue(this SynthWishes     obj) => Bits(obj).MaxValue();
         public   static double MaxValue(this FlowNode        obj) => Bits(obj).MaxValue();
@@ -45,7 +43,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
                 default: return default;
             }
         }
-        
-        #endregion
     }
 }

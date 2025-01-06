@@ -11,9 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Durations
-        
-        #region AudioLength
+        // A Duration Attribute
         
         public static double AudioLength(int frameCount, int samplingRate)
             => (double)frameCount / samplingRate;
@@ -196,7 +194,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             info.SampleCount = (int)(value * info.SamplingRate);
             return info;
         }
-        
-        #endregion
     }
 }

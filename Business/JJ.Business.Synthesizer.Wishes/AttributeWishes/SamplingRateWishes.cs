@@ -9,9 +9,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Primary Audio Properties
-        
-        #region SamplingRate
+        // A Primary Audio Attribute
         
         public static int SamplingRate(this SynthWishes obj)
         {
@@ -177,7 +175,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             info.SamplingRate = value;
             return info;
         }
-        
-        #endregion
     }
 }

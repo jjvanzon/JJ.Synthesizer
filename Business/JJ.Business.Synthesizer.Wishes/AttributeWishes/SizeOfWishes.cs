@@ -13,9 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Derived Properties
-        
-        #region SizeOfBitDepth
+        // A Derived Attribute
         
         public   static int                SizeOfBitDepth(this SynthWishes        obj) => Bits(obj) / 8;
         public   static SynthWishes        SizeOfBitDepth(this SynthWishes        obj, int byteSize) => Bits(obj, byteSize * 8);
@@ -61,7 +59,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SampleDataType SizeOfBitDepth(this SampleDataType obj, int byteSize, IContext context) => BitsToEntity(byteSize * 8, context);
-        
-        #endregion
     }
 }

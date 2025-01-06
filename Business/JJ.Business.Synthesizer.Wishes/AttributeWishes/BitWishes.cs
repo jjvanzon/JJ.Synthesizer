@@ -16,9 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Primary Audio Properties
-        
-        #region Bits
+        // A Primary Audio Attribute
         
         public static int Bits(this SynthWishes obj)
         {
@@ -390,7 +388,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(this SampleDataTypeEnum obj) => Bits(obj, 32);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SampleDataType With32Bit(this SampleDataType obj, IContext context) => Bits(obj, 32, context);
-        
-        #endregion
     }
 }

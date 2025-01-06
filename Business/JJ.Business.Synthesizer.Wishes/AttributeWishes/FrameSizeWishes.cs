@@ -11,9 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Derived Properties
-        
-        #region FrameSize
+        // A Derived Attribute
         
         public static int FrameSize(this SynthWishes obj) => SizeOfBitDepth(obj) * Channels(obj);
         public static int FrameSize(this FlowNode obj) => SizeOfBitDepth(obj) * Channels(obj);
@@ -37,7 +35,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
         public static int FrameSize(this (SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
             => SizeOfBitDepth(enums.sampleDataTypeEnum) * Channels(enums.speakerSetupEnum);
-        
-        #endregion
     }
 }

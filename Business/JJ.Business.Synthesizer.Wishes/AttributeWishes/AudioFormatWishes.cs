@@ -17,9 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Primary Audio Properties
-        
-        #region AudioFormat
+        // A Primary Audio Attribute
         
         public static AudioFileFormatEnum AudioFormat(this SynthWishes obj)
         {
@@ -275,7 +273,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
         public   static AudioFileFormat     AsRaw(this AudioFileFormat     obj, IContext context) => AudioFormat(obj, AudioFileFormatEnum.Raw, context);
-        
-        #endregion
     }
 }

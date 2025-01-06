@@ -16,9 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Primary Audio Properties
-        
-        #region Channels
+        // A Primary Audio Attribute
         
         public static int Channels(this SynthWishes obj)
         {
@@ -354,7 +352,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum Stereo(this ChannelEnum obj) => Channels(obj, 2);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel Stereo(this Channel obj, IContext context) => Channels(obj, 2, context);
-        
-        #endregion
     }
 }

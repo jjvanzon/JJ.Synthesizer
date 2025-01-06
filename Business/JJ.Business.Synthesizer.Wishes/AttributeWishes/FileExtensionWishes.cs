@@ -13,9 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Derived Properties
-        
-        #region FileExtension
+        // A Derived Attribute
         
         /// <inheritdoc cref="docs._fileextension"/>
         public static string      FileExtension(this SynthWishes obj) => AudioFormat(obj).FileExtension();
@@ -82,7 +80,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
             => ExtensionToAudioFormat(value).ToEntity(context);
-        
-        #endregion
     }
 }

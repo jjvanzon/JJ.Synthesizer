@@ -7,9 +7,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Derived Properties
-        
-        #region CourtesyBytes
+        // A Derived Attribute
         
         public static int CourtesyBytes(int courtesyFrames, int frameSize)
         {
@@ -83,7 +81,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             CourtesyBytes(obj.Tape, value);
             return obj;
         }
-        
-        #endregion
     }
 }

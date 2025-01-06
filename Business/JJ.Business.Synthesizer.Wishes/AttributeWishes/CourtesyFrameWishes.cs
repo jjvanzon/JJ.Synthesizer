@@ -7,9 +7,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Primary Audio Properties
-        
-        #region CourtesyFrames
+        // A Primary Audio Attribute
         
         public static int CourtesyFrames(int courtesyBytes, int frameSize)
         {
@@ -111,7 +109,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             CourtesyFrames(obj.Tape, value);
             return obj;
         }
-        
-        #endregion
     }
 }

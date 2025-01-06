@@ -11,9 +11,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Derived Properties
-        
-        #region HeaderLength
+        // A Derived Attribute
         
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this SynthWishes obj) => AudioFormat(obj).HeaderLength();
@@ -54,7 +52,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         /// <inheritdoc cref="docs._headerlength"/>
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int HeaderLength(this AudioFileFormat obj) => AudioFormat(obj).HeaderLength();
-        
-        #endregion
     }
 }

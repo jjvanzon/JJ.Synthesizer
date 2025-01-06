@@ -10,9 +10,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Durations
-        
-        #region FrameCount
+        // A Duration Attribute
         
         public static int FrameCount(int byteCount, int frameSize, int headerLength)
             => (byteCount - headerLength) / frameSize;
@@ -164,7 +162,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             info.SampleCount = value;
             return info;
         }
-        
-        #endregion
     }
 }

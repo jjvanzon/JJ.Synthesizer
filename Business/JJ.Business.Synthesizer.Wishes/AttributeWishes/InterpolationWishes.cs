@@ -14,9 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // Primary Audio Properties
-        
-        #region Interpolation
+        // A Primary Audio Attribute
         
         public static InterpolationTypeEnum Interpolation(this SynthWishes obj)
         {
@@ -205,7 +203,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
         public   static InterpolationType     Blocky(this InterpolationType     obj, IContext context) => Interpolation(obj, InterpolationTypeEnum.Block, context);
-        
-        #endregion
     }
 }
