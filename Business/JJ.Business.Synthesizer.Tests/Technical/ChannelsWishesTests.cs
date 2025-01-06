@@ -499,46 +499,46 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         public static void Assert_Channels_Getters(this AudioFileInfo audioFileInfo, int channels)
         {
-            AreEqual(channels,       () => audioFileInfo.Channels());
-            AreEqual(channels == 1,  () => audioFileInfo.IsMono());
+            AreEqual(channels,      () => audioFileInfo.Channels());
+            AreEqual(channels == 1, () => audioFileInfo.IsMono());
             AreEqual(channels == 2, () => audioFileInfo.IsStereo());
         }
         
         public static void Assert_Channels_Getters(this Sample sample, int channels)
         {
-            AreEqual(channels,       () => sample.Channels());
-            AreEqual(channels == 1,  () => sample.IsMono());
+            AreEqual(channels,      () => sample.Channels());
+            AreEqual(channels == 1, () => sample.IsMono());
             AreEqual(channels == 2, () => sample.IsStereo());
         }
         
         public static void Assert_Channels_Getters(this AudioInfoWish audioInfoWish, int channels)
         {
-            AreEqual(channels,       () => audioInfoWish.Channels());
-            AreEqual(channels,       () => audioInfoWish.Channels);
-            AreEqual(channels == 1,  () => audioInfoWish.IsMono());
+            AreEqual(channels,      () => audioInfoWish.Channels());
+            AreEqual(channels,      () => audioInfoWish.Channels);
+            AreEqual(channels == 1, () => audioInfoWish.IsMono());
             AreEqual(channels == 2, () => audioInfoWish.IsStereo());
         }
 
         public static void Assert_Channels_Getters(this WavHeaderStruct wavHeader, int channels)
         {
-            AreEqual(channels,       () => wavHeader.Channels());
-            AreEqual(channels,       () => wavHeader.ChannelCount);
-            AreEqual(channels == 1,  () => wavHeader.IsMono());
+            AreEqual(channels,      () => wavHeader.Channels());
+            AreEqual(channels,      () => wavHeader.ChannelCount);
+            AreEqual(channels == 1, () => wavHeader.IsMono());
             AreEqual(channels == 2, () => wavHeader.IsStereo());
         }
         
         public static void Assert_Channels_Getters(this SpeakerSetupEnum speakerSetupEnum, int channels)
         {
-            AreEqual(channels,       () => speakerSetupEnum.Channels());
-            AreEqual(channels == 1,  () => speakerSetupEnum.IsMono());
+            AreEqual(channels,      () => speakerSetupEnum.Channels());
+            AreEqual(channels == 1, () => speakerSetupEnum.IsMono());
             AreEqual(channels == 2, () => speakerSetupEnum.IsStereo());
         }
         
         public static void Assert_Channels_Getters(this SpeakerSetup speakerSetup, int channels)
         {
             if (speakerSetup == null) throw new NullException(() => speakerSetup);
-            AreEqual(channels,       () => speakerSetup.Channels());
-            AreEqual(channels == 1,  () => speakerSetup.IsMono());
+            AreEqual(channels,      () => speakerSetup.Channels());
+            AreEqual(channels == 1, () => speakerSetup.IsMono());
             AreEqual(channels == 2, () => speakerSetup.IsStereo());
         }
     } 
