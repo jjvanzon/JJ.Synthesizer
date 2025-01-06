@@ -64,14 +64,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Bit Setters
 
-        [TestMethod] public void Bits_Setters_Normal()
+        [TestMethod] public void Bits_Normal()
         {
-            Bits_Setters_Normal(32, 8);
-            Bits_Setters_Normal(32, 16);
-            Bits_Setters_Normal(16, 32);
+            Bits_Normal(32, 8);
+            Bits_Normal(32, 16);
+            Bits_Normal(16, 32);
         }
         
-        void Bits_Setters_Normal(int init, int value)
+        void Bits_Normal(int init, int value)
         {
             // Check Before Change
             { 
@@ -656,6 +656,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             public void Independent_Bits_Equal(int bits)
             {
+                // Independent after Taping
+                
                 AreEqual(bits, () => Sample.Bits());
                 AreEqual(bits, () => AudioInfoWish.Bits());
                 AreEqual(bits, () => AudioFileInfo.Bits());
