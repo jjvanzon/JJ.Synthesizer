@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
@@ -358,27 +359,89 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var x = new TestEntities(init);
 
+            var wavHeaders = new List<WavHeaderStruct>();
+            {
+                TestSetter(() => x.WavHeader.Bits(value));
+                TestSetter(() => 
+                {
+                    if (value == 8) return x.WavHeader.With8Bit();
+                    if (value == 16) return x.WavHeader.With16Bit();
+                    if (value == 32) return x.WavHeader.With32Bit();
+                    return default; // ncrunch: no coverage
+                });
+                
+                void TestSetter(Func<WavHeaderStruct> setter)
+                {
+                    x.WavHeader.Assert_Bits(init);
+                    var wavHeader2 = setter();
+                    x.WavHeader.Assert_Bits(init);
+                    wavHeader2.Assert_Bits(value);
+                    wavHeaders.Add(wavHeader2);
+                }
+            }
             
-            // Immutable
-            x.WavHeader.Assert_Bits(init);
-            var wavHeader2 = x.WavHeader.Bits(value);
-            x.WavHeader.Assert_Bits(init);
-            wavHeader2 .Assert_Bits(value);
-            
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            var sampleDataTypeEnum2 = x.SampleDataTypeEnum.Bits(value);
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            sampleDataTypeEnum2 .Assert_Bits(value);
-            
-            x.SampleDataType.Assert_Bits(init);
-            var sampleDataType2 = x.SampleDataType.Bits(value, x.Context);
-            x.SampleDataType.Assert_Bits(init);
-            sampleDataType2 .Assert_Bits(value);
-            
-            x.Type.Assert_Bits(init);
-            var type2 = x.Type.Bits(value);
-            x.Type.Assert_Bits(init);
-            type2 .Assert_Bits(value);
+            var sampleDataTypeEnums = new List<SampleDataTypeEnum>();
+            {
+                TestSetter(() => x.SampleDataTypeEnum.Bits(value));
+                TestSetter(() => 
+                {
+                    if (value == 8) return x.SampleDataTypeEnum.With8Bit();
+                    if (value == 16) return x.SampleDataTypeEnum.With16Bit();
+                    if (value == 32) return x.SampleDataTypeEnum.With32Bit();
+                    return default; // ncrunch: no coverage
+                });
+                
+                void TestSetter(Func<SampleDataTypeEnum> setter)
+                {
+                    x.SampleDataTypeEnum.Assert_Bits(init);
+                    var sampleDataTypeEnum2 = setter();
+                    x.SampleDataTypeEnum.Assert_Bits(init);
+                    sampleDataTypeEnum2.Assert_Bits(value);
+                    sampleDataTypeEnums.Add(sampleDataTypeEnum2);
+                }
+            }
+                        
+            var sampleDataTypes = new List<SampleDataType>();
+            {
+                TestSetter(() => x.SampleDataType.Bits(value, x.Context));
+                TestSetter(() => 
+                {
+                    if (value == 8) return x.SampleDataType.With8Bit(x.Context);
+                    if (value == 16) return x.SampleDataType.With16Bit(x.Context);
+                    if (value == 32) return x.SampleDataType.With32Bit(x.Context);
+                    return default; // ncrunch: no coverage
+                });
+                
+                void TestSetter(Func<SampleDataType> setter)
+                {
+                    x.SampleDataType.Assert_Bits(init);
+                    var sampleDataType2 = setter();
+                    x.SampleDataType.Assert_Bits(init);
+                    sampleDataType2.Assert_Bits(value);
+                    sampleDataTypes.Add(sampleDataType2);
+                }
+            }
+                                    
+            var types = new List<Type>();
+            {
+                TestSetter(() => x.Type.Bits(value));
+                TestSetter(() => 
+                {
+                    if (value == 8) return x.Type.With8Bit();
+                    if (value == 16) return x.Type.With16Bit();
+                    if (value == 32) return x.Type.With32Bit();
+                    return default; // ncrunch: no coverage
+                });
+                
+                void TestSetter(Func<Type> setter)
+                {
+                    x.Type.Assert_Bits(init);
+                    var type2 = setter();
+                    x.Type.Assert_Bits(init);
+                    type2.Assert_Bits(value);
+                    types.Add(type2);
+                }
+            }
             
             // After-Record
             x.Record();
@@ -387,130 +450,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             x.All_Bits_Equal(init);
             
             // Except for our variables
-            wavHeader2         .Assert_Bits(value);
-            sampleDataTypeEnum2.Assert_Bits(value);
-            sampleDataType2    .Assert_Bits(value);
-            type2              .Assert_Bits(value);
-        }
-
-        [TestMethod] public void Bits_Immutables_8Bit_Shorthand()
-        {
-            var init = 32;
-            var value = 8;
-            var x = new TestEntities(init);
-
-            // Immutable                        
-            x.WavHeader.Assert_Bits(init);
-            var wavHeaderAfter = x.WavHeader.With8Bit();
-            x.WavHeader.Assert_Bits(init);
-            wavHeaderAfter.Assert_Bits(value);
-
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With8Bit();
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            sampleDataTypeEnumAfter.Assert_Bits(value);
-
-            x.SampleDataType.Assert_Bits(init);
-            var sampleDataTypeAfter = x.SampleDataType.With8Bit(x.Context);
-            x.SampleDataType.Assert_Bits(init);
-            sampleDataTypeAfter.Assert_Bits(value);
-
-            x.Type.Assert_Bits(init);
-            var typeAfter = x.Type.With8Bit();
-            x.Type.Assert_Bits(init);
-            typeAfter.Assert_Bits(value);
-        
-            // After Record
-            x.Record();
-            
-            // All is reset
-            x.All_Bits_Equal(init);
-        
-            // Except for our variables
-            wavHeaderAfter.Assert_Bits(value);
-            sampleDataTypeEnumAfter.Assert_Bits(value);
-            sampleDataTypeAfter.Assert_Bits(value);
-            typeAfter.Assert_Bits(value);
-        }
-                
-        [TestMethod] public void Bits_Immutables_16Bit_Shorthand()
-        {
-            var init = 32;
-            var value = 16;
-            var x = new TestEntities(init);
-
-            // Immutable                        
-            x.WavHeader.Assert_Bits(init);
-            var wavHeaderAfter = x.WavHeader.With16Bit();
-            x.WavHeader.Assert_Bits(init);
-            wavHeaderAfter.Assert_Bits(value);
-            
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With16Bit();
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            sampleDataTypeEnumAfter.Assert_Bits(value);
-
-            x.SampleDataType.Assert_Bits(init);
-            var sampleDataTypeAfter = x.SampleDataType.With16Bit(x.Context);
-            x.SampleDataType.Assert_Bits(init);
-            sampleDataTypeAfter.Assert_Bits(value);
-
-            x.Type.Assert_Bits(init);
-            var typeAfter = x.Type.With16Bit();
-            x.Type.Assert_Bits(init);
-            typeAfter.Assert_Bits(value);
-        
-            // After Record
-            x.Record();
-            
-            // All is reset
-            x.All_Bits_Equal(init);
-        
-            // Except for our variables
-            wavHeaderAfter.Assert_Bits(value);
-            sampleDataTypeEnumAfter.Assert_Bits(value);
-            sampleDataTypeAfter.Assert_Bits(value);
-            typeAfter.Assert_Bits(value);
-        }
-                
-        [TestMethod] public void Bits_Immutables_32Bit_Shorthand()
-        {
-            var init = 16;
-            var value = 32;
-            var x = new TestEntities(init);
-
-            // Immutable                        
-            x.WavHeader.Assert_Bits(init);
-            var wavHeaderAfter = x.WavHeader.With32Bit();
-            x.WavHeader.Assert_Bits(init);
-            wavHeaderAfter.Assert_Bits(value);
-            
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With32Bit();
-            x.SampleDataTypeEnum.Assert_Bits(init);
-            sampleDataTypeEnumAfter.Assert_Bits(value);
-
-            x.SampleDataType.Assert_Bits(init);
-            var sampleDataTypeAfter = x.SampleDataType.With32Bit(x.Context);
-            x.SampleDataType.Assert_Bits(init);
-            sampleDataTypeAfter.Assert_Bits(value);
-
-            x.Type.Assert_Bits(init);
-            var typeAfter = x.Type.With32Bit();
-            x.Type.Assert_Bits(init);
-            typeAfter.Assert_Bits(value);
-        
-            // After Record
-            x.Record();
-            
-            // All is reset
-            x.All_Bits_Equal(init);
-        
-            // Except for our variables
-            wavHeaderAfter.Assert_Bits(value);
-            sampleDataTypeEnumAfter.Assert_Bits(value);
-            sampleDataTypeAfter.Assert_Bits(value);
-            typeAfter.Assert_Bits(value);
+            wavHeaders         .ForEach(w => w.Assert_Bits(value));
+            sampleDataTypeEnums.ForEach(e => e.Assert_Bits(value));
+            sampleDataTypes    .ForEach(s => s.Assert_Bits(value));
+            types              .ForEach(t => t.Assert_Bits(value));
         }
 
         // Helpers
