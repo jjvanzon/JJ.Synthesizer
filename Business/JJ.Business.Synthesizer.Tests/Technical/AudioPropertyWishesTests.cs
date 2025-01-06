@@ -256,53 +256,51 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var x = new TestEntities(init);
             
-            // Test Mutations
-
             // Independent after Taping
-            AreEqual(init, () => x.Sample.Bits());
+            x.Sample.Assert_Bits(init);
             x.Sample.Bits(value, x.Context);
-            AreEqual(value, () => x.Sample.Bits());
+            x.Sample.Assert_Bits(value);
             
-            AreEqual(init, () => x.AudioInfoWish.Bits());
+            x.AudioInfoWish.Assert_Bits(init);
             x.AudioInfoWish.Bits(value);
-            AreEqual(value, () => x.AudioInfoWish.Bits());
+            x.AudioInfoWish.Assert_Bits(value);
             
-            AreEqual(init, () => x.AudioFileInfo.Bits());
+            x.AudioFileInfo.Assert_Bits(init);
             x.AudioFileInfo.Bits(value);
-            AreEqual(value, () => x.AudioFileInfo.Bits());
-
-            // Immutable                        
-            AreEqual(init, () => x.WavHeader.Bits());
-            var wavHeaderAfter = x.WavHeader.Bits(value);
-            AreEqual(init, () => x.WavHeader.Bits());
-            AreEqual(value,   () => wavHeaderAfter.Bits());
+            x.AudioFileInfo.Assert_Bits(value);
             
-            AreEqual(init, () => x.SampleDataTypeEnum.Bits());
-            var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.Bits(value);
-            AreEqual(init, () => x.SampleDataTypeEnum.Bits());
-            AreEqual(value,   () => sampleDataTypeEnumAfter.Bits());
+            // Immutable
+            x.WavHeader.Assert_Bits(init);
+            var wavHeader2 = x.WavHeader.Bits(value);
+            x.WavHeader.Assert_Bits(init);
+            wavHeader2 .Assert_Bits(value);
             
-            AreEqual(init, () => x.SampleDataType.Bits());
-            var sampleDataTypeAfter = x.SampleDataType.Bits(value, x.Context);
-            AreEqual(init, () => x.SampleDataType.Bits());
-            AreEqual(value,   () => sampleDataTypeAfter.Bits());
+            x.SampleDataTypeEnum.Assert_Bits(init);
+            var sampleDataTypeEnum2 = x.SampleDataTypeEnum.Bits(value);
+            x.SampleDataTypeEnum.Assert_Bits(init);
+            sampleDataTypeEnum2 .Assert_Bits(value);
             
-            AreEqual(init, () => x.Type.Bits());
-            var typeAfter = x.Type.Bits(value);
-            AreEqual(init, () => x.Type.Bits());
-            AreEqual(value,   () => typeAfter.Bits());
+            x.SampleDataType.Assert_Bits(init);
+            var sampleDataType2 = x.SampleDataType.Bits(value, x.Context);
+            x.SampleDataType.Assert_Bits(init);
+            sampleDataType2 .Assert_Bits(value);
             
-            // Test After-Record
+            x.Type.Assert_Bits(init);
+            var type2 = x.Type.Bits(value);
+            x.Type.Assert_Bits(init);
+            type2 .Assert_Bits(value);
+            
+            // After-Record
             x.Record();
-
+            
             // All is reset
             x.All_Bits_Equal(init);
-        
+            
             // Except for our variables
-            AreEqual(value, () => wavHeaderAfter.Bits());
-            AreEqual(value, () => sampleDataTypeEnumAfter.Bits());
-            AreEqual(value, () => sampleDataTypeAfter.Bits());
-            AreEqual(value, () => typeAfter.Bits());
+            wavHeader2         .Assert_Bits(value);
+            sampleDataTypeEnum2.Assert_Bits(value);
+            sampleDataType2    .Assert_Bits(value);
+            type2              .Assert_Bits(value);
         }
 
 
@@ -311,8 +309,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var init = 32;
             var value = 8;
             var x = new TestEntities(init);
-            
-            // Test Mutations
 
             // Independent after Taping
             x.Sample.Assert_Bits(init);
@@ -348,7 +344,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             x.Type.Assert_Bits(init);
             typeAfter.Assert_Bits(value);
         
-            // Test After Record
+            // After Record
             x.Record();
             
             // All is reset
@@ -364,109 +360,109 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod] public void Bits_IndependentsAndImmutables_16Bit_Shorthand()
         {
             var init = 32;
+            var value = 16;
             var x = new TestEntities(init);
             
-            // Test Mutations
-
             // Independent after Taping
-            IsFalse(() => x.Sample.Is16Bit());
+            x.Sample.Assert_Bits(init);
             x.Sample.With16Bit(x.Context);
-            IsTrue(() => x.Sample.Is16Bit());
+            x.Sample.Assert_Bits(value);
             
-            IsFalse(() => x.AudioInfoWish.Is16Bit());
+            x.AudioInfoWish.Assert_Bits(init);
             x.AudioInfoWish.With16Bit();
-            IsTrue(() => x.AudioInfoWish.Is16Bit());
-                                    
-            IsFalse(() => x.AudioFileInfo.Is16Bit());
+            x.AudioInfoWish.Assert_Bits(value);
+                        
+            x.AudioFileInfo.Assert_Bits(init);
             x.AudioFileInfo.With16Bit();
-            IsTrue(() => x.AudioFileInfo.Is16Bit());
+            x.AudioFileInfo.Assert_Bits(value);
 
             // Immutable                        
-            IsFalse(() => x.WavHeader.Is16Bit());
+            x.WavHeader.Assert_Bits(init);
             var wavHeaderAfter = x.WavHeader.With16Bit();
-            IsFalse(() => x.WavHeader.Is16Bit());
-            IsTrue(() => wavHeaderAfter.Is16Bit());
+            x.WavHeader.Assert_Bits(init);
+            wavHeaderAfter.Assert_Bits(value);
             
-            IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
+            x.SampleDataTypeEnum.Assert_Bits(init);
             var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With16Bit();
-            IsFalse(() => x.SampleDataTypeEnum.Is16Bit());
-            IsTrue(() => sampleDataTypeEnumAfter.Is16Bit());
+            x.SampleDataTypeEnum.Assert_Bits(init);
+            sampleDataTypeEnumAfter.Assert_Bits(value);
 
-            IsFalse(() => x.SampleDataType.Is16Bit());
+            x.SampleDataType.Assert_Bits(init);
             var sampleDataTypeAfter = x.SampleDataType.With16Bit(x.Context);
-            IsFalse(() => x.SampleDataType.Is16Bit());
-            IsTrue(() => sampleDataTypeAfter.Is16Bit());
+            x.SampleDataType.Assert_Bits(init);
+            sampleDataTypeAfter.Assert_Bits(value);
 
-            IsFalse(() => x.Type.Is16Bit());
+            x.Type.Assert_Bits(init);
             var typeAfter = x.Type.With16Bit();
-            IsFalse(() => x.Type.Is16Bit());
-            IsTrue(() => typeAfter.Is16Bit());
+            x.Type.Assert_Bits(init);
+            typeAfter.Assert_Bits(value);
         
-            // Test After Record
+            // After Record
             x.Record();
-
+            
             // All is reset
             x.All_Bits_Equal(init);
-            
+        
             // Except for our variables
-            IsTrue(() => wavHeaderAfter.Is16Bit());
-            IsTrue(() => sampleDataTypeEnumAfter.Is16Bit());
-            IsTrue(() => sampleDataTypeAfter.Is16Bit());
-            IsTrue(() => typeAfter.Is16Bit());
+            wavHeaderAfter.Assert_Bits(value);
+            sampleDataTypeEnumAfter.Assert_Bits(value);
+            sampleDataTypeAfter.Assert_Bits(value);
+            typeAfter.Assert_Bits(value);
         }
                 
         [TestMethod] public void Bits_IndependentsAndImmutables_32Bit_Shorthand()
         {
-            int init = 16;
+            var init = 16;
+            var value = 32;
             var x = new TestEntities(init);
             
             // Test Mutations
 
             // Independent after Taping
-            IsFalse(() => x.Sample.Is32Bit());
+            x.Sample.Assert_Bits(init);
             x.Sample.With32Bit(x.Context);
-            IsTrue(() => x.Sample.Is32Bit());
+            x.Sample.Assert_Bits(value);
             
-            IsFalse(() => x.AudioInfoWish.Is32Bit());
+            x.AudioInfoWish.Assert_Bits(init);
             x.AudioInfoWish.With32Bit();
-            IsTrue(() => x.AudioInfoWish.Is32Bit());
-                                    
-            IsFalse(() => x.AudioFileInfo.Is32Bit());
+            x.AudioInfoWish.Assert_Bits(value);
+                        
+            x.AudioFileInfo.Assert_Bits(init);
             x.AudioFileInfo.With32Bit();
-            IsTrue(() => x.AudioFileInfo.Is32Bit());
+            x.AudioFileInfo.Assert_Bits(value);
 
             // Immutable                        
-            IsFalse(() => x.WavHeader.Is32Bit());
+            x.WavHeader.Assert_Bits(init);
             var wavHeaderAfter = x.WavHeader.With32Bit();
-            IsFalse(() => x.WavHeader.Is32Bit());
-            IsTrue(() => wavHeaderAfter.Is32Bit());
+            x.WavHeader.Assert_Bits(init);
+            wavHeaderAfter.Assert_Bits(value);
             
-            IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
+            x.SampleDataTypeEnum.Assert_Bits(init);
             var sampleDataTypeEnumAfter = x.SampleDataTypeEnum.With32Bit();
-            IsFalse(() => x.SampleDataTypeEnum.Is32Bit());
-            IsTrue(() => sampleDataTypeEnumAfter.Is32Bit());
+            x.SampleDataTypeEnum.Assert_Bits(init);
+            sampleDataTypeEnumAfter.Assert_Bits(value);
 
-            IsFalse(() => x.SampleDataType.Is32Bit());
+            x.SampleDataType.Assert_Bits(init);
             var sampleDataTypeAfter = x.SampleDataType.With32Bit(x.Context);
-            IsFalse(() => x.SampleDataType.Is32Bit());
-            IsTrue(() => sampleDataTypeAfter.Is32Bit());
+            x.SampleDataType.Assert_Bits(init);
+            sampleDataTypeAfter.Assert_Bits(value);
 
-            IsFalse(() => x.Type.Is32Bit());
+            x.Type.Assert_Bits(init);
             var typeAfter = x.Type.With32Bit();
-            IsFalse(() => x.Type.Is32Bit());
-            IsTrue(() => typeAfter.Is32Bit());
+            x.Type.Assert_Bits(init);
+            typeAfter.Assert_Bits(value);
         
-            // Test After Record
+            // After Record
             x.Record();
-
+            
             // All is reset
             x.All_Bits_Equal(init);
         
             // Except for our variables
-            IsTrue(() => wavHeaderAfter.Is32Bit());
-            IsTrue(() => sampleDataTypeEnumAfter.Is32Bit());
-            IsTrue(() => sampleDataTypeAfter.Is32Bit());
-            IsTrue(() => typeAfter.Is32Bit());
+            wavHeaderAfter.Assert_Bits(value);
+            sampleDataTypeEnumAfter.Assert_Bits(value);
+            sampleDataTypeAfter.Assert_Bits(value);
+            typeAfter.Assert_Bits(value);
         }
 
         // Helpers
