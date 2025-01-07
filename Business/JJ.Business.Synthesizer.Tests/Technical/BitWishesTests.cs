@@ -83,27 +83,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 AssertProp(x => AreEqual(x.Tape,        () => x.Tape.Bits(value)));
                 AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig.Bits(value)));
-                AssertProp(x =>                               x.TapeConfig.Bits = value);
+                AssertProp(x =>                                            x.TapeConfig.Bits = value);
                 AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.Bits(value)));
                 AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction.Bits(value)));
                 
                 AssertProp(x => {
-                    if (value == 8) AreEqual(x.Tape, () => x.Tape.With8Bit());
+                    if (value ==  8) AreEqual(x.Tape, () => x.Tape.With8Bit());
                     if (value == 16) AreEqual(x.Tape, () => x.Tape.With16Bit());
                     if (value == 32) AreEqual(x.Tape, () => x.Tape.With32Bit()); });
                 
                 AssertProp(x => {
-                    if (value == 8) AreEqual(x.TapeConfig, () => x.TapeConfig.With8Bit());
+                    if (value ==  8) AreEqual(x.TapeConfig, () => x.TapeConfig.With8Bit());
                     if (value == 16) AreEqual(x.TapeConfig, () => x.TapeConfig.With16Bit());
                     if (value == 32) AreEqual(x.TapeConfig, () => x.TapeConfig.With32Bit()); });
                 
                 AssertProp(x => {
-                    if (value == 8) AreEqual(x.TapeActions, () => x.TapeActions.With8Bit());
+                    if (value ==  8) AreEqual(x.TapeActions, () => x.TapeActions.With8Bit());
                     if (value == 16) AreEqual(x.TapeActions, () => x.TapeActions.With16Bit());
                     if (value == 32) AreEqual(x.TapeActions, () => x.TapeActions.With32Bit()); });
                 
                 AssertProp(x => {
-                    if (value == 8) AreEqual(x.TapeAction, () => x.TapeAction.With8Bit());
+                    if (value ==  8) AreEqual(x.TapeAction, () => x.TapeAction.With8Bit());
                     if (value == 16) AreEqual(x.TapeAction, () => x.TapeAction.With16Bit());
                     if (value == 32) AreEqual(x.TapeAction, () => x.TapeAction.With32Bit()); });
                 

@@ -16,48 +16,51 @@ using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
-    internal class TestEntities
-    {        
+    internal class TapeEntities
+    {
+        // Tape-Bound
+        public Tape               Tape                { get; set; }
+        public TapeConfig         TapeConfig          { get; set; }
+        public TapeActions        TapeActions         { get; set; }
+        public TapeAction         TapeAction          { get; set; }
+    }
+    
+    internal class TestEntities : TapeEntities
+    {   
         // Global-Bound (read-only)
         public static ConfigSectionAccessor GetConfigSectionAccessor() => new ConfigWishesAccessor(new SynthWishes().Config)._section;
 
         // SynthWishes-Bound
-        public SynthWishes        SynthWishes         { get; private set; }
-        public IContext           Context             { get; private set; }
-        public FlowNode           FlowNode            { get; private set; }
-        public FlowNode           FlowNode2           { get; private set; }
-        public ConfigWishes       ConfigWishes        { get; private set; }
-                                                      
-        // Tape-Bound                                 
-        public Tape               Tape                { get; private set; }
-        public TapeConfig         TapeConfig          { get; private set; }
-        public TapeActions        TapeActions         { get; private set; }
-        public TapeAction         TapeAction          { get; private set; }
-        public IList<Tape>        ChannelTapes        { get; private set; }
-        public IList<TapeConfig>  ChannelTapesConfig  { get; private set; }
-        public IList<TapeActions> ChannelTapesActions { get; private set; }
-        public IList<TapeAction>  ChannelTapesAction  { get; private set; }
+        public SynthWishes         SynthWishes         { get; private set; }
+        public IContext            Context             { get; private set; }
+        public FlowNode            FlowNode            { get; private set; }
+        public FlowNode            FlowNode2           { get; private set; }
+        public ConfigWishes        ConfigWishes        { get; private set; }
+                                                       
+        // Tape-Bound
+        public IList<TapeEntities> ChannelEntities { get; private set; }
         
         // Buff-Bound
-        public Buff               Buff                { get; private set; }
-        public AudioFileOutput    AudioFileOutput     { get; private set; }
+        public Buff                Buff                { get; private set; }
+        public AudioFileOutput     AudioFileOutput     { get; private set; }
                                                       
         // Independent after Taping                   
-        public Sample             Sample              { get; private set; }
-        public AudioInfoWish      AudioInfoWish       { get; private set; }
-        public AudioFileInfo      AudioFileInfo       { get; private set; }
+        public Sample              Sample              { get; private set; }
+        public AudioInfoWish       AudioInfoWish       { get; private set; }
+        public AudioFileInfo       AudioFileInfo       { get; private set; }
                                                       
         // Immutable                                  
-        public WavHeaderStruct    WavHeader           { get; private set; }
-        public SampleDataTypeEnum SampleDataTypeEnum  { get; private set; }
-        public SampleDataType     SampleDataType      { get; private set; }
-        public Type               Type                { get; private set; }
-        public SpeakerSetupEnum   SpeakerSetupEnum    { get; private set; }
-        public SpeakerSetup       SpeakerSetup        { get; private set; }
-        public ChannelEnum        ChannelEnum         { get; private set; }
-        public Channel            ChannelEntity       { get; private set; }
+        public WavHeaderStruct     WavHeader           { get; private set; }
+        public SampleDataTypeEnum  SampleDataTypeEnum  { get; private set; }
+        public SampleDataType      SampleDataType      { get; private set; }
+        public Type                Type                { get; private set; }
+        public SpeakerSetupEnum    SpeakerSetupEnum    { get; private set; }
+        public SpeakerSetup        SpeakerSetup        { get; private set; }
+        public ChannelEnum         ChannelEnum         { get; private set; }
+        public Channel             ChannelEntity       { get; private set; }
         
-        public TestEntities(int? bits = default, int? channels = default, int? channel = default) => Initialize(bits, channels, channel);
+        public TestEntities(int? bits = default, int? channels = default, int? channel = default) 
+            => Initialize(bits, channels, channel);
         
         public TestEntities(Action<SynthWishes> initialize) => Initialize(initialize);
         
@@ -92,28 +95,31 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int channelCount = SynthWishes.GetChannels;
             //if (Tape != null) channelCount = Tape.Config.Channels;
             
-            ChannelTapes = new Tape[channelCount];
-            ChannelTapesConfig = new TapeConfig[channelCount];
-            ChannelTapesActions = new TapeActions[channelCount];
-            ChannelTapesAction = new TapeAction[channelCount];
+            ChannelEntities = new TapeEntities[channelCount];
+            for (int i = 0; i < channelCount; i++)
+            {
+                ChannelEntities[i] = new TapeEntities();    
+            }
             
             // Record
-            Tape = null;
             SynthWishes.RunOnThis(() => (SynthWishes.GetChannel == 0 ? FlowNode : FlowNode2)
-                                        .AfterRecord(x => Tape = x)
+                                        // Tape-Bound
+                                        .AfterRecord(x => 
+                                        {
+                                            Tape = x;
+                                            TapeConfig  = x.Config;
+                                            TapeActions = x.Actions;
+                                            TapeAction  = x.Actions.AfterRecord;
+                                        })
                                         .AfterRecordChannel(x =>
                                         {
-                                            ChannelTapes       [x.i] = x;
-                                            ChannelTapesConfig [x.i] = x.Config;
-                                            ChannelTapesActions[x.i] = x.Actions;
-                                            ChannelTapesAction [x.i] = x.Actions.AfterRecordChannel;
+                                            ChannelEntities[x.i].Tape = x;
+                                            ChannelEntities[x.i].TapeConfig = x.Config;
+                                            ChannelEntities[x.i].TapeActions = x.Actions;
+                                            ChannelEntities[x.i].TapeAction = x.Actions.AfterRecordChannel;
                                         }));
-            IsNotNull(() => Tape);
             
-            // Tape-Bound
-            TapeConfig  = Tape.Config;
-            TapeActions = Tape.Actions;
-            TapeAction  = Tape.Actions.AfterRecord;
+            IsNotNull(() => Tape);
             
             // Buff-Bound
             Buff            = Tape.Buff;

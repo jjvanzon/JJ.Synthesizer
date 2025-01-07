@@ -349,58 +349,51 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         public static void Assert_ChannelTapeBound_Getters(this TestEntities x, (int channels, int channel) c)
         {
-            AreEqual(c.channels, () => x.ChannelTapes.Count);
-            AreEqual(c.channels, () => x.ChannelTapesConfig.Count);
-            AreEqual(c.channels, () => x.ChannelTapesActions.Count);
-            AreEqual(c.channels, () => x.ChannelTapesAction.Count);
-            
-            IsFalse(() => x.ChannelTapes.Contains(null));
-            IsFalse(() => x.ChannelTapesConfig.Contains(null));
-            IsFalse(() => x.ChannelTapesActions.Contains(null));
-            IsFalse(() => x.ChannelTapesAction.Contains(null));
+            AreEqual(c.channels, () => x.ChannelEntities.Count);
+            IsFalse(() => x.ChannelEntities.Contains(null));
             
             if (c.channels == 1)
             {
                 // Both Tape and Channel tape are same, and have the same channel.
-                AreSame(x.Tape, () => x.ChannelTapes[0]);
+                AreSame(x.Tape, () => x.ChannelEntities[0].Tape);
             }
             if (c.channels == 2)
             {
-                AreEqual(0, () => x.ChannelTapes       [0].Channel());
-                AreEqual(0, () => x.ChannelTapesConfig [0].Channel());
-                AreEqual(0, () => x.ChannelTapesConfig [0].Channel);
-                AreEqual(0, () => x.ChannelTapesActions[0].Channel());
-                AreEqual(0, () => x.ChannelTapesAction [0].Channel());
+                AreEqual(0, () => x.ChannelEntities[0].Tape       .Channel());
+                AreEqual(0, () => x.ChannelEntities[0].TapeConfig .Channel());
+                AreEqual(0, () => x.ChannelEntities[0].TapeConfig .Channel);
+                AreEqual(0, () => x.ChannelEntities[0].TapeActions.Channel());
+                AreEqual(0, () => x.ChannelEntities[0].TapeAction .Channel());
              
-                AreEqual(1, () => x.ChannelTapes       [1].Channel());
-                AreEqual(1, () => x.ChannelTapesConfig [1].Channel());
-                AreEqual(1, () => x.ChannelTapesConfig [1].Channel);
-                AreEqual(1, () => x.ChannelTapesActions[1].Channel());
-                AreEqual(1, () => x.ChannelTapesAction [1].Channel());
+                AreEqual(1, () => x.ChannelEntities[1].Tape       .Channel());
+                AreEqual(1, () => x.ChannelEntities[1].TapeConfig .Channel());
+                AreEqual(1, () => x.ChannelEntities[1].TapeConfig .Channel);
+                AreEqual(1, () => x.ChannelEntities[1].TapeActions.Channel());
+                AreEqual(1, () => x.ChannelEntities[1].TapeAction .Channel());
 
-                IsTrue(() => x.ChannelTapes       [0].IsLeft());
-                IsTrue(() => x.ChannelTapesConfig [0].IsLeft());
-                IsTrue(() => x.ChannelTapesConfig [0].IsLeft);
-                IsTrue(() => x.ChannelTapesActions[0].IsLeft());
-                IsTrue(() => x.ChannelTapesAction [0].IsLeft());
+                IsTrue(() => x.ChannelEntities[0].Tape       .IsLeft());
+                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsLeft());
+                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsLeft);
+                IsTrue(() => x.ChannelEntities[0].TapeActions.IsLeft());
+                IsTrue(() => x.ChannelEntities[0].TapeAction .IsLeft());
                 
-                IsTrue(() => x.ChannelTapes       [1].IsRight());
-                IsTrue(() => x.ChannelTapesConfig [1].IsRight());
-                IsTrue(() => x.ChannelTapesConfig [1].IsRight);
-                IsTrue(() => x.ChannelTapesActions[1].IsRight());
-                IsTrue(() => x.ChannelTapesAction [1].IsRight());
+                IsTrue(() => x.ChannelEntities[1].Tape       .IsRight());
+                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsRight());
+                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsRight);
+                IsTrue(() => x.ChannelEntities[1].TapeActions.IsRight());
+                IsTrue(() => x.ChannelEntities[1].TapeAction .IsRight());
                 
-                IsTrue(() => x.ChannelTapes       [0].IsStereo());
-                IsTrue(() => x.ChannelTapesConfig [0].IsStereo());
-                IsTrue(() => x.ChannelTapesConfig [0].IsStereo);
-                IsTrue(() => x.ChannelTapesActions[0].IsStereo());
-                IsTrue(() => x.ChannelTapesAction [0].IsStereo());
+                IsTrue(() => x.ChannelEntities[0].Tape       .IsStereo());
+                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsStereo());
+                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsStereo);
+                IsTrue(() => x.ChannelEntities[0].TapeActions.IsStereo());
+                IsTrue(() => x.ChannelEntities[0].TapeAction .IsStereo());
                 
-                IsTrue(() => x.ChannelTapes       [1].IsStereo());
-                IsTrue(() => x.ChannelTapesConfig [1].IsStereo());
-                IsTrue(() => x.ChannelTapesConfig [1].IsStereo);
-                IsTrue(() => x.ChannelTapesActions[1].IsStereo());
-                IsTrue(() => x.ChannelTapesAction [1].IsStereo());
+                IsTrue(() => x.ChannelEntities[1].Tape       .IsStereo());
+                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsStereo());
+                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsStereo);
+                IsTrue(() => x.ChannelEntities[1].TapeActions.IsStereo());
+                IsTrue(() => x.ChannelEntities[1].TapeAction .IsStereo());
             }
         }
         
@@ -415,7 +408,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             if (c.channels == 1)
             {
                 // Both Tape and Channel tape are same, and have the same channel.
-                AreSame(x.Tape, () => x.ChannelTapes[0]);
+                AreSame(x.Tape, () => x.ChannelEntities[0].Tape);
 
                 AreEqual(0, () => x.Tape.Channel());
                 AreEqual(0, () => x.TapeConfig.Channel());
