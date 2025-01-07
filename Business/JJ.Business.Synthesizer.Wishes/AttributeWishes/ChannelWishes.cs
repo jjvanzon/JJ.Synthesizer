@@ -202,12 +202,19 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj;
         }
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int? Channel(this ChannelEnum obj) => EnumToChannel(obj);
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] 
+        public static int? Channel(this ChannelEnum obj) => EnumToChannel(obj);
+        
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum Channel(this ChannelEnum obj, int? channel) => ChannelToEnum(channel, Channels(obj));
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int? Channel(this Channel obj) => obj?.Index;
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
+        public static ChannelEnum Channel(this ChannelEnum obj, int? channel) => ChannelToEnum(channel, Channels(obj));
+        
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
+        public static int? Channel(this Channel obj) => obj?.Index;
+        
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel Channel(this Channel obj, int? channel, IContext context) => ChannelToEntity(channel, Channels(obj), context);
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
+        public static Channel Channel(this Channel obj, int? channel, IContext context) => ChannelToEntity(channel, Channels(obj), context);
         
         // Channel, Conversion-Style
         
@@ -222,35 +229,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
                 default: throw new ValueNotSupportedException(obj);
             }
         }
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? channel, int channels)
-            => ChannelToEnum(channel, channels.ChannelsToEnum());
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? channel, SpeakerSetupEnum speakerSetupEnum)
-        {
-            if (channel == default) return default;
-            
-            switch (speakerSetupEnum)
-            {
-                case SpeakerSetupEnum.Mono:
-                    if (channel == 0) return ChannelEnum.Single;
-                    break;
-                
-                case SpeakerSetupEnum.Stereo:
-                    if (channel == 0) return ChannelEnum.Left;
-                    if (channel == 1) return ChannelEnum.Right;
-                    break;
-            }
-            
-            throw new NotSupportedException(
-                "Unsupported combination of values: " + new { speakerSetupEnum, channel });
-        }
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel ChannelToEntity(this int? channel, int channels, IContext context)
-            => ChannelToEnum(channel, channels).ToEntity(context);
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel ChannelToEntity(this int? channel, SpeakerSetupEnum speakerSetupEnum, IContext context)
-            => ChannelToEnum(channel, speakerSetupEnum).ToEntity(context);
         
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int? EntityToChannel(this Channel entity)
         {

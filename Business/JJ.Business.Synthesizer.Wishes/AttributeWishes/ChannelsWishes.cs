@@ -9,7 +9,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -187,34 +186,23 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int Channels(this SpeakerSetupEnum obj) => EnumToChannels(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetupEnum Channels(this SpeakerSetupEnum obj, int value) 
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum obj, int value) 
             => ChannelsToEnum(value);
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int Channels(this ChannelEnum obj) 
-            => ChannelEnumToChannels(obj);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum Channels(this ChannelEnum obj, int channels) 
-            => ChannelsToChannelEnum(channels, Channel(obj));
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int Channels(this SpeakerSetup obj) 
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] 
+        public static int Channels(this SpeakerSetup obj) 
             => EntityToChannels(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetup Channels(this SpeakerSetup obj, int value, IContext context) 
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        public static SpeakerSetup Channels(this SpeakerSetup obj, int value, IContext context) 
             => ChannelsToEntity(value, context);
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int Channels(this Channel obj) => ChannelEntityToChannels(obj);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel Channels(this Channel obj, int channels, IContext context) => ChannelsToChannelEntity(channels, Channel(obj), context);
         
         // Channels Conversion-Style
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(this int channels)
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] 
+        public static SpeakerSetupEnum ChannelsToEnum(this int channels)
         {
             switch (channels)
             {
@@ -225,7 +213,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             }
         }
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int EnumToChannels(this SpeakerSetupEnum enumValue)
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
+        public static int EnumToChannels(this SpeakerSetupEnum enumValue)
         {
             switch (enumValue)
             {
@@ -236,43 +225,15 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             }
         }
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum ChannelsToChannelEnum(this int channels, int? channel)
-        {
-            if (channel == null) return ChannelEnum.Undefined;
-            if (channels == 1 && channel == 0) return ChannelEnum.Single;
-            if (channels == 2 && channel == 0) return ChannelEnum.Left;
-            if (channels == 2 && channel == 1) return ChannelEnum.Right;
-            throw new Exception($"Unsupported combination of values {new { channels, channel }}");
-        }
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int ChannelEnumToChannels(this ChannelEnum channelEnum)
-        {
-            switch (channelEnum)
-            {
-                case ChannelEnum.Undefined: return 0;
-                case ChannelEnum.Single: return 1;
-                case ChannelEnum.Left: return 2;
-                case ChannelEnum.Right: return 2;
-                default: throw new ValueNotSupportedException(channelEnum);
-            }
-        }
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(this int channels, IContext context)
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] 
+        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context)
             => ChannelsToEnum(channels).ToEntity(context);
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int EntityToChannels(this SpeakerSetup entity)
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] 
+        public static int EntityToChannels(this SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
             return EnumToChannels(entity.ToEnum());
-        }
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel ChannelsToChannelEntity(this int channels, int? channel, IContext context)
-            => ChannelsToChannelEnum(channels, channel).ToEntity(context);
-        
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int ChannelEntityToChannels(this Channel entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            return ChannelEnumToChannels(entity.ToEnum());
         }
         
         // Channels Shorthand
@@ -293,8 +254,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsMono  (this AudioFileInfo    obj) => Channels(obj) == 1;
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsMono(this SpeakerSetupEnum obj) => Channels(obj) == 1;
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsMono(this SpeakerSetup     obj) => Channels(obj) == 1;
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsMono(this ChannelEnum      obj) => Channels(obj) == 1;
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsMono(this Channel          obj) => Channels(obj) == 1;
         
         public   static bool IsStereo(this SynthWishes      obj) => Channels(obj) == 2;
         public   static bool IsStereo(this FlowNode         obj) => Channels(obj) == 2;
@@ -312,8 +271,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsStereo(this AudioFileInfo    obj) => Channels(obj) == 2;
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsStereo(this SpeakerSetupEnum obj) => Channels(obj) == 2;
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsStereo(this SpeakerSetup     obj) => Channels(obj) == 2;
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => Channels(obj) == 2;
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static bool IsStereo(this Channel          obj) => Channels(obj) == 2;
         
         public   static SynthWishes      Mono  (this SynthWishes      obj) => Channels(obj, 1);
         public   static FlowNode         Mono  (this FlowNode         obj) => Channels(obj, 1);
@@ -332,10 +289,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetupEnum Mono(this SpeakerSetupEnum obj) => Channels(obj, 1);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetup Mono(this SpeakerSetup obj, IContext context) => Channels(obj, 1, context);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum Mono(this ChannelEnum obj) => Channels(obj, 1);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel Mono(this Channel obj, IContext context) => Channels(obj, 1, context);
         
         public   static SynthWishes      Stereo(this SynthWishes      obj) => Channels(obj, 2);
         public   static FlowNode         Stereo(this FlowNode         obj) => Channels(obj, 2);
@@ -354,9 +307,5 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetupEnum Stereo(this SpeakerSetupEnum obj) => Channels(obj, 2);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SpeakerSetup Stereo(this SpeakerSetup obj, IContext context) => Channels(obj, 2, context);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static ChannelEnum Stereo(this ChannelEnum obj) => Channels(obj, 2);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static Channel Stereo(this Channel obj, IContext context) => Channels(obj, 2, context);
     }
 }

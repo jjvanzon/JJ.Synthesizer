@@ -53,6 +53,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="AttributeWishes\ChannelChannelsComboWishes.cs" />
     <Compile Include="AttributeWishes\FrameCountWishes.cs" />
     <Compile Include="AttributeWishes\AudioLengthWishes.cs" />
     <Compile Include="AttributeWishes\CourtesyByteWishes.cs" />
