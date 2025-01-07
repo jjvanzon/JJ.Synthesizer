@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }           
             if (c.channels == 2)
             {
-                Assert_TapeBound_Getters_StereoTape(x);
+                Assert_StereoTape_Getters(x);
             }
         }
         
@@ -392,7 +392,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         public static void Assert_MonoTape_Getters(this TapeEntities x)
         {
-            Assert_TapeBound_Getters_Base(x);
+            Assert_Tape_Getters_Base(x);
             
             AreEqual(1, () => x.Tape.Channels());
             AreEqual(1, () => x.TapeConfig.Channels());
@@ -437,9 +437,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsFalse(() => x.TapeAction.IsRight());
         }
 
-        public static void Assert_TapeBound_Getters_StereoTape(this TapeEntities x)
+        public static void Assert_StereoTape_Getters(this TapeEntities x)
         {
-            Assert_TapeBound_Getters_Base(x);
+            Assert_Tape_Getters_Base(x);
             
             AreEqual(2, () => x.Tape.Channels());
             AreEqual(2, () => x.TapeConfig.Channels());
@@ -486,7 +486,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         public static void Assert_LeftTape_Getters(this TapeEntities x)
         {
-            Assert_TapeBound_Getters_Base(x);
+            Assert_Tape_Getters_Base(x);
             
             AreEqual(2, () => x.Tape.Channels());
             AreEqual(2, () => x.TapeConfig.Channels());
@@ -533,7 +533,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         public static void Assert_RightTape_Getters(this TapeEntities x)
         {
-            Assert_TapeBound_Getters_Base(x);
+            Assert_Tape_Getters_Base(x);
                     
             AreEqual(2, () => x.Tape.Channels());
             AreEqual(2, () => x.TapeConfig.Channels());
@@ -578,7 +578,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsTrue(() => x.TapeAction.IsRight());
         }
 
-        public static void Assert_TapeBound_Getters_Base(this TapeEntities x)
+        public static void Assert_Tape_Getters_Base(this TapeEntities x)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Tape);
