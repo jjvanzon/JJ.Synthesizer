@@ -47,7 +47,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => {
                     if (value == 1) AreEqual(x.SynthWishes, () => x.SynthWishes.Mono());
                     if (value == 2) AreEqual(x.SynthWishes, () => x.SynthWishes.Stereo()); });
-                
 
                 AssertProp(x => {
                     if (value == 1) AreEqual(x.SynthWishes, () => x.SynthWishes.WithMono());
@@ -274,13 +273,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var wavHeaders = new List<WavHeaderStruct>();
             {
                 AssertProp(() => x.WavHeader.Channels(value));
-                
-                AssertProp(() => 
-                {
-                    if (value == 1) return x.WavHeader.Mono();
-                    if (value == 2) return x.WavHeader.Stereo();
-                    return default; // ncrunch: no coverage
-                });
+                AssertProp(() => value == 1 ? x.WavHeader.Mono() : x.WavHeader.Stereo());
                 
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
@@ -298,13 +291,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var speakerSetupEnums = new List<SpeakerSetupEnum>();
             {
                 AssertProp(() => x.SpeakerSetupEnum.Channels(value));
-                
-                AssertProp(() => 
-                {
-                    if (value == 1) return x.SpeakerSetupEnum.Mono();
-                    if (value == 2) return x.SpeakerSetupEnum.Stereo();
-                    return default; // ncrunch: no coverage
-                });
+                AssertProp(() => value.ChannelsToEnum());
+                AssertProp(() => value == 1 ? x.SpeakerSetupEnum.Mono() : x.SpeakerSetupEnum.Stereo());
                 
                 void AssertProp(Func<SpeakerSetupEnum> setter)
                 {
@@ -322,14 +310,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var speakerSetups = new List<SpeakerSetup>();
             {
                 AssertProp(() => x.SpeakerSetup.Channels(value, x.Context));
-                
-                AssertProp(() => 
-                {
-                    if (value == 1) return x.SpeakerSetup.Mono(x.Context);
-                    if (value == 2) return x.SpeakerSetup.Stereo(x.Context);
-                    return default; // ncrunch: no coverage
-                });
-                
+                AssertProp(() => value.ChannelsToEntity(x.Context));
+                AssertProp(() => value == 1 ? x.SpeakerSetup.Mono(x.Context) : x.SpeakerSetup.Stereo(x.Context));
+
                 void AssertProp(Func<SpeakerSetup> setter)
                 {
                     x.SpeakerSetup.Assert_Channels_Getters(init);
@@ -366,32 +349,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(DefaultChannels,      () => configSection.Channels());
             AreEqual(DefaultChannels == 1, () => configSection.IsMono());
             AreEqual(DefaultChannels == 2, () => configSection.IsStereo());
-        }
-                
-        // Channels Conversion-Style
-        
-        [TestMethod] public void Test_Channels_ConversionStyle()
-        {
-            foreach (int channels in new[] { 1, 2 })
-            {
-                var x = new TestEntities(channels: channels);
-                
-                AreEqual(x.SpeakerSetupEnum, () => channels.ChannelsToEnum());
-                AreEqual(x.SpeakerSetup,     () => channels.ChannelsToEntity(x.Context));
-            
-                AreEqual(channels, () => x.SpeakerSetupEnum.EnumToChannels());
-                AreEqual(channels, () => x.SpeakerSetup    .EntityToChannels());
-            }
-        }
-        
-        // Old
- 
-        /// <inheritdoc cref="docs._testattributewishesold"/>
-        [TestMethod]
-        public void ChannelCountToSpeakerSetup_Test()
-        {
-            AreEqual(SpeakerSetupEnum.Mono,   () => 1.ChannelsToEnum());
-            AreEqual(SpeakerSetupEnum.Stereo, () => 2.ChannelsToEnum());
         }
     }
     
@@ -518,6 +475,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public static void Assert_Channels_Getters(this SpeakerSetupEnum speakerSetupEnum, int channels)
         {
             AreEqual(channels,      () => speakerSetupEnum.Channels());
+            AreEqual(channels,      () => speakerSetupEnum.EnumToChannels());
             AreEqual(channels == 1, () => speakerSetupEnum.IsMono());
             AreEqual(channels == 2, () => speakerSetupEnum.IsStereo());
         }
@@ -526,6 +484,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             if (speakerSetup == null) throw new NullException(() => speakerSetup);
             AreEqual(channels,      () => speakerSetup.Channels());
+            AreEqual(channels,      () => speakerSetup.EntityToChannels());
             AreEqual(channels == 1, () => speakerSetup.IsMono());
             AreEqual(channels == 2, () => speakerSetup.IsStereo());
         }
