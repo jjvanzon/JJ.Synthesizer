@@ -33,12 +33,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public TapeConfig         TapeConfig          { get; private set; }
         public TapeActions        TapeActions         { get; private set; }
         public TapeAction         TapeAction          { get; private set; }
-                                                      
-        // Tape-Bound                                 
-        public IList<Tape>        ChannelTapes        { get; } = new List<Tape>();
-        public IList<TapeConfig>  ChannelTapesConfig  { get; } = new List<TapeConfig>();
-        public IList<TapeActions> ChannelTapesActions { get; } = new List<TapeActions>();
-        public IList<TapeAction>  ChannelTapesAction  { get; } = new List<TapeAction>();
+        public IList<Tape>        ChannelTapes        { get; private set; }
+        public IList<TapeConfig>  ChannelTapesConfig  { get; private set; }
+        public IList<TapeActions> ChannelTapesActions { get; private set; }
+        public IList<TapeAction>  ChannelTapesAction  { get; private set; }
         
         // Buff-Bound
         public Buff               Buff                { get; private set; }
@@ -91,10 +89,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         public void Record()
         {
-            ChannelTapes.Clear();
-            ChannelTapesConfig.Clear();
-            ChannelTapesActions.Clear();
-            ChannelTapesAction.Clear();
+            int channelCount = SynthWishes.GetChannels;
+            //if (Tape != null) channelCount = Tape.Config.Channels;
+            
+            ChannelTapes = new Tape[channelCount];
+            ChannelTapesConfig = new TapeConfig[channelCount];
+            ChannelTapesActions = new TapeActions[channelCount];
+            ChannelTapesAction = new TapeAction[channelCount];
             
             // Record
             Tape = null;
@@ -102,10 +103,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                         .AfterRecord(x => Tape = x)
                                         .AfterRecordChannel(x =>
                                         {
-                                            ChannelTapes.Add(x);
-                                            ChannelTapesConfig.Add(x.Config);
-                                            ChannelTapesActions.Add(x.Actions);
-                                            ChannelTapesAction.Add(x.Actions.AfterRecordChannel);
+                                            ChannelTapes       [x.i] = x;
+                                            ChannelTapesConfig [x.i] = x.Config;
+                                            ChannelTapesActions[x.i] = x.Actions;
+                                            ChannelTapesAction [x.i] = x.Actions.AfterRecordChannel;
                                         }));
             IsNotNull(() => Tape);
             
