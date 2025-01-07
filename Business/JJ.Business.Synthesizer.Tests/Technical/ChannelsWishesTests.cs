@@ -37,29 +37,37 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Synth-Bound Changes
             {
                 AssertProp(x => AreEqual(x.SynthWishes,  () => x.SynthWishes.Channels(value)));
-                AssertProp(x => AreEqual(x.SynthWishes,        x.SynthWishes.WithChannels(value)));
                 AssertProp(x => AreEqual(x.FlowNode,     () => x.FlowNode.Channels(value)));
-                AssertProp(x => AreEqual(x.FlowNode,           x.FlowNode.WithChannels(value)));
                 AssertProp(x => AreEqual(x.ConfigWishes, () => x.ConfigWishes.Channels(value)));
+                
+                AssertProp(x => AreEqual(x.SynthWishes,        x.SynthWishes.WithChannels(value)));
+                AssertProp(x => AreEqual(x.FlowNode,           x.FlowNode.WithChannels(value)));
                 AssertProp(x => AreEqual(x.ConfigWishes,       x.ConfigWishes.WithChannels(value)));
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
+                    if (value == 1) AreEqual(x.SynthWishes, () => x.SynthWishes.Mono());
+                    if (value == 2) AreEqual(x.SynthWishes, () => x.SynthWishes.Stereo()); });
+                
+
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.SynthWishes, () => x.SynthWishes.WithMono());
-                    if (value == 2) AreEqual(x.SynthWishes, () => x.SynthWishes.WithStereo());
-                });
+                    if (value == 2) AreEqual(x.SynthWishes, () => x.SynthWishes.WithStereo()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
+                    if (value == 1) AreEqual(x.FlowNode, () => x.FlowNode.Mono());
+                    if (value == 2) AreEqual(x.FlowNode, () => x.FlowNode.Stereo()); });
+                
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.FlowNode, () => x.FlowNode.WithMono());
-                    if (value == 2) AreEqual(x.FlowNode, () => x.FlowNode.WithStereo());
-                });
+                    if (value == 2) AreEqual(x.FlowNode, () => x.FlowNode.WithStereo()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
+                    if (value == 1) AreEqual(x.ConfigWishes, () => x.ConfigWishes.Mono());
+                    if (value == 2) AreEqual(x.ConfigWishes, () => x.ConfigWishes.Stereo()); });
+                
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.ConfigWishes, () => x.ConfigWishes.WithMono());
-                    if (value == 2) AreEqual(x.ConfigWishes, () => x.ConfigWishes.WithStereo());
-                });
+                    if (value == 2) AreEqual(x.ConfigWishes, () => x.ConfigWishes.WithStereo()); });
                 
                 void AssertProp(Action<TestEntities> setter)
                 {
@@ -88,29 +96,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.Channels(value)));
                 AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction.Channels(value)));
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.Tape, () => x.Tape.Mono());
-                    if (value == 2) AreEqual(x.Tape, () => x.Tape.Stereo());
-                });
+                    if (value == 2) AreEqual(x.Tape, () => x.Tape.Stereo()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.TapeConfig, () => x.TapeConfig.Mono());
-                    if (value == 2) AreEqual(x.TapeConfig, () => x.TapeConfig.Stereo());
-                });
+                    if (value == 2) AreEqual(x.TapeConfig, () => x.TapeConfig.Stereo()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.TapeActions, () => x.TapeActions.Mono());
-                    if (value == 2) AreEqual(x.TapeActions, () => x.TapeActions.Stereo());
-                });
+                    if (value == 2) AreEqual(x.TapeActions, () => x.TapeActions.Stereo()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.TapeAction, () => x.TapeAction.Mono());
-                    if (value == 2) AreEqual(x.TapeAction, () => x.TapeAction.Stereo());
-                });
+                    if (value == 2) AreEqual(x.TapeAction, () => x.TapeAction.Stereo()); });
                 
                 void AssertProp(Action<TestEntities> setter)
                 {
@@ -136,17 +136,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => AreEqual(x.Buff,            () => x.Buff.Channels(value, x.Context)));
                 AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Channels(value, x.Context)));
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.Buff, () => x.Buff.Mono(x.Context));
-                    if (value == 2) AreEqual(x.Buff, () => x.Buff.Stereo(x.Context));
-                });
+                    if (value == 2) AreEqual(x.Buff, () => x.Buff.Stereo(x.Context)); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 1) AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Mono(x.Context));
-                    if (value == 2) AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Stereo(x.Context));
-                });
+                    if (value == 2) AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Stereo(x.Context)); });
 
                 void AssertProp(Action<TestEntities> setter)
                 {    
@@ -184,11 +180,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 AssertProp(() => AreEqual(x.Sample, () => x.Sample.Channels(value, x.Context)));
                 
-                AssertProp(() =>
-                {
+                AssertProp(() => {
                     if (value == 1) AreEqual(x.Sample, () => x.Sample.Mono(x.Context));
-                    if (value == 2) AreEqual(x.Sample, () => x.Sample.Stereo(x.Context));
-                });
+                    if (value == 2) AreEqual(x.Sample, () => x.Sample.Stereo(x.Context)); });
                 
                 void AssertProp(Action setter)
                 {
@@ -214,11 +208,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(() => AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.Channels(value)));
                 AssertProp(() =>                                 x.AudioInfoWish.Channels = value);
                 
-                AssertProp(() =>
-                {
+                AssertProp(() => {
                     if (value == 1) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.Mono());
-                    if (value == 2) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.Stereo());
-                });
+                    if (value == 2) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.Stereo()); });
                 
                 void AssertProp(Action setter)
                 {
@@ -243,11 +235,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 AssertProp(() => AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.Channels(value)));
                 
-                AssertProp(() =>
-                {
+                AssertProp(() => {
                     if (value == 1) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.Mono());
-                    if (value == 2) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.Stereo());
-                });
+                    if (value == 2) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.Stereo()); });
                 
                 void AssertProp(Action setter)
                 {

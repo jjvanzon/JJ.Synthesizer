@@ -45,26 +45,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => AreEqual(x.ConfigWishes, () => x.ConfigWishes.Bits(value)));
                 AssertProp(x => AreEqual(x.ConfigWishes,       x.ConfigWishes.WithBits(value)));
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8 ) AreEqual(x.SynthWishes, () => x.SynthWishes.With8Bit());
                     if (value == 16) AreEqual(x.SynthWishes, () => x.SynthWishes.With16Bit());
-                    if (value == 32) AreEqual(x.SynthWishes, () => x.SynthWishes.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.SynthWishes, () => x.SynthWishes.With32Bit()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8 ) AreEqual(x.FlowNode, () => x.FlowNode.With8Bit());
                     if (value == 16) AreEqual(x.FlowNode, () => x.FlowNode.With16Bit());
-                    if (value == 32) AreEqual(x.FlowNode, () => x.FlowNode.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.FlowNode, () => x.FlowNode.With32Bit()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8 ) AreEqual(x.ConfigWishes, () => x.ConfigWishes.With8Bit());
                     if (value == 16) AreEqual(x.ConfigWishes, () => x.ConfigWishes.With16Bit());
-                    if (value == 32) AreEqual(x.ConfigWishes, () => x.ConfigWishes.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.ConfigWishes, () => x.ConfigWishes.With32Bit()); });
                 
                 void AssertProp(Action<TestEntities> setter)
                 {
@@ -93,33 +87,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.Bits(value)));
                 AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction.Bits(value)));
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8) AreEqual(x.Tape, () => x.Tape.With8Bit());
                     if (value == 16) AreEqual(x.Tape, () => x.Tape.With16Bit());
-                    if (value == 32) AreEqual(x.Tape, () => x.Tape.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.Tape, () => x.Tape.With32Bit()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8) AreEqual(x.TapeConfig, () => x.TapeConfig.With8Bit());
                     if (value == 16) AreEqual(x.TapeConfig, () => x.TapeConfig.With16Bit());
-                    if (value == 32) AreEqual(x.TapeConfig, () => x.TapeConfig.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.TapeConfig, () => x.TapeConfig.With32Bit()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8) AreEqual(x.TapeActions, () => x.TapeActions.With8Bit());
                     if (value == 16) AreEqual(x.TapeActions, () => x.TapeActions.With16Bit());
-                    if (value == 32) AreEqual(x.TapeActions, () => x.TapeActions.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.TapeActions, () => x.TapeActions.With32Bit()); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8) AreEqual(x.TapeAction, () => x.TapeAction.With8Bit());
                     if (value == 16) AreEqual(x.TapeAction, () => x.TapeAction.With16Bit());
-                    if (value == 32) AreEqual(x.TapeAction, () => x.TapeAction.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.TapeAction, () => x.TapeAction.With32Bit()); });
                 
                 void AssertProp(Action<TestEntities> setter)
                 {
@@ -145,19 +131,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(x => AreEqual(x.Buff,            () => x.Buff.Bits(value, x.Context)));
                 AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Bits(value, x.Context)));
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8) AreEqual(x.Buff, () => x.Buff.With8Bit(x.Context));
                     if (value == 16) AreEqual(x.Buff, () => x.Buff.With16Bit(x.Context));
-                    if (value == 32) AreEqual(x.Buff, () => x.Buff.With32Bit(x.Context));
-                });
+                    if (value == 32) AreEqual(x.Buff, () => x.Buff.With32Bit(x.Context)); });
                 
-                AssertProp(x =>
-                {
+                AssertProp(x => {
                     if (value == 8) AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With8Bit(x.Context));
                     if (value == 16) AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With16Bit(x.Context));
-                    if (value == 32) AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With32Bit(x.Context));
-                });
+                    if (value == 32) AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.With32Bit(x.Context)); });
 
                 void AssertProp(Action<TestEntities> setter)
                 {    
@@ -196,12 +178,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 AssertProp(() => AreEqual(x.Sample, () => x.Sample.Bits(value, x.Context)));
                 
-                AssertProp(() =>
-                {
+                AssertProp(() => {
                     if (value == 8) AreEqual(x.Sample, () => x.Sample.With8Bit(x.Context));
                     if (value == 16) AreEqual(x.Sample, () => x.Sample.With16Bit(x.Context));
-                    if (value == 32) AreEqual(x.Sample, () => x.Sample.With32Bit(x.Context));
-                });
+                    if (value == 32) AreEqual(x.Sample, () => x.Sample.With32Bit(x.Context)); });
                 
                 void AssertProp(Action setter)
                 {
@@ -227,12 +207,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertProp(() => AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.Bits(value)));
                 AssertProp(() =>                                 x.AudioInfoWish.Bits = value);
                 
-                AssertProp(() =>
-                {
+                AssertProp(() => {
                     if (value ==  8) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With8Bit());
                     if (value == 16) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With16Bit());
-                    if (value == 32) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.AudioInfoWish, () => x.AudioInfoWish.With32Bit()); });
                 
                 void AssertProp(Action setter)
                 {
@@ -257,12 +235,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 AssertProp(() => AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.Bits(value)));
                 
-                AssertProp(() =>
-                {
+                AssertProp(() => {
                     if (value ==  8) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With8Bit());
                     if (value == 16) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With16Bit());
-                    if (value == 32) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With32Bit());
-                });
+                    if (value == 32) AreEqual(x.AudioFileInfo, () => x.AudioFileInfo.With32Bit()); });
                 
                 void AssertProp(Action setter)
                 {
