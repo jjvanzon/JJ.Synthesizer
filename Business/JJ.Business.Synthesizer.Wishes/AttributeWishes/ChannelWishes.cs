@@ -207,14 +207,16 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
-        public static ChannelEnum Channel(this ChannelEnum obj, int? channel) => ChannelToEnum(channel, Channels(obj));
+        public static ChannelEnum Channel(this ChannelEnum obj, int? channel) 
+            => ChannelToEnum(channel, Channels(obj));
         
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
         public static int? Channel(this Channel obj) => obj?.Index;
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
-        public static Channel Channel(this Channel obj, int? channel, IContext context) => ChannelToEntity(channel, Channels(obj), context);
+        public static Channel Channel(this Channel obj, int? channel, IContext context) 
+            => ChannelToEntity(channel, Channels(obj), context);
         
         // Channel, Conversion-Style
         
