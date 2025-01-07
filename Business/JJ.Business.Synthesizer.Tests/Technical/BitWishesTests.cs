@@ -456,6 +456,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(typeof(float), () => With32Bit<short>());
             AreEqual(typeof(float), () => With32Bit<float>());
         }
+        
+        
+        [TestMethod] public void Test_Bits_EdgeCases()
+        {
+            // For code coverage
+            ThrowsException(() => typeof(string).TypeToBits());
+        }
     }
 
     // Helpers
