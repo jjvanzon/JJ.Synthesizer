@@ -18,15 +18,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     {
         [TestMethod] public void Test_Channel_InTandem()
         {
+            Test_Channel_InTandem((1,0), (2,default));
             Test_Channel_InTandem((1,0), (2,0));
             Test_Channel_InTandem((1,0), (2,1));
+            
             Test_Channel_InTandem((2,0), (1,0));
+            Test_Channel_InTandem((2,0), (2,default));
             Test_Channel_InTandem((2,0), (2,1));
+            
             Test_Channel_InTandem((2,1), (1,0));
+            Test_Channel_InTandem((2,1), (2,default));
             Test_Channel_InTandem((2,1), (2,0));
         }
 
-        void Test_Channel_InTandem((int, int) init, (int channels, int channel) c)
+        void Test_Channel_InTandem((int, int?) init, (int channels, int? channel) c)
         {
             // Check Before Change
             { 
@@ -81,10 +86,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     x.Assert_TapeBound_Getters(init);
                     x.Assert_BuffBound_Getters(init);
                     x.Assert_Immutable_Getters(init);
+                    x.Assert_ChannelTape_Getters(init);
                     
                     x.Record();
                     
                     x.Assert_All_Getters(c);
+                    //x.Assert_SynthBound_Getters(c);
+                    //x.Assert_TapeBound_Getters(c);
+                    //x.Assert_ChannelTapeBound_Getters(c);
+                    //x.Assert_BuffBound_Getters(c);
+                    //x.Assert_Immutable_Getters(c);
                 }
             }
 
@@ -143,6 +154,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     x.Assert_TapeBound_Getters(c);
                     x.Assert_BuffBound_Getters(init);
                     x.Assert_Immutable_Getters(init);
+                    x.Assert_ChannelTape_Getters(init);
                     
                     x.Record();
                     
@@ -184,6 +196,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     x.Assert_TapeBound_Getters(init);
                     x.Assert_BuffBound_Getters(c);
                     x.Assert_Immutable_Getters(init);
+                    x.Assert_ChannelTape_Getters(init);
                     
                     x.Record();
                     x.Assert_All_Getters(init);
@@ -279,23 +292,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Helpers
 
-        private TestEntities CreateTestEntities((int channels, int channel) c)
+        private TestEntities CreateTestEntities((int channels, int? channel) c)
             => new TestEntities(x => x.WithChannels(c.channels)
                                       .WithChannel (c.channel));
     }
 
     internal static class ChannelWishesTestExtensions
     {
-        public static void Assert_All_Getters(this TestEntities x, (int, int) values)
+        public static void Assert_All_Getters(this TestEntities x, (int, int?) values)
         {
             x.Assert_SynthBound_Getters(values);
             x.Assert_TapeBound_Getters(values);
-            x.Assert_ChannelTapeBound_Getters(values);
+            x.Assert_ChannelTape_Getters(values);
             x.Assert_BuffBound_Getters(values);
             x.Assert_Immutable_Getters(values);
         }
 
-        public static void Assert_SynthBound_Getters(this TestEntities x, (int channels, int channel) c)
+        public static void Assert_SynthBound_Getters(this TestEntities x, (int channels, int? channel) c)
         {
             AreEqual(c.channel, () => x.SynthWishes.Channel());
             AreEqual(c.channel, () => x.SynthWishes.GetChannel);
@@ -346,107 +359,235 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(c.channels == 2, () => x.ConfigWishes.IsStereo());
             AreEqual(c.channels == 2, () => x.ConfigWishes.IsStereo);
         }
-
-        public static void Assert_ChannelTapeBound_Getters(this TestEntities x, (int channels, int channel) c)
+        
+        public static void Assert_TapeBound_Getters(this TestEntities x, (int channels, int? channel) c)
         {
+            if (c.channels == 1)
+            {
+                Assert_MonoTape_Getters(x);
+            }           
+            if (c.channels == 2)
+            {
+                Assert_TapeBound_Getters_StereoTape(x);
+            }
+        }
+        
+        public static void Assert_ChannelTape_Getters(this TestEntities x, (int channels, int? channel) c)
+        {
+            IsNotNull(() => x.ChannelEntities);
             AreEqual(c.channels, () => x.ChannelEntities.Count);
             IsFalse(() => x.ChannelEntities.Contains(null));
             
             if (c.channels == 1)
             {
-                // Both Tape and Channel tape are same, and have the same channel.
-                AreSame(x.Tape, () => x.ChannelEntities[0].Tape);
+                AreSame(x.Tape, () => x.ChannelEntities[0].Tape); 
+                Assert_MonoTape_Getters(x.ChannelEntities[0]);
             }
             if (c.channels == 2)
             {
-                AreEqual(0, () => x.ChannelEntities[0].Tape       .Channel());
-                AreEqual(0, () => x.ChannelEntities[0].TapeConfig .Channel());
-                AreEqual(0, () => x.ChannelEntities[0].TapeConfig .Channel);
-                AreEqual(0, () => x.ChannelEntities[0].TapeActions.Channel());
-                AreEqual(0, () => x.ChannelEntities[0].TapeAction .Channel());
-             
-                AreEqual(1, () => x.ChannelEntities[1].Tape       .Channel());
-                AreEqual(1, () => x.ChannelEntities[1].TapeConfig .Channel());
-                AreEqual(1, () => x.ChannelEntities[1].TapeConfig .Channel);
-                AreEqual(1, () => x.ChannelEntities[1].TapeActions.Channel());
-                AreEqual(1, () => x.ChannelEntities[1].TapeAction .Channel());
-
-                IsTrue(() => x.ChannelEntities[0].Tape       .IsLeft());
-                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsLeft());
-                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsLeft);
-                IsTrue(() => x.ChannelEntities[0].TapeActions.IsLeft());
-                IsTrue(() => x.ChannelEntities[0].TapeAction .IsLeft());
-                
-                IsTrue(() => x.ChannelEntities[1].Tape       .IsRight());
-                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsRight());
-                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsRight);
-                IsTrue(() => x.ChannelEntities[1].TapeActions.IsRight());
-                IsTrue(() => x.ChannelEntities[1].TapeAction .IsRight());
-                
-                IsTrue(() => x.ChannelEntities[0].Tape       .IsStereo());
-                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsStereo());
-                IsTrue(() => x.ChannelEntities[0].TapeConfig .IsStereo);
-                IsTrue(() => x.ChannelEntities[0].TapeActions.IsStereo());
-                IsTrue(() => x.ChannelEntities[0].TapeAction .IsStereo());
-                
-                IsTrue(() => x.ChannelEntities[1].Tape       .IsStereo());
-                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsStereo());
-                IsTrue(() => x.ChannelEntities[1].TapeConfig .IsStereo);
-                IsTrue(() => x.ChannelEntities[1].TapeActions.IsStereo());
-                IsTrue(() => x.ChannelEntities[1].TapeAction .IsStereo());
+                Assert_LeftTape_Getters(x.ChannelEntities[0]);
+                Assert_RightTape_Getters(x.ChannelEntities[1]);
             }
         }
-        
-        public static void Assert_TapeBound_Getters(this TestEntities x, (int channels, int channel) c)
+
+        public static void Assert_MonoTape_Getters(this TapeEntities x)
         {
-            AreEqual(c.channels, () => x.Tape.Channels());
-            AreEqual(c.channels, () => x.TapeConfig.Channels());
-            AreEqual(c.channels, () => x.TapeConfig.Channels);
-            AreEqual(c.channels, () => x.TapeActions.Channels());
-            AreEqual(c.channels, () => x.TapeAction.Channels());
+            Assert_TapeBound_Getters_Base(x);
             
-            if (c.channels == 1)
-            {
-                // Both Tape and Channel tape are same, and have the same channel.
-                AreSame(x.Tape, () => x.ChannelEntities[0].Tape);
+            AreEqual(1, () => x.Tape.Channels());
+            AreEqual(1, () => x.TapeConfig.Channels());
+            AreEqual(1, () => x.TapeConfig.Channels);
+            AreEqual(1, () => x.TapeActions.Channels());
+            AreEqual(1, () => x.TapeAction.Channels());
+                                        
+            IsTrue(() => x.Tape.IsMono());
+            IsTrue(() => x.TapeConfig.IsMono());
+            IsTrue(() => x.TapeConfig.IsMono);
+            IsTrue(() => x.TapeActions.IsMono());
+            IsTrue(() => x.TapeAction.IsMono());
+                    
+            IsFalse(() => x.Tape.IsStereo());
+            IsFalse(() => x.TapeConfig.IsStereo());
+            IsFalse(() => x.TapeConfig.IsStereo);
+            IsFalse(() => x.TapeActions.IsStereo());
+            IsFalse(() => x.TapeAction.IsStereo());
 
-                AreEqual(0, () => x.Tape.Channel());
-                AreEqual(0, () => x.TapeConfig.Channel());
-                AreEqual(0, () => x.TapeConfig.Channel);
-                AreEqual(0, () => x.TapeActions.Channel());
-                AreEqual(0, () => x.TapeAction.Channel());
-            
-                IsTrue(() => x.Tape.IsCenter());
-                IsTrue(() => x.TapeConfig.IsCenter());
-                IsTrue(() => x.TapeConfig.IsCenter);
-                IsTrue(() => x.TapeActions.IsCenter());
-                IsTrue(() => x.TapeAction.IsCenter());
-
-                IsTrue(() => x.Tape.IsMono());
-                IsTrue(() => x.TapeConfig.IsMono());
-                IsTrue(() => x.TapeConfig.IsMono);
-                IsTrue(() => x.TapeActions.IsMono());
-                IsTrue(() => x.TapeAction.IsMono());
-            }           
-            if (c.channels == 2)
-            {
-                // Tape has Channel = null and there are 2 ChannelTapes with Channel = 0 and Channel = 1 respectively.
-
-                IsNull(() => x.Tape       .Channel());
-                IsNull(() => x.TapeConfig .Channel());
-                IsNull(() => x.TapeConfig .Channel);
-                IsNull(() => x.TapeActions.Channel());
-                IsNull(() => x.TapeAction .Channel());
-            
-                IsTrue(() => x.Tape       .IsStereo());
-                IsTrue(() => x.TapeConfig .IsStereo());
-                IsTrue(() => x.TapeConfig .IsStereo);
-                IsTrue(() => x.TapeActions.IsStereo());
-                IsTrue(() => x.TapeAction .IsStereo());
-            }
+            AreEqual(0, () => x.Tape.Channel());
+            AreEqual(0, () => x.TapeConfig.Channel());
+            AreEqual(0, () => x.TapeConfig.Channel);
+            AreEqual(0, () => x.TapeActions.Channel());
+            AreEqual(0, () => x.TapeAction.Channel());
+                                                                    
+            IsTrue(() => x.Tape.IsCenter());
+            IsTrue(() => x.TapeConfig.IsCenter());
+            IsTrue(() => x.TapeConfig.IsCenter);
+            IsTrue(() => x.TapeActions.IsCenter());
+            IsTrue(() => x.TapeAction.IsCenter());
+                                                                    
+            IsFalse(() => x.Tape.IsLeft());
+            IsFalse(() => x.TapeConfig.IsLeft());
+            IsFalse(() => x.TapeConfig.IsLeft);
+            IsFalse(() => x.TapeActions.IsLeft());
+            IsFalse(() => x.TapeAction.IsLeft());
+                                                                    
+            IsFalse(() => x.Tape.IsRight());
+            IsFalse(() => x.TapeConfig.IsRight());
+            IsFalse(() => x.TapeConfig.IsRight);
+            IsFalse(() => x.TapeActions.IsRight());
+            IsFalse(() => x.TapeAction.IsRight());
         }
-        
-        public static void Assert_BuffBound_Getters(this TestEntities x, (int channels, int channel) c)
+
+        public static void Assert_TapeBound_Getters_StereoTape(this TapeEntities x)
+        {
+            Assert_TapeBound_Getters_Base(x);
+            
+            AreEqual(2, () => x.Tape.Channels());
+            AreEqual(2, () => x.TapeConfig.Channels());
+            AreEqual(2, () => x.TapeConfig.Channels);
+            AreEqual(2, () => x.TapeActions.Channels());
+            AreEqual(2, () => x.TapeAction.Channels());
+                                                    
+            IsFalse(() => x.Tape.IsMono());
+            IsFalse(() => x.TapeConfig.IsMono());
+            IsFalse(() => x.TapeConfig.IsMono);
+            IsFalse(() => x.TapeActions.IsMono());
+            IsFalse(() => x.TapeAction.IsMono());
+            
+            IsTrue(() => x.Tape.IsStereo());
+            IsTrue(() => x.TapeConfig.IsStereo());
+            IsTrue(() => x.TapeConfig.IsStereo);
+            IsTrue(() => x.TapeActions.IsStereo());
+            IsTrue(() => x.TapeAction.IsStereo());
+
+            AreEqual(null, () => x.Tape.Channel());
+            AreEqual(null, () => x.TapeConfig.Channel());
+            AreEqual(null, () => x.TapeConfig.Channel);
+            AreEqual(null, () => x.TapeActions.Channel());
+            AreEqual(null, () => x.TapeAction.Channel());
+
+            IsFalse(() => x.Tape.IsCenter());
+            IsFalse(() => x.TapeConfig.IsCenter());
+            IsFalse(() => x.TapeConfig.IsCenter);
+            IsFalse(() => x.TapeActions.IsCenter());
+            IsFalse(() => x.TapeAction.IsCenter());
+                                                                    
+            IsFalse(() => x.Tape.IsLeft());
+            IsFalse(() => x.TapeConfig.IsLeft());
+            IsFalse(() => x.TapeConfig.IsLeft);
+            IsFalse(() => x.TapeActions.IsLeft());
+            IsFalse(() => x.TapeAction.IsLeft());
+                                                                    
+            IsFalse(() => x.Tape.IsRight());
+            IsFalse(() => x.TapeConfig.IsRight());
+            IsFalse(() => x.TapeConfig.IsRight);
+            IsFalse(() => x.TapeActions.IsRight());
+            IsFalse(() => x.TapeAction.IsRight());
+        }
+
+        public static void Assert_LeftTape_Getters(this TapeEntities x)
+        {
+            Assert_TapeBound_Getters_Base(x);
+            
+            AreEqual(2, () => x.Tape.Channels());
+            AreEqual(2, () => x.TapeConfig.Channels());
+            AreEqual(2, () => x.TapeConfig.Channels);
+            AreEqual(2, () => x.TapeActions.Channels());
+            AreEqual(2, () => x.TapeAction.Channels());
+                                                    
+            IsFalse(() => x.Tape.IsMono());
+            IsFalse(() => x.TapeConfig.IsMono());
+            IsFalse(() => x.TapeConfig.IsMono);
+            IsFalse(() => x.TapeActions.IsMono());
+            IsFalse(() => x.TapeAction.IsMono());
+            
+            IsTrue(() => x.Tape.IsStereo());
+            IsTrue(() => x.TapeConfig.IsStereo());
+            IsTrue(() => x.TapeConfig.IsStereo);
+            IsTrue(() => x.TapeActions.IsStereo());
+            IsTrue(() => x.TapeAction.IsStereo());
+
+            AreEqual(0, () => x.Tape.Channel());
+            AreEqual(0, () => x.TapeConfig.Channel());
+            AreEqual(0, () => x.TapeConfig.Channel);
+            AreEqual(0, () => x.TapeActions.Channel());
+            AreEqual(0, () => x.TapeAction.Channel());
+
+            IsFalse(() => x.Tape.IsCenter());
+            IsFalse(() => x.TapeConfig.IsCenter());
+            IsFalse(() => x.TapeConfig.IsCenter);
+            IsFalse(() => x.TapeActions.IsCenter());
+            IsFalse(() => x.TapeAction.IsCenter());
+                                                                    
+            IsTrue(() => x.Tape.IsLeft());
+            IsTrue(() => x.TapeConfig.IsLeft());
+            IsTrue(() => x.TapeConfig.IsLeft);
+            IsTrue(() => x.TapeActions.IsLeft());
+            IsTrue(() => x.TapeAction.IsLeft());
+                                                                    
+            IsFalse(() => x.Tape.IsRight());
+            IsFalse(() => x.TapeConfig.IsRight());
+            IsFalse(() => x.TapeConfig.IsRight);
+            IsFalse(() => x.TapeActions.IsRight());
+            IsFalse(() => x.TapeAction.IsRight());
+        }
+
+        public static void Assert_RightTape_Getters(this TapeEntities x)
+        {
+            Assert_TapeBound_Getters_Base(x);
+                    
+            AreEqual(2, () => x.Tape.Channels());
+            AreEqual(2, () => x.TapeConfig.Channels());
+            AreEqual(2, () => x.TapeConfig.Channels);
+            AreEqual(2, () => x.TapeActions.Channels());
+            AreEqual(2, () => x.TapeAction.Channels());
+                                                    
+            IsFalse(() => x.Tape.IsMono());
+            IsFalse(() => x.TapeConfig.IsMono());
+            IsFalse(() => x.TapeConfig.IsMono);
+            IsFalse(() => x.TapeActions.IsMono());
+            IsFalse(() => x.TapeAction.IsMono());
+            
+            IsTrue(() => x.Tape.IsStereo());
+            IsTrue(() => x.TapeConfig.IsStereo());
+            IsTrue(() => x.TapeConfig.IsStereo);
+            IsTrue(() => x.TapeActions.IsStereo());
+            IsTrue(() => x.TapeAction.IsStereo());
+
+            AreEqual(1, () => x.Tape.Channel());
+            AreEqual(1, () => x.TapeConfig.Channel());
+            AreEqual(1, () => x.TapeConfig.Channel);
+            AreEqual(1, () => x.TapeActions.Channel());
+            AreEqual(1, () => x.TapeAction.Channel());
+
+            IsFalse(() => x.Tape.IsCenter());
+            IsFalse(() => x.TapeConfig.IsCenter());
+            IsFalse(() => x.TapeConfig.IsCenter);
+            IsFalse(() => x.TapeActions.IsCenter());
+            IsFalse(() => x.TapeAction.IsCenter());
+                                                                    
+            IsFalse(() => x.Tape.IsLeft());
+            IsFalse(() => x.TapeConfig.IsLeft());
+            IsFalse(() => x.TapeConfig.IsLeft);
+            IsFalse(() => x.TapeActions.IsLeft());
+            IsFalse(() => x.TapeAction.IsLeft());
+                                                                    
+            IsTrue(() => x.Tape.IsRight());
+            IsTrue(() => x.TapeConfig.IsRight());
+            IsTrue(() => x.TapeConfig.IsRight);
+            IsTrue(() => x.TapeActions.IsRight());
+            IsTrue(() => x.TapeAction.IsRight());
+        }
+
+        public static void Assert_TapeBound_Getters_Base(this TapeEntities x)
+        {
+            IsNotNull(() => x);
+            IsNotNull(() => x.Tape);
+            IsNotNull(() => x.TapeConfig);
+            IsNotNull(() => x.TapeActions);
+            IsNotNull(() => x.TapeAction);
+        }
+
+        public static void Assert_BuffBound_Getters(this TestEntities x, (int channels, int? channel) c)
         {
             // TODO: Handle Mono/Stereo gracefully.
             
@@ -483,13 +624,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
 
-        public static void Assert_Immutable_Getters(this TestEntities x, (int, int) values)
+        public static void Assert_Immutable_Getters(this TestEntities x, (int, int?) c)
         {
-            x.ChannelEnum.Assert_Getters(values);
-            x.ChannelEntity.Assert_Getters(values);
+            x.ChannelEnum.Assert_Getters(c);
+            x.ChannelEntity.Assert_Getters(c);
         }
         
-        public static void Assert_Getters(this ChannelEnum channelEnum, (int channels, int channel) c)
+        public static void Assert_Getters(this ChannelEnum channelEnum, (int channels, int? channel) c)
         {
             AreEqual(c.channel,  () => channelEnum.Channel());
             AreEqual(c.channel,  () => channelEnum.EnumToChannel());
@@ -503,7 +644,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //AreEqual(c.channels == 2, () => channelEnum.IsStereo());
         }
         
-        public static void Assert_Getters(this Channel channelEntity, (int channels, int channel) c)
+        public static void Assert_Getters(this Channel channelEntity, (int channels, int? channel) c)
         {
             if (channelEntity == null) throw new NullException(() => channelEntity);
             AreEqual(c.channel,  () => channelEntity.Channel());
