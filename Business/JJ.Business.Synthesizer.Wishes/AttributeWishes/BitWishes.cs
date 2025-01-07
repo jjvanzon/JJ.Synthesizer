@@ -198,14 +198,14 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int Bits(this SampleDataTypeEnum obj) => EnumToBits(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SampleDataTypeEnum Bits(this SampleDataTypeEnum obj, int value) => BitsToEnum(value);
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        public static SampleDataTypeEnum Bits(this SampleDataTypeEnum obj, int value) => BitsToEnum(value);
         
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static int Bits(this SampleDataType obj) => EntityToBits(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static SampleDataType Bits(this SampleDataType obj, int value, IContext context) => BitsToEntity(value, context);
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        public static SampleDataType Bits(this SampleDataType obj, int value, IContext context) => BitsToEntity(value, context);
         
         // Bits Conversion-Style
         

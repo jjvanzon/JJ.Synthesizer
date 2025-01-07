@@ -301,6 +301,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var sampleDataTypeEnums = new List<SampleDataTypeEnum>();
             {
                 AssertProp(() => x.SampleDataTypeEnum.Bits(value));
+                AssertProp(() => value.BitsToEnum());
                 
                 AssertProp(() => 
                 {
@@ -326,6 +327,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var sampleDataTypes = new List<SampleDataType>();
             {
                 AssertProp(() => x.SampleDataType.Bits(value, x.Context));
+                AssertProp(() => value.BitsToEntity(x.Context));
                 
                 AssertProp(() => 
                 {
@@ -351,6 +353,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var types = new List<Type>();
             {
                 AssertProp(() => x.Type.Bits(value));
+                AssertProp(() => value.BitsToType());
                 
                 AssertProp(() => 
                 {
@@ -398,29 +401,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(DefaultBits == 8,  () => configSection.Is8Bit());
             AreEqual(DefaultBits == 16, () => configSection.Is16Bit());
             AreEqual(DefaultBits == 32, () => configSection.Is32Bit());
-        }
-                
-        // Bits Conversion-Style
-        
-        [TestMethod] public void Test_Bits_ConversionStyle()
-        {
-            foreach (int bits in new[] { 8, 16, 32 })
-            {
-                var x = new TestEntities(bits);
-                
-                // Getters
-                AreEqual(x.SampleDataTypeEnum, () => bits.BitsToEnum());
-                AreEqual(x.SampleDataType,     () => bits.BitsToEntity(x.Context));
-                AreEqual(x.Type,               () => bits.BitsToType());
-            
-                // Setters
-                AreEqual(bits, () => x.SampleDataTypeEnum.EnumToBits());
-                AreEqual(bits, () => x.SampleDataType    .EntityToBits());
-                AreEqual(bits, () => x.Type              .TypeToBits());
-            }
-            
-            // For test coverage
-            ThrowsException(() => default(Type).TypeToBits());
         }
 
         // Bits With Type Arguments
@@ -621,6 +601,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public static void Assert_Bit_Getters(this SampleDataTypeEnum sampleDataTypeEnum, int bits)
         {
             AreEqual(bits,       () => sampleDataTypeEnum.Bits());
+            AreEqual(bits,       () => sampleDataTypeEnum.EnumToBits());
             AreEqual(bits == 8,  () => sampleDataTypeEnum.Is8Bit());
             AreEqual(bits == 16, () => sampleDataTypeEnum.Is16Bit());
             AreEqual(bits == 32, () => sampleDataTypeEnum.Is32Bit());
@@ -630,6 +611,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             if (sampleDataType == null) throw new NullException(() => sampleDataType);
             AreEqual(bits,       () => sampleDataType.Bits());
+            AreEqual(bits,       () => sampleDataType.EntityToBits());
             AreEqual(bits == 8,  () => sampleDataType.Is8Bit());
             AreEqual(bits == 16, () => sampleDataType.Is16Bit());
             AreEqual(bits == 32, () => sampleDataType.Is32Bit());
@@ -639,6 +621,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             if (type == null) throw new NullException(() => type);
             AreEqual(bits,       () => type.Bits());
+            AreEqual(bits,       () => type.TypeToBits());
             AreEqual(bits == 8,  () => type.Is8Bit());
             AreEqual(bits == 16, () => type.Is16Bit());
             AreEqual(bits == 32, () => type.Is32Bit());
