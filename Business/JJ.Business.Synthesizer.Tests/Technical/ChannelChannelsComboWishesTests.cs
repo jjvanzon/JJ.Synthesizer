@@ -11,6 +11,8 @@ using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -29,8 +31,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var x = CreateTestEntities(channels, channel);
             
-            x.Immutable.ChannelEnum  .Assert_Channels_Getters(channels);
-            x.Immutable.ChannelEntity.Assert_Channels_Getters(channels);
+            Assert_Channels_Getters(x.Immutable.ChannelEnum, channels);
+            Assert_Channels_Getters(x.Immutable.ChannelEntity, channels);
         }
         
         [TestMethod] public void Test_Channels_Channel_Combo_Changes()
@@ -102,5 +104,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private TestEntities CreateTestEntities(int channels, int? channel, IContext context) 
             => new TestEntities(x => x.WithChannels(channels).WithChannel(channel), context);
+
+        private void Assert_Channels_Getters(ChannelEnum channelEnum, int? channels)
+        {
+            AreEqual(channels,            channelEnum.Channels());
+            AreEqual(channels == 1, () => channelEnum.IsMono());
+            AreEqual(channels == 2, () => channelEnum.IsStereo());
+        }
+        
+        private void Assert_Channels_Getters(Channel channel, int? channels)
+        {
+            if (channel == null) throw new NullException(() => channel);
+            AreEqual(channels,            channel.Channels());
+            AreEqual(channels == 1, () => channel.IsMono());
+            AreEqual(channels == 2, () => channel.IsStereo());
+        }
     }
 }
