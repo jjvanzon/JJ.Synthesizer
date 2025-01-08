@@ -207,18 +207,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteMessage)] 
         public static int? Channel(this ChannelEnum obj) => obj.EnumToChannel();
         
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static ChannelEnum Channel(this ChannelEnum obj, int? channel) 
-            => ChannelToEnum(channel, obj.Channels());
-        
         [Obsolete(ObsoleteMessage)]
         public static int? Channel(this Channel obj) => obj?.Index;
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static Channel Channel(this Channel obj, int? channel, IContext context) 
-            => ChannelToEntity(channel, obj.Channels(), context);
         
         // Channel, Conversion-Style
         
@@ -230,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
                 case ChannelEnum.Single: return CenterChannel;
                 case ChannelEnum.Left: return LeftChannel;
                 case ChannelEnum.Right: return RightChannel;
-                case ChannelEnum.Undefined: return null;
+                case ChannelEnum.Undefined: return ChannelEmpty;
                 default: throw new ValueNotSupportedException(obj);
             }
         }
@@ -249,8 +239,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static bool IsCenter (this TapeAction      obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
         public static bool IsCenter (this Buff            obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
         public static bool IsCenter (this AudioFileOutput obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this ChannelEnum obj) => obj.IsMono() && obj.Channel() == CenterChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this Channel     obj) => obj.IsMono() && obj.Channel() == CenterChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this ChannelEnum obj) => obj == ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this Channel     obj) => obj.ToEnum() == ChannelEnum.Single;
         
         public static bool IsLeft   (this SynthWishes     obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsLeft   (this FlowNode        obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
@@ -261,8 +251,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static bool IsLeft   (this TapeAction      obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsLeft   (this Buff            obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsLeft   (this AudioFileOutput obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this ChannelEnum obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this Channel     obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this ChannelEnum obj) => obj == ChannelEnum.Left;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this Channel     obj) => obj.ToEnum() == ChannelEnum.Left;
         
         public static bool IsRight (this SynthWishes     obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         public static bool IsRight (this FlowNode        obj) => obj.IsStereo() && obj.Channel() == RightChannel;
@@ -273,8 +263,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static bool IsRight (this TapeAction      obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         public static bool IsRight (this Buff            obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         public static bool IsRight (this AudioFileOutput obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(this ChannelEnum obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(this Channel     obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this ChannelEnum obj) => obj == ChannelEnum.Right;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this Channel     obj) => obj.ToEnum() == ChannelEnum.Right;
         
         public static SynthWishes     Center (this SynthWishes     obj                  ) => obj.Mono(       ).Channel(CenterChannel);
         public static FlowNode        Center (this FlowNode        obj                  ) => obj.Mono(       ).Channel(CenterChannel);
@@ -286,9 +276,11 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static Buff            Center (this Buff            obj, IContext context) => obj.Mono(context).Channel(CenterChannel);
         public static AudioFileOutput Center (this AudioFileOutput obj, IContext context) => obj.Mono(context).Channel(CenterChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Center(this ChannelEnum obj) => obj.Mono().Channel(CenterChannel);
+        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        public static ChannelEnum Center(this ChannelEnum obj) => ChannelEnum.Single;
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Center(this Channel obj, IContext context) => obj.Mono(context).Channel(CenterChannel, context);
+        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        public static Channel Center(this Channel obj, IContext context) => ChannelEnum.Single.ToEntity(context);
         
         public static SynthWishes     Left (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static FlowNode        Left (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
@@ -300,9 +292,11 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static Buff            Left (this Buff            obj, IContext context) => obj.Stereo(context).Channel(LeftChannel);
         public static AudioFileOutput Left (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(LeftChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum obj) => obj.Channel(LeftChannel).Stereo();
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum obj) => ChannelEnum.Left;
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Left(this Channel obj, IContext context) => obj.Stereo(context).Channel(LeftChannel, context);
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static Channel Left(this Channel obj, IContext context) => ChannelEnum.Left.ToEntity(context);
         
         public static SynthWishes     Right (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static FlowNode        Right (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(RightChannel);
@@ -314,9 +308,11 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static Buff            Right (this Buff            obj, IContext context) => obj.Stereo(context).Channel(RightChannel);
         public static AudioFileOutput Right (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(RightChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum obj) => obj.Channel(RightChannel).Stereo();
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum obj) => ChannelEnum.Right;
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Right(this Channel obj, IContext context) => obj.Stereo(context).Channel(RightChannel, context);
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static Channel Right(this Channel obj, IContext context) => ChannelEnum.Right.ToEntity(context);
         
         public static SynthWishes     NoChannel (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static FlowNode        NoChannel (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
@@ -328,8 +324,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static Buff            NoChannel (this Buff            obj, IContext context) => obj.Stereo(context).Channel(EveryChannel);
         public static AudioFileOutput NoChannel (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(EveryChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum obj) => obj.Channel(ConfigWishes.NoChannel).Stereo();
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum obj) => ChannelEnum.Undefined;
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel NoChannel(this Channel obj, IContext context) => obj.Stereo(context).Channel(ConfigWishes.NoChannel, context);
+        // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)] public static Channel NoChannel(this Channel obj) => null;
     }
 }

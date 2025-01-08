@@ -254,8 +254,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsMono  (this WavHeaderStruct obj) => obj.Channels() == MonoChannels;
         public   static bool IsMono  (this AudioInfoWish   obj) => obj.Channels() == MonoChannels;
         public   static bool IsMono  (this AudioFileInfo   obj) => obj.Channels() == MonoChannels;
-        [Obsolete(ObsoleteMessage)] public static bool IsMono(this SpeakerSetupEnum obj) => obj.Channels() == MonoChannels;
-        [Obsolete(ObsoleteMessage)] public static bool IsMono(this SpeakerSetup     obj) => obj.Channels() == MonoChannels;
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Mono;
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this SpeakerSetup     obj) => obj.ToEnum().IsMono();
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this ChannelEnum      obj) => obj == ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this Channel          obj) => obj.ToEnum().IsMono();
         
         public   static bool IsStereo(this SynthWishes     obj) => obj.Channels() == StereoChannels;
         public   static bool IsStereo(this FlowNode        obj) => obj.Channels() == StereoChannels;
@@ -271,8 +273,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsStereo(this WavHeaderStruct obj) => obj.Channels() == StereoChannels;
         public   static bool IsStereo(this AudioInfoWish   obj) => obj.Channels() == StereoChannels;
         public   static bool IsStereo(this AudioFileInfo   obj) => obj.Channels() == StereoChannels;
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetupEnum obj) => obj.Channels() == StereoChannels;
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetup     obj) => obj.Channels() == StereoChannels;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Stereo;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetup     obj) => obj.ToEnum().IsStereo();
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => obj == ChannelEnum.Left || obj == ChannelEnum.Right;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel          obj) => obj.ToEnum().IsStereo();
         
         public   static SynthWishes      Mono  (this SynthWishes     obj) => obj.Channels(MonoChannels);
         public   static FlowNode         Mono  (this FlowNode        obj) => obj.Channels(MonoChannels);

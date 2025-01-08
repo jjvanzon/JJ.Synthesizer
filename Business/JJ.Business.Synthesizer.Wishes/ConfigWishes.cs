@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public const int CenterChannel = 0;
         public const int LeftChannel = 0;
         public const int RightChannel = 1;
-        public static readonly int? NoChannel = null;
+        public static readonly int? ChannelEmpty = null;
         public static readonly int? EveryChannel = null;
 
         private int? _channel;
@@ -899,7 +899,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int LeftChannel => ConfigWishes.LeftChannel;
         public int RightChannel => ConfigWishes.RightChannel;
         public int? EveryChannel => ConfigWishes.EveryChannel;
-        public int? NoChannel => ConfigWishes.NoChannel;
+        public int? ChannelEmpty => ConfigWishes.ChannelEmpty;
         public int? GetChannel => Config.GetChannel;
         public SynthWishes WithChannel(int? channel) { Config.WithChannel(channel); return this; }
         public bool IsLeft => Config.IsLeft;
@@ -1092,7 +1092,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int LeftChannel => ConfigWishes.LeftChannel;
         public int RightChannel => ConfigWishes.RightChannel;
         public int? EveryChannel => ConfigWishes.EveryChannel;
-        public int? NoChannel => ConfigWishes.NoChannel;
+        public int? ChannelEmpty => ConfigWishes.ChannelEmpty;
         public int? GetChannel => _synthWishes.GetChannel;
         public FlowNode WithChannel(int? channel) { _synthWishes.WithChannel(channel); return this; }
         public bool IsLeft => _synthWishes.IsLeft;
