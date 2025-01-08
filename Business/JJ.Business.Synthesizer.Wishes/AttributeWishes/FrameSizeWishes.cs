@@ -2,9 +2,9 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -13,27 +13,27 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Derived Attribute
         
-        public static int FrameSize(this SynthWishes obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this FlowNode obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this ConfigWishes obj) => SizeOfBitDepth(obj) * Channels(obj);
-        internal static int FrameSize(this ConfigSection obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this Tape obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this TapeConfig obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this TapeAction obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this TapeActions obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this Buff obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this Sample obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this AudioFileOutput obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this WavHeaderStruct obj) => SizeOfBitDepth(obj) * Channels(obj);
-        public static int FrameSize(this AudioInfoWish infoWish) => SizeOfBitDepth(infoWish) * Channels(infoWish);
-        public static int FrameSize(this AudioFileInfo info) => SizeOfBitDepth(info) * Channels(info);
+        public static int FrameSize(this SynthWishes obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this FlowNode obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this ConfigWishes obj) => obj.SizeOfBitDepth() * obj.Channels();
+        internal static int FrameSize(this ConfigSection obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this Tape obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this TapeConfig obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this TapeAction obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this TapeActions obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this Buff obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this Sample obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this AudioFileOutput obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this WavHeaderStruct obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public static int FrameSize(this AudioInfoWish infoWish) => infoWish.SizeOfBitDepth() * infoWish.Channels();
+        public static int FrameSize(this AudioFileInfo info) => info.SizeOfBitDepth() * info.Channels();
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
+        [Obsolete(ObsoleteMessage)]
         public static int FrameSize(this (SampleDataType sampleDataType, SpeakerSetup speakerSetup) entities)
-            => SizeOfBitDepth(entities.sampleDataType) * Channels(entities.speakerSetup);
+            => entities.sampleDataType.SizeOfBitDepth() * entities.speakerSetup.Channels();
         
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)]
+        [Obsolete(ObsoleteMessage)]
         public static int FrameSize(this (SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
-            => SizeOfBitDepth(enums.sampleDataTypeEnum) * Channels(enums.speakerSetupEnum);
+            => enums.sampleDataTypeEnum.SizeOfBitDepth() * enums.speakerSetupEnum.Channels();
     }
 }

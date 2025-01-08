@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             }
             
             // Otherwise, let this method throw error upon null UnderlyingAudioFileOutput.
-            Channel(obj.UnderlyingAudioFileOutput, value);
+            obj.UnderlyingAudioFileOutput.Channel(value);
             
             return obj;
         }
@@ -205,12 +205,12 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         }
         
         [Obsolete(ObsoleteMessage)] 
-        public static int? Channel(this ChannelEnum obj) => EnumToChannel(obj);
+        public static int? Channel(this ChannelEnum obj) => obj.EnumToChannel();
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static ChannelEnum Channel(this ChannelEnum obj, int? channel) 
-            => ChannelToEnum(channel, Channels(obj));
+            => ChannelToEnum(channel, obj.Channels());
         
         [Obsolete(ObsoleteMessage)]
         public static int? Channel(this Channel obj) => obj?.Index;
@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static Channel Channel(this Channel obj, int? channel, IContext context) 
-            => ChannelToEntity(channel, Channels(obj), context);
+            => ChannelToEntity(channel, obj.Channels(), context);
         
         // Channel, Conversion-Style
         
@@ -236,90 +236,100 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         }
         
         [Obsolete(ObsoleteMessage)] 
-        public static int? EntityToChannel(this Channel entity)
-        {
-            if (entity == null) return null;
-            return EnumToChannel(entity.ToEnum());
-        }
+        public static int? EntityToChannel(this Channel entity) => entity.ToEnum().EnumToChannel();
         
         // Channel Shorthand
         
-        public static bool IsCenter (this SynthWishes     obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this FlowNode        obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this ConfigWishes    obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this Tape            obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this TapeConfig      obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this TapeActions     obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this TapeAction      obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this Buff            obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        public static bool IsCenter (this AudioFileOutput obj) => IsMono  (obj) && Channel(obj) == CenterChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this ChannelEnum obj) => IsMono(obj) && Channel(obj) == CenterChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this Channel     obj) => IsMono(obj) && Channel(obj) == CenterChannel;
+        public static bool IsCenter (this SynthWishes     obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this FlowNode        obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this ConfigWishes    obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this Tape            obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this TapeConfig      obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this TapeActions     obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this TapeAction      obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this Buff            obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this AudioFileOutput obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this ChannelEnum obj) => obj.IsMono() && obj.Channel() == CenterChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this Channel     obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         
-        public static bool IsLeft   (this SynthWishes     obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this FlowNode        obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this ConfigWishes    obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this Tape            obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this TapeConfig      obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this TapeActions     obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this TapeAction      obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this Buff            obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        public static bool IsLeft   (this AudioFileOutput obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this ChannelEnum obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this Channel     obj) => IsStereo(obj) && Channel(obj) == LeftChannel;
+        public static bool IsLeft   (this SynthWishes     obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this FlowNode        obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this ConfigWishes    obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this Tape            obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this TapeConfig      obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this TapeActions     obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this TapeAction      obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this Buff            obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this AudioFileOutput obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this ChannelEnum obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this Channel     obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         
-        public static bool IsRight (this SynthWishes     obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this FlowNode        obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this ConfigWishes    obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this Tape            obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this TapeConfig      obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this TapeActions     obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this TapeAction      obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this Buff            obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        public static bool IsRight (this AudioFileOutput obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(this ChannelEnum obj) => IsStereo(obj) && Channel(obj) == RightChannel;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(this Channel     obj) => IsStereo(obj) && Channel(obj) == RightChannel;
+        public static bool IsRight (this SynthWishes     obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this FlowNode        obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this ConfigWishes    obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this Tape            obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this TapeConfig      obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this TapeActions     obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this TapeAction      obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this Buff            obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this AudioFileOutput obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this ChannelEnum obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this Channel     obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         
-        public static SynthWishes     Center (this SynthWishes     obj                  ) => Mono(obj         ).Channel(CenterChannel);
-        public static FlowNode        Center (this FlowNode        obj                  ) => Mono(obj         ).Channel(CenterChannel);
-        public static ConfigWishes    Center (this ConfigWishes    obj                  ) => Mono(obj         ).Channel(CenterChannel);
-        public static Tape            Center (this Tape            obj                  ) => Mono(obj         ).Channel(CenterChannel);
-        public static TapeConfig      Center (this TapeConfig      obj                  ) => Mono(obj         ).Channel(CenterChannel);
-        public static TapeActions     Center (this TapeActions     obj                  ) => Mono(obj         ).Channel(CenterChannel);
-        public static TapeAction      Center (this TapeAction      obj                  ) => Mono(obj         ).Channel(CenterChannel);
-        public static Buff            Center (this Buff            obj, IContext context) => Mono(obj, context).Channel(CenterChannel);
-        public static AudioFileOutput Center (this AudioFileOutput obj, IContext context) => Mono(obj, context).Channel(CenterChannel);
+        public static SynthWishes     Center (this SynthWishes     obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static FlowNode        Center (this FlowNode        obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static ConfigWishes    Center (this ConfigWishes    obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static Tape            Center (this Tape            obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static TapeConfig      Center (this TapeConfig      obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static TapeActions     Center (this TapeActions     obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static TapeAction      Center (this TapeAction      obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static Buff            Center (this Buff            obj, IContext context) => obj.Mono(context).Channel(CenterChannel);
+        public static AudioFileOutput Center (this AudioFileOutput obj, IContext context) => obj.Mono(context).Channel(CenterChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Center(this ChannelEnum obj) => Mono(obj).Channel(CenterChannel);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Center(this ChannelEnum obj) => obj.Mono().Channel(CenterChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Center(this Channel obj, IContext context) => Mono(obj, context).Channel(CenterChannel, context);
+        [Obsolete(ObsoleteMessage)] public static Channel Center(this Channel obj, IContext context) => obj.Mono(context).Channel(CenterChannel, context);
         
-        public static SynthWishes     Left (this SynthWishes     obj                  ) => Stereo(obj         ).Channel(LeftChannel);
-        public static FlowNode        Left (this FlowNode        obj                  ) => Stereo(obj         ).Channel(LeftChannel);
-        public static ConfigWishes    Left (this ConfigWishes    obj                  ) => Stereo(obj         ).Channel(LeftChannel);
-        public static Tape            Left (this Tape            obj                  ) => Stereo(obj         ).Channel(LeftChannel);
-        public static TapeConfig      Left (this TapeConfig      obj                  ) => Stereo(obj         ).Channel(LeftChannel);
-        public static TapeActions     Left (this TapeActions     obj                  ) => Stereo(obj         ).Channel(LeftChannel);
-        public static TapeAction      Left (this TapeAction      obj                  ) => Stereo(obj         ).Channel(LeftChannel);
-        public static Buff            Left (this Buff            obj, IContext context) => Stereo(obj, context).Channel(LeftChannel);
-        public static AudioFileOutput Left (this AudioFileOutput obj, IContext context) => Stereo(obj, context).Channel(LeftChannel);
+        public static SynthWishes     Left (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static FlowNode        Left (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static ConfigWishes    Left (this ConfigWishes    obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static Tape            Left (this Tape            obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static TapeConfig      Left (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static TapeActions     Left (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static TapeAction      Left (this TapeAction      obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static Buff            Left (this Buff            obj, IContext context) => obj.Stereo(context).Channel(LeftChannel);
+        public static AudioFileOutput Left (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(LeftChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum obj) => Stereo(obj).Channel(LeftChannel);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum obj) => obj.Channel(LeftChannel).Stereo();
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Left(this Channel obj, IContext context) => Stereo(obj, context).Channel(LeftChannel, context);
+        [Obsolete(ObsoleteMessage)] public static Channel Left(this Channel obj, IContext context) => obj.Stereo(context).Channel(LeftChannel, context);
         
-        public static SynthWishes     Right (this SynthWishes     obj                  ) => Stereo(obj         ).Channel(RightChannel);
-        public static FlowNode        Right (this FlowNode        obj                  ) => Stereo(obj         ).Channel(RightChannel);
-        public static ConfigWishes    Right (this ConfigWishes    obj                  ) => Stereo(obj         ).Channel(RightChannel);
-        public static Tape            Right (this Tape            obj                  ) => Stereo(obj         ).Channel(RightChannel);
-        public static TapeConfig      Right (this TapeConfig      obj                  ) => Stereo(obj         ).Channel(RightChannel);
-        public static TapeActions     Right (this TapeActions     obj                  ) => Stereo(obj         ).Channel(RightChannel);
-        public static TapeAction      Right (this TapeAction      obj                  ) => Stereo(obj         ).Channel(RightChannel);
-        public static Buff            Right (this Buff            obj, IContext context) => Stereo(obj, context).Channel(RightChannel);
-        public static AudioFileOutput Right (this AudioFileOutput obj, IContext context) => Stereo(obj, context).Channel(RightChannel);
+        public static SynthWishes     Right (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static FlowNode        Right (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static ConfigWishes    Right (this ConfigWishes    obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static Tape            Right (this Tape            obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static TapeConfig      Right (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static TapeActions     Right (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static TapeAction      Right (this TapeAction      obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static Buff            Right (this Buff            obj, IContext context) => obj.Stereo(context).Channel(RightChannel);
+        public static AudioFileOutput Right (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(RightChannel);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum obj) => Stereo(obj).Channel(RightChannel);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum obj) => obj.Channel(RightChannel).Stereo();
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Right(this Channel obj, IContext context) => Stereo(obj, context).Channel(RightChannel, context);
+        [Obsolete(ObsoleteMessage)] public static Channel Right(this Channel obj, IContext context) => obj.Stereo(context).Channel(RightChannel, context);
+        
+        public static SynthWishes     NoChannel (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static FlowNode        NoChannel (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static ConfigWishes    NoChannel (this ConfigWishes    obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static Tape            NoChannel (this Tape            obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static TapeConfig      NoChannel (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static TapeActions     NoChannel (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static TapeAction      NoChannel (this TapeAction      obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static Buff            NoChannel (this Buff            obj, IContext context) => obj.Stereo(context).Channel(EveryChannel);
+        public static AudioFileOutput NoChannel (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(EveryChannel);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum obj) => obj.Channel(ConfigWishes.NoChannel).Stereo();
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel NoChannel(this Channel obj, IContext context) => obj.Stereo(context).Channel(ConfigWishes.NoChannel, context);
     }
 }

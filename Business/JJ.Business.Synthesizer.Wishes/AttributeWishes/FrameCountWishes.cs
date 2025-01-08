@@ -1,9 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -22,77 +22,77 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             => (int)(audioLength * samplingRate);
         
         public static int FrameCount(this SynthWishes obj)
-            => FrameCount(AudioLength(obj), SamplingRate(obj));
+            => FrameCount(obj.AudioLength(), obj.SamplingRate());
         
         public static SynthWishes FrameCount(this SynthWishes obj, int value)
-            => AudioLength(obj, AudioLength(value, SamplingRate(obj)));
+            => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
         public static int FrameCount(this FlowNode obj)
-            => FrameCount(AudioLength(obj), SamplingRate(obj));
+            => FrameCount(obj.AudioLength(), obj.SamplingRate());
         
         public static FlowNode FrameCount(this FlowNode obj, int value)
-            => AudioLength(obj, AudioLength(value, SamplingRate(obj)));
+            => obj.AudioLength(AudioLength(value, SamplingRate(obj)));
         
         public static int FrameCount(this ConfigWishes obj, SynthWishes synthWishes)
-            => FrameCount(AudioLength(obj, synthWishes), SamplingRate(obj));
+            => FrameCount(obj.AudioLength(synthWishes), obj.SamplingRate());
         
         public static ConfigWishes FrameCount(this ConfigWishes obj, int value, SynthWishes synthWishes)
-            => AudioLength(obj, AudioLength(value, SamplingRate(obj)), synthWishes);
+            => obj.AudioLength(AudioLength(value, obj.SamplingRate()), synthWishes);
         
         internal static int FrameCount(this ConfigSection obj)
-            => FrameCount(AudioLength(obj), SamplingRate(obj));
+            => FrameCount(obj.AudioLength(), obj.SamplingRate());
         
         public static int FrameCount(this Tape obj)
         {
             if (obj.IsBuff)
             {
-                return FrameCount(obj.Bytes, obj.FilePathResolved, FrameSize(obj), HeaderLength(obj));
+                return FrameCount(obj.Bytes, obj.FilePathResolved, obj.FrameSize(), obj.HeaderLength());
             }
             else
             {
-                return FrameCount(AudioLength(obj), SamplingRate(obj));
+                return FrameCount(obj.AudioLength(), obj.SamplingRate());
             }
         }
         
         public static Tape FrameCount(this Tape obj, int value)
-            => AudioLength(obj, AudioLength(value, SamplingRate(obj)));
+            => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
         public static int FrameCount(this TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return FrameCount(obj.Tape);
+            return obj.Tape.FrameCount();
         }
         
         public static TapeConfig FrameCount(this TapeConfig obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            FrameCount(obj.Tape, value);
+            obj.Tape.FrameCount(value);
             return obj;
         }
         
         public static int FrameCount(this TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return FrameCount(obj.Tape);
+            return obj.Tape.FrameCount();
         }
         
         public static TapeAction FrameCount(this TapeAction obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            FrameCount(obj.Tape, value);
+            obj.Tape.FrameCount(value);
             return obj;
         }
         
         public static int FrameCount(this TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return FrameCount(obj.Tape);
+            return obj.Tape.FrameCount();
         }
         
         public static TapeActions FrameCount(this TapeActions obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            FrameCount(obj.Tape, value);
+            obj.Tape.FrameCount(value);
             return obj;
         }
         
@@ -100,16 +100,16 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         {
             if (obj == null) throw new NullException(() => obj);
             
-            int frameCount = FrameCount(obj.Bytes, obj.FilePath, FrameSize(obj), HeaderLength(obj));
+            int frameCount = FrameCount(obj.Bytes, obj.FilePath, obj.FrameSize(), obj.HeaderLength());
             
-            if (FilledInWishes.Has(frameCount))
+            if (Has(frameCount))
             {
                 return frameCount;
             }
             
             if (obj.UnderlyingAudioFileOutput != null)
             {
-                return FrameCount(obj.UnderlyingAudioFileOutput);
+                return obj.UnderlyingAudioFileOutput.FrameCount();
             }
             
             return 0;
@@ -118,23 +118,22 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int FrameCount(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return FrameCount(obj.Bytes, obj.Location, FrameSize(obj), HeaderLength(obj));
+            return FrameCount(obj.Bytes, obj.Location, obj.FrameSize(), obj.HeaderLength());
         }
         
         public static int FrameCount(this AudioFileOutput obj)
-            => FrameCount(AudioLength(obj), SamplingRate(obj));
+            => FrameCount(obj.AudioLength(), obj.SamplingRate());
         
         public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value)
-            => AudioLength(obj, AudioLength(value, SamplingRate(obj)));
+            => obj.AudioLength(AudioLength(value, SamplingRate(obj)));
         
         public static int FrameCount(this WavHeaderStruct obj)
             => obj.ToWish().FrameCount();
         
         public static WavHeaderStruct FrameCount(this WavHeaderStruct obj, int value)
         {
-            AudioInfoWish infoWish = obj.ToWish();
-            AudioLength(infoWish, AudioLength(value, infoWish.SamplingRate));
-            return infoWish.ToWavHeader();
+            double audioLength = AudioLength(value, obj.SamplingRate());
+            return obj.AudioLength(audioLength);
         }
         
         public static int FrameCount(this AudioInfoWish infoWish)

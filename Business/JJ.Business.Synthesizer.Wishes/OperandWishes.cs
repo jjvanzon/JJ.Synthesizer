@@ -608,7 +608,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public void RemoveAt(int index) => _inlets[index].LinkTo((Outlet)null);
 
-        public void Clear() => _inlets.ForEach(x => LinkToExtensions.LinkTo((Inlet)x, (Outlet)null));
+        public void Clear() => _inlets.ForEach(x => x.LinkTo((Outlet)null));
 
         public void CopyTo(Outlet[] array, int arrayIndex)
         {

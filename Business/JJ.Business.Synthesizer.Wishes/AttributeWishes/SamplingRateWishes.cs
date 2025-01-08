@@ -108,13 +108,13 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int SamplingRate(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return SamplingRate(obj.UnderlyingAudioFileOutput);
+            return obj.UnderlyingAudioFileOutput.SamplingRate();
         }
         
         public static Buff SamplingRate(this Buff obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            SamplingRate(obj.UnderlyingAudioFileOutput, value);
+            obj.UnderlyingAudioFileOutput.SamplingRate(value);
             return obj;
         }
         

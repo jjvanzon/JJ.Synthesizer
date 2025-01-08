@@ -87,26 +87,26 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int CourtesyFrames(this TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return CourtesyFrames(obj.Tape);
+            return obj.Tape.CourtesyFrames();
         }
         
         public static TapeActions CourtesyFrames(this TapeActions obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            CourtesyFrames(obj.Tape, value);
+            obj.Tape.CourtesyFrames(value);
             return obj;
         }
         
         public static int CourtesyFrames(this TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return CourtesyFrames(obj.Tape);
+            return obj.Tape.CourtesyFrames();
         }
         
         public static TapeAction CourtesyFrames(this TapeAction obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            CourtesyFrames(obj.Tape, value);
+            obj.Tape.CourtesyFrames(value);
             return obj;
         }
     }

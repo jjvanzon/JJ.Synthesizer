@@ -16,69 +16,66 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         // A Derived Attribute
         
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string      FileExtension(this SynthWishes obj) => AudioFormat(obj).FileExtension();
+        public static string      FileExtension(this SynthWishes obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static SynthWishes FileExtension(this SynthWishes obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static SynthWishes FileExtension(this SynthWishes obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string      FileExtension(this FlowNode obj) => AudioFormat(obj).FileExtension();
+        public static string      FileExtension(this FlowNode obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static FlowNode     FileExtension(this FlowNode obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static FlowNode     FileExtension(this FlowNode obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this ConfigWishes obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static ConfigWishes FileExtension(this ConfigWishes obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static ConfigWishes FileExtension(this ConfigWishes obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        internal static string FileExtension(this ConfigSection obj) => AudioFormat(obj).FileExtension();
+        internal static string FileExtension(this ConfigSection obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Tape obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this Tape obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static Tape FileExtension(this Tape obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static Tape FileExtension(this Tape obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this TapeConfig obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static TapeConfig FileExtension(this TapeConfig obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static TapeConfig FileExtension(this TapeConfig obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this TapeActions obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static TapeActions FileExtension(this TapeActions obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static TapeActions FileExtension(this TapeActions obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this TapeAction obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static TapeAction FileExtension(this TapeAction obj, string value) => AudioFormat(obj, AudioFormat(value));
+        public static TapeAction FileExtension(this TapeAction obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Buff obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static Buff FileExtension(this Buff obj, string value, IContext context) => AudioFormat(obj, AudioFormat(value), context);
+        public static Buff FileExtension(this Buff obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Sample obj) => AudioFormat(obj).FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static Sample FileExtension(this Sample obj, string value, IContext context) => AudioFormat(obj, AudioFormat(value), context);
+        public static Sample FileExtension(this Sample obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileOutput obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this AudioFileOutput obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileOutput FileExtension(this AudioFileOutput obj, string value, IContext context) => AudioFormat(obj, AudioFormat(value), context);
+        public static AudioFileOutput FileExtension(this AudioFileOutput obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension([UsedImplicitly] this WavHeaderStruct obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension([UsedImplicitly] this WavHeaderStruct obj) => obj.AudioFormat().FileExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileFormatEnum obj)
-            => AudioFormatToExtension(obj);
+            => obj.AudioFormatToExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
         // ReSharper disable once UnusedParameter.Global
         public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value)
-            => ExtensionToAudioFormat(value);
+            => value.ExtensionToAudioFormat();
         
         /// <inheritdoc cref="docs._fileextension"/>
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static string FileExtension(this AudioFileFormat obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.ToEnum().FileExtension();
-        }
+        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static string FileExtension(this AudioFileFormat obj) 
+            => obj.ToEnum().FileExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
-            => ExtensionToAudioFormat(value).ToEntity(context);
+            => value.ExtensionToAudioFormat().ToEntity(context);
     }
 }
