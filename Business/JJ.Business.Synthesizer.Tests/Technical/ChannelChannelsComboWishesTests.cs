@@ -49,10 +49,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // TODO: Converting 2 things to 1 with a this argument and a normal parameter is very confusing.
             // Use tuples? Move these conversion to separate code file?
-            AreEqual(ChannelEnum.Single,    1 .ChannelsToChannelEnum(NoChannel)); 
+            AreEqual(ChannelEnum.Single,    1 .ChannelsToChannelEnum(ChannelEmpty)); 
             AreEqual(ChannelEnum.Single,    1 .ChannelsToChannelEnum(CenterChannel));
             AreEqual(ChannelEnum.Single,    1 .ChannelsToChannelEnum(RightChannel)); // Tolerate inconsistent state for smooth switch to mono.
-            AreEqual(ChannelEnum.Undefined, 2 .ChannelsToChannelEnum(NoChannel));
+            AreEqual(ChannelEnum.Undefined, 2 .ChannelsToChannelEnum(ChannelEmpty));
             AreEqual(ChannelEnum.Left,      2 .ChannelsToChannelEnum(LeftChannel));
             AreEqual(ChannelEnum.Right,     2 .ChannelsToChannelEnum(RightChannel));
             ThrowsException(() =>         (-1).ChannelsToChannelEnum(CenterChannel));

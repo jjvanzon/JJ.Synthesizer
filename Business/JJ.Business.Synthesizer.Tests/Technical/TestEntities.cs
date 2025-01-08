@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             };
             
             // Initialize
-            SynthBound.SynthWishes.WithSamplingRate(100);
+            SynthBound.SynthWishes.WithSamplingRate(8);
             initialize?.Invoke(SynthBound.SynthWishes);
             
             Record();
