@@ -65,28 +65,28 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         [Obsolete(ObsoleteMessage)]
         public static ChannelEnum ToEnum(this Channel enumEntity)
         {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            if (enumEntity == default) return default;
             return (ChannelEnum)enumEntity.ID;
         }
 
         [Obsolete(ObsoleteMessage)]
         public static NodeTypeEnum ToEnum(this NodeType enumEntity)
         {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            if (enumEntity == default) return default;
             return (NodeTypeEnum)enumEntity.ID;
         }
 
         [Obsolete(ObsoleteMessage)]
         public static SampleDataTypeEnum ToEnum(this SampleDataType enumEntity)
         {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            if (enumEntity == default) return default;
             return (SampleDataTypeEnum)enumEntity.ID;
         }
 
         [Obsolete(ObsoleteMessage)]
         public static SpeakerSetupEnum ToEnum(this SpeakerSetup enumEntity)
         {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
+            if (enumEntity == default) return default;
             return (SpeakerSetupEnum)enumEntity.ID;
         }
     }

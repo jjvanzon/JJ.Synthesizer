@@ -238,7 +238,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public ConfigWishes With8Bit() => WithBits(8);
         
         // Channels
-        
+                
+        public const int NoChannels = 0;
+        public const int MonoChannels = 1;
+        public const int StereoChannels = 2;
+
         private int? _channels;
         public int GetChannels => Has(_channels) ? _channels.Value : AssertChannels(_section.Channels ?? DefaultChannels);
         public ConfigWishes WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
@@ -249,15 +253,20 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Channel
         
+        public const int CenterChannel = 0;
+        public const int LeftChannel = 0;
+        public const int RightChannel = 1;
+        public static readonly int? NoChannel = null;
+
         private int? _channel;
         public int? GetChannel => AssertChannel(_channel ?? DefaultChannel);
         public ConfigWishes WithChannel(int? channel) { _channel = AssertChannel(channel); return this; }
-        public bool         IsCenter  =>   GetChannels == 1 ? GetChannel == 0 : default;
-        public ConfigWishes WithCenter() { WithChannels  (1); WithChannel  (0); return this; }
-        public bool         IsLeft    =>   GetChannels == 2 ? GetChannel == 0 : default;
-        public ConfigWishes WithLeft  () { WithChannels  (2); WithChannel  (0); return this; }
-        public bool         IsRight   =>   GetChannels == 2 ? GetChannel == 1 : default;
-        public ConfigWishes WithRight () { WithChannels  (2); WithChannel  (1); return this; }
+        public bool         IsCenter  =>       IsMono  ? GetChannel == CenterChannel : default;
+        public ConfigWishes WithCenter() {   WithMono(); WithChannel  (CenterChannel); return this; }
+        public bool         IsLeft    =>     IsStereo  ? GetChannel == LeftChannel   : default;
+        public ConfigWishes WithLeft  () { WithStereo(); WithChannel  (LeftChannel)  ; return this; }
+        public bool         IsRight   =>     IsStereo  ? GetChannel == RightChannel  : default;
+        public ConfigWishes WithRight () { WithStereo(); WithChannel  (RightChannel) ; return this; }
 
         // SamplingRate
         
@@ -874,14 +883,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes With16Bit() { Config.With16Bit(); return this; }
         public bool Is8Bit => Config.Is8Bit;
         public SynthWishes With8Bit() { Config.With8Bit(); return this; }
-        
+
+        public int NoChannels => ConfigWishes.NoChannels;
+        public int MonoChannels => ConfigWishes.MonoChannels;
+        public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => Config.GetChannels;
         public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
         public bool IsMono => Config.IsMono;
         public SynthWishes WithMono() { Config.WithMono(); return this; }
         public bool IsStereo => Config.IsStereo;
         public SynthWishes WithStereo() { Config.WithStereo(); return this; }
-        
+
+        public int CenterChannel => ConfigWishes.CenterChannel;
+        public int LeftChannel => ConfigWishes.LeftChannel;
+        public int RightChannel => ConfigWishes.RightChannel;
+        public int? NoChannel => ConfigWishes.NoChannel;
         public int? GetChannel => Config.GetChannel;
         public SynthWishes WithChannel(int? channel) { Config.WithChannel(channel); return this; }
         public bool IsLeft => Config.IsLeft;
@@ -1059,7 +1075,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode With16Bit() { _synthWishes.With16Bit(); return this; }
         public bool Is8Bit => _synthWishes.Is8Bit;
         public FlowNode With8Bit() { _synthWishes.With8Bit(); return this; }
-        
+
+        public int NoChannels => ConfigWishes.NoChannels;
+        public int MonoChannels => ConfigWishes.MonoChannels;
+        public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => _synthWishes.GetChannels;
         public FlowNode WithChannels(int channels) { _synthWishes.WithChannels(channels); return this; }
         public bool IsMono => _synthWishes.IsMono;
@@ -1067,6 +1086,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsStereo => _synthWishes.IsStereo;
         public FlowNode WithStereo() { _synthWishes.WithStereo(); return this; }
 
+        public int CenterChannel => ConfigWishes.CenterChannel;
+        public int LeftChannel => ConfigWishes.LeftChannel;
+        public int RightChannel => ConfigWishes.RightChannel;
+        public int? NoChannel => ConfigWishes.NoChannel;
         public int? GetChannel => _synthWishes.GetChannel;
         public FlowNode WithChannel(int? channel) { _synthWishes.WithChannel(channel); return this; }
         public bool IsLeft => _synthWishes.IsLeft;

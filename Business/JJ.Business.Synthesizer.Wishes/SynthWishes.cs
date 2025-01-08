@@ -54,12 +54,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public static implicit operator FlowNode(SynthWishes synthWishes) => null;
 
         public SynthWishes()
-            : this(ServiceFactory.CreateContext())
+            : this(default)
         { }
         
         public SynthWishes(IContext context)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Context = context ?? ServiceFactory.CreateContext();
 
             _operatorFactory = ServiceFactory.CreateOperatorFactory(context);
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
