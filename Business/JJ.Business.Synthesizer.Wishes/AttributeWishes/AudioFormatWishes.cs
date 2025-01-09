@@ -206,6 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsWav(this FlowNode        obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this ConfigWishes    obj) => obj.AudioFormat() == Wav;
         internal static bool IsWav(this ConfigSection   obj) => obj.AudioFormat() == Wav;
+        public   static bool IsWav(this Tape            obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this TapeConfig      obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this TapeAction      obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this TapeActions     obj) => obj.AudioFormat() == Wav;
@@ -222,6 +223,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsRaw(this FlowNode        obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this ConfigWishes    obj) => obj.AudioFormat() == Raw;
         internal static bool IsRaw(this ConfigSection   obj) => obj.AudioFormat() == Raw;
+        public   static bool IsRaw(this Tape            obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this TapeConfig      obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this TapeAction      obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this TapeActions     obj) => obj.AudioFormat() == Raw;
@@ -247,7 +249,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         public   static string AsWav(this string oldFileExtension) => oldFileExtension.AudioFormat(Wav);
         /// <inheritdoc cref="docs._quasisetter" />
-        public   static AudioFileFormatEnum AsWav(this AudioFileFormatEnum oldAudioFormat) => oldAudioFormat.AudioFormat(Raw);
+        public   static AudioFileFormatEnum AsWav(this AudioFileFormatEnum oldAudioFormat) => oldAudioFormat.AudioFormat(Wav);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public   static AudioFileFormat AsWav(this AudioFileFormat oldEnumEntity, IContext context) => oldEnumEntity.AudioFormat(Wav, context);
