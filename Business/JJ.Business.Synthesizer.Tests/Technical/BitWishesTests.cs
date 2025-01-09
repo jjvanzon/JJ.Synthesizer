@@ -14,6 +14,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -21,14 +22,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class BitWishesTests
     {
-        [TestMethod] public void Test_Bits_InTandem()
-        {
-            Test_Bits_InTandem(32, 8);
-            Test_Bits_InTandem(32, 16);
-            Test_Bits_InTandem(16, 32);
-        }
-        
-        void Test_Bits_InTandem(int init, int value)
+        [TestMethod] [DynamicData(nameof(TestParameters))]
+        public void Test_Bits_InTandem(int init, int value)
         {
             // Check Before Change
             { 
@@ -162,14 +157,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Bits for Independently Changeable
         
-        [TestMethod] public void Test_Bits_IndependentAfterTaping()
-        {
-            Test_Bits_IndependentAfterTaping(init: 32, value: 8);
-            Test_Bits_IndependentAfterTaping(init: 32, value: 16);
-            Test_Bits_IndependentAfterTaping(init: 16, value: 32);
-        }
-        
-        void Test_Bits_IndependentAfterTaping(int init, int value)
+        [TestMethod] [DynamicData(nameof(TestParameters))]
+        public void Test_Bits_IndependentAfterTaping(int init, int value)
         {
             // Independent after Taping
             var x = CreateTestEntities(init);
@@ -261,15 +250,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         // Bits for Immutables
-
-        [TestMethod] public void Test_Bits_Immutable()
-        {
-            Test_Bits_Immutable(init: 32, value: 8);
-            Test_Bits_Immutable(init: 32, value: 16);
-            Test_Bits_Immutable(init: 16, value: 32);
-        }
         
-        void Test_Bits_Immutable(int init, int value)
+        [TestMethod] [DynamicData(nameof(TestParameters))]
+        public void Test_Bits_Immutable(int init, int value)
         {
             var x = CreateTestEntities(init);
 
@@ -467,7 +450,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // Helpers
 
         private TestEntities CreateTestEntities(int bits) => new TestEntities(x => x.Bits(bits));
+        
         private static void Initialize(TestEntities x, int bits) => x.Initialize(s => s.Bits(bits));
+        
+        static object TestParameters => new[]
+        {
+            new object[] { 32, 8 },
+            new object[] { 32, 16 },
+            new object[] { 16, 32 }
+        };
 
         private void Assert_All_Getters(TestEntities x, int bits)
         {

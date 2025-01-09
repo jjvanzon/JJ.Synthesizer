@@ -10,6 +10,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -364,24 +365,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private TestEntities CreateTestEntities((int channels, int? channel) c)
             => new TestEntities(x => x.WithChannels(c.channels)
                                       .WithChannel (c.channel));
-                        
-        public static IEnumerable<object[]> TestParameters => new List<object[]>
+        
+        static object TestParameters => new[]
         {
-            new object[] { 1,0,    2,0     },
-            new object[] { 1,0,    2,1     },
-            new object[] { 1,0,    2,null  },
+            new object[] { 1,0,    2,0    },
+            new object[] { 1,0,    2,1    },
+            new object[] { 1,0,    2,null },
             
-            new object[] { 2,0,    1,0     },
-            new object[] { 2,0,    2,1     },
-            new object[] { 2,0,    2,null  },
+            new object[] { 2,0,    1,0    },
+            new object[] { 2,0,    2,1    },
+            new object[] { 2,0,    2,null },
             
-            new object[] { 2,1,    1,0     },
-            new object[] { 2,1,    2,0     },
-            new object[] { 2,1,    2,null  },
+            new object[] { 2,1,    1,0    },
+            new object[] { 2,1,    2,0    },
+            new object[] { 2,1,    2,null },
             
-            new object[] { 2,null, 1,0     },
-            new object[] { 2,null, 2,0     },
-            new object[] { 2,null, 2,1     }
+            new object[] { 2,null, 1,0    },
+            new object[] { 2,null, 2,0    },
+            new object[] { 2,null, 2,1    }
         };
 
         private void Assert_All_Getters(TestEntities x, (int, int?) values)

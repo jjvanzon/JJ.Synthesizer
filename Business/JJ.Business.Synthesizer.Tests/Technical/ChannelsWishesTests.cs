@@ -13,6 +13,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0611 // Type or member is obsolete
+#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -20,13 +21,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class ChannelsWishesTests
     {
-        [TestMethod] public void Test_Channels_InTandem()
-        {
-            Test_Channels_InTandem(1, 2);
-            Test_Channels_InTandem(2, 1);
-        }
-        
-        void Test_Channels_InTandem(int init, int value)
+        [TestMethod] [DynamicData(nameof(TestParameters))]
+        public void Test_Channels_InTandem(int init, int value)
         {
             // Check Before Change
             { 
@@ -164,13 +160,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Channels for Independently Changeable
         
-        [TestMethod] public void Test_Channels_IndependentAfterTaping()
-        {
-            Test_Channels_IndependentAfterTaping(init: 1, value: 2);
-            Test_Channels_IndependentAfterTaping(init: 2, value: 1);
-        }
-        
-        void Test_Channels_IndependentAfterTaping(int init, int value)
+        [TestMethod] [DynamicData(nameof(TestParameters))]
+        public void Test_Channels_IndependentAfterTaping(int init, int value)
         {
             // Independent after Taping
             var x = CreateTestEntities(init);
@@ -259,14 +250,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         // Channels for Immutables
-
-        [TestMethod] public void Test_Channels_Immutable()
-        {
-            Test_Channels_Immutable(init: 1, value: 2);
-            Test_Channels_Immutable(init: 2, value: 1);
-        }
         
-        void Test_Channels_Immutable(int init, int value)
+        [TestMethod] [DynamicData(nameof(TestParameters))]
+        public void Test_Channels_Immutable(int init, int value)
         {
             var x = CreateTestEntities(init);
 
@@ -356,6 +342,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private TestEntities CreateTestEntities(int channels) => new TestEntities(x => x.WithChannels(channels));
         
         private void Initialize(TestEntities x, int channels) => x.Initialize(s => s.WithChannels(channels));
+
+        static object TestParameters => new[]
+        {
+            new object[] { 1, 2 },
+            new object[] { 2, 1 }
+        };
 
         private void Assert_All_Channels_Getters(TestEntities x, int channels)
         {
