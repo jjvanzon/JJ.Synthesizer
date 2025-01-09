@@ -229,7 +229,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             audioFileOutput.SamplingRate = synthWishes.GetSamplingRate;
             
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(channelSignals.Count, synthWishes.Context);
-            synthWishes.CreateOrRemoveChannels(audioFileOutput, channelSignals.Count);
+            CreateOrRemoveChannels(audioFileOutput, channelSignals.Count, synthWishes.Context);
 
             switch (channelSignals.Count)
             {

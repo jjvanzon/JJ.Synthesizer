@@ -11,6 +11,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -150,7 +151,9 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static AudioFileOutput Channels(this AudioFileOutput obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.SpeakerSetup = SynthWishes.GetSubstituteSpeakerSetup(value, context);
+            obj.SpeakerSetup = GetSubstituteSpeakerSetup(value, context);
+            // Do not adjust channels, to accommodate Left-Only and Right-Only scenarios with 1 channel, but Stereo speaker setup.
+            //CreateOrRemoveChannels(obj, value, context); 
             return obj;
         }
         

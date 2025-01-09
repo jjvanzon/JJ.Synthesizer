@@ -9,6 +9,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -112,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return Channel(obj.UnderlyingAudioFileOutput);
         }
         
-        public static Buff Channel(this Buff obj, int? value)
+        public static Buff Channel(this Buff obj, int? value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             
@@ -123,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             }
             
             // Otherwise, let this method throw error upon null UnderlyingAudioFileOutput.
-            obj.UnderlyingAudioFileOutput.Channel(value);
+            obj.UnderlyingAudioFileOutput.Channel(value, context);
             
             return obj;
         }
@@ -165,32 +166,40 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         }
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput Channel(this AudioFileOutput obj, int? value)
+        public static AudioFileOutput Channel(this AudioFileOutput obj, int? channel, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
             if (obj.AudioFileOutputChannels.Contains(null)) throw new Exception("obj.AudioFileOutputChannels contains nulls.");
             
-            if (value.HasValue && value.Value == RightChannel)
+            if (channel == CenterChannel && obj.IsMono())
             {
-                // Right channel is the only thing we need to do something special for.
-                
-                if (obj.AudioFileOutputChannels.Count != 1)
-                {
-                    throw new Exception("Can only set Channel property for AudioFileOutputs with only 1 channel.");
-                }
-                
-                
-                
-                
+                obj.Channels(MonoChannels, context);
+                CreateOrRemoveChannels(obj, signalCount: 1, context);
+                obj.AudioFileOutputChannels[0].Index = CenterChannel;
+            }
+            else if (channel == LeftChannel && obj.IsStereo())
+            {
+                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
+                CreateOrRemoveChannels(obj, signalCount: 1, context);
+                obj.AudioFileOutputChannels[0].Index = LeftChannel;
+            }
+            else if (channel == RightChannel)
+            {
+                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
+                CreateOrRemoveChannels(obj, signalCount: 1, context);
                 obj.AudioFileOutputChannels[0].Index = RightChannel;
+            }
+            else if (channel == EveryChannel) 
+            {
+                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
+                CreateOrRemoveChannels(obj, signalCount: 2, context);
+                obj.AudioFileOutputChannels[0].Index = 0;
+                obj.AudioFileOutputChannels[0].Index = 1;
             }
             else
             {
-                for (int i = 0; i < obj.AudioFileOutputChannels.Count; i++)
-                {
-                    obj.AudioFileOutputChannels[i].Index = i;
-                }
+                throw new Exception($"Invalid combination of values: {new { AudioFileOutput_Channels = obj.Channels(), channel }}");
             }
             
             return obj;
@@ -278,8 +287,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static TapeConfig      Center (this TapeConfig      obj                  ) => obj.Mono(       ).Channel(CenterChannel);
         public static TapeActions     Center (this TapeActions     obj                  ) => obj.Mono(       ).Channel(CenterChannel);
         public static TapeAction      Center (this TapeAction      obj                  ) => obj.Mono(       ).Channel(CenterChannel);
-        public static Buff            Center (this Buff            obj, IContext context) => obj.Mono(context).Channel(CenterChannel);
-        public static AudioFileOutput Center (this AudioFileOutput obj, IContext context) => obj.Mono(context).Channel(CenterChannel);
+        public static Buff            Center (this Buff            obj, IContext context) => obj.Mono(context).Channel(CenterChannel, context);
+        public static AudioFileOutput Center (this AudioFileOutput obj, IContext context) => obj.Mono(context).Channel(CenterChannel, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
         public static ChannelEnum Center(this ChannelEnum oldChannelEnum) => ChannelEnum.Single;
@@ -294,8 +303,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static TapeConfig      Left (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static TapeActions     Left (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static TapeAction      Left (this TapeAction      obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
-        public static Buff            Left (this Buff            obj, IContext context) => obj.Stereo(context).Channel(LeftChannel);
-        public static AudioFileOutput Left (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(LeftChannel);
+        public static Buff            Left (this Buff            obj, IContext context) => obj.Stereo(context).Channel(LeftChannel, context);
+        public static AudioFileOutput Left (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(LeftChannel, context);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum oldChannelEnum) => ChannelEnum.Left;
@@ -310,8 +319,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static TapeConfig      Right (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static TapeActions     Right (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static TapeAction      Right (this TapeAction      obj                  ) => obj.Stereo(       ).Channel(RightChannel);
-        public static Buff            Right (this Buff            obj, IContext context) => obj.Stereo(context).Channel(RightChannel);
-        public static AudioFileOutput Right (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(RightChannel);
+        public static Buff            Right (this Buff            obj, IContext context) => obj.Stereo(context).Channel(RightChannel, context);
+        public static AudioFileOutput Right (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(RightChannel, context);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum oldChannelEnum) => ChannelEnum.Right;
@@ -326,8 +335,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static TapeConfig      NoChannel (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static TapeActions     NoChannel (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static TapeAction      NoChannel (this TapeAction      obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
-        public static Buff            NoChannel (this Buff            obj, IContext context) => obj.Stereo(context).Channel(EveryChannel);
-        public static AudioFileOutput NoChannel (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(EveryChannel);
+        public static Buff            NoChannel (this Buff            obj, IContext context) => obj.Stereo(context).Channel(EveryChannel, context);
+        public static AudioFileOutput NoChannel (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(EveryChannel, context);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum oldChannelEnum) => ChannelEnum.Undefined;

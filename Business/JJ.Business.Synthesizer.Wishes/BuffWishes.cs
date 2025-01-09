@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
             audioFileOutput.SamplingRate = tape.Config.SamplingRate;
             
             audioFileOutput.SpeakerSetup = GetSubstituteSpeakerSetup(tape.Outlets.Count, Context);
-            CreateOrRemoveChannels(audioFileOutput, tape.Outlets.Count);
+            CreateOrRemoveChannels(audioFileOutput, tape.Outlets.Count, Context);
 
             switch (tape.Outlets.Count)
             {
@@ -354,13 +354,13 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
-        internal void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int channels)
+        internal static void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int signalCount, IContext context)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).
-            var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>(Context);
+            var audioFileOutputChannelRepository = CreateRepository<IAudioFileOutputChannelRepository>(context);
 
             // Create additional channels
-            for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < channels; i++)
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count; i < signalCount; i++)
             {
                 // Create
                 AudioFileOutputChannel audioFileOutputChannel = audioFileOutputChannelRepository.Create();
@@ -374,7 +374,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Remove surplus channels
-            for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= channels; i--)
+            for (int i = audioFileOutput.AudioFileOutputChannels.Count - 1; i >= signalCount; i--)
             {
                 AudioFileOutputChannel audioFileOutputChannel = audioFileOutput.AudioFileOutputChannels[i];
 
