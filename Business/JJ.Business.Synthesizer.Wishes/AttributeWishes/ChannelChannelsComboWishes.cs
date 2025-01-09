@@ -65,82 +65,82 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static ChannelEnum Channel(this ChannelEnum thisObj, int? channel)
+        public static ChannelEnum Channel(this ChannelEnum oldChannelEnum, int? newChannelValue)
         {
             // Unspecified
-            if (channel == null) return ChannelEnum.Undefined;
+            if (newChannelValue == null) return ChannelEnum.Undefined;
 
             // Helper variable
-            int channels = thisObj.Channels();
+            int oldChannels = oldChannelEnum.Channels();
 
             // Mono
-            if (channels == MonoChannels)
+            if (oldChannels == MonoChannels)
             {
                 return ChannelEnum.Single;
             }
             
             // Stereo case
-            if (channels == StereoChannels)
+            if (oldChannels == StereoChannels)
             {
-                if (channel == 0) return ChannelEnum.Left;
-                if (channel == 1) return ChannelEnum.Right;
+                if (newChannelValue == 0) return ChannelEnum.Left;
+                if (newChannelValue == 1) return ChannelEnum.Right;
             }
 
             // Fallback: Tolerate inconsistent state for fluent switch between speaker setups.
-            if (channels == NoChannels)
+            if (oldChannels == NoChannels)
             {
-                if (channel == 0) return ChannelEnum.Single;
-                if (channel == 1) return ChannelEnum.Right;
+                if (newChannelValue == 0) return ChannelEnum.Single;
+                if (newChannelValue == 1) return ChannelEnum.Right;
             }
          
-            throw new Exception($"Unsupported combination of values: {new{ channels, channel }}");
+            throw new Exception($"Unsupported combination of values: {new{ oldChannels, oldChannelEnum, newChannelValue }}");
         }
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static Channel Channel(this Channel thisObj, int? channel, IContext context)
+        public static Channel Channel(this Channel oldChannelEntity, int? newChannelValue, IContext context)
         {
             // Unspecified
-            if (channel == null) return ChannelEnum.Undefined.ToEntity(context);
+            if (newChannelValue == null) return ChannelEnum.Undefined.ToEntity(context);
 
-            int channels = thisObj.Channels();
+            int oldChannels = oldChannelEntity.Channels();
 
             // Mono
-            if (channels == MonoChannels)
+            if (oldChannels == MonoChannels)
             {
                 return ChannelEnum.Single.ToEntity(context);
             }
             
             // Stereo case
-            if (channels == StereoChannels)
+            if (oldChannels == StereoChannels)
             {
-                if (channel == 0) return ChannelEnum.Left.ToEntity(context);
-                if (channel == 1) return ChannelEnum.Right.ToEntity(context);
+                if (newChannelValue == 0) return ChannelEnum.Left.ToEntity(context);
+                if (newChannelValue == 1) return ChannelEnum.Right.ToEntity(context);
             }
 
             // Fallback for inconsistent state for fluent switch between speaker setups.
-            if (channels == NoChannels)
+            if (oldChannels == NoChannels)
             {
-                if (channel == 0) return ChannelEnum.Single.ToEntity(context);
-                if (channel == 1) return ChannelEnum.Right.ToEntity(context);
+                if (newChannelValue == 0) return ChannelEnum.Single.ToEntity(context);
+                if (newChannelValue == 1) return ChannelEnum.Right.ToEntity(context);
             }
          
-            throw new Exception($"Unsupported combination of values: {new{ channels, channel }}");
+            throw new Exception($"Unsupported combination of values: {new{ oldChannels, oldChannelEntity_Name = oldChannelEntity.Name, newChannelValue }}");
         }
 
         // Conversion To/From Channels (Mono/Stereo)
         
         [Obsolete(ObsoleteMessage)]
-        public static ChannelEnum ChannelsToChannelEnum(this int thisChannels, int? channelValue)
+        public static ChannelEnum ChannelsToChannelEnum(this int oldChannels, int? newChannelValue)
         {
-            AssertChannels(thisChannels);
-            AssertChannel(channelValue);
+            AssertChannels(oldChannels);
+            AssertChannel(newChannelValue);
             
-            if (thisChannels == MonoChannels) return ChannelEnum.Single;
-            if (thisChannels == StereoChannels && channelValue == LeftChannel) return ChannelEnum.Left;
-            if (thisChannels == StereoChannels && channelValue == RightChannel) return ChannelEnum.Right;
-            if (thisChannels == StereoChannels && channelValue == ChannelEmpty) return ChannelEnum.Undefined;
-            throw new Exception($"Unsupported combination of values {new { channels = thisChannels, channel = channelValue }}");
+            if (oldChannels == MonoChannels) return ChannelEnum.Single;
+            if (oldChannels == StereoChannels && newChannelValue == LeftChannel) return ChannelEnum.Left;
+            if (oldChannels == StereoChannels && newChannelValue == RightChannel) return ChannelEnum.Right;
+            if (oldChannels == StereoChannels && newChannelValue == ChannelEmpty) return ChannelEnum.Undefined;
+            throw new Exception($"Unsupported combination of values {new { oldChannels, newChannelValue }}");
         }
         
         [Obsolete(ObsoleteMessage)] 
@@ -234,18 +234,18 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
         // ReSharper disable once UnusedParameter.Global
-        public static ChannelEnum Mono(this ChannelEnum obj) => ChannelEnum.Single;
+        public static ChannelEnum Mono(this ChannelEnum oldChannelEnum) => ChannelEnum.Single;
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         // ReSharper disable once UnusedParameter.Global
-        public static Channel Mono(this Channel obj, IContext context) => ChannelEnum.Single.ToEntity(context);
+        public static Channel Mono(this Channel oldChannelEntity, IContext context) => ChannelEnum.Single.ToEntity(context);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
-        public static ChannelEnum Stereo(this ChannelEnum obj)
+        public static ChannelEnum Stereo(this ChannelEnum oldChannelEnum)
         {
-            switch (obj)
+            switch (oldChannelEnum)
             {
                 case ChannelEnum.Undefined: return ChannelEnum.Undefined;
                 case ChannelEnum.Left: return ChannelEnum.Left;
@@ -257,6 +257,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
-        public static Channel Stereo(this Channel obj, IContext context) => obj.ToEnum().Stereo().ToEntity(context);
+        public static Channel Stereo(this Channel oldChannelEntity, IContext context) => oldChannelEntity.ToEnum().Stereo().ToEntity(context);
     }
 }
