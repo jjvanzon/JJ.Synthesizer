@@ -253,8 +253,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Helpers
         
-        private TestEntities CreateTestEntities(int samplingRate) => new TestEntities(x => x.WithSamplingRate(samplingRate));
-
+        private TestEntities CreateTestEntities(int samplingRate)
+        {
+            double audioLength = DefaultAudioLength;
+            if (samplingRate > 100) audioLength = 0.001; // Tape audio length in case of larger sampling rates for performance.
+            return new TestEntities(x => x.WithSamplingRate(samplingRate).WithAudioLength(audioLength));
+        }
+        
         static object TestParameters => new[]
         {
             new object[] { 48000, 96000 },
