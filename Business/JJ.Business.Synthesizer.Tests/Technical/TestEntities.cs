@@ -10,6 +10,8 @@ using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -63,6 +65,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public InterpolationType     InterpolationEntity { get; set; }
             public AudioFileFormatEnum   AudioFormat         { get; set; }
             public AudioFileFormat       AudioFormatEntity   { get; set; }
+            public string                FileExtension       { get; set; }
         }
     }
     
@@ -146,7 +149,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                           
                           Immutable = new ImmutableEntities
                           {
-                              WavHeader           = t.UnderlyingSample.ToWavHeader(),
                               Channels            = t.Config.Channels,
                               SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
                               SampleDataType      = t.UnderlyingSample.SampleDataType,
@@ -158,7 +160,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                               Interpolation       = t.Config.Interpolation,
                               InterpolationEntity = t.UnderlyingSample.InterpolationType,
                               AudioFormat         = t.Config.AudioFormat,
-                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat
+                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat,
+                              WavHeader           = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
+                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat)
                           };
                       })
                       .AfterRecordChannel(t =>
@@ -190,7 +194,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                           // Immutables for Channel
                           e.Immutable = new ImmutableEntities
                           {
-                              WavHeader           = t.UnderlyingSample.ToWavHeader(),
                               Channels            = t.Config.Channels,
                               SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
                               SampleDataType      = t.UnderlyingSample.SampleDataType,
@@ -202,11 +205,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                               Interpolation       = t.Config.Interpolation,
                               InterpolationEntity = t.UnderlyingSample.InterpolationType,
                               AudioFormat         = t.Config.AudioFormat,
-                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat
+                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat,
+                              WavHeader           = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
+                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat)
                           };
                       }));
             
-            //WavHeader                  = SynthBound.SynthWishes.ToWish().ToWavHeader(),
+            // TODO: Revisit after adding more WavHeaderWishes
+            //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWavHeader() : default;
+            //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWish().ToWavHeader() : default;
+            
             Immutable.Channels           = SynthBound.SynthWishes.GetChannels;
             Immutable.SampleDataTypeEnum = SynthBound.SynthWishes.GetBits.BitsToEnum();
             Immutable.SampleDataType     = SynthBound.SynthWishes.GetBits.BitsToEntity(SynthBound.Context);
@@ -219,9 +227,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
             IsNotNull(() => TapeBound.Tape);
             // TODO: Assert more nulls
-}
+        }
         
-        Type TypeFromBits(int bits)
+        private Type TypeFromBits(int bits)
         {
             switch (bits)
             {
