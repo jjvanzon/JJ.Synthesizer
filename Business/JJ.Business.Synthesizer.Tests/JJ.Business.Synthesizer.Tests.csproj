@@ -136,6 +136,7 @@
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />
+    <Compile Include="Technical\SamplingRateWishesTests.cs" />
     <Compile Include="Technical\ChannelWishesTests.cs" />
     <Compile Include="Technical\ChannelChannelsComboWishesTests.cs" />
     <Compile Include="Technical\ChannelsWishesTests.cs" />

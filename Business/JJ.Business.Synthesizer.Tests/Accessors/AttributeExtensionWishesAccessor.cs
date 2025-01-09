@@ -21,5 +21,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static bool IsMono(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(),   obj.Obj);
         public static bool IsStereo(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
 
+        public static int SamplingRate(this ConfigSectionAccessor obj) => (int)_accessor.InvokeMethod(MemberName(),  obj.Obj);
     }
 }
