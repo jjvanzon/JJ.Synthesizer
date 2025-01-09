@@ -3,9 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -183,23 +181,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context)
             => ServiceFactory.CreateRepository<IAudioFileFormatRepository>(context).Get(audioFormat.ToID());
         
-        public static AudioFileFormatEnum ExtensionToAudioFormat(this string fileExtension)
-        {
-            if (FilledInWishes.Is(fileExtension, ".wav")) return Wav;
-            if (FilledInWishes.Is(fileExtension, ".raw")) return Raw;
-            throw new Exception($"{new{fileExtension}} not supported.");
-        }
-        
-        public static string AudioFormatToExtension(this AudioFileFormatEnum obj)
-        {
-            switch (obj)
-            {
-                case Wav: return ".wav";
-                case Raw: return ".raw";
-                default: throw new ValueNotSupportedException(obj);
-            }
-        }
-        
         // AudioFormat Shorthand
         
         public   static bool IsWav(this SynthWishes     obj) => obj.AudioFormat() == Wav;
@@ -213,7 +194,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsWav(this Buff            obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this Sample          obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this AudioFileOutput obj) => obj.AudioFormat() == Wav;
-        public   static bool IsWav(this WavHeaderStruct obj) => obj.AudioFormat() == Wav;
+        // ReSharper disable once UnusedParameter.Global
+        public   static bool IsWav(this WavHeaderStruct obj) => true;
         public   static bool IsWav(this string fileExtension) => fileExtension.AudioFormat() == Wav;
         public   static bool IsWav(this AudioFileFormatEnum obj) => obj.AudioFormat() == Wav;
         [Obsolete(ObsoleteMessage)]
@@ -230,15 +212,13 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsRaw(this Buff            obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this Sample          obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this AudioFileOutput obj) => obj.AudioFormat() == Raw;
-        public   static bool IsRaw(this WavHeaderStruct obj) => obj.AudioFormat() == Raw;
+        // ReSharper disable once UnusedParameter.Global
+        public   static bool IsRaw(this WavHeaderStruct obj) => false;
         public   static bool IsRaw(this string fileExtension) => fileExtension.AudioFormat() == Raw;
         public   static bool IsRaw(this AudioFileFormatEnum obj) => obj.AudioFormat() == Raw;
         [Obsolete(ObsoleteMessage)]
         public   static bool IsRaw(this AudioFileFormat  obj) => AudioFormat(obj) == Raw;
         
-        public   static SynthWishes     AsWav(this SynthWishes     obj) => obj.AudioFormat(Wav);
-        public   static FlowNode        AsWav(this FlowNode        obj) => obj.AudioFormat(Wav);
-        public   static ConfigWishes    AsWav(this ConfigWishes    obj) => obj.AudioFormat(Wav);
         public   static Buff            AsWav(this Buff            obj, IContext context) => obj.AudioFormat(Wav, context);
         public   static Tape            AsWav(this Tape            obj) => obj.AudioFormat(Wav);
         public   static TapeConfig      AsWav(this TapeConfig      obj) => obj.AudioFormat(Wav);
@@ -254,9 +234,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteMessage)]
         public   static AudioFileFormat AsWav(this AudioFileFormat oldEnumEntity, IContext context) => oldEnumEntity.AudioFormat(Wav, context);
         
-        public   static SynthWishes     AsRaw(this SynthWishes     obj) => obj.AudioFormat(Raw);
-        public   static FlowNode        AsRaw(this FlowNode        obj) => obj.AudioFormat(Raw);
-        public   static ConfigWishes    AsRaw(this ConfigWishes    obj) => obj.AudioFormat(Raw);
         public   static Buff            AsRaw(this Buff            obj, IContext context) => obj.AudioFormat(Raw, context);
         public   static Tape            AsRaw(this Tape            obj) => obj.AudioFormat(Raw);
         public   static TapeConfig      AsRaw(this TapeConfig      obj) => obj.AudioFormat(Raw);

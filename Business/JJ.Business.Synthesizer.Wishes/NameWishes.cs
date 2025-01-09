@@ -89,6 +89,11 @@ namespace JJ.Business.Synthesizer.Wishes
         // ResolveFileExtension
         
         public static string ResolveFileExtension(
+            AudioFileFormatEnum audioFormat = default, 
+            params string[] filePaths)
+            => ResolveFileExtension(default, audioFormat, filePaths);
+        
+        public static string ResolveFileExtension(
             string fileExtension, AudioFileFormatEnum audioFileFormat = default, 
             params string[] filePaths)
         {

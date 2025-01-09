@@ -4,9 +4,11 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -77,5 +79,24 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
             => value.ExtensionToAudioFormat().ToEntity(context);
+        
+        // Conversion-Style FileExtension
+                
+        public static AudioFileFormatEnum ExtensionToAudioFormat(this string fileExtension)
+        {
+            if (Is(fileExtension, ".wav")) return Wav;
+            if (Is(fileExtension, ".raw")) return Raw;
+            throw new Exception($"{new{fileExtension}} not supported.");
+        }
+        
+        public static string AudioFormatToExtension(this AudioFileFormatEnum obj)
+        {
+            switch (obj)
+            {
+                case Wav: return ".wav";
+                case Raw: return ".raw";
+                default: throw new ValueNotSupportedException(obj);
+            }
+        }
     }
 }
