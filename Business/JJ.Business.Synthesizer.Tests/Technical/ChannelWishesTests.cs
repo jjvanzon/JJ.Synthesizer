@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
@@ -9,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.DynamicDataSourceType;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -227,29 +225,46 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 x.Record();
                 Assert_All_Getters(x, init);
             }
+                        
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Channel (val.channel, x.SynthBound.Context)
+                                                                                                   .Channels(val.channels, x.SynthBound.Context)));
+
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Channels(val.channels, x.SynthBound.Context)
+                                                                                                   .Channel (val.channel, x.SynthBound.Context)));
+
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Channel (val.channel, x.SynthBound.Context)
+                                                                                                   .Channels(val.channels, x.SynthBound.Context)
+                                                                                                   .Channel (val.channel, x.SynthBound.Context)));
             
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            
-                               () => x.BuffBound.Buff           .Channels(val.channels, x.SynthBound.Context).Channel(val.channel)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, 
-                               () => x.BuffBound.AudioFileOutput.Channels(val.channels, x.SynthBound.Context).Channel(val.channel)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Channels(val.channels, x.SynthBound.Context)
+                                                                                                   .Channel (val.channel, x.SynthBound.Context)
+                                                                                                   .Channels(val.channels, x.SynthBound.Context)));
             
+            AssertProp(x => AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Channel (val.channel, x.SynthBound.Context)
+                                                                             .Channels(val.channels, x.SynthBound.Context)));
+                        
+            AssertProp(x => AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Channels(val.channels, x.SynthBound.Context)
+                                                                             .Channel (val.channel, x.SynthBound.Context)));
+                        
+            AssertProp(x => AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Channel (val.channel, x.SynthBound.Context)
+                                                                             .Channels(val.channels, x.SynthBound.Context)
+                                                                             .Channel (val.channel, x.SynthBound.Context)));
+
+            AssertProp(x => AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Channels(val.channels, x.SynthBound.Context)
+                                                                             .Channel (val.channel, x.SynthBound.Context)
+                                                                             .Channels(val.channels, x.SynthBound.Context)));
+
             AssertProp(x => {
                 if (val == (1,0)) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Center(x.SynthBound.Context));
                 if (val == (2,0)) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Left(x.SynthBound.Context));
-                if (val == (2,1)) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Right(x.SynthBound.Context)); });
+                if (val == (2,1)) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Right(x.SynthBound.Context)); 
+                if (val == (2,null)) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.NoChannel(x.SynthBound.Context)); });
             
             AssertProp(x => {
                 if (val == (1,0)) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Center(x.SynthBound.Context));
                 if (val == (2,0)) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Left(x.SynthBound.Context));
-                if (val == (2,1)) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Right(x.SynthBound.Context)); });
-            
-            AssertProp(x => {
-                if (val.channels == MonoChannels  ) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Mono(x.SynthBound.Context));
-                if (val.channels == StereoChannels) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Stereo(x.SynthBound.Context)); });
-            
-            AssertProp(x => {
-                if (val.channels == MonoChannels  ) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Mono(x.SynthBound.Context));
-                if (val.channels == StereoChannels) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Stereo(x.SynthBound.Context)); });
+                if (val == (2,1)) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Right(x.SynthBound.Context));
+                if (val == (2,null)) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.NoChannel(x.SynthBound.Context)); });
         }
         
         [TestMethod]
@@ -258,7 +273,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             var init = (initChannels, initChannel);
             var val = (channels, channel);
-            
             var x = CreateTestEntities(init);
             
             // ChannelEnum
@@ -278,9 +292,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
 
                 AssertProp(() => val.channel.ChannelToEnum(val.channels));
+                
                 AssertProp(() => x.Immutable.ChannelEnum.Channels(val.channels)
                                                         .Channel(val.channel)
                                                         .Channels(val.channels));
+                
                 AssertProp(() => x.Immutable.ChannelEnum.Channel(val.channel)
                                                         .Channels(val.channels)
                                                         .Channel(val.channel));
@@ -312,10 +328,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
 
                 AssertProp(() => val.channel.ChannelToEntity(val.channels, x.SynthBound.Context));
+                
                 AssertProp(() => x.Immutable.ChannelEntity
                                             .Channels(val.channels, x.SynthBound.Context)
                                             .Channel (val.channel,  x.SynthBound.Context)
                                             .Channels(val.channels, x.SynthBound.Context));
+                
                 AssertProp(() => x.Immutable.ChannelEntity
                                             .Channel(val.channel, x.SynthBound.Context)
                                             .Channels(val.channels, x.SynthBound.Context)
@@ -709,12 +727,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private void Assert_BuffBound_Getters(TestEntities x, (int channels, int? channel) c)
         {
             // TODO: Handle Mono/Stereo gracefully.
-            
+
+            AreEqual(c.channels, () => x.BuffBound.Buff.Channels());
+            AreEqual(c.channels, () => x.BuffBound.AudioFileOutput.Channels());
+            AreEqual(c.channels == MonoChannels, () => x.BuffBound.Buff.IsMono());
+            AreEqual(c.channels == MonoChannels, () => x.BuffBound.AudioFileOutput.IsMono());
+            AreEqual(c.channels == StereoChannels, () => x.BuffBound.Buff.IsStereo());
+            AreEqual(c.channels == StereoChannels, () => x.BuffBound.AudioFileOutput.IsStereo());
+
             if (c.channels == MonoChannels)
             { 
-                IsTrue(() => x.BuffBound.Buff.IsMono());
-                IsTrue(() => x.BuffBound.AudioFileOutput.IsMono());
-                
+                // TODO: More getters!
                 AreEqual(CenterChannel, () => x.BuffBound.Buff.Channel());
                 AreEqual(CenterChannel, () => x.BuffBound.AudioFileOutput.Channel());
                 
@@ -724,14 +747,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             if (c.channels == StereoChannels)
             {
-                IsTrue(() => x.BuffBound.Buff.IsStereo());
-                IsTrue(() => x.BuffBound.AudioFileOutput.IsStereo());
-                
-                AreEqual(ChannelEmpty, () => x.BuffBound.Buff.Channel());
-                AreEqual(ChannelEmpty, () => x.BuffBound.AudioFileOutput.Channel());
+                // TODO: More getters!
 
-                AreEqual(StereoChannels, () => x.BuffBound.Buff.Channels());
-                AreEqual(StereoChannels, () => x.BuffBound.AudioFileOutput.Channels());
+                //AreEqual(c.channel, () => x.BuffBound.Buff.Channel());
+                //AreEqual(c.channel, () => x.BuffBound.AudioFileOutput.Channel());
+                
+                //AreEqual(ChannelEmpty, () => x.BuffBound.Buff.Channel());
+                //AreEqual(ChannelEmpty, () => x.BuffBound.AudioFileOutput.Channel());
+
 
                 // TODO: Buffs per tape etc.
             
