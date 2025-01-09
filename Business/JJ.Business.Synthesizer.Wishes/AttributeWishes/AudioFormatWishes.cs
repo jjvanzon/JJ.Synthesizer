@@ -154,23 +154,23 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        public static string AudioFormat(this string fileExtension, AudioFileFormatEnum audioFormat)
-            => FileExtension(audioFormat);
+        public static string AudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat)
+            => FileExtension(newAudioFormat);
         
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum obj) => obj;
         
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum obj, AudioFileFormatEnum value)
-            => value;
+        public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat)
+            => newAudioFormat;
         
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormat obj) => ToEnum(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static AudioFileFormat AudioFormat(this AudioFileFormat obj, AudioFileFormatEnum value, IContext context)
-            => ToEntity(value, context);
+        public static AudioFileFormat AudioFormat(this AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context)
+            => ToEntity(newAudioFormat, context);
         
         // Conversion-Style AudioFormat
         
@@ -245,12 +245,12 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static Sample          AsWav(this Sample          obj, IContext context) => obj.AudioFormat(Wav, context);
         public   static AudioFileOutput AsWav(this AudioFileOutput obj, IContext context) => obj.AudioFormat(Wav, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        public   static string AsWav(this string fileExtension) => fileExtension.AudioFormat(Wav);
+        public   static string AsWav(this string oldFileExtension) => oldFileExtension.AudioFormat(Wav);
         /// <inheritdoc cref="docs._quasisetter" />
-        public   static AudioFileFormatEnum AsWav(this AudioFileFormatEnum obj) => obj.AudioFormat(Raw);
+        public   static AudioFileFormatEnum AsWav(this AudioFileFormatEnum oldAudioFormat) => oldAudioFormat.AudioFormat(Raw);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public   static AudioFileFormat AsWav(this AudioFileFormat obj, IContext context) => obj.AudioFormat(Wav, context);
+        public   static AudioFileFormat AsWav(this AudioFileFormat oldEnumEntity, IContext context) => oldEnumEntity.AudioFormat(Wav, context);
         
         public   static SynthWishes     AsRaw(this SynthWishes     obj) => obj.AudioFormat(Raw);
         public   static FlowNode        AsRaw(this FlowNode        obj) => obj.AudioFormat(Raw);
@@ -263,11 +263,11 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static Sample          AsRaw(this Sample          obj, IContext context) => obj.AudioFormat(Raw, context);
         public   static AudioFileOutput AsRaw(this AudioFileOutput obj, IContext context) => obj.AudioFormat(Raw, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        public   static string AsRaw(this string fileExtension) => fileExtension.AudioFormat(Raw);
+        public   static string AsRaw(this string oldFileExtension) => oldFileExtension.AudioFormat(Raw);
         /// <inheritdoc cref="docs._quasisetter" />
-        public   static AudioFileFormatEnum AsRaw(this AudioFileFormatEnum obj) => obj.AudioFormat(Raw);
+        public   static AudioFileFormatEnum AsRaw(this AudioFileFormatEnum oldAudioFormat) => oldAudioFormat.AudioFormat(Raw);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public   static AudioFileFormat AsRaw(this AudioFileFormat obj, IContext context) => obj.AudioFormat(Raw, context);
+        public   static AudioFileFormat AsRaw(this AudioFileFormat oldEnumEntity, IContext context) => oldEnumEntity.AudioFormat(Raw, context);
     }
 }

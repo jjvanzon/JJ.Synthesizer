@@ -192,8 +192,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum obj, int value) 
-            => value.ChannelsToEnum();
+        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) 
+            => newChannels.ChannelsToEnum();
         
         [Obsolete(ObsoleteMessage)] 
         public static int Channels(this SpeakerSetup obj) 
@@ -201,8 +201,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static SpeakerSetup Channels(this SpeakerSetup obj, int value, IContext context) 
-            => value.ChannelsToEntity(context);
+        public static SpeakerSetup Channels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
+            => newChannels.ChannelsToEntity(context);
         
         // Channels Conversion-Style
         
@@ -293,10 +293,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static AudioFileInfo    Mono  (this AudioFileInfo   obj) => obj.Channels(MonoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum Mono(this SpeakerSetupEnum obj) => obj.Channels(MonoChannels);
+        public static SpeakerSetupEnum Mono(this SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup Mono(this SpeakerSetup obj, IContext context) => obj.Channels(MonoChannels, context);
+        public static SpeakerSetup Mono(this SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
         
         public   static SynthWishes      Stereo(this SynthWishes     obj) => obj.Channels(StereoChannels);
         public   static FlowNode         Stereo(this FlowNode        obj) => obj.Channels(StereoChannels);
@@ -313,9 +313,9 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static AudioFileInfo    Stereo(this AudioFileInfo   obj) => obj.Channels(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum Stereo(this SpeakerSetupEnum obj) => obj.Channels(StereoChannels);
+        public static SpeakerSetupEnum Stereo(this SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetup Stereo(this SpeakerSetup obj, IContext context) => obj.Channels(StereoChannels, context);
+        public static SpeakerSetup Stereo(this SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
     }
 }

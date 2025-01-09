@@ -126,15 +126,15 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj, InterpolationTypeEnum value) => value;
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => newEnumValue;
         
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => obj.ToEnum();
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static InterpolationType Interpolation(this InterpolationType obj, InterpolationTypeEnum value, IContext context)
-            => value.ToEntity(context);
+        public static InterpolationType Interpolation(this InterpolationType oldInterpolationEntity, InterpolationTypeEnum newEnumValue, IContext context)
+            => newEnumValue.ToEntity(context);
         
         // Interpolation, Conversion-Style
         

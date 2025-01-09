@@ -46,18 +46,18 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int SizeOfBitDepth(this int bits) => bits / 8;
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        public static int SizeOfBitDepth(this int bits, int byteSize) => byteSize;
+        public static int SizeOfBitDepth(this int oldBits, int newByteSize) => newByteSize;
         public static int SizeOfBitDepth(this Type obj) => obj.TypeToBits() / 8;
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        public static Type SizeOfBitDepth(this Type obj, int byteSize) => BitsToType(byteSize * 8);
+        public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => BitsToType(newByteSize * 8);
         [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataTypeEnum obj) => SizeOf(obj);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum obj, int byteSize) => BitsToEnum(byteSize * 8);
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize) => BitsToEnum(newByteSize * 8);
         [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataType obj) => SizeOf(obj);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static SampleDataType SizeOfBitDepth(this SampleDataType obj, int byteSize, IContext context) => BitsToEntity(byteSize * 8, context);
+        [Obsolete(ObsoleteMessage)] public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context) => BitsToEntity(newByteSize * 8, context);
     }
 }

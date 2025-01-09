@@ -171,14 +171,19 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
             if (obj.AudioFileOutputChannels.Contains(null)) throw new Exception("obj.AudioFileOutputChannels contains nulls.");
             
-            if (value.HasValue)
+            if (value.HasValue && value.Value == RightChannel)
             {
+                // Right channel is the only thing we need to do something special for.
+                
                 if (obj.AudioFileOutputChannels.Count != 1)
                 {
                     throw new Exception("Can only set Channel property for AudioFileOutputs with only 1 channel.");
                 }
                 
-                obj.AudioFileOutputChannels[0].Index = value.Value;
+                
+                
+                
+                obj.AudioFileOutputChannels[0].Index = RightChannel;
             }
             else
             {
@@ -277,10 +282,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static AudioFileOutput Center (this AudioFileOutput obj, IContext context) => obj.Mono(context).Channel(CenterChannel);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static ChannelEnum Center(this ChannelEnum obj) => ChannelEnum.Single;
+        public static ChannelEnum Center(this ChannelEnum oldChannelEnum) => ChannelEnum.Single;
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static Channel Center(this Channel obj, IContext context) => ChannelEnum.Single.ToEntity(context);
+        public static Channel Center(this Channel oldChannelEntity, IContext context) => ChannelEnum.Single.ToEntity(context);
         
         public static SynthWishes     Left (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static FlowNode        Left (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
@@ -293,10 +298,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static AudioFileOutput Left (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(LeftChannel);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum obj) => ChannelEnum.Left;
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(this ChannelEnum oldChannelEnum) => ChannelEnum.Left;
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static Channel Left(this Channel obj, IContext context) => ChannelEnum.Left.ToEntity(context);
+        [Obsolete(ObsoleteMessage)] public static Channel Left(this Channel oldChannelEntity, IContext context) => ChannelEnum.Left.ToEntity(context);
         
         public static SynthWishes     Right (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static FlowNode        Right (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(RightChannel);
@@ -309,10 +314,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static AudioFileOutput Right (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(RightChannel);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum obj) => ChannelEnum.Right;
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum oldChannelEnum) => ChannelEnum.Right;
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static Channel Right(this Channel obj, IContext context) => ChannelEnum.Right.ToEntity(context);
+        [Obsolete(ObsoleteMessage)] public static Channel Right(this Channel oldChannelEntity, IContext context) => ChannelEnum.Right.ToEntity(context);
         
         public static SynthWishes     NoChannel (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static FlowNode        NoChannel (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
@@ -325,7 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static AudioFileOutput NoChannel (this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(EveryChannel);
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum obj) => ChannelEnum.Undefined;
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum oldChannelEnum) => ChannelEnum.Undefined;
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
         [Obsolete(ObsoleteMessage)] public static Channel NoChannel(this Channel obj) => null;
