@@ -37,12 +37,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod] public void Test_Channels_Channel_Combo_Changes()
         {
-            AreEqual(SpeakerSetupEnum.Undefined, () => NoChannels    .ChannelsToEnum());
+            AreEqual(SpeakerSetupEnum.Undefined, () => ChannelsEmpty    .ChannelsToEnum());
             AreEqual(SpeakerSetupEnum.Mono,      () => MonoChannels  .ChannelsToEnum());
             AreEqual(SpeakerSetupEnum.Stereo,    () => StereoChannels.ChannelsToEnum());
             ThrowsException(                     () => (-1)          .ChannelsToEnum());
 
-            AreEqual(NoChannels,     () => SpeakerSetupEnum.Undefined. EnumToChannels());
+            AreEqual(ChannelsEmpty,     () => SpeakerSetupEnum.Undefined. EnumToChannels());
             AreEqual(MonoChannels,   () => SpeakerSetupEnum.Mono      .EnumToChannels());
             AreEqual(StereoChannels, () => SpeakerSetupEnum.Stereo    .EnumToChannels());
             ThrowsException(() => ((SpeakerSetupEnum)(-1)).EnumToChannels());
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(ChannelEnum.Right,     2 .ChannelsToChannelEnum(RightChannel));
             ThrowsException(() =>         (-1).ChannelsToChannelEnum(CenterChannel));
             
-            AreEqual(NoChannels,     () => ChannelEnum.Undefined  .ChannelEnumToChannels());
+            AreEqual(ChannelsEmpty,     () => ChannelEnum.Undefined  .ChannelEnumToChannels());
             AreEqual(MonoChannels,   () => ChannelEnum.Single     .ChannelEnumToChannels());
             AreEqual(StereoChannels, () => ChannelEnum.Right      .ChannelEnumToChannels());
             AreEqual(StereoChannels, () => ChannelEnum.Left       .ChannelEnumToChannels());
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             AreSame(monoEntities  .Immutable.SpeakerSetup, () => MonoChannels  .ChannelsToEntity(context));
             AreSame(stereoEntities.Immutable.SpeakerSetup, () => StereoChannels.ChannelsToEntity(context));
-            IsNull(                                        () => NoChannels    .ChannelsToEntity(context));
+            IsNull(                                        () => ChannelsEmpty    .ChannelsToEntity(context));
             ThrowsException(                               () => (-1)          .ChannelsToEntity(context));
             
             var centerEntities = CreateTestEntities(MonoChannels,   CenterChannel, context);

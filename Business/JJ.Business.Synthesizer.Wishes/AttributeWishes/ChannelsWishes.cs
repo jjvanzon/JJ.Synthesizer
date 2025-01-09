@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int Channels(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            if (obj.UnderlyingAudioFileOutput == null) return NoChannels;
+            if (obj.UnderlyingAudioFileOutput == null) return ChannelsEmpty;
             return obj.UnderlyingAudioFileOutput.Channels();
         }
         
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         {
             switch (channels)
             {
-                case NoChannels: return SpeakerSetupEnum.Undefined;
+                case ChannelsEmpty: return SpeakerSetupEnum.Undefined;
                 case MonoChannels: return SpeakerSetupEnum.Mono;
                 case StereoChannels: return SpeakerSetupEnum.Stereo;
                 default: throw new Exception($"{new { channels }} not supported.");
@@ -225,7 +225,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             {
                 case SpeakerSetupEnum.Mono: return MonoChannels;
                 case SpeakerSetupEnum.Stereo: return StereoChannels;
-                case SpeakerSetupEnum.Undefined: return NoChannels;
+                case SpeakerSetupEnum.Undefined: return ChannelsEmpty;
                 default: throw new ValueNotSupportedException(enumValue);
             }
         }
