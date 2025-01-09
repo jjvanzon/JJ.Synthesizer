@@ -61,6 +61,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public Channel               ChannelEntity       { get; set; }
             public InterpolationTypeEnum Interpolation       { get; set; }
             public InterpolationType     InterpolationEntity { get; set; }
+            public AudioFileFormatEnum   AudioFormat         { get; set; }
+            public AudioFileFormat       AudioFormatEntity   { get; set; }
         }
     }
     
@@ -154,7 +156,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                               ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
                               ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
                               Interpolation       = t.Config.Interpolation,
-                              InterpolationEntity = t.UnderlyingSample.InterpolationType
+                              InterpolationEntity = t.UnderlyingSample.InterpolationType,
+                              AudioFormat         = t.Config.AudioFormat,
+                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat
                           };
                       })
                       .AfterRecordChannel(t =>
@@ -196,7 +200,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                               ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
                               ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
                               Interpolation       = t.Config.Interpolation,
-                              InterpolationEntity = t.UnderlyingSample.InterpolationType
+                              InterpolationEntity = t.UnderlyingSample.InterpolationType,
+                              AudioFormat         = t.Config.AudioFormat,
+                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat
                           };
                       }));
             

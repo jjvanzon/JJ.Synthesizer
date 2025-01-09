@@ -27,5 +27,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static InterpolationTypeEnum Interpolation(this ConfigSectionAccessor obj) => (InterpolationTypeEnum)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static bool IsLinear(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(),obj.Obj);
         public static bool IsBlocky(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
+
+        public static AudioFileFormatEnum AudioFormat(this ConfigSectionAccessor obj) => (AudioFileFormatEnum)_accessor.InvokeMethod(MemberName(), obj.Obj);
+        public static bool IsRaw(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(),obj.Obj);
+        public static bool IsWav(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
 }

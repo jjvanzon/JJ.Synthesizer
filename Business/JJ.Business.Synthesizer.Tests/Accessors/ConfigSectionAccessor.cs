@@ -29,5 +29,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public int? Channels => (int?)_accessor.GetPropertyValue(MemberName());
         public int? SamplingRate => (int?)_accessor.GetPropertyValue(MemberName());
         public InterpolationTypeEnum? Interpolation => (InterpolationTypeEnum?)_accessor.GetPropertyValue(MemberName());
+        public AudioFileFormatEnum? AudioFormat => (AudioFileFormatEnum?)_accessor.GetPropertyValue(MemberName());
     }
 }
