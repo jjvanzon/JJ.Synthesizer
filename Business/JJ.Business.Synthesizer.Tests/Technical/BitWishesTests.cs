@@ -177,12 +177,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     
                     setter();
                     
+                    Assert_Bound_Getters(x, init);
                     Assert_Independent_Getters(x.Independent.Sample, value);
-                    
                     Assert_Independent_Getters(x.Independent.AudioInfoWish, init);
                     Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
                     Assert_Immutable_Getters(x, init);
-                    Assert_Bound_Getters(x, init);
 
                     x.Record();
                     Assert_All_Getters(x, init);
