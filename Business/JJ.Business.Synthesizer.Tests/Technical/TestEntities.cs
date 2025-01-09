@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -50,16 +49,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public ImmutableEntities Immutable { get; set; } = new ImmutableEntities();
         public class ImmutableEntities
         {
-            public WavHeaderStruct    WavHeader           { get; set; }
-            public SampleDataTypeEnum SampleDataTypeEnum  { get; set; }
-            public SampleDataType     SampleDataType      { get; set; }
-            public Type               Type                { get; set; }
-            public int                Channels            { get; set; }
-            public SpeakerSetupEnum   SpeakerSetupEnum    { get; set; }
-            public SpeakerSetup       SpeakerSetup        { get; set; }
-            public int?               Channel             { get; set; }
-            public ChannelEnum        ChannelEnum         { get; set; }
-            public Channel            ChannelEntity       { get; set; }
+            public WavHeaderStruct       WavHeader           { get; set; }
+            public SampleDataTypeEnum    SampleDataTypeEnum  { get; set; }
+            public SampleDataType        SampleDataType      { get; set; }
+            public Type                  Type                { get; set; }
+            public int                   Channels            { get; set; }
+            public SpeakerSetupEnum      SpeakerSetupEnum    { get; set; }
+            public SpeakerSetup          SpeakerSetup        { get; set; }
+            public int?                  Channel             { get; set; }
+            public ChannelEnum           ChannelEnum         { get; set; }
+            public Channel               ChannelEntity       { get; set; }
+            public InterpolationTypeEnum Interpolation       { get; set; }
+            public InterpolationType     InterpolationEntity { get; set; }
         }
     }
     
@@ -143,15 +144,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                           
                           Immutable = new ImmutableEntities
                           {
-                              WavHeader          = t.UnderlyingSample.ToWavHeader(),
-                              Channels           = t.Config.Channels,
-                              SampleDataTypeEnum = t.UnderlyingSample.GetSampleDataTypeEnum(),
-                              SampleDataType     = t.UnderlyingSample.SampleDataType,
-                              SpeakerSetupEnum   = t.UnderlyingSample.GetSpeakerSetupEnum(),
-                              SpeakerSetup       = t.UnderlyingSample.SpeakerSetup,
-                              Channel            = t.Config.Channel,
-                              ChannelEnum        = t.Config.Channel.ChannelToEnum(t.Config.Channels),
-                              ChannelEntity      = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context)
+                              WavHeader           = t.UnderlyingSample.ToWavHeader(),
+                              Channels            = t.Config.Channels,
+                              SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
+                              SampleDataType      = t.UnderlyingSample.SampleDataType,
+                              SpeakerSetupEnum    = t.UnderlyingSample.GetSpeakerSetupEnum(),
+                              SpeakerSetup        = t.UnderlyingSample.SpeakerSetup,
+                              Channel             = t.Config.Channel,
+                              ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
+                              ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
+                              Interpolation       = t.Config.Interpolation,
+                              InterpolationEntity = t.UnderlyingSample.InterpolationType
                           };
                       })
                       .AfterRecordChannel(t =>
@@ -183,15 +186,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                           // Immutables for Channel
                           e.Immutable = new ImmutableEntities
                           {
-                              WavHeader          = t.UnderlyingSample.ToWavHeader(),
-                              Channels           = t.Config.Channels,
-                              SampleDataTypeEnum = t.UnderlyingSample.GetSampleDataTypeEnum(),
-                              SampleDataType     = t.UnderlyingSample.SampleDataType,
-                              SpeakerSetupEnum   = t.UnderlyingSample.GetSpeakerSetupEnum(),
-                              SpeakerSetup       = t.UnderlyingSample.SpeakerSetup,
-                              Channel            = t.Config.Channel,
-                              ChannelEnum        = t.Config.Channel.ChannelToEnum(t.Config.Channels),
-                              ChannelEntity      = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context)
+                              WavHeader           = t.UnderlyingSample.ToWavHeader(),
+                              Channels            = t.Config.Channels,
+                              SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
+                              SampleDataType      = t.UnderlyingSample.SampleDataType,
+                              SpeakerSetupEnum    = t.UnderlyingSample.GetSpeakerSetupEnum(),
+                              SpeakerSetup        = t.UnderlyingSample.SpeakerSetup,
+                              Channel             = t.Config.Channel,
+                              ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
+                              ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
+                              Interpolation       = t.Config.Interpolation,
+                              InterpolationEntity = t.UnderlyingSample.InterpolationType
                           };
                       }));
             

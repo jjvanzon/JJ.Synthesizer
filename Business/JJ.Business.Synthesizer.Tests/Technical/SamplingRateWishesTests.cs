@@ -19,9 +19,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class SamplingRateWishesTests
     {
-        [TestMethod, DataRow(1) ,DataRow(2)]
+        [DataTestMethod]
+        [DataRow(96000)]
+        [DataRow(88200)]
+        [DataRow(48000)]
+        [DataRow(44100)]
+        [DataRow(22050)]
+        [DataRow(11025)]
+        [DataRow(1)]
+        [DataRow(8)]
+        [DataRow(16)]
+        [DataRow(32)]
+        [DataRow(64)]
+        [DataRow(100)]
+        [DataRow(1000)]
+        [DataRow(12345)]
+        [DataRow(1234567)]
         public void Init_SamplingRate(int init)
-        { 
+        {
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, init);
         }

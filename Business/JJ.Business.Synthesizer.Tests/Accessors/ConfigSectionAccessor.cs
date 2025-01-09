@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
@@ -27,5 +28,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public int? Bits => (int?)_accessor.GetPropertyValue(MemberName());
         public int? Channels => (int?)_accessor.GetPropertyValue(MemberName());
         public int? SamplingRate => (int?)_accessor.GetPropertyValue(MemberName());
+        public InterpolationTypeEnum? Interpolation => (InterpolationTypeEnum?)_accessor.GetPropertyValue(MemberName());
     }
 }
