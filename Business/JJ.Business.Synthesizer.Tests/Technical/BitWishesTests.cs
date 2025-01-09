@@ -22,177 +22,202 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class BitWishesTests
     {
-        [TestMethod] [DynamicData(nameof(TestParameters))]
-        public void Test_Bits_InTandem(int init, int value)
+        [DataTestMethod]
+        [DataRow(8)]
+        [DataRow(16)]
+        [DataRow(32)]
+        public void Init_Channels(int init)
+        { 
+            var x = CreateTestEntities(init);
+            Assert_All_Getters(x, init);
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(TestParameters))]
+        public void SynthBound_Bits(int init, int value)
         {
-            // Check Before Change
-            { 
+            void AssertProp(Action<TestEntities> setter)
+            {
                 var x = CreateTestEntities(init);
+                Assert_All_Getters(x, init);
+                
+                setter(x);
+                
+                Assert_SynthBound_Getters(x, value);
+                Assert_TapeBound_Getters(x, init);
+                Assert_BuffBound_Getters(x, init);
+                Assert_Independent_Getters(x, init);
+                Assert_Immutable_Getters(x, init);
+                
+                x.Record();
+                Assert_All_Getters(x, value);
+            }
+
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes.Bits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.WithBits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode.Bits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.WithBits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Bits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithBits(value)));
+            
+            AssertProp(x => {
+                if (value == 8 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());
+                if (value == 16) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With16Bit());
+                if (value == 32) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With32Bit()); });
+            
+            AssertProp(x => {
+                if (value == 8 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With8Bit());
+                if (value == 16) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With16Bit());
+                if (value == 32) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With32Bit()); });
+            
+            AssertProp(x => {
+                if (value == 8 ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With8Bit());
+                if (value == 16) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With16Bit());
+                if (value == 32) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With32Bit()); });
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(TestParameters))]
+        public void TapeBound_Bits(int init, int value)
+        {
+            void AssertProp(Action<TestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters(x, init);
+                
+                setter(x);
+                
+                Assert_SynthBound_Getters(x, init);
+                Assert_TapeBound_Getters(x, value);
+                Assert_BuffBound_Getters(x, init);
+                Assert_Independent_Getters(x, init);
+                Assert_Immutable_Getters(x, init);
+                
+                x.Record();
+                
+                Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+            }
+
+            AssertProp(x => AreEqual(x.TapeBound.Tape,       () => x.TapeBound.Tape.Bits(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.Bits(value)));
+            AssertProp(x =>                                         x.TapeBound.TapeConfig.Bits = value);
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Bits(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.Bits(value)));
+            
+            AssertProp(x => {
+                if (value ==  8) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With8Bit());
+                if (value == 16) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With16Bit());
+                if (value == 32) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With32Bit()); });
+            
+            AssertProp(x => {
+                if (value ==  8) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With8Bit());
+                if (value == 16) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With16Bit());
+                if (value == 32) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With32Bit()); });
+            
+            AssertProp(x => {
+                if (value ==  8) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With8Bit());
+                if (value == 16) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With16Bit());
+                if (value == 32) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With32Bit()); });
+            
+            AssertProp(x => {
+                if (value ==  8) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With8Bit());
+                if (value == 16) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With16Bit());
+                if (value == 32) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With32Bit()); });
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(TestParameters))]
+        public void BuffBound_Bits(int init, int value)
+        {
+            void AssertProp(Action<TestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters(x, init);
+                
+                setter(x);
+                
+                Assert_SynthBound_Getters(x, init);
+                Assert_TapeBound_Getters(x, init);
+                Assert_BuffBound_Getters(x, value);
+                Assert_Independent_Getters(x, init);
+                Assert_Immutable_Getters(x, init);
+                
+                x.Record();
                 Assert_All_Getters(x, init);
             }
 
-            // Synth-Bound Changes
-            {
-                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes.Bits(value)));
-                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,        x.SynthBound.SynthWishes.WithBits(value)));
-                AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode.Bits(value)));
-                AssertProp(x => AreEqual(x.SynthBound.FlowNode,           x.SynthBound.FlowNode.WithBits(value)));
-                AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Bits(value)));
-                AssertProp(x => AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithBits(value)));
-                
-                AssertProp(x => {
-                    if (value == 8 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());
-                    if (value == 16) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With16Bit());
-                    if (value == 32) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With32Bit()); });
-                
-                AssertProp(x => {
-                    if (value == 8 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With8Bit());
-                    if (value == 16) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With16Bit());
-                    if (value == 32) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With32Bit()); });
-                
-                AssertProp(x => {
-                    if (value == 8 ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With8Bit());
-                    if (value == 16) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With16Bit());
-                    if (value == 32) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With32Bit()); });
-                
-                void AssertProp(Action<TestEntities> setter)
-                {
-                    var x = CreateTestEntities(init);
-                    Assert_All_Getters(x, init);
-                    
-                    setter(x);
-                    
-                    Assert_SynthBound_Getters(x, value);
-                    Assert_TapeBound_Getters(x, init);
-                    Assert_BuffBound_Getters(x, init);
-                    Assert_Independent_Getters(x, init);
-                    Assert_Immutable_Getters(x, init);
-                    
-                    x.Record();
-                    
-                    Assert_All_Getters(x, value);
-                }
-            }
-
-            // Tape-Bound Changes
-            {
-                AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape.Bits(value)));
-                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig.Bits(value)));
-                AssertProp(x =>                                         x.TapeBound.TapeConfig.Bits = value);
-                AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Bits(value)));
-                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.Bits(value)));
-                
-                AssertProp(x => {
-                    if (value ==  8) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With8Bit());
-                    if (value == 16) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With16Bit());
-                    if (value == 32) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With32Bit()); });
-                
-                AssertProp(x => {
-                    if (value ==  8) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With8Bit());
-                    if (value == 16) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With16Bit());
-                    if (value == 32) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With32Bit()); });
-                
-                AssertProp(x => {
-                    if (value ==  8) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With8Bit());
-                    if (value == 16) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With16Bit());
-                    if (value == 32) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With32Bit()); });
-                
-                AssertProp(x => {
-                    if (value ==  8) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With8Bit());
-                    if (value == 16) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With16Bit());
-                    if (value == 32) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With32Bit()); });
-                
-                void AssertProp(Action<TestEntities> setter)
-                {
-                    var x = CreateTestEntities(init);
-                    Assert_All_Getters(x, init);
-                    
-                    setter(x);
-                    
-                    Assert_SynthBound_Getters(x, init);
-                    Assert_TapeBound_Getters(x, value);
-                    Assert_BuffBound_Getters(x, init);
-                    Assert_Independent_Getters(x, init);
-                    Assert_Immutable_Getters(x, init);
-                    
-                    x.Record();
-                    
-                    Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
-                }
-            }
-
-            // Buff-Bound Changes
-            {
-                AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.Bits(value, x.SynthBound.Context)));
-                AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Bits(value, x.SynthBound.Context)));
-                
-                AssertProp(x => {
-                    if (value == 8) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With8Bit(x.SynthBound.Context));
-                    if (value == 16) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With16Bit(x.SynthBound.Context));
-                    if (value == 32) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With32Bit(x.SynthBound.Context)); });
-                
-                AssertProp(x => {
-                    if (value == 8) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With8Bit(x.SynthBound.Context));
-                    if (value == 16) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With16Bit(x.SynthBound.Context));
-                    if (value == 32) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With32Bit(x.SynthBound.Context)); });
-
-                void AssertProp(Action<TestEntities> setter)
-                {    
-                    var x = CreateTestEntities(init);
-                    Assert_All_Getters(x, init);
-                    
-                    setter(x);
-
-                    Assert_SynthBound_Getters(x, init);
-                    Assert_TapeBound_Getters(x, init);
-                    Assert_BuffBound_Getters(x, value);
-                    Assert_Independent_Getters(x, init);
-                    Assert_Immutable_Getters(x, init);
-                    
-                    x.Record();
-                    Assert_All_Getters(x, init);
-                }
-            }
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.Bits(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Bits(value, x.SynthBound.Context)));
+            
+            AssertProp(x => {
+                if (value == 8) AreEqual(x.BuffBound.Buff,  () => x.BuffBound.Buff.With8Bit(x.SynthBound.Context));
+                if (value == 16) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With16Bit(x.SynthBound.Context));
+                if (value == 32) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With32Bit(x.SynthBound.Context)); });
+            
+            AssertProp(x => {
+                if (value == 8) AreEqual(x.BuffBound.AudioFileOutput,  () => x.BuffBound.AudioFileOutput.With8Bit(x.SynthBound.Context));
+                if (value == 16) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With16Bit(x.SynthBound.Context));
+                if (value == 32) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With32Bit(x.SynthBound.Context)); });
         }
         
-        // Bits for Independently Changeable
-        
-        [TestMethod] [DynamicData(nameof(TestParameters))]
-        public void Test_Bits_IndependentAfterTaping(int init, int value)
+        [TestMethod]
+        [DynamicData(nameof(TestParameters))]
+        public void Independent_Bits(int init, int value)
         {
             // Independent after Taping
-            var x = CreateTestEntities(init);
 
             // Sample
             {
+                TestEntities x = default;
+                
+                void AssertProp(Action setter)
+                {
+                    x = CreateTestEntities(init);
+                    Assert_All_Getters(x, init);
+                    
+                    setter();
+                    
+                    Assert_Independent_Getters(x.Independent.Sample, value);
+                    
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
+                    Assert_Immutable_Getters(x, init);
+                    Assert_Bound_Getters(x, init);
+
+                    x.Record();
+                    Assert_All_Getters(x, init);
+                }
+                
                 AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.Bits(value, x.SynthBound.Context)));
                 
                 AssertProp(() => {
                     if (value == 8) AreEqual(x.Independent.Sample, () => x.Independent.Sample.With8Bit(x.SynthBound.Context));
                     if (value == 16) AreEqual(x.Independent.Sample, () => x.Independent.Sample.With16Bit(x.SynthBound.Context));
                     if (value == 32) AreEqual(x.Independent.Sample, () => x.Independent.Sample.With32Bit(x.SynthBound.Context)); });
-                
-                void AssertProp(Action setter)
-                {
-                    Initialize(x, init);
-                    Assert_All_Getters(x, init);
-                    
-                    setter();
-                    
-                    Assert_Bit_Getters(x.Independent.Sample, value);
-                    
-                    Assert_Bit_Getters(x.Independent.AudioInfoWish, init);
-                    Assert_Bit_Getters(x.Independent.AudioFileInfo, init);
-                    Assert_Immutable_Getters(x, init);
-                    Assert_Bound_Bit_Getters(x, init);
-
-                    x.Record();
-                    Assert_All_Getters(x, init);
-                }
             }
             
             // AudioInfoWish
             {
+                TestEntities x = default;
+
+                void AssertProp(Action setter)
+                {
+                    x = CreateTestEntities(init);
+                    Assert_All_Getters(x, init);
+                    
+                    setter();
+                    
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, value);
+                    
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
+                    Assert_Independent_Getters(x.Independent.Sample, init);
+                    Assert_Immutable_Getters(x, init);
+                    Assert_Bound_Getters(x, init);
+
+                    x.Record();
+                    Assert_All_Getters(x, init);
+                }
+                
                 AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.Bits(value)));
                 AssertProp(() =>                                             x.Independent.AudioInfoWish.Bits = value);
                 
@@ -200,64 +225,60 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     if (value ==  8) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.With8Bit());
                     if (value == 16) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.With16Bit());
                     if (value == 32) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.With32Bit()); });
-                
-                void AssertProp(Action setter)
-                {
-                    Initialize(x, init);
-                    Assert_All_Getters(x, init);
-                    
-                    setter();
-                    
-                    Assert_Bit_Getters(x.Independent.AudioInfoWish, value);
-                    
-                    Assert_Bit_Getters(x.Independent.AudioFileInfo, init);
-                    Assert_Bit_Getters(x.Independent.Sample, init);
-                    Assert_Immutable_Getters(x, init);
-                    Assert_Bound_Bit_Getters(x, init);
-
-                    x.Record();
-                    Assert_All_Getters(x, init);
-                }
             }
                         
             // AudioFileInfo
             {
+                TestEntities x = default;
+
+                void AssertProp(Action setter)
+                {
+                    x = CreateTestEntities(init);
+                    Assert_All_Getters(x, init);
+                    
+                    setter();
+                    
+                    Assert_Bound_Getters(x, init);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, value);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init);
+                    Assert_Independent_Getters(x.Independent.Sample, init);
+                    Assert_Immutable_Getters(x, init);
+
+                    x.Record();
+                    Assert_All_Getters(x, init);
+                }
+                
                 AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.Bits(value)));
                 
                 AssertProp(() => {
                     if (value ==  8) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.With8Bit());
                     if (value == 16) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.With16Bit());
                     if (value == 32) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.With32Bit()); });
-                
-                void AssertProp(Action setter)
-                {
-                    Initialize(x, init);
-                    Assert_All_Getters(x, init);
-                    
-                    setter();
-                    
-                    Assert_Bit_Getters(x.Independent.AudioFileInfo, value);
-                    
-                    Assert_Bit_Getters(x.Independent.AudioInfoWish, init);
-                    Assert_Bit_Getters(x.Independent.Sample, init);
-                    Assert_Bound_Bit_Getters(x, init);
-                    Assert_Immutable_Getters(x, init);
-
-                    x.Record();
-                    Assert_All_Getters(x, init);
-                }
             }
         }
         
-        // Bits for Immutables
-        
-        [TestMethod] [DynamicData(nameof(TestParameters))]
-        public void Test_Bits_Immutable(int init, int value)
+        [TestMethod]
+        [DynamicData(nameof(TestParameters))]
+        public void Immutable_Bits(int init, int value)
         {
             var x = CreateTestEntities(init);
 
+            // WavHeader
+            
             var wavHeaders = new List<WavHeaderStruct>();
             {
+                void AssertProp(Func<WavHeaderStruct> setter)
+                {
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
+                    
+                    WavHeaderStruct wavHeader2 = setter();
+                    
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(wavHeader2, value);
+                    
+                    wavHeaders.Add(wavHeader2);
+                }
+                
                 AssertProp(() => x.Immutable.WavHeader.Bits(value));
                 
                 AssertProp(() => 
@@ -267,22 +288,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     if (value == 32) return x.Immutable.WavHeader.With32Bit();
                     return default; // ncrunch: no coverage
                 });
-                
-                void AssertProp(Func<WavHeaderStruct> setter)
-                {
-                    Assert_Bit_Getters(x.Immutable.WavHeader, init);
-                    
-                    var wavHeader2 = setter();
-                    
-                    Assert_Bit_Getters(x.Immutable.WavHeader, init);
-                    Assert_Bit_Getters(wavHeader2, value);
-                    
-                    wavHeaders.Add(wavHeader2);
-                }
             }
-            
+
+            // SampleDataTypeEnum
+
             var sampleDataTypeEnums = new List<SampleDataTypeEnum>();
             {
+                void AssertProp(Func<SampleDataTypeEnum> setter)
+                {
+                    Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, init);
+                    
+                    SampleDataTypeEnum sampleDataTypeEnum2 = setter();
+                    
+                    Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, init);
+                    Assert_Immutable_Getters(sampleDataTypeEnum2, value);
+                    
+                    sampleDataTypeEnums.Add(sampleDataTypeEnum2);
+                }
+                
                 AssertProp(() => x.Immutable.SampleDataTypeEnum.Bits(value));
                 AssertProp(() => value.BitsToEnum());
                 
@@ -293,22 +316,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     if (value == 32) return x.Immutable.SampleDataTypeEnum.With32Bit();
                     return default; // ncrunch: no coverage
                 });
-                
-                void AssertProp(Func<SampleDataTypeEnum> setter)
-                {
-                    Assert_Bit_Getters(x.Immutable.SampleDataTypeEnum, init);
-                    
-                    var sampleDataTypeEnum2 = setter();
-                    
-                    Assert_Bit_Getters(x.Immutable.SampleDataTypeEnum, init);
-                    Assert_Bit_Getters(sampleDataTypeEnum2, value);
-                    
-                    sampleDataTypeEnums.Add(sampleDataTypeEnum2);
-                }
             }
-                        
+
+            // SampleDataType
+
             var sampleDataTypes = new List<SampleDataType>();
             {
+                void AssertProp(Func<SampleDataType> setter)
+                {
+                    Assert_Immutable_Getters(x.Immutable.SampleDataType, init);
+
+                    SampleDataType sampleDataType2 = setter();
+                    
+                    Assert_Immutable_Getters(x.Immutable.SampleDataType, init);
+                    Assert_Immutable_Getters(sampleDataType2, value);
+                    
+                    sampleDataTypes.Add(sampleDataType2);
+                }
+            
                 AssertProp(() => x.Immutable.SampleDataType.Bits(value, x.SynthBound.Context));
                 AssertProp(() => value.BitsToEntity(x.SynthBound.Context));
                 
@@ -319,22 +344,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     if (value == 32) return x.Immutable.SampleDataType.With32Bit(x.SynthBound.Context);
                     return default; // ncrunch: no coverage
                 });
-                
-                void AssertProp(Func<SampleDataType> setter)
-                {
-                    Assert_Bit_Getters(x.Immutable.SampleDataType, init);
 
-                    var sampleDataType2 = setter();
-                    
-                    Assert_Bit_Getters(x.Immutable.SampleDataType, init);
-                    Assert_Bit_Getters(sampleDataType2, value);
-                    
-                    sampleDataTypes.Add(sampleDataType2);
-                }
             }
-            
+
+            // Type
+
             var types = new List<Type>();
             {
+                void AssertProp(Func<Type> setter)
+                {
+                    Assert_Immutable_Getters(x.Immutable.Type, init);
+                    
+                    var type2 = setter();
+                    
+                    Assert_Immutable_Getters(x.Immutable.Type, init);
+                    Assert_Immutable_Getters(type2, value);
+                    
+                    types.Add(type2);
+                }
+
                 AssertProp(() => x.Immutable.Type.Bits(value));
                 AssertProp(() => value.BitsToType());
                 
@@ -345,18 +373,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     if (value == 32) return x.Immutable.Type.With32Bit();
                     return default; // ncrunch: no coverage
                 });
-                
-                void AssertProp(Func<Type> setter)
-                {
-                    Assert_Bit_Getters(x.Immutable.Type, init);
-                    
-                    var type2 = setter();
-                    
-                    Assert_Bit_Getters(x.Immutable.Type, init);
-                    Assert_Bit_Getters(type2, value);
-                    
-                    types.Add(type2);
-                }
             }
             
             // After-Record
@@ -366,15 +382,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert_All_Getters(x, init);
             
             // Except for our variables
-            wavHeaders         .ForEach(w => Assert_Bit_Getters(w, value));
-            sampleDataTypeEnums.ForEach(e => Assert_Bit_Getters(e, value));
-            sampleDataTypes    .ForEach(s => Assert_Bit_Getters(s, value));
-            types              .ForEach(t => Assert_Bit_Getters(t, value));
+            wavHeaders         .ForEach(w => Assert_Immutable_Getters(w, value));
+            sampleDataTypeEnums.ForEach(e => Assert_Immutable_Getters(e, value));
+            sampleDataTypes    .ForEach(s => Assert_Immutable_Getters(s, value));
+            types              .ForEach(t => Assert_Immutable_Getters(t, value));
         }
 
-        // Bits in ConfigSection
-        
-        [TestMethod] public void Test_Bits_ConfigSection()
+        [TestMethod]
+        public void ConfigSection_Bits()
         {
             // Global-Bound. Immutable. Get-only.
             var configSection = TestEntities.GetConfigSectionAccessor();
@@ -386,9 +401,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(DefaultBits == 32, () => configSection.Is32Bit());
         }
 
-        // Bits With Type Arguments
-        
-        [TestMethod] public void Test_Bits_TypeArguments()
+        [TestMethod]
+        public void Bits_WithTypeArguments()
         {
             // Getters
             AreEqual(8, () => Bits<byte>());
@@ -441,7 +455,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         
-        [TestMethod] public void Test_Bits_EdgeCases()
+        [TestMethod]
+        public void Bits_EdgeCases()
         {
             // For code coverage
             ThrowsException(() => typeof(string).TypeToBits());
@@ -450,8 +465,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // Helpers
 
         private TestEntities CreateTestEntities(int bits) => new TestEntities(x => x.Bits(bits));
-        
-        private static void Initialize(TestEntities x, int bits) => x.Initialize(s => s.Bits(bits));
         
         static object TestParameters => new[]
         {
@@ -462,18 +475,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void Assert_All_Getters(TestEntities x, int bits)
         {
-            Assert_SynthBound_Getters(x, bits);
-            Assert_TapeBound_Getters(x, bits);
-            Assert_BuffBound_Getters(x, bits);
+            Assert_Bound_Getters(x, bits);
             Assert_Independent_Getters(x, bits);
             Assert_Immutable_Getters(x, bits);
         }
 
-        private void Assert_Bound_Bit_Getters(TestEntities x, int bits)
+        private void Assert_Bound_Getters(TestEntities x, int bits)
         {
             Assert_SynthBound_Getters(x, bits);
             Assert_TapeBound_Getters(x, bits);
             Assert_BuffBound_Getters(x, bits);
+        }
+        
+        private void Assert_Independent_Getters(TestEntities x, int bits)
+        {
+            // Independent after Taping
+            Assert_Independent_Getters(x.Independent.Sample, bits);
+            Assert_Independent_Getters(x.Independent.AudioInfoWish, bits);
+            Assert_Independent_Getters(x.Independent.AudioFileInfo, bits);
+        }
+
+        private void Assert_Immutable_Getters(TestEntities x, int bits)
+        {
+            Assert_Immutable_Getters(x.Immutable.WavHeader, bits);
+            Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, bits);
+            Assert_Immutable_Getters(x.Immutable.SampleDataType, bits);
+            Assert_Immutable_Getters(x.Immutable.Type, bits);
         }
 
         private void Assert_SynthBound_Getters(TestEntities x, int bits)
@@ -546,23 +573,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => x.BuffBound.AudioFileOutput.Is32Bit());
         }
 
-        private void Assert_Independent_Getters(TestEntities x, int bits)
-        {
-            // Independent after Taping
-            Assert_Bit_Getters(x.Independent.Sample, bits);
-            Assert_Bit_Getters(x.Independent.AudioInfoWish, bits);
-            Assert_Bit_Getters(x.Independent.AudioFileInfo, bits);
-        }
-
-        private void Assert_Immutable_Getters(TestEntities x, int bits)
-        {
-            Assert_Bit_Getters(x.Immutable.WavHeader, bits);
-            Assert_Bit_Getters(x.Immutable.SampleDataTypeEnum, bits);
-            Assert_Bit_Getters(x.Immutable.SampleDataType, bits);
-            Assert_Bit_Getters(x.Immutable.Type, bits);
-        }
-
-        private void Assert_Bit_Getters(AudioFileInfo audioFileInfo, int bits)
+        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int bits)
         {
             AreEqual(bits,       () => audioFileInfo.Bits());
             AreEqual(bits == 8,  () => audioFileInfo.Is8Bit());
@@ -570,7 +581,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => audioFileInfo.Is32Bit());
         }
         
-        private void Assert_Bit_Getters(Sample sample, int bits)
+        private void Assert_Independent_Getters(Sample sample, int bits)
         {
             AreEqual(bits,       () => sample.Bits());
             AreEqual(bits == 8,  () => sample.Is8Bit());
@@ -578,7 +589,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => sample.Is32Bit());
         }
         
-        private void Assert_Bit_Getters(AudioInfoWish audioInfoWish, int bits)
+        private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int bits)
         {
             AreEqual(bits,       () => audioInfoWish.Bits());
             AreEqual(bits,       () => audioInfoWish.Bits);
@@ -587,7 +598,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => audioInfoWish.Is32Bit());
         }
 
-        private void Assert_Bit_Getters(WavHeaderStruct wavHeader, int bits)
+        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int bits)
         {
             AreEqual(bits,       () => wavHeader.Bits());
             AreEqual(bits,       () => wavHeader.BitsPerValue);
@@ -596,7 +607,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => wavHeader.Is32Bit());
         }
         
-        private void Assert_Bit_Getters(SampleDataTypeEnum sampleDataTypeEnum, int bits)
+        private void Assert_Immutable_Getters(SampleDataTypeEnum sampleDataTypeEnum, int bits)
         {
             AreEqual(bits,       () => sampleDataTypeEnum.Bits());
             AreEqual(bits,       () => sampleDataTypeEnum.EnumToBits());
@@ -605,7 +616,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => sampleDataTypeEnum.Is32Bit());
         }
         
-        private void Assert_Bit_Getters(SampleDataType sampleDataType, int bits)
+        private void Assert_Immutable_Getters(SampleDataType sampleDataType, int bits)
         {
             if (sampleDataType == null) throw new NullException(() => sampleDataType);
             AreEqual(bits,       () => sampleDataType.Bits());
@@ -615,7 +626,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => sampleDataType.Is32Bit());
         }
         
-        private void Assert_Bit_Getters(Type type, int bits)
+        private void Assert_Immutable_Getters(Type type, int bits)
         {
             if (type == null) throw new NullException(() => type);
             AreEqual(bits,       () => type.Bits());

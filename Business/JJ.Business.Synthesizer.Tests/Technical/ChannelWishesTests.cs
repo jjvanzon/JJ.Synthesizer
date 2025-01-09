@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
@@ -18,20 +19,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     [TestCategory("Technical")]
     public class ChannelWishesTests
     {
-        [TestMethod] public void Test_Channel_Init()
+        [DataTestMethod]
+        [DataRow(1, 0)]
+        [DataRow(2, 0)]
+        [DataRow(2, 1)]
+        [DataRow(2, null)]
+        public void Init_Channel(int channels, int? channel)
         {
-            Test_Channel_Init(init: (1,0));
-            Test_Channel_Init(init: (2,0));
-            Test_Channel_Init(init: (2,1));
-            Test_Channel_Init(init: (2,null));
+            var x = CreateTestEntities((channels, channel));
+            Assert_All_Getters(x, (channels, channel));
         }
         
-        void Test_Channel_Init((int, int?) init)
-        { 
-            var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
-        }
-
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
         public void SynthBound_Channel(int initChannels, int? initChannel, int channels, int? channel)
@@ -47,18 +45,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 setter(x);
                 
                 Assert_SynthBound_Getters(x, val);
-                Assert_TapeBound_Getters_MonoAndStereoTapes(x, init);
+                Assert_TapeBound_Getters_Complete(x, init);
                 Assert_BuffBound_Getters(x, init);
                 Assert_Immutable_Getters(x, init);
-                Assert_TapeBound_Getters_SeparateChannelTapes(x, init);
                 
                 x.Record();
-                
-                Assert_SynthBound_Getters(x, val);
-                Assert_TapeBound_Getters_MonoAndStereoTapes(x, val);
-                Assert_BuffBound_Getters(x, val);
-                Assert_Immutable_Getters(x, val);
-                Assert_TapeBound_Getters_SeparateChannelTapes(x, val);
+                Assert_All_Getters(x, val);
             }
             
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Channels    (val.channels).Channel    (val.channel)));
@@ -149,11 +141,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Assert_Immutable_Getters(x, init);
                 
                 x.Record();
-                
-                Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters_Complete(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
-                Assert_BuffBound_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
             
             AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .Channels(val.channels).Channel(val.channel)));
@@ -282,12 +270,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 void AssertProp(Func<ChannelEnum> setter)
                 {
-                    Assert_Getters(x.Immutable.ChannelEnum, init);
+                    Assert_Immutable_Getters(x.Immutable.ChannelEnum, init);
                     
                     ChannelEnum channelEnum2 = setter();
                     
-                    Assert_Getters(x.Immutable.ChannelEnum, init);
-                    Assert_Getters(channelEnum2, val);
+                    Assert_Immutable_Getters(x.Immutable.ChannelEnum, init);
+                    Assert_Immutable_Getters(channelEnum2, val);
                     
                     channelEnums.Add(channelEnum2);
                 }
@@ -318,12 +306,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 void AssertProp(Func<Channel> setter)
                 {
-                    Assert_Getters(x.Immutable.ChannelEntity, init);
+                    Assert_Immutable_Getters(x.Immutable.ChannelEntity, init);
 
                     Channel channelEntity2 = setter();
                     
-                    Assert_Getters(x.Immutable.ChannelEntity, init);
-                    Assert_Getters(channelEntity2, val);
+                    Assert_Immutable_Getters(x.Immutable.ChannelEntity, init);
+                    Assert_Immutable_Getters(channelEntity2, val);
                     
                     channelEntities.Add(channelEntity2);
                 }
@@ -356,8 +344,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert_All_Getters(x, init);
             
             // Except for our variables
-            channelEnums.ForEach(e => Assert_Getters(e, val));
-            channelEntities.ForEach(e => Assert_Getters(e, val));
+            channelEnums.ForEach(e => Assert_Immutable_Getters(e, val));
+            channelEntities.ForEach(e => Assert_Immutable_Getters(e, val));
         }
         
         // Helpers
@@ -494,24 +482,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Assert_TapeBound_Getters_Complete(TestEntities x, (int channels, int? channel) c)
         {
-            Assert_TapeBound_Getters_MonoAndStereoTapes(x, c);
-            Assert_TapeBound_Getters_SeparateChannelTapes(x, c);
-        }
-        
-        private void Assert_TapeBound_Getters_MonoAndStereoTapes(TestEntities x, (int channels, int? channel) c)
-        {
-            if (c.channels == MonoChannels)
-            {
-                Assert_MonoTape_Getters(x);
-            }           
-            if (c.channels == StereoChannels)
-            {
-                Assert_StereoTape_Getters(x);
-            }
-        }
-        
-        private void Assert_TapeBound_Getters_SeparateChannelTapes(TestEntities x, (int channels, int? channel) c)
-        {
             IsNotNull(() => x.ChannelEntities);
             AreEqual(c.channels, () => x.ChannelEntities.Count);
             IsFalse(() => x.ChannelEntities.Contains(null));
@@ -519,10 +489,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             if (c.channels == MonoChannels)
             {
                 AreSame(x.TapeBound.Tape, () => x.ChannelEntities[0].TapeBound.Tape); 
+                Assert_MonoTape_Getters(x);
                 Assert_MonoTape_Getters(x.ChannelEntities[0]);
             }
             if (c.channels == StereoChannels)
             {
+                Assert_StereoTape_Getters(x);
                 Assert_LeftTape_Getters(x.ChannelEntities[0]);
                 Assert_RightTape_Getters(x.ChannelEntities[1]);
             }
@@ -769,11 +741,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void Assert_Immutable_Getters(TestEntities x, (int, int?) c)
         {
-            Assert_Getters(x.Immutable.ChannelEnum, c);
-            Assert_Getters(x.Immutable.ChannelEntity, c);
+            Assert_Immutable_Getters(x.Immutable.ChannelEnum, c);
+            Assert_Immutable_Getters(x.Immutable.ChannelEntity, c);
         }
         
-        private void Assert_Getters(ChannelEnum channelEnum, (int channels, int? channel) c)
+        private void Assert_Immutable_Getters(ChannelEnum channelEnum, (int channels, int? channel) c)
         {
             if (channelEnum == ChannelEnum.Undefined) IsNull(c.channel);
             AreEqual(c.channel,  () => channelEnum.Channel());
@@ -793,7 +765,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
         
-        private void Assert_Getters(Channel channelEntity, (int channels, int? channel) c)
+        private void Assert_Immutable_Getters(Channel channelEntity, (int channels, int? channel) c)
         {
             if (channelEntity == null) IsNull(c.channel);
             AreEqual(c.channel,  () => channelEntity.Channel());
