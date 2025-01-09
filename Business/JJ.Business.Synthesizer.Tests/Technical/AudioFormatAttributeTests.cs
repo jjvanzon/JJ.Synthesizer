@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class AudioFormatWishesTests
+    public class AudioFormatAttributeTests
     {
         [TestMethod, DataRow(Raw) ,DataRow(Wav)]
         public void Init_AudioFormat(AudioFileFormatEnum init)

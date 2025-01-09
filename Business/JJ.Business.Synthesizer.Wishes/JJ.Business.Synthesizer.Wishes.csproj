@@ -64,7 +64,7 @@
     <Compile Include="AttributeWishes\SizeOfWishes.cs" />
     <Compile Include="AttributeWishes\CourtesyFrameWishes.cs" />
     <Compile Include="AttributeWishes\InterpolationWishes.cs" />
-    <Compile Include="AttributeWishes\AudioFormatWishes.cs" />
+    <Compile Include="AttributeWishes\AudioFormatAttributeWishes.cs" />
     <Compile Include="AttributeWishes\SamplingRateWishes.cs" />
     <Compile Include="AttributeWishes\AudioInfoWish.cs" />
     <Compile Include="AttributeWishes\ChannelWishes.cs" />
