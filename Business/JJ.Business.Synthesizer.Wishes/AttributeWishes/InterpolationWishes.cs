@@ -159,6 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsLinear(this FlowNode              obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this ConfigWishes          obj) => obj.Interpolation() == Line;
         internal static bool IsLinear(this ConfigSection         obj) => obj.Interpolation() == Line;
+        public   static bool IsLinear(this Tape                  obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this TapeConfig            obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this TapeAction            obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this TapeActions           obj) => obj.Interpolation() == Line;
@@ -171,6 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static bool IsBlocky(this FlowNode              obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this ConfigWishes          obj) => obj.Interpolation() == Block;
         internal static bool IsBlocky(this ConfigSection         obj) => obj.Interpolation() == Block;
+        public   static bool IsBlocky(this Tape                  obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this TapeConfig            obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this TapeAction            obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this TapeActions           obj) => obj.Interpolation() == Block;
@@ -188,10 +190,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static TapeActions  Linear(this TapeActions  obj) => obj.Interpolation(Line);
         public   static Sample       Linear(this Sample       obj, IContext context) => obj.Interpolation(Line, context);
         /// <inheritdoc cref="docs._quisetter" />
-        public   static InterpolationTypeEnum Linear(this InterpolationTypeEnum obj) => obj.Interpolation(Block);
+        public   static InterpolationTypeEnum Linear(this InterpolationTypeEnum oldInterpolation) => oldInterpolation.Interpolation(Line);
         /// <inheritdoc cref="docs._quisetter" />
         [Obsolete(ObsoleteMessage)]
-        public   static InterpolationType Linear(this InterpolationType obj, IContext context) => obj.Interpolation(Line, context);
+        public   static InterpolationType Linear(this InterpolationType oldEnumEntity, IContext context) => oldEnumEntity.Interpolation(Line, context);
         
         public   static SynthWishes  Blocky(this SynthWishes  obj) => obj.Interpolation(Block);
         public   static FlowNode     Blocky(this FlowNode     obj) => obj.Interpolation(Block);
@@ -202,9 +204,9 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static TapeActions  Blocky(this TapeActions  obj) => obj.Interpolation(Block);
         public   static Sample       Blocky(this Sample       obj, IContext context) => obj.Interpolation(Block, context);
         /// <inheritdoc cref="docs._quisetter" />
-        public   static InterpolationTypeEnum Blocky(this InterpolationTypeEnum obj) => Interpolation(obj, Block);
+        public   static InterpolationTypeEnum Blocky(this InterpolationTypeEnum oldInterpolation) => Interpolation(oldInterpolation, Block);
         /// <inheritdoc cref="docs._quisetter" />
         [Obsolete(ObsoleteMessage)]
-        public   static InterpolationType Blocky(this InterpolationType obj, IContext context) => obj.Interpolation(Block, context);
+        public   static InterpolationType Blocky(this InterpolationType oldEnumEntity, IContext context) => oldEnumEntity.Interpolation(Block, context);
     }
 }
