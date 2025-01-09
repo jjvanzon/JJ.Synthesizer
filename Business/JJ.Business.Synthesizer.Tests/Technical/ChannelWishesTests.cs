@@ -261,13 +261,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             var x = CreateTestEntities(init);
             
+            // ChannelEnum
+            
             var channelEnums = new List<ChannelEnum>();
             {
                 void AssertProp(Func<ChannelEnum> setter)
                 {
                     Assert_Getters(x.Immutable.ChannelEnum, init);
                     
-                    var channelEnum2 = setter();
+                    ChannelEnum channelEnum2 = setter();
                     
                     Assert_Getters(x.Immutable.ChannelEnum, init);
                     Assert_Getters(channelEnum2, val);
@@ -275,8 +277,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     channelEnums.Add(channelEnum2);
                 }
 
-                AssertProp(() => x.Immutable.ChannelEnum.Channels(val.channels).Channel(val.channel));
                 AssertProp(() => val.channel.ChannelToEnum(val.channels));
+                AssertProp(() => x.Immutable.ChannelEnum.Channels(val.channels)
+                                                        .Channel(val.channel)
+                                                        .Channels(val.channels));
+                AssertProp(() => x.Immutable.ChannelEnum.Channel(val.channel)
+                                                        .Channels(val.channels)
+                                                        .Channel(val.channel));
 
                 AssertProp(() => {
                     if (val == (1,0))    return x.Immutable.ChannelEnum.Center();
@@ -284,15 +291,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     if (val == (2,1))    return x.Immutable.ChannelEnum.Right();
                     if (val == (2,null)) return x.Immutable.ChannelEnum.NoChannel();
                     return default; });
+            
+                // TODO: There must be more.
             }
                         
+            // Channel Entity
+            
             var channelEntities = new List<Channel>();
             {
                 void AssertProp(Func<Channel> setter)
                 {
                     Assert_Getters(x.Immutable.ChannelEntity, init);
 
-                    var channelEntity2 = setter();
+                    Channel channelEntity2 = setter();
                     
                     Assert_Getters(x.Immutable.ChannelEntity, init);
                     Assert_Getters(channelEntity2, val);
@@ -300,19 +311,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     channelEntities.Add(channelEntity2);
                 }
 
-                
-                AssertProp(() => x.Immutable.ChannelEntity
-                                  .Channels(val.channels, x.SynthBound.Context)
-                                  .Channel (val.channel, x.SynthBound.Context));
                 AssertProp(() => val.channel.ChannelToEntity(val.channels, x.SynthBound.Context));
-                AssertProp(() => val.channel.ChannelToEntity(val.channels.ChannelsToEnum(), x.SynthBound.Context));
-
+                AssertProp(() => x.Immutable.ChannelEntity
+                                            .Channels(val.channels, x.SynthBound.Context)
+                                            .Channel (val.channel,  x.SynthBound.Context)
+                                            .Channels(val.channels, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.ChannelEntity
+                                            .Channel(val.channel, x.SynthBound.Context)
+                                            .Channels(val.channels, x.SynthBound.Context)
+                                            .Channel(val.channel, x.SynthBound.Context));
                 AssertProp(() => {
                     if (val == (1,0))    return x.Immutable.ChannelEntity.Center(x.SynthBound.Context);
                     if (val == (2,0))    return x.Immutable.ChannelEntity.Left(x.SynthBound.Context);
                     if (val == (2,1))    return x.Immutable.ChannelEntity.Right(x.SynthBound.Context);
                     if (val == (2,null)) return x.Immutable.ChannelEntity.NoChannel();
                     return default; });
+
+                // TODO: There must be more.
             }
             
             // After-Record
