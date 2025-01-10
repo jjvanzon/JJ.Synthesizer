@@ -9,12 +9,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Primary Audio Attribute
         
-        public static int CourtesyFrames(int courtesyBytes, int frameSize)
-        {
-            if (courtesyBytes < 0) throw new Exception(nameof(frameSize) + " less than 0.");
-            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
-            return courtesyBytes / frameSize;
-        }
         
         public static int CourtesyFrames(this SynthWishes obj)
         {

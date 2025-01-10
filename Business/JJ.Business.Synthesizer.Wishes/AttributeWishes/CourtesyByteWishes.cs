@@ -9,13 +9,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Derived Attribute
         
-        public static int CourtesyBytes(int courtesyFrames, int frameSize)
-        {
-            if (courtesyFrames < 0) throw new Exception(nameof(frameSize) + " less than 0.");
-            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
-            return courtesyFrames * frameSize;
-        }
-        
         public static int CourtesyBytes(this SynthWishes obj)
             => CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
@@ -81,5 +74,22 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             obj.Tape.CourtesyBytes(value);
             return obj;
         }
+
+        // Conversion formulas        
+                
+        public static int CourtesyBytes(int courtesyFrames, int frameSize)
+        {
+            if (courtesyFrames < 0) throw new Exception(nameof(frameSize) + " less than 0.");
+            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
+            return courtesyFrames * frameSize;
+        }
+
+        public static int CourtesyFrames(int courtesyBytes, int frameSize)
+        {
+            if (courtesyBytes < 0) throw new Exception(nameof(frameSize) + " less than 0.");
+            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
+            return courtesyBytes / frameSize;
+        }
+
     }
 }
