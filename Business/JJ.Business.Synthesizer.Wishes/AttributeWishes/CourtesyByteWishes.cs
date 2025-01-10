@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // A Derived Attribute
+        // Derived from CourtesyFrames
         
         public static int CourtesyBytes(this SynthWishes obj)
             => CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
@@ -88,6 +88,11 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         {
             if (courtesyBytes < 0) throw new Exception(nameof(frameSize) + " less than 0.");
             if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
+            if (courtesyBytes % frameSize != 0) 
+            {
+                throw new Exception($"{nameof(courtesyBytes)} not a multiple of {nameof(frameSize)}: " +
+                                    $"{new{courtesyBytes, frameSize}}");
+            }
             return courtesyBytes / frameSize;
         }
 

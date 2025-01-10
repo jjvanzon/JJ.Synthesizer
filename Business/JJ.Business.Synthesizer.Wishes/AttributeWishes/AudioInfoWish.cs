@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
-using JJ.Business.Synthesizer.Wishes.Helpers;
+using JetBrains.Annotations;
+using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -7,7 +8,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class AudioInfoWish
     {
-        string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+        [UsedImplicitly] string DebuggerDisplay => GetDebuggerDisplay(this);
         
         public int Bits { get; set; }
         public int Channels { get; set; }

@@ -9,7 +9,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Primary Audio Attribute
         
-        
         public static int CourtesyFrames(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
