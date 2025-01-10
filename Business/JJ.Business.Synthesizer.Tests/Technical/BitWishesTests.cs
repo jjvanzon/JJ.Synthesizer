@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.AttributeWishes.AttributeExtensionWishes;
@@ -206,12 +205,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     
                     setter();
                     
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, value);
-                    
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
-                    Assert_Independent_Getters(x.Independent.Sample, init);
-                    Assert_Immutable_Getters(x, init);
                     Assert_Bound_Getters(x, init);
+                    Assert_Independent_Getters(x.Independent.Sample, init);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, value);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
+                    Assert_Immutable_Getters(x, init);
 
                     x.Record();
                     Assert_All_Getters(x, init);
@@ -238,9 +236,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     setter();
                     
                     Assert_Bound_Getters(x, init);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, value);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init);
                     Assert_Independent_Getters(x.Independent.Sample, init);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, value);
                     Assert_Immutable_Getters(x, init);
 
                     x.Record();
@@ -489,6 +487,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private void Assert_Independent_Getters(TestEntities x, int bits)
         {
             // Independent after Taping
+            IsNotNull(() => x);
+            IsNotNull(() => x.Independent);
             Assert_Independent_Getters(x.Independent.Sample, bits);
             Assert_Independent_Getters(x.Independent.AudioInfoWish, bits);
             Assert_Independent_Getters(x.Independent.AudioFileInfo, bits);
@@ -496,6 +496,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void Assert_Immutable_Getters(TestEntities x, int bits)
         {
+            IsNotNull(() => x);
+            IsNotNull(() => x.Immutable);
             Assert_Immutable_Getters(x.Immutable.WavHeader, bits);
             Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, bits);
             Assert_Immutable_Getters(x.Immutable.SampleDataType, bits);
@@ -504,6 +506,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void Assert_SynthBound_Getters(TestEntities x, int bits)
         {
+            IsNotNull(() => x);
+            IsNotNull(() => x.SynthBound);
+            IsNotNull(() => x.SynthBound.SynthWishes);
+            IsNotNull(() => x.SynthBound.FlowNode);
+            IsNotNull(() => x.SynthBound.ConfigWishes);
+
             AreEqual(bits, () => x.SynthBound.SynthWishes.Bits());
             AreEqual(bits, () => x.SynthBound.SynthWishes.GetBits);
             AreEqual(bits, () => x.SynthBound.FlowNode.Bits());
@@ -535,6 +543,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Assert_TapeBound_Getters(TestEntities x, int bits)
         {
+            IsNotNull(() => x);
+            IsNotNull(() => x.TapeBound);
+            IsNotNull(() => x.TapeBound.Tape);
+            IsNotNull(() => x.TapeBound.TapeConfig);
+            IsNotNull(() => x.TapeBound.TapeActions);
+            IsNotNull(() => x.TapeBound.TapeAction);
+
             AreEqual(bits, () => x.TapeBound.Tape.Bits());
             AreEqual(bits, () => x.TapeBound.TapeConfig.Bits());
             AreEqual(bits, () => x.TapeBound.TapeConfig.Bits);
@@ -559,11 +574,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Assert_BuffBound_Getters(TestEntities x, int bits)
         {
-            AreEqual(bits, () => x.BuffBound.Buff.Bits());
-            AreEqual(bits, () => x.BuffBound.AudioFileOutput.Bits());
+            IsNotNull(           () => x);
+            IsNotNull(           () => x.BuffBound);
+            IsNotNull(           () => x.BuffBound.Buff);
             
-            AreEqual(bits == 8, () => x.BuffBound.Buff.Is8Bit());
-            AreEqual(bits == 8, () => x.BuffBound.AudioFileOutput.Is8Bit());
+            AreEqual(bits,       () => x.BuffBound.Buff.Bits());
+            AreEqual(bits,       () => x.BuffBound.AudioFileOutput.Bits());
+            
+            AreEqual(bits == 8,  () => x.BuffBound.Buff.Is8Bit());
+            AreEqual(bits == 8,  () => x.BuffBound.AudioFileOutput.Is8Bit());
             
             AreEqual(bits == 16, () => x.BuffBound.Buff.Is16Bit());
             AreEqual(bits == 16, () => x.BuffBound.AudioFileOutput.Is16Bit());
@@ -571,17 +590,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(bits == 32, () => x.BuffBound.Buff.Is32Bit());
             AreEqual(bits == 32, () => x.BuffBound.AudioFileOutput.Is32Bit());
         }
-
-        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int bits)
-        {
-            AreEqual(bits,       () => audioFileInfo.Bits());
-            AreEqual(bits == 8,  () => audioFileInfo.Is8Bit());
-            AreEqual(bits == 16, () => audioFileInfo.Is16Bit());
-            AreEqual(bits == 32, () => audioFileInfo.Is32Bit());
-        }
         
         private void Assert_Independent_Getters(Sample sample, int bits)
         {
+            IsNotNull(           () => sample);
             AreEqual(bits,       () => sample.Bits());
             AreEqual(bits == 8,  () => sample.Is8Bit());
             AreEqual(bits == 16, () => sample.Is16Bit());
@@ -590,17 +602,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int bits)
         {
-            AreEqual(bits,       () => audioInfoWish.Bits());
+            IsNotNull(           () => audioInfoWish);
             AreEqual(bits,       () => audioInfoWish.Bits);
+            AreEqual(bits,       () => audioInfoWish.Bits());
             AreEqual(bits == 8,  () => audioInfoWish.Is8Bit());
             AreEqual(bits == 16, () => audioInfoWish.Is16Bit());
             AreEqual(bits == 32, () => audioInfoWish.Is32Bit());
         }
 
+        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int bits)
+        {
+            IsNotNull(           () => audioFileInfo);
+            AreEqual(bits,       () => audioFileInfo.Bits());
+            AreEqual(bits == 8,  () => audioFileInfo.Is8Bit());
+            AreEqual(bits == 16, () => audioFileInfo.Is16Bit());
+            AreEqual(bits == 32, () => audioFileInfo.Is32Bit());
+        }
+
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int bits)
         {
-            AreEqual(bits,       () => wavHeader.Bits());
             AreEqual(bits,       () => wavHeader.BitsPerValue);
+            AreEqual(bits,       () => wavHeader.Bits());
             AreEqual(bits == 8,  () => wavHeader.Is8Bit());
             AreEqual(bits == 16, () => wavHeader.Is16Bit());
             AreEqual(bits == 32, () => wavHeader.Is32Bit());
@@ -617,7 +639,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Assert_Immutable_Getters(SampleDataType sampleDataType, int bits)
         {
-            if (sampleDataType == null) throw new NullException(() => sampleDataType);
+            IsNotNull(           () => sampleDataType);
             AreEqual(bits,       () => sampleDataType.Bits());
             AreEqual(bits,       () => sampleDataType.EntityToBits());
             AreEqual(bits == 8,  () => sampleDataType.Is8Bit());
@@ -627,7 +649,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private void Assert_Immutable_Getters(Type type, int bits)
         {
-            if (type == null) throw new NullException(() => type);
+            IsNotNull(           () => type);
             AreEqual(bits,       () => type.Bits());
             AreEqual(bits,       () => type.TypeToBits());
             AreEqual(bits == 8,  () => type.Is8Bit());
