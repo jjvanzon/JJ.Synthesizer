@@ -3,17 +3,19 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Helpers.SampleDataTypeHelper;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+// ReSharper disable UnusedParameter.Global
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // A Derived Attribute
+        // Derived from Bits
         
         public   static int             SizeOfBitDepth(this SynthWishes     obj) => obj.Bits() / 8;
         public   static SynthWishes     SizeOfBitDepth(this SynthWishes     obj, int byteSize) => obj.Bits(byteSize * 8);
@@ -43,21 +45,57 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static int             SizeOfBitDepth(this AudioFileInfo   obj) => obj.Bits() / 8;
         public   static AudioFileInfo   SizeOfBitDepth(this AudioFileInfo   obj, int byteSize) => obj.Bits(byteSize * 8);
         
+                    
         public static int SizeOfBitDepth(this int bits) => bits / 8;
+        
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        public static int SizeOfBitDepth(this int oldBits, int newByteSize) => newByteSize;
+        public static int SizeOfBitDepth(this int oldBits, int newByteSize) => newByteSize * 8;
+
         public static int SizeOfBitDepth(this Type obj) => obj.TypeToBits() / 8;
+        
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => BitsToType(newByteSize * 8);
-        [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataTypeEnum obj) => SizeOf(obj);
+        public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => SizeOfBitDepthToType(newByteSize);
+                
+        public static int SizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
+                
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize) => BitsToEnum(newByteSize * 8);
-        [Obsolete(ObsoleteMessage)] public static int SizeOfBitDepth(this SampleDataType obj) => SizeOf(obj);
+        public static Type SizeOfBitDepth<TValueType>(int value) => value.SizeOfBitDepthToType();
+
+        [Obsolete(ObsoleteMessage)] 
+        public static int SizeOfBitDepth(this SampleDataTypeEnum obj) => SizeOf(obj);
+        
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteMessage)] public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context) => BitsToEntity(newByteSize * 8, context);
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize) => BitsToEnum(newByteSize * 8);
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int SizeOfBitDepth(this SampleDataType obj) => SizeOf(obj);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context) => BitsToEntity(newByteSize * 8, context);
+        
+        // SizeOfBitDepth Conversion-Style
+        
+        public static int TypeToSizeOfBitDepth(this Type obj)
+        {
+            if (obj == typeof(byte)) return 1;
+            if (obj == typeof(Int16)) return 2;
+            if (obj == typeof(float)) return 4;
+            throw new ValueNotSupportedException(obj);
+        }
+        
+        public static int TypeToSizeOfBitDepth<T>() => typeof(T).TypeToSizeOfBitDepth();
+        
+        public static Type SizeOfBitDepthToType(this int value)
+        {
+            switch (value)
+            {
+                case 1: return typeof(byte);
+                case 2: return typeof(Int16);
+                case 4: return typeof(float);
+                default: throw new ValueNotSupportedException(value);
+            }
+        }
     }
 }
