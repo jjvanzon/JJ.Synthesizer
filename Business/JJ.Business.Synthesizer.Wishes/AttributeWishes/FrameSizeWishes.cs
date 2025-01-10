@@ -13,20 +13,20 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Derived Attribute
         
-        public static int FrameSize(this SynthWishes obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this FlowNode obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this ConfigWishes obj) => obj.SizeOfBitDepth() * obj.Channels();
-        internal static int? FrameSize(this ConfigSection obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this Tape obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this TapeConfig obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this TapeAction obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this TapeActions obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this Buff obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this Sample obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this AudioFileOutput obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this WavHeaderStruct obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public static int FrameSize(this AudioInfoWish infoWish) => infoWish.SizeOfBitDepth() * infoWish.Channels();
-        public static int FrameSize(this AudioFileInfo info) => info.SizeOfBitDepth() * info.Channels();
+        public   static int  FrameSize(this SynthWishes     obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this FlowNode        obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this ConfigWishes    obj) => obj.SizeOfBitDepth() * obj.Channels();
+        internal static int? FrameSize(this ConfigSection   obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this Tape            obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this TapeConfig      obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this TapeAction      obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this TapeActions     obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this Buff            obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this Sample          obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this AudioFileOutput obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this WavHeaderStruct obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this AudioInfoWish   obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this AudioFileInfo   obj) => obj.SizeOfBitDepth() * obj.Channels();
         
         [Obsolete(ObsoleteMessage)]
         public static int FrameSize(this (SampleDataType sampleDataType, SpeakerSetup speakerSetup) entities)
