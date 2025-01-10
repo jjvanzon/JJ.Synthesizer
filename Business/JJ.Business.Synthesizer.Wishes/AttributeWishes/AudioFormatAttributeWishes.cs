@@ -54,10 +54,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.WithAudioFormat(value);
         }
         
-        internal static AudioFileFormatEnum AudioFormat(this ConfigSection obj)
+        internal static AudioFileFormatEnum? AudioFormat(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.AudioFormat ?? ConfigWishes.DefaultAudioFormat;
+            return obj.AudioFormat;
         }
         
         public static AudioFileFormatEnum AudioFormat(this Tape obj)

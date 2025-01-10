@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static double MaxValue(this SynthWishes     obj) => obj.Bits().MaxValue();
         public   static double MaxValue(this FlowNode        obj) => obj.Bits().MaxValue();
         public   static double MaxValue(this ConfigWishes    obj) => obj.Bits().MaxValue();
-        internal static double MaxValue(this ConfigSection   obj) => obj.Bits().MaxValue();
+        internal static double? MaxValue(this ConfigSection  obj) => obj.Bits()?.MaxValue();
         public   static double MaxValue(this Buff            obj) => obj.Bits().MaxValue();
         public   static double MaxValue(this Tape            obj) => obj.Bits().MaxValue();
         public   static double MaxValue(this TapeConfig      obj) => obj.Bits().MaxValue();

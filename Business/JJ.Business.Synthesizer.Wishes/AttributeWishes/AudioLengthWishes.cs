@@ -58,10 +58,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj;
         }
         
-        internal static double AudioLength(this ConfigSection obj)
+        internal static double? AudioLength(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.AudioLength ?? ConfigWishes.DefaultAudioLength;
+            return obj.AudioLength;
         }
         
         public static double AudioLength(this Buff obj)

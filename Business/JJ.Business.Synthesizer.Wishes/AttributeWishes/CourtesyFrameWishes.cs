@@ -45,10 +45,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.WithCourtesyFrames(value);
         }
         
-        internal static int CourtesyFrames(this ConfigSection obj)
+        internal static int? CourtesyFrames(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.CourtesyFrames ?? ConfigWishes.DefaultCourtesyFrames;
+            return obj.CourtesyFrames;
         }
         
         public static int CourtesyFrames(this Tape obj)

@@ -47,10 +47,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.WithSamplingRate(value);
         }
         
-        internal static int SamplingRate(this ConfigSection obj)
+        internal static int? SamplingRate(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.SamplingRate ?? ConfigWishes.DefaultSamplingRate;
+            return obj.SamplingRate;
         }
         
         public static int SamplingRate(this Tape obj)

@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public   static FlowNode        SizeOfBitDepth(this FlowNode        obj, int byteSize) => obj.Bits(byteSize * 8);
         public   static int             SizeOfBitDepth(this ConfigWishes    obj) => obj.Bits() / 8;
         public   static ConfigWishes    SizeOfBitDepth(this ConfigWishes    obj, int byteSize) => obj.Bits(byteSize * 8);
-        internal static int             SizeOfBitDepth(this ConfigSection   obj) => obj.Bits() / 8;
+        internal static int?            SizeOfBitDepth(this ConfigSection   obj) => obj.Bits() / 8;
         public   static int             SizeOfBitDepth(this Tape            obj) => obj.Bits() / 8;
         public   static Tape            SizeOfBitDepth(this Tape            obj, int byteSize) => obj.Bits(byteSize * 8);
         public   static int             SizeOfBitDepth(this TapeConfig      obj) => obj.Bits() / 8;

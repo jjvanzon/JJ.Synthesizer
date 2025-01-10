@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._fileextension"/>
         public static ConfigWishes FileExtension(this ConfigWishes obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        internal static string FileExtension(this ConfigSection obj) => obj.AudioFormat().FileExtension();
+        internal static string FileExtension(this ConfigSection obj) => obj.AudioFormat()?.FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Tape obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>

@@ -56,10 +56,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.WithChannels(value);
         }
         
-        internal static int Channels(this ConfigSection obj)
+        internal static int? Channels(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.Channels ?? DefaultChannels;
+            return obj.Channels;
         }
         
         public static int Channels(this Tape obj)

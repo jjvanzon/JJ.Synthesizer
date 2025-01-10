@@ -54,10 +54,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.WithInterpolation(value);
         }
         
-        internal static InterpolationTypeEnum Interpolation(this ConfigSection obj)
+        internal static InterpolationTypeEnum? Interpolation(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.Interpolation ?? DefaultInterpolation;
+            return obj.Interpolation;
         }
         
         public static InterpolationTypeEnum Interpolation(this Tape obj)

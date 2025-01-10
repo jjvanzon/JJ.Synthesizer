@@ -55,9 +55,16 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static ConfigWishes ByteCount(this ConfigWishes obj, int value, SynthWishes synthWishes) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
         
-        internal static int ByteCount(this ConfigSection obj) 
-            => ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
-
+        internal static int? ByteCount(this ConfigSection obj)
+        {
+            if (obj.FrameCount() == null) return null;
+            if (obj.FrameSize() == null) return null;
+            if (obj.HeaderLength() == null) return null;
+            if (obj.CourtesyFrames() == null) return null;
+            
+            return ByteCount(obj.FrameCount().Value, obj.FrameSize().Value, obj.HeaderLength().Value, obj.CourtesyFrames().Value);
+        }
+        
         public static int ByteCount(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);

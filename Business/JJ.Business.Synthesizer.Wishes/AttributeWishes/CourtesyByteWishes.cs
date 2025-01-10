@@ -27,8 +27,12 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static ConfigWishes CourtesyBytes(this ConfigWishes obj, int value)
             => obj.CourtesyFrames(CourtesyFrames(value, obj.FrameSize()));
         
-        internal static int CourtesyBytes(this ConfigSection obj)
-            => CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+        internal static int? CourtesyBytes(this ConfigSection obj)
+        {
+            if (obj.CourtesyFrames() == null) return null;
+            if (obj.FrameSize() == null) return null;
+            return CourtesyBytes(obj.CourtesyFrames().Value, obj.FrameSize().Value);
+        }
         
         public static int CourtesyBytes(this Tape obj)
             => CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());

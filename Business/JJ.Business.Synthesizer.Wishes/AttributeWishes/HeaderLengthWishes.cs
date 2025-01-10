@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this ConfigWishes obj) => obj.AudioFormat().HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static int HeaderLength(this ConfigSection obj) => obj.AudioFormat().HeaderLength();
+        internal static int? HeaderLength(this ConfigSection obj) => obj.AudioFormat()?.HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this Buff obj) => obj.AudioFormat().HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>

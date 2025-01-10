@@ -39,8 +39,12 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static ConfigWishes FrameCount(this ConfigWishes obj, int value, SynthWishes synthWishes)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()), synthWishes);
         
-        internal static int FrameCount(this ConfigSection obj)
-            => FrameCount(obj.AudioLength(), obj.SamplingRate());
+        internal static int? FrameCount(this ConfigSection obj)
+        {
+            if (obj.AudioLength() == null) return null;
+            if (obj.SamplingRate() == null) return null;
+            return FrameCount(obj.AudioLength().Value, obj.SamplingRate().Value);
+        }
         
         public static int FrameCount(this Tape obj)
         {

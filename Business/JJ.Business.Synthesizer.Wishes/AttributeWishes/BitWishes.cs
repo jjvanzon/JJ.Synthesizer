@@ -55,10 +55,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.WithBits(value);
         }
         
-        internal static int Bits(this ConfigSection obj)
+        internal static int? Bits(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.Bits ?? ConfigWishes.DefaultBits;
+            return obj.Bits;
         }
         
         public static int Bits(this Tape obj)
