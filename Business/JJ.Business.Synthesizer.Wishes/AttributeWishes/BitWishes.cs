@@ -10,7 +10,11 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+
+// ReSharper disable UnusedParameter.Global
+// ReSharper disable UnusedTypeParameter
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
@@ -187,25 +191,25 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int Bits(this Type valueType) => valueType.TypeToBits();
         
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
         public static Type Bits(this Type oldValueType, int newBits) => newBits.BitsToType();
         
         public static int Bits<TValueType>() => TypeToBits<TValueType>();
         
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedTypeParameter
         public static Type Bits<TValueType>(int value) => value.BitsToType();
         
-        [Obsolete(ObsoleteMessage)] public static int Bits(this SampleDataTypeEnum obj) => obj.EnumToBits();
+        [Obsolete(ObsoleteMessage)]
+        public static int Bits(this SampleDataTypeEnum obj) => obj.EnumToBits();
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)]
         public static SampleDataTypeEnum Bits(this SampleDataTypeEnum oldEnumValue, int newBits) => newBits.BitsToEnum();
         
-        [Obsolete(ObsoleteMessage)] public static int Bits(this SampleDataType obj) => obj.EntityToBits();
+        [Obsolete(ObsoleteMessage)]
+        public static int Bits(this SampleDataType obj) => obj.EntityToBits();
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)]
         public static SampleDataType Bits(this SampleDataType oldSampleDataType, int newBits, IContext context) => BitsToEntity(newBits, context);
         
         // Bits Conversion-Style
@@ -222,7 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         
         public static Type BitsToType(this int value)
         {
-            switch (ConfigWishes.AssertBits(value))
+            switch (AssertBits(value))
             {
                 case 8 : return typeof(byte);
                 case 16: return typeof(Int16);
@@ -231,7 +235,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             }
         }
         
-        [Obsolete(ObsoleteMessage)] public static int EnumToBits(this SampleDataTypeEnum obj)
+        [Obsolete(ObsoleteMessage)]
+        public static int EnumToBits(this SampleDataTypeEnum obj)
         {
             switch (obj)
             {
@@ -242,9 +247,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             }
         }
         
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum BitsToEnum(this int bits)
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum BitsToEnum(this int bits)
         {
-            switch (ConfigWishes.AssertBits(bits))
+            switch (AssertBits(bits))
             {
                 case 32: return SampleDataTypeEnum.Float32;
                 case 16: return SampleDataTypeEnum.Int16;
@@ -253,13 +259,15 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             }
         }
         
-        [Obsolete(ObsoleteMessage)] public static int EntityToBits(this SampleDataType obj)
+        [Obsolete(ObsoleteMessage)]
+        public static int EntityToBits(this SampleDataType obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.ToEnum().EnumToBits();
         }
         
-        [Obsolete(ObsoleteMessage)] public static SampleDataType BitsToEntity(this int bits, IContext context)
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType BitsToEntity(this int bits, IContext context)
             => bits.BitsToEnum().ToEntity(context);
         
         // Bits Shorthand
@@ -346,9 +354,11 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With8Bit<TValue>() => Bits<TValue>(8);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With8Bit(this SampleDataTypeEnum oldEnumValue) => Bits(oldEnumValue, 8);
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum With8Bit(this SampleDataTypeEnum oldEnumValue) => Bits(oldEnumValue, 8);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With8Bit(this SampleDataType oldSampleDataType, IContext context) => Bits(oldSampleDataType, 8, context);
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType With8Bit(this SampleDataType oldSampleDataType, IContext context) => Bits(oldSampleDataType, 8, context);
         
         public   static Tape            With16Bit(this Tape            obj)                   => obj.Bits(16);
         public   static TapeConfig      With16Bit(this TapeConfig      obj)                   => obj.Bits(16);
@@ -366,9 +376,11 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With16Bit<TValue>() => Bits<TValue>(16);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With16Bit(this SampleDataTypeEnum oldEnumValue) => Bits(oldEnumValue, 16);
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum With16Bit(this SampleDataTypeEnum oldEnumValue) => Bits(oldEnumValue, 16);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With16Bit(this SampleDataType oldSampleDataType, IContext context) => Bits(oldSampleDataType, 16, context);
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType With16Bit(this SampleDataType oldSampleDataType, IContext context) => Bits(oldSampleDataType, 16, context);
         
         public   static Tape            With32Bit(this Tape            obj)                   => obj.Bits(32);
         public   static TapeConfig      With32Bit(this TapeConfig      obj)                   => obj.Bits(32);
@@ -386,8 +398,10 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With32Bit<TValue>() => Bits<TValue>(32);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(this SampleDataTypeEnum oldEnumValue) => oldEnumValue.Bits(32);
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum With32Bit(this SampleDataTypeEnum oldEnumValue) => oldEnumValue.Bits(32);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SampleDataType With32Bit(this SampleDataType oldSampleDataType, IContext context) => oldSampleDataType.Bits(32, context);
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType With32Bit(this SampleDataType oldSampleDataType, IContext context) => oldSampleDataType.Bits(32, context);
     }
 }
