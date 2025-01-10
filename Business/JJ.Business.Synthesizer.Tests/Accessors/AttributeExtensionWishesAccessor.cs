@@ -31,5 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static AudioFileFormatEnum AudioFormat(this ConfigSectionAccessor obj) => (AudioFileFormatEnum)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static bool IsRaw(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(),obj.Obj);
         public static bool IsWav(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
+
+        public static int CourtesyFrames(this ConfigSectionAccessor obj) => (int)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
 }
