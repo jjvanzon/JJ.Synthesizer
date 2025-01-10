@@ -61,7 +61,7 @@
     <Compile Include="AttributeWishes\FileExtensionWishes.cs" />
     <Compile Include="AttributeWishes\MaxValueWishes.cs" />
     <Compile Include="AttributeWishes\FrameSizeWishes.cs" />
-    <Compile Include="AttributeWishes\SizeOfWishes.cs" />
+    <Compile Include="AttributeWishes\SizeOfBitDepthWishes.cs" />
     <Compile Include="AttributeWishes\CourtesyFrameWishes.cs" />
     <Compile Include="AttributeWishes\InterpolationWishes.cs" />
     <Compile Include="AttributeWishes\AudioFormatAttributeWishes.cs" />
