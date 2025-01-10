@@ -54,6 +54,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public WavHeaderStruct       WavHeader           { get; set; }
             public SampleDataTypeEnum    SampleDataTypeEnum  { get; set; }
             public SampleDataType        SampleDataType      { get; set; }
+            public int                   Bits                { get; set; }
             public Type                  Type                { get; set; }
             public int                   Channels            { get; set; }
             public SpeakerSetupEnum      SpeakerSetupEnum    { get; set; }
@@ -66,6 +67,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public AudioFileFormatEnum   AudioFormat         { get; set; }
             public AudioFileFormat       AudioFormatEntity   { get; set; }
             public string                FileExtension       { get; set; }
+            
         }
     }
     
@@ -149,9 +151,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                           
                           Immutable = new ImmutableEntities
                           {
-                              Channels            = t.Config.Channels,
+                              Bits                = t.Config.Bits,
                               SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
                               SampleDataType      = t.UnderlyingSample.SampleDataType,
+                              Channels            = t.Config.Channels,
                               SpeakerSetupEnum    = t.UnderlyingSample.GetSpeakerSetupEnum(),
                               SpeakerSetup        = t.UnderlyingSample.SpeakerSetup,
                               Channel             = t.Config.Channel,
@@ -194,9 +197,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                           // Immutables for Channel
                           e.Immutable = new ImmutableEntities
                           {
-                              Channels            = t.Config.Channels,
+                              Bits                = t.Config.Bits,
                               SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
                               SampleDataType      = t.UnderlyingSample.SampleDataType,
+                              Channels            = t.Config.Channels,
                               SpeakerSetupEnum    = t.UnderlyingSample.GetSpeakerSetupEnum(),
                               SpeakerSetup        = t.UnderlyingSample.SpeakerSetup,
                               Channel             = t.Config.Channel,
@@ -215,9 +219,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWavHeader() : default;
             //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWish().ToWavHeader() : default;
             
-            Immutable.Channels           = SynthBound.SynthWishes.GetChannels;
+            Immutable.Bits               = SynthBound.SynthWishes.GetBits;
             Immutable.SampleDataTypeEnum = SynthBound.SynthWishes.GetBits.BitsToEnum();
             Immutable.SampleDataType     = SynthBound.SynthWishes.GetBits.BitsToEntity(SynthBound.Context);
+            Immutable.Channels           = SynthBound.SynthWishes.GetChannels;
             Immutable.SpeakerSetupEnum   = SynthBound.SynthWishes.GetChannels.ChannelsToEnum();
             Immutable.SpeakerSetup       = SynthBound.SynthWishes.GetChannels.ChannelsToEntity(SynthBound.Context);
             Immutable.Channel            = SynthBound.SynthWishes.GetChannel;
@@ -225,10 +230,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Immutable.ChannelEntity      = SynthBound.SynthWishes.GetChannel.ChannelToEntity(SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.Context);
             Immutable.Type               = TypeFromBits(SynthBound.SynthWishes.GetBits);
         
+            IsNotNull(() => TapeBound);
             IsNotNull(() => TapeBound.Tape);
+            IsNotNull(() => TapeBound.TapeConfig);
+            IsNotNull(() => TapeBound.TapeActions);
+            IsNotNull(() => TapeBound.TapeAction);
             // TODO: Assert more nulls
         }
-        
+
         private Type TypeFromBits(int bits)
         {
             switch (bits)
