@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [DataRow(8)]
         [DataRow(16)]
         [DataRow(32)]
-        public void Init_Channels(int init)
+        public void Init_Bits(int init)
         { 
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, init);
