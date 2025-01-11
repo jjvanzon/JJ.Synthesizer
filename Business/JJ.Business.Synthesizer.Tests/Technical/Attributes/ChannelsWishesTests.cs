@@ -346,7 +346,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         private TestEntities CreateTestEntities(int channels) => new TestEntities(x => x.WithChannels(channels));
 
-        static object TestParameters => new[]
+        static object TestParameters => new[] // ncrunch: no coverage
         {
             new object[] { 1, 2 },
             new object[] { 2, 1 }

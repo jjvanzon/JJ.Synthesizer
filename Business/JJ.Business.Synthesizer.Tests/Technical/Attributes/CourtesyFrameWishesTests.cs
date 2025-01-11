@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         private TestEntities CreateTestEntities(int courtesyFrames) => new TestEntities(x => x.CourtesyFrames(courtesyFrames));
         
-        static object TestParameters => new[]
+        static object TestParameters => new[] // ncrunch: no coverage
         {
             new object[] { 2, 3 },
             new object[] { 2, 4 },

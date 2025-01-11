@@ -463,7 +463,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         private TestEntities CreateTestEntities(int bits) => new TestEntities(x => x.Bits(bits));
         
-        static object TestParameters => new[]
+        static object TestParameters => new[] // ncrunch: no coverage
         {
             new object[] { 32, 8 },
             new object[] { 32, 16 },

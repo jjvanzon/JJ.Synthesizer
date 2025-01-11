@@ -260,7 +260,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             return new TestEntities(x => x.WithSamplingRate(samplingRate).WithAudioLength(audioLength));
         }
         
-        static object TestParameters => new[]
+        static object TestParameters => new[] // ncrunch: no coverage
         {
             new object[] { 48000, 96000 },
             new object[] { 48000, 88200 },

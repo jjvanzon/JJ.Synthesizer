@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         private TestEntities CreateTestEntities(AudioFileFormatEnum audioFormat) => new TestEntities(x => x.WithAudioFormat(audioFormat));
 
-        static object TestParameters => new[]
+        static object TestParameters => new[] // ncrunch: no coverage
         {
             new object[] { (int)Raw, (int)Wav },
             new object[] { (int)Wav, (int)Raw }

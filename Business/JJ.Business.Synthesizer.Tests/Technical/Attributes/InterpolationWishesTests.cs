@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         private TestEntities CreateTestEntities(InterpolationTypeEnum interpolation) => new TestEntities(x => x.WithInterpolation(interpolation));
 
-        static object TestParameters => new[]
+        static object TestParameters => new [] // ncrunch: no coverage
         {
             new object[] { (int)Block, (int)Line },
             new object[] { (int)Line, (int)Block }
