@@ -61,10 +61,8 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static AudioFileOutput FileExtension(this AudioFileOutput obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension([UsedImplicitly] this WavHeaderStruct obj) => obj.AudioFormat().FileExtension();
-        
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileFormatEnum obj)
-            => obj.AudioFormatToExtension();
+        public static string FileExtension(this AudioFileFormatEnum obj) => obj.AudioFormatToExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
         // ReSharper disable once UnusedParameter.Global

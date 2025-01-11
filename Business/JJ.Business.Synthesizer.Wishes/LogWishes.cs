@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return ChannelDescriptor(tapeConfig.Channels, tapeConfig.Channel);
         }
 
-        public static string ChannelDescriptor(int? channelCount, int? channel)
+        public static string ChannelDescriptor(int? channelCount, int? channel = null)
         {
             if (!Has(channelCount) && channel == null)
                 return default;

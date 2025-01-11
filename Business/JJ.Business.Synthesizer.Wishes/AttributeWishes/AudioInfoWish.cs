@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     [DebuggerDisplay("{DebuggerDisplay}")]
     public class AudioInfoWish
     {
-        [UsedImplicitly] string DebuggerDisplay => GetDebuggerDisplay(this);
+        string DebuggerDisplay => GetDebuggerDisplay(this);
         
         public int Bits { get; set; }
         public int Channels { get; set; }
