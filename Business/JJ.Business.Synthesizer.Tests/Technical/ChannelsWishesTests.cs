@@ -263,12 +263,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
-                    Assert_Independent_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
                     
                     WavHeaderStruct wavHeader2 = setter();
                     
-                    Assert_Independent_Getters(x.Immutable.WavHeader, init);
-                    Assert_Independent_Getters(wavHeader2, value);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(wavHeader2, value);
                     
                     wavHeaders.Add(wavHeader2);
                 }
@@ -283,12 +283,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 void AssertProp(Func<SpeakerSetupEnum> setter)
                 {
-                    Assert_Independent_Getters(x.Immutable.SpeakerSetupEnum, init);
+                    Assert_Immutable_Getters(x.Immutable.SpeakerSetupEnum, init);
                     
                     SpeakerSetupEnum speakerSetupEnum2 = setter();
                     
-                    Assert_Independent_Getters(x.Immutable.SpeakerSetupEnum, init);
-                    Assert_Independent_Getters(speakerSetupEnum2, value);
+                    Assert_Immutable_Getters(x.Immutable.SpeakerSetupEnum, init);
+                    Assert_Immutable_Getters(speakerSetupEnum2, value);
                     
                     speakerSetupEnums.Add(speakerSetupEnum2);
                 }
@@ -304,12 +304,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 void AssertProp(Func<SpeakerSetup> setter)
                 {
-                    Assert_Independent_Getters(x.Immutable.SpeakerSetup, init);
+                    Assert_Immutable_Getters(x.Immutable.SpeakerSetup, init);
 
                     SpeakerSetup speakerSetup2 = setter();
                     
-                    Assert_Independent_Getters(x.Immutable.SpeakerSetup, init);
-                    Assert_Independent_Getters(speakerSetup2, value);
+                    Assert_Immutable_Getters(x.Immutable.SpeakerSetup, init);
+                    Assert_Immutable_Getters(speakerSetup2, value);
                     
                     speakerSetups.Add(speakerSetup2);
                 }
@@ -326,9 +326,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert_All_Getters(x, init);
             
             // Except for our variables
-            wavHeaders       .ForEach(w => Assert_Independent_Getters(w, value));
-            speakerSetupEnums.ForEach(e => Assert_Independent_Getters(e, value));
-            speakerSetups    .ForEach(s => Assert_Independent_Getters(s, value));
+            wavHeaders       .ForEach(w => Assert_Immutable_Getters(w, value));
+            speakerSetupEnums.ForEach(e => Assert_Immutable_Getters(e, value));
+            speakerSetups    .ForEach(s => Assert_Immutable_Getters(s, value));
         }
 
         [TestMethod] public void ConfigSections_Channels()
@@ -376,9 +376,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private void Assert_Immutable_Getters(TestEntities x, int channels)
         {
-            Assert_Independent_Getters(x.Immutable.WavHeader, channels);
-            Assert_Independent_Getters(x.Immutable.SpeakerSetupEnum, channels);
-            Assert_Independent_Getters(x.Immutable.SpeakerSetup, channels);
+            Assert_Immutable_Getters(x.Immutable.WavHeader, channels);
+            Assert_Immutable_Getters(x.Immutable.SpeakerSetupEnum, channels);
+            Assert_Immutable_Getters(x.Immutable.SpeakerSetup, channels);
         }
 
         private void Assert_SynthBound_Getters(TestEntities x, int channels)
@@ -458,7 +458,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(channels == 2, () => audioInfoWish.IsStereo());
         }
 
-        private void Assert_Independent_Getters(WavHeaderStruct wavHeader, int channels)
+        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int channels)
         {
             AreEqual(channels,      () => wavHeader.Channels());
             AreEqual(channels,      () => wavHeader.ChannelCount);
@@ -466,7 +466,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(channels == 2, () => wavHeader.IsStereo());
         }
         
-        private void Assert_Independent_Getters(SpeakerSetupEnum speakerSetupEnum, int channels)
+        private void Assert_Immutable_Getters(SpeakerSetupEnum speakerSetupEnum, int channels)
         {
             AreEqual(channels,      () => speakerSetupEnum.Channels());
             AreEqual(channels,      () => speakerSetupEnum.EnumToChannels());
@@ -474,7 +474,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(channels == 2, () => speakerSetupEnum.IsStereo());
         }
                 
-        private void Assert_Independent_Getters(SpeakerSetup speakerSetup, int channels)
+        private void Assert_Immutable_Getters(SpeakerSetup speakerSetup, int channels)
         {
             if (speakerSetup == null) throw new NullException(() => speakerSetup);
             AreEqual(channels,      () => speakerSetup.Channels());
