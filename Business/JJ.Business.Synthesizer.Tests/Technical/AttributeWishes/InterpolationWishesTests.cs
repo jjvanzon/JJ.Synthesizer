@@ -14,7 +14,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 #pragma warning disable CS0611 // Type or member is obsolete
 #pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
-namespace JJ.Business.Synthesizer.Tests.Technical
+namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
 {
     [TestClass]
     [TestCategory("Technical")]

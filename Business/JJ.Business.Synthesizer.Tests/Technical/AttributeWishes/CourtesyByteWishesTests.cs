@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
@@ -9,7 +7,7 @@ using static JJ.Framework.Testing.AssertHelper;
 #pragma warning disable CS0618 // Type or member is obsolete
 #pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
-namespace JJ.Business.Synthesizer.Tests.Technical
+namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
 {
     [TestClass]
     [TestCategory("Technical")]

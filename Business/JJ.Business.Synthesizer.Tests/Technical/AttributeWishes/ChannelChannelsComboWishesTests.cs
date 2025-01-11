@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.Synthesizer.Enums;
+﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using JJ.Framework.Persistence;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
-using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
 
-namespace JJ.Business.Synthesizer.Tests.Technical
+namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
 {
     [TestClass]
     [TestCategory("Technical")]

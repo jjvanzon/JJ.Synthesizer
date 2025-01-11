@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Channels;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
@@ -13,7 +11,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 #pragma warning disable CS0618 // Type or member is obsolete
 #pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
-namespace JJ.Business.Synthesizer.Tests.Technical
+namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
 {
     [TestClass]
     [TestCategory("Technical")]
