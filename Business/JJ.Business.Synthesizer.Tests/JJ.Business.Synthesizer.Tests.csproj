@@ -137,6 +137,7 @@
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />
     <Compile Include="Technical\AudioFormatAttributeTests.cs" />
+    <Compile Include="Technical\FrameSizeWishesTests.cs" />
     <Compile Include="Technical\SizeOfBitDepthWishesTests.cs" />
     <Compile Include="Technical\CourtesyByteWishesTests.cs" />
     <Compile Include="Technical\CourtesyFrameWishesTests.cs" />

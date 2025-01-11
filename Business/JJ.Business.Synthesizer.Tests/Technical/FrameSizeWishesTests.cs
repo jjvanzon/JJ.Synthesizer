@@ -1,0 +1,433 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Persistence.Synthesizer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.Technical.TestEntities;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Framework.Testing.AssertHelper;
+
+#pragma warning disable CS0611 // Type or member is obsolete
+#pragma warning disable CS0618 // Method is obsolete
+#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
+
+namespace JJ.Business.Synthesizer.Tests.Technical
+{
+    [TestClass]
+    [TestCategory("Technical")]
+    public class FrameSizeWishesTests
+    {
+        [TestMethod]
+        [DynamicData(nameof(TestParametersInit))]
+        public void Init_FrameSize(int bits, int channels, int frameSize)
+        { 
+            var init = (bits, channels, frameSize);
+            var x = CreateTestEntities(init);
+            Assert_All_Getters(x, frameSize);
+        }
+
+        [TestMethod] 
+        [DynamicData(nameof(TestParameters))]
+        public void SynthBound_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        {            
+            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
+            var val = (bits, channels, frameSize);
+            
+            void AssertProp(Action<TestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters(x, init.frameSize);
+                
+                setter(x);
+                
+                Assert_SynthBound_Getters(x, val.frameSize);
+                Assert_TapeBound_Getters(x, init.frameSize);
+                Assert_BuffBound_Getters(x, init.frameSize);
+                Assert_Independent_Getters(x, init.frameSize);
+                Assert_Immutable_Getters(x, init.frameSize);
+                
+                x.Record();
+                Assert_All_Getters(x, val.frameSize);
+            }
+
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels)));
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(TestParameters))]
+        public void TapeBound_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        {
+            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
+            var val = (bits, channels, frameSize);
+
+            void AssertProp(Action<TestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters(x, init.frameSize);
+                
+                setter(x);
+                
+                Assert_SynthBound_Getters(x, init.frameSize);
+                Assert_TapeBound_Getters(x, val.frameSize);
+                Assert_BuffBound_Getters(x, init.frameSize);
+                Assert_Independent_Getters(x, init.frameSize);
+                Assert_Immutable_Getters(x, init.frameSize);
+                
+                x.Record();
+                Assert_All_Getters(x, init.frameSize); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+            }
+
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .Bits(val.bits).Channels(val.channels)));
+        }
+
+        [TestMethod] 
+        [DynamicData(nameof(TestParameters))]
+        public void BuffBound_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        {
+            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
+            var val = (bits, channels, frameSize);
+
+            void AssertProp(Action<TestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters(x, init.frameSize);
+                
+                setter(x);
+                
+                Assert_SynthBound_Getters(x, init.frameSize);
+                Assert_TapeBound_Getters(x, init.frameSize);
+                Assert_BuffBound_Getters(x, val.frameSize);
+                Assert_Independent_Getters(x, init.frameSize);
+                Assert_Immutable_Getters(x, init.frameSize);
+                
+                x.Record();
+                Assert_All_Getters(x, init.frameSize);
+            }
+
+            AssertProp(x => AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Bits(val.bits, x.SynthBound.Context)
+                                                                             .Channels(val.channels, x.SynthBound.Context)));
+            
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Bits(val.bits, x.SynthBound.Context)
+                                                                                                   .Channels(val.channels, x.SynthBound.Context)));
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(TestParameters))]
+        public void Independent_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        {
+            // Independent after Taping
+
+            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
+            var val = (bits, channels, frameSize);
+
+            // Sample
+            {
+                TestEntities x = default;
+
+                void AssertProp(Action setter)
+                {
+                    x = CreateTestEntities(init);
+                    Assert_All_Getters(x, init.frameSize);
+                    
+                    setter();
+                    
+                    Assert_Bound_Getters(x, init.frameSize);
+                    Assert_Independent_Getters(x.Independent.Sample, val.frameSize);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish,init.frameSize);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init.frameSize);
+                    Assert_Immutable_Getters(x, init.frameSize);
+
+                    x.Record();
+                    Assert_All_Getters(x, init.frameSize);
+                }
+                
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.Bits(val.bits, x.SynthBound.Context)
+                                                                                          .Channels(val.channels, x.SynthBound.Context)));
+            }
+            
+            // AudioInfoWish
+            {
+                TestEntities x = default;
+
+                void AssertProp(Action setter)
+                {
+                    x = CreateTestEntities(init);
+                    Assert_All_Getters(x, init.frameSize);
+                    
+                    setter();
+                    
+                    Assert_Bound_Getters(x, init.frameSize);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, val.frameSize);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init.frameSize);
+                    Assert_Independent_Getters(x.Independent.Sample, init.frameSize);
+                    Assert_Immutable_Getters(x, init.frameSize);
+
+                    x.Record();
+                    Assert_All_Getters(x, init.frameSize);
+                }
+
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.Bits(val.bits).Channels(val.channels)));
+            }
+                        
+            // AudioFileInfo
+            {
+                TestEntities x = default;
+                
+                void AssertProp(Action setter)
+                {
+                    x = CreateTestEntities(init);
+                    Assert_All_Getters(x, init.frameSize);
+                    
+                    setter();
+                    
+                    Assert_Bound_Getters(x, init.frameSize);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, val.frameSize);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init.frameSize);
+                    Assert_Independent_Getters(x.Independent.Sample, init.frameSize);
+                    Assert_Immutable_Getters(x, init.frameSize);
+
+                    x.Record();
+                    Assert_All_Getters(x, init.frameSize);
+                }
+
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.Bits(val.bits).Channels(val.channels)));
+            }
+        }
+        
+        [TestMethod] 
+        [DynamicData(nameof(TestParameters))]
+        public void Immutable_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        {
+            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
+            var val = (bits, channels, frameSize);
+
+            TestEntities x = CreateTestEntities(init);
+
+            // WavHeader
+            
+            var wavHeaders = new List<WavHeaderStruct>();
+            {
+                void AssertProp(Func<WavHeaderStruct> setter)
+                {
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init.frameSize);
+                    
+                    WavHeaderStruct wavHeader2 = setter();
+                    
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init.frameSize);
+                    Assert_Immutable_Getters(wavHeader2, val.frameSize);
+                    
+                    wavHeaders.Add(wavHeader2);
+                }
+
+                AssertProp(() => x.Immutable.WavHeader.Bits(val.bits).Channels(val.channels));
+            }
+
+            // Enums
+            
+            var enumTuples = new List<(SampleDataTypeEnum, SpeakerSetupEnum)>();
+            {
+                var initEnums = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum);
+                
+                void AssertProp(Func<(SampleDataTypeEnum, SpeakerSetupEnum)> setter)
+                {
+                    Assert_Immutable_Getters(initEnums, init.frameSize);
+                    
+                    var enums = setter();
+                    
+                    Assert_Immutable_Getters(initEnums, init.frameSize);
+                    Assert_Immutable_Getters(enums, val.frameSize);
+                    
+                    enumTuples.Add(enums);
+                }
+
+                AssertProp(() => (val.bits.BitsToEnum(), val.channels.ChannelsToEnum()));
+            }
+
+            // Entities
+            
+            var entityTuples = new List<(SampleDataType, SpeakerSetup)>();
+            {
+                var initEntities = (x.Immutable.SampleDataType, x.Immutable.SpeakerSetup);
+                
+                void AssertProp(Func<(SampleDataType, SpeakerSetup)> setter)
+                {
+                    Assert_Immutable_Getters(initEntities, init.frameSize);
+                    
+                    var entities = setter();
+                    
+                    Assert_Immutable_Getters(initEntities, init.frameSize);
+                    Assert_Immutable_Getters(entities, val.frameSize);
+                    
+                    entityTuples.Add(entities);
+                }
+
+                AssertProp(() => (val.bits.BitsToEntity(x.SynthBound.Context), val.channels.ChannelsToEntity(x.SynthBound.Context)));
+            }
+            
+            // After-Record
+            x.Record();
+            
+            // All is reset
+            Assert_All_Getters(x, init.frameSize);
+            
+            // Except for our variables
+            wavHeaders  .ForEach(w => Assert_Immutable_Getters(w, val.frameSize));
+            enumTuples  .ForEach(e => Assert_Immutable_Getters(e, val.frameSize));
+            entityTuples.ForEach(s => Assert_Immutable_Getters(s, val.frameSize));
+        }
+
+        [TestMethod] public void ConfigSections_FrameSize()
+        {
+            // Global-Bound. Immutable. Get-only.
+            var configSection = GetConfigSectionAccessor();
+            
+            AreEqual(DefaultBits / 8 * DefaultChannels, () => configSection.FrameSize());
+        }
+
+        // Helpers
+        
+        private TestEntities CreateTestEntities((int bits, int channels, int frameSize) init) 
+            => new TestEntities(x => x.WithBits(init.bits).WithChannels(init.channels));
+                
+        private static readonly int[] _bitsValues = { 8, 16, 32 };
+        private static readonly int[] _channelsValues = { 1, 2 };
+
+        // ncrunch: no coverage start
+        
+        static IEnumerable<object[]> TestParametersInit
+        {
+            get
+            {
+                foreach (int bits in _bitsValues)
+                foreach (int channels in _channelsValues)
+                {
+                    int frameSize = bits / 8 * channels;
+                    yield return new object[] { bits, channels, frameSize };
+                }
+            }
+        }
+
+        static IEnumerable<object[]> TestParameters
+        {
+            get
+            {
+                foreach (int initBits in _bitsValues)
+                foreach (int initChannels in _channelsValues)
+                foreach (int bits in _bitsValues)
+                foreach (int channels in _channelsValues)
+                {
+                    // Skip cases where source and dest values are the same
+                    if (initBits == bits && initChannels == channels) continue;
+                    int initFrameSize = initBits / 8 * initChannels;
+                    int frameSize = bits / 8 * channels;
+                    string descriptor = GetDescriptor(initBits, initChannels, bits, channels);
+                    yield return new object[] { descriptor, initBits, initChannels, initFrameSize, bits, channels, frameSize };
+                }
+                
+                // Add 1 case where the source and dest values are equal.
+                int lastBits = _bitsValues.Last();
+                int lastChannels = _channelsValues.Last();
+                int lastFrameSize = lastBits / 8 * lastChannels;
+                string lastDescriptor = GetDescriptor(lastBits, lastChannels, lastBits, lastChannels);
+            
+                yield return new object[] { lastDescriptor, lastBits, lastChannels, lastFrameSize, lastBits, lastChannels, lastFrameSize };
+                
+            }
+        }
+        //static string GetDescriptor(int initBits, int initChannels, int bits, int channels) => $"{initBits}-bit,{ChannelDescriptor(initChannels)}=>{bits}-bit,{ChannelDescriptor(channels)}";
+        static string GetDescriptor(int initBits, int initChannels, int bits, int channels) => $"{ChannelDescriptor(initChannels).ToLower()}-{initBits} => {ChannelDescriptor(channels).ToLower()}-{bits}";
+        
+        // ncrunch: no coverage end
+
+        private void Assert_All_Getters(TestEntities x, int frameSize)
+        {
+            Assert_Bound_Getters(x, frameSize);
+            Assert_Independent_Getters(x, frameSize);
+            Assert_Immutable_Getters(x, frameSize);
+        }
+
+        private void Assert_Bound_Getters(TestEntities x, int frameSize)
+        {
+            Assert_SynthBound_Getters(x, frameSize);
+            Assert_TapeBound_Getters(x, frameSize);
+            Assert_BuffBound_Getters(x, frameSize);
+        }
+        
+        private void Assert_Independent_Getters(TestEntities x, int frameSize)
+        {
+            // Independent after Taping
+            Assert_Independent_Getters(x.Independent.Sample, frameSize);
+            Assert_Independent_Getters(x.Independent.AudioInfoWish, frameSize);
+            Assert_Independent_Getters(x.Independent.AudioFileInfo, frameSize);
+        }
+
+        private void Assert_Immutable_Getters(TestEntities x, int frameSize)
+        {
+            Assert_Immutable_Getters(x.Immutable.WavHeader, frameSize);
+            Assert_Immutable_Getters((x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum), frameSize);
+            Assert_Immutable_Getters((x.Immutable.SampleDataType, x.Immutable.SpeakerSetup), frameSize);
+        }
+
+        private void Assert_SynthBound_Getters(TestEntities x, int frameSize)
+        {
+            AreEqual(frameSize, () => x.SynthBound.SynthWishes.FrameSize());
+            AreEqual(frameSize, () => x.SynthBound.FlowNode.FrameSize());
+            AreEqual(frameSize, () => x.SynthBound.ConfigWishes.FrameSize());
+        }
+        
+        private void Assert_TapeBound_Getters(TestEntities x, int frameSize)
+        {
+            AreEqual(frameSize, () => x.TapeBound.Tape.FrameSize());
+            AreEqual(frameSize, () => x.TapeBound.TapeConfig.FrameSize());
+            AreEqual(frameSize, () => x.TapeBound.TapeActions.FrameSize());
+            AreEqual(frameSize, () => x.TapeBound.TapeAction.FrameSize());
+        }
+        
+        private void Assert_BuffBound_Getters(TestEntities x, int frameSize)
+        {
+            AreEqual(frameSize, () => x.BuffBound.Buff.FrameSize());
+            AreEqual(frameSize, () => x.BuffBound.AudioFileOutput.FrameSize());
+        }
+
+        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int frameSize)
+        {
+            AreEqual(frameSize, () => audioFileInfo.FrameSize());
+        }
+        
+        private void Assert_Independent_Getters(Sample sample, int frameSize)
+        {
+            AreEqual(frameSize, () => sample.FrameSize());
+        }
+        
+        private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int frameSize)
+        {
+            AreEqual(frameSize, () => audioInfoWish.FrameSize());
+        }
+
+        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int frameSize)
+        {
+            AreEqual(frameSize, () => wavHeader.FrameSize());
+        }
+        
+        private void Assert_Immutable_Getters((SampleDataTypeEnum, SpeakerSetupEnum) enums, int frameSize)
+        {
+            AreEqual(frameSize, () => enums.FrameSize());
+        }
+        
+        private void Assert_Immutable_Getters((SampleDataType, SpeakerSetup) entities, int frameSize)
+        {
+            AreEqual(frameSize, () => entities.FrameSize());
+        }
+    } 
+}
