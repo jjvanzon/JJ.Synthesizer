@@ -136,17 +136,17 @@
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />
-    <Compile Include="Technical\AudioFormatAttributeTests.cs" />
-    <Compile Include="Technical\FrameSizeWishesTests.cs" />
-    <Compile Include="Technical\SizeOfBitDepthWishesTests.cs" />
-    <Compile Include="Technical\CourtesyByteWishesTests.cs" />
-    <Compile Include="Technical\CourtesyFrameWishesTests.cs" />
-    <Compile Include="Technical\InterpolationWishesTests.cs" />
-    <Compile Include="Technical\SamplingRateWishesTests.cs" />
-    <Compile Include="Technical\ChannelWishesTests.cs" />
-    <Compile Include="Technical\ChannelChannelsComboWishesTests.cs" />
-    <Compile Include="Technical\ChannelsWishesTests.cs" />
-    <Compile Include="Technical\BitWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\AudioFormatAttributeTests.cs" />
+    <Compile Include="Technical\AttributeWishes\FrameSizeWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\SizeOfBitDepthWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\CourtesyByteWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\CourtesyFrameWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\InterpolationWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\SamplingRateWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\ChannelWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\ChannelChannelsComboWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\ChannelsWishesTests.cs" />
+    <Compile Include="Technical\AttributeWishes\BitWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />
     <Compile Include="Accessors\SampleManagerAccessor.cs" />
     <Compile Include="Accessors\SynthWishesAccessor.cs" />
@@ -160,7 +160,7 @@
     <Compile Include="Technical\TechnicalOperatorTests.cs" />
     <Compile Include="Technical\TapeWishesTests.cs" />
     <Compile Include="Technical\StringifyWishesTests.cs" />
-    <Compile Include="Technical\TestEntities.cs" />
+    <Compile Include="Technical\AttributeWishes\TestEntities.cs" />
     <Compile Include="Technical\ThrowTests.cs" />
     <Compile Include="Functional\FunctionalOperatorTests.cs" />
     <Compile Include="Technical\CurveWishesTests.cs" />
@@ -255,6 +255,7 @@
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.4\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.4\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
