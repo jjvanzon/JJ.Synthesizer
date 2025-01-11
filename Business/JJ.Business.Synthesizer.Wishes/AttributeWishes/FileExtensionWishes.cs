@@ -2,20 +2,22 @@
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+
+// ReSharper disable UnusedParameter.Global
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes
     {
-        // A Derived Attribute
+        // Derived from AudioFormat
         
         /// <inheritdoc cref="docs._fileextension"/>
         public static string      FileExtension(this SynthWishes obj) => obj.AudioFormat().FileExtension();
@@ -63,19 +65,17 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static string FileExtension([UsedImplicitly] this WavHeaderStruct obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileFormatEnum obj) => obj.AudioFormatToExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value) => value.ExtensionToAudioFormat();
         
         /// <inheritdoc cref="docs._fileextension"/>
-        // ReSharper disable once UnusedParameter.Global
-        public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value)
-            => value.ExtensionToAudioFormat();
-        
-        /// <inheritdoc cref="docs._fileextension"/>
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static string FileExtension(this AudioFileFormat obj) 
+        [Obsolete(ObsoleteMessage)] 
+        public static string FileExtension(this AudioFileFormat obj) 
             => obj.ToEnum().FileExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
-        // ReSharper disable once UnusedParameter.Global
-        [Obsolete(ObsoleteEnumWishesMessages.ObsoleteMessage)] public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
+        [Obsolete(ObsoleteMessage)] 
+        public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
             => value.ExtensionToAudioFormat().ToEntity(context);
         
         // Conversion-Style FileExtension
