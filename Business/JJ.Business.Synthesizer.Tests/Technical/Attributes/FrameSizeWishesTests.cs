@@ -25,19 +25,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     {
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_FrameSize(int bits, int channels, int frameSize)
+        public void Init_FrameSize(string descriptor, int frameSize, int bits, int channels)
         { 
-            var init = (bits, channels, frameSize);
+            var init = (frameSize, bits, channels);
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, frameSize);
         }
 
         [TestMethod] 
         [DynamicData(nameof(TestParameters))]
-        public void SynthBound_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        public void SynthBound_FrameSize(string descriptor, int initFrameSize, int initBits, int initChannels, int frameSize, int bits, int channels)
         {            
-            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
-            var val = (bits, channels, frameSize);
+            var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
+            var val = (frameSize, bits, channels);
             
             void AssertProp(Action<TestEntities> setter)
             {
@@ -63,10 +63,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void TapeBound_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        public void TapeBound_FrameSize(string descriptor, int initFrameSize, int initBits, int initChannels, int frameSize, int bits, int channels)
         {
-            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
-            var val = (bits, channels, frameSize);
+            var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
+            var val = (frameSize, bits, channels);
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -93,10 +93,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         [TestMethod] 
         [DynamicData(nameof(TestParameters))]
-        public void BuffBound_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        public void BuffBound_FrameSize(string descriptor, int initFrameSize, int initBits, int initChannels, int frameSize, int bits, int channels)
         {
-            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
-            var val = (bits, channels, frameSize);
+            var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
+            var val = (frameSize, bits, channels);
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -124,12 +124,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void Independent_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        public void Independent_FrameSize(string descriptor, int initFrameSize, int initBits, int initChannels, int frameSize, int bits, int channels)
         {
             // Independent after Taping
 
-            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
-            var val = (bits, channels, frameSize);
+            var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
+            var val = (frameSize, bits, channels);
 
             // Sample
             {
@@ -207,10 +207,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         [TestMethod] 
         [DynamicData(nameof(TestParameters))]
-        public void Immutable_FrameSize(string descriptor, int initBits, int initChannels, int initFrameSize, int bits, int channels, int frameSize)
+        public void Immutable_FrameSize(string descriptor, int initFrameSize, int initBits, int initChannels, int frameSize, int bits, int channels)
         {
-            var init = (bits: initBits, channels: initChannels, frameSize: initFrameSize);
-            var val = (bits, channels, frameSize);
+            var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
+            var val = (frameSize, bits, channels);
 
             var x = CreateTestEntities(init);
 
@@ -255,58 +255,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         // Helpers
         
-        private TestEntities CreateTestEntities((int bits, int channels, int frameSize) init) 
+        private TestEntities CreateTestEntities((int frameSize, int bits, int channels) init) 
             => new TestEntities(x => x.WithBits(init.bits).WithChannels(init.channels));
-                
-        private static readonly int[] _bitsValues = { 8, 16, 32 };
-        private static readonly int[] _channelsValues = { 1, 2 };
-
-        // ncrunch: no coverage start
-        
-        static IEnumerable<object[]> TestParametersInit
-        {
-            get
-            {
-                foreach (int bits in _bitsValues)
-                foreach (int channels in _channelsValues)
-                {
-                    int frameSize = bits / 8 * channels;
-                    yield return new object[] { bits, channels, frameSize };
-                }
-            }
-        }
-
-        static IEnumerable<object[]> TestParameters
-        {
-            get
-            {
-                foreach (int initBits in _bitsValues)
-                foreach (int initChannels in _channelsValues)
-                foreach (int bits in _bitsValues)
-                foreach (int channels in _channelsValues)
-                {
-                    // Skip cases where source and dest values are the same
-                    if (initBits == bits && initChannels == channels) continue;
-                    int initFrameSize = initBits / 8 * initChannels;
-                    int frameSize = bits / 8 * channels;
-                    string descriptor = GetParametersDescriptor(initBits, initChannels, bits, channels);
-                    yield return new object[] { descriptor, initBits, initChannels, initFrameSize, bits, channels, frameSize };
-                }
-                
-                // Add 1 case where the source and dest values are equal.
-                int lastBits = _bitsValues.Last();
-                int lastChannels = _channelsValues.Last();
-                int lastFrameSize = lastBits / 8 * lastChannels;
-                string lastDescriptor = GetParametersDescriptor(lastBits, lastChannels, lastBits, lastChannels);
-            
-                yield return new object[] { lastDescriptor, lastBits, lastChannels, lastFrameSize, lastBits, lastChannels, lastFrameSize };
-                
-            }
-        }
-        static string GetParametersDescriptor(int initBits, int initChannels, int bits, int channels) 
-            => $"{ChannelDescriptor(initChannels).ToLower()}-{initBits} => {ChannelDescriptor(channels).ToLower()}-{bits}";
-        
-        // ncrunch: no coverage end
 
         private void Assert_All_Getters(TestEntities x, int frameSize)
         {
@@ -387,5 +337,75 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         {
             AreEqual(frameSize, () => entities.FrameSize());
         }
-    } 
+                 
+        private static readonly int[] _bitsValues = { 8, 16, 32 };
+        private static readonly int[] _channelsValues = { 1, 2 };
+
+        // ncrunch: no coverage start
+        
+        static IEnumerable<object[]> TestParametersInit
+        {
+            get
+            {
+                foreach (int bits in _bitsValues)
+                foreach (int channels in _channelsValues)
+                {
+                    int frameSize = bits / 8 * channels;
+                    string descriptor = GetParametersDescriptor(bits, channels, bits, channels);
+                    yield return new object[] { descriptor, frameSize, bits, channels };
+                }
+            }
+        }
+
+        static IEnumerable<object[]> TestParameters
+        {
+            get
+            {
+                foreach (int initBits in _bitsValues)
+                foreach (int initChannels in _channelsValues)
+                foreach (int bits in _bitsValues)
+                foreach (int channels in _channelsValues)
+                {
+                    // Skip cases where source and dest values are the same
+                    if (initBits == bits && initChannels == channels) continue;
+                    yield return new object[]
+                    {
+                        GetParametersDescriptor(initBits, initChannels, bits, channels), 
+                        initBits / 8 * initChannels,
+                        initBits, 
+                        initChannels, 
+                        bits / 8 * channels, 
+                        bits, 
+                        channels
+                    };
+                }
+                
+                // Add 1 case where the source and dest values are equal.
+                int lastBits = _bitsValues.Last();
+                int lastChannels = _channelsValues.Last();
+                int lastFrameSize = lastBits / 8 * lastChannels;
+                
+                yield return new object[] 
+                {
+                    GetParametersDescriptor(lastBits, lastChannels, lastBits, lastChannels), 
+                    lastFrameSize, 
+                    lastBits, 
+                    lastChannels, 
+                    lastFrameSize, 
+                    lastBits, 
+                    lastChannels 
+                };
+                
+            }
+        }
+        static string GetParametersDescriptor(int initBits, int initChannels, int bits, int channels)
+        {
+            string initMonoOrStereo1 = ChannelDescriptor(initChannels).ToLower();
+            string monoOrStereo = ChannelDescriptor(channels).ToLower();
+            
+            return $"{initBits}-{initMonoOrStereo1} => {bits}-{monoOrStereo} ";
+        }
+        
+        // ncrunch: no coverage end
+   } 
 }
