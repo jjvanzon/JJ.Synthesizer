@@ -392,7 +392,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 });
             }
                 
-                
             // To bits
 
             var bitsList = new List<int>();
@@ -484,21 +483,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             ThrowsException(() => (-1).SizeOfBitDepthToType());
         }
 
-        // Helpers
-
-        private TestEntities CreateTestEntities(int sizeOfBitDepth) => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth));
+        // Getter Helpers
         
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { 1, 2 },
-            new object[] { 1, 4 },
-            new object[] { 2, 1 },
-            new object[] { 2, 4 },
-            new object[] { 4, 1 },
-            new object[] { 4, 2 },
-            new object[] { 4, 4 },
-        };
-
         private void Assert_All_Getters(TestEntities x, int sizeOfBitDepth)
         {
             Assert_Bound_Getters(x, sizeOfBitDepth);
@@ -710,5 +696,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         {
             AreEqual(sizeOfBitDepth, () => bits.SizeOfBitDepth());
         }
+         
+        // Data Helpers
+
+        private TestEntities CreateTestEntities(int sizeOfBitDepth) => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth));
+        
+        static object TestParameters => new[] // ncrunch: no coverage
+        {
+            new object[] { 1, 2 },
+            new object[] { 1, 4 },
+            new object[] { 2, 1 },
+            new object[] { 2, 4 },
+            new object[] { 4, 1 },
+            new object[] { 4, 2 },
+            new object[] { 4, 4 },
+        };
     } 
 }
