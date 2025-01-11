@@ -13,8 +13,8 @@ using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
-#pragma warning disable CS0611 // Type or member is obsolete
-#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
+#pragma warning disable CS0611
+#pragma warning disable MSTEST0018
 
 namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
@@ -286,16 +286,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(DefaultAudioFormat == Wav, () => configSection.IsWav());
         }
 
-        // Helpers
+        // Getter Helpers
         
-        private TestEntities CreateTestEntities(AudioFileFormatEnum audioFormat) => new TestEntities(x => x.WithAudioFormat(audioFormat));
-
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { (int)Raw, (int)Wav },
-            new object[] { (int)Wav, (int)Raw }
-        };
-
         private void Assert_All_Getters(TestEntities x, AudioFileFormatEnum audioFormat)
         {
             Assert_Bound_Getters(x, audioFormat);
@@ -423,5 +415,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 NotEqual(audioFormat, () => wavHeader.AudioFormat());
             }
         }
+
+        // Test Data Helpers
+        
+        private TestEntities CreateTestEntities(AudioFileFormatEnum audioFormat) => new TestEntities(x => x.WithAudioFormat(audioFormat));
+
+        static object TestParameters => new[] // ncrunch: no coverage
+        {
+            new object[] { (int)Raw, (int)Wav },
+            new object[] { (int)Wav, (int)Raw }
+        };
    } 
 }
