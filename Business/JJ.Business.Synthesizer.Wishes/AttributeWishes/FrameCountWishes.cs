@@ -12,14 +12,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Duration Attribute
         
-        public static int FrameCount(int byteCount, int frameSize, int headerLength)
-            => (byteCount - headerLength) / frameSize;
-        
-        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength)
-            => (ByteCount(bytes, filePath) - headerLength) / frameSize;
-        
-        public static int FrameCount(double audioLength, int samplingRate)
-            => (int)(audioLength * samplingRate);
         
         public static int FrameCount(this SynthWishes obj)
             => FrameCount(obj.AudioLength(), obj.SamplingRate());
@@ -165,5 +157,16 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             info.SampleCount = value;
             return info;
         }
+    
+        // Conversion formulas
+        
+        public static int FrameCount(int byteCount, int frameSize, int headerLength)
+            => (byteCount - headerLength) / frameSize;
+        
+        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength)
+            => (ByteCount(bytes, filePath) - headerLength) / frameSize;
+
+        public static int FrameCount(double audioLength, int samplingRate)
+            => (int)(audioLength * samplingRate);
     }
 }
