@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
+using static JJ.Business.Synthesizer.Wishes.AttributeWishes.AttributeExtensionWishes;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
+#pragma warning disable CS0618
+#pragma warning disable MSTEST0018
 
 namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
@@ -154,6 +158,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
         }
 
+        [TestMethod]
+        public void ConfigSection_CourtesyBytes()
+        {
+            // Global-Bound. Immutable. Get-only.
+            var configSection = GetConfigSectionAccessor();
+            int circumstantialCourtesyFrames = 2;
+            int? courtesyBytes = circumstantialCourtesyFrames * configSection.Channels * configSection.SizeOfBitDepth();
+            AreEqual(courtesyBytes, () => configSection.CourtesyBytes());
+        }
+
+        [TestMethod]
+        public void CourtesyBytes_EdgeCases()
+        {
+            // For code coverage
+            ThrowsException(() => CourtesyFrames(courtesyBytes: 8, frameSize: 3));
+        }
+        
         private void Assert_All_Getters(TestEntities x, int courtesyBytes)
         {
             Assert_Bound_Getters(x, courtesyBytes);
