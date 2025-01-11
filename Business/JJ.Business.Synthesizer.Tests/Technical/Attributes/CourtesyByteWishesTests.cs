@@ -218,23 +218,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         // ncrunch: no coverage start
         
-        static readonly int[]        _channelsValues       = { 1, 2 };
-        static readonly int[]        _bitsValues           = { 8, 16, 32 };
-        static readonly int[]        _courtesyFramesValues = { 3, 4, 8 };
-        static readonly int[]        _courtesyBytesValues  = { 8, 12, 16, 20, 24, 28, 32 };
-        static readonly (int, int)[] _bitsChannelsCombos   = { (8, 1), (16, 2), (32, 1), (32, 2) };
+        static IEnumerable<object[]> TestParametersInit => _courtesyBytesValues.Select(value => new object[] { value });
         
-        static IEnumerable<object[]> TestParametersInit
-        {
-            get 
-            {
-                foreach (int value in _courtesyBytesValues)
-                {
-                    yield return new object[] { value };
-                }
-            }
-        }
-
         static IEnumerable<object[]> TestParametersInit2
         {
             get
@@ -243,11 +228,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 foreach (int bits in _bitsValues)
                 foreach (int channels in _channelsValues)
                 {
-                    int courtesyBytes = courtesyFrames * bits / 8 * channels;
                     yield return new object[]
                     { 
                         GetDescriptor(courtesyFrames, bits, channels),
-                        courtesyBytes, 
+                        courtesyFrames * bits / 8 * channels, 
                         courtesyFrames, 
                         bits,
                         channels
@@ -274,28 +258,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             {
                 foreach (int initCourtesyFrames in _courtesyFramesValues)
                 foreach ((int initBits, int initChannels )in _bitsChannelsCombos)
-                //foreach (int initChannels in _channelsValues)
                 foreach (int courtesyFrames in _courtesyFramesValues)
                 foreach ((int bits, int channels )in _bitsChannelsCombos)
-                //foreach (int bits in _bitsValues)
-                //foreach (int channels in _channelsValues)
                 {
                     if (initCourtesyFrames == courtesyFrames && initBits == bits && initChannels == channels) 
                     {
                         continue;
                     }
-                                        
-                    int initCourtesyBytes = initCourtesyFrames * initBits / 8 * initChannels;
-                    int courtesyBytes = courtesyFrames * bits / 8 * channels;
                     
                     yield return new object[]
                     {
                         GetDescriptor(initCourtesyFrames, initBits, initChannels, courtesyFrames, bits, channels),
-                        initCourtesyBytes, 
+                        initCourtesyFrames * initBits / 8 * initChannels, 
                         initCourtesyFrames, 
                         initBits,
                         initChannels,
-                        courtesyBytes, 
+                        courtesyFrames * bits / 8 * channels, 
                         courtesyFrames, 
                         bits,
                         channels
@@ -311,6 +289,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             int initCourtesyFrames, int initBits, int initChannels,
             int courtesyFrames, int bits, int channels)
             => $"{GetDescriptor(initCourtesyFrames, initBits, initChannels)} => {GetDescriptor(courtesyFrames, bits, channels)}";
+        
+        // TODO: Choose more literal combinations in next time,
+        // avoiding cartesian products where the number of combinations grows unwieldy.
+        static readonly int[]        _channelsValues       = { 1, 2 };
+        static readonly int[]        _bitsValues           = { 8, 16, 32 };
+        static readonly int[]        _courtesyFramesValues = { 3, 4, 8 };
+        static readonly int[]        _courtesyBytesValues  = { 8, 12, 16, 20, 24, 28, 32 };
+        static readonly (int, int)[] _bitsChannelsCombos   = { (8, 1), (16, 2), (32, 1), (32, 2) };
 
         // ncrunch: no coverage end
    } 
