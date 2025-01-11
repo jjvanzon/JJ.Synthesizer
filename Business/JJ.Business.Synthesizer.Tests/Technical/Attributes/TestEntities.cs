@@ -67,7 +67,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             public AudioFileFormatEnum   AudioFormat         { get; set; }
             public AudioFileFormat       AudioFormatEntity   { get; set; }
             public string                FileExtension       { get; set; }
-            
+            public int                   CourtesyFrames      { get; set; }
+            public int                   FrameSize           { get; set; }
         }
     }
     
@@ -160,12 +161,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                               Channel             = t.Config.Channel,
                               ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
                               ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
+                              Type                = t.Config.Bits.BitsToType(),
                               Interpolation       = t.Config.Interpolation,
                               InterpolationEntity = t.UnderlyingSample.InterpolationType,
                               AudioFormat         = t.Config.AudioFormat,
                               AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat,
                               WavHeader           = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
-                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat)
+                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat),
+                              CourtesyFrames      = t.Config.CourtesyFrames,
+                              FrameSize           = t.Config.FrameSize()
                           };
                       })
                       .AfterRecordChannel(t =>
@@ -206,47 +210,64 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                               Channel             = t.Config.Channel,
                               ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
                               ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
+                              Type                = t.Config.Bits.BitsToType(),
                               Interpolation       = t.Config.Interpolation,
                               InterpolationEntity = t.UnderlyingSample.InterpolationType,
                               AudioFormat         = t.Config.AudioFormat,
                               AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat,
                               WavHeader           = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
-                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat)
+                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat),
+                              CourtesyFrames      = t.Config.CourtesyFrames,
+                              FrameSize           = t.Config.FrameSize()
                           };
                       }));
             
+            
+            Immutable.Bits                = SynthBound.SynthWishes.GetBits;
+            Immutable.SampleDataTypeEnum  = SynthBound.SynthWishes.GetBits.BitsToEnum();
+            Immutable.SampleDataType      = SynthBound.SynthWishes.GetBits.BitsToEntity(SynthBound.Context);
+            Immutable.Channels            = SynthBound.SynthWishes.GetChannels;
+            Immutable.SpeakerSetupEnum    = SynthBound.SynthWishes.GetChannels.ChannelsToEnum();
+            Immutable.SpeakerSetup        = SynthBound.SynthWishes.GetChannels.ChannelsToEntity(SynthBound.Context);
+            Immutable.Channel             = SynthBound.SynthWishes.GetChannel;
+            Immutable.ChannelEnum         = SynthBound.SynthWishes.GetChannel.ChannelToEnum(SynthBound.SynthWishes.GetChannels);
+            Immutable.ChannelEntity       = SynthBound.SynthWishes.GetChannel.ChannelToEntity(SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.Context);
+            Immutable.Type                = SynthBound.SynthWishes.GetBits.BitsToType();
+            Immutable.Interpolation       = SynthBound.SynthWishes.GetInterpolation;
+            Immutable.InterpolationEntity = SynthBound.SynthWishes.GetInterpolation.ToEntity(SynthBound.Context);
+            Immutable.AudioFormat         = SynthBound.SynthWishes.GetAudioFormat;
+            Immutable.AudioFormatEntity   = SynthBound.SynthWishes.GetAudioFormat.ToEntity(SynthBound.Context);
             // TODO: Revisit after adding more WavHeaderWishes
             //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWavHeader() : default;
             //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWish().ToWavHeader() : default;
-            
-            Immutable.Bits               = SynthBound.SynthWishes.GetBits;
-            Immutable.SampleDataTypeEnum = SynthBound.SynthWishes.GetBits.BitsToEnum();
-            Immutable.SampleDataType     = SynthBound.SynthWishes.GetBits.BitsToEntity(SynthBound.Context);
-            Immutable.Channels           = SynthBound.SynthWishes.GetChannels;
-            Immutable.SpeakerSetupEnum   = SynthBound.SynthWishes.GetChannels.ChannelsToEnum();
-            Immutable.SpeakerSetup       = SynthBound.SynthWishes.GetChannels.ChannelsToEntity(SynthBound.Context);
-            Immutable.Channel            = SynthBound.SynthWishes.GetChannel;
-            Immutable.ChannelEnum        = SynthBound.SynthWishes.GetChannel.ChannelToEnum(SynthBound.SynthWishes.GetChannels);
-            Immutable.ChannelEntity      = SynthBound.SynthWishes.GetChannel.ChannelToEntity(SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.Context);
-            Immutable.Type               = TypeFromBits(SynthBound.SynthWishes.GetBits);
-        
+            Immutable.FileExtension       = ResolveFileExtension(SynthBound.SynthWishes.GetAudioFormat);
+            Immutable.CourtesyFrames      = SynthBound.SynthWishes.GetCourtesyFrames;
+            Immutable.FrameSize           = SynthBound.SynthWishes.FrameSize();
+
             IsNotNull(() => TapeBound);
             IsNotNull(() => TapeBound.Tape);
             IsNotNull(() => TapeBound.TapeConfig);
             IsNotNull(() => TapeBound.TapeActions);
             IsNotNull(() => TapeBound.TapeAction);
-            // TODO: Assert more nulls
-        }
+            
+            IsNotNull(() => BuffBound);
+            IsNotNull(() => BuffBound.Buff);
+            IsNotNull(() => BuffBound.AudioFileOutput);
+            
+            IsNotNull(() => Independent);
+            IsNotNull(() => Independent.Sample);
+            IsNotNull(() => Independent.AudioInfoWish);
+            IsNotNull(() => Independent.AudioFileInfo);
 
-        private Type TypeFromBits(int bits)
-        {
-            switch (bits)
-            {
-                case 8:  return typeof(byte);
-                case 16: return typeof(short);
-                case 32: return typeof(float);
-                default: throw new Exception($"{new { bits }} not supported.");
-            }
+            IsNotNull(() => Immutable);
+            IsNotNull(() => Immutable.SampleDataType);
+            IsNotNull(() => Immutable.Type);
+            IsNotNull(() => Immutable.SpeakerSetup);
+            // Is nullable: Immutable.ChannelEntity
+            IsNotNull(() => Immutable.InterpolationEntity);
+            IsNotNull(() => Immutable.AudioFormatEntity);
+            
+            // TODO: Assert other types of being filled in.
         }
     }
 }

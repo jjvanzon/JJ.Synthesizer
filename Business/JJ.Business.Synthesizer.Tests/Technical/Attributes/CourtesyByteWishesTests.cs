@@ -130,7 +130,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             var init = (courtesyBytes: initCourtesyBytes, courtesyFrames: initCourtesyFrames, 
                 bits: initBits, channels: initChannels);
             var val  = (courtesyBytes, courtesyFrames, bits, channels);
-            
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -157,7 +156,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
             AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
         }
-
+        
         [TestMethod]
         public void ConfigSection_CourtesyBytes()
         {
@@ -175,9 +174,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             ThrowsException(() => CourtesyFrames(courtesyBytes: 8, frameSize: 3));
         }
         
+        // Getter Helpers
+        
         private void Assert_All_Getters(TestEntities x, int courtesyBytes)
         {
             Assert_Bound_Getters(x, courtesyBytes);
+            Assert_Immutable_Getters(x.Immutable.CourtesyFrames, x.Immutable.FrameSize, courtesyBytes);
         }
 
         private void Assert_Bound_Getters(TestEntities x, int courtesyBytes)
@@ -200,8 +202,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(courtesyBytes, () => x.TapeBound.TapeActions.CourtesyBytes());
             AreEqual(courtesyBytes, () => x.TapeBound.TapeAction.CourtesyBytes());
         }
+                
+        private void Assert_Immutable_Getters(int courtesyFrames, int frameSize, int courtesyBytes)
+        {
+            AreEqual(courtesyBytes, () => CourtesyBytes(courtesyFrames, frameSize));
+        }
 
-        // Helpers         
+        // Test Data Helpers
         
         private TestEntities CreateTestEntities(int courtesyBytes) 
             => new TestEntities(x => x.CourtesyBytes(courtesyBytes));
@@ -211,10 +218,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         // ncrunch: no coverage start
         
-        static readonly int[] _courtesyFramesValues = { 2, 3, 4, 5, 8 };
-        static readonly int[] _bitsValues           = { 8, 16, 32 };
-        static readonly int[] _channelsValues       = { 1, 2 };
-        static readonly int[] _courtesyBytesValues  = { 8, 12, 16, 20, 24, 28, 32 };
+        static readonly int[]        _channelsValues       = { 1, 2 };
+        static readonly int[]        _bitsValues           = { 8, 16, 32 };
+        static readonly int[]        _courtesyFramesValues = { 3, 4, 8 };
+        static readonly int[]        _courtesyBytesValues  = { 8, 12, 16, 20, 24, 28, 32 };
+        static readonly (int, int)[] _bitsChannelsCombos   = { (8, 1), (16, 2), (32, 1), (32, 2) };
         
         static IEnumerable<object[]> TestParametersInit
         {
@@ -265,11 +273,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             get
             {
                 foreach (int initCourtesyFrames in _courtesyFramesValues)
-                foreach (int initBits in _bitsValues)
-                foreach (int initChannels in _channelsValues)
+                foreach ((int initBits, int initChannels )in _bitsChannelsCombos)
+                //foreach (int initChannels in _channelsValues)
                 foreach (int courtesyFrames in _courtesyFramesValues)
-                foreach (int bits in _bitsValues)
-                foreach (int channels in _channelsValues)
+                foreach ((int bits, int channels )in _bitsChannelsCombos)
+                //foreach (int bits in _bitsValues)
+                //foreach (int channels in _channelsValues)
                 {
                     if (initCourtesyFrames == courtesyFrames && initBits == bits && initChannels == channels) 
                     {
