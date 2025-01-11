@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Tests.Technical.AttributeWishes.TestEntities;
+using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Testing.AssertHelper;
@@ -17,7 +17,7 @@ using static JJ.Framework.Testing.AssertHelper;
 #pragma warning disable CS0618 // Method is obsolete
 #pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
-namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
+namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
     [TestClass]
     [TestCategory("Technical")]

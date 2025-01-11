@@ -8,7 +8,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Business.Synthesizer.Tests.Technical.AttributeWishes.TestEntities;
+using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -16,7 +16,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 #pragma warning disable CS0611 // Type or member is obsolete
 #pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
-namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
+namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
     [TestClass]
     [TestCategory("Technical")]

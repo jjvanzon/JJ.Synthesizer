@@ -7,7 +7,7 @@ using static JJ.Framework.Testing.AssertHelper;
 #pragma warning disable CS0618 // Type or member is obsolete
 #pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
 
-namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
+namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
     [TestClass]
     [TestCategory("Technical")]

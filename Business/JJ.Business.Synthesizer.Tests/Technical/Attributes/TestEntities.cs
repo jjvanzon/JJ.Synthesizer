@@ -16,7 +16,7 @@ using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
-namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
+namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
     internal class TapeEntities
     {

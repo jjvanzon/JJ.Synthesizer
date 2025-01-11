@@ -9,7 +9,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
-namespace JJ.Business.Synthesizer.Tests.Technical.AttributeWishes
+namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
     [TestClass]
     [TestCategory("Technical")]
