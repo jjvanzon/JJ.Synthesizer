@@ -12,8 +12,8 @@ using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
-#pragma warning disable CS0611 // Type or member is obsolete
-#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
+#pragma warning disable CS0611 
+#pragma warning disable MSTEST0018 
 
 namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {

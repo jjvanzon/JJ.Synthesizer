@@ -14,7 +14,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618
 
 namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {

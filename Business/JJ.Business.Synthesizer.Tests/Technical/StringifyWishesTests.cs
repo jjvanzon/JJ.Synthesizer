@@ -3,7 +3,8 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Environment;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-#pragma warning disable CS0612 // Type or member is obsolete
+
+#pragma warning disable CS0612
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
