@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
-#pragma warning disable CS0611 // Type or member is obsolete
-#pragma warning disable CS0618 // Method is obsolete
-#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
+#pragma warning disable CS0611 
+#pragma warning disable CS0618 
+#pragma warning disable MSTEST0018 
 
 namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
@@ -56,9 +57,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 Assert_All_Getters(x, val.frameSize);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels)));
         }
 
         [TestMethod]
