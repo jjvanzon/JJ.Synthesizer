@@ -16,43 +16,22 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Duration Attribute
 
-        public static int ByteCount(byte[] bytes, string filePath)
-        {
-            if (Has(bytes))
-            {
-                return bytes.Length;
-            }
-
-            if (Exists(filePath))
-            {
-                long fileSize = new FileInfo(filePath).Length;
-                int maxSize = int.MaxValue;
-                if (fileSize > maxSize) throw new Exception($"File is too large. Max size = {PrettyByteCount(maxSize)}");
-                return (int)fileSize;
-            }
-
-            return 0;
-        }
-
-        public static int ByteCount(int frameCount, int frameSize, int headerLength, int courtesyFrames = 0)
-            => frameCount * frameSize + headerLength + CourtesyBytes(courtesyFrames, frameSize);
-
         public static int ByteCount(this SynthWishes obj) 
             => ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
 
-        public static SynthWishes ByteCount(this SynthWishes obj, int value) 
+        public static SynthWishes ByteCount(this SynthWishes obj, int? value) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
         
         public static int ByteCount(this FlowNode obj) 
             => ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
         
-        public static FlowNode ByteCount(this FlowNode obj, int value) 
+        public static FlowNode ByteCount(this FlowNode obj, int? value) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
 
         public static int ByteCount(this ConfigWishes obj, SynthWishes synthWishes) 
             => ByteCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
        
-        public static ConfigWishes ByteCount(this ConfigWishes obj, int value, SynthWishes synthWishes) 
+        public static ConfigWishes ByteCount(this ConfigWishes obj, int? value, SynthWishes synthWishes) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
         
         internal static int? ByteCount(this ConfigSection obj)
@@ -164,5 +143,28 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             double audioLength = AudioLength(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), courtesyFrames);
             return wish.AudioLength(audioLength).ToWavHeader();
         }
+
+        // Conversion Formulas
+        
+        public static int ByteCount(byte[] bytes, string filePath)
+        {
+            if (Has(bytes))
+            {
+                return bytes.Length;
+            }
+
+            if (Exists(filePath))
+            {
+                long fileSize = new FileInfo(filePath).Length;
+                int maxSize = int.MaxValue;
+                if (fileSize > maxSize) throw new Exception($"File is too large. Max size = {PrettyByteCount(maxSize)}");
+                return (int)fileSize;
+            }
+
+            return 0;
+        }
+
+        public static int ByteCount(int frameCount, int frameSize, int headerLength, int courtesyFrames = 0)
+            => frameCount * frameSize + headerLength + CourtesyBytes(courtesyFrames, frameSize);
     }
 }

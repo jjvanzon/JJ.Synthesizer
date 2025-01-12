@@ -53,17 +53,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 Assert_All_Getters(x, value);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes .SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode    .SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.SizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .SizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .SizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.SizeOfBitDepth(value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,        x.SynthBound.SynthWishes .Bits    (value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,           x.SynthBound.FlowNode    .Bits    (value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.Bits    (value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits    (value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits    (value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits    (value * 8)));
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,        x.SynthBound.SynthWishes .WithBits(value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,           x.SynthBound.FlowNode    .WithBits(value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithBits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithBits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithBits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithBits(value * 8)));
             
             AssertProp(x => {
                 if (value == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());

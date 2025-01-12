@@ -62,9 +62,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 Assert_All_Getters(x, value);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.SamplingRate(value)));
             
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.WithSamplingRate(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.WithSamplingRate(value)));

@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetAudioFormat;
         }
         
-        public static SynthWishes AudioFormat(this SynthWishes obj, AudioFileFormatEnum value)
+        public static SynthWishes AudioFormat(this SynthWishes obj, AudioFileFormatEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithAudioFormat(value);
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetAudioFormat;
         }
         
-        public static FlowNode AudioFormat(this FlowNode obj, AudioFileFormatEnum value)
+        public static FlowNode AudioFormat(this FlowNode obj, AudioFileFormatEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithAudioFormat(value);
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetAudioFormat;
         }
         
-        public static ConfigWishes AudioFormat(this ConfigWishes obj, AudioFileFormatEnum value)
+        public static ConfigWishes AudioFormat(this ConfigWishes obj, AudioFileFormatEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithAudioFormat(value);

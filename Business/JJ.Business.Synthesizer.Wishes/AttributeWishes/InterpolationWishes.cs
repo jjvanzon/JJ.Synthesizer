@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetInterpolation;
         }
         
-        public static SynthWishes Interpolation(this SynthWishes obj, InterpolationTypeEnum value)
+        public static SynthWishes Interpolation(this SynthWishes obj, InterpolationTypeEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithInterpolation(value);
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetInterpolation;
         }
         
-        public static FlowNode Interpolation(this FlowNode obj, InterpolationTypeEnum value)
+        public static FlowNode Interpolation(this FlowNode obj, InterpolationTypeEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithInterpolation(value);
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetInterpolation;
         }
         
-        public static ConfigWishes Interpolation(this ConfigWishes obj, InterpolationTypeEnum value)
+        public static ConfigWishes Interpolation(this ConfigWishes obj, InterpolationTypeEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithInterpolation(value);

@@ -56,9 +56,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 Assert_All_Getters(x, val);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes.CourtesyBytes(val)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode.CourtesyBytes(val)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.CourtesyBytes(val)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.CourtesyBytes(val)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.CourtesyBytes(val)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.CourtesyBytes(val)));
         }
 
         [TestMethod]

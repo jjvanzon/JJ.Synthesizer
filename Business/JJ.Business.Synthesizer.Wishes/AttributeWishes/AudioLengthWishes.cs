@@ -13,12 +13,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Duration Attribute
         
-        public static double AudioLength(int frameCount, int samplingRate)
-            => (double)frameCount / samplingRate;
-        
-        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
-            => (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
-        
         public static double AudioLength(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -194,5 +188,13 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             info.SampleCount = (int)(value * info.SamplingRate);
             return info;
         }
-    }
+
+        // Conversion Formulas
+
+        public static double AudioLength(int frameCount, int samplingRate)
+            => (double)frameCount / samplingRate;
+        
+        public static double AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+            => (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
+   }
 }

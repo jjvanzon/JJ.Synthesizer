@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetSamplingRate;
         }
         
-        public static SynthWishes SamplingRate(this SynthWishes obj, int value)
+        public static SynthWishes SamplingRate(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithSamplingRate(value);
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetSamplingRate;
         }
         
-        public static FlowNode SamplingRate(this FlowNode obj, int value)
+        public static FlowNode SamplingRate(this FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithSamplingRate(value);
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetSamplingRate;
         }
         
-        public static ConfigWishes SamplingRate(this ConfigWishes obj, int value)
+        public static ConfigWishes SamplingRate(this ConfigWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithSamplingRate(value);

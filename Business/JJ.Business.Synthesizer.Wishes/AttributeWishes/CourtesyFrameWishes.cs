@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetCourtesyFrames;
         }
         
-        public static SynthWishes CourtesyFrames(this SynthWishes obj, int value)
+        public static SynthWishes CourtesyFrames(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithCourtesyFrames(value);
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetCourtesyFrames;
         }
         
-        public static FlowNode CourtesyFrames(this FlowNode obj, int value)
+        public static FlowNode CourtesyFrames(this FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithCourtesyFrames(value);
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetCourtesyFrames;
         }
         
-        public static ConfigWishes CourtesyFrames(this ConfigWishes obj, int value)
+        public static ConfigWishes CourtesyFrames(this ConfigWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithCourtesyFrames(value);

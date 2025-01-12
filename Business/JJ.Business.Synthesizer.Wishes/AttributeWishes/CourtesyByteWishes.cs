@@ -12,19 +12,19 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         public static int CourtesyBytes(this SynthWishes obj)
             => CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
-        public static SynthWishes CourtesyBytes(this SynthWishes obj, int value)
+        public static SynthWishes CourtesyBytes(this SynthWishes obj, int? value)
             => obj.CourtesyFrames(CourtesyFrames(value, obj.FrameSize()));
         
         public static int CourtesyBytes(this FlowNode obj)
             => CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
-        public static FlowNode CourtesyBytes(this FlowNode obj, int value)
+        public static FlowNode CourtesyBytes(this FlowNode obj, int? value)
             => obj.CourtesyFrames(CourtesyFrames(value, obj.FrameSize()));
         
         public static int CourtesyBytes(this ConfigWishes obj)
             => CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
-        public static ConfigWishes CourtesyBytes(this ConfigWishes obj, int value)
+        public static ConfigWishes CourtesyBytes(this ConfigWishes obj, int? value)
             => obj.CourtesyFrames(CourtesyFrames(value, obj.FrameSize()));
         
         internal static int? CourtesyBytes(this ConfigSection obj)
@@ -87,7 +87,13 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
             return courtesyFrames * frameSize;
         }
-
+        
+        public static int? CourtesyFrames(int? courtesyBytes, int frameSize)
+        {
+            if (courtesyBytes == null) return null;
+            return CourtesyFrames(courtesyBytes.Value, frameSize);
+        }
+        
         public static int CourtesyFrames(int courtesyBytes, int frameSize)
         {
             if (courtesyBytes < 0) throw new Exception(nameof(frameSize) + " less than 0.");

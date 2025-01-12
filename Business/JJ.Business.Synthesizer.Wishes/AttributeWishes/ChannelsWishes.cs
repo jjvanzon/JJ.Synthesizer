@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetChannels;
         }
         
-        public static SynthWishes Channels(this SynthWishes obj, int value)
+        public static SynthWishes Channels(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetChannels;
         }
         
-        public static FlowNode Channels(this FlowNode obj, int value)
+        public static FlowNode Channels(this FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetChannels;
         }
         
-        public static ConfigWishes Channels(this ConfigWishes obj, int value)
+        public static ConfigWishes Channels(this ConfigWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);

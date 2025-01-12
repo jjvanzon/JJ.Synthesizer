@@ -1083,7 +1083,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int MonoChannels => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => _synthWishes.GetChannels;
-        public FlowNode WithChannels(int channels) { _synthWishes.WithChannels(channels); return this; }
+        public FlowNode WithChannels(int? channels) { _synthWishes.WithChannels(channels); return this; }
         public bool IsMono => _synthWishes.IsMono;
         public FlowNode WithMono() { _synthWishes.WithMono(); return this; }
         public bool IsStereo => _synthWishes.IsStereo;
