@@ -35,5 +35,9 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         [Obsolete(ObsoleteMessage)]
         public static int FrameSize(this (SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
             => enums.sampleDataTypeEnum.SizeOfBitDepth() * enums.speakerSetupEnum.Channels();
+        
+        // Conversion Formulas
+        
+        public static int FrameSize(int bits, int channels) => bits / 8 * channels;
     }
 }

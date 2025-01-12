@@ -84,6 +84,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         {
             if (Is(fileExtension, ".wav")) return Wav;
             if (Is(fileExtension, ".raw")) return Raw;
+            if (!Has(fileExtension)) return Undefined;
             throw new Exception($"{new{fileExtension}} not supported.");
         }
         
@@ -93,6 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             {
                 case Wav: return ".wav";
                 case Raw: return ".raw";
+                case Undefined: return default;
                 default: throw new ValueNotSupportedException(obj);
             }
         }

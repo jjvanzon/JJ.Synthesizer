@@ -144,8 +144,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public const int               DefaultFileExtensionMaxLength = 4;
         public const string            DefaultLongTestCategory       = "Long";
 
-        // Environment Variables
+        // Derive Defaults
         
+        public static int DefaultFrameSize => DefaultBits / 8 * DefaultChannels;
+
+        // Environment Variables
+
         private const string NCrunchEnvironmentVariableName         = "NCrunch";
         private const string AzurePipelinesEnvironmentVariableValue = "True";
         private const string AzurePipelinesEnvironmentVariableName  = "TF_BUILD";
@@ -241,7 +245,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             switch (audioFormat)
             {
-                case null: case Raw: case Wav: break; 
+                case null: case AudioFileFormatEnum.Undefined: case Raw: case Wav: break; 
                 default: throw new ValueNotSupportedException(audioFormat); 
             }
             return audioFormat;
@@ -263,7 +267,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             switch (interpolation)
             {
-                case null: case Line: case Block: break; 
+                case null: case InterpolationTypeEnum.Undefined: case Line: case Block: break; 
                 default: throw new ValueNotSupportedException(interpolation); 
             }
             return interpolation;
