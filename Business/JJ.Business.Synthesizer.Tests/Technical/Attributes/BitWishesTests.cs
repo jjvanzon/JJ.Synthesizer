@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.AttributeWishes.AttributeExtensionWishes;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0618
@@ -21,35 +22,33 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     [TestCategory("Technical")]
     public class BitWishesTests
     {
-        [DataTestMethod]
-        [DataRow(8)]
-        [DataRow(16)]
-        [DataRow(32)]
+        [TestMethod]
+        [DynamicData(nameof(TestParametersInit))]
         public void Init_Bits(int init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
+            Assert_All_Getters(x, CoalesceDefault(init));
         }
-
+        
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
+        [DynamicData(nameof(TestParametersWithEmpty))]
         public void SynthBound_Bits(int init, int value)
         {
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters(x, CoalesceDefault(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, value);
-                Assert_TapeBound_Getters(x, init);
-                Assert_BuffBound_Getters(x, init);
-                Assert_Independent_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_SynthBound_Getters (x, CoalesceDefault(value));
+                Assert_TapeBound_Getters  (x, CoalesceDefault(init ));
+                Assert_BuffBound_Getters  (x, CoalesceDefault(init ));
+                Assert_Independent_Getters(x, CoalesceDefault(init ));
+                Assert_Immutable_Getters  (x, CoalesceDefault(init ));
                 
                 x.Record();
-                Assert_All_Getters(x, value);
+                Assert_All_Getters(x, CoalesceDefault(value));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(value)));
@@ -63,17 +62,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AssertProp(x => {
                 if (value == 8 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());
                 if (value == 16) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With16Bit());
-                if (value == 32) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With32Bit()); });
-            
-            AssertProp(x => {
+                if (value == 32) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With32Bit()); 
+                if (!Has(value)) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.Bits(value)); });
+                                                                     
+            AssertProp(x => {                                        
                 if (value == 8 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With8Bit());
                 if (value == 16) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With16Bit());
-                if (value == 32) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With32Bit()); });
+                if (value == 32) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With32Bit()); 
+                if (!Has(value)) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.Bits(0)); });
             
             AssertProp(x => {
                 if (value == 8 ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With8Bit());
                 if (value == 16) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With16Bit());
-                if (value == 32) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With32Bit()); });
+                if (value == 32) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With32Bit());
+                if (!Has(value)) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.Bits(default)); });
         }
 
         [TestMethod]
@@ -452,24 +454,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(typeof(float), () => With32Bit<float>());
         }
         
-        
         [TestMethod]
         public void Bits_EdgeCases()
         {
-            // For code coverage
+            var x = CreateTestEntities(bits: 32);
             ThrowsException(() => typeof(string).TypeToBits());
+            ThrowsException(() => x.TapeBound.TapeConfig.Bits = 0);
+            ThrowsException(() => x.TapeBound.TapeConfig.Bits = 3);
         }
-
-        // Helpers
-
-        private TestEntities CreateTestEntities(int bits) => new TestEntities(x => x.Bits(bits));
         
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { 32, 8 },
-            new object[] { 32, 16 },
-            new object[] { 16, 32 }
-        };
+        // Getter Helpers
 
         private void Assert_All_Getters(TestEntities x, int bits)
         {
@@ -578,7 +572,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             IsNotNull(           () => x);
             IsNotNull(           () => x.BuffBound);
             IsNotNull(           () => x.BuffBound.Buff);
-            
+
             AreEqual(bits,       () => x.BuffBound.Buff.Bits());
             AreEqual(bits,       () => x.BuffBound.AudioFileOutput.Bits());
             
@@ -657,5 +651,35 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(bits == 16, () => type.Is16Bit());
             AreEqual(bits == 32, () => type.Is32Bit());
         }
+ 
+        // Test Data Helpers
+
+        private TestEntities CreateTestEntities(int bits) => new TestEntities(x => x.Bits(bits));
+                
+        static object TestParametersInit => new[] // ncrunch: no coverage
+        { 
+            new object[] { 0 },
+            new object[] { 8 },
+            new object[] { 16 },
+            new object[] { 32 },
+        };
+
+        static object TestParameters => new[] // ncrunch: no coverage
+        {
+            new object[] { 32, 8 },
+            new object[] { 32, 16 },
+            new object[] { 16, 32 },
+        };
+
+        static object TestParametersWithEmpty => new[] // ncrunch: no coverage
+        {
+            new object[] { 32, 8 },
+            new object[] { 32, 16 },
+            new object[] { 16, 32 },
+            new object[] { 16, 0 },
+            new object[] { 0, 16 },
+        };
+                
+        int CoalesceDefault(int bits) => Has(bits) ? bits : DefaultBits;
     } 
 }
