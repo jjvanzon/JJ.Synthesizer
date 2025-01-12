@@ -16,34 +16,30 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     [TestCategory("Technical")]
     public class CourtesyFrameWishesTests
     {
-        [DataTestMethod]
-        [DataRow(2)]
-        [DataRow(3)]
-        [DataRow(4)]
-        [DataRow(5)]
-        [DataRow(100)]
-        public void Init_CourtesyFrames(int init)
+        [TestMethod]
+        [DynamicData(nameof(TestParametersInit))]
+        public void Init_CourtesyFrames(int? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
+            Assert_All_Getters(x, CoalesceDefault(init));
         }
 
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_CourtesyFrames(int init, int value)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_CourtesyFrames(int? init, int? value)
         {
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters(x, CoalesceDefault(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, value);
-                Assert_TapeBound_Getters(x, init);
+                Assert_SynthBound_Getters(x, CoalesceDefault(value));
+                Assert_TapeBound_Getters(x, CoalesceDefault(init));
                 
                 x.Record();
-                Assert_All_Getters(x, value);
+                Assert_All_Getters(x, CoalesceDefault(value));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.CourtesyFrames(value)));
@@ -96,23 +92,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         {
             AreEqual(4, () => DefaultCourtesyFrames);
         }
-
-        // Helpers
-
-        private TestEntities CreateTestEntities(int courtesyFrames) => new TestEntities(x => x.CourtesyFrames(courtesyFrames));
         
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { 2, 3 },
-            new object[] { 2, 4 },
-            new object[] { 3, 2 },
-            new object[] { 3, 4 },
-            new object[] { 4, 2 },
-            new object[] { 4, 3 },
-            new object[] { 4, 5 },
-            new object[] { 4, 100 },
-        };
-
+        // Getter Helpers
+        
         private void Assert_All_Getters(TestEntities x, int courtesyFrames)
         {
             Assert_Bound_Getters(x, courtesyFrames);
@@ -141,6 +123,57 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(courtesyFrames, () => x.TapeBound.TapeConfig.CourtesyFrames);
             AreEqual(courtesyFrames, () => x.TapeBound.TapeActions.CourtesyFrames());
             AreEqual(courtesyFrames, () => x.TapeBound.TapeAction.CourtesyFrames());
+        }
+ 
+        // Test Data Helpers
+
+        private TestEntities CreateTestEntities(int? courtesyFrames) => new TestEntities(x => x.CourtesyFrames(courtesyFrames));
+        
+        // ncrunch: no coverage start
+        
+        static object TestParametersInit => new [] 
+        {        
+            new object[] { null },
+            new object[] { 2 },
+            new object[] { 3 },
+            new object[] { 4 },
+            new object[] { 5 },
+            new object[] { 100 }
+        };
+
+        static object TestParameters => new[]
+        {
+            new object[] { 2, 3 },
+            new object[] { 2, 4 },
+            new object[] { 3, 2 },
+            new object[] { 3, 4 },
+            new object[] { 4, 2 },
+            new object[] { 4, 3 },
+            new object[] { 4, 5 },
+            new object[] { 4, 100 },
+        };
+        
+        static object TestParametersWithEmpty => new[] 
+        {
+            new object[] { 2, null },
+            new object[] { null, 4 },
+            new object[] { 2, 3 },
+            new object[] { 2, 4 },
+            new object[] { 3, 2 },
+            new object[] { 3, 4 },
+            new object[] { 4, 2 },
+            new object[] { 4, 3 },
+            new object[] { 4, 5 },
+            new object[] { 4, 100 },
+        };
+        
+        // ncrunch: no coverage end
+        
+        static int CoalesceDefault(int? courtesyFrames)
+        {
+            //if (courtesyFrames == null) return DefaultCourtesyFrames;
+            if (courtesyFrames == null) return 2; // Alternative set in config file
+            return courtesyFrames.Value;
         }
     } 
 }

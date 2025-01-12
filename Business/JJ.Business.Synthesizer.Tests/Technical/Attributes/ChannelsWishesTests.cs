@@ -10,6 +10,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0611 
@@ -21,65 +22,83 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     [TestCategory("Technical")]
     public class ChannelsWishesTests
     {
-        [TestMethod, DataRow(1) ,DataRow(2)]
-        public void Init_Channels(int init)
+        [TestMethod, DataRow(null), DataRow(0), DataRow(1) ,DataRow(2)]
+        public void Init_Channels(int? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
+            Assert_All_Getters(x, CoalesceDefault(init));
         }
 
         [TestMethod] 
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_Channels(int init, int value)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_Channels(int? init, int? value)
         {            
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters(x, CoalesceDefault(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, value);
-                Assert_TapeBound_Getters(x, init);
-                Assert_BuffBound_Getters(x, init);
-                Assert_Independent_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_SynthBound_Getters (x, CoalesceDefault(value));
+                Assert_TapeBound_Getters  (x, CoalesceDefault(init));
+                Assert_BuffBound_Getters  (x, CoalesceDefault(init));
+                Assert_Independent_Getters(x, CoalesceDefault(init));
+                Assert_Immutable_Getters  (x, CoalesceDefault(init));
                 
                 x.Record();
-                Assert_All_Getters(x, value);
+                Assert_All_Getters(x, CoalesceDefault(value));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.Channels(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.Channels(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Channels(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Channels(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Channels(value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.WithChannels(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.WithChannels(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithChannels(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithChannels(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithChannels(value)));
             
             AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Mono());
-                if (value == 2) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Stereo()); });
+                if (value == 1      ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Mono());
+                if (value == 2      ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Stereo()); 
+                if (value == 0      ) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithChannels(0)); 
+                if (value == default) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithChannels(default));
+                if (value == null   ) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithChannels(null)); });
             
             AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithMono());
-                if (value == 2) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithStereo()); });
+                if (value == 1      ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithMono());
+                if (value == 2      ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithStereo()); 
+                if (value == 0      ) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithChannels(0));
+                if (value == default) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithChannels(default));
+                if (value == null   ) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithChannels(null)); });
             
             AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Mono());
-                if (value == 2) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Stereo()); });
+                if (value == 1      ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Mono());
+                if (value == 2      ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Stereo()); 
+                if (value == 0      ) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithChannels(0)); 
+                if (value == default) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithChannels(default));
+                if (value == null   ) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithChannels(null)); });
             
             AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithMono());
-                if (value == 2) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithStereo()); });
+                if (value == 1      ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithMono());
+                if (value == 2      ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithStereo()); 
+                if (value == 0      ) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithChannels(0)); 
+                if (value == default) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithChannels(default)); 
+                if (value == null   ) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithChannels(null)); });
             
             AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Mono());
-                if (value == 2) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Stereo()); });
+                if (value == 1      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Mono());
+                if (value == 2      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Stereo()); 
+                if (value == 0      ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithChannels(0));
+                if (value == default) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithChannels(default)); 
+                if (value == null   ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithChannels(null)); });
             
             AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithMono());
-                if (value == 2) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithStereo()); });
+                if (value == 1      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithMono());
+                if (value == 2      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithStereo()); 
+                if (value == 0      ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithChannels(0)); 
+                if (value == default) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithChannels(default)); 
+                if (value == null   ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.WithChannels(null));});
         }
 
         [TestMethod] 
@@ -342,15 +361,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(DefaultChannels == 2, () => configSection.IsStereo());
         }
 
-        // Helpers
-        
-        private TestEntities CreateTestEntities(int channels) => new TestEntities(x => x.WithChannels(channels));
-
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { 1, 2 },
-            new object[] { 2, 1 }
-        };
+        // Getter Helpers
 
         private void Assert_All_Getters(TestEntities x, int channels)
         {
@@ -481,6 +492,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(channels,      () => speakerSetup.EntityToChannels());
             AreEqual(channels == 1, () => speakerSetup.IsMono());
             AreEqual(channels == 2, () => speakerSetup.IsStereo());
+        }
+        
+        // Test Data Helpers
+        
+        private TestEntities CreateTestEntities(int? channels) => new TestEntities(x => x.WithChannels(channels));
+
+        static object TestParameters => new[] // ncrunch: no coverage
+        {
+            new object[] { 1, 2 },
+            new object[] { 2, 1 }
+        };
+
+        static object TestParametersWithEmpty => new[] // ncrunch: no coverage
+        {
+            new object[] { 1   , 2    },
+            new object[] { 2   , 1    },
+            new object[] { 0   , 2    },
+            new object[] { 2   , null },
+            new object[] { 1   , 0    },
+            new object[] { null, 1    }
+        };
+        
+        static int CoalesceDefault(int? channels)
+        {
+            if (!Has(channels)) return DefaultChannels;
+            return channels.Value;
         }
     } 
 }

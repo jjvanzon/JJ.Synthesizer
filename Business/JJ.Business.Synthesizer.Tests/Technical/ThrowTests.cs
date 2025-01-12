@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             //ThrowsException(() => 0.ChannelsToEnum());
 
             // AttributeWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
-            ThrowsException(() => AudioFileFormatEnum.Undefined.FileExtension());
+            //ThrowsException(() => AudioFileFormatEnum.Undefined.FileExtension());
 
             // AttributeWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
             ThrowsException(() => SampleDataTypeEnum.Undefined.MaxAmplitude());

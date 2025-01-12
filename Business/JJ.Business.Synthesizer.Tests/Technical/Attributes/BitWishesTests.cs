@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     {
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_Bits(int init)
+        public void Init_Bits(int? init)
         { 
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, CoalesceDefault(init));
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         [TestMethod]
         [DynamicData(nameof(TestParametersWithEmpty))]
-        public void SynthBound_Bits(int init, int value)
+        public void SynthBound_Bits(int? init, int? value)
         {
             void AssertProp(Action<TestEntities> setter)
             {
@@ -654,10 +654,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
  
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities(int bits) => new TestEntities(x => x.Bits(bits));
+        private TestEntities CreateTestEntities(int? bits) => new TestEntities(x => x.Bits(bits));
                 
         static object TestParametersInit => new[] // ncrunch: no coverage
         { 
+            new object[] { null },
             new object[] { 0 },
             new object[] { 8 },
             new object[] { 16 },
@@ -676,10 +677,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             new object[] { 32, 8 },
             new object[] { 32, 16 },
             new object[] { 16, 32 },
+            new object[] { 16, null },
             new object[] { 16, 0 },
+            new object[] { null, 16 },
             new object[] { 0, 16 },
         };
                 
-        int CoalesceDefault(int bits) => Has(bits) ? bits : DefaultBits;
+        int CoalesceDefault(int? bits) => Has(bits) ? bits.Value : DefaultBits;
     } 
 }

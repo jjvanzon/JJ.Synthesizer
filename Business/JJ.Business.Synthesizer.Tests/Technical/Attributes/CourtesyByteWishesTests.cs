@@ -19,8 +19,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     [TestCategory("Technical")]
     public class CourtesyByteWishesTests
     {
-        // TODO: Preliminary. Vary the dependencies to cover more cases.
-
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
         public void Init_CourtesyBytes(int init)

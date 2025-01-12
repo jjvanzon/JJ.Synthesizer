@@ -11,6 +11,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0611
@@ -22,35 +23,35 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     [TestCategory("Technical")]
     public class AudioFormatAttributeTests
     {
-        [TestMethod, DataRow(Raw) ,DataRow(Wav)]
-        public void Init_AudioFormat(AudioFileFormatEnum init)
+        [TestMethod, DataRow(Raw), DataRow(Wav), DataRow(Undefined), DataRow(null)]
+        public void Init_AudioFormat(AudioFileFormatEnum? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
+            Assert_All_Getters(x, CoalesceDefault(init));
         }
 
         [TestMethod] 
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_AudioFormat(int initAsInt, int valueAsInt)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_AudioFormat(int? initAsInt, int? valueAsInt)
         {            
-            var init  = (AudioFileFormatEnum)initAsInt;
-            var value = (AudioFileFormatEnum)valueAsInt;
+            var init  = (AudioFileFormatEnum?)initAsInt;
+            var value = (AudioFileFormatEnum?)valueAsInt;
             
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters(x, CoalesceDefault(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, value);
-                Assert_TapeBound_Getters(x, init);
-                Assert_BuffBound_Getters(x, init);
-                Assert_Independent_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_SynthBound_Getters (x, CoalesceDefault(value));
+                Assert_TapeBound_Getters  (x, CoalesceDefault(init));
+                Assert_BuffBound_Getters  (x, CoalesceDefault(init));
+                Assert_Independent_Getters(x, CoalesceDefault(init));
+                Assert_Immutable_Getters  (x, CoalesceDefault(init));
                 
                 x.Record();
-                Assert_All_Getters(x, value);
+                Assert_All_Getters(x, CoalesceDefault(value));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .AudioFormat(value)));
@@ -62,16 +63,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithAudioFormat(value)));
             
             AssertProp(x => {
-                if (value == Raw) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.AsRaw());
-                if (value == Wav) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.AsWav()); });
+                if (value == Raw      ) AreEqual(x.SynthBound.SynthWishes , () => x.SynthBound.SynthWishes .AsRaw       ());
+                if (value == Wav      ) AreEqual(x.SynthBound.SynthWishes , () => x.SynthBound.SynthWishes .AsWav       ()); 
+                if (value == Undefined) AreEqual(x.SynthBound.SynthWishes ,       x.SynthBound.SynthWishes .AudioFormat (Undefined)); 
+                if (value == 0        ) AreEqual(x.SynthBound.SynthWishes ,       x.SynthBound.SynthWishes .AudioFormat (0)); 
+                if (value == null     ) AreEqual(x.SynthBound.SynthWishes ,       x.SynthBound.SynthWishes .AudioFormat (null)); });
             
             AssertProp(x => {
-                if (value == Raw) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.AsRaw());
-                if (value == Wav) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.AsWav()); });
+                if (value == Raw      ) AreEqual(x.SynthBound.FlowNode    , () => x.SynthBound.FlowNode    .AsRaw       ());
+                if (value == Wav      ) AreEqual(x.SynthBound.FlowNode    , () => x.SynthBound.FlowNode    .AsWav       ()); 
+                if (value == Undefined) AreEqual(x.SynthBound.FlowNode    ,       x.SynthBound.FlowNode    .AudioFormat (Undefined));
+                if (value == 0        ) AreEqual(x.SynthBound.FlowNode    ,       x.SynthBound.FlowNode    .AudioFormat (0));
+                if (value == default  ) AreEqual(x.SynthBound.FlowNode    ,       x.SynthBound.FlowNode    .AudioFormat (default)); });
             
             AssertProp(x => {
-                if (value == Raw) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsRaw());
-                if (value == Wav) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsWav()); });
+                if (value == Raw      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsRaw       ());
+                if (value == Wav      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsWav       ());
+                if (value == Undefined) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.AudioFormat (Undefined)); 
+                if (value == 0        ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.AudioFormat (0));
+                if (value == null     ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.AudioFormat (null)); });
         }
 
         [TestMethod] 
@@ -419,12 +429,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(AudioFileFormatEnum audioFormat) => new TestEntities(x => x.WithAudioFormat(audioFormat));
+        private TestEntities CreateTestEntities(AudioFileFormatEnum? audioFormat) 
+            => new TestEntities(x => x.WithAudioFormat(audioFormat));
 
         static object TestParameters => new[] // ncrunch: no coverage
         {
             new object[] { (int)Raw, (int)Wav },
             new object[] { (int)Wav, (int)Raw }
         };
+
+        static object TestParametersWithEmpty => new[] // ncrunch: no coverage
+        {
+            new object[] { (int)Raw, (int)Wav       },
+            new object[] { (int)Wav, (int)Raw       },
+            new object[] { (int)Raw, (int)Undefined },
+            new object[] { null    , (int)Raw       },
+            new object[] { (int)Raw, null           }
+        };
+        
+        static AudioFileFormatEnum CoalesceDefault(AudioFileFormatEnum? audioFileFormatEnum)
+        {
+            if (!Has(audioFileFormatEnum)) return DefaultAudioFormat;
+            return audioFileFormatEnum.Value;
+        }
    } 
 }
