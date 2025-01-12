@@ -576,7 +576,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
-            double expectedAmplifier = bits.MaxValue();
+            double expectedAmplifier = bits.MaxAmplitude();
             AreEqual(expectedAmplifier, () => audioFileOutput.Amplifier);
             
             // AudioFileOutputChannels

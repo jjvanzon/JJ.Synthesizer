@@ -41,6 +41,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static int? CourtesyBytes(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static string FileExtension(this ConfigSectionAccessor obj) => (string)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static int? HeaderLength(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
-        public static double? MaxValue(this ConfigSectionAccessor obj) => (double?)_accessor.InvokeMethod(MemberName(), obj.Obj);
+        public static double? MaxAmplitude(this ConfigSectionAccessor obj) => (double?)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
 }

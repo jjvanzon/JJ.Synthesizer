@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static double GetNominalMax(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.MaxValue();
+            return wrapper.Sample.MaxAmplitude();
         }
 
         [Obsolete(ObsoleteMessage)]

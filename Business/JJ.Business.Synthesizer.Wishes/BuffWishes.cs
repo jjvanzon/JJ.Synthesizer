@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = tape.Descriptor();
             audioFileOutput.FilePath = tape.GetFilePath(callerMemberName: callerMemberName);
-            audioFileOutput.Amplifier = tape.Config.Bits.MaxValue();
+            audioFileOutput.Amplifier = tape.Config.Bits.MaxAmplitude();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = tape.Duration;
             audioFileOutput.Bits(tape.Config.Bits, Context);

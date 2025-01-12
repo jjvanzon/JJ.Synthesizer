@@ -221,7 +221,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             AudioFileOutput audioFileOutput = audioFileOutputRepository.Create();
             audioFileOutput.Name = ResolveName(name, filePath);
             audioFileOutput.FilePath = ResolveFilePath(synthWishes.GetAudioFormat, filePath, name);
-            audioFileOutput.Amplifier = synthWishes.GetBits.MaxValue();
+            audioFileOutput.Amplifier = synthWishes.GetBits.MaxAmplitude();
             audioFileOutput.TimeMultiplier = 1;
             audioFileOutput.Duration = (duration ?? synthWishes.GetAudioLength).Calculate();
             audioFileOutput.Bits(synthWishes.GetBits, synthWishes.Context);

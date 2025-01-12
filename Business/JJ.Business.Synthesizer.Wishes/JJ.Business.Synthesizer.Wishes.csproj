@@ -59,7 +59,7 @@
     <Compile Include="AttributeWishes\CourtesyByteWishes.cs" />
     <Compile Include="AttributeWishes\HeaderLengthWishes.cs" />
     <Compile Include="AttributeWishes\FileExtensionWishes.cs" />
-    <Compile Include="AttributeWishes\MaxValueWishes.cs" />
+    <Compile Include="AttributeWishes\MaxAmplitudeWishes.cs" />
     <Compile Include="AttributeWishes\FrameSizeWishes.cs" />
     <Compile Include="AttributeWishes\SizeOfBitDepthWishes.cs" />
     <Compile Include="AttributeWishes\CourtesyFrameWishes.cs" />

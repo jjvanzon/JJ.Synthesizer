@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.MaxValue();
+            return entity.AudioFileOutput.MaxAmplitude();
         }
 
         /// <inheritdoc cref="docs._headerlength" />

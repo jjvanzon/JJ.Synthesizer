@@ -129,18 +129,18 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
                 WithLeft();
                 panned = Panning(sine, panning);
-                double maxValueLeft = panned.Calculate(time: 0.25 / (double)freq);
+                double maxAmplitudeLeft = panned.Calculate(time: 0.25 / (double)freq);
                 double minValueLeft = panned.Calculate(time: 0.75 / (double)freq);
 
                 WithRight();
                 panned = Panning(sine, panning);
-                double maxValueRight = panned.Calculate(time: 0.25 / (double)freq);
+                double maxAmplitudeRight = panned.Calculate(time: 0.25 / (double)freq);
                 double minValueRight = panned.Calculate(time: 0.75 / (double)freq);
                 
                 // Assert
-                AssertHelper.AreEqual(0.75,  () => maxValueLeft);
+                AssertHelper.AreEqual(0.75,  () => maxAmplitudeLeft);
                 AssertHelper.AreEqual(-0.75, () => minValueLeft);
-                AssertHelper.AreEqual(0.25,  () => maxValueRight);
+                AssertHelper.AreEqual(0.25,  () => maxAmplitudeRight);
                 AssertHelper.AreEqual(-0.25, () => minValueRight);
             }
             finally

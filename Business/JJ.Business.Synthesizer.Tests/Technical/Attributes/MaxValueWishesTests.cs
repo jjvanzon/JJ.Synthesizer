@@ -20,39 +20,39 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class MaxValueWishesTests
+    public class MaxAmplitudeWishesTests
     {
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_MaxValue(int maxValue, int bits)
+        public void Init_MaxAmplitude(int maxAmplitude, int bits)
         { 
-            var init = (maxValue, bits);
+            var init = (maxAmplitude, bits);
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init.maxValue);
+            Assert_All_Getters(x, init.maxAmplitude);
         }
 
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void SynthBound_MaxValue(int initMaxValue, int initBits, int maxValue, int bits)
+        public void SynthBound_MaxAmplitude(int initMaxAmplitude, int initBits, int maxAmplitude, int bits)
         {
-            var init = (maxValue: initMaxValue, bits: initBits);
-            var val = (maxValue, bits);
+            var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
+            var val = (maxAmplitude, bits);
             
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init.maxValue);
+                Assert_All_Getters(x, init.maxAmplitude);
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, val.maxValue);
-                Assert_TapeBound_Getters(x, init.maxValue);
-                Assert_BuffBound_Getters(x, init.maxValue);
-                Assert_Independent_Getters(x, init.maxValue);
-                Assert_Immutable_Getters(x, init.maxValue);
+                Assert_SynthBound_Getters(x, val.maxAmplitude);
+                Assert_TapeBound_Getters(x, init.maxAmplitude);
+                Assert_BuffBound_Getters(x, init.maxAmplitude);
+                Assert_Independent_Getters(x, init.maxAmplitude);
+                Assert_Immutable_Getters(x, init.maxAmplitude);
                 
                 x.Record();
-                Assert_All_Getters(x, val.maxValue);
+                Assert_All_Getters(x, val.maxAmplitude);
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits    (val.bits)));
@@ -81,27 +81,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void TapeBound_MaxValue(int initMaxValue, int initBits, int maxValue, int bits)
+        public void TapeBound_MaxAmplitude(int initMaxAmplitude, int initBits, int maxAmplitude, int bits)
         {
-            var init = (maxValue: initMaxValue, bits: initBits);
-            var val = (maxValue, bits);
+            var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
+            var val = (maxAmplitude, bits);
 
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init.maxValue);
+                Assert_All_Getters(x, init.maxAmplitude);
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, init.maxValue);
-                Assert_TapeBound_Getters(x, val.maxValue);
-                Assert_BuffBound_Getters(x, init.maxValue);
-                Assert_Independent_Getters(x, init.maxValue);
-                Assert_Immutable_Getters(x, init.maxValue);
+                Assert_SynthBound_Getters(x, init.maxAmplitude);
+                Assert_TapeBound_Getters(x, val.maxAmplitude);
+                Assert_BuffBound_Getters(x, init.maxAmplitude);
+                Assert_Independent_Getters(x, init.maxAmplitude);
+                Assert_Immutable_Getters(x, init.maxAmplitude);
                 
                 x.Record();
                 
-                Assert_All_Getters(x, init.maxValue); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+                Assert_All_Getters(x, init.maxAmplitude); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
             AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .Bits  (val.bits)));
@@ -133,26 +133,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void BuffBound_MaxValue(int initMaxValue, int initBits, int maxValue, int bits)
+        public void BuffBound_MaxAmplitude(int initMaxAmplitude, int initBits, int maxAmplitude, int bits)
         {
-            var init = (maxValue: initMaxValue, bits: initBits);
-            var val = (maxValue, bits);
+            var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
+            var val = (maxAmplitude, bits);
 
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init.maxValue);
+                Assert_All_Getters(x, init.maxAmplitude);
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, init.maxValue);
-                Assert_TapeBound_Getters(x, init.maxValue);
-                Assert_BuffBound_Getters(x, val.maxValue);
-                Assert_Independent_Getters(x, init.maxValue);
-                Assert_Immutable_Getters(x, init.maxValue);
+                Assert_SynthBound_Getters(x, init.maxAmplitude);
+                Assert_TapeBound_Getters(x, init.maxAmplitude);
+                Assert_BuffBound_Getters(x, val.maxAmplitude);
+                Assert_Independent_Getters(x, init.maxAmplitude);
+                Assert_Immutable_Getters(x, init.maxAmplitude);
                 
                 x.Record();
-                Assert_All_Getters(x, init.maxValue);
+                Assert_All_Getters(x, init.maxAmplitude);
             }
 
             AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .Bits(val.bits, x.SynthBound.Context)));
@@ -171,12 +171,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void Independent_MaxValue(int initMaxValue, int initBits, int maxValue, int bits)
+        public void Independent_MaxAmplitude(int initMaxAmplitude, int initBits, int maxAmplitude, int bits)
         {
             // Independent after Taping
 
-            var init = (maxValue: initMaxValue, bits: initBits);
-            var val = (maxValue, bits);
+            var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
+            var val = (maxAmplitude, bits);
 
             // Sample
             {
@@ -185,18 +185,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 void AssertProp(Action setter)
                 {
                     x = CreateTestEntities(init);
-                    Assert_All_Getters(x, init.maxValue);
+                    Assert_All_Getters(x, init.maxAmplitude);
                     
                     setter();
                     
-                    Assert_Bound_Getters(x, init.maxValue);
-                    Assert_Independent_Getters(x.Independent.Sample, val.maxValue);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init.maxValue);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init.maxValue);
-                    Assert_Immutable_Getters(x, init.maxValue);
+                    Assert_Bound_Getters(x, init.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.Sample, val.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init.maxAmplitude);
+                    Assert_Immutable_Getters(x, init.maxAmplitude);
 
                     x.Record();
-                    Assert_All_Getters(x, init.maxValue);
+                    Assert_All_Getters(x, init.maxAmplitude);
                 }
                 
                 AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.Bits(val.bits, x.SynthBound.Context)));
@@ -214,18 +214,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 void AssertProp(Action setter)
                 {
                     x = CreateTestEntities(init);
-                    Assert_All_Getters(x, init.maxValue);
+                    Assert_All_Getters(x, init.maxAmplitude);
                     
                     setter();
                     
-                    Assert_Bound_Getters(x, init.maxValue);
-                    Assert_Independent_Getters(x.Independent.Sample, init.maxValue);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, val.maxValue);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init.maxValue);
-                    Assert_Immutable_Getters(x, init.maxValue);
+                    Assert_Bound_Getters(x, init.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.Sample, init.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, val.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init.maxAmplitude);
+                    Assert_Immutable_Getters(x, init.maxAmplitude);
 
                     x.Record();
-                    Assert_All_Getters(x, init.maxValue);
+                    Assert_All_Getters(x, init.maxAmplitude);
                 }
                 
                 AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.Bits  (val.bits)));
@@ -244,18 +244,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 void AssertProp(Action setter)
                 {
                     x = CreateTestEntities(init);
-                    Assert_All_Getters(x, init.maxValue);
+                    Assert_All_Getters(x, init.maxAmplitude);
                     
                     setter();
                     
-                    Assert_Bound_Getters(x, init.maxValue);
-                    Assert_Independent_Getters(x.Independent.Sample, init.maxValue);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init.maxValue);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, val.maxValue);
-                    Assert_Immutable_Getters(x, init.maxValue);
+                    Assert_Bound_Getters(x, init.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.Sample, init.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init.maxAmplitude);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, val.maxAmplitude);
+                    Assert_Immutable_Getters(x, init.maxAmplitude);
 
                     x.Record();
-                    Assert_All_Getters(x, init.maxValue);
+                    Assert_All_Getters(x, init.maxAmplitude);
                 }
                 
                 AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.Bits(val.bits)));
@@ -269,10 +269,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void Immutable_MaxValue(int initMaxValue, int initBits, int maxValue, int bits)
+        public void Immutable_MaxAmplitude(int initMaxAmplitude, int initBits, int maxAmplitude, int bits)
         {
-            var init = (maxValue: initMaxValue, bits: initBits);
-            var val = (maxValue, bits);
+            var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
+            var val = (maxAmplitude, bits);
             var x = CreateTestEntities(init);
 
             // WavHeader
@@ -281,12 +281,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             {
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
-                    Assert_Immutable_Getters(x.Immutable.WavHeader, init.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init.maxAmplitude);
                     
                     WavHeaderStruct wavHeader2 = setter();
                     
-                    Assert_Immutable_Getters(x.Immutable.WavHeader, init.maxValue);
-                    Assert_Immutable_Getters(wavHeader2, val.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init.maxAmplitude);
+                    Assert_Immutable_Getters(wavHeader2, val.maxAmplitude);
                     
                     wavHeaders.Add(wavHeader2);
                 }
@@ -308,12 +308,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             {
                 void AssertProp(Func<SampleDataTypeEnum> setter)
                 {
-                    Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, init.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, init.maxAmplitude);
                     
                     SampleDataTypeEnum sampleDataTypeEnum2 = setter();
                     
-                    Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, init.maxValue);
-                    Assert_Immutable_Getters(sampleDataTypeEnum2, val.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, init.maxAmplitude);
+                    Assert_Immutable_Getters(sampleDataTypeEnum2, val.maxAmplitude);
                     
                     sampleDataTypeEnums.Add(sampleDataTypeEnum2);
                 }
@@ -336,12 +336,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             {
                 void AssertProp(Func<SampleDataType> setter)
                 {
-                    Assert_Immutable_Getters(x.Immutable.SampleDataType, init.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.SampleDataType, init.maxAmplitude);
 
                     SampleDataType sampleDataType2 = setter();
                     
-                    Assert_Immutable_Getters(x.Immutable.SampleDataType, init.maxValue);
-                    Assert_Immutable_Getters(sampleDataType2, val.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.SampleDataType, init.maxAmplitude);
+                    Assert_Immutable_Getters(sampleDataType2, val.maxAmplitude);
                     
                     sampleDataTypes.Add(sampleDataType2);
                 }
@@ -365,12 +365,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             {
                 void AssertProp(Func<Type> setter)
                 {
-                    Assert_Immutable_Getters(x.Immutable.Type, init.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.Type, init.maxAmplitude);
                     
                     var type2 = setter();
                     
-                    Assert_Immutable_Getters(x.Immutable.Type, init.maxValue);
-                    Assert_Immutable_Getters(type2, val.maxValue);
+                    Assert_Immutable_Getters(x.Immutable.Type, init.maxAmplitude);
+                    Assert_Immutable_Getters(type2, val.maxAmplitude);
                     
                     types.Add(type2);
                 }
@@ -391,30 +391,30 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             x.Record();
             
             // All is reset
-            Assert_All_Getters(x, init.maxValue);
+            Assert_All_Getters(x, init.maxAmplitude);
             
             // Except for our variables
-            wavHeaders         .ForEach(w => Assert_Immutable_Getters(w, val.maxValue));
-            sampleDataTypeEnums.ForEach(e => Assert_Immutable_Getters(e, val.maxValue));
-            sampleDataTypes    .ForEach(s => Assert_Immutable_Getters(s, val.maxValue));
-            types              .ForEach(t => Assert_Immutable_Getters(t, val.maxValue));
+            wavHeaders         .ForEach(w => Assert_Immutable_Getters(w, val.maxAmplitude));
+            sampleDataTypeEnums.ForEach(e => Assert_Immutable_Getters(e, val.maxAmplitude));
+            sampleDataTypes    .ForEach(s => Assert_Immutable_Getters(s, val.maxAmplitude));
+            types              .ForEach(t => Assert_Immutable_Getters(t, val.maxAmplitude));
         }
 
         [TestMethod]
-        public void ConfigSection_MaxValue()
+        public void ConfigSection_MaxAmplitude()
         {
             // Global-Bound. Immutable. Get-only.
             var configSection = GetConfigSectionAccessor();
-            AreEqual(DefaultBits.MaxValue(), () => configSection.MaxValue());
+            AreEqual(DefaultBits.MaxAmplitude(), () => configSection.MaxAmplitude());
         }
 
         [TestMethod]
         public void Bits_WithTypeArguments()
         {
             // ReSharper disable once PossibleLossOfFraction
-            AreEqual(byte .MaxValue / 2, () => MaxValue<byte>());
-            AreEqual(short.MaxValue,     () => MaxValue<short>());
-            AreEqual(1,                  () => MaxValue<float>());
+            AreEqual(byte .MaxValue/ 2, () => MaxAmplitude<byte>());
+            AreEqual(short.MaxValue,    () => MaxAmplitude<short>());
+            AreEqual(1,                 () => MaxAmplitude<float>());
         }
         
         
@@ -427,41 +427,41 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         // Getter Helpers
 
-        private void Assert_All_Getters(TestEntities x, int maxValue)
+        private void Assert_All_Getters(TestEntities x, int maxAmplitude)
         {
-            Assert_Bound_Getters(x, maxValue);
-            Assert_Independent_Getters(x, maxValue);
-            Assert_Immutable_Getters(x, maxValue);
+            Assert_Bound_Getters(x, maxAmplitude);
+            Assert_Independent_Getters(x, maxAmplitude);
+            Assert_Immutable_Getters(x, maxAmplitude);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int maxValue)
+        private void Assert_Bound_Getters(TestEntities x, int maxAmplitude)
         {
-            Assert_SynthBound_Getters(x, maxValue);
-            Assert_TapeBound_Getters(x, maxValue);
-            Assert_BuffBound_Getters(x, maxValue);
+            Assert_SynthBound_Getters(x, maxAmplitude);
+            Assert_TapeBound_Getters(x, maxAmplitude);
+            Assert_BuffBound_Getters(x, maxAmplitude);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int maxValue)
+        private void Assert_Independent_Getters(TestEntities x, int maxAmplitude)
         {
             // Independent after Taping
             IsNotNull(() => x);
             IsNotNull(() => x.Independent);
-            Assert_Independent_Getters(x.Independent.Sample, maxValue);
-            Assert_Independent_Getters(x.Independent.AudioInfoWish, maxValue);
-            Assert_Independent_Getters(x.Independent.AudioFileInfo, maxValue);
+            Assert_Independent_Getters(x.Independent.Sample, maxAmplitude);
+            Assert_Independent_Getters(x.Independent.AudioInfoWish, maxAmplitude);
+            Assert_Independent_Getters(x.Independent.AudioFileInfo, maxAmplitude);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int maxValue)
+        private void Assert_Immutable_Getters(TestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
-            Assert_Immutable_Getters(x.Immutable.WavHeader, maxValue);
-            Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, maxValue);
-            Assert_Immutable_Getters(x.Immutable.SampleDataType, maxValue);
-            Assert_Immutable_Getters(x.Immutable.Type, maxValue);
+            Assert_Immutable_Getters(x.Immutable.WavHeader, maxAmplitude);
+            Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, maxAmplitude);
+            Assert_Immutable_Getters(x.Immutable.SampleDataType, maxAmplitude);
+            Assert_Immutable_Getters(x.Immutable.Type, maxAmplitude);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int maxValue)
+        private void Assert_SynthBound_Getters(TestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.SynthBound);
@@ -469,12 +469,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             IsNotNull(() => x.SynthBound.FlowNode);
             IsNotNull(() => x.SynthBound.ConfigWishes);
 
-            AreEqual(maxValue, () => x.SynthBound.SynthWishes.MaxValue());
-            AreEqual(maxValue, () => x.SynthBound.FlowNode.MaxValue());
-            AreEqual(maxValue, () => x.SynthBound.ConfigWishes.MaxValue());
+            AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes.MaxAmplitude());
+            AreEqual(maxAmplitude, () => x.SynthBound.FlowNode.MaxAmplitude());
+            AreEqual(maxAmplitude, () => x.SynthBound.ConfigWishes.MaxAmplitude());
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int maxValue)
+        private void Assert_TapeBound_Getters(TestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound);
@@ -483,65 +483,65 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             IsNotNull(() => x.TapeBound.TapeActions);
             IsNotNull(() => x.TapeBound.TapeAction);
 
-            AreEqual(maxValue, () => x.TapeBound.Tape.MaxValue());
-            AreEqual(maxValue, () => x.TapeBound.TapeConfig.MaxValue());
-            AreEqual(maxValue, () => x.TapeBound.TapeActions.MaxValue());
-            AreEqual(maxValue, () => x.TapeBound.TapeAction.MaxValue());
+            AreEqual(maxAmplitude, () => x.TapeBound.Tape.MaxAmplitude());
+            AreEqual(maxAmplitude, () => x.TapeBound.TapeConfig.MaxAmplitude());
+            AreEqual(maxAmplitude, () => x.TapeBound.TapeActions.MaxAmplitude());
+            AreEqual(maxAmplitude, () => x.TapeBound.TapeAction.MaxAmplitude());
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int maxValue)
+        private void Assert_BuffBound_Getters(TestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
             IsNotNull(() => x.BuffBound.Buff);
             
-            AreEqual(maxValue, () => x.BuffBound.Buff.MaxValue());
-            AreEqual(maxValue, () => x.BuffBound.AudioFileOutput.MaxValue());
+            AreEqual(maxAmplitude, () => x.BuffBound.Buff.MaxAmplitude());
+            AreEqual(maxAmplitude, () => x.BuffBound.AudioFileOutput.MaxAmplitude());
         }
         
-        private void Assert_Independent_Getters(Sample sample, int maxValue)
+        private void Assert_Independent_Getters(Sample sample, int maxAmplitude)
         {
             IsNotNull(         () => sample);
-            AreEqual(maxValue, () => sample.MaxValue());
+            AreEqual(maxAmplitude, () => sample.MaxAmplitude());
         }
         
-        private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int maxValue)
+        private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int maxAmplitude)
         {
             IsNotNull(         () => audioInfoWish);
-            AreEqual(maxValue, () => audioInfoWish.MaxValue());
+            AreEqual(maxAmplitude, () => audioInfoWish.MaxAmplitude());
         }
         
-        void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int maxValue)
+        void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int maxAmplitude)
         {
             IsNotNull(         () => audioFileInfo);
-            AreEqual(maxValue, () => audioFileInfo.MaxValue());
+            AreEqual(maxAmplitude, () => audioFileInfo.MaxAmplitude());
         }
         
-        void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int maxValue)
+        void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int maxAmplitude)
         {
-            AreEqual(maxValue, () => wavHeader.MaxValue());
+            AreEqual(maxAmplitude, () => wavHeader.MaxAmplitude());
         }
         
-        private void Assert_Immutable_Getters(SampleDataTypeEnum sampleDataTypeEnum, int maxValue)
+        private void Assert_Immutable_Getters(SampleDataTypeEnum sampleDataTypeEnum, int maxAmplitude)
         {
-            AreEqual(maxValue, () => sampleDataTypeEnum.MaxValue());
+            AreEqual(maxAmplitude, () => sampleDataTypeEnum.MaxAmplitude());
         }
         
-        private void Assert_Immutable_Getters(SampleDataType sampleDataType, int maxValue)
+        private void Assert_Immutable_Getters(SampleDataType sampleDataType, int maxAmplitude)
         {
             IsNotNull(         () => sampleDataType);
-            AreEqual(maxValue, () => sampleDataType.MaxValue());
+            AreEqual(maxAmplitude, () => sampleDataType.MaxAmplitude());
         }
         
-        private void Assert_Immutable_Getters(Type type, int maxValue)
+        private void Assert_Immutable_Getters(Type type, int maxAmplitude)
         {
             IsNotNull(         () => type);
-            AreEqual(maxValue, () => type.MaxValue());
+            AreEqual(maxAmplitude, () => type.MaxAmplitude());
         }
         
          // Test Data Helpers
 
-        private TestEntities CreateTestEntities((double maxValue, int bits) init) => new TestEntities(x => x.Bits(init.bits));
+        private TestEntities CreateTestEntities((double maxAmplitude, int bits) init) => new TestEntities(x => x.Bits(init.bits));
         
         static object TestParameters => new[] // ncrunch: no coverage
         {
