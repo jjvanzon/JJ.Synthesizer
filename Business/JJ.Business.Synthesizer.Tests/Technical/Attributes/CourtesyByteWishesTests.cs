@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Tests.Accessors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.AttributeWishes.AttributeExtensionWishes;
 
@@ -86,13 +86,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 Assert_All_Getters(x, val.courtesyBytes);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
         }
 
         [TestMethod]
