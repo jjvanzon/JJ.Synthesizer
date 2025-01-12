@@ -318,7 +318,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(samplingRate, () => wavHeader.SamplingRate);
         }
  
-        // Data Helpers
+        // Test Data Helpers
         
         private TestEntities CreateTestEntities(int samplingRate)
         {
