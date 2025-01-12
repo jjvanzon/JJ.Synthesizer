@@ -134,7 +134,7 @@
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />
-    <Compile Include="Technical\Attributes\MaxValueWishesTests.cs" />
+    <Compile Include="Technical\Attributes\MaxAmplitudeWishesTests.cs" />
     <Compile Include="Technical\Attributes\HeaderLengthWishesTests.cs" />
     <Compile Include="Technical\Attributes\FileExtensionWishesTests.cs" />
     <Compile Include="Technical\Attributes\AudioFormatAttributeTests.cs" />
