@@ -415,19 +415,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         static object TestParameters => new[] // ncrunch: no coverage
         {
-            new object[] { ".raw", (int)Raw      , ".wav", (int)Wav       },
-            new object[] { ".wav", (int)Wav      , ".raw", (int)Raw       },
-            //new object[] { ""    , (int)Undefined, ".wav", (int)Wav       },
-            //new object[] { ""    , (int)Undefined, ".raw", (int)Raw       },
-            //new object[] { ".wav", (int)Wav      , ""    , (int)Undefined },
-            //new object[] { ".raw", (int)Raw      , ""    , (int)Undefined },
+            new object[] { ".raw", (int)Raw, ".wav", (int)Wav },
+            new object[] { ".wav", (int)Wav, ".raw", (int)Raw }
         };
          
         static object TestParametersInit => new[] // ncrunch: no coverage
         {
-            //new object[] { ""    , (int)Undefined },
-            new object[] { ".raw", (int)Raw       },
-            new object[] { ".wav", (int)Wav       }
+            new object[] { ".raw", (int)Raw },
+            new object[] { ".wav", (int)Wav }
         };
     } 
 }
