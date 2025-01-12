@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetAudioLength.Value;
         }
         
-        public static SynthWishes AudioLength(this SynthWishes obj, double value)
+        public static SynthWishes AudioLength(this SynthWishes obj, double? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.WithAudioLength(value);
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetAudioLength.Value;
         }
         
-        public static FlowNode AudioLength(this FlowNode obj, double value)
+        public static FlowNode AudioLength(this FlowNode obj, double? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.WithAudioLength(value);
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetAudioLength(synthWishes).Value;
         }
         
-        public static ConfigWishes AudioLength(this ConfigWishes obj, double value, SynthWishes synthWishes)
+        public static ConfigWishes AudioLength(this ConfigWishes obj, double? value, SynthWishes synthWishes)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.WithAudioLength(value, synthWishes);
@@ -191,10 +191,19 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 
         // Conversion Formulas
 
+        public static double? AudioLength(int? frameCount, int samplingRate)
+            => (double?)frameCount / samplingRate;
+
         public static double AudioLength(int frameCount, int samplingRate)
             => (double)frameCount / samplingRate;
+
+        public static double? AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+        {
+            if (byteCount == default) return default;
+            return AudioLength(byteCount.Value, frameSize, samplingRate, headerLength, courtesyFrames);
+        }
         
-        public static double AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
             => (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
    }
 }

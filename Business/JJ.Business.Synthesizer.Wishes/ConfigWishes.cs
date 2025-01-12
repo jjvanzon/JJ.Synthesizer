@@ -488,10 +488,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public ConfigWishes WithAudioLength(FlowNode newAudioLength) { _audioLength = newAudioLength; return this; }
         
         /// <inheritdoc cref="docs._audiolength" />
-        public ConfigWishes WithAudioLength(double newAudioLength, SynthWishes synthWishes)
+        public ConfigWishes WithAudioLength(double? newAudioLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
-            return WithAudioLength(synthWishes[newAudioLength]);
+            if (newAudioLength == default) return WithAudioLength(default);
+            return WithAudioLength(synthWishes[newAudioLength.Value]);
         }
         
         /// <inheritdoc cref="docs._audiolength" />
@@ -973,7 +974,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode GetAudioLength => Config.GetAudioLength(this);
         /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes WithAudioLength(double newLength) { Config.WithAudioLength(newLength, this); return this; }
+        public SynthWishes WithAudioLength(double? newLength) { Config.WithAudioLength(newLength, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes WithAudioLength(FlowNode newLength) { Config.WithAudioLength(newLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />
@@ -1168,7 +1169,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode WithAudioLength(FlowNode newLength) { _synthWishes.WithAudioLength(newLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />
-        public FlowNode WithAudioLength(double newLength) { _synthWishes.WithAudioLength(newLength); return this; }
+        public FlowNode WithAudioLength(double? newLength) { _synthWishes.WithAudioLength(newLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode AddAudioLength(FlowNode additionalLength) { _synthWishes.AddAudioLength(additionalLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />

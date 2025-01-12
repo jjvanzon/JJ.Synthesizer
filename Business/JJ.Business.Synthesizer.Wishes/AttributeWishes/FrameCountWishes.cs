@@ -12,23 +12,22 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
     {
         // A Duration Attribute
         
-        
         public static int FrameCount(this SynthWishes obj)
             => FrameCount(obj.AudioLength(), obj.SamplingRate());
         
-        public static SynthWishes FrameCount(this SynthWishes obj, int value)
+        public static SynthWishes FrameCount(this SynthWishes obj, int? value)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
         public static int FrameCount(this FlowNode obj)
             => FrameCount(obj.AudioLength(), obj.SamplingRate());
         
-        public static FlowNode FrameCount(this FlowNode obj, int value)
+        public static FlowNode FrameCount(this FlowNode obj, int? value)
             => obj.AudioLength(AudioLength(value, SamplingRate(obj)));
         
         public static int FrameCount(this ConfigWishes obj, SynthWishes synthWishes)
             => FrameCount(obj.AudioLength(synthWishes), obj.SamplingRate());
         
-        public static ConfigWishes FrameCount(this ConfigWishes obj, int value, SynthWishes synthWishes)
+        public static ConfigWishes FrameCount(this ConfigWishes obj, int? value, SynthWishes synthWishes)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()), synthWishes);
         
         internal static int? FrameCount(this ConfigSection obj)
