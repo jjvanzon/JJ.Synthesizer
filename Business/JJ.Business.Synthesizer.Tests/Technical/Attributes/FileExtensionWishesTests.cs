@@ -282,6 +282,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(".wav", () => DefaultAudioFormat.FileExtension());
             AreEqual(DefaultAudioFormat.FileExtension(), () => GetConfigSectionAccessor().FileExtension());
         }
+        
+        [TestMethod]
+        public void FileExtension_EdgeCases()
+        {
+            // For code coverage
+            ThrowsException(() => ".abc".ExtensionToAudioFormat());
+        }
 
         // Getter Helpers
         
