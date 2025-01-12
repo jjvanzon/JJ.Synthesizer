@@ -275,7 +275,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             fileExtensions.ForEach(s => Assert_Immutable_Getters(s, value));
         }
 
-        [TestMethod] public void ConfigSections_AudioFormat()
+        [TestMethod]
+        public void ConfigSections_AudioFormat()
         {
             // Global-Bound. Immutable. Get-only.
             var configSection = GetConfigSectionAccessor();
