@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetBits;
         }
         
-        public static SynthWishes Bits(this SynthWishes obj, int value)
+        public static SynthWishes Bits(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithBits(value);
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetBits;
         }
         
-        public static FlowNode Bits(this FlowNode obj, int value)
+        public static FlowNode Bits(this FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithBits(value);
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
             return obj.GetBits;
         }
         
-        public static ConfigWishes Bits(this ConfigWishes obj, int value)
+        public static ConfigWishes Bits(this ConfigWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithBits(value);
