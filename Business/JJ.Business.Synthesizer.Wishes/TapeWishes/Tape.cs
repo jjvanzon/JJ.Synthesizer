@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
 using static System.IO.File;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
@@ -201,15 +202,57 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Tape = tape ?? throw new ArgumentNullException(nameof(tape));
         }
         
-        public int SamplingRate { get; set; }
-        public int Bits { get; set; }
-        public int Channels { get; set; }
-        public int? Channel { get; set; }
-        public AudioFileFormatEnum AudioFormat { get; set; }
-        /// <summary> Not so much used for taping, as much as when reusing a tape as a Sample. </summary>
-        public InterpolationTypeEnum Interpolation { get; set; }
-        public int CourtesyFrames { get; set; }
+        private int _samplingRate;
+        public int SamplingRate
+        {
+            get => AssertSamplingRate(_samplingRate);
+            set => _samplingRate = AssertSamplingRate(value);
+        }
+        
+        private int _bits;
+        public int Bits
+        {
+            get => AssertBits(_bits);
+            set => _bits = AssertBits(value);
+        }
 
+        private int _channels;
+        public int Channels 
+        {
+            get => AssertChannels(_channels); 
+            set => _channels = AssertChannels(value); 
+        }
+        
+        private int? _channel;
+        public int? Channel
+        {
+            get => AssertChannel(_channel);
+            set => _channel = AssertChannel(value);
+        }
+        
+        private AudioFileFormatEnum _audioFormat;
+        public AudioFileFormatEnum AudioFormat
+        {
+            get => Assert(_audioFormat);
+            set => _audioFormat = Assert(value);
+        }
+        
+        /// <inheritdoc cref="docs._tapeinterpolation" />
+        private InterpolationTypeEnum _interpolation;
+        /// <inheritdoc cref="docs._tapeinterpolation" />
+        public InterpolationTypeEnum Interpolation
+        {
+            get => Assert(_interpolation);
+            set => _interpolation = Assert(value);
+        }
+        
+        private int _courtesyFrames;
+        public int CourtesyFrames
+        {
+            get => AssertCourtesyFrames(_courtesyFrames);
+            set => _courtesyFrames = AssertCourtesyFrames(value);
+        }
+        
         // Helpers
         
         public bool IsMono => Channels == 1;

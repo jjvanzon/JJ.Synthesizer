@@ -744,6 +744,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _tapeactionfilepathsuggested;
         
         /// <summary> 
+        /// Not so much used for taping, as much as when reusing a tape as a Sample.
+        /// </summary>
+        public static object _tapeinterpolation;
+        
+        /// <summary> 
         /// Returns the <c> Tape </c> 's <c> Signal.Name </c> , <c> FallBackName </c> 
         /// or else <c> FilePath </c> in prettified form.
         /// </summary> 

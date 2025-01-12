@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -224,12 +225,84 @@ namespace JJ.Business.Synthesizer.Wishes
             return channel;
         }
 
-        // Audio Quality
+        [AssertionMethod]
+        internal static AudioFileFormatEnum Assert(AudioFileFormatEnum audioFormat)
+        {
+            switch (audioFormat)
+            {
+                case Raw: case Wav: break; 
+                default: throw new ValueNotSupportedException(audioFormat); 
+            }
+            return audioFormat;
+        }
+                
+        [AssertionMethod]
+        internal static AudioFileFormatEnum? Assert(AudioFileFormatEnum? audioFormat)
+        {
+            switch (audioFormat)
+            {
+                case null: case Raw: case Wav: break; 
+                default: throw new ValueNotSupportedException(audioFormat); 
+            }
+            return audioFormat;
+        }
+
+        [AssertionMethod]
+        internal static InterpolationTypeEnum Assert(InterpolationTypeEnum interpolation)
+        {
+            switch (interpolation)
+            {
+                case Line: case Block: break; 
+                default: throw new ValueNotSupportedException(interpolation); 
+            }
+            return interpolation;
+        }
+                
+        [AssertionMethod]
+        internal static InterpolationTypeEnum? Assert(InterpolationTypeEnum? interpolation)
+        {
+            switch (interpolation)
+            {
+                case null: case Line: case Block: break; 
+                default: throw new ValueNotSupportedException(interpolation); 
+            }
+            return interpolation;
+        }
+                        
+        [AssertionMethod]
+        internal static int AssertSamplingRate(int samplingRate)
+        {
+            if (samplingRate <= 0) throw new Exception($"SamplingRate {samplingRate} should be greater than 0.");
+            return samplingRate;
+        }
+                       
+        [AssertionMethod]
+        internal static int? AssertSamplingRate(int? samplingRate)
+        {
+            if (samplingRate == null) return null;
+            return AssertSamplingRate(samplingRate.Value);
+        }
+                        
+        [AssertionMethod]
+        internal static int AssertCourtesyFrames(int courtesyFrames)
+        {
+            if (courtesyFrames <= 0) throw new Exception($"CourtesyFrames {courtesyFrames} should be greater than 0.");
+            return courtesyFrames;
+        }
+                       
+        [AssertionMethod]
+        internal static int? AssertCourtesyFrames(int? courtesyFrames)
+        {
+            if (courtesyFrames == null) return null;
+            return AssertCourtesyFrames(courtesyFrames.Value);
+        }
+        
+        // Audio Attributes
         
         // Bits
         
         private int? _bits;
-        public int GetBits => Has(_bits) ? _bits.Value : AssertBits(_section.Bits ?? DefaultBits);
+        public int GetBits => AssertBits(Has(_bits) ? _bits.Value : _section.Bits ?? DefaultBits);
         public ConfigWishes WithBits(int? bits) { _bits = AssertBits(bits); return this; }
         public bool Is32Bit => GetBits == 32;
         public ConfigWishes With32Bit() => WithBits(32);
@@ -245,7 +318,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public const int StereoChannels = 2;
 
         private int? _channels;
-        public int GetChannels => Has(_channels) ? _channels.Value : AssertChannels(_section.Channels ?? DefaultChannels);
+        public int GetChannels => AssertChannels(Has(_channels) ? _channels.Value : _section.Channels ?? DefaultChannels);
         public ConfigWishes WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
         public bool IsMono => GetChannels == 1;
         public ConfigWishes WithMono() => WithChannels(1);
@@ -275,7 +348,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._getsamplingrate" />
         internal int? _samplingRate;
         /// <inheritdoc cref="docs._getsamplingrate" />
-        public ConfigWishes WithSamplingRate(int? value) { _samplingRate = value; return this; }
+        public ConfigWishes WithSamplingRate(int? value) { _samplingRate = AssertSamplingRate(value); return this; }
         
         /// <inheritdoc cref="docs._withsamplingrate"/>
         public int GetSamplingRate
@@ -284,7 +357,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 if (Has(_samplingRate))
                 {
-                    return _samplingRate.Value;
+                    return AssertSamplingRate(_samplingRate.Value);
                 }
                 
                 if (IsUnderNCrunch)
@@ -293,11 +366,11 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     if (testIsLong)
                     {
-                        return _section.NCrunch.SamplingRateLongRunning ?? DefaultNCrunchSamplingRateLongRunning;
+                        return AssertSamplingRate(_section.NCrunch.SamplingRateLongRunning ?? DefaultNCrunchSamplingRateLongRunning);
                     }
                     else
                     {
-                        return _section.NCrunch.SamplingRate ?? DefaultNCrunchSamplingRate;
+                        return AssertSamplingRate(_section.NCrunch.SamplingRate ?? DefaultNCrunchSamplingRate);
                     }
                 }
                 
@@ -307,23 +380,23 @@ namespace JJ.Business.Synthesizer.Wishes
                     
                     if (testIsLong)
                     {
-                        return _section.AzurePipelines.SamplingRateLongRunning ?? DefaultAzurePipelinesSamplingRateLongRunning;
+                        return AssertSamplingRate(_section.AzurePipelines.SamplingRateLongRunning ?? DefaultAzurePipelinesSamplingRateLongRunning);
                     }
                     else
                     {
-                        return _section.AzurePipelines.SamplingRate ?? DefaultAzurePipelinesSamplingRate;
+                        return AssertSamplingRate(_section.AzurePipelines.SamplingRate ?? DefaultAzurePipelinesSamplingRate);
                     }
                 }
                 
-                return _section.SamplingRate ?? DefaultSamplingRate;
+                return AssertSamplingRate(_section.SamplingRate ?? DefaultSamplingRate);
             }
         }
         
         // AudioFormat
         
         private AudioFileFormatEnum? _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat => Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? DefaultAudioFormat;
-        public ConfigWishes WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = audioFormat; return this; }
+        public AudioFileFormatEnum GetAudioFormat => Assert(Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? DefaultAudioFormat);
+        public ConfigWishes WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = Assert(audioFormat); return this; }
         public bool IsWav => GetAudioFormat == Wav;
         public ConfigWishes AsWav() => WithAudioFormat(Wav);
         public bool IsRaw => GetAudioFormat == Raw;
@@ -332,8 +405,8 @@ namespace JJ.Business.Synthesizer.Wishes
         // Interpolation
         
         private InterpolationTypeEnum? _interpolation;
-        public InterpolationTypeEnum GetInterpolation => Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? DefaultInterpolation;
-        public ConfigWishes WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = interpolation; return this; }
+        public InterpolationTypeEnum GetInterpolation => Assert(Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? DefaultInterpolation);
+        public ConfigWishes WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = Assert(interpolation); return this; }
         public bool IsLinear => GetInterpolation == Line;
         public ConfigWishes WithLinear() => WithInterpolation(Line);
         public bool IsBlocky => GetInterpolation == Block;
@@ -770,10 +843,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Tooling
 
-        internal bool GetNCrunchImpersonation => _section.NCrunch.Impersonation ?? DefaultToolingImpersonation;
-        internal bool GetAzurePipelinesImpersonation => _section.AzurePipelines.Impersonation ?? DefaultToolingImpersonation;
+        internal static bool GetNCrunchImpersonation => _section.NCrunch.Impersonation ?? DefaultToolingImpersonation;
+        internal static bool GetAzurePipelinesImpersonation => _section.AzurePipelines.Impersonation ?? DefaultToolingImpersonation;
         
-        public bool IsUnderNCrunch
+        public static bool IsUnderNCrunch
         {
             get
             {
