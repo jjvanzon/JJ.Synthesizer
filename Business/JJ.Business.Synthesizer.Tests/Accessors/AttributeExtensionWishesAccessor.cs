@@ -39,5 +39,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static int? SizeOfBitDepth(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static int? FrameSize(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static int? CourtesyBytes(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
+        public static string FileExtension(this ConfigSectionAccessor obj) => (string)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
 }
