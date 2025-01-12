@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
-using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.JJ_Framework_Common_Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -280,7 +279,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         public void GlobalBound_FileExtension()
         {
             // Immutable. Get-only.
-            AreEqual(".wav",                             () => DefaultAudioFormat.FileExtension());
+            AreEqual(".wav", () => DefaultAudioFormat.FileExtension());
             AreEqual(DefaultAudioFormat.FileExtension(), () => GetConfigSectionAccessor().FileExtension());
         }
 
@@ -310,87 +309,79 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         {
             Assert_Immutable_Getters(x.Immutable.AudioFormat, fileExtension);
             Assert_Immutable_Getters(x.Immutable.AudioFormatEntity, fileExtension);
-            //Assert_Immutable_Getters(x.Immutable.FileExtension, fileExtension);
             Assert_Immutable_Getters(x.Immutable.WavHeader, fileExtension);
         }
 
         private void Assert_SynthBound_Getters(TestEntities x, string fileExtension)
         {
-            AreEqual(fileExtension, () => x.SynthBound.SynthWishes.FileExtension());
-            AreEqual(fileExtension, () => x.SynthBound.FlowNode.FileExtension());
-            AreEqual(fileExtension, () => x.SynthBound.ConfigWishes.FileExtension());
+            IsTrue(() => x.SynthBound.SynthWishes.FileExtension().Is(fileExtension));
+            IsTrue(() => x.SynthBound.FlowNode.FileExtension().Is(fileExtension));
+            IsTrue(() => x.SynthBound.ConfigWishes.FileExtension().Is(fileExtension));
             
-            //AreEqual(fileExtension == Raw, () => x.SynthBound.SynthWishes.IsRaw());
-            //AreEqual(fileExtension == Raw, () => x.SynthBound.SynthWishes.IsRaw);
-            //AreEqual(fileExtension == Raw, () => x.SynthBound.FlowNode.IsRaw());
-            //AreEqual(fileExtension == Raw, () => x.SynthBound.FlowNode.IsRaw);
-            //AreEqual(fileExtension == Raw, () => x.SynthBound.ConfigWishes.IsRaw());
-            //AreEqual(fileExtension == Raw, () => x.SynthBound.ConfigWishes.IsRaw);
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.SynthWishes.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.SynthWishes.IsRaw);
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.FlowNode.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.FlowNode.IsRaw);
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.ConfigWishes.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.ConfigWishes.IsRaw);
             
-            //AreEqual(fileExtension == Wav, () => x.SynthBound.SynthWishes.IsWav());
-            //AreEqual(fileExtension == Wav, () => x.SynthBound.SynthWishes.IsWav);
-            //AreEqual(fileExtension == Wav, () => x.SynthBound.FlowNode.IsWav());
-            //AreEqual(fileExtension == Wav, () => x.SynthBound.FlowNode.IsWav);
-            //AreEqual(fileExtension == Wav, () => x.SynthBound.ConfigWishes.IsWav());
-            //AreEqual(fileExtension == Wav, () => x.SynthBound.ConfigWishes.IsWav);
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.SynthWishes.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.SynthWishes.IsWav);
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.FlowNode.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.FlowNode.IsWav);
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.ConfigWishes.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.ConfigWishes.IsWav);
         }
 
         private void Assert_TapeBound_Getters(TestEntities x, string fileExtension)
         {
-            AreEqual(fileExtension, () => x.TapeBound.Tape.FileExtension());
-            AreEqual(fileExtension, () => x.TapeBound.TapeConfig.FileExtension());
-            AreEqual(fileExtension, () => x.TapeBound.TapeActions.FileExtension());
-            AreEqual(fileExtension, () => x.TapeBound.TapeAction.FileExtension());
+            IsTrue(() => x.TapeBound.Tape.FileExtension().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeConfig.FileExtension().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeActions.FileExtension().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeAction.FileExtension().Is(fileExtension));
             
-            //AreEqual(fileExtension == Raw, () => x.TapeBound.Tape.IsRaw());
-            //AreEqual(fileExtension == Raw, () => x.TapeBound.TapeConfig.IsRaw());
-            //AreEqual(fileExtension == Raw, () => x.TapeBound.TapeActions.IsRaw());
-            //AreEqual(fileExtension == Raw, () => x.TapeBound.TapeAction.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.Tape.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeConfig.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeActions.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeAction.IsRaw());
         
-            //AreEqual(fileExtension == Wav, () => x.TapeBound.Tape.IsWav());
-            //AreEqual(fileExtension == Wav, () => x.TapeBound.TapeConfig.IsWav());
-            //AreEqual(fileExtension == Wav, () => x.TapeBound.TapeActions.IsWav());
-            //AreEqual(fileExtension == Wav, () => x.TapeBound.TapeAction.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.Tape.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeConfig.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeActions.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeAction.IsWav());
         }
                         
         private void Assert_BuffBound_Getters(TestEntities x, string fileExtension)
         {
-            AreEqual(fileExtension, () => x.BuffBound.Buff.FileExtension());
-            AreEqual(fileExtension, () => x.BuffBound.AudioFileOutput.FileExtension());
+            IsTrue(() => x.BuffBound.Buff.FileExtension().Is(fileExtension));
+            IsTrue(() => x.BuffBound.AudioFileOutput.FileExtension().Is(fileExtension));
             
-            //AreEqual(fileExtension == Raw, () => x.BuffBound.Buff.IsRaw());
-            //AreEqual(fileExtension == Raw, () => x.BuffBound.AudioFileOutput.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.BuffBound.Buff.IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.BuffBound.AudioFileOutput.IsRaw());
             
-            //AreEqual(fileExtension == Wav, () => x.BuffBound.Buff.IsWav());
-            //AreEqual(fileExtension == Wav, () => x.BuffBound.AudioFileOutput.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.BuffBound.Buff.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.BuffBound.AudioFileOutput.IsWav());
         }
 
         private void Assert_Independent_Getters(Sample sample, string fileExtension)
         {
-            AreEqual(fileExtension,        () => sample.FileExtension());
+            IsTrue(() => sample.FileExtension().Is(fileExtension));
         }
         
         private void Assert_Immutable_Getters(AudioFileFormatEnum audioFileFormatEnum, string fileExtension)
         {
-            AreEqual(fileExtension,        () => audioFileFormatEnum.FileExtension());
-            //AreEqual(fileExtension == Raw, () => audioFileFormatEnum.IsRaw());
-            //AreEqual(fileExtension == Wav, () => audioFileFormatEnum.IsWav());
+            IsTrue(() => audioFileFormatEnum.FileExtension().Is(fileExtension));
+            AreEqual(fileExtension.Is(".raw"), () => audioFileFormatEnum.IsRaw());
+            AreEqual(fileExtension.Is(".wav"), () => audioFileFormatEnum.IsWav());
         }
         
         private void Assert_Immutable_Getters(AudioFileFormat audioFormatEntity, string fileExtension)
         {
-            if (audioFormatEntity == null) throw new NullException(() => audioFormatEntity);
-            AreEqual(fileExtension,        () => audioFormatEntity.FileExtension());
-            //AreEqual(fileExtension == Raw, () => audioFormatEntity.IsRaw());
-            //AreEqual(fileExtension == Wav, () => audioFormatEntity.IsWav());
+            IsNotNull(() => audioFormatEntity);
+            IsTrue(() => audioFormatEntity.FileExtension().Is(fileExtension));
+            AreEqual(fileExtension.Is(".raw"), () => audioFormatEntity.IsRaw());
+            AreEqual(fileExtension.Is(".wav"), () => audioFormatEntity.IsWav());
         }
-         
-        //private void Assert_Immutable_Getters(string fileExtension, string fileExtension)
-        //{
-        //    AreEqual(fileExtension,        () => fileExtension.AudioFormat());
-        //    AreEqual(fileExtension == Raw, () => fileExtension.IsRaw());
-        //    AreEqual(fileExtension == Wav, () => fileExtension.IsWav());
-        //}
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, string fileExtension)
         {
@@ -398,13 +389,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             {
                 NotEqual(default, () => wavHeader);
                 IsTrue(() => wavHeader.IsWav());
-                AreEqual(fileExtension, () => wavHeader.FileExtension());
+                IsTrue(() => wavHeader.FileExtension().Is(fileExtension));
             }
             else
             {
                 AreEqual(default, () => wavHeader);
                 IsFalse(() => wavHeader.IsRaw());
-                NotEqual(fileExtension, () => wavHeader.FileExtension());
+                IsFalse(() => wavHeader.FileExtension().Is(fileExtension));
             }
         }
 
@@ -416,13 +407,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         static object TestParameters => new[] // ncrunch: no coverage
         {
             new object[] { ".raw", (int)Raw, ".wav", (int)Wav },
-            new object[] { ".wav", (int)Wav, ".raw", (int)Raw }
+            new object[] { ".wav", (int)Wav, ".raw", (int)Raw },
+            new object[] { ".RAW", (int)Raw, ".WAV", (int)Wav },
+            new object[] { ".WAV", (int)Wav, ".RAW", (int)Raw }
         };
         
         static object TestParametersInit => new[] // ncrunch: no coverage
         {
             new object[] { ".raw", (int)Raw },
-            new object[] { ".wav", (int)Wav }
+            new object[] { ".wav", (int)Wav },
+            new object[] { ".RAW", (int)Raw },
+            new object[] { ".WAV", (int)Wav },
+            new object[] { ".RAw", (int)Raw },
+            new object[] { ".wAV", (int)Wav }
         };
     } 
 }
