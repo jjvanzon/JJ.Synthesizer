@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.JJ_Framework_Common_Wishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -394,7 +394,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, string fileExtension)
         {
-            if (fileExtension == ".wav")
+            if (fileExtension.Is(".wav"))
             {
                 NotEqual(default, () => wavHeader);
                 IsTrue(() => wavHeader.IsWav());
@@ -418,7 +418,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             new object[] { ".raw", (int)Raw, ".wav", (int)Wav },
             new object[] { ".wav", (int)Wav, ".raw", (int)Raw }
         };
-         
+        
         static object TestParametersInit => new[] // ncrunch: no coverage
         {
             new object[] { ".raw", (int)Raw },
