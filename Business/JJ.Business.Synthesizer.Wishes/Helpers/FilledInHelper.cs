@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
+using JJ.Framework.Wishes.JJ_Framework_Common_Wishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {

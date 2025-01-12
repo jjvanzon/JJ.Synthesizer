@@ -127,10 +127,8 @@
     <Compile Include="Accessors\ConfigSectionAccessor.cs" />
     <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
-    <Compile Include="Accessors\FileWishesAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
-    <Compile Include="Accessors\StringWishesAccessor.cs" />
     <Compile Include="Accessors\TapeAccessor.cs" />
     <Compile Include="Accessors\TapeCollectionAccessor.cs" />
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
@@ -218,6 +216,10 @@
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Wishes\JJ.Framework.Wishes.csproj">
+      <Project>{8e47c2f1-0dbb-4fa2-a734-13a6ad9be0b2}</Project>
+      <Name>JJ.Framework.Wishes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj">
       <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>

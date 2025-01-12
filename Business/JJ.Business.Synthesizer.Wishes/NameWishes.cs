@@ -6,16 +6,16 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Text_Wishes;
+using JJ.Framework.Wishes.JJ_Framework_Common_Wishes;
+using JJ.Framework.Wishes.JJ_Framework_Text_Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_IO_Wishes.FileWishes;
+using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Wishes.JJ_Framework_IO_Wishes.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
@@ -341,9 +341,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._membername"/>
         public static string MemberName([CallerMemberName] string calledMemberName = null)
             => calledMemberName.CutLeft("get_").CutLeft("set_");
-
-        public static string GetAssemblyName<TType>() 
-            => typeof(TType).Assembly.GetName().Name;
     }
 
     // NameWishes Entity Extensions

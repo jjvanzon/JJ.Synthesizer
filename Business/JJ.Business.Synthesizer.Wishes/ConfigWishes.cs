@@ -8,12 +8,13 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.EnvironmentHelperWishes;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Configuration_Wishes.ConfigurationManagerWishes;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Testing_Wishes.TestWishes;
+using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.EnvironmentHelperWishes;
+using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Wishes.JJ_Framework_Configuration_Wishes.ConfigurationManagerWishes;
+using static JJ.Framework.Wishes.JJ_Framework_Testing_Wishes.TestWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
+using static JJ.Framework.Wishes.JJ_Framework_Reflection_Wishes.ReflectionWishes;
 
 // ReSharper disable RedundantNameQualifier
 
@@ -807,12 +808,12 @@ namespace JJ.Business.Synthesizer.Wishes
             => new PersistenceConfiguration
             {
                 ContextType = "Memory",
-                ModelAssembly = NameWishes.GetAssemblyName<Persistence.Synthesizer.Operator>(),
-                MappingAssembly = NameWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
+                ModelAssembly = GetAssemblyName<Persistence.Synthesizer.Operator>(),
+                MappingAssembly = GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
                 RepositoryAssemblies = new[]
                 {
-                    NameWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(),
-                    NameWishes.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
+                    GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(),
+                    GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
                 }
             };
         

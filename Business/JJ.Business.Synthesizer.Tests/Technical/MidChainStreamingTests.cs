@@ -3,8 +3,8 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Threading.Thread;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Mathematics_Wishes.RandomizerWishes;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Mathematics_Copied.Randomizer_Copied;
+using static JJ.Framework.Wishes.JJ_Framework_Mathematics_Wishes.RandomizerWishes;
+using static JJ.Framework.Wishes.JJ_Framework_Mathematics_Copied.Randomizer_Copied;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 // ReSharper disable ExplicitCallerInfoArgument

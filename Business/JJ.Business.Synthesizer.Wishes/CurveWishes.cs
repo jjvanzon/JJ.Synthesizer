@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Wishes.JJ_Framework_Collection_Wishes;
+using JJ.Framework.Wishes.JJ_Framework_Collection_Wishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 

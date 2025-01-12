@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.InletObsoleteMessages;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
