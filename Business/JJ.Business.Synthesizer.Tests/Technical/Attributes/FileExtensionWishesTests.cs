@@ -57,6 +57,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 Assert_All_Getters(x, val.fileExtension);
             }
 
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes .FileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode    .FileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.FileExtension(val.fileExtension)));
+
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  () => x.SynthBound.SynthWishes .AudioFormat(val.audioFormat)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     () => x.SynthBound.FlowNode    .AudioFormat(val.audioFormat)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AudioFormat(val.audioFormat)));
@@ -101,6 +105,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 x.Record();
                 Assert_All_Getters(x, init.fileExtension); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
+
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape.FileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig.FileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.FileExtension(val.fileExtension)));
 
             AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape.AudioFormat(val.audioFormat)));
             AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig.AudioFormat(val.audioFormat)));
@@ -149,6 +158,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 Assert_All_Getters(x, init.fileExtension);
             }
 
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.FileExtension(val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.FileExtension(val.fileExtension, x.SynthBound.Context)));
+
             AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.AudioFormat(val.audioFormat, x.SynthBound.Context)));
             AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AudioFormat(val.audioFormat, x.SynthBound.Context)));
             
@@ -189,6 +201,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                     Assert_All_Getters(x, init.fileExtension);
                 }
 
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.FileExtension(val.fileExtension, x.SynthBound.Context)));
                 AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.AudioFormat(val.audioFormat, x.SynthBound.Context)));
                 
                 AssertProp(() => {
@@ -222,6 +235,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                     audioFormats.Add(audioFormat2);
                 }
 
+                AssertProp(() => x.Immutable.AudioFormat.FileExtension(val.fileExtension));
+                
                 AssertProp(() => x.Immutable.AudioFormat.AudioFormat(val.audioFormat));
                 AssertProp(() => val.audioFormat.AudioFormat());
                 AssertProp(() => val.audioFormat == Raw ? x.Immutable.AudioFormat.AsRaw() : x.Immutable.AudioFormat.AsWav());
@@ -242,6 +257,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                     
                     audioFormatEntities.Add(audioFormatEntity2);
                 }
+                
+                AssertProp(() => x.Immutable.AudioFormatEntity.FileExtension(val.fileExtension, x.SynthBound.Context));
                 
                 AssertProp(() => x.Immutable.AudioFormatEntity.AudioFormat(val.audioFormat, x.SynthBound.Context));
                 AssertProp(() => val.audioFormat.ToEntity(x.SynthBound.Context));
