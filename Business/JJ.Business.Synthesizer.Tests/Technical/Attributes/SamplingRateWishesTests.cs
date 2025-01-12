@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
-using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
@@ -20,27 +22,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
     public class SamplingRateWishesTests
     {
         [DataTestMethod]
-        [DataRow(96000)]
-        [DataRow(88200)]
-        [DataRow(48000)]
-        [DataRow(44100)]
-        [DataRow(22050)]
-        [DataRow(11025)]
-        [DataRow(1)]
-        [DataRow(8)]
-        [DataRow(16)]
-        [DataRow(32)]
-        [DataRow(64)]
-        [DataRow(100)]
-        [DataRow(1000)]
-        [DataRow(12345)]
-        [DataRow(1234567)]
+        [DynamicData(nameof(TestParametersInit))]
         public void Init_SamplingRate(int init)
         {
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, init);
         }
-
+        
         [TestMethod] 
         [DynamicData(nameof(TestParameters))]
         public void SynthBound_SamplingRate(int init, int value)
@@ -251,41 +239,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(DefaultSamplingRate, () => configSection.SamplingRate());
         }
 
-        // Helpers
+        // Getter Helpers
         
-        private TestEntities CreateTestEntities(int samplingRate)
-        {
-            double audioLength = DefaultAudioLength;
-            if (samplingRate > 100) audioLength = 0.001; // Tape audio length in case of larger sampling rates for performance.
-            return new TestEntities(x => x.WithSamplingRate(samplingRate).WithAudioLength(audioLength));
-        }
-        
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { 48000, 96000 },
-            new object[] { 48000, 88200 },
-            new object[] { 48000, 48000 },
-            new object[] { 48000, 44100 },
-            new object[] { 48000, 22050 },
-            new object[] { 48000, 11025 },
-            new object[] { 48000, 1 },
-            new object[] { 48000, 8 },
-            new object[] { 96000, 48000 },
-            new object[] { 88200, 44100 },
-            new object[] { 44100, 48000 },
-            new object[] { 22050, 44100 },
-            new object[] { 11025, 44100 },
-            new object[] { 1, 48000 },
-            new object[] { 8, 48000 },
-            new object[] { 48000, 16 },
-            new object[] { 48000, 32 },
-            new object[] { 48000, 64 },
-            new object[] { 48000, 100 },
-            new object[] { 48000, 1000 },
-            new object[] { 48000, 12345 },
-            new object[] { 48000, 1234567 },
-        };
-
         private void Assert_All_Getters(TestEntities x, int samplingRate)
         {
             Assert_Bound_Getters(x, samplingRate);
@@ -362,5 +317,59 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
             AreEqual(samplingRate, () => wavHeader.SamplingRate());
             AreEqual(samplingRate, () => wavHeader.SamplingRate);
         }
+ 
+        // Data Helpers
+        
+        private TestEntities CreateTestEntities(int samplingRate)
+        {
+            double audioLength = DefaultAudioLength;
+            if (samplingRate > 100) audioLength = 0.001; // Tape audio length in case of larger sampling rates for performance.
+            return new TestEntities(x => x.WithSamplingRate(samplingRate).WithAudioLength(audioLength));
+        }
+        
+        static object TestParametersInit => new[]
+        {
+            new object[] { 96000 },
+            new object[] { 88200 },
+            new object[] { 48000 },
+            new object[] { 44100 },
+            new object[] { 22050 },
+            new object[] { 11025 },
+            new object[] { 1 },
+            new object[] { 8 },
+            new object[] { 16 },
+            new object[] { 32 },
+            new object[] { 64 },
+            new object[] { 100 },
+            new object[] { 1000 },
+            new object[] { 12345 },
+            new object[] { 1234567 } 
+        };
+
+        static object TestParameters => new[] // ncrunch: no coverage
+        {
+            new object[] { 48000, 96000 },
+            new object[] { 48000, 88200 },
+            new object[] { 48000, 48000 },
+            new object[] { 48000, 44100 },
+            new object[] { 48000, 22050 },
+            new object[] { 48000, 11025 },
+            new object[] { 48000, 1 },
+            new object[] { 48000, 8 },
+            new object[] { 96000, 48000 },
+            new object[] { 88200, 44100 },
+            new object[] { 44100, 48000 },
+            new object[] { 22050, 44100 },
+            new object[] { 11025, 44100 },
+            new object[] { 1, 48000 },
+            new object[] { 8, 48000 },
+            new object[] { 48000, 16 },
+            new object[] { 48000, 32 },
+            new object[] { 48000, 64 },
+            new object[] { 48000, 100 },
+            new object[] { 48000, 1000 },
+            new object[] { 48000, 12345 },
+            new object[] { 48000, 1234567 },
+        };
     } 
 }
