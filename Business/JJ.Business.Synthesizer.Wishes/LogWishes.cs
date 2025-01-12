@@ -782,19 +782,18 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (actions.BeforeRecord.Done) elements.Add("before-done");
             else if (actions.BeforeRecord.On) elements.Add("before");
+            if (actions.BeforeRecord.Callback != null) elements.Add("callback");
             
             if (actions.AfterRecord.Done) elements.Add("after-done");
             else if (actions.AfterRecord.On) elements.Add("after");
+            if (actions.AfterRecord.Callback != null) elements.Add("callback");
             
             if (actions.BeforeRecordChannel.Done) elements.Add("before-ch-done");
             else if (actions.BeforeRecordChannel.On) elements.Add("before-ch");
+            if (actions.BeforeRecordChannel.Callback != null) elements.Add("callback");
             
             if (actions.AfterRecordChannel.Done) elements.Add("after-ch-done");
             else if (actions.AfterRecordChannel.On) elements.Add("after-ch");
-            
-            if (actions.BeforeRecord.Callback != null) elements.Add("callback");
-            if (actions.AfterRecord.Callback != null) elements.Add("callback");
-            if (actions.BeforeRecordChannel.Callback != null) elements.Add("callback");
             if (actions.AfterRecordChannel.Callback != null) elements.Add("callback");
 
             return Join(",", elements);
