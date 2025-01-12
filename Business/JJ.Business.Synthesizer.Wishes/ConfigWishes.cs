@@ -8,13 +8,13 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.EnvironmentHelperWishes;
-using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Framework.Wishes.JJ_Framework_Configuration_Wishes.ConfigurationManagerWishes;
-using static JJ.Framework.Wishes.JJ_Framework_Testing_Wishes.TestWishes;
+using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Wishes.Configuration.ConfigurationManagerWishes;
+using static JJ.Framework.Wishes.Testing.TestWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
-using static JJ.Framework.Wishes.JJ_Framework_Reflection_Wishes.ReflectionWishes;
+using static JJ.Framework.Wishes.Reflection.ReflectionWishes;
 
 // ReSharper disable RedundantNameQualifier
 

@@ -6,8 +6,8 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
-using static JJ.Framework.Wishes.JJ_Framework_Text_Wishes.StringWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Wishes.Text.StringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {

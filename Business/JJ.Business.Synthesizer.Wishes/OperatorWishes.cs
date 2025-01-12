@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
-using JJ.Framework.Wishes.JJ_Framework_Collections_Copied;
+using JJ.Framework.Wishes.Collections_Copied;
 using JJ.Framework.Mathematics;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;

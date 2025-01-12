@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
-using JJ.Framework.Wishes.JJ_Framework_Text_Wishes;
+using JJ.Framework.Wishes.Text;
 using static System.Environment;
 using static System.IO.Path;
 using static System.Math;
@@ -20,7 +20,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Framework.Wishes.JJ_Framework_IO_Wishes.FileWishes;
+using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.SaveLegacyStatics;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalse

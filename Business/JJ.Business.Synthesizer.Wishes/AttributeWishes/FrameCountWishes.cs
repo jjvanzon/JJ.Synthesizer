@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
 {

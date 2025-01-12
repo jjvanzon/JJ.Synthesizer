@@ -7,9 +7,9 @@ using JJ.Business.Synthesizer.Wishes.AttributeWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static System.IO.File;
-using static JJ.Framework.Wishes.JJ_Framework_IO_Wishes.FileWishes;
+using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes

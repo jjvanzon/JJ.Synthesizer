@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Wishes.JJ_Framework_Text_Copied;
-using JJ.Framework.Wishes.JJ_Framework_Text_Wishes;
+using JJ.Framework.Wishes.Text_Copied;
+using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.String;
-using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 #pragma warning disable CS0618 // Type or member is obsolete

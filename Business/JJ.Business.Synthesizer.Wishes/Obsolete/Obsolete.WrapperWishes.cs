@@ -10,7 +10,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Framework.Wishes.JJ_Framework_Common_Wishes.FilledInWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.WrappersObsoleteMessages;
 
 // ReSharper disable NotResolvedInText

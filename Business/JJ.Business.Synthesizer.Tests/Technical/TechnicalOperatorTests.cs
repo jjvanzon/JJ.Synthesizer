@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
-using JJ.Framework.Wishes.JJ_Framework_Text_Wishes;
+using JJ.Framework.Wishes.Text;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
