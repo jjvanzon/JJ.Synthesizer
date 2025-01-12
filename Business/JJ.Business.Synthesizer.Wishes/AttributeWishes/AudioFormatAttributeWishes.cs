@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         // ReSharper disable once UnusedParameter.Global
         public static AudioFileFormatEnum AudioFormat(this WavHeaderStruct obj) => Wav;
         
-        public static AudioFileFormatEnum AudioFormat(this string fileExtension) => ExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum AudioFormat(this string fileExtension) => FileExtensionToAudioFormat(fileExtension);
         
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global

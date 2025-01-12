@@ -235,6 +235,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 }
 
                 AssertProp(() => x.Immutable.AudioFormat.FileExtension(val.fileExtension));
+                AssertProp(() => val.fileExtension.FileExtensionToAudioFormat());
                 
                 AssertProp(() => x.Immutable.AudioFormat.AudioFormat(val.audioFormat));
                 AssertProp(() => val.audioFormat.AudioFormat());
@@ -287,7 +288,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         public void FileExtension_EdgeCases()
         {
             // For code coverage
-            ThrowsException(() => ".abc".ExtensionToAudioFormat());
+            ThrowsException(() => ".abc".FileExtensionToAudioFormat());
         }
 
         // Getter Helpers
@@ -378,6 +379,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         private void Assert_Immutable_Getters(AudioFileFormatEnum audioFileFormatEnum, string fileExtension)
         {
             IsTrue(() => audioFileFormatEnum.FileExtension().Is(fileExtension));
+            IsTrue(() => audioFileFormatEnum.AudioFormatToFileExtension().Is(fileExtension));
             AreEqual(fileExtension.Is(".raw"), () => audioFileFormatEnum.IsRaw());
             AreEqual(fileExtension.Is(".wav"), () => audioFileFormatEnum.IsWav());
         }

@@ -64,9 +64,9 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension([UsedImplicitly] this WavHeaderStruct obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this AudioFileFormatEnum obj) => obj.AudioFormatToExtension();
+        public static string FileExtension(this AudioFileFormatEnum obj) => obj.AudioFormatToFileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value) => value.ExtensionToAudioFormat();
+        public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum obj, string value) => value.FileExtensionToAudioFormat();
         
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
@@ -76,18 +76,18 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
-            => value.ExtensionToAudioFormat().ToEntity(context);
+            => value.FileExtensionToAudioFormat().ToEntity(context);
         
         // Conversion-Style FileExtension
                 
-        public static AudioFileFormatEnum ExtensionToAudioFormat(this string fileExtension)
+        public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension)
         {
             if (Is(fileExtension, ".wav")) return Wav;
             if (Is(fileExtension, ".raw")) return Raw;
             throw new Exception($"{new{fileExtension}} not supported.");
         }
         
-        public static string AudioFormatToExtension(this AudioFileFormatEnum obj)
+        public static string AudioFormatToFileExtension(this AudioFileFormatEnum obj)
         {
             switch (obj)
             {
