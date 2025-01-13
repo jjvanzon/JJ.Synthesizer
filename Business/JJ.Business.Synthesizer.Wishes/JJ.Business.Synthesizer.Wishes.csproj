@@ -64,7 +64,7 @@
     <Compile Include="Configuration\SizeOfBitDepthWishes.cs" />
     <Compile Include="Configuration\CourtesyFrameWishes.cs" />
     <Compile Include="Configuration\InterpolationWishes.cs" />
-    <Compile Include="Configuration\AudioFormatAttributeWishes.cs" />
+    <Compile Include="Configuration\AudioFormatWishes.cs" />
     <Compile Include="Configuration\SamplingRateWishes.cs" />
     <Compile Include="Configuration\AudioInfoWish.cs" />
     <Compile Include="Configuration\ChannelWishes.cs" />
