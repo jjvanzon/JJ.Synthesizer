@@ -23,20 +23,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     {
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_HeaderLength(int initHeaderLength, int initAudioFormatInt)
+        public void Init_HeaderLength(int headerLength, int? audioFormatInt)
         { 
-            var init = (headerLength: initHeaderLength, audioFormat: (AudioFileFormatEnum)initAudioFormatInt);
-            
+            var init = (headerLength, audioFormat: (AudioFileFormatEnum?)audioFormatInt);
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, init.headerLength);
         }
 
         [TestMethod] 
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_HeaderLength(int initHeaderLength, int initAudioFormatInt, int headerLength, int audioFormatInt)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_HeaderLength(int initHeaderLength, int? initAudioFormatInt, int headerLength, int? audioFormatInt)
         {
-            var init = (headerLength: initHeaderLength, audioFormat: (AudioFileFormatEnum)initAudioFormatInt);
-            var val  = (headerLength, audioFormat: (AudioFileFormatEnum)audioFormatInt);
+            var init = (headerLength: initHeaderLength, audioFormat: (AudioFileFormatEnum?)initAudioFormatInt);
+            var val  = (headerLength, audioFormat: (AudioFileFormatEnum?)audioFormatInt);
             
             void AssertProp(Action<TestEntities> setter)
             {
@@ -55,25 +54,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, val.headerLength);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes .AudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode    .AudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .AudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .AudioFormat(val.audioFormat)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.AudioFormat(val.audioFormat)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes .WithAudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode    .WithAudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithAudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithAudioFormat(val.audioFormat)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithAudioFormat(val.audioFormat)));
             
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.AsWav()); });
+            AssertProp(x => { switch (val.audioFormat) {
+                case Raw: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .AsRaw()); break;
+                case Wav: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .AsWav()); break;
+                default : AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .WithAudioFormat(val.audioFormat)); break; } });
+                                                                
+            AssertProp(x => { switch (val.audioFormat) {        
+                case Raw: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .AsRaw()); break;
+                case Wav: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .AsWav()); break;
+                default : AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .AudioFormat(val.audioFormat)); break; } });
             
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.AsWav()); });
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsWav()); });
+            AssertProp(x => { switch (val.audioFormat) {
+                case Raw: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsRaw()); break;
+                case Wav: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsWav()); break;
+                default : AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AudioFormat(val.audioFormat)); break; } });
         }
 
         [TestMethod] 
@@ -383,19 +385,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities((int headerLength, AudioFileFormatEnum audioFormat) init) 
+        private TestEntities CreateTestEntities((int headerLength, AudioFileFormatEnum? audioFormat) init) 
             => new TestEntities(x => x.AudioFormat(init.audioFormat));
         
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { 0, (int)Raw, 44, (int)Wav },
-            new object[] { 44, (int)Wav, 0, (int)Raw }
-        };
+        // ncrunch: no coverage start
         
-        static object TestParametersInit => new[] // ncrunch: no coverage
+        static object TestParametersInit => new[] 
         {
-            new object[] { 0, (int)Raw },
+            new object[] { 44,  null    },
+            new object[] {  0, (int)Raw },
             new object[] { 44, (int)Wav }
         };
+        
+        static object TestParametersWithEmpty => new[]
+        {
+            new object[] { 44,  null   ,  0, (int)Raw },
+            new object[] {  0, (int)Raw, 44,  null    },
+            new object[] {  0, (int)Raw, 44, (int)Wav },
+            new object[] { 44, (int)Wav,  0, (int)Raw }
+        };
+        
+        static object TestParameters => new[]
+        {
+            new object[] {  0, (int)Raw, 44, (int)Wav },
+            new object[] { 44, (int)Wav,  0, (int)Raw }
+        };
+        
+        // ncrunch: no coverage end
     } 
 }

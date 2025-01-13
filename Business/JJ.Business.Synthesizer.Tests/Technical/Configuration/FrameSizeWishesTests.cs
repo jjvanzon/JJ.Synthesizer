@@ -13,7 +13,6 @@ using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
 #pragma warning disable CS0611 
 #pragma warning disable CS0618 
