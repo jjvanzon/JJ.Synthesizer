@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
@@ -39,5 +40,6 @@ namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
         // Conversion Formulas
         
         public static int FrameSize(int bits, int channels) => bits / 8 * channels;
+        public static int FrameSize(int? bits, int? channels) => CoalesceBits(bits) / 8 * CoalesceChannels(channels);
     }
 }
