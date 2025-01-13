@@ -57,6 +57,8 @@
     <Compile Include="Configuration\ConfigResolver.cs" />
     <Compile Include="Configuration\ConfigSection.cs" />
     <Compile Include="Configuration\ConfigWishes.Assertions.cs" />
+    <Compile Include="Configuration\ConfigWishes.FlowNode.cs" />
+    <Compile Include="Configuration\ConfigWishes.SynthWishes.cs" />
     <Compile Include="Configuration\FrameCountWishes.cs" />
     <Compile Include="Configuration\AudioLengthWishes.cs" />
     <Compile Include="Configuration\CourtesyByteWishes.cs" />
@@ -191,7 +193,7 @@
     <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
     <Compile Include="Configuration\ConfigWishes.Defaults.cs" />
     <None Include="packages.config" />
-    <Compile Include="Configuration\ConfigWishes.cs" />
+    <Compile Include="Configuration\ConfigWishes.Misc.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

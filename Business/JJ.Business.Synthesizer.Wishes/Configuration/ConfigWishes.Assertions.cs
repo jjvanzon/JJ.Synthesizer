@@ -1,10 +1,10 @@
-﻿using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Common;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 
