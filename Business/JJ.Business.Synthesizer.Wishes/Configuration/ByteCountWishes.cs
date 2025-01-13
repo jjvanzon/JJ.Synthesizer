@@ -9,7 +9,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 
-namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
+namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes

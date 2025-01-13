@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteCalculationWishesMessages;
 

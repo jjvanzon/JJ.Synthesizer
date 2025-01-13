@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 

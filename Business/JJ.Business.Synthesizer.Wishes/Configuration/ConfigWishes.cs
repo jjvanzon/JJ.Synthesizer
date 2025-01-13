@@ -4,22 +4,23 @@ using System.Diagnostics;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
+using static JJ.Business.Synthesizer.Wishes.Configuration.TimeOutActionEnum;
 using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Configuration.ConfigurationManagerWishes;
 using static JJ.Framework.Wishes.Testing.TestWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.TimeOutActionEnum;
 using static JJ.Framework.Wishes.Reflection.ReflectionWishes;
 
 // ReSharper disable RedundantNameQualifier
 
-namespace JJ.Business.Synthesizer.Wishes
+namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     // Config XML
     
@@ -962,6 +963,11 @@ namespace JJ.Business.Synthesizer.Wishes
             return list;
         }
     }
+
+}
+
+namespace JJ.Business.Synthesizer.Wishes
+{
 
     // SynthWishes ConfigWishes
     

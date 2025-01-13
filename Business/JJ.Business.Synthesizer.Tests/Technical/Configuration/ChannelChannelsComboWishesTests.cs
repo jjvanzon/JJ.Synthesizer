@@ -1,15 +1,15 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
+namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 {
     [TestClass]
     [TestCategory("Technical")]

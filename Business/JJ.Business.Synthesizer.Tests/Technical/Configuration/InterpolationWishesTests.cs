@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0611 
 #pragma warning disable MSTEST0018
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
+namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 {
     [TestClass]
     [TestCategory("Technical")]

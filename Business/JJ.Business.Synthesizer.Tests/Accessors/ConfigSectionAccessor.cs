@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public ConfigSectionAccessor(object obj)
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
-            string typeName = "JJ.Business.Synthesizer.Wishes.ConfigSection";
+            string typeName = "JJ.Business.Synthesizer.Wishes.Configuration.ConfigSection";
             Type type = assembly.GetType(typeName, true);
             _accessor = new Accessor(obj, type);
             Obj = obj;

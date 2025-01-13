@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
-using static JJ.Business.Synthesizer.Wishes.AttributeWishes.AttributeExtensionWishes;
+using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
+using static JJ.Business.Synthesizer.Wishes.Configuration.AttributeExtensionWishes;
 
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
+namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 {
     [TestClass]
     [TestCategory("Technical")]

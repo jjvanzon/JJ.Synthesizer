@@ -2,7 +2,7 @@
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 
-namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
+namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes

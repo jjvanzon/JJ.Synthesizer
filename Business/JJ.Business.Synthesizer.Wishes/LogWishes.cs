@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Text_Copied;
 using JJ.Framework.Wishes.Text;

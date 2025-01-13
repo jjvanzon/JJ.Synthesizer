@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;

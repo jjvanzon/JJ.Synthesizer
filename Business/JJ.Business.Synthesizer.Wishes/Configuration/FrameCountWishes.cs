@@ -5,7 +5,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
-namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
+namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._attributewishes"/>
     public static partial class AttributeExtensionWishes

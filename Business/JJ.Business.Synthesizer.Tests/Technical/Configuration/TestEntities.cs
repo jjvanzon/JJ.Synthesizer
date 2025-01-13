@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -16,7 +16,7 @@ using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
+namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 {
     internal class TapeEntities
     {

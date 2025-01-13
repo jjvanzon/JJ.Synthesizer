@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 
-namespace JJ.Business.Synthesizer.Wishes.AttributeWishes
+namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._audioinfowish"/>
     [DebuggerDisplay("{DebuggerDisplay}")]

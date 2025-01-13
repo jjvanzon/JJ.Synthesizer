@@ -4,19 +4,19 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Wishes.AttributeWishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
+using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Wishes.AttributeWishes.AttributeExtensionWishes;
-using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.AttributeExtensionWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
+namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 {
     [TestClass]
     [TestCategory("Technical")]

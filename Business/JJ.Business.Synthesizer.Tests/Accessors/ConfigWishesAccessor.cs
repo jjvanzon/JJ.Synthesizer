@@ -1,5 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
