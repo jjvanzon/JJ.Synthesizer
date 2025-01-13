@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(InterpolationExtensionWishes));
 
         public static InterpolationTypeEnum Interpolation(this ConfigResolverAccessor obj) => (InterpolationTypeEnum)_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject);
-        public static ConfigResolverAccessor Interpolation(this ConfigResolverAccessor obj, InterpolationTypeEnum? value) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject, value));
+        public static ConfigResolverAccessor Interpolation(this ConfigResolverAccessor obj, InterpolationTypeEnum? value) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new[]{ obj.UnderlyingObject, value }, new[] { null, typeof(InterpolationTypeEnum?) }));
         public static bool IsLinear(this ConfigResolverAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(),obj.UnderlyingObject);
         public static bool IsBlocky(this ConfigResolverAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject);
         public static ConfigResolverAccessor Linear(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject));

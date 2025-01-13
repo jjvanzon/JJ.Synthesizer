@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Wishes.Text_Copied;
 using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
