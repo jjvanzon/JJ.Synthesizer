@@ -8,28 +8,29 @@ using static System.IO.File;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigHelperWish;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class ByteCountExtensionWishes
     {
         // A Duration Attribute
 
         public static int ByteCount(this SynthWishes obj) 
-            => ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
+            => ConfigHelperWish.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
 
         public static SynthWishes ByteCount(this SynthWishes obj, int? value) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
         
         public static int ByteCount(this FlowNode obj) 
-            => ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
+            => ConfigHelperWish.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
         
         public static FlowNode ByteCount(this FlowNode obj, int? value) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
 
         public static int ByteCount(this ConfigWishes obj, SynthWishes synthWishes) 
-            => ByteCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
+            => ConfigHelperWish.ByteCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
        
         public static ConfigWishes ByteCount(this ConfigWishes obj, int? value, SynthWishes synthWishes) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
@@ -41,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             if (obj.HeaderLength() == null) return null;
             if (obj.CourtesyFrames() == null) return null;
             
-            return ByteCount(obj.FrameCount().Value, obj.FrameSize().Value, obj.HeaderLength().Value, obj.CourtesyFrames().Value);
+            return ConfigHelperWish.ByteCount(obj.FrameCount().Value, obj.FrameSize().Value, obj.HeaderLength().Value, obj.CourtesyFrames().Value);
         }
         
         public static int ByteCount(this Tape obj)
@@ -50,11 +51,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             if (obj.IsBuff)
             {
-                return ByteCount(obj.Bytes, obj.FilePathResolved);
+                return ConfigHelperWish.ByteCount(obj.Bytes, obj.FilePathResolved);
             }
             else
             {
-                return ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.Config.CourtesyFrames);
+                return ConfigHelperWish.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.Config.CourtesyFrames);
             }
         }
 
@@ -104,7 +105,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             if (obj == null) throw new NullException(() => obj);
 
-            int byteCount = ByteCount(obj.Bytes, obj.FilePath);
+            int byteCount = ConfigHelperWish.ByteCount(obj.Bytes, obj.FilePath);
 
             if (Has(byteCount))
             {
@@ -118,7 +119,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
             return 0;
         }
-
+    }
+    
+    public static partial class ConfigHelperWish
+    {
         public static int ByteCount(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -143,9 +147,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             double audioLength = AudioLength(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), courtesyFrames);
             return wish.AudioLength(audioLength).ToWavHeader();
         }
-
-        // Conversion Formulas
-        
+    }
+    
+    // Conversion Formulas
+    
+    public static partial class ConfigHelperWish
+    {
         public static int ByteCount(byte[] bytes, string filePath)
         {
             if (Has(bytes))

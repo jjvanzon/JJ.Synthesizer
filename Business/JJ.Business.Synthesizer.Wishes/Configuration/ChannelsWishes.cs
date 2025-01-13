@@ -16,7 +16,7 @@ using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class ChannelsExtensionWishes
     {
         // A Primary Audio Attribute
         

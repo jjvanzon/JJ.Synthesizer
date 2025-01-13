@@ -15,7 +15,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class FileExtensionWishes
     {
         // Derived from AudioFormat
         
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._fileextension"/>
         public static FlowNode     FileExtension(this FlowNode obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this ConfigWishes obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this ConfigWishes obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static ConfigWishes FileExtension(this ConfigWishes obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
@@ -38,23 +38,23 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._fileextension"/>
         public static Tape FileExtension(this Tape obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeConfig obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this TapeConfig obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static TapeConfig FileExtension(this TapeConfig obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeActions obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this TapeActions obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static TapeActions FileExtension(this TapeActions obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this TapeAction obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this TapeAction obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static TapeAction FileExtension(this TapeAction obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Buff obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this Buff obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static Buff FileExtension(this Buff obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Sample obj) => AudioFormat(obj).FileExtension();
+        public static string FileExtension(this Sample obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static Sample FileExtension(this Sample obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
         /// <inheritdoc cref="docs._fileextension"/>
@@ -77,9 +77,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
             => value.FileExtensionToAudioFormat().ToEntity(context);
-        
-        // Conversion-Style FileExtension
-                
+    }
+
+    // Conversion-Style FileExtension
+    
+    public static partial class ConfigHelperWish
+    {
         public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension)
         {
             if (Is(fileExtension, ".wav")) return Wav;

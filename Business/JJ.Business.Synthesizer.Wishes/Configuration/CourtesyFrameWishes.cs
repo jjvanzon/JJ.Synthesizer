@@ -5,7 +5,7 @@ using JJ.Framework.Reflection;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static partial class CourtesyFrameExtensionWishes
     {
         // A Primary Audio Attribute
         

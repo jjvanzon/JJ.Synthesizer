@@ -14,7 +14,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class AudioFormatExtensionWishes
     {
         // A Primary Audio Attribute
         
@@ -148,12 +148,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // ReSharper disable once UnusedParameter.Global
         public static AudioFileFormatEnum AudioFormat(this WavHeaderStruct obj) => Wav;
         
-        public static AudioFileFormatEnum AudioFormat(this string fileExtension) => FileExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum AudioFormat(this string fileExtension) => ConfigHelperWish.FileExtensionToAudioFormat(fileExtension);
         
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
         public static string AudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat)
-            => FileExtension(newAudioFormat);
+            => newAudioFormat.FileExtension();
         
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum obj) => obj;
         

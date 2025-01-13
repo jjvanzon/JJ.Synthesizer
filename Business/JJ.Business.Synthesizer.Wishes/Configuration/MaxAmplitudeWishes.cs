@@ -12,7 +12,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static partial class MaxAmplitudeExtensionWishes
     {
         // A Derived Attribute
         
@@ -31,7 +31,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static double  MaxAmplitude(this AudioFileInfo   obj) => obj.Bits() .MaxAmplitude();
         public   static double  MaxAmplitude(this AudioInfoWish   obj) => obj.Bits() .MaxAmplitude();
         public   static double  MaxAmplitude(this Type valueType) => valueType.Bits().MaxAmplitude();
-        public   static double  MaxAmplitude<TValue>() => Bits<TValue>().MaxAmplitude();
         
         [Obsolete(ObsoleteMessage)]
         public static double MaxAmplitude(this SampleDataType obj) => obj.Bits().MaxAmplitude();
@@ -49,5 +48,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 default: return default; // ncrunch: no coverage
             }
         }
+    }
+    
+    public static partial class ConfigHelperWish
+    {
+        public static double MaxAmplitude<TValue>() => Bits<TValue>().MaxAmplitude();
     }
 }

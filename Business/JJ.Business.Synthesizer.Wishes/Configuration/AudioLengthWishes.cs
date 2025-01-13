@@ -9,7 +9,7 @@ using JJ.Persistence.Synthesizer;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class AudioLengthExtensionWishes
     {
         // A Duration Attribute
         
@@ -188,9 +188,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             info.SampleCount = (int)(value * info.SamplingRate);
             return info;
         }
+    }
 
-        // Conversion Formulas
-
+    // Conversion Formulas
+    
+    public static partial class ConfigHelperWish
+    {
         public static double? AudioLength(int? frameCount, int samplingRate)
             => (double?)frameCount / samplingRate;
 

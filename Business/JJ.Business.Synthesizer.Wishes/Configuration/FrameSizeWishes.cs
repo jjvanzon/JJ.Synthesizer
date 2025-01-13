@@ -10,7 +10,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class FrameSizeExtensionWishes
     {
         // A Derived Attribute
         
@@ -36,8 +36,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)]
         public static int FrameSize(this (SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
             => enums.sampleDataTypeEnum.SizeOfBitDepth() * enums.speakerSetupEnum.Channels();
-        
-        // Conversion Formulas
+    }
+
+    // Conversion Formulas
+    
+    public static partial class ConfigHelperWish
+    {
         
         public static int FrameSize(int bits, int channels) => bits / 8 * channels;
         public static int FrameSize(int? bits, int? channels) => CoalesceBits(bits) / 8 * CoalesceChannels(channels);

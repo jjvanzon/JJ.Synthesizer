@@ -7,7 +7,7 @@ using JJ.Persistence.Synthesizer;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class SamplingRateExtensionWishes
     {
         // A Primary Audio Attribute
         

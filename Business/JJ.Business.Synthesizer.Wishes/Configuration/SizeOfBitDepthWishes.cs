@@ -13,7 +13,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class ConfigExtensionWishes
+    public static class SizeOfBitDepthExtensionWishes
     {
         // Derived from Bits
         
@@ -54,29 +54,28 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int SizeOfBitDepth(this Type obj) => obj.TypeToBits() / 8;
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => SizeOfBitDepthToType(newByteSize);
-                
-        public static int SizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
-                
-        /// <inheritdoc cref="docs._quasisetter" />
-        public static Type SizeOfBitDepth<TValueType>(int value) => value.SizeOfBitDepthToType();
+        public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => ConfigHelperWish.SizeOfBitDepthToType(newByteSize);
 
         [Obsolete(ObsoleteMessage)] 
         public static int SizeOfBitDepth(this SampleDataTypeEnum obj) => SizeOf(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize) => BitsToEnum(newByteSize * 8);
+        public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize) => ConfigHelperWish.BitsToEnum(newByteSize * 8);
         
         [Obsolete(ObsoleteMessage)] 
         public static int SizeOfBitDepth(this SampleDataType obj) => SizeOf(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context) => BitsToEntity(newByteSize * 8, context);
-        
-        // SizeOfBitDepth Conversion-Style
-        
+        public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context) => ConfigHelperWish.BitsToEntity(newByteSize * 8, context);
+
+    }
+
+    // SizeOfBitDepth Conversion-Style
+    
+    public static partial class ConfigHelperWish
+    {
         public static int TypeToSizeOfBitDepth(this Type obj)
         {
             if (obj == typeof(byte)) return 1;
@@ -97,5 +96,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 default: throw new ValueNotSupportedException(value);
             }
         }
-    }
+                 
+        public static int SizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
+                 
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type SizeOfBitDepth<TValueType>(int value) => value.SizeOfBitDepthToType();
+  }
 }

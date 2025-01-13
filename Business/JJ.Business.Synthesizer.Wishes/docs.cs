@@ -165,11 +165,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <returns>A new <see cref="FlowNode"/> with the command applied.</returns>
         public static object _commandindexer;
         
-        /// <summary> 
-        /// This ConfigurationHelper internally handles null-tolerance for the data missing from the app.config file.
-        /// It returns defaults if config items are missing, to make it easier to use SynthWishes.
-        /// </summary> 
-        public static object _confighelper;
+        ///// <summary> 
+        ///// This ConfigurationHelper internally handles null-tolerance for the data missing from the app.config file.
+        ///// It returns defaults if config items are missing, to make it easier to use SynthWishes.
+        ///// </summary> 
+        //public static object _confighelper;
 
         /// <param name="curveFactory"> 
         /// The factory used to create the <see cref="Curve" /> 
