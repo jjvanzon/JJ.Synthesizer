@@ -19,12 +19,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     [TestCategory("Technical")]
     public class SamplingRateWishesTests
     {
+        
         [DataTestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_SamplingRate(int init)
+        public void Init_SamplingRate(int? init)
         {
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
+            Assert_All_Getters(x, Coalesce(init));
         }
         
         [TestMethod] 
@@ -318,15 +319,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(int samplingRate)
+        private TestEntities CreateTestEntities(int? samplingRate)
         {
             double audioLength = DefaultAudioLength;
             if (samplingRate > 100) audioLength = 0.001; // Tape audio length in case of larger sampling rates for performance.
-            return new TestEntities(x => x.WithSamplingRate(samplingRate).WithAudioLength(audioLength));
+            return new TestEntities(x =>
+            {
+                x.WithSamplingRate(samplingRate);
+                x.WithAudioLength(audioLength);
+                x.IsUnderNCrunch = true;
+                x.IsUnderAzurePipelines = false;
+            });
         }
+                
+        private int Coalesce(int? samplingRate) => CoalesceSamplingRate(samplingRate, defaultValue: 10);
+
+        // ncrunch: no coverage start
         
         static object TestParametersInit => new[]
         {
+            new object[] { 0 },
+            new object[] { null },
             new object[] { 96000 },
             new object[] { 88200 },
             new object[] { 48000 },
@@ -344,7 +357,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 1234567 } 
         };
 
-        static object TestParameters => new[] // ncrunch: no coverage
+        static object TestParameters => new[] 
         {
             new object[] { 48000, 96000 },
             new object[] { 48000, 88200 },
@@ -369,5 +382,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 48000, 12345 },
             new object[] { 48000, 1234567 },
         };
+
+        // ncrunch: no coverage end
     } 
 }
