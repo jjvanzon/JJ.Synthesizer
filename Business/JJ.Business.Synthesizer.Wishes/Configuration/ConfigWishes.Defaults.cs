@@ -62,7 +62,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Derive Defaults
         
-        public static int    DefaultFrameSize     => DefaultBits / 8 * DefaultChannels;
-        public static string DefaultFileExtension => DefaultAudioFormat.FileExtension();
+        public static int    DefaultFrameSize      => DefaultBits / 8 * DefaultChannels;
+        public static string DefaultFileExtension  => DefaultAudioFormat.FileExtension();
+        public static int    DefaultSizeOfBitDepth => DefaultBits / 8;
     }
 }

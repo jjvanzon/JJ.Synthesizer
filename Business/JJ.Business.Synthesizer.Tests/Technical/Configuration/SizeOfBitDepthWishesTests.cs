@@ -21,63 +21,64 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     [TestCategory("Technical")]
     public class SizeOfBitDepthWishesTests
     {
-        [DataTestMethod]
-        [DataRow(1)]
-        [DataRow(2)]
-        [DataRow(4)]
-        public void Init_SizeOfBitDepth(int init)
+        [TestMethod]
+        [DynamicData(nameof(TestParametersInit))]
+        public void Init_SizeOfBitDepth(int? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
+            Assert_All_Getters(x, CoalesceSizeOfBitDepth(init));
         }
 
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_SizeOfBitDepth(int init, int value)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_SizeOfBitDepth(int? init, int? value)
         {
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters        (x, CoalesceSizeOfBitDepth(init ));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, value);
-                Assert_TapeBound_Getters(x, init);
-                Assert_BuffBound_Getters(x, init);
-                Assert_Independent_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_SynthBound_Getters (x, CoalesceSizeOfBitDepth(value));
+                Assert_TapeBound_Getters  (x, CoalesceSizeOfBitDepth(init ));
+                Assert_BuffBound_Getters  (x, CoalesceSizeOfBitDepth(init ));
+                Assert_Independent_Getters(x, CoalesceSizeOfBitDepth(init ));
+                Assert_Immutable_Getters  (x, CoalesceSizeOfBitDepth(init ));
                 
                 x.Record();
-                Assert_All_Getters(x, value);
+                Assert_All_Getters        (x, CoalesceSizeOfBitDepth(value));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .SizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SizeOfBitDepth(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SizeOfBitDepth(value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits    (value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits    (value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits    (value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(value * 8)));
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithBits(value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithBits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithBits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithBits(value * 8)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithBits(value * 8)));
             
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());
-                if (value == 2) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With16Bit());
-                if (value == 4) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With32Bit()); });
+            AssertProp(x => { switch (value) {
+                case  1: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With8Bit (     )); break;
+                case  2: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With16Bit(     )); break;
+                case  4: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With32Bit(     )); break; 
+                default: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .WithBits (value)); break; } });
             
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With8Bit());
-                if (value == 2) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With16Bit());
-                if (value == 4) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With32Bit()); });
+            AssertProp(x => { switch (value) {
+                case  1: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With8Bit (     )); break;
+                case  2: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With16Bit(     )); break;
+                case  4: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With32Bit(     )); break; 
+                default: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .Bits     (value)); break;} });
             
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With8Bit());
-                if (value == 2) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With16Bit());
-                if (value == 4) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit()); });
+            AssertProp(x => { switch (value) {
+                case  1: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With8Bit (     )); break;
+                case  2: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With16Bit(     )); break;
+                case  4: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit(     )); break; 
+                default: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit(     )); break; } });
         }
         
         [TestMethod]
@@ -698,9 +699,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
          
         // Data Helpers
 
-        private TestEntities CreateTestEntities(int sizeOfBitDepth) => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth));
+        private TestEntities CreateTestEntities(int? sizeOfBitDepth) => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth));
+
+        // ncrunch: no coverage start
         
-        static object TestParameters => new[] // ncrunch: no coverage
+        static object TestParametersInit => new[] 
+        {
+            new object[] { null },
+            new object[] { 0 },
+            new object[] { 1 },
+            new object[] { 2 },
+            new object[] { 4 }
+        };
+
+        static object TestParameters => new[] 
         {
             new object[] { 1, 2 },
             new object[] { 1, 4 },
@@ -710,5 +722,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 4, 2 },
             new object[] { 4, 4 },
         };
+
+        static object TestParametersWithEmpty => new[] 
+        {
+            new object[] {    0 ,    1 },
+            new object[] {    2 ,    0 },
+            new object[] { null ,    2 },
+            new object[] {    1 , null },
+            
+            new object[] {    1 ,    2 },
+            new object[] {    1 ,    4 },
+            new object[] {    2 ,    1 },
+            new object[] {    2 ,    4 },
+            new object[] {    4 ,    1 },
+            new object[] {    4 ,    2 },
+            new object[] {    4 ,    4 },
+        };
+
+        // ncrunch: no coverage end
     } 
 }

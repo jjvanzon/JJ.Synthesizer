@@ -31,5 +31,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static int CoalesceFrameSize(int? frameSize, int? bits, int? channels)
             => Has(frameSize) ? frameSize.Value : Has(bits) && Has(channels) ? bits.Value / 8 * channels.Value : DefaultFrameSize;
+        
+        public static int CoalesceSizeOfBitDepth(int? sizeOfBitDepth, int? defaultSizeOfBitDepth = null)
+            => Has(sizeOfBitDepth) ? sizeOfBitDepth.Value : Has(defaultSizeOfBitDepth) ? defaultSizeOfBitDepth.Value : DefaultSizeOfBitDepth;
+
     }
 }

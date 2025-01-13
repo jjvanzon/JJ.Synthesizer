@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(SizeOfBitDepthExtensionWishes));
         
         internal static int SizeOfBitDepth(this ConfigResolverAccessor obj) => (int)_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject);
-        internal static ConfigResolverAccessor SizeOfBitDepth(this ConfigResolverAccessor obj, int? byteSize) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject, byteSize));
+        internal static ConfigResolverAccessor SizeOfBitDepth(this ConfigResolverAccessor obj, int? byteSize) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new[]{ obj.UnderlyingObject, byteSize }, new[]{ null, typeof(int?) }));
 
         public static int? SizeOfBitDepth(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
