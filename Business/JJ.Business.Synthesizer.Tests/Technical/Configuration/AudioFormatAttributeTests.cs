@@ -54,34 +54,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, CoalesceDefault(value));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .AudioFormat(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .AudioFormat(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.AudioFormat(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .AudioFormat(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .AudioFormat(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.AudioFormat(value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithAudioFormat(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithAudioFormat(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithAudioFormat(value)));
-            
-            AssertProp(x => {
-                if (value == Raw      ) AreEqual(x.SynthBound.SynthWishes , () => x.SynthBound.SynthWishes .AsRaw       ());
-                if (value == Wav      ) AreEqual(x.SynthBound.SynthWishes , () => x.SynthBound.SynthWishes .AsWav       ()); 
-                if (value == Undefined) AreEqual(x.SynthBound.SynthWishes ,       x.SynthBound.SynthWishes .AudioFormat (Undefined)); 
-                if (value == 0        ) AreEqual(x.SynthBound.SynthWishes ,       x.SynthBound.SynthWishes .AudioFormat (0)); 
-                if (value == null     ) AreEqual(x.SynthBound.SynthWishes ,       x.SynthBound.SynthWishes .AudioFormat (null)); });
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithAudioFormat(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithAudioFormat(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithAudioFormat(value)));
             
             AssertProp(x => {
-                if (value == Raw      ) AreEqual(x.SynthBound.FlowNode    , () => x.SynthBound.FlowNode    .AsRaw       ());
-                if (value == Wav      ) AreEqual(x.SynthBound.FlowNode    , () => x.SynthBound.FlowNode    .AsWav       ()); 
-                if (value == Undefined) AreEqual(x.SynthBound.FlowNode    ,       x.SynthBound.FlowNode    .AudioFormat (Undefined));
-                if (value == 0        ) AreEqual(x.SynthBound.FlowNode    ,       x.SynthBound.FlowNode    .AudioFormat (0));
-                if (value == default  ) AreEqual(x.SynthBound.FlowNode    ,       x.SynthBound.FlowNode    .AudioFormat (default)); });
+                if (value == Raw      ) AreEqual(x.SynthBound.SynthWishes   , () => x.SynthBound.SynthWishes .AsRaw       ());
+                if (value == Wav      ) AreEqual(x.SynthBound.SynthWishes   , () => x.SynthBound.SynthWishes .AsWav       ()); 
+                if (value == Undefined) AreEqual(x.SynthBound.SynthWishes   ,       x.SynthBound.SynthWishes .AudioFormat (Undefined)); 
+                if (value == 0        ) AreEqual(x.SynthBound.SynthWishes   ,       x.SynthBound.SynthWishes .AudioFormat (0)); 
+                if (value == null     ) AreEqual(x.SynthBound.SynthWishes   ,       x.SynthBound.SynthWishes .AudioFormat (null)); });
             
             AssertProp(x => {
-                if (value == Raw      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsRaw       ());
-                if (value == Wav      ) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsWav       ());
-                if (value == Undefined) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.AudioFormat (Undefined)); 
-                if (value == 0        ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.AudioFormat (0));
-                if (value == null     ) AreEqual(x.SynthBound.ConfigWishes,       x.SynthBound.ConfigWishes.AudioFormat (null)); });
+                if (value == Raw      ) AreEqual(x.SynthBound.FlowNode      , () => x.SynthBound.FlowNode    .AsRaw       ());
+                if (value == Wav      ) AreEqual(x.SynthBound.FlowNode      , () => x.SynthBound.FlowNode    .AsWav       ()); 
+                if (value == Undefined) AreEqual(x.SynthBound.FlowNode      ,       x.SynthBound.FlowNode    .AudioFormat (Undefined));
+                if (value == 0        ) AreEqual(x.SynthBound.FlowNode      ,       x.SynthBound.FlowNode    .AudioFormat (0));
+                if (value == default  ) AreEqual(x.SynthBound.FlowNode      ,       x.SynthBound.FlowNode    .AudioFormat (default)); });
+            
+            AssertProp(x => {
+                if (value == Raw      ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsRaw       ());
+                if (value == Wav      ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsWav       ());
+                if (value == Undefined) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.AudioFormat (Undefined)); 
+                if (value == 0        ) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.AudioFormat (0));
+                if (value == null     ) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.AudioFormat (null)); });
         }
 
         [TestMethod] 
@@ -333,22 +333,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(audioFormat, () => x.SynthBound.SynthWishes.GetAudioFormat);
             AreEqual(audioFormat, () => x.SynthBound.FlowNode.AudioFormat());
             AreEqual(audioFormat, () => x.SynthBound.FlowNode.GetAudioFormat);
-            AreEqual(audioFormat, () => x.SynthBound.ConfigWishes.AudioFormat());
-            AreEqual(audioFormat, () => x.SynthBound.ConfigWishes.GetAudioFormat);
+            AreEqual(audioFormat, () => x.SynthBound.ConfigResolver.AudioFormat());
+            AreEqual(audioFormat, () => x.SynthBound.ConfigResolver.GetAudioFormat);
             
             AreEqual(audioFormat == Raw, () => x.SynthBound.SynthWishes.IsRaw());
             AreEqual(audioFormat == Raw, () => x.SynthBound.SynthWishes.IsRaw);
             AreEqual(audioFormat == Raw, () => x.SynthBound.FlowNode.IsRaw());
             AreEqual(audioFormat == Raw, () => x.SynthBound.FlowNode.IsRaw);
-            AreEqual(audioFormat == Raw, () => x.SynthBound.ConfigWishes.IsRaw());
-            AreEqual(audioFormat == Raw, () => x.SynthBound.ConfigWishes.IsRaw);
+            AreEqual(audioFormat == Raw, () => x.SynthBound.ConfigResolver.IsRaw());
+            AreEqual(audioFormat == Raw, () => x.SynthBound.ConfigResolver.IsRaw);
             
             AreEqual(audioFormat == Wav, () => x.SynthBound.SynthWishes.IsWav());
             AreEqual(audioFormat == Wav, () => x.SynthBound.SynthWishes.IsWav);
             AreEqual(audioFormat == Wav, () => x.SynthBound.FlowNode.IsWav());
             AreEqual(audioFormat == Wav, () => x.SynthBound.FlowNode.IsWav);
-            AreEqual(audioFormat == Wav, () => x.SynthBound.ConfigWishes.IsWav());
-            AreEqual(audioFormat == Wav, () => x.SynthBound.ConfigWishes.IsWav);
+            AreEqual(audioFormat == Wav, () => x.SynthBound.ConfigResolver.IsWav());
+            AreEqual(audioFormat == Wav, () => x.SynthBound.ConfigResolver.IsWav);
         }
 
         private void Assert_TapeBound_Getters(TestEntities x, AudioFileFormatEnum audioFormat)

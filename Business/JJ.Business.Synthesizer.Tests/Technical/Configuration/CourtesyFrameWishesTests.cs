@@ -42,13 +42,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, CoalesceDefault(value));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.CourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.CourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.CourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.CourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.CourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.CourtesyFrames(value)));
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.WithCourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.WithCourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithCourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.WithCourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithCourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithCourtesyFrames(value)));
         }
 
         [TestMethod]
@@ -112,8 +112,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(courtesyFrames, () => x.SynthBound.SynthWishes.GetCourtesyFrames);
             AreEqual(courtesyFrames, () => x.SynthBound.FlowNode.CourtesyFrames());
             AreEqual(courtesyFrames, () => x.SynthBound.FlowNode.GetCourtesyFrames);
-            AreEqual(courtesyFrames, () => x.SynthBound.ConfigWishes.CourtesyFrames());
-            AreEqual(courtesyFrames, () => x.SynthBound.ConfigWishes.GetCourtesyFrames);
+            AreEqual(courtesyFrames, () => x.SynthBound.ConfigResolver.CourtesyFrames());
+            AreEqual(courtesyFrames, () => x.SynthBound.ConfigResolver.GetCourtesyFrames);
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int courtesyFrames)

@@ -10,10 +10,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     internal class SynthWishesAccessor
     {
         private readonly Accessor _accessor;
-        
-        public SynthWishesAccessor(SynthWishes obj) 
-            => _accessor = new Accessor(obj, typeof(SynthWishes));
 
+        public SynthWishesAccessor(SynthWishes obj)
+        {
+            _accessor = new Accessor(obj, typeof(SynthWishes));
+        }
+        
         /// <inheritdoc cref="docs._captureindexer" />
         public SynthWishes _ 
             => (SynthWishes)_accessor.GetPropertyValue(nameof(_));
@@ -48,8 +50,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             }
         }
 
+        public ConfigResolverAccessor Config 
+            => new ConfigResolverAccessor(_accessor.GetPropertyValue(MemberName()));
+
         // EchoAdditive
-        
+
         public FlowNode EchoAdditive(FlowNode sound, int count, FlowNode magnitude = null, FlowNode delay = null, [CallerMemberName] string callerMemberName = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), sound, count, magnitude ?? _[0.66], delay ?? _[0.25], callerMemberName);
 

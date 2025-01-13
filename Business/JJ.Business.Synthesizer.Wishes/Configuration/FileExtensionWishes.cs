@@ -19,18 +19,18 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // Derived from AudioFormat
         
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string      FileExtension(this SynthWishes obj) => obj.AudioFormat().FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
+        /// <inheritdoc cref="docs._fileextension" />
+        public static string FileExtension(this SynthWishes obj) => obj.AudioFormat().FileExtension();
+        /// <inheritdoc cref="docs._fileextension" />
         public static SynthWishes FileExtension(this SynthWishes obj, string value) => obj.AudioFormat(value.AudioFormat());
+        /// <inheritdoc cref="docs._fileextension" />
+        public static string FileExtension(this FlowNode obj) => obj.AudioFormat().FileExtension();
+        /// <inheritdoc cref="docs._fileextension" />
+        public static FlowNode FileExtension(this FlowNode obj, string value) => obj.AudioFormat(value.AudioFormat());
+        /// <inheritdoc cref="docs._fileextension" />
+        internal static string FileExtension(this ConfigResolver obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string      FileExtension(this FlowNode obj) => obj.AudioFormat().FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static FlowNode     FileExtension(this FlowNode obj, string value) => obj.AudioFormat(value.AudioFormat());
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this ConfigResolver obj) => obj.AudioFormat().FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static ConfigResolver FileExtension(this ConfigResolver obj, string value) => obj.AudioFormat(value.AudioFormat());
+        internal static ConfigResolver FileExtension(this ConfigResolver obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
         internal static string FileExtension(this ConfigSection obj) => obj.AudioFormat()?.FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>

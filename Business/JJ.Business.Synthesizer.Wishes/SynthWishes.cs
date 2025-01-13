@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public IContext Context { get; }
 
         private ConfigResolver _config;
-        public ConfigResolver Config
+        internal ConfigResolver Config
         {
             get => _config;
             set => _config = value ?? throw new ArgumentException(nameof(Config));

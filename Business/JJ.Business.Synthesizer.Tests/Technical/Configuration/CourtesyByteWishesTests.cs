@@ -8,7 +8,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.CourtesyBytes(val)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.CourtesyBytes(val)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.CourtesyBytes(val)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.CourtesyBytes(val)));
         }
 
         [TestMethod]
@@ -86,11 +86,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
         }
 
         [TestMethod]
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes.CourtesyBytes());
             AreEqual(courtesyBytes, () => x.SynthBound.FlowNode.CourtesyBytes());
-            AreEqual(courtesyBytes, () => x.SynthBound.ConfigWishes.CourtesyBytes());
+            AreEqual(courtesyBytes, () => x.SynthBound.ConfigResolver.CourtesyBytes());
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int courtesyBytes)

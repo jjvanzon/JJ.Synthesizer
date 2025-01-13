@@ -4,49 +4,49 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class FrameCountExtensionWishes
+    public static class FrameCountExtensionWishes
     {
         // A Duration Attribute
         
         public static int FrameCount(this SynthWishes obj)
-            => ConfigWish.FrameCount(obj.AudioLength(), obj.SamplingRate());
+            => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
         
         public static SynthWishes FrameCount(this SynthWishes obj, int? value)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
         public static int FrameCount(this FlowNode obj)
-            => ConfigWish.FrameCount(obj.AudioLength(), obj.SamplingRate());
+            => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
         
         public static FlowNode FrameCount(this FlowNode obj, int? value)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
-        public static int FrameCount(this ConfigResolver obj, SynthWishes synthWishes)
-            => ConfigWish.FrameCount(obj.AudioLength(synthWishes), obj.SamplingRate());
+        internal static int FrameCount(this ConfigResolver obj, SynthWishes synthWishes)
+            => ConfigWishes.FrameCount(obj.AudioLength(synthWishes), obj.SamplingRate());
         
-        public static ConfigResolver FrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes)
+        internal static ConfigResolver FrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()), synthWishes);
         
         internal static int? FrameCount(this ConfigSection obj)
         {
             if (obj.AudioLength() == null) return null;
             if (obj.SamplingRate() == null) return null;
-            return ConfigWish.FrameCount(obj.AudioLength().Value, obj.SamplingRate().Value);
+            return ConfigWishes.FrameCount(obj.AudioLength().Value, obj.SamplingRate().Value);
         }
         
         public static int FrameCount(this Tape obj)
         {
             if (obj.IsBuff)
             {
-                return ConfigWish.FrameCount(obj.Bytes, obj.FilePathResolved, obj.FrameSize(), obj.HeaderLength());
+                return ConfigWishes.FrameCount(obj.Bytes, obj.FilePathResolved, obj.FrameSize(), obj.HeaderLength());
             }
             else
             {
-                return ConfigWish.FrameCount(obj.AudioLength(), obj.SamplingRate());
+                return ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
             }
         }
         
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             if (obj == null) throw new NullException(() => obj);
             
-            int frameCount = ConfigWish.FrameCount(obj.Bytes, obj.FilePath, obj.FrameSize(), obj.HeaderLength());
+            int frameCount = ConfigWishes.FrameCount(obj.Bytes, obj.FilePath, obj.FrameSize(), obj.HeaderLength());
             
             if (Has(frameCount))
             {
@@ -114,11 +114,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int FrameCount(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return ConfigWish.FrameCount(obj.Bytes, obj.Location, obj.FrameSize(), obj.HeaderLength());
+            return ConfigWishes.FrameCount(obj.Bytes, obj.Location, obj.FrameSize(), obj.HeaderLength());
         }
         
         public static int FrameCount(this AudioFileOutput obj)
-            => ConfigWish.FrameCount(obj.AudioLength(), obj.SamplingRate());
+            => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
         
         public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         }
     }
     
-    public partial class ConfigWish
+    public partial class ConfigWishes
     {
         public static int FrameCount(int byteCount, int frameSize, int headerLength)
             => (byteCount - headerLength) / frameSize;

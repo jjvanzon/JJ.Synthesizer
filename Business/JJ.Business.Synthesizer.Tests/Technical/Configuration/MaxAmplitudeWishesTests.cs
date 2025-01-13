@@ -9,7 +9,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
@@ -57,11 +57,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits    (val.bits)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits    (val.bits)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits    (val.bits)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits    (val.bits)));
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithBits(val.bits)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithBits(val.bits)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithBits(val.bits)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithBits(val.bits)));
             
             AssertProp(x => {
                 if (val.bits ==  8) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());
@@ -74,9 +74,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 if (val.bits == 32) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With32Bit()); });
             
             AssertProp(x => {
-                if (val.bits ==  8) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With8Bit());
-                if (val.bits == 16) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With16Bit());
-                if (val.bits == 32) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.With32Bit()); });
+                if (val.bits ==  8) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With8Bit());
+                if (val.bits == 16) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With16Bit());
+                if (val.bits == 32) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit()); });
         }
 
         [TestMethod]
@@ -467,11 +467,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             IsNotNull(() => x.SynthBound);
             IsNotNull(() => x.SynthBound.SynthWishes);
             IsNotNull(() => x.SynthBound.FlowNode);
-            IsNotNull(() => x.SynthBound.ConfigWishes);
+            IsNotNull(() => x.SynthBound.ConfigResolver);
 
             AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes.MaxAmplitude());
             AreEqual(maxAmplitude, () => x.SynthBound.FlowNode.MaxAmplitude());
-            AreEqual(maxAmplitude, () => x.SynthBound.ConfigWishes.MaxAmplitude());
+            AreEqual(maxAmplitude, () => x.SynthBound.ConfigResolver.MaxAmplitude());
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int maxAmplitude)

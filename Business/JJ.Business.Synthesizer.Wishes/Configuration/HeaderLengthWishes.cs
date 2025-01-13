@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this FlowNode obj) => obj.AudioFormat().HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this ConfigResolver obj) => obj.AudioFormat().HeaderLength();
+        internal static int HeaderLength(this ConfigResolver obj) => obj.AudioFormat().HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
         internal static int? HeaderLength(this ConfigSection obj) => obj.AudioFormat()?.HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>

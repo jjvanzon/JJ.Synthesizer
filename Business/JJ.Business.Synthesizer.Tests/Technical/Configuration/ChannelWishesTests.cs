@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigResolver;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -51,12 +52,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, val);
             }
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Channels    (val.channels).Channel    (val.channel)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithChannels(val.channels).WithChannel(val.channel)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Channels    (val.channels).Channel    (val.channel)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithChannels(val.channels).WithChannel(val.channel)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Channels    (val.channels).Channel    (val.channel)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithChannels(val.channels).WithChannel(val.channel)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Channels    (val.channels).Channel    (val.channel)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithChannels(val.channels).WithChannel(val.channel)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Channels    (val.channels).Channel    (val.channel)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithChannels(val.channels).WithChannel(val.channel)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Channels    (val.channels).Channel    (val.channel)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithChannels(val.channels).WithChannel(val.channel)));
             
             AssertProp(x => {
                 if (val == (1,0))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithCenter());
@@ -83,16 +84,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 if (val == (2,null)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Stereo().NoChannel()); });
             
             AssertProp(x => {
-                if (val == (1,0))    AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithCenter());
-                if (val == (2,0))    AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithLeft());
-                if (val == (2,1))    AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithRight()); 
-                if (val == (2,null)) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithStereo().WithChannel(null)); });
+                if (val == (1,0))    AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithCenter());
+                if (val == (2,0))    AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithLeft());
+                if (val == (2,1))    AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithRight()); 
+                if (val == (2,null)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithStereo().WithChannel(null)); });
             
             AssertProp(x => {
-                if (val == (1,0))    AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Center());
-                if (val == (2,0))    AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Left());
-                if (val == (2,1))    AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Right()); 
-                if (val == (2,null)) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Stereo().NoChannel()); });
+                if (val == (1,0))    AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Center());
+                if (val == (2,0))    AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Left());
+                if (val == (2,1))    AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Right()); 
+                if (val == (2,null)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Stereo().NoChannel()); });
             
             AssertProp(x => {
                 if (val.channels == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithMono().WithChannel(val.channel));
@@ -111,12 +112,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 if (val.channels == 2) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Stereo().Channel(val.channel)); });
             
             AssertProp(x => {
-                if (val.channels == 1) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithMono().WithChannel(val.channel));
-                if (val.channels == 2) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithStereo().WithChannel(val.channel)); });
+                if (val.channels == 1) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithMono().WithChannel(val.channel));
+                if (val.channels == 2) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithStereo().WithChannel(val.channel)); });
             
             AssertProp(x => {
-                if (val.channels == 1) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Mono().Channel(val.channel));
-                if (val.channels == 2) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Stereo().Channel(val.channel)); });
+                if (val.channels == 1) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Mono().Channel(val.channel));
+                if (val.channels == 2) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Stereo().Channel(val.channel)); });
         }
         
         [TestMethod]
@@ -385,50 +386,50 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(c.channel, () => x.SynthBound.SynthWishes.GetChannel);
             AreEqual(c.channel, () => x.SynthBound.FlowNode.Channel());
             AreEqual(c.channel, () => x.SynthBound.FlowNode.GetChannel);
-            AreEqual(c.channel, () => x.SynthBound.ConfigWishes.Channel());
-            AreEqual(c.channel, () => x.SynthBound.ConfigWishes.GetChannel);
+            AreEqual(c.channel, () => x.SynthBound.ConfigResolver.Channel());
+            AreEqual(c.channel, () => x.SynthBound.ConfigResolver.GetChannel);
 
             AreEqual(c.channels, () => x.SynthBound.SynthWishes.Channels());
             AreEqual(c.channels, () => x.SynthBound.SynthWishes.GetChannels);
             AreEqual(c.channels, () => x.SynthBound.FlowNode.Channels());
             AreEqual(c.channels, () => x.SynthBound.FlowNode.GetChannels);
-            AreEqual(c.channels, () => x.SynthBound.ConfigWishes.Channels());
-            AreEqual(c.channels, () => x.SynthBound.ConfigWishes.GetChannels);
+            AreEqual(c.channels, () => x.SynthBound.ConfigResolver.Channels());
+            AreEqual(c.channels, () => x.SynthBound.ConfigResolver.GetChannels);
 
             AreEqual(c == (1,0), () => x.SynthBound.SynthWishes.IsCenter());
             AreEqual(c == (1,0), () => x.SynthBound.SynthWishes.IsCenter);
             AreEqual(c == (1,0), () => x.SynthBound.FlowNode.IsCenter());
             AreEqual(c == (1,0), () => x.SynthBound.FlowNode.IsCenter);
-            AreEqual(c == (1,0), () => x.SynthBound.ConfigWishes.IsCenter());
-            AreEqual(c == (1,0), () => x.SynthBound.ConfigWishes.IsCenter);
+            AreEqual(c == (1,0), () => x.SynthBound.ConfigResolver.IsCenter());
+            AreEqual(c == (1,0), () => x.SynthBound.ConfigResolver.IsCenter);
             
             AreEqual(c == (2,0), () => x.SynthBound.SynthWishes.IsLeft());
             AreEqual(c == (2,0), () => x.SynthBound.SynthWishes.IsLeft);
             AreEqual(c == (2,0), () => x.SynthBound.FlowNode.IsLeft());
             AreEqual(c == (2,0), () => x.SynthBound.FlowNode.IsLeft);
-            AreEqual(c == (2,0), () => x.SynthBound.ConfigWishes.IsLeft());
-            AreEqual(c == (2,0), () => x.SynthBound.ConfigWishes.IsLeft);
+            AreEqual(c == (2,0), () => x.SynthBound.ConfigResolver.IsLeft());
+            AreEqual(c == (2,0), () => x.SynthBound.ConfigResolver.IsLeft);
             
             AreEqual(c == (2,1), () => x.SynthBound.SynthWishes.IsRight());
             AreEqual(c == (2,1), () => x.SynthBound.SynthWishes.IsRight);
             AreEqual(c == (2,1), () => x.SynthBound.FlowNode.IsRight());
             AreEqual(c == (2,1), () => x.SynthBound.FlowNode.IsRight);
-            AreEqual(c == (2,1), () => x.SynthBound.ConfigWishes.IsRight());
-            AreEqual(c == (2,1), () => x.SynthBound.ConfigWishes.IsRight);
+            AreEqual(c == (2,1), () => x.SynthBound.ConfigResolver.IsRight());
+            AreEqual(c == (2,1), () => x.SynthBound.ConfigResolver.IsRight);
         
             AreEqual(c.channels == MonoChannels, () => x.SynthBound.SynthWishes.IsMono());
             AreEqual(c.channels == MonoChannels, () => x.SynthBound.SynthWishes.IsMono);
             AreEqual(c.channels == MonoChannels, () => x.SynthBound.FlowNode.IsMono());
             AreEqual(c.channels == MonoChannels, () => x.SynthBound.FlowNode.IsMono);
-            AreEqual(c.channels == MonoChannels, () => x.SynthBound.ConfigWishes.IsMono());
-            AreEqual(c.channels == MonoChannels, () => x.SynthBound.ConfigWishes.IsMono);
+            AreEqual(c.channels == MonoChannels, () => x.SynthBound.ConfigResolver.IsMono());
+            AreEqual(c.channels == MonoChannels, () => x.SynthBound.ConfigResolver.IsMono);
 
             AreEqual(c.channels == StereoChannels, () => x.SynthBound.SynthWishes.IsStereo());
             AreEqual(c.channels == StereoChannels, () => x.SynthBound.SynthWishes.IsStereo);
             AreEqual(c.channels == StereoChannels, () => x.SynthBound.FlowNode.IsStereo());
             AreEqual(c.channels == StereoChannels, () => x.SynthBound.FlowNode.IsStereo);
-            AreEqual(c.channels == StereoChannels, () => x.SynthBound.ConfigWishes.IsStereo());
-            AreEqual(c.channels == StereoChannels, () => x.SynthBound.ConfigWishes.IsStereo);
+            AreEqual(c.channels == StereoChannels, () => x.SynthBound.ConfigResolver.IsStereo());
+            AreEqual(c.channels == StereoChannels, () => x.SynthBound.ConfigResolver.IsStereo);
         }
         
         private void Assert_TapeBound_Getters_SingleTape(TestEntities x, (int channels, int? channel) c)

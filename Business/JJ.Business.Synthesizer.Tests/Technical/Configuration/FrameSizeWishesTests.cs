@@ -13,7 +13,7 @@ using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
 #pragma warning disable CS0611 
 #pragma warning disable CS0618 
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Bits(val.bits).Channels(val.channels)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(val.bits).Channels(val.channels)));
         }
 
         [TestMethod]
@@ -292,7 +292,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             AreEqual(frameSize, () => x.SynthBound.SynthWishes.FrameSize());
             AreEqual(frameSize, () => x.SynthBound.FlowNode.FrameSize());
-            AreEqual(frameSize, () => x.SynthBound.ConfigWishes.FrameSize());
+            AreEqual(frameSize, () => x.SynthBound.ConfigResolver.FrameSize());
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int frameSize)

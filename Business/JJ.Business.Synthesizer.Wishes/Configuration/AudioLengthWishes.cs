@@ -39,13 +39,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static double AudioLength(this ConfigResolver obj, SynthWishes synthWishes)
+        internal static double AudioLength(this ConfigResolver obj, SynthWishes synthWishes)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetAudioLength(synthWishes).Value;
         }
         
-        public static ConfigResolver AudioLength(this ConfigResolver obj, double? value, SynthWishes synthWishes)
+        internal static ConfigResolver AudioLength(this ConfigResolver obj, double? value, SynthWishes synthWishes)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.WithAudioLength(value, synthWishes);
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
     // Conversion Formulas
     
-    public partial class ConfigWish
+    public partial class ConfigWishes
     {
         public static double? AudioLength(int? frameCount, int samplingRate)
             => (double?)frameCount / samplingRate;

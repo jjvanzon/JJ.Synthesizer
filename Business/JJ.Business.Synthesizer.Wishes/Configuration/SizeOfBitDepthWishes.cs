@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static SynthWishes     SizeOfBitDepth(this SynthWishes     obj, int? byteSize) => obj.Bits(byteSize * 8);
         public   static int             SizeOfBitDepth(this FlowNode        obj) => obj.Bits() / 8;
         public   static FlowNode        SizeOfBitDepth(this FlowNode        obj, int? byteSize) => obj.Bits(byteSize * 8);
-        public   static int             SizeOfBitDepth(this ConfigResolver    obj) => obj.Bits() / 8;
-        public   static ConfigResolver    SizeOfBitDepth(this ConfigResolver    obj, int? byteSize) => obj.Bits(byteSize * 8);
+        internal static int             SizeOfBitDepth(this ConfigResolver  obj) => obj.Bits() / 8;
+        internal static ConfigResolver  SizeOfBitDepth(this ConfigResolver  obj, int? byteSize) => obj.Bits(byteSize * 8);
         internal static int?            SizeOfBitDepth(this ConfigSection   obj) => obj.Bits() / 8;
         public   static int             SizeOfBitDepth(this Tape            obj) => obj.Bits() / 8;
         public   static Tape            SizeOfBitDepth(this Tape            obj, int byteSize) => obj.Bits(byteSize * 8);
@@ -44,7 +44,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static AudioInfoWish   SizeOfBitDepth(this AudioInfoWish   obj, int byteSize) => obj.Bits(byteSize * 8);
         public   static int             SizeOfBitDepth(this AudioFileInfo   obj) => obj.Bits() / 8;
         public   static AudioFileInfo   SizeOfBitDepth(this AudioFileInfo   obj, int byteSize) => obj.Bits(byteSize * 8);
-        
                     
         public static int SizeOfBitDepth(this int bits) => bits / 8;
         
@@ -95,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
     // With Type Arguments
     
-    public partial class ConfigResolver
+    public partial class ConfigWishes
     {
         public static int TypeToSizeOfBitDepth<T>() => typeof(T).TypeToSizeOfBitDepth();
                  

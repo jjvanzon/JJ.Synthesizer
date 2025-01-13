@@ -53,11 +53,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string ConfigLog(this WavHeaderStruct wavHeader) => LogWishes.ConfigLog(wavHeader);
         public static string ConfigLog(this WavHeaderStruct wavHeader, string title) => LogWishes.ConfigLog(title, wavHeader);
         public static string ConfigLog(this WavHeaderStruct wavHeader, string title, string sep) => LogWishes.ConfigLog(title, wavHeader, sep);
-        public static string ConfigLog(this ConfigResolver configWishes) => LogWishes.ConfigLog(configWishes);
-        public static string ConfigLog(this ConfigResolver configWishes, SynthWishes synthWishes) => LogWishes.ConfigLog(configWishes, synthWishes);
-        public static string ConfigLog(this ConfigResolver configWishes, SynthWishes synthWishes, string sep) => LogWishes.ConfigLog(configWishes, synthWishes, sep);
-        public static string ConfigLog(this ConfigResolver configWishes, string title, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, sep);
-        public static string ConfigLog(this ConfigResolver configWishes, string title, SynthWishes synthWishes, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, synthWishes, sep);
+        internal static string ConfigLog(this ConfigResolver configWishes) => LogWishes.ConfigLog(configWishes);
+        internal static string ConfigLog(this ConfigResolver configWishes, SynthWishes synthWishes) => LogWishes.ConfigLog(configWishes, synthWishes);
+        internal static string ConfigLog(this ConfigResolver configWishes, SynthWishes synthWishes, string sep) => LogWishes.ConfigLog(configWishes, synthWishes, sep);
+        internal static string ConfigLog(this ConfigResolver configWishes, string title, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, sep);
+        internal static string ConfigLog(this ConfigResolver configWishes, string title, SynthWishes synthWishes, string sep = " | ") => LogWishes.ConfigLog(title, configWishes, synthWishes, sep);
         internal static string ConfigLog(this ConfigSection configSection) => LogWishes.ConfigLog(configSection);
         internal static string ConfigLog(this ConfigSection configSection, string title) => LogWishes.ConfigLog(title, configSection);
         internal static string ConfigLog(this ConfigSection configSection, string title, string sep) => LogWishes.ConfigLog(title, configSection, sep);
@@ -447,11 +447,11 @@ namespace JJ.Business.Synthesizer.Wishes
                 sep: sep);
         }
         
-        public static string ConfigLog(ConfigResolver configWishes) => ConfigLog("", configWishes);
-        public static string ConfigLog(ConfigResolver configWishes, SynthWishes synthWishes) => ConfigLog("", configWishes, synthWishes);
-        public static string ConfigLog(ConfigResolver configWishes, SynthWishes synthWishes, string sep) => ConfigLog("", configWishes, synthWishes, sep);
-        public static string ConfigLog(string title, ConfigResolver configWishes, string sep = " | ") => ConfigLog(title, configWishes, null, sep);
-        public static string ConfigLog(string title, ConfigResolver configWishes, SynthWishes synthWishes, string sep = " | ")
+        internal static string ConfigLog(ConfigResolver configWishes) => ConfigLog("", configWishes);
+        internal static string ConfigLog(ConfigResolver configWishes, SynthWishes synthWishes) => ConfigLog("", configWishes, synthWishes);
+        internal static string ConfigLog(ConfigResolver configWishes, SynthWishes synthWishes, string sep) => ConfigLog("", configWishes, synthWishes, sep);
+        internal static string ConfigLog(string title, ConfigResolver configWishes, string sep = " | ") => ConfigLog(title, configWishes, null, sep);
+        internal static string ConfigLog(string title, ConfigResolver configWishes, SynthWishes synthWishes, string sep = " | ")
         {
             if (configWishes == null) throw new NullException(() => configWishes);
             

@@ -50,13 +50,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, value);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.Interpolation(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.Interpolation(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.Interpolation(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.Interpolation(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.Interpolation(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Interpolation(value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.WithInterpolation(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.WithInterpolation(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithInterpolation(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.WithInterpolation(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithInterpolation(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithInterpolation(value)));
             
             AssertProp(x => {
                 if (value == Block) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Blocky());
@@ -75,12 +75,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 if (value == Line) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithLinear()); });
             
             AssertProp(x => {
-                if (value == Block) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Blocky());
-                if (value == Line) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.Linear()); });
+                if (value == Block) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Blocky());
+                if (value == Line) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Linear()); });
             
             AssertProp(x => {
-                if (value == Block) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithBlocky());
-                if (value == Line) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.WithLinear()); });
+                if (value == Block) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithBlocky());
+                if (value == Line) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithLinear()); });
         }
 
         [TestMethod] 
@@ -278,22 +278,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(interpolation, () => x.SynthBound.SynthWishes.GetInterpolation);
             AreEqual(interpolation, () => x.SynthBound.FlowNode.Interpolation());
             AreEqual(interpolation, () => x.SynthBound.FlowNode.GetInterpolation);
-            AreEqual(interpolation, () => x.SynthBound.ConfigWishes.Interpolation());
-            AreEqual(interpolation, () => x.SynthBound.ConfigWishes.GetInterpolation);
+            AreEqual(interpolation, () => x.SynthBound.ConfigResolver.Interpolation());
+            AreEqual(interpolation, () => x.SynthBound.ConfigResolver.GetInterpolation);
             
             AreEqual(interpolation == Block, () => x.SynthBound.SynthWishes.IsBlocky());
             AreEqual(interpolation == Block, () => x.SynthBound.SynthWishes.IsBlocky);
             AreEqual(interpolation == Block, () => x.SynthBound.FlowNode.IsBlocky());
             AreEqual(interpolation == Block, () => x.SynthBound.FlowNode.IsBlocky);
-            AreEqual(interpolation == Block, () => x.SynthBound.ConfigWishes.IsBlocky());
-            AreEqual(interpolation == Block, () => x.SynthBound.ConfigWishes.IsBlocky);
+            AreEqual(interpolation == Block, () => x.SynthBound.ConfigResolver.IsBlocky());
+            AreEqual(interpolation == Block, () => x.SynthBound.ConfigResolver.IsBlocky);
             
             AreEqual(interpolation == Line, () => x.SynthBound.SynthWishes.IsLinear());
             AreEqual(interpolation == Line, () => x.SynthBound.SynthWishes.IsLinear);
             AreEqual(interpolation == Line, () => x.SynthBound.FlowNode.IsLinear());
             AreEqual(interpolation == Line, () => x.SynthBound.FlowNode.IsLinear);
-            AreEqual(interpolation == Line, () => x.SynthBound.ConfigWishes.IsLinear());
-            AreEqual(interpolation == Line, () => x.SynthBound.ConfigWishes.IsLinear);
+            AreEqual(interpolation == Line, () => x.SynthBound.ConfigResolver.IsLinear());
+            AreEqual(interpolation == Line, () => x.SynthBound.ConfigResolver.IsLinear);
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, InterpolationTypeEnum interpolation)

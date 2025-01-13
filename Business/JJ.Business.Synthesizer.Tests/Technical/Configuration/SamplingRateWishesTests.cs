@@ -48,13 +48,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, value);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SamplingRate(value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.WithSamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.WithSamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithSamplingRate(value)));
         }
 
         [TestMethod] 
@@ -272,8 +272,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(samplingRate, () => x.SynthBound.SynthWishes.GetSamplingRate);
             AreEqual(samplingRate, () => x.SynthBound.FlowNode.SamplingRate());
             AreEqual(samplingRate, () => x.SynthBound.FlowNode.GetSamplingRate);
-            AreEqual(samplingRate, () => x.SynthBound.ConfigWishes.SamplingRate());
-            AreEqual(samplingRate, () => x.SynthBound.ConfigWishes.GetSamplingRate);
+            AreEqual(samplingRate, () => x.SynthBound.ConfigResolver.SamplingRate());
+            AreEqual(samplingRate, () => x.SynthBound.ConfigResolver.GetSamplingRate);
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int samplingRate)

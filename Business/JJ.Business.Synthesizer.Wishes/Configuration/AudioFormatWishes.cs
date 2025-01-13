@@ -42,13 +42,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithAudioFormat(value);
         }
         
-        public static AudioFileFormatEnum AudioFormat(this ConfigResolver obj)
+        internal static AudioFileFormatEnum AudioFormat(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetAudioFormat;
         }
         
-        public static ConfigResolver AudioFormat(this ConfigResolver obj, AudioFileFormatEnum? value)
+        internal static ConfigResolver AudioFormat(this ConfigResolver obj, AudioFileFormatEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithAudioFormat(value);
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool IsWav(this SynthWishes     obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this FlowNode        obj) => obj.AudioFormat() == Wav;
-        public   static bool IsWav(this ConfigResolver    obj) => obj.AudioFormat() == Wav;
+        internal static bool IsWav(this ConfigResolver  obj) => obj.AudioFormat() == Wav;
         internal static bool IsWav(this ConfigSection   obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this Tape            obj) => obj.AudioFormat() == Wav;
         public   static bool IsWav(this TapeConfig      obj) => obj.AudioFormat() == Wav;
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool IsRaw(this SynthWishes     obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this FlowNode        obj) => obj.AudioFormat() == Raw;
-        public   static bool IsRaw(this ConfigResolver    obj) => obj.AudioFormat() == Raw;
+        internal static bool IsRaw(this ConfigResolver  obj) => obj.AudioFormat() == Raw;
         internal static bool IsRaw(this ConfigSection   obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this Tape            obj) => obj.AudioFormat() == Raw;
         public   static bool IsRaw(this TapeConfig      obj) => obj.AudioFormat() == Raw;

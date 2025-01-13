@@ -55,13 +55,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, val.headerLength);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .AudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .AudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.AudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes .AudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode    .AudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.AudioFormat(val.audioFormat)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithAudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithAudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigWishes, x.SynthBound.ConfigWishes.WithAudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes .WithAudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode    .WithAudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithAudioFormat(val.audioFormat)));
             
             AssertProp(x => {
                 if (val.audioFormat == Raw) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.AsRaw());
@@ -72,8 +72,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 if (val.audioFormat == Wav) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.AsWav()); });
             
             AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.SynthBound.ConfigWishes, () => x.SynthBound.ConfigWishes.AsWav()); });
+                if (val.audioFormat == Raw) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsRaw());
+                if (val.audioFormat == Wav) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsWav()); });
         }
 
         [TestMethod] 
@@ -298,21 +298,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             AreEqual(headerLength, () => x.SynthBound.SynthWishes.HeaderLength());
             AreEqual(headerLength, () => x.SynthBound.FlowNode.HeaderLength());
-            AreEqual(headerLength, () => x.SynthBound.ConfigWishes.HeaderLength());
+            AreEqual(headerLength, () => x.SynthBound.ConfigResolver.HeaderLength());
             
             AreEqual(headerLength == 0, () => x.SynthBound.SynthWishes.IsRaw());
             AreEqual(headerLength == 0, () => x.SynthBound.SynthWishes.IsRaw);
             AreEqual(headerLength == 0, () => x.SynthBound.FlowNode.IsRaw());
             AreEqual(headerLength == 0, () => x.SynthBound.FlowNode.IsRaw);
-            AreEqual(headerLength == 0, () => x.SynthBound.ConfigWishes.IsRaw());
-            AreEqual(headerLength == 0, () => x.SynthBound.ConfigWishes.IsRaw);
+            AreEqual(headerLength == 0, () => x.SynthBound.ConfigResolver.IsRaw());
+            AreEqual(headerLength == 0, () => x.SynthBound.ConfigResolver.IsRaw);
             
             AreEqual(headerLength == 44, () => x.SynthBound.SynthWishes.IsWav());
             AreEqual(headerLength == 44, () => x.SynthBound.SynthWishes.IsWav);
             AreEqual(headerLength == 44, () => x.SynthBound.FlowNode.IsWav());
             AreEqual(headerLength == 44, () => x.SynthBound.FlowNode.IsWav);
-            AreEqual(headerLength == 44, () => x.SynthBound.ConfigWishes.IsWav());
-            AreEqual(headerLength == 44, () => x.SynthBound.ConfigWishes.IsWav);
+            AreEqual(headerLength == 44, () => x.SynthBound.ConfigResolver.IsWav());
+            AreEqual(headerLength == 44, () => x.SynthBound.ConfigResolver.IsWav);
         }
 
         private void Assert_TapeBound_Getters(TestEntities x, int headerLength)

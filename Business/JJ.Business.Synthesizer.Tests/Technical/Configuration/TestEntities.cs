@@ -75,17 +75,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     internal class TestEntities : TapeEntities
     {   
         // Global-Bound (read-only)
-        public static ConfigSectionAccessor GetConfigSectionAccessor() => new ConfigWishesAccessor(new SynthWishes().Config)._section;
+        public static ConfigSectionAccessor GetConfigSectionAccessor() => ConfigResolverAccessor._section;
         
         public SynthBoundEntities SynthBound { get; set; } = new SynthBoundEntities();
         
         public class SynthBoundEntities
         {
-            public SynthWishes  SynthWishes  { get; set; }
-            public IContext     Context      { get; set; }
-            public FlowNode     FlowNode     { get; set; }
-            public FlowNode     FlowNode2    { get; set; }
-            public ConfigResolver ConfigWishes { get; set; }
+            public SynthWishes            SynthWishes    { get; set; }
+            public IContext               Context        { get; set; }
+            public FlowNode               FlowNode       { get; set; }
+            public FlowNode               FlowNode2      { get; set; }
+            public ConfigResolverAccessor ConfigResolver { get; set; }
         }
                                                        
         // Tape-Bound
@@ -99,11 +99,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             
             SynthBound = new SynthBoundEntities
             {
-                SynthWishes  = synthWishes,
-                Context      = synthWishes.Context,
-                ConfigWishes = synthWishes.Config,
-                FlowNode     = synthWishes.Sine(),
-                FlowNode2    = synthWishes.Sine() / 2
+                SynthWishes    = synthWishes,
+                Context        = synthWishes.Context,
+                ConfigResolver = new SynthWishesAccessor(synthWishes).Config,
+                FlowNode       = synthWishes.Sine(),
+                FlowNode2      = synthWishes.Sine() / 2
             };
             
             // Initialize
