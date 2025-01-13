@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -136,7 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [AssertionMethod]
         public static int? AssertSamplingRate(int? samplingRate)
         {
-            if (samplingRate == null) return null;
+            if (!Has(samplingRate)) return samplingRate;
             return AssertSamplingRate(samplingRate.Value);
         }
                         

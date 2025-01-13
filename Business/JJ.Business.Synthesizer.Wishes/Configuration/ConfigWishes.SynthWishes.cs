@@ -198,5 +198,17 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._fileextensionmaxlength" />
         public int GetFileExtensionMaxLength => Config.GetFileExtensionMaxLength;
+        
+        public bool IsUnderNCrunch 
+        {
+            get => Config.IsUnderNCrunch;
+            set => Config.IsUnderNCrunch = value;
+        }
+        
+        public bool IsUnderAzurePipelines
+        {
+            get => Config.IsUnderAzurePipelines;
+            set => Config.IsUnderAzurePipelines = value;
+        }
     }
 }

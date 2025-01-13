@@ -66,6 +66,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [XmlAttribute] public bool? AudioPlayback { get; set; }
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
-        [XmlAttribute] public bool? Impersonation { get; set; }
+        [XmlAttribute] public bool? ImpersonationMode { get; set; }
     }
 }

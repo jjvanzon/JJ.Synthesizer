@@ -11,29 +11,31 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // Coalesce Defaults
         
-        public static int CoalesceBits(int? bits, int? defaultBits = null)
-            => Has(bits) ? bits.Value : Has(defaultBits) ? defaultBits.Value : DefaultBits;
+        public static int CoalesceBits(int? bits, int? defaultValue = null)
+            => Has(bits) ? bits.Value : Has(defaultValue) ? defaultValue.Value : DefaultBits;
         
-        public static int CoalesceChannels(int? channels, int? defaultChannels = null)
-            => Has(channels) ? channels.Value : Has(defaultChannels) ? defaultChannels.Value : DefaultChannels;
+        public static int CoalesceChannels(int? channels, int? defaultValue = null)
+            => Has(channels) ? channels.Value : Has(defaultValue) ? defaultValue.Value : DefaultChannels;
         
-        public static AudioFileFormatEnum Coalesce(AudioFileFormatEnum? audioFormat, AudioFileFormatEnum? defaultAudioFormat = null)
-            => Has(audioFormat) ? audioFormat.Value : Has(defaultAudioFormat) ? defaultAudioFormat.Value : DefaultAudioFormat;
+        public static AudioFileFormatEnum Coalesce(AudioFileFormatEnum? audioFormat, AudioFileFormatEnum? defaultValue = null)
+            => Has(audioFormat) ? audioFormat.Value : Has(defaultValue) ? defaultValue.Value : DefaultAudioFormat;
         
-        public static InterpolationTypeEnum Coalesce(InterpolationTypeEnum? interpolation, InterpolationTypeEnum? defaultInterpolation = null)
-            => Has(interpolation) ? interpolation.Value : Has(defaultInterpolation) ? defaultInterpolation.Value : DefaultInterpolation;
+        public static InterpolationTypeEnum Coalesce(InterpolationTypeEnum? interpolation, InterpolationTypeEnum? defaultValue = null)
+            => Has(interpolation) ? interpolation.Value : Has(defaultValue) ? defaultValue.Value : DefaultInterpolation;
         
-        public static int CoalesceCourtesyFrames(int? courtesyFrames, int? defaultCourtesyFrames = null)
-            => courtesyFrames ?? defaultCourtesyFrames ?? DefaultCourtesyFrames;
+        public static int CoalesceCourtesyFrames(int? courtesyFrames, int? defaultValue = null)
+            => courtesyFrames ?? defaultValue ?? DefaultCourtesyFrames;
         
-        public static string CoalesceFileExtension(string fileExtension, string defaultFileExtension = default)
-            => Has(fileExtension) ? fileExtension : Has(defaultFileExtension) ? defaultFileExtension : DefaultFileExtension;
+        public static string CoalesceFileExtension(string fileExtension, string defaultValue = default)
+            => Has(fileExtension) ? fileExtension : Has(defaultValue) ? defaultValue : DefaultFileExtension;
         
         public static int CoalesceFrameSize(int? frameSize, int? bits, int? channels)
             => Has(frameSize) ? frameSize.Value : Has(bits) && Has(channels) ? bits.Value / 8 * channels.Value : DefaultFrameSize;
         
-        public static int CoalesceSizeOfBitDepth(int? sizeOfBitDepth, int? defaultSizeOfBitDepth = null)
-            => Has(sizeOfBitDepth) ? sizeOfBitDepth.Value : Has(defaultSizeOfBitDepth) ? defaultSizeOfBitDepth.Value : DefaultSizeOfBitDepth;
-
+        public static int CoalesceSizeOfBitDepth(int? sizeOfBitDepth, int? defaultValue = null)
+            => Has(sizeOfBitDepth) ? sizeOfBitDepth.Value : Has(defaultValue) ? defaultValue.Value : DefaultSizeOfBitDepth;
+        
+        public static int CoalesceSamplingRate(int? samplingRate, int? defaultValue = null) 
+            => Has(samplingRate) ? samplingRate.Value : Has(defaultValue) ? defaultValue.Value : DefaultSamplingRate;
     }
 }

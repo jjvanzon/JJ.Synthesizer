@@ -43,12 +43,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Tooling
         
-        public const bool   DefaultToolingAudioPlayback                  = false;
-        public const bool   DefaultToolingImpersonation                  = false;
-        public const int    DefaultNCrunchSamplingRate                   = 150;
-        public const int    DefaultNCrunchSamplingRateLongRunning        = 8;
-        public const int    DefaultAzurePipelinesSamplingRate            = 1500;
-        public const int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
+        public const  bool  DefaultToolingAudioPlayback                  = false;
+        public static bool? DefaultToolingImpersonationMode              = null;
+        public const  int   DefaultNCrunchSamplingRate                   = 150;
+        public const  int   DefaultNCrunchSamplingRateLongRunning        = 8;
+        public const  int   DefaultAzurePipelinesSamplingRate            = 1500;
+        public const  int   DefaultAzurePipelinesSamplingRateLongRunning = 100;
         
         // Misc Settings
         

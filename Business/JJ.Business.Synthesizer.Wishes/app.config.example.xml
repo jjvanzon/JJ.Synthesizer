@@ -47,13 +47,13 @@
 			audioPlayback="false" 
 			samplingRate="150"
 			samplingRateLongRunning="8"
-			impersonation="false"/>
+			impersonationMode=""/>
 		
 		<azurePipelines
 			audioPlayback="false" 
 			samplingRate="1500"
 			samplingRateLongRunning="100"
-			impersonation="false"/>
+			impersonationMode=""/>
 
 	</jj.business.synthesizer.wishes>
 	

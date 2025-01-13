@@ -9,6 +9,7 @@ using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Configuration;
 using JJ.Framework.Wishes.Reflection;
 using JJ.Framework.Wishes.Testing;
+using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -558,34 +559,32 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // Tooling
         
-        internal static bool GetNCrunchImpersonation => _section.NCrunch.Impersonation ?? ConfigWishes.DefaultToolingImpersonation;
-        internal static bool GetAzurePipelinesImpersonation => _section.AzurePipelines.Impersonation ?? ConfigWishes.DefaultToolingImpersonation;
+        private bool? _ncrunchImpersonationMode;
+        private bool? GetNCrunchImpersonationMode => _ncrunchImpersonationMode ?? _section.NCrunch.ImpersonationMode ?? ConfigWishes.DefaultToolingImpersonationMode;
         
-        public static bool IsUnderNCrunch
+        private bool? _azurePipelinesImpersonationMode;
+        private bool? GetAzurePipelinesImpersonationMode => _azurePipelinesImpersonationMode ?? _section.AzurePipelines.ImpersonationMode ?? ConfigWishes.DefaultToolingImpersonationMode;
+        
+        public bool IsUnderNCrunch
         {
             get
             {
-                if (GetNCrunchImpersonation)
-                {
-                    return true;
-                }
-                
-                bool isUnderNCrunch = EnvironmentHelperWishes.EnvironmentVariableIsDefined(ConfigWishes.NCrunchEnvironmentVariableName, ConfigWishes.NCrunchEnvironmentVariableValue);
+                if (GetNCrunchImpersonationMode != null) return GetNCrunchImpersonationMode.Value;
+                bool isUnderNCrunch = EnvironmentVariableIsDefined(ConfigWishes.NCrunchEnvironmentVariableName, ConfigWishes.NCrunchEnvironmentVariableValue);
                 return isUnderNCrunch;
             }
+            set => _ncrunchImpersonationMode = value;
         }
         
         public bool IsUnderAzurePipelines
         {
             get
             {
-                if (GetAzurePipelinesImpersonation)
-                {
-                    return true;
-                }
-                bool isUnderAzurePipelines = EnvironmentHelperWishes.EnvironmentVariableIsDefined(ConfigWishes.AzurePipelinesEnvironmentVariableName, ConfigWishes.AzurePipelinesEnvironmentVariableValue);
+                if (GetAzurePipelinesImpersonationMode != null) return GetAzurePipelinesImpersonationMode.Value;
+                bool isUnderAzurePipelines = EnvironmentVariableIsDefined(ConfigWishes.AzurePipelinesEnvironmentVariableName, ConfigWishes.AzurePipelinesEnvironmentVariableValue);
                 return isUnderAzurePipelines;
             }
+            set => _azurePipelinesImpersonationMode = value;
         }
         
         // Persistence
@@ -620,9 +619,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             // Running Under Tooling
             
-            if (GetNCrunchImpersonation)
+            if (GetNCrunchImpersonationMode != null)
             {
-                list.Add("Pretending to be NCrunch.");
+                if (GetNCrunchImpersonationMode == true)
+                {
+                    list.Add("Pretending to be NCrunch.");
+                }
+                if (GetNCrunchImpersonationMode == false)
+                {
+                    list.Add("Pretending NOT to be NCrunch.");
+                }
             }
             
             if (IsUnderNCrunch)
@@ -630,9 +636,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 list.Add($"Environment variable {ConfigWishes.NCrunchEnvironmentVariableName} = {ConfigWishes.NCrunchEnvironmentVariableValue}");
             }
             
-            if (GetAzurePipelinesImpersonation)
+            if (GetAzurePipelinesImpersonationMode != null)
             {
-                list.Add("Pretending to be Azure Pipelines.");
+                if (GetAzurePipelinesImpersonationMode == true)
+                {
+                    list.Add("Pretending to be Azure Pipelines.");
+                }
+                if (GetAzurePipelinesImpersonationMode == false)
+                {
+                    list.Add("Pretending NOT to be Azure Pipelines.");
+                }
             }
             
             if (IsUnderAzurePipelines)
