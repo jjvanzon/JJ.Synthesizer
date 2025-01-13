@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 (resolvedFilePath, fileStream) 
                     = CreateSafeFileStream(
                         resolvedFilePath, 
-                        maxExtensionLength: ConfigWishes.Static.GetFileExtensionMaxLength);
+                        maxExtensionLength: ConfigResolver.Static.GetFileExtensionMaxLength);
                 
                 calculatorAccessor._stream = fileStream;
                 audioFileOutput.FilePath = resolvedFilePath;
@@ -616,7 +616,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
                 buff, 
-                inMemory: true, ConfigWishes.Static.GetCourtesyFrames, 
+                inMemory: true, ConfigResolver.Static.GetCourtesyFrames, 
                 name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage)]
@@ -625,7 +625,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
                 entity,
-                inMemory: true, ConfigWishes.Static.GetCourtesyFrames, name, null, callerMemberName);
+                inMemory: true, ConfigResolver.Static.GetCourtesyFrames, name, null, callerMemberName);
     }
     
     [Obsolete(ObsoleteMessage)]

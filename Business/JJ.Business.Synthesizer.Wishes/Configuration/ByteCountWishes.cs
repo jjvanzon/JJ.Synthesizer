@@ -29,10 +29,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static FlowNode ByteCount(this FlowNode obj, int? value) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
 
-        public static int ByteCount(this ConfigWishes obj, SynthWishes synthWishes) 
+        public static int ByteCount(this ConfigResolver obj, SynthWishes synthWishes) 
             => ConfigWish.ByteCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
        
-        public static ConfigWishes ByteCount(this ConfigWishes obj, int? value, SynthWishes synthWishes) 
+        public static ConfigResolver ByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
         
         internal static int? ByteCount(this ConfigSection obj)

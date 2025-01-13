@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigResolver;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 

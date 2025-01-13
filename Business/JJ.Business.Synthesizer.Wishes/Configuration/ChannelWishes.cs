@@ -7,7 +7,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
@@ -42,13 +42,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithChannel(value);
         }
         
-        public static int? Channel(this ConfigWishes obj)
+        public static int? Channel(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannel;
         }
         
-        public static ConfigWishes Channel(this ConfigWishes obj, int? value)
+        public static ConfigResolver Channel(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannel(value);
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static bool IsCenter (this SynthWishes     obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
         public static bool IsCenter (this FlowNode        obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
-        public static bool IsCenter (this ConfigWishes    obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
+        public static bool IsCenter (this ConfigResolver    obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
         public static bool IsCenter (this Tape            obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
         public static bool IsCenter (this TapeConfig      obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
         public static bool IsCenter (this TapeActions     obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
@@ -258,7 +258,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static bool IsLeft   (this SynthWishes     obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsLeft   (this FlowNode        obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
-        public static bool IsLeft   (this ConfigWishes    obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
+        public static bool IsLeft   (this ConfigResolver    obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsLeft   (this Tape            obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsLeft   (this TapeConfig      obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsLeft   (this TapeActions     obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static bool IsRight (this SynthWishes     obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         public static bool IsRight (this FlowNode        obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static bool IsRight (this ConfigWishes    obj) => obj.IsStereo() && obj.Channel() == RightChannel;
+        public static bool IsRight (this ConfigResolver    obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         public static bool IsRight (this Tape            obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         public static bool IsRight (this TapeConfig      obj) => obj.IsStereo() && obj.Channel() == RightChannel;
         public static bool IsRight (this TapeActions     obj) => obj.IsStereo() && obj.Channel() == RightChannel;
@@ -282,7 +282,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static SynthWishes     Center (this SynthWishes     obj                  ) => obj.Mono(       ).Channel(CenterChannel);
         public static FlowNode        Center (this FlowNode        obj                  ) => obj.Mono(       ).Channel(CenterChannel);
-        public static ConfigWishes    Center (this ConfigWishes    obj                  ) => obj.Mono(       ).Channel(CenterChannel);
+        public static ConfigResolver    Center (this ConfigResolver    obj                  ) => obj.Mono(       ).Channel(CenterChannel);
         public static Tape            Center (this Tape            obj                  ) => obj.Mono(       ).Channel(CenterChannel);
         public static TapeConfig      Center (this TapeConfig      obj                  ) => obj.Mono(       ).Channel(CenterChannel);
         public static TapeActions     Center (this TapeActions     obj                  ) => obj.Mono(       ).Channel(CenterChannel);
@@ -298,7 +298,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static SynthWishes     Left (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static FlowNode        Left (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
-        public static ConfigWishes    Left (this ConfigWishes    obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
+        public static ConfigResolver    Left (this ConfigResolver    obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static Tape            Left (this Tape            obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static TapeConfig      Left (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
         public static TapeActions     Left (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(LeftChannel);
@@ -314,7 +314,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static SynthWishes     Right (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static FlowNode        Right (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(RightChannel);
-        public static ConfigWishes    Right (this ConfigWishes    obj                  ) => obj.Stereo(       ).Channel(RightChannel);
+        public static ConfigResolver    Right (this ConfigResolver    obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static Tape            Right (this Tape            obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static TapeConfig      Right (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(RightChannel);
         public static TapeActions     Right (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(RightChannel);
@@ -330,7 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static SynthWishes     NoChannel (this SynthWishes     obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static FlowNode        NoChannel (this FlowNode        obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
-        public static ConfigWishes    NoChannel (this ConfigWishes    obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
+        public static ConfigResolver    NoChannel (this ConfigResolver    obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static Tape            NoChannel (this Tape            obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static TapeConfig      NoChannel (this TapeConfig      obj                  ) => obj.Stereo(       ).Channel(EveryChannel);
         public static TapeActions     NoChannel (this TapeActions     obj                  ) => obj.Stereo(       ).Channel(EveryChannel);

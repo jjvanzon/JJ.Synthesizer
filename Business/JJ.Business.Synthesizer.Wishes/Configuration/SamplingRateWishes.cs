@@ -35,13 +35,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithSamplingRate(value);
         }
         
-        public static int SamplingRate(this ConfigWishes obj)
+        public static int SamplingRate(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetSamplingRate;
         }
         
-        public static ConfigWishes SamplingRate(this ConfigWishes obj, int? value)
+        public static ConfigResolver SamplingRate(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithSamplingRate(value);

@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigResolver;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 

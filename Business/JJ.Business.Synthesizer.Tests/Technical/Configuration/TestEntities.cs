@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             public IContext     Context      { get; set; }
             public FlowNode     FlowNode     { get; set; }
             public FlowNode     FlowNode2    { get; set; }
-            public ConfigWishes ConfigWishes { get; set; }
+            public ConfigResolver ConfigWishes { get; set; }
         }
                                                        
         // Tape-Bound

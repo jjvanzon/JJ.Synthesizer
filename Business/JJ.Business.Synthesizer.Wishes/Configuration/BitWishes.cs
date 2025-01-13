@@ -11,7 +11,6 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
@@ -48,13 +47,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithBits(value);
         }
         
-        public static int Bits(this ConfigWishes obj)
+        public static int Bits(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetBits;
         }
         
-        public static ConfigWishes Bits(this ConfigWishes obj, int? value)
+        public static ConfigResolver Bits(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithBits(value);
@@ -213,7 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool Is8Bit (this SynthWishes        obj) => obj.Bits()     == 8;
         public   static bool Is8Bit (this FlowNode           obj) => obj.Bits()     == 8;
-        public   static bool Is8Bit (this ConfigWishes       obj) => obj.Bits()     == 8;
+        public   static bool Is8Bit (this ConfigResolver       obj) => obj.Bits()     == 8;
         [UsedImplicitly]
         internal static bool Is8Bit (this ConfigSection      obj) => obj.Bits()     == 8;
         public   static bool Is8Bit (this Tape               obj) => obj.Bits()     == 8;
@@ -234,7 +233,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool Is16Bit(this SynthWishes        obj) => obj.Bits()     == 16;
         public   static bool Is16Bit(this FlowNode           obj) => obj.Bits()     == 16;
-        public   static bool Is16Bit(this ConfigWishes       obj) => obj.Bits()     == 16;
+        public   static bool Is16Bit(this ConfigResolver       obj) => obj.Bits()     == 16;
         [UsedImplicitly]
         internal static bool Is16Bit(this ConfigSection      obj) => obj.Bits()     == 16;
         public   static bool Is16Bit(this Tape               obj) => obj.Bits()     == 16;
@@ -255,7 +254,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool Is32Bit(this SynthWishes        obj) => obj.Bits()     == 32;
         public   static bool Is32Bit(this FlowNode           obj) => obj.Bits()     == 32;
-        public   static bool Is32Bit(this ConfigWishes       obj) => obj.Bits()     == 32;
+        public   static bool Is32Bit(this ConfigResolver       obj) => obj.Bits()     == 32;
         [UsedImplicitly]
         internal static bool Is32Bit(this ConfigSection      obj) => obj.Bits()     == 32;
         public   static bool Is32Bit(this Tape               obj) => obj.Bits()     == 32;

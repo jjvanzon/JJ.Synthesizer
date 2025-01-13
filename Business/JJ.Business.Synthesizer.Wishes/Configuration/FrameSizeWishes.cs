@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static int  FrameSize(this SynthWishes     obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this FlowNode        obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public   static int  FrameSize(this ConfigWishes    obj) => obj.SizeOfBitDepth() * obj.Channels();
+        public   static int  FrameSize(this ConfigResolver    obj) => obj.SizeOfBitDepth() * obj.Channels();
         internal static int? FrameSize(this ConfigSection   obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this Tape            obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this TapeConfig      obj) => obj.SizeOfBitDepth() * obj.Channels();

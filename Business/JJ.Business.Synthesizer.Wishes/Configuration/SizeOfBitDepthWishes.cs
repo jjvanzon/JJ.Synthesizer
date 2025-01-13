@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static SynthWishes     SizeOfBitDepth(this SynthWishes     obj, int? byteSize) => obj.Bits(byteSize * 8);
         public   static int             SizeOfBitDepth(this FlowNode        obj) => obj.Bits() / 8;
         public   static FlowNode        SizeOfBitDepth(this FlowNode        obj, int? byteSize) => obj.Bits(byteSize * 8);
-        public   static int             SizeOfBitDepth(this ConfigWishes    obj) => obj.Bits() / 8;
-        public   static ConfigWishes    SizeOfBitDepth(this ConfigWishes    obj, int? byteSize) => obj.Bits(byteSize * 8);
+        public   static int             SizeOfBitDepth(this ConfigResolver    obj) => obj.Bits() / 8;
+        public   static ConfigResolver    SizeOfBitDepth(this ConfigResolver    obj, int? byteSize) => obj.Bits(byteSize * 8);
         internal static int?            SizeOfBitDepth(this ConfigSection   obj) => obj.Bits() / 8;
         public   static int             SizeOfBitDepth(this Tape            obj) => obj.Bits() / 8;
         public   static Tape            SizeOfBitDepth(this Tape            obj, int byteSize) => obj.Bits(byteSize * 8);
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
     // With Type Arguments
     
-    public partial class ConfigWishes
+    public partial class ConfigResolver
     {
         public static int TypeToSizeOfBitDepth<T>() => typeof(T).TypeToSizeOfBitDepth();
                  

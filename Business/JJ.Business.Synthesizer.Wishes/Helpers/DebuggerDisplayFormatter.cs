@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             return debuggerDisplay;
         }
 
-        public static string GetDebuggerDisplay(ConfigWishes configWishes) => FormatTypeName(configWishes) + " " + ConfigLog(configWishes);
+        public static string GetDebuggerDisplay(ConfigResolver configWishes) => FormatTypeName(configWishes) + " " + ConfigLog(configWishes);
     
         public static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + ConfigLog(configSection);
 

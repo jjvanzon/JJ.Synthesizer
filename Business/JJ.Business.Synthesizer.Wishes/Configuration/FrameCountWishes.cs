@@ -25,10 +25,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static FlowNode FrameCount(this FlowNode obj, int? value)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
-        public static int FrameCount(this ConfigWishes obj, SynthWishes synthWishes)
+        public static int FrameCount(this ConfigResolver obj, SynthWishes synthWishes)
             => ConfigWish.FrameCount(obj.AudioLength(synthWishes), obj.SamplingRate());
         
-        public static ConfigWishes FrameCount(this ConfigWishes obj, int? value, SynthWishes synthWishes)
+        public static ConfigResolver FrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()), synthWishes);
         
         internal static int? FrameCount(this ConfigSection obj)

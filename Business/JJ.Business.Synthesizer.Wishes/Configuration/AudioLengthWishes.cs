@@ -39,13 +39,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static double AudioLength(this ConfigWishes obj, SynthWishes synthWishes)
+        public static double AudioLength(this ConfigResolver obj, SynthWishes synthWishes)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetAudioLength(synthWishes).Value;
         }
         
-        public static ConfigWishes AudioLength(this ConfigWishes obj, double? value, SynthWishes synthWishes)
+        public static ConfigResolver AudioLength(this ConfigResolver obj, double? value, SynthWishes synthWishes)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.WithAudioLength(value, synthWishes);

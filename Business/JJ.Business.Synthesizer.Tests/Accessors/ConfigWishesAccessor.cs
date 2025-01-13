@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private readonly Accessor _accessor;
         
-        public ConfigWishesAccessor(ConfigWishes obj) 
-            => _accessor = new Accessor(obj, typeof(ConfigWishes));
+        public ConfigWishesAccessor(ConfigResolver obj) 
+            => _accessor = new Accessor(obj, typeof(ConfigResolver));
         
         public int _channel
         {

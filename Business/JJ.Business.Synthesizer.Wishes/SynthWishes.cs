@@ -36,8 +36,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public IContext Context { get; }
 
-        private ConfigWishes _config;
-        public ConfigWishes Config
+        private ConfigResolver _config;
+        public ConfigResolver Config
         {
             get => _config;
             set => _config = value ?? throw new ArgumentException(nameof(Config));
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
-            Config = new ConfigWishes();
+            Config = new ConfigResolver();
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
             

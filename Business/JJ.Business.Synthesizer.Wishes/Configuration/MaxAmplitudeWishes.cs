@@ -12,13 +12,13 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class MaxAmplitudeExtensionWishes
+    public static class MaxAmplitudeExtensionWishes
     {
         // A Derived Attribute
         
         public   static double  MaxAmplitude(this SynthWishes     obj) => obj.Bits() .MaxAmplitude();
         public   static double  MaxAmplitude(this FlowNode        obj) => obj.Bits() .MaxAmplitude();
-        public   static double  MaxAmplitude(this ConfigWishes    obj) => obj.Bits() .MaxAmplitude();
+        public   static double  MaxAmplitude(this ConfigResolver    obj) => obj.Bits() .MaxAmplitude();
         internal static double? MaxAmplitude(this ConfigSection   obj) => obj.Bits()?.MaxAmplitude();
         public   static double  MaxAmplitude(this Buff            obj) => obj.Bits() .MaxAmplitude();
         public   static double  MaxAmplitude(this Tape            obj) => obj.Bits() .MaxAmplitude();

@@ -28,9 +28,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._fileextension"/>
         public static FlowNode     FileExtension(this FlowNode obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this ConfigWishes obj) => obj.AudioFormat().FileExtension();
+        public static string FileExtension(this ConfigResolver obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
-        public static ConfigWishes FileExtension(this ConfigWishes obj, string value) => obj.AudioFormat(value.AudioFormat());
+        public static ConfigResolver FileExtension(this ConfigResolver obj, string value) => obj.AudioFormat(value.AudioFormat());
         /// <inheritdoc cref="docs._fileextension"/>
         internal static string FileExtension(this ConfigSection obj) => obj.AudioFormat()?.FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>

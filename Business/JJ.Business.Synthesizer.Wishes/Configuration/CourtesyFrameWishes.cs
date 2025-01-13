@@ -33,13 +33,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithCourtesyFrames(value);
         }
         
-        public static int CourtesyFrames(this ConfigWishes obj)
+        public static int CourtesyFrames(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetCourtesyFrames;
         }
         
-        public static ConfigWishes CourtesyFrames(this ConfigWishes obj, int? value)
+        public static ConfigResolver CourtesyFrames(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithCourtesyFrames(value);

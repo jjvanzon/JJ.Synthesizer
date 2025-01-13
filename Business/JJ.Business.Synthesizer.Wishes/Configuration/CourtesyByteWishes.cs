@@ -21,10 +21,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static FlowNode CourtesyBytes(this FlowNode obj, int? value)
             => obj.CourtesyFrames(ConfigWish.CourtesyFrames(value, obj.FrameSize()));
         
-        public static int CourtesyBytes(this ConfigWishes obj)
+        public static int CourtesyBytes(this ConfigResolver obj)
             => ConfigWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
-        public static ConfigWishes CourtesyBytes(this ConfigWishes obj, int? value)
+        public static ConfigResolver CourtesyBytes(this ConfigResolver obj, int? value)
             => obj.CourtesyFrames(ConfigWish.CourtesyFrames(value, obj.FrameSize()));
         
         internal static int? CourtesyBytes(this ConfigSection obj)

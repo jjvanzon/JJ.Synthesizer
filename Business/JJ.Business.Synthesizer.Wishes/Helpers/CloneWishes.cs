@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.Actions.PlayAllTapes.On = source.GetPlayAllTapes;
         }
 
-        internal static void CloneConfig(ConfigWishes source, TapeConfig dest)
+        internal static void CloneConfig(ConfigResolver source, TapeConfig dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
