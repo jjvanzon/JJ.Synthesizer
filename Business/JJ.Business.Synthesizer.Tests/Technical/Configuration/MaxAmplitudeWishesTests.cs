@@ -10,7 +10,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618
@@ -24,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     {
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_MaxAmplitude(int maxAmplitude, int bits)
+        public void Init_MaxAmplitude(int maxAmplitude, int? bits)
         { 
             var init = (maxAmplitude, bits);
             var x = CreateTestEntities(init);
@@ -32,8 +31,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_MaxAmplitude(int initMaxAmplitude, int initBits, int maxAmplitude, int bits)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_MaxAmplitude(int initMaxAmplitude, int? initBits, int maxAmplitude, int? bits)
         {
             var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
             var val = (maxAmplitude, bits);
@@ -41,42 +40,45 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init.maxAmplitude);
+                Assert_All_Getters        (x, init.maxAmplitude);
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, val.maxAmplitude);
-                Assert_TapeBound_Getters(x, init.maxAmplitude);
-                Assert_BuffBound_Getters(x, init.maxAmplitude);
+                Assert_SynthBound_Getters (x, val .maxAmplitude);
+                Assert_TapeBound_Getters  (x, init.maxAmplitude);
+                Assert_BuffBound_Getters  (x, init.maxAmplitude);
                 Assert_Independent_Getters(x, init.maxAmplitude);
-                Assert_Immutable_Getters(x, init.maxAmplitude);
+                Assert_Immutable_Getters  (x, init.maxAmplitude);
                 
                 x.Record();
-                Assert_All_Getters(x, val.maxAmplitude);
+                Assert_All_Getters        (x, val .maxAmplitude);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits    (val.bits)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits    (val.bits)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits    (val.bits)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits    (val.bits)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits    (val.bits)));
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .WithBits(val.bits)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .WithBits(val.bits)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithBits(val.bits)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithBits(val.bits)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithBits(val.bits)));
             
-            AssertProp(x => {
-                if (val.bits ==  8) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());
-                if (val.bits == 16) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With16Bit());
-                if (val.bits == 32) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With32Bit()); });
+            AssertProp(x => { switch (val.bits) {
+                case  8: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With8Bit ()); break;
+                case 16: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With16Bit()); break;
+                case 32: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With32Bit()); break;
+                default: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .WithBits (val.bits)); break; } });
             
-            AssertProp(x => {
-                if (val.bits ==  8) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With8Bit());
-                if (val.bits == 16) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With16Bit());
-                if (val.bits == 32) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With32Bit()); });
+            AssertProp(x => { switch (val.bits) {
+                case  8: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With8Bit ()); break;
+                case 16: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With16Bit()); break;
+                case 32: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With32Bit()); break; 
+                default: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .Bits     (val.bits)); break; } });
             
-            AssertProp(x => {
-                if (val.bits ==  8) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With8Bit());
-                if (val.bits == 16) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With16Bit());
-                if (val.bits == 32) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit()); });
+            AssertProp(x => { switch (val.bits) {
+                case  8: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With8Bit ()); break;
+                case 16: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With16Bit()); break;
+                case 32: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit()); break;
+                default: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Bits     (val.bits)); break; } });
         }
 
         [TestMethod]
@@ -401,28 +403,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         [TestMethod]
-        public void ConfigSection_MaxAmplitude()
+        public void GlobalBound_MaxAmplitude()
         {
-            // Global-Bound. Immutable. Get-only.
+            // Immutable. Get-only.
             var configSection = GetConfigSectionAccessor();
+            AreEqual(1, () => DefaultBits.MaxAmplitude());
             AreEqual(DefaultBits.MaxAmplitude(), () => configSection.MaxAmplitude());
         }
 
         [TestMethod]
-        public void Bits_WithTypeArguments()
+        public void MaxAmplitude_WithTypeArguments()
         {
             // ReSharper disable once PossibleLossOfFraction
             AreEqual(byte .MaxValue/ 2, () => MaxAmplitude<byte>());
             AreEqual(short.MaxValue,    () => MaxAmplitude<short>());
             AreEqual(1,                 () => MaxAmplitude<float>());
-        }
-        
-        
-        [TestMethod]
-        public void Bits_EdgeCases()
-        {
-            // For code coverage
-            ThrowsException(() => typeof(string).TypeToBits());
         }
 
         // Getter Helpers
@@ -541,21 +536,37 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
          // Test Data Helpers
 
-        private TestEntities CreateTestEntities((double maxAmplitude, int bits) init) => new TestEntities(x => x.Bits(init.bits));
+        private TestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new TestEntities(x => x.Bits(init.bits));
         
-        static object TestParameters => new[] // ncrunch: no coverage
+        // ncrunch: no coverage start
+        
+        static object TestParametersInit => new[]
         {
-            new object[] { 1, 32, short.MaxValue, 16 },
-            new object[] { short.MaxValue, 16, 1, 32 },
-            new object[] { byte.MaxValue / 2, 8, short.MaxValue, 16 },
-            new object[] { byte.MaxValue / 2, 8, 1, 32 }
+            new object[] { byte .MaxValue / 2 ,    8 },
+            new object[] { short.MaxValue     ,   16 },
+            new object[] { 1                  ,   32 },
+            new object[] { 1                  , null },
+            new object[] { 1                  ,    0 }
         };
         
-        static object TestParametersInit => new[] // ncrunch: no coverage
+        static object TestParameters => new[] 
         {
-            new object[] { byte.MaxValue / 2, 8 },
-            new object[] { short.MaxValue, 16 },
-            new object[] { 1, 32 }
+            new object[] { 1                  , 32 , short.MaxValue ,   16 },
+            new object[] { short.MaxValue     , 16 , 1              ,   32 },
+            new object[] { byte .MaxValue / 2 ,  8 , short.MaxValue ,   16 },
+            new object[] { byte .MaxValue / 2 ,  8 , 1              ,   32 },
         };
+        
+        static object TestParametersWithEmpty => new[] 
+        {
+            new object[] { 1                  , 32 , short.MaxValue ,   16 },
+            new object[] { short.MaxValue     , 16 , 1              ,   32 },
+            new object[] { byte .MaxValue / 2 ,  8 , short.MaxValue ,   16 },
+            new object[] { byte .MaxValue / 2 ,  8 , 1              ,   32 },
+            new object[] { 1                  ,  0 , short.MaxValue ,   16 },
+            new object[] { byte .MaxValue / 2 ,  8 , 1              , null }
+        };
+        
+         // ncrunch: no coverage end
     } 
 }
