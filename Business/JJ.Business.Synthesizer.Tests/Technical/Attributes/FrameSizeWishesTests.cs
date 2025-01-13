@@ -13,7 +13,6 @@ using static JJ.Business.Synthesizer.Tests.Technical.Attributes.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.AttributeWishes.AttributeExtensionWishes;
 
 #pragma warning disable CS0611 
@@ -36,8 +35,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         }
         
         [TestMethod] 
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_FrameSize(string descriptor, int initFrameSize, int initBits, int initChannels, int frameSize, int bits, int channels)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_FrameSize(string descriptor, int initFrameSize, int? initBits, int? initChannels, int frameSize, int? bits, int? channels)
         {            
             var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
             var val = (frameSize, bits, channels);
@@ -365,46 +364,50 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
                 }
             }
         }
+        
+        static IEnumerable<object[]> TestParametersWithEmpty 
+            => GetTestParameters(_bitsValuesWithEmpty, _channelsValuesWithEmpty);
+        
+        static IEnumerable<object[]> TestParameters 
+            => GetTestParameters(_bitsValues.Cast<int?>().ToArray(), _channelsValues.Cast<int?>().ToArray());
 
-        static IEnumerable<object[]> TestParameters
+        
+        static IEnumerable<object[]> GetTestParameters(int?[] bitsValues, int?[] channelsValues)
         {
-            get
+            foreach (int? initBits in bitsValues)
+            foreach (int? initChannels in channelsValues)
+            foreach (int? bits in bitsValues)
+            foreach (int? channels in channelsValues)
             {
-                foreach (int initBits in _bitsValues)
-                foreach (int initChannels in _channelsValues)
-                foreach (int bits in _bitsValues)
-                foreach (int channels in _channelsValues)
-                {
-                    if (initBits == bits && initChannels == channels) continue;
-                    yield return new object[]
-                    {
-                        GetParametersDescriptor(initBits, initChannels, bits, channels), 
-                        FrameSize(initBits, initChannels),
-                        initBits,
-                        initChannels,
-                        FrameSize(bits, channels),
-                        bits,
-                        channels
-                    };
-                }
+                if (initBits == bits && initChannels == channels) continue;
                 
-                // Add 1 case where the source and dest values are equal.
-                int lastBits = _bitsValues.Last();
-                int lastChannels = _channelsValues.Last();
-                int lastFrameSize = FrameSize(lastBits, lastChannels);
-                
-                yield return new object[] 
+                yield return new object[]
                 {
-                    GetParametersDescriptor(lastBits, lastChannels, lastBits, lastChannels), 
-                    lastFrameSize, 
-                    lastBits, 
-                    lastChannels, 
-                    lastFrameSize, 
-                    lastBits, 
-                    lastChannels 
+                    GetParametersDescriptor(initBits, initChannels, bits, channels),
+                    FrameSize(initBits, initChannels),
+                    initBits,
+                    initChannels,
+                    FrameSize(bits, channels),
+                    bits,
+                    channels
                 };
-                
             }
+            
+            // Add 1 case where the source and dest values are equal.
+            int? lastBits      = bitsValues.Last();
+            int? lastChannels  = channelsValues.Last();
+            int? lastFrameSize = FrameSize(lastBits, lastChannels);
+            
+            yield return new object[]
+            {
+                GetParametersDescriptor(lastBits, lastChannels, lastBits, lastChannels),
+                lastFrameSize,
+                lastBits,
+                lastChannels,
+                lastFrameSize,
+                lastBits,
+                lastChannels
+            };
         }
         
         static string GetParametersDescriptor(int? initBits, int? initChannels, int? bits, int? channels)
@@ -416,27 +419,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Attributes
         
         static string GetParametersDescriptor(int? bits, int? channels)
         {
-            string bitsFormatted = bits == null ? "null-bits" : bits == 0 ? "0-bits" : $"{bits}";
-            string channelsDescriptor = channels == null ? "null-channels" : channels == 0 ? "0-channels" :  ChannelDescriptor(channels).ToLower();
+            string bitsFormatted = bits == null ? "null-bit" : bits == 0 ? "0-bit" : $"{bits}-bit";
+            string channelsDescriptor = channels == null ? "null-channels" : channels == 0 ? "0-channels" : ChannelDescriptor(channels).ToLower();
             return $"{bitsFormatted}-{channelsDescriptor} ";
-        }
-
-        static int CoalesceFrameSize(int? value)
-        {
-            if (!Has(value)) return DefaultFrameSize;
-            return value.Value;
-        }
-
-        static int CoalesceBits(int? bits)
-        {
-            if (!Has(bits)) return DefaultBits;
-            return bits.Value;
-        }
-
-        static int CoalesceChannels(int? channels)
-        {
-            if (!Has(channels)) return DefaultChannels;
-            return channels.Value;
         }
        
         // ncrunch: no coverage end
