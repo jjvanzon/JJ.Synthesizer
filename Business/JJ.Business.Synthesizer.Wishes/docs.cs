@@ -73,14 +73,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public static object _audiolength;
 
         /// <summary>
-        /// Attempts to standardize audio properties among objects.
-        /// Those are added in the form of extension methods.
+        /// Standardizes audio properties among objects in the form of extension methods.
         /// In some cases they were missing in the back-end objects.
         /// In other cases they are for API objects, even if they were already otherwise available
         /// as properties or through sub-objects, or Get methods.
         /// They might be repeated here just to standardize everything for fluency.
         /// </summary>
-        public static object _attributewishes;
+        public static object _configextensionwishes;
         
         /// <summary> 
         /// Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.

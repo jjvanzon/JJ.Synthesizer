@@ -11,8 +11,8 @@ using static JJ.Framework.Wishes.Text.StringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
-    /// <inheritdoc cref="docs._attributewishes"/>
-    public static partial class AttributeExtensionWishes
+    /// <inheritdoc cref="docs._configextensionwishes"/>
+    public static partial class ConfigExtensionWishes
     {
         // A Duration Attribute
 
