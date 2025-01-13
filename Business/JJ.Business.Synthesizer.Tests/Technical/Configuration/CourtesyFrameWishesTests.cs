@@ -169,11 +169,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // ncrunch: no coverage end
         
-        static int CoalesceDefault(int? courtesyFrames)
-        {
-            //if (courtesyFrames == null) return DefaultCourtesyFrames;
-            if (courtesyFrames == null) return 2; // Alternative set in config file
-            return courtesyFrames.Value;
-        }
+        static int CoalesceDefault(int? courtesyFrames) 
+            => CoalesceCourtesyFrames(courtesyFrames, 2);
     } 
 }

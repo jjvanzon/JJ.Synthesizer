@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 // ReSharper disable RedundantNameQualifier
 
@@ -18,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         internal const string AzurePipelinesEnvironmentVariableValue = "True";
         internal const string AzurePipelinesEnvironmentVariableName  = "TF_BUILD";
         internal const string NCrunchEnvironmentVariableValue        = "1";
-                        
+        
         // Constants
         
         public const int ChannelsEmpty = 0;
@@ -29,19 +28,5 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public const int RightChannel = 1;
         public static readonly int? ChannelEmpty = null;
         public static readonly int? EveryChannel = null;
-
-        // Coalesce Defaults
-        
-        public static int CoalesceBits(int? bits)
-        {
-            if (!Has(bits)) return DefaultBits;
-            return bits.Value;
-        }
-
-        public static int CoalesceChannels(int? channels)
-        {
-            if (!Has(channels)) return DefaultChannels;
-            return channels.Value;
-        }
     }
 }

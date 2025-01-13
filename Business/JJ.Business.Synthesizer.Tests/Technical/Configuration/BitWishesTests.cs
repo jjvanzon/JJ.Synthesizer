@@ -7,11 +7,10 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
@@ -27,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Init_Bits(int? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, CoalesceDefault(init));
+            Assert_All_Getters(x, CoalesceBits(init));
         }
         
         [TestMethod]
@@ -37,18 +36,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, CoalesceDefault(init));
+                Assert_All_Getters(x, CoalesceBits(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters (x, CoalesceDefault(value));
-                Assert_TapeBound_Getters  (x, CoalesceDefault(init ));
-                Assert_BuffBound_Getters  (x, CoalesceDefault(init ));
-                Assert_Independent_Getters(x, CoalesceDefault(init ));
-                Assert_Immutable_Getters  (x, CoalesceDefault(init ));
+                Assert_SynthBound_Getters (x, CoalesceBits(value));
+                Assert_TapeBound_Getters  (x, CoalesceBits(init ));
+                Assert_BuffBound_Getters  (x, CoalesceBits(init ));
+                Assert_Independent_Getters(x, CoalesceBits(init ));
+                Assert_Immutable_Getters  (x, CoalesceBits(init ));
                 
                 x.Record();
-                Assert_All_Getters(x, CoalesceDefault(value));
+                Assert_All_Getters(x, CoalesceBits(value));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(value)));
@@ -683,6 +682,5 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 0, 16 },
         };
                 
-        int CoalesceDefault(int? bits) => Has(bits) ? bits.Value : DefaultBits;
     } 
 }

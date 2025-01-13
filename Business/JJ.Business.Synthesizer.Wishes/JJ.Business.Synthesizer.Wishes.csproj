@@ -57,6 +57,7 @@
     <Compile Include="Configuration\ConfigResolver.cs" />
     <Compile Include="Configuration\ConfigSection.cs" />
     <Compile Include="Configuration\ConfigWishes.Assertions.cs" />
+    <Compile Include="Configuration\ConfigWishes.Coalescing.cs" />
     <Compile Include="Configuration\ConfigWishes.FlowNode.cs" />
     <Compile Include="Configuration\ConfigWishes.SynthWishes.cs" />
     <Compile Include="Configuration\FrameCountWishes.cs" />

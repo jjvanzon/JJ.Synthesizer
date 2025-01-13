@@ -10,7 +10,6 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable CS0611 
@@ -26,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Init_Channels(int? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, CoalesceDefault(init));
+            Assert_All_Getters(x, CoalesceChannels(init));
         }
 
         [TestMethod] 
@@ -36,18 +35,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, CoalesceDefault(init));
+                Assert_All_Getters(x, CoalesceChannels(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters (x, CoalesceDefault(value));
-                Assert_TapeBound_Getters  (x, CoalesceDefault(init));
-                Assert_BuffBound_Getters  (x, CoalesceDefault(init));
-                Assert_Independent_Getters(x, CoalesceDefault(init));
-                Assert_Immutable_Getters  (x, CoalesceDefault(init));
+                Assert_SynthBound_Getters (x, CoalesceChannels(value));
+                Assert_TapeBound_Getters  (x, CoalesceChannels(init));
+                Assert_BuffBound_Getters  (x, CoalesceChannels(init));
+                Assert_Independent_Getters(x, CoalesceChannels(init));
+                Assert_Immutable_Getters  (x, CoalesceChannels(init));
                 
                 x.Record();
-                Assert_All_Getters(x, CoalesceDefault(value));
+                Assert_All_Getters(x, CoalesceChannels(value));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Channels(value)));
@@ -513,11 +512,5 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 1   , 0    },
             new object[] { null, 1    }
         };
-        
-        static int CoalesceDefault(int? channels)
-        {
-            if (!Has(channels)) return DefaultChannels;
-            return channels.Value;
-        }
     } 
 }

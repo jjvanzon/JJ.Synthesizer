@@ -53,15 +53,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Misc Settings
         
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public const double            DefaultLeafCheckTimeOut       = 60;
+        public const double DefaultLeafCheckTimeOut         = 60;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public const TimeOutActionEnum DefaultTimeOutAction          = Continue;
-        public const int               DefaultCourtesyFrames         = 4;
-        public const int               DefaultFileExtensionMaxLength = 4;
-        public const string            DefaultLongTestCategory       = "Long";
+        public const TimeOutActionEnum DefaultTimeOutAction = Continue;
+        public const int    DefaultCourtesyFrames           = 4;
+        public const int    DefaultFileExtensionMaxLength   = 4;
+        public const string DefaultLongTestCategory         = "Long";
 
         // Derive Defaults
         
-        public static int DefaultFrameSize => DefaultBits / 8 * DefaultChannels;
+        public static int    DefaultFrameSize     => DefaultBits / 8 * DefaultChannels;
+        public static string DefaultFileExtension => DefaultAudioFormat.FileExtension();
     }
 }

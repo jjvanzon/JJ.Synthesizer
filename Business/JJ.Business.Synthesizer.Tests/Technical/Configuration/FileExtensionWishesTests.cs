@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         { 
             var init = (fileExtension, audioFormat: (AudioFileFormatEnum?)audioFormatInt);
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, CoalesceDefault(init.fileExtension));
+            Assert_All_Getters(x, CoalesceFileExtension(init.fileExtension));
         }
 
         [TestMethod] 
@@ -42,18 +42,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, CoalesceDefault(init.fileExtension));
+                Assert_All_Getters(x, CoalesceFileExtension(init.fileExtension));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters (x, CoalesceDefault(val .fileExtension));
-                Assert_TapeBound_Getters  (x, CoalesceDefault(init.fileExtension));
-                Assert_BuffBound_Getters  (x, CoalesceDefault(init.fileExtension));
-                Assert_Independent_Getters(x, CoalesceDefault(init.fileExtension));
-                Assert_Immutable_Getters  (x, CoalesceDefault(init.fileExtension));
+                Assert_SynthBound_Getters (x, CoalesceFileExtension(val .fileExtension));
+                Assert_TapeBound_Getters  (x, CoalesceFileExtension(init.fileExtension));
+                Assert_BuffBound_Getters  (x, CoalesceFileExtension(init.fileExtension));
+                Assert_Independent_Getters(x, CoalesceFileExtension(init.fileExtension));
+                Assert_Immutable_Getters  (x, CoalesceFileExtension(init.fileExtension));
                 
                 x.Record();
-                Assert_All_Getters(x, CoalesceDefault(val.fileExtension));
+                Assert_All_Getters(x, CoalesceFileExtension(val.fileExtension));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .FileExtension  (val.fileExtension)));
@@ -459,11 +459,5 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         };
         
         // ncrunch: no coverage end
-        
-        static string CoalesceDefault(string fileExtension)
-        {
-            if (!Has(fileExtension)) return DefaultAudioFormat.FileExtension();
-            return fileExtension;
-        }
     } 
 }

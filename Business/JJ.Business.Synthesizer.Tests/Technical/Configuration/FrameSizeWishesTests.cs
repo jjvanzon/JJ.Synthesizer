@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 foreach (int? bits in _bitsValuesWithEmpty)
                 foreach (int? channels in _channelsValuesWithEmpty)
                 {
-                    int?   frameSize  = FrameSize(CoalesceBits(bits), CoalesceChannels(channels));
+                    int?   frameSize  = FrameSize(bits, channels);
                     string descriptor = GetParametersDescriptor(bits, channels);
                     yield return new object[] { descriptor, frameSize, bits, channels };
                 }
