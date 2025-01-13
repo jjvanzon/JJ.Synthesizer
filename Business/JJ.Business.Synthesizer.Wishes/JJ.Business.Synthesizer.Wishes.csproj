@@ -53,24 +53,24 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="AttributeWishes\ChannelChannelsComboWishes.cs" />
-    <Compile Include="AttributeWishes\FrameCountWishes.cs" />
-    <Compile Include="AttributeWishes\AudioLengthWishes.cs" />
-    <Compile Include="AttributeWishes\CourtesyByteWishes.cs" />
-    <Compile Include="AttributeWishes\HeaderLengthWishes.cs" />
-    <Compile Include="AttributeWishes\FileExtensionWishes.cs" />
-    <Compile Include="AttributeWishes\MaxAmplitudeWishes.cs" />
-    <Compile Include="AttributeWishes\FrameSizeWishes.cs" />
-    <Compile Include="AttributeWishes\SizeOfBitDepthWishes.cs" />
-    <Compile Include="AttributeWishes\CourtesyFrameWishes.cs" />
-    <Compile Include="AttributeWishes\InterpolationWishes.cs" />
-    <Compile Include="AttributeWishes\AudioFormatAttributeWishes.cs" />
-    <Compile Include="AttributeWishes\SamplingRateWishes.cs" />
-    <Compile Include="AttributeWishes\AudioInfoWish.cs" />
-    <Compile Include="AttributeWishes\ChannelWishes.cs" />
-    <Compile Include="AttributeWishes\ChannelsWishes.cs" />
-    <Compile Include="AttributeWishes\BitWishes.cs" />
-    <Compile Include="AttributeWishes\ByteCountWishes.cs" />
+    <Compile Include="Configuration\ChannelChannelsComboWishes.cs" />
+    <Compile Include="Configuration\FrameCountWishes.cs" />
+    <Compile Include="Configuration\AudioLengthWishes.cs" />
+    <Compile Include="Configuration\CourtesyByteWishes.cs" />
+    <Compile Include="Configuration\HeaderLengthWishes.cs" />
+    <Compile Include="Configuration\FileExtensionWishes.cs" />
+    <Compile Include="Configuration\MaxAmplitudeWishes.cs" />
+    <Compile Include="Configuration\FrameSizeWishes.cs" />
+    <Compile Include="Configuration\SizeOfBitDepthWishes.cs" />
+    <Compile Include="Configuration\CourtesyFrameWishes.cs" />
+    <Compile Include="Configuration\InterpolationWishes.cs" />
+    <Compile Include="Configuration\AudioFormatAttributeWishes.cs" />
+    <Compile Include="Configuration\SamplingRateWishes.cs" />
+    <Compile Include="Configuration\AudioInfoWish.cs" />
+    <Compile Include="Configuration\ChannelWishes.cs" />
+    <Compile Include="Configuration\ChannelsWishes.cs" />
+    <Compile Include="Configuration\BitWishes.cs" />
+    <Compile Include="Configuration\ByteCountWishes.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
     <Compile Include="Helpers\PropertyNameWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
@@ -187,7 +187,7 @@
     <Compile Include="ArithmeticWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
     <None Include="packages.config" />
-    <Compile Include="ConfigWishes.cs" />
+    <Compile Include="Configuration\ConfigWishes.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>
