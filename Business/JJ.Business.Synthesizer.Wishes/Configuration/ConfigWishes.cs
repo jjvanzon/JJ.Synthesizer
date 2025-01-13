@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     // ConfigWishes
     
     [DebuggerDisplay("{DebuggerDisplay}")]
-    public class ConfigWishes
+    public partial class ConfigWishes
     {
         string DebuggerDisplay => GetDebuggerDisplay(this);
 
@@ -968,7 +968,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-
     // SynthWishes ConfigWishes
     
     public partial class SynthWishes

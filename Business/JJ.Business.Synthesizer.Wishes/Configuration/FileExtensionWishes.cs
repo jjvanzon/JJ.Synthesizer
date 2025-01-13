@@ -77,12 +77,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat FileExtension(this AudioFileFormat obj, string value, IContext context)
             => value.FileExtensionToAudioFormat().ToEntity(context);
-    }
 
-    // Conversion-Style FileExtension
+        // Conversion-Style
     
-    public static partial class ConfigHelperWish
-    {
         public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension)
         {
             if (Is(fileExtension, ".wav")) return Wav;

@@ -10,35 +10,35 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Derived from CourtesyFrames
         
         public static int CourtesyBytes(this SynthWishes obj)
-            => ConfigHelperWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+            => ConfigWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
         public static SynthWishes CourtesyBytes(this SynthWishes obj, int? value)
-            => obj.CourtesyFrames(ConfigHelperWish.CourtesyFrames(value, obj.FrameSize()));
+            => obj.CourtesyFrames(ConfigWish.CourtesyFrames(value, obj.FrameSize()));
         
         public static int CourtesyBytes(this FlowNode obj)
-            => ConfigHelperWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+            => ConfigWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
         public static FlowNode CourtesyBytes(this FlowNode obj, int? value)
-            => obj.CourtesyFrames(ConfigHelperWish.CourtesyFrames(value, obj.FrameSize()));
+            => obj.CourtesyFrames(ConfigWish.CourtesyFrames(value, obj.FrameSize()));
         
         public static int CourtesyBytes(this ConfigWishes obj)
-            => ConfigHelperWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+            => ConfigWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
         public static ConfigWishes CourtesyBytes(this ConfigWishes obj, int? value)
-            => obj.CourtesyFrames(ConfigHelperWish.CourtesyFrames(value, obj.FrameSize()));
+            => obj.CourtesyFrames(ConfigWish.CourtesyFrames(value, obj.FrameSize()));
         
         internal static int? CourtesyBytes(this ConfigSection obj)
         {
             if (obj.CourtesyFrames() == null) return null;
             if (obj.FrameSize() == null) return null;
-            return ConfigHelperWish.CourtesyBytes(obj.CourtesyFrames().Value, obj.FrameSize().Value);
+            return ConfigWish.CourtesyBytes(obj.CourtesyFrames().Value, obj.FrameSize().Value);
         }
         
         public static int CourtesyBytes(this Tape obj)
-            => ConfigHelperWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+            => ConfigWish.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
         public static Tape CourtesyBytes(this Tape obj, int value)
-            => obj.CourtesyFrames(ConfigHelperWish.CourtesyFrames(value, obj.FrameSize()));
+            => obj.CourtesyFrames(ConfigWish.CourtesyFrames(value, obj.FrameSize()));
         
         public static int CourtesyBytes(this TapeConfig obj)
         {
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
     // Conversion formulas        
     
-    public static partial class ConfigHelperWish
+    public partial class ConfigWish
     {
         public static int CourtesyBytes(int courtesyFrames, int frameSize)
         {

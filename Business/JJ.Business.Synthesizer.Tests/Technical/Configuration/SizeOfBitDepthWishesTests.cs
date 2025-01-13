@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigHelperWish;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -439,7 +439,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void SizeOfBitDepth_WithTypeArguments()
         {
             // Getters
-            AreEqual(1, () => ConfigHelperWish.SizeOfBitDepth<byte>());
+            AreEqual(1, () => SizeOfBitDepth<byte>());
             AreEqual(2, () => SizeOfBitDepth<short>());
             AreEqual(4, () => SizeOfBitDepth<float>());
         

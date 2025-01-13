@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
     // Conversion Formulas
     
-    public static partial class ConfigHelperWish
+    public partial class ConfigWish
     {
         public static double? AudioLength(int? frameCount, int samplingRate)
             => (double?)frameCount / samplingRate;

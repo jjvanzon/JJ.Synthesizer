@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         }
     }
     
-    public static partial class ConfigHelperWish
+    public partial class ConfigWish
     {
         public static double MaxAmplitude<TValue>() => Bits<TValue>().MaxAmplitude();
     }

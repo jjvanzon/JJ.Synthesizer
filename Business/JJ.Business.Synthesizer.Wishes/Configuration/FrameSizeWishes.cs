@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
     // Conversion Formulas
     
-    public static partial class ConfigHelperWish
+    public partial class ConfigWish
     {
         
         public static int FrameSize(int bits, int channels) => bits / 8 * channels;

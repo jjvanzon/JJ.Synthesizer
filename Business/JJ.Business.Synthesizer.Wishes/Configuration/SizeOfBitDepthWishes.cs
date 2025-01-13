@@ -54,28 +54,24 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int SizeOfBitDepth(this Type obj) => obj.TypeToBits() / 8;
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => ConfigHelperWish.SizeOfBitDepthToType(newByteSize);
+        public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => newByteSize.SizeOfBitDepthToType();
 
         [Obsolete(ObsoleteMessage)] 
         public static int SizeOfBitDepth(this SampleDataTypeEnum obj) => SizeOf(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize) => ConfigHelperWish.BitsToEnum(newByteSize * 8);
+        public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize) => (newByteSize * 8).BitsToEnum();
         
         [Obsolete(ObsoleteMessage)] 
         public static int SizeOfBitDepth(this SampleDataType obj) => SizeOf(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context) => ConfigHelperWish.BitsToEntity(newByteSize * 8, context);
+        public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context) => (newByteSize * 8).BitsToEntity(context);
 
-    }
-
-    // SizeOfBitDepth Conversion-Style
-    
-    public static partial class ConfigHelperWish
-    {
+        // Conversion-Style
+        
         public static int TypeToSizeOfBitDepth(this Type obj)
         {
             if (obj == typeof(byte)) return 1;
@@ -83,8 +79,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             if (obj == typeof(float)) return 4;
             throw new ValueNotSupportedException(obj);
         }
-        
-        public static int TypeToSizeOfBitDepth<T>() => typeof(T).TypeToSizeOfBitDepth();
         
         public static Type SizeOfBitDepthToType(this int value)
         {
@@ -96,6 +90,14 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 default: throw new ValueNotSupportedException(value);
             }
         }
+
+    }
+
+    // With Type Arguments
+    
+    public partial class ConfigWishes
+    {
+        public static int TypeToSizeOfBitDepth<T>() => typeof(T).TypeToSizeOfBitDepth();
                  
         public static int SizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
                  

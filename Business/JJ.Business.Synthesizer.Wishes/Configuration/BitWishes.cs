@@ -11,7 +11,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigHelperWish;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Bits(this SampleDataType oldSampleDataType, int newBits, IContext context) 
-            => ConfigHelperWish.BitsToEntity(newBits, context);
+            => newBits.BitsToEntity(context);
         
         // Bits Shorthand
         
@@ -333,10 +333,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With32Bit(this SampleDataType oldSampleDataType, IContext context) => oldSampleDataType.Bits(32, context);
-    }
-        
-    public static partial class ConfigHelperWish
-    {
+
          // Conversion-Style
         
         public static int TypeToBits(this Type obj)
@@ -393,11 +390,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static SampleDataType BitsToEntity(this int bits, IContext context)
             => bits.BitsToEnum().ToEntity(context);
     }
+
+    // With Type Arguments
     
-    public static partial class ConfigHelperWish
+    public partial class ConfigWish
     {
-        // With Type Arguments
-                
         public static int TypeToBits<T>() => typeof(T).TypeToBits();
 
         public static int Bits<TValueType>() => TypeToBits<TValueType>();

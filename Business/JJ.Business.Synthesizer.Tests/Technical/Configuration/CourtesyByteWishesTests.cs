@@ -8,7 +8,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigHelperWish;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWish;
 
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
