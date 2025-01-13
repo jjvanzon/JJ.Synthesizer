@@ -187,6 +187,7 @@
     <Compile Include="OperatorWishes.cs" />
     <Compile Include="ArithmeticWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
+    <Compile Include="Configuration\ConfigWishes.Defaults.cs" />
     <None Include="packages.config" />
     <Compile Include="Configuration\ConfigWishes.cs" />
   </ItemGroup>
