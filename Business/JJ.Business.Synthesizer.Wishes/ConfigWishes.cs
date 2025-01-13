@@ -157,6 +157,20 @@ namespace JJ.Business.Synthesizer.Wishes
 
         private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
+        // Coalesce Defaults
+        
+        public static int CoalesceBits(int? bits)
+        {
+            if (!Has(bits)) return DefaultBits;
+            return bits.Value;
+        }
+
+        public static int CoalesceChannels(int? channels)
+        {
+            if (!Has(channels)) return DefaultChannels;
+            return channels.Value;
+        }
+
         // Conditions
         
         private static string BitsNotSupportedMessage(int? bits) => $"Bits = {bits} not supported. Supported values: 8, 16, 32.";
@@ -164,7 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
         private static string ChannelNotSupportedMessage(int? channel) => $"Channel = {channel} not supported. Supported values: 0, 1.";
         
         [AssertionMethod]
-        internal static int AssertBits(int bits)
+        public static int AssertBits(int bits)
         {
             switch (bits)
             {
@@ -175,7 +189,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         [AssertionMethod]
-        internal static int? AssertBits(int? bits)
+        public static int? AssertBits(int? bits)
         {
             switch (bits)
             {
@@ -186,7 +200,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                 
         [AssertionMethod]
-        internal static int AssertChannels(int channels)
+        public static int AssertChannels(int channels)
         {
             switch (channels)
             {
@@ -197,7 +211,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                        
         [AssertionMethod]
-        internal static int? AssertChannels(int? channels)
+        public static int? AssertChannels(int? channels)
         {
             switch (channels)
             {
@@ -208,7 +222,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                 
         [AssertionMethod]
-        internal static int AssertChannel(int channel)
+        public static int AssertChannel(int channel)
         {
             switch (channel)
             {
@@ -219,7 +233,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         [AssertionMethod]
-        internal static int? AssertChannel(int? channel)
+        public static int? AssertChannel(int? channel)
         {
             switch (channel)
             {
@@ -230,7 +244,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [AssertionMethod]
-        internal static AudioFileFormatEnum Assert(AudioFileFormatEnum audioFormat)
+        public static AudioFileFormatEnum Assert(AudioFileFormatEnum audioFormat)
         {
             switch (audioFormat)
             {
@@ -252,7 +266,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
 
         [AssertionMethod]
-        internal static InterpolationTypeEnum Assert(InterpolationTypeEnum interpolation)
+        public static InterpolationTypeEnum Assert(InterpolationTypeEnum interpolation)
         {
             switch (interpolation)
             {
@@ -263,7 +277,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                 
         [AssertionMethod]
-        internal static InterpolationTypeEnum? Assert(InterpolationTypeEnum? interpolation)
+        public static InterpolationTypeEnum? Assert(InterpolationTypeEnum? interpolation)
         {
             switch (interpolation)
             {
@@ -281,21 +295,21 @@ namespace JJ.Business.Synthesizer.Wishes
         }
                        
         [AssertionMethod]
-        internal static int? AssertSamplingRate(int? samplingRate)
+        public static int? AssertSamplingRate(int? samplingRate)
         {
             if (samplingRate == null) return null;
             return AssertSamplingRate(samplingRate.Value);
         }
                         
         [AssertionMethod]
-        internal static int AssertCourtesyFrames(int courtesyFrames)
+        public static int AssertCourtesyFrames(int courtesyFrames)
         {
             if (courtesyFrames <= 0) throw new Exception($"CourtesyFrames {courtesyFrames} should be greater than 0.");
             return courtesyFrames;
         }
                        
         [AssertionMethod]
-        internal static int? AssertCourtesyFrames(int? courtesyFrames)
+        public static int? AssertCourtesyFrames(int? courtesyFrames)
         {
             if (courtesyFrames == null) return null;
             return AssertCourtesyFrames(courtesyFrames.Value);
