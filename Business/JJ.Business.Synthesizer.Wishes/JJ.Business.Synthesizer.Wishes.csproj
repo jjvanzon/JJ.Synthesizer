@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Configuration\ChannelChannelsComboWishes.cs" />
+    <Compile Include="Configuration\ConfigSection.cs" />
     <Compile Include="Configuration\FrameCountWishes.cs" />
     <Compile Include="Configuration\AudioLengthWishes.cs" />
     <Compile Include="Configuration\CourtesyByteWishes.cs" />
