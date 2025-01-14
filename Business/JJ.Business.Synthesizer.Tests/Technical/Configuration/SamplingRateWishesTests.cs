@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
@@ -29,32 +30,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
         
         [TestMethod] 
-        [DynamicData(nameof(TestParameters))]
-        public void SynthBound_SamplingRate(int init, int value)
+        [DynamicData(nameof(TestParametersWithEmpty))]
+        public void SynthBound_SamplingRate(int? init, int? value)
         {            
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters(x, Coalesce(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, value);
-                Assert_TapeBound_Getters(x, init);
-                Assert_BuffBound_Getters(x, init);
-                Assert_Independent_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_SynthBound_Getters(x, Coalesce(value));
+                Assert_TapeBound_Getters(x, Coalesce(init));
+                Assert_BuffBound_Getters(x, Coalesce(init));
+                Assert_Independent_Getters(x, Coalesce(init));
+                Assert_Immutable_Getters(x, Coalesce(init));
                 
                 x.Record();
-                Assert_All_Getters(x, value);
+                Assert_All_Getters(x, Coalesce(value));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SamplingRate(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SamplingRate(value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes.WithSamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithSamplingRate(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithSamplingRate(value)));
         }
 
@@ -336,7 +337,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         // ncrunch: no coverage start
         
-        static object TestParametersInit => new[]
+        static IEnumerable<object[]> TestParametersInit => new[]
         {
             new object[] { 0 },
             new object[] { null },
@@ -356,8 +357,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 12345 },
             new object[] { 1234567 } 
         };
+        
+        static IEnumerable<object[]> TestParametersWithEmpty => new[]
+        {
+            new object[] {   22050 ,     0 },
+            new object[] {       0 , 11025 },
+            new object[] { 1234567 ,  null },
+            new object[] {    null , 12345 },
+            
+        }.Concat(TestParameters);
 
-        static object TestParameters => new[] 
+        static IEnumerable<object[]> TestParameters => new[] 
         {
             new object[] { 48000, 96000 },
             new object[] { 48000, 88200 },

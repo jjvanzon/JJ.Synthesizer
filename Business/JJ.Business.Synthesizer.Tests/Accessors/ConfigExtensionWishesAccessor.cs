@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(SamplingRateExtensionWishes));
         public static int SamplingRate(this ConfigResolverAccessor obj) => (int)_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject);
-        public static ConfigResolverAccessor SamplingRate(this ConfigResolverAccessor obj, int? value) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject, value));
+        public static ConfigResolverAccessor SamplingRate(this ConfigResolverAccessor obj, int? value) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new[]{ obj.UnderlyingObject, value }, new[]{ null, typeof(int?) }));
         public static int? SamplingRate(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
 
