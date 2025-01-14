@@ -23,7 +23,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int                  [] ValidHeaderLengths   { get; } =   ValidAudioFormats.Select(HeaderLength  ).ToArray()   ;
         public static string               [] ValidFileExtensions  { get; } =   ValidAudioFormats.Select(FileExtension ).ToArray()   ;
 
-
         // Primary Audio Properties
 
         public static int      AssertBits          (int     bits                        ) => bits          .In(ValidBits           ) ? bits           : throw new Exception($"{nameof(Bits)} = {bits} not valid. Supported values: " + Join(", ", ValidBits));
@@ -41,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int      AssertCourtesyFrames(int     courtesyFrames              ) => courtesyFrames                     >= 0 ? courtesyFrames : throw new Exception($"{nameof(CourtesyFrames)} {courtesyFrames} below 0.");
         public static int    ? AssertCourtesyFrames(int   ? courtesyFrames              ) => courtesyFrames                          ?.                 AssertCourtesyFrames();
         
-        // Derived
+        // Derived Audio Properties
         
         public static int      AssertSizeOfBitDepth(int     sizeOfBitDepth              ) => sizeOfBitDepth.In(ValidSizesOfBitDepth) ? sizeOfBitDepth : throw new Exception($"SizeOfBitDepth = {sizeOfBitDepth} not supported. Supported values: " + Join(", ", ValidSizesOfBitDepth));
         public static int    ? AssertSizeOfBitDepth(int   ? sizeOfBitDepth              ) => !Has(sizeOfBitDepth)                    ? sizeOfBitDepth : AssertSizeOfBitDepth(sizeOfBitDepth.Value);
