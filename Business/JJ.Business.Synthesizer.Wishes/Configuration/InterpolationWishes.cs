@@ -8,6 +8,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
@@ -121,11 +122,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => obj;
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => Assert(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
         // ReSharper disable once UnusedParameter.Global
-        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => newEnumValue;
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => Assert(newEnumValue);
         
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => obj.ToEnum();

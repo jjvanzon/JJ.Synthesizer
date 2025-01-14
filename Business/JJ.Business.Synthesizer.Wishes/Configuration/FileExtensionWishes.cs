@@ -81,6 +81,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Conversion-Style
     
         public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension)
+            => ConfigWishes.FileExtensionToAudioFormat(fileExtension);
+        
+        public static string AudioFormatToFileExtension(this AudioFileFormatEnum obj)
+            => ConfigWishes.AudioFormatToFileExtension(obj);
+    }
+    
+    public partial class ConfigWishes
+    {
+        public static AudioFileFormatEnum FileExtensionToAudioFormat(string fileExtension)
         {
             if (Is(fileExtension, ".wav")) return Wav;
             if (Is(fileExtension, ".raw")) return Raw;
@@ -88,7 +97,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             throw new Exception($"{new{fileExtension}} not supported.");
         }
         
-        public static string AudioFormatToFileExtension(this AudioFileFormatEnum obj)
+        public static string AudioFormatToFileExtension(AudioFileFormatEnum obj)
         {
             switch (obj)
             {
@@ -98,5 +107,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 default: throw new ValueNotSupportedException(obj);
             }
         }
+        
+        // Conversion Formulas
+        
+        public static string FileExtension(AudioFileFormatEnum obj)
+            => AudioFormatToFileExtension(obj);
     }
 }

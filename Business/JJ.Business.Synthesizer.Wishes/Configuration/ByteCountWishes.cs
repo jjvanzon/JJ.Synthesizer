@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Structs;
@@ -159,6 +160,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
             if (Exists(filePath))
             {
+                // TODO: Move to AssertFileSize?
                 long fileSize = new FileInfo(filePath).Length;
                 int maxSize = int.MaxValue;
                 if (fileSize > maxSize) throw new Exception($"File is too large. Max size = {PrettyByteCount(maxSize)}");
@@ -169,6 +171,21 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         }
 
         public static int ByteCount(int frameCount, int frameSize, int headerLength, int courtesyFrames = 0)
-            => frameCount * frameSize + headerLength + CourtesyBytes(courtesyFrames, frameSize);
+        {
+            AssertFrameCount(frameCount);
+            AssertFrameSize(frameSize);
+            AssertHeaderLength(headerLength);
+            
+            return frameCount * frameSize + headerLength + CourtesyBytes(courtesyFrames, frameSize);
+        }
+        
+        public static int ByteCount(double audioLength, int samplingRate, int bits, int channels, AudioFileFormatEnum audioFormat, int courtesyFrames = 0)
+        {
+            int frameCount = FrameCount(audioLength, samplingRate);
+            int frameSize = FrameSize(bits, channels);
+            int headerLength = HeaderLength(audioFormat);
+            int courtesyBytes = CourtesyBytes(courtesyFrames, bits, channels);
+            return frameCount * frameSize + headerLength + courtesyBytes;
+        }
     }
 }

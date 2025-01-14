@@ -195,10 +195,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public partial class ConfigWishes
     {
         public static double? AudioLength(int? frameCount, int samplingRate)
-            => (double?)frameCount / samplingRate;
+            => (double?)AssertFrameCount(frameCount) / AssertSamplingRate(samplingRate);
 
         public static double AudioLength(int frameCount, int samplingRate)
-            => (double)frameCount / samplingRate;
+            => (double)AssertFrameCount(frameCount) / AssertSamplingRate(samplingRate);
 
         public static double? AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
         {
@@ -207,6 +207,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         }
         
         public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
-            => (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
-   }
+        {
+            AssertByteCount(byteCount);
+            AssertHeaderLength(headerLength);
+            AssertFrameSize(frameSize);
+            AssertSamplingRate(samplingRate);
+            AssertCourtesyFrames(courtesyFrames);
+            AssertFrameSize(frameSize);
+            
+            return (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
+        }
+    }
 }

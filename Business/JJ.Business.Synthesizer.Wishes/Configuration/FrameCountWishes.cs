@@ -162,12 +162,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public partial class ConfigWishes
     {
         public static int FrameCount(int byteCount, int frameSize, int headerLength)
-            => (byteCount - headerLength) / frameSize;
+            => (AssertByteCount(byteCount) - AssertHeaderLength(headerLength)) / AssertFrameSize(frameSize);
         
         public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength)
-            => (ByteCount(bytes, filePath) - headerLength) / frameSize;
+            => (ByteCount(bytes, filePath) - AssertHeaderLength(headerLength)) / AssertFrameSize(frameSize);
 
         public static int FrameCount(double audioLength, int samplingRate)
-            => (int)(audioLength * samplingRate);
+            => (int)(AssertAudioLength(audioLength) * AssertSamplingRate(samplingRate));
     }
 }

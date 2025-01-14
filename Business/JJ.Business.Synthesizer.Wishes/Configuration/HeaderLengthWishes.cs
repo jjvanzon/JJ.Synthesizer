@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class HeaderLengthExtensionWishes
     {
-        // A Derived Attribute
+        // Derived from AudioFormat
         
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this SynthWishes obj) => obj.AudioFormat().HeaderLength();
@@ -41,18 +41,27 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int HeaderLength(this WavHeaderStruct obj) => Wav.HeaderLength();
         
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormatEnum obj)
-        {
-            switch (obj)
-            {
-                case Wav: return 44;
-                case Raw: return 0;
-                default: throw new ValueNotSupportedException(obj);
-            }
-        }
+        public static int HeaderLength(this AudioFileFormatEnum obj) => ConfigWishes.HeaderLength(obj);
         
         /// <inheritdoc cref="docs._headerlength"/>
         [Obsolete(ObsoleteMessage)] 
         public static int HeaderLength(this AudioFileFormat obj) => obj.AudioFormat().HeaderLength();
     }
+
+    public partial class ConfigWishes
+    {
+        // Conversion Formulas
+
+        public static int HeaderLength(AudioFileFormatEnum? audioFormat) => HeaderLength(Coalesce(audioFormat));
+        
+        public static int HeaderLength(AudioFileFormatEnum audioFormat)
+        {
+            switch (Assert(audioFormat))
+            {
+                case Wav: return 44;
+                case Raw: return 0;
+                default: return default; // ncrunch: no coverage
+            }
+        }
+    } 
 }

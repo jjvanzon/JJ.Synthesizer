@@ -41,7 +41,17 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public partial class ConfigWishes
     {
-        public static int FrameSize(int bits, int channels) => bits / 8 * channels;
-        public static int FrameSize(int? bits, int? channels) => CoalesceBits(bits) / 8 * CoalesceChannels(channels);
+        public static int FrameSize(int bits, int channels)
+        {
+            AssertBits(bits);
+            AssertChannels(channels);
+            return bits / 8 * channels;
+        }
+        public static int FrameSize(int? bits, int? channels)
+        {
+            AssertBits(bits);
+            AssertChannels(channels);
+            return CoalesceBits(bits) / 8 * CoalesceChannels(channels);
+        }
     }
 }

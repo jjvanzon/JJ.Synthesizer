@@ -38,20 +38,22 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)]
         public static double MaxAmplitude(this SampleDataTypeEnum obj) => obj.Bits().MaxAmplitude();
         
-        public static double MaxAmplitude(this int bits)
-        {
-            switch (AssertBits(bits))
-            {
-                case 32: return 1;
-                case 16: return short.MaxValue;
-                case 8: return byte.MaxValue / 2;
-                default: return default; // ncrunch: no coverage
-            }
-        }
+        public static double MaxAmplitude(this int bits) => ConfigWishes.MaxAmplitude(bits);
     }
     
     public partial class ConfigWishes
     {
         public static double MaxAmplitude<TValue>() => Bits<TValue>().MaxAmplitude();
+        
+        public static double MaxAmplitude(int bits) 
+        {
+            switch (AssertBits(bits))
+            {
+                case 32: return 1;
+                case 16: return short.MaxValue;
+                case  8: return byte .MaxValue / 2;
+                default: return default; // ncrunch: no coverage
+            }
+        }
     }
 }

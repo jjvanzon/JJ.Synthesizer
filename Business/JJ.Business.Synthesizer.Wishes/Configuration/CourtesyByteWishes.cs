@@ -85,12 +85,14 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public partial class ConfigWishes
     {
-        public static int CourtesyBytes(int courtesyFrames, int frameSize)
-        {
-            if (courtesyFrames < 0) throw new Exception(nameof(frameSize) + " less than 0.");
-            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
-            return courtesyFrames * frameSize;
-        }
+        public static int CourtesyBytes(int courtesyFrames, int frameSize) 
+            => AssertCourtesyFrames(courtesyFrames) * AssertFrameSize(frameSize);
+        
+        public static int CourtesyBytes(int courtesyFrames, int bits, int channels) 
+            => AssertCourtesyFrames(courtesyFrames) * FrameSize(bits, channels);
+        
+        public static int CourtesyBytes(int? courtesyFrames, int? bits, int? channels) 
+            => CoalesceCourtesyFrames(courtesyFrames) * FrameSize(bits, channels);
         
         public static int? CourtesyFrames(int? courtesyBytes, int frameSize)
         {
@@ -100,13 +102,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static int CourtesyFrames(int courtesyBytes, int frameSize)
         {
-            if (courtesyBytes < 0) throw new Exception(nameof(frameSize) + " less than 0.");
-            if (frameSize < 1) throw new Exception(nameof(frameSize) + " less than 1.");
+            courtesyBytes = AssertCourtesyBytes(courtesyBytes);
+            frameSize = AssertFrameSize(frameSize);
+            
+            // TODO: Composite assertion method?
             if (courtesyBytes % frameSize != 0) 
             {
                 throw new Exception($"{nameof(courtesyBytes)} not a multiple of {nameof(frameSize)}: " +
                                     $"{new{courtesyBytes, frameSize}}");
             }
+            
             return courtesyBytes / frameSize;
         }
 
