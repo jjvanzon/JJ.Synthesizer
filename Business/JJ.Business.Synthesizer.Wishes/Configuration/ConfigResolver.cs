@@ -5,11 +5,12 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Configuration;
 using JJ.Framework.Wishes.Reflection;
-using JJ.Framework.Wishes.Testing;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Wishes.Configuration.ConfigurationManagerWishes;
+using static JJ.Framework.Wishes.Testing.TestWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -21,15 +22,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <summary> For static contexts use this. </summary>
         internal static ConfigResolver Static { get; } = new ConfigResolver();
         
-        private static readonly ConfigSection _section = ConfigurationManagerWishes.TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
         // Audio Attributes
         
         // Bits
         
         private int? _bits;
-        public int GetBits => ConfigWishes.AssertBits(FilledInWishes.Has(_bits) ? _bits.Value : _section.Bits ?? ConfigWishes.DefaultBits);
-        public ConfigResolver WithBits(int? bits) { _bits = ConfigWishes.AssertBits(bits); return this; }
+        public int GetBits => AssertBits(Has(_bits) ? _bits.Value : _section.Bits ?? DefaultBits);
+        public ConfigResolver WithBits(int? bits) { _bits = AssertBits(bits); return this; }
         public bool Is32Bit => GetBits == 32;
         public ConfigResolver With32Bit() => WithBits(32);
         public bool Is16Bit => GetBits == 16;
@@ -40,8 +41,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Channels
         
         private int? _channels;
-        public int GetChannels => ConfigWishes.AssertChannels(FilledInWishes.Has(_channels) ? _channels.Value : _section.Channels ?? ConfigWishes.DefaultChannels);
-        public ConfigResolver WithChannels(int? channels) { _channels = ConfigWishes.AssertChannels(channels); return this; }
+        public int GetChannels => AssertChannels(Has(_channels) ? _channels.Value : _section.Channels ?? DefaultChannels);
+        public ConfigResolver WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
         public bool IsMono => GetChannels == 1;
         public ConfigResolver WithMono() => WithChannels(1);
         public bool IsStereo => GetChannels == 2;
@@ -50,69 +51,69 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Channel
         
         private int? _channel;
-        public int? GetChannel => ConfigWishes.AssertChannel(_channel ?? ConfigWishes.DefaultChannel);
-        public ConfigResolver WithChannel(int? channel) { _channel = ConfigWishes.AssertChannel(channel); return this; }
-        public bool           IsCenter  =>       IsMono  ? GetChannel == ConfigWishes.CenterChannel : default;
-        public ConfigResolver WithCenter() {   WithMono(); WithChannel  (ConfigWishes.CenterChannel); return this; }
-        public bool           IsLeft    =>     IsStereo  ? GetChannel == ConfigWishes.LeftChannel   : default;
-        public ConfigResolver WithLeft  () { WithStereo(); WithChannel  (ConfigWishes.LeftChannel)  ; return this; }
-        public bool           IsRight   =>     IsStereo  ? GetChannel == ConfigWishes.RightChannel  : default;
-        public ConfigResolver WithRight () { WithStereo(); WithChannel  (ConfigWishes.RightChannel) ; return this; }
+        public int? GetChannel => AssertChannel(_channel ?? DefaultChannel);
+        public ConfigResolver WithChannel(int? channel) { _channel = AssertChannel(channel); return this; }
+        public bool           IsCenter  =>       IsMono  ? GetChannel == CenterChannel : default;
+        public ConfigResolver WithCenter() {   WithMono(); WithChannel  (CenterChannel); return this; }
+        public bool           IsLeft    =>     IsStereo  ? GetChannel == LeftChannel   : default;
+        public ConfigResolver WithLeft  () { WithStereo(); WithChannel  (LeftChannel)  ; return this; }
+        public bool           IsRight   =>     IsStereo  ? GetChannel == RightChannel  : default;
+        public ConfigResolver WithRight () { WithStereo(); WithChannel  (RightChannel) ; return this; }
         
         // SamplingRate
         
         /// <inheritdoc cref="docs._getsamplingrate" />
         internal int? _samplingRate;
         /// <inheritdoc cref="docs._getsamplingrate" />
-        public ConfigResolver WithSamplingRate(int? value) { _samplingRate = ConfigWishes.AssertSamplingRate(value); return this; }
+        public ConfigResolver WithSamplingRate(int? value) { _samplingRate = AssertSamplingRate(value); return this; }
         
         /// <inheritdoc cref="docs._withsamplingrate"/>
         public int GetSamplingRate
         {
             get
             {
-                if (FilledInWishes.Has(_samplingRate))
+                if (Has(_samplingRate))
                 {
-                    return ConfigWishes.AssertSamplingRate(_samplingRate.Value);
+                    return AssertSamplingRate(_samplingRate.Value);
                 }
                 
                 if (IsUnderNCrunch)
                 {
-                    bool testIsLong = TestWishes.CurrentTestIsInCategory(GetLongTestCategory);
+                    bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
                     
                     if (testIsLong)
                     {
-                        return ConfigWishes.AssertSamplingRate(_section.NCrunch.SamplingRateLongRunning ?? ConfigWishes.DefaultNCrunchSamplingRateLongRunning);
+                        return AssertSamplingRate(_section.NCrunch.SamplingRateLongRunning ?? DefaultNCrunchSamplingRateLongRunning);
                     }
                     else
                     {
-                        return ConfigWishes.AssertSamplingRate(_section.NCrunch.SamplingRate ?? ConfigWishes.DefaultNCrunchSamplingRate);
+                        return AssertSamplingRate(_section.NCrunch.SamplingRate ?? DefaultNCrunchSamplingRate);
                     }
                 }
                 
                 if (IsUnderAzurePipelines)
                 {
-                    bool testIsLong = TestWishes.CurrentTestIsInCategory(GetLongTestCategory);
+                    bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
                     
                     if (testIsLong)
                     {
-                        return ConfigWishes.AssertSamplingRate(_section.AzurePipelines.SamplingRateLongRunning ?? ConfigWishes.DefaultAzurePipelinesSamplingRateLongRunning);
+                        return AssertSamplingRate(_section.AzurePipelines.SamplingRateLongRunning ?? DefaultAzurePipelinesSamplingRateLongRunning);
                     }
                     else
                     {
-                        return ConfigWishes.AssertSamplingRate(_section.AzurePipelines.SamplingRate ?? ConfigWishes.DefaultAzurePipelinesSamplingRate);
+                        return AssertSamplingRate(_section.AzurePipelines.SamplingRate ?? DefaultAzurePipelinesSamplingRate);
                     }
                 }
                 
-                return ConfigWishes.AssertSamplingRate(_section.SamplingRate ?? ConfigWishes.DefaultSamplingRate);
+                return AssertSamplingRate(_section.SamplingRate ?? DefaultSamplingRate);
             }
         }
         
         // AudioFormat
         
         private AudioFileFormatEnum? _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat => ConfigWishes.Assert(FilledInWishes.Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? ConfigWishes.DefaultAudioFormat);
-        public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = ConfigWishes.Assert(audioFormat); return this; }
+        public AudioFileFormatEnum GetAudioFormat => Assert(Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? DefaultAudioFormat);
+        public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = Assert(audioFormat); return this; }
         public bool IsWav => GetAudioFormat == AudioFileFormatEnum.Wav;
         public ConfigResolver AsWav() => WithAudioFormat(AudioFileFormatEnum.Wav);
         public bool IsRaw => GetAudioFormat == AudioFileFormatEnum.Raw;
@@ -121,8 +122,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Interpolation
         
         private InterpolationTypeEnum? _interpolation;
-        public InterpolationTypeEnum GetInterpolation => ConfigWishes.Assert(FilledInWishes.Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? ConfigWishes.DefaultInterpolation);
-        public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = ConfigWishes.Assert(interpolation); return this; }
+        public InterpolationTypeEnum GetInterpolation => Assert(Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? DefaultInterpolation);
+        public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = Assert(interpolation); return this; }
         public bool IsLinear => GetInterpolation == InterpolationTypeEnum.Line;
         public ConfigResolver WithLinear() => WithInterpolation(InterpolationTypeEnum.Line);
         public bool IsBlocky => GetInterpolation == InterpolationTypeEnum.Block;
@@ -141,10 +142,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLength(SynthWishes synthWishes, FlowNode noteLength)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             
             noteLength = noteLength ?? _noteLength ?? _beatLength;
-            noteLength = noteLength ?? synthWishes[_section.NoteLength ?? ConfigWishes.DefaultNoteLength];
+            noteLength = noteLength ?? synthWishes[_section.NoteLength ?? DefaultNoteLength];
             return noteLength;
         }
         
@@ -154,7 +155,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._notelength" />
         public ConfigResolver WithNoteLength(double noteLength, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithNoteLength(synthWishes[noteLength]);
         }
         
@@ -190,7 +191,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public FlowNode GetBarLength(SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             
             if (_barLength != null)
             {
@@ -202,7 +203,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _beatLength * 4;
             }
             
-            return synthWishes[_section.BarLength ?? ConfigWishes.DefaultBarLength];
+            return synthWishes[_section.BarLength ?? DefaultBarLength];
         }
         
         public ConfigResolver WithBarLength(FlowNode barLength)
@@ -213,7 +214,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public ConfigResolver WithBarLength(double barLength, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithBarLength(synthWishes[barLength]);
         }
         
@@ -225,7 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public FlowNode GetBeatLength(SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             
             if (_beatLength != null)
             {
@@ -237,7 +238,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _barLength * 0.25;
             }
             
-            return synthWishes[_section.BeatLength ?? ConfigWishes.DefaultBeatLength];
+            return synthWishes[_section.BeatLength ?? DefaultBeatLength];
         }
         
         public ConfigResolver WithBeatLength(FlowNode beatLength)
@@ -248,7 +249,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public ConfigResolver WithBeatLength(double beatLength, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithBeatLength(synthWishes[beatLength]);
         }
         
@@ -262,7 +263,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode GetAudioLength(SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             
             if (_audioLength != null &&
                 _audioLength.Calculate(time: 0) != 0)
@@ -270,7 +271,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _audioLength;
             }
             
-            return synthWishes[_section.AudioLength ?? ConfigWishes.DefaultAudioLength];
+            return synthWishes[_section.AudioLength ?? DefaultAudioLength];
         }
         
         /// <inheritdoc cref="docs._audiolength" />
@@ -279,7 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._audiolength" />
         public ConfigResolver WithAudioLength(double? newAudioLength, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             if (newAudioLength == default) return WithAudioLength(default);
             return WithAudioLength(synthWishes[newAudioLength.Value]);
         }
@@ -294,19 +295,19 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._audiolength" />
         public ConfigResolver AddAudioLength(double additionalLength, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return AddAudioLength(synthWishes[additionalLength], synthWishes);
         }
         
         public ConfigResolver AddEchoDuration(int count, FlowNode delay, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return AddAudioLength(synthWishes.EchoDuration(count, delay), synthWishes);
         }
         
         public ConfigResolver AddEchoDuration(int count, double delay, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return AddAudioLength(synthWishes.EchoDuration(count, delay), synthWishes);
         }
         
@@ -339,14 +340,14 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetLeadingSilence(SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             
             if (_leadingSilence != null)
             {
                 return _leadingSilence;
             }
             
-            return synthWishes[_section.LeadingSilence ?? ConfigWishes.DefaultLeadingSilence];
+            return synthWishes[_section.LeadingSilence ?? DefaultLeadingSilence];
         }
         
         /// <inheritdoc cref="docs._padding"/>
@@ -359,7 +360,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._padding"/>
         public ConfigResolver WithLeadingSilence(double seconds, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithLeadingSilence(synthWishes[seconds]);
         }
         
@@ -378,14 +379,14 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetTrailingSilence(SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             
             if (_trailingSilence != null)
             {
                 return _trailingSilence;
             }
             
-            return synthWishes[_section.TrailingSilence ?? ConfigWishes.DefaultTrailingSilence];
+            return synthWishes[_section.TrailingSilence ?? DefaultTrailingSilence];
         }
         
         /// <inheritdoc cref="docs._padding"/>
@@ -398,7 +399,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._padding"/>
         public ConfigResolver WithTrailingSilence(double seconds, SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithTrailingSilence(synthWishes[seconds]);
         }
         
@@ -410,7 +411,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._padding"/>
         public FlowNode GetPaddingOrNull(SynthWishes synthWishes)
         {
-            if (synthWishes == null) throw new ArgumentNullException(nameof(synthWishes));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             
             FlowNode leadingSilence = GetLeadingSilence(synthWishes);
             FlowNode trailingSilence = GetTrailingSilence(synthWishes);
@@ -458,7 +459,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._audioplayback" />
         public bool GetAudioPlayback(string fileExtension = null)
         {
-            bool audioPlayback = _audioPlayback ?? _section.AudioPlayback ?? ConfigWishes.DefaultAudioPlayback;
+            bool audioPlayback = _audioPlayback ?? _section.AudioPlayback ?? DefaultAudioPlayback;
             if (!audioPlayback)
             {
                 return false;
@@ -466,12 +467,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             if (IsUnderNCrunch)
             {
-                return _section.NCrunch.AudioPlayback ?? ConfigWishes.DefaultToolingAudioPlayback;
+                return _section.NCrunch.AudioPlayback ?? DefaultToolingAudioPlayback;
             }
             
             if (IsUnderAzurePipelines)
             {
-                return _section.AzurePipelines.AudioPlayback ?? ConfigWishes.DefaultToolingAudioPlayback;
+                return _section.AzurePipelines.AudioPlayback ?? DefaultToolingAudioPlayback;
             }
             
             if (!string.IsNullOrWhiteSpace(fileExtension))
@@ -490,14 +491,14 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._diskcache" />
         private bool? _diskCache;
         /// <inheritdoc cref="docs._diskcache" />
-        public bool GetDiskCache => _diskCache ?? _section.DiskCache ?? ConfigWishes.DefaultDiskCache;
+        public bool GetDiskCache => _diskCache ?? _section.DiskCache ?? DefaultDiskCache;
         /// <inheritdoc cref="docs._diskcache" />
         public ConfigResolver WithDiskCache(bool? enabled = true) { _diskCache = enabled; return this; }
         
         // MathBoost
         
         private bool? _mathBoost;
-        public bool GetMathBoost => _mathBoost ?? _section.MathBoost ?? ConfigWishes.DefaultMathBoost;
+        public bool GetMathBoost => _mathBoost ?? _section.MathBoost ?? DefaultMathBoost;
         public ConfigResolver WithMathBoost(bool? enabled = true) { _mathBoost = enabled; return this; }
         
         // ParallelProcessing
@@ -505,7 +506,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._parallelprocessing" />
         private bool? _parallelProcessing;
         /// <inheritdoc cref="docs._parallelprocessing" />
-        public bool GetParallelProcessing => _parallelProcessing ?? _section.ParallelProcessing ?? ConfigWishes.DefaultParallelProcessing;
+        public bool GetParallelProcessing => _parallelProcessing ?? _section.ParallelProcessing ?? DefaultParallelProcessing;
         /// <inheritdoc cref="docs._parallelprocessing" />
         public ConfigResolver WithParallelProcessing(bool? enabled = true) { _parallelProcessing = enabled; return this; }
         
@@ -514,7 +515,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._playalltapes" />
         private bool? _playAllTapes;
         /// <inheritdoc cref="docs._playalltapes" />
-        public bool GetPlayAllTapes => _playAllTapes ?? _section.PlayAllTapes ?? ConfigWishes.DefaultPlayAllTapes;
+        public bool GetPlayAllTapes => _playAllTapes ?? _section.PlayAllTapes ?? DefaultPlayAllTapes;
         /// <inheritdoc cref="docs._playalltapes" />
         public ConfigResolver WithPlayAllTapes(bool? enabled = true) { _playAllTapes = enabled; return this; }
         
@@ -523,7 +524,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._leafchecktimeout" />
         private double? _leafCheckTimeOut;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public double GetLeafCheckTimeOut => _leafCheckTimeOut ?? _section.LeafCheckTimeOut ?? ConfigWishes.DefaultLeafCheckTimeOut;
+        public double GetLeafCheckTimeOut => _leafCheckTimeOut ?? _section.LeafCheckTimeOut ?? DefaultLeafCheckTimeOut;
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public ConfigResolver WithLeafCheckTimeOut(double? seconds) { _leafCheckTimeOut = seconds; return this; }
         
@@ -531,19 +532,19 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         private TimeOutActionEnum? _timeOutAction;
         /// <inheritdoc cref="docs._timeoutaction" />
         // ReSharper disable once PossibleInvalidOperationException
-        public TimeOutActionEnum GetTimeOutAction => FilledInWishes.Has(_timeOutAction) ? _timeOutAction.Value : _section.TimeOutAction ?? ConfigWishes.DefaultTimeOutAction;
+        public TimeOutActionEnum GetTimeOutAction => Has(_timeOutAction) ? _timeOutAction.Value : _section.TimeOutAction ?? DefaultTimeOutAction;
         /// <inheritdoc cref="docs._timeoutaction" />
         public ConfigResolver WithTimeOutAction(TimeOutActionEnum? action) { _timeOutAction = action; return this; }
         
         /// <inheritdoc cref="docs._courtesyframes" />
         private int? _courtesyFrames;
         /// <inheritdoc cref="docs._courtesyframes" />
-        public int GetCourtesyFrames => _courtesyFrames ?? _section.CourtesyFrames ?? ConfigWishes.DefaultCourtesyFrames;
+        public int GetCourtesyFrames => _courtesyFrames ?? _section.CourtesyFrames ?? DefaultCourtesyFrames;
         /// <inheritdoc cref="docs._courtesyframes" />
         public ConfigResolver WithCourtesyFrames(int? value) { _courtesyFrames = value; return this; }
         
         /// <inheritdoc cref="docs._fileextensionmaxlength" />
-        public int GetFileExtensionMaxLength => _section.FileExtensionMaxLength ?? ConfigWishes.DefaultFileExtensionMaxLength;
+        public int GetFileExtensionMaxLength => _section.FileExtensionMaxLength ?? DefaultFileExtensionMaxLength;
         
         private string _longTestCategory;
         public ConfigResolver WithLongTestCategory(string category) { _longTestCategory = category; return this; }
@@ -551,26 +552,26 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             get
             {
-                if (FilledInWishes.Has(_longTestCategory)) return _longTestCategory;
-                if (FilledInWishes.Has(_section.LongTestCategory)) return _section.LongTestCategory;
-                return ConfigWishes.DefaultLongTestCategory;
+                if (Has(_longTestCategory)) return _longTestCategory;
+                if (Has(_section.LongTestCategory)) return _section.LongTestCategory;
+                return DefaultLongTestCategory;
             }
         }
         
         // Tooling
         
         private bool? _ncrunchImpersonationMode;
-        private bool? GetNCrunchImpersonationMode => _ncrunchImpersonationMode ?? _section.NCrunch.ImpersonationMode ?? ConfigWishes.DefaultToolingImpersonationMode;
+        private bool? GetNCrunchImpersonationMode => _ncrunchImpersonationMode ?? _section.NCrunch.ImpersonationMode ?? DefaultToolingImpersonationMode;
         
         private bool? _azurePipelinesImpersonationMode;
-        private bool? GetAzurePipelinesImpersonationMode => _azurePipelinesImpersonationMode ?? _section.AzurePipelines.ImpersonationMode ?? ConfigWishes.DefaultToolingImpersonationMode;
+        private bool? GetAzurePipelinesImpersonationMode => _azurePipelinesImpersonationMode ?? _section.AzurePipelines.ImpersonationMode ?? DefaultToolingImpersonationMode;
         
         public bool IsUnderNCrunch
         {
             get
             {
                 if (GetNCrunchImpersonationMode != null) return GetNCrunchImpersonationMode.Value;
-                bool isUnderNCrunch = EnvironmentVariableIsDefined(ConfigWishes.NCrunchEnvironmentVariableName, ConfigWishes.NCrunchEnvironmentVariableValue);
+                bool isUnderNCrunch = EnvironmentVariableIsDefined(NCrunchEnvironmentVariableName, NCrunchEnvironmentVariableValue);
                 return isUnderNCrunch;
             }
             set => _ncrunchImpersonationMode = value;
@@ -581,7 +582,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             get
             {
                 if (GetAzurePipelinesImpersonationMode != null) return GetAzurePipelinesImpersonationMode.Value;
-                bool isUnderAzurePipelines = EnvironmentVariableIsDefined(ConfigWishes.AzurePipelinesEnvironmentVariableName, ConfigWishes.AzurePipelinesEnvironmentVariableValue);
+                bool isUnderAzurePipelines = EnvironmentVariableIsDefined(AzurePipelinesEnvironmentVariableName, AzurePipelinesEnvironmentVariableValue);
                 return isUnderAzurePipelines;
             }
             set => _azurePipelinesImpersonationMode = value;
@@ -590,7 +591,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Persistence
         
         public static PersistenceConfiguration PersistenceConfigurationOrDefault { get; }
-            = ConfigurationManagerWishes.TryGetSection<PersistenceConfiguration>() ?? GetDefaultInMemoryConfiguration();
+            = TryGetSection<PersistenceConfiguration>() ?? GetDefaultInMemoryConfiguration();
         
         private static PersistenceConfiguration GetDefaultInMemoryConfiguration()
             => new PersistenceConfiguration
@@ -633,7 +634,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             if (IsUnderNCrunch)
             {
-                list.Add($"Environment variable {ConfigWishes.NCrunchEnvironmentVariableName} = {ConfigWishes.NCrunchEnvironmentVariableValue}");
+                list.Add($"Environment variable {NCrunchEnvironmentVariableName} = {NCrunchEnvironmentVariableValue}");
             }
             
             if (GetAzurePipelinesImpersonationMode != null)
@@ -650,12 +651,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             if (IsUnderAzurePipelines)
             {
-                list.Add($"Environment variable {ConfigWishes.AzurePipelinesEnvironmentVariableName} = {ConfigWishes.AzurePipelinesEnvironmentVariableValue} (Azure Pipelines)");
+                list.Add($"Environment variable {AzurePipelinesEnvironmentVariableName} = {AzurePipelinesEnvironmentVariableValue} (Azure Pipelines)");
             }
             
             // Long Running
             
-            bool isLong = TestWishes.CurrentTestIsInCategory(GetLongTestCategory);
+            bool isLong = CurrentTestIsInCategory(GetLongTestCategory);
             if (isLong)
             {
                 list.Add($"Test has category '{GetLongTestCategory}'");
