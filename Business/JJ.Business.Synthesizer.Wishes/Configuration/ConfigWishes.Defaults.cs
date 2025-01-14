@@ -11,19 +11,19 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     public partial class ConfigWishes
     {
-                
         // Defaults
 
-        // Audio Quality
+        // Primary Audio Properties
         
-        public const int                   DefaultBits          = 32;
-        public const int                   DefaultChannels      = 1;
-        public static readonly int?        DefaultChannel       = null;
-        public const int                   DefaultSamplingRate  = 48000;
-        public const AudioFileFormatEnum   DefaultAudioFormat   = Wav;
-        public const InterpolationTypeEnum DefaultInterpolation = Line;
+        public const int                   DefaultBits           = 32;
+        public const int                   DefaultChannels       = 1;
+        public static readonly int?        DefaultChannel        = null;
+        public const int                   DefaultSamplingRate   = 48000;
+        public const AudioFileFormatEnum   DefaultAudioFormat    = Wav;
+        public const InterpolationTypeEnum DefaultInterpolation  = Line;
+        public const int                   DefaultCourtesyFrames = 4;
 
-        // Audio Lengths
+        // Durations
         
         /// <inheritdoc cref="docs._notelength" />
         public const double DefaultNoteLength      = 0.50;
@@ -43,27 +43,31 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Tooling
         
-        public const  bool  DefaultToolingAudioPlayback                  = false;
-        public static bool? DefaultToolingImpersonationMode              = null;
-        public const  int   DefaultNCrunchSamplingRate                   = 150;
-        public const  int   DefaultNCrunchSamplingRateLongRunning        = 8;
-        public const  int   DefaultAzurePipelinesSamplingRate            = 1500;
-        public const  int   DefaultAzurePipelinesSamplingRateLongRunning = 100;
+        public const  bool   DefaultToolingAudioPlayback                  = false;
+        public static bool?  DefaultToolingImpersonationMode              = null;
+        public const  int    DefaultNCrunchSamplingRate                   = 150;
+        public const  int    DefaultNCrunchSamplingRateLongRunning        = 8;
+        public const  int    DefaultAzurePipelinesSamplingRate            = 1500;
+        public const  int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
+        public const  string DefaultLongTestCategory                      = "Long";
         
-        // Misc Settings
+        // Technical
         
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public const double DefaultLeafCheckTimeOut         = 60;
+        public const double            DefaultLeafCheckTimeOut       = 60;
         /// <inheritdoc cref="docs._leafchecktimeout" />
-        public const TimeOutActionEnum DefaultTimeOutAction = Continue;
-        public const int    DefaultCourtesyFrames           = 4;
-        public const int    DefaultFileExtensionMaxLength   = 4;
-        public const string DefaultLongTestCategory         = "Long";
+        public const TimeOutActionEnum DefaultTimeOutAction          = Continue;
+        public const int               DefaultFileExtensionMaxLength = 4;
 
-        // Derive Defaults
+        // Derived Defaults
         
-        public static int    DefaultFrameSize      => DefaultBits / 8 * DefaultChannels;
-        public static string DefaultFileExtension  => DefaultAudioFormat.FileExtension();
-        public static int    DefaultSizeOfBitDepth => DefaultBits / 8;
+        public static int    DefaultByteCount      { get; } = ByteCount(DefaultAudioLength, DefaultSamplingRate, DefaultBits, DefaultChannels, DefaultAudioFormat, DefaultCourtesyFrames);
+        public static int    DefaultCourtesyBytes  { get; } = CourtesyBytes(DefaultCourtesyFrames, DefaultBits, DefaultChannels);
+        public static string DefaultFileExtension  { get; } = FileExtension(DefaultAudioFormat);
+        public static int    DefaultFrameCount     { get; } = FrameCount(DefaultAudioLength, DefaultSamplingRate);
+        public static int    DefaultFrameSize      { get; } = FrameSize(DefaultBits, DefaultChannels);
+        public static int    DefaultHeaderLength   { get; } = HeaderLength(DefaultAudioFormat);
+        public static double DefaultMaxAmplitude   { get; } = MaxAmplitude(DefaultBits);
+        public static int    DefaultSizeOfBitDepth { get; } = SizeOfBitDepth(DefaultBits);
     }
 }
