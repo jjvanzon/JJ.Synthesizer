@@ -12,30 +12,30 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Coalesce Defaults
         
         public static int CoalesceBits(int? bits, int? defaultValue = null)
-            => Has(bits) ? bits.Value : Has(defaultValue) ? defaultValue.Value : DefaultBits;
+            => AssertBits(Has(bits) ? bits.Value : Has(defaultValue) ? defaultValue.Value : DefaultBits);
         
         public static int CoalesceChannels(int? channels, int? defaultValue = null)
-            => Has(channels) ? channels.Value : Has(defaultValue) ? defaultValue.Value : DefaultChannels;
-        
+            => AssertChannels(Has(channels) ? channels.Value : Has(defaultValue) ? defaultValue.Value : DefaultChannels);
+
         public static AudioFileFormatEnum Coalesce(AudioFileFormatEnum? audioFormat, AudioFileFormatEnum? defaultValue = null)
-            => Has(audioFormat) ? audioFormat.Value : Has(defaultValue) ? defaultValue.Value : DefaultAudioFormat;
+            => Assert(Has(audioFormat) ? audioFormat.Value : Has(defaultValue) ? defaultValue.Value : DefaultAudioFormat);
         
         public static InterpolationTypeEnum Coalesce(InterpolationTypeEnum? interpolation, InterpolationTypeEnum? defaultValue = null)
-            => Has(interpolation) ? interpolation.Value : Has(defaultValue) ? defaultValue.Value : DefaultInterpolation;
+            => Assert(Has(interpolation) ? interpolation.Value : Has(defaultValue) ? defaultValue.Value : DefaultInterpolation);
         
         public static int CoalesceCourtesyFrames(int? courtesyFrames, int? defaultValue = null)
-            => courtesyFrames ?? defaultValue ?? DefaultCourtesyFrames;
+            => AssertCourtesyFrames(courtesyFrames ?? defaultValue ?? DefaultCourtesyFrames);
         
         public static string CoalesceFileExtension(string fileExtension, string defaultValue = default)
-            => Has(fileExtension) ? fileExtension : Has(defaultValue) ? defaultValue : DefaultFileExtension;
+            => AssertFileExtension(Has(fileExtension) ? fileExtension : Has(defaultValue) ? defaultValue : DefaultFileExtension);
         
         public static int CoalesceFrameSize(int? frameSize, int? bits, int? channels)
-            => Has(frameSize) ? frameSize.Value : Has(bits) && Has(channels) ? bits.Value / 8 * channels.Value : DefaultFrameSize;
+            => AssertFrameSize(Has(frameSize) ? frameSize.Value : Has(bits) && Has(channels) ? FrameSize(bits, channels) : DefaultFrameSize);
         
         public static int CoalesceSizeOfBitDepth(int? sizeOfBitDepth, int? defaultValue = null)
-            => Has(sizeOfBitDepth) ? sizeOfBitDepth.Value : Has(defaultValue) ? defaultValue.Value : DefaultSizeOfBitDepth;
-        
+            => AssertSizeOfBitDepth(Has(sizeOfBitDepth) ? sizeOfBitDepth.Value : Has(defaultValue) ? defaultValue.Value : DefaultSizeOfBitDepth);
+                    
         public static int CoalesceSamplingRate(int? samplingRate, int? defaultValue = null) 
-            => Has(samplingRate) ? samplingRate.Value : Has(defaultValue) ? defaultValue.Value : DefaultSamplingRate;
-    }
+            => AssertSamplingRate(Has(samplingRate) ? samplingRate.Value : Has(defaultValue) ? defaultValue.Value : DefaultSamplingRate);
+}
 }
