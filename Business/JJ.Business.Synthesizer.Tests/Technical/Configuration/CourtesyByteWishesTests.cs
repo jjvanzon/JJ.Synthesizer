@@ -21,47 +21,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     {
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_CourtesyBytes(int init)
-        { 
-            var x = CreateTestEntities(init);
-            Assert_All_Getters(x, init);
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(TestParametersInit2))]
-        public void Init_CourtesyBytes2(string descriptor, int courtesyBytes, int courtesyFrames, int bits, int channels)
+        public void Init_CourtesyBytes(string descriptor, int courtesyBytes, int courtesyFrames, int bits, int channels)
         { 
             var init = (courtesyBytes, courtesyFrames, bits, channels);
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, init.courtesyBytes);
         }
-        
+
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void SynthBound_CourtesyBytes(int init, int val)
-        {
-            void AssertProp(Action<TestEntities> setter)
-            {
-                var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
-                
-                setter(x);
-                
-                Assert_SynthBound_Getters(x, val);
-                Assert_TapeBound_Getters(x, init);
-                
-                x.Record();
-                Assert_All_Getters(x, val);
-            }
-
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes.CourtesyBytes(val)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode.CourtesyBytes(val)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.CourtesyBytes(val)));
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(TestParameters2))]
-        public void SynthBound_CourtesyBytes2(
+        public void SynthBound_CourtesyBytes(
             string descriptor,
             int initCourtesyBytes, int initCourtesyFrames, int initBits, int initChannels,
             int courtesyBytes, int courtesyFrames, int bits, int channels)
@@ -84,43 +53,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, val.courtesyBytes);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,  x.SynthBound.SynthWishes .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,     x.SynthBound.FlowNode    .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
         }
 
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void TapeBound_CourtesyBytes(int init, int value)
-        {
-            void AssertProp(Action<TestEntities> setter)
-            {
-                var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
-                
-                setter(x);
-                
-                Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters(x, value);
-                
-                x.Record();
-                
-                Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
-            }
-
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape.CourtesyBytes(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig.CourtesyBytes(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.CourtesyBytes(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.CourtesyBytes(value)));
-        }
-
-        [TestMethod]
-        [DynamicData(nameof(TestParameters2))]
-        public void TapeBound_CourtesyBytes2(
+        public void TapeBound_CourtesyBytes(
             string descriptor,
             int initCourtesyBytes, int initCourtesyFrames, int initBits, int initChannels,
             int courtesyBytes, int courtesyFrames, int bits, int channels)
@@ -156,13 +100,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
         
         [TestMethod]
-        public void ConfigSection_CourtesyBytes()
+        public void GlobalBound_CourtesyBytes()
         {
-            // Global-Bound. Immutable. Get-only.
+            // Immutable. Get-only.
             var configSection = GetConfigSectionAccessor();
             int circumstantialCourtesyFrames = 2;
-            int? courtesyBytes = circumstantialCourtesyFrames * configSection.Channels * configSection.SizeOfBitDepth();
-            AreEqual(courtesyBytes, () => configSection.CourtesyBytes());
+            int? circumstantialCourtesyBytes = CourtesyBytes(circumstantialCourtesyFrames, configSection.Bits, configSection.Channels);
+            AreEqual(circumstantialCourtesyBytes, () => configSection.CourtesyBytes());
+            AreEqual(4 * 32 / 8, () => DefaultCourtesyBytes);
         }
 
         [TestMethod]
@@ -207,18 +152,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         // Test Data Helpers
-        
-        private TestEntities CreateTestEntities(int courtesyBytes) 
-            => new TestEntities(x => x.CourtesyBytes(courtesyBytes));
 
         private TestEntities CreateTestEntities((int courtesyBytes, int courtesyFrames, int bits, int channels) init) 
             => new TestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels));
 
         // ncrunch: no coverage start
         
-        static IEnumerable<object[]> TestParametersInit => _courtesyBytesValues.Select(value => new object[] { value });
-        
-        static IEnumerable<object[]> TestParametersInit2
+        static IEnumerable<object[]> TestParametersInit
         {
             get
             {
@@ -237,20 +177,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 }
             }
         }
-        
-        static IEnumerable<object[]> TestParameters
-        {
-            get
-            {
-                foreach (int init in _courtesyBytesValues)
-                foreach (int value in _courtesyBytesValues)
-                {
-                    yield return new object[] { init, value };
-                }
-            }
-        }
 
-        static IEnumerable<object[]> TestParameters2
+        static IEnumerable<object[]> TestParameters
         {
             get
             {
