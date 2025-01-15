@@ -18,11 +18,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     [TestCategory("Technical")]
     public class ChannelWishesTests
     {
-        [DataTestMethod]
-        [DataRow(1, 0)]
-        [DataRow(2, 0)]
-        [DataRow(2, 1)]
-        [DataRow(2, null)]
+        [TestMethod]
+        [DynamicData(nameof(TestParametersInit))]
         public void Init_Channel(int channels, int? channel)
         {
             var x = CreateTestEntities((channels, channel));
@@ -347,30 +344,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             channelEntities.ForEach(e => Assert_Immutable_Getters(e, val));
         }
         
-        // Helpers
-
-        private TestEntities CreateTestEntities((int channels, int? channel) c)
-            => new TestEntities(x => x.WithChannels(c.channels)
-                                      .WithChannel (c.channel));
-        
-        static object TestParameters => new[] // ncrunch: no coverage
-        {
-            new object[] { 1,0,    2,0    },
-            new object[] { 1,0,    2,1    },
-            new object[] { 1,0,    2,null },
-            
-            new object[] { 2,0,    1,0    },
-            new object[] { 2,0,    2,1    },
-            new object[] { 2,0,    2,null },
-            
-            new object[] { 2,1,    1,0    },
-            new object[] { 2,1,    2,0    },
-            new object[] { 2,1,    2,null },
-            
-            new object[] { 2,null, 1,0    },
-            new object[] { 2,null, 2,0    },
-            new object[] { 2,null, 2,1    }
-        };
+        // Getter Helpers
 
         private void Assert_All_Getters(TestEntities x, (int, int?) values)
         {
@@ -783,5 +757,42 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 AreEqual(c.channels == StereoChannels, () => channelEntity.IsStereo());
             }
         }
+        
+        // Test Data Helpers
+
+        private TestEntities CreateTestEntities((int channels, int? channel) c)
+            => new TestEntities(x => x.WithChannels(c.channels)
+                                      .WithChannel (c.channel));
+        
+        // ncrunch: no coverage start
+        
+        static object TestParametersInit => new[]
+        {
+            new object[] { 1,    0 },
+            new object[] { 2,    0 },
+            new object[] { 2,    1 },
+            new object[] { 2, null }
+        };
+
+        static object TestParameters => new[]
+        {
+            new object[] { 1,0,    2,0    },
+            new object[] { 1,0,    2,1    },
+            new object[] { 1,0,    2,null },
+            
+            new object[] { 2,0,    1,0    },
+            new object[] { 2,0,    2,1    },
+            new object[] { 2,0,    2,null },
+            
+            new object[] { 2,1,    1,0    },
+            new object[] { 2,1,    2,0    },
+            new object[] { 2,1,    2,null },
+            
+            new object[] { 2,null, 1,0    },
+            new object[] { 2,null, 2,0    },
+            new object[] { 2,null, 2,1    }
+        };
+
+        // ncrunch: no coverage end
     } 
 }
