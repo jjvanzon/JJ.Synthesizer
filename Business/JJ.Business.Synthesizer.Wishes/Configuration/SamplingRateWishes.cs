@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // A Primary Audio Attribute
         
+        // Synth-Bound
+
         public static int SamplingRate(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -47,12 +49,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithSamplingRate(value);
         }
         
+        // Global-Bound
+
         internal static int? SamplingRate(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.SamplingRate;
         }
         
+        // Tape-Bound
+
         public static int SamplingRate(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -105,6 +111,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
+        // Buff-Bound
+
         public static int SamplingRate(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);

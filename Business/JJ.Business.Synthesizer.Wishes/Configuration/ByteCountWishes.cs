@@ -18,6 +18,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // A Duration Attribute
 
+        // Synth-Bound
+        
         public static int ByteCount(this SynthWishes obj) 
             => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
 
@@ -102,6 +104,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
 
+        // Buff-Bound
+        
         public static int ByteCount(this Buff obj, int courtesyFrames = 0)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -136,6 +140,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames = 0) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
 
+        // Immutable
+        
         public static int ByteCount(this WavHeaderStruct obj) 
             => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
 
@@ -147,7 +153,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         }
     }
     
-    // Conversion Formulas
+    // Conversion Formula
     
     public partial class ConfigWishes
     {

@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
@@ -98,26 +99,29 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         // AudioFileOutput
         
         [Obsolete(ObsoleteMessage)]
-        public static void SetSampleDataTypeEnum(this AudioFileOutput entity, SampleDataTypeEnum enumValue, IContext context = null)
+        public static void SetSampleDataTypeEnum(this AudioFileOutput audioFileOutput, SampleDataTypeEnum enumValue, IContext context = null)
         {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
-            entity.SetSampleDataTypeEnum(enumValue, repository);
+            audioFileOutput.SetSampleDataTypeEnum(enumValue, repository);
         }
         
         // Sample
         
         [Obsolete(ObsoleteMessage)]
-        public static void SetSampleDataTypeEnum(this Sample entity, SampleDataTypeEnum enumValue, IContext context = null)
+        public static void SetSampleDataTypeEnum(this Sample sample, SampleDataTypeEnum enumValue, IContext context = null)
         {
+            if (sample == null) throw new NullException(() => sample);
             var repository = CreateRepository<ISampleDataTypeRepository>(context);
-            entity.SetSampleDataTypeEnum(enumValue, repository);
+            sample.SetSampleDataTypeEnum(enumValue, repository);
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static void SetSpeakerSetupEnum(this Sample entity, SpeakerSetupEnum enumValue, IContext context = null)
+        public static void SetSpeakerSetupEnum(this Sample sample, SpeakerSetupEnum enumValue, IContext context = null)
         {
+            if (sample == null) throw new NullException(() => sample);
             var repository = CreateRepository<ISpeakerSetupRepository>(context);
-            entity.SetSpeakerSetupEnum(enumValue, repository);
+            sample.SetSpeakerSetupEnum(enumValue, repository);
         }
     }
 

@@ -19,6 +19,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // Derived from AudioFormat
         
+        // Synth-Bound
+        
         /// <inheritdoc cref="docs._fileextension" />
         public static string FileExtension(this SynthWishes obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension" />
@@ -31,8 +33,14 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         internal static string FileExtension(this ConfigResolver obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         internal static ConfigResolver FileExtension(this ConfigResolver obj, string value) => obj.AudioFormat(value.AudioFormat());
+        
+        // Global-Bound
+        
         /// <inheritdoc cref="docs._fileextension"/>
         internal static string FileExtension(this ConfigSection obj) => obj.AudioFormat()?.FileExtension();
+        
+        // Tape-Bound
+        
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Tape obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
@@ -49,6 +57,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static string FileExtension(this TapeAction obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static TapeAction FileExtension(this TapeAction obj, string value) => obj.AudioFormat(value.AudioFormat());
+        
+        // Buff-Bound
+        
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this Buff obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
@@ -89,6 +100,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public partial class ConfigWishes
     {
+        // Conversion-Style
+        
         public static AudioFileFormatEnum FileExtensionToAudioFormat(string fileExtension)
         {
             if (Is(fileExtension, ".wav")) return Wav;
@@ -108,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
         }
         
-        // Conversion Formulas
+        // Synonym
         
         public static string FileExtension(AudioFileFormatEnum obj)
             => AudioFormatToFileExtension(obj);

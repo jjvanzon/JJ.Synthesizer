@@ -31,12 +31,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         internal static ConfigResolver FrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes)
             => obj.AudioLength(AudioLength(value, obj.SamplingRate()), synthWishes);
         
+        // Global-Bound
+        
         internal static int? FrameCount(this ConfigSection obj)
         {
             if (obj.AudioLength() == null) return null;
             if (obj.SamplingRate() == null) return null;
             return ConfigWishes.FrameCount(obj.AudioLength().Value, obj.SamplingRate().Value);
         }
+        
+        // Tape-Bound
         
         public static int FrameCount(this Tape obj)
         {
@@ -91,6 +95,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             obj.Tape.FrameCount(value);
             return obj;
         }
+        
+        // Buff-Bound
         
         public static int FrameCount(this Buff obj)
         {
@@ -161,6 +167,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public partial class ConfigWishes
     {
+        // Conversion Formula
+        
         public static int FrameCount(int byteCount, int frameSize, int headerLength)
             => (AssertByteCount(byteCount) - AssertHeaderLength(headerLength)) / AssertFrameSize(frameSize);
         

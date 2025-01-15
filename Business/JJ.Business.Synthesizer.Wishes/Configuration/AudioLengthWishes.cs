@@ -13,6 +13,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // A Duration Attribute
         
+        // Synth-Bound
+        
         public static double AudioLength(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -51,6 +53,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             obj.WithAudioLength(value, synthWishes);
             return obj;
         }
+        
+        // Global-Bound
         
         internal static double? AudioLength(this ConfigSection obj)
         {

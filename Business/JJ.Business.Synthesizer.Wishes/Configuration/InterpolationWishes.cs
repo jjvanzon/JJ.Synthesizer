@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Helpers;
@@ -11,12 +12,17 @@ using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
+// ReSharper disable UnusedParameter.Global
+
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class InterpolationExtensionWishes
     {
         // A Primary Audio Attribute
+        
+        
+        // Synth-Bound
         
         public static InterpolationTypeEnum Interpolation(this SynthWishes obj)
         {
@@ -54,11 +60,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithInterpolation(value);
         }
         
+        // Global-Bound
+        
         internal static InterpolationTypeEnum? Interpolation(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Interpolation;
         }
+        
+        // Tape-Bound
         
         public static InterpolationTypeEnum Interpolation(this Tape obj)
         {
@@ -112,6 +122,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
+        // Independent after Taping
+        
         public static InterpolationTypeEnum Interpolation(this Sample obj) 
             => obj.GetInterpolationTypeEnum();
         
@@ -121,6 +133,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             obj.SetInterpolationTypeEnum(value, context);
             return obj;
         }
+        
+        // Immutable
         
         public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => Assert(obj);
         
@@ -136,7 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static InterpolationType Interpolation(this InterpolationType oldInterpolationEntity, InterpolationTypeEnum newEnumValue, IContext context)
             => newEnumValue.ToEntity(context);
         
-        // Interpolation, Conversion-Style
+        // Shorthand
         
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
@@ -157,7 +171,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool IsLinear(this SynthWishes           obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this FlowNode              obj) => obj.Interpolation() == Line;
+        [UsedImplicitly]
         internal static bool IsLinear(this ConfigResolver        obj) => obj.Interpolation() == Line;
+        [UsedImplicitly]
         internal static bool IsLinear(this ConfigSection         obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this Tape                  obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this TapeConfig            obj) => obj.Interpolation() == Line;
@@ -170,7 +186,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool IsBlocky(this SynthWishes           obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this FlowNode              obj) => obj.Interpolation() == Block;
+        [UsedImplicitly]
         internal static bool IsBlocky(this ConfigResolver        obj) => obj.Interpolation() == Block;
+        [UsedImplicitly]
         internal static bool IsBlocky(this ConfigSection         obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this Tape                  obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this TapeConfig            obj) => obj.Interpolation() == Block;
@@ -179,10 +197,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static bool IsBlocky(this Sample                obj) => obj.Interpolation() == Block;
         public   static bool IsBlocky(this InterpolationTypeEnum obj) => obj.Interpolation() == Block;
         [Obsolete(ObsoleteMessage)]
-        public   static bool IsBlocky(this InterpolationType  obj) => obj.Interpolation() == Block;
+        public   static bool IsBlocky(this InterpolationType     obj) => obj.Interpolation() == Block;
         
         public   static SynthWishes    Linear(this SynthWishes    obj) => obj.Interpolation(Line);
         public   static FlowNode       Linear(this FlowNode       obj) => obj.Interpolation(Line);
+        [UsedImplicitly]
         internal static ConfigResolver Linear(this ConfigResolver obj) => obj.Interpolation(Line);
         public   static Tape           Linear(this Tape           obj) => obj.Interpolation(Line);
         public   static TapeConfig     Linear(this TapeConfig     obj) => obj.Interpolation(Line);
@@ -197,6 +216,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static SynthWishes    Blocky(this SynthWishes    obj) => obj.Interpolation(Block);
         public   static FlowNode       Blocky(this FlowNode       obj) => obj.Interpolation(Block);
+        [UsedImplicitly]
         internal static ConfigResolver Blocky(this ConfigResolver obj) => obj.Interpolation(Block);
         public   static Tape           Blocky(this Tape           obj) => obj.Interpolation(Block);
         public   static TapeConfig     Blocky(this TapeConfig     obj) => obj.Interpolation(Block);

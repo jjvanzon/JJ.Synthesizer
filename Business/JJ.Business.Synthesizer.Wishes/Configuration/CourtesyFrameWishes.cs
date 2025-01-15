@@ -5,9 +5,11 @@ using JJ.Framework.Reflection;
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static partial class CourtesyFrameExtensionWishes
+    public static class CourtesyFrameExtensionWishes
     {
         // A Primary Audio Attribute
+        
+        // Synth-Bound
         
         public static int CourtesyFrames(this SynthWishes obj)
         {
@@ -45,11 +47,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithCourtesyFrames(value);
         }
         
+        // Global-Bound
+        
         internal static int? CourtesyFrames(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.CourtesyFrames;
         }
+        
+        // Tape-Bound
         
         public static int CourtesyFrames(this Tape obj)
         {

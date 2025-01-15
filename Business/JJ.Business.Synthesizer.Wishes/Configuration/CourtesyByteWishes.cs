@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 
@@ -8,6 +9,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public static class CourtesyByteExtensionWishes
     {
         // Derived from CourtesyFrames
+        
+        // Synth-Bound
         
         public static int CourtesyBytes(this SynthWishes obj)
             => ConfigWishes.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
@@ -21,11 +24,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static FlowNode CourtesyBytes(this FlowNode obj, int? value)
             => obj.CourtesyFrames(ConfigWishes.CourtesyFrames(value, obj.FrameSize()));
         
+        [UsedImplicitly]
         internal static int CourtesyBytes(this ConfigResolver obj)
             => ConfigWishes.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
         
+        [UsedImplicitly]
         internal static ConfigResolver CourtesyBytes(this ConfigResolver obj, int? value)
             => obj.CourtesyFrames(ConfigWishes.CourtesyFrames(value, obj.FrameSize()));
+        
+        // Global-Bound
         
         internal static int? CourtesyBytes(this ConfigSection obj)
         {
@@ -33,6 +40,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             if (obj.FrameSize() == null) return null;
             return ConfigWishes.CourtesyBytes(obj.CourtesyFrames().Value, obj.FrameSize().Value);
         }
+        
+        // Tape-Bound
         
         public static int CourtesyBytes(this Tape obj)
             => ConfigWishes.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
@@ -78,11 +87,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             obj.Tape.CourtesyBytes(value);
             return obj;
         }
-
     }
 
-    // Conversion formulas        
-    
     public partial class ConfigWishes
     {
         public static int CourtesyBytes(int courtesyFrames, int frameSize) 

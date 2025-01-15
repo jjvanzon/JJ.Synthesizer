@@ -1,13 +1,12 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 

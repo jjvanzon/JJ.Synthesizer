@@ -13,9 +13,10 @@ using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
-#pragma warning disable CS0618
 // ReSharper disable UnusedParameter.Global
 // ReSharper disable UnusedTypeParameter
+
+#pragma warning disable CS0618
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -24,6 +25,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // A Primary Audio Attribute
         
+        // Synth-Bound
+
         public static int Bits(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -60,11 +63,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithBits(value);
         }
         
+        // Global-Bound
+        
         internal static int? Bits(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Bits;
         }
+        
+        // Tape-Bound
         
         public static int Bits(this Tape obj)
         {
@@ -117,6 +124,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             obj.Tape.Config.Bits = value;
             return obj;
         }
+        
+        // Buff-Bound
         
         public static int Bits(this Buff obj)
         {
@@ -209,10 +218,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static SampleDataType Bits(this SampleDataType oldSampleDataType, int newBits, IContext context) 
             => newBits.BitsToEntity(context);
         
-        // Bits Shorthand
+        // Shorthand
         
         public   static bool Is8Bit (this SynthWishes        obj) => obj.Bits()     == 8;
         public   static bool Is8Bit (this FlowNode           obj) => obj.Bits()     == 8;
+        [UsedImplicitly]
         internal static bool Is8Bit (this ConfigResolver     obj) => obj.Bits()     == 8;
         [UsedImplicitly]
         internal static bool Is8Bit (this ConfigSection      obj) => obj.Bits()     == 8;

@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         internal SynthWishes SynthWishes { get; set; }
 
         #region Buff
+        
         [Obsolete("Prefer Tape properties instead")]
         public Buff Buff { get; } = new Buff();
         
@@ -40,9 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             set => Buff.Bytes = value; 
         }
         
-        /// <summary>
-        /// Tape.FilePathResolved = Buff.FilePath
-        /// </summary>
+        /// <summary> Tape.FilePathResolved = Buff.FilePath </summary>
         public string FilePathResolved
         {
             get => Buff.FilePath;
@@ -74,6 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #endregion
 
         #region Identity
+        
         public IList<int> IDs => Outlets.Select(x => x?.Operator?.ID)
                                         .Where(FilledIn)
                                         .Select(x => x.Value).ToArray();
@@ -92,9 +92,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         public string FallbackName { get; set; }
         public string FilePathSuggested { get; set; }
+        
         #endregion
 
         #region Signals
+        
         internal Outlet Outlet 
         {
             get
@@ -111,7 +113,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         /// <summary> Not null. Auto(re)created. </summary>
         private IList<Outlet> _outlets = new List<Outlet>();
-        
         /// <summary> Not null. Auto(re)created. </summary>
         internal IList<Outlet> Outlets
         { 
@@ -135,6 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             => Outlets = signals?.Select(x => x.UnderlyingOutlet).ToList();
         
         internal void ClearSignals() => Outlets = default;
+        
         #endregion
 
         #region Durations
@@ -146,6 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #endregion
         
         #region Config
+        
         public TapeConfig Config { get; }
 
         public bool IsChannel => Config.IsChannel();
@@ -155,20 +158,20 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #endregion
 
         #region Actions
+        
         public TapeActions Actions { get; }
         public bool IsPadded { get; internal set; }
         /// <inheritdoc cref="docs._istape" />
         public bool IsTape { get; internal set; }
-                
         public void ClearChannelActions() => Actions.ClearChannelActions();
 
         #endregion
 
         #region Hierarchy
+        
         internal HashSet<Tape> ParentTapes { get; } = new HashSet<Tape>();
         internal HashSet<Tape> ChildTapes { get; } = new HashSet<Tape>();
         internal int NestingLevel { get; set; }
-        
         internal bool IsRoot => ParentTapes.Count == 0;
         
         internal void ClearHierarchy()
@@ -185,6 +188,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 child.ParentTapes.Remove(this);
             }
         }
+        
         #endregion
     }
         

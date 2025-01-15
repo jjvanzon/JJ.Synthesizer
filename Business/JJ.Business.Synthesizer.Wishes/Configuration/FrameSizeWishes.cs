@@ -13,14 +13,25 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // A Derived Attribute
         
+        // Synth-Bound
+        
         public   static int  FrameSize(this SynthWishes     obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this FlowNode        obj) => obj.SizeOfBitDepth() * obj.Channels();
         internal static int  FrameSize(this ConfigResolver  obj) => obj.SizeOfBitDepth() * obj.Channels();
+        
+        // Global-Bound
+        
         internal static int? FrameSize(this ConfigSection   obj) => obj.SizeOfBitDepth() * obj.Channels();
+        
+        // Tape-Bound
+        
         public   static int  FrameSize(this Tape            obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this TapeConfig      obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this TapeAction      obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this TapeActions     obj) => obj.SizeOfBitDepth() * obj.Channels();
+        
+        // Buff-Bound
+        
         public   static int  FrameSize(this Buff            obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this Sample          obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this AudioFileOutput obj) => obj.SizeOfBitDepth() * obj.Channels();
@@ -37,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             => enums.sampleDataTypeEnum.SizeOfBitDepth() * enums.speakerSetupEnum.Channels();
     }
 
-    // Conversion Formulas
+    // Conversion Formula
     
     public partial class ConfigWishes
     {

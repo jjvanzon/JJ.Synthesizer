@@ -1,17 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JetBrains.Annotations;
+using JJ.Framework.Common;
+using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
-using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
-using static JJ.Business.Synthesizer.Wishes.SynthWishes;
+
+// ReSharper disable UnusedParameter.Global
 
 #pragma warning disable CS0618
 
@@ -21,6 +27,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public static class ChannelsExtensionWishes
     {
         // A Primary Audio Attribute
+        
+        // Synth-Bound
         
         public static int Channels(this SynthWishes obj)
         {
@@ -58,11 +66,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.WithChannels(value);
         }
         
+        // Global-Bound
+        
         internal static int? Channels(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
         }
+        
+        // Tape Bound
         
         public static int Channels(this Tape obj)
         {
@@ -115,6 +127,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             obj.Tape.Config.Channels = value;
             return obj;
         }
+        
+        // Buff-Bound
         
         public static int Channels(this Buff obj)
         {
@@ -247,7 +261,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool IsMono  (this SynthWishes     obj) => obj.Channels() == MonoChannels;
         public   static bool IsMono  (this FlowNode        obj) => obj.Channels() == MonoChannels;
-        internal static bool IsMono  (this ConfigResolver    obj) => obj.Channels() == MonoChannels;
+        internal static bool IsMono  (this ConfigResolver  obj) => obj.Channels() == MonoChannels;
+        [UsedImplicitly]
         internal static bool IsMono  (this ConfigSection   obj) => obj.Channels() == MonoChannels;
         public   static bool IsMono  (this Tape            obj) => obj.Channels() == MonoChannels;
         public   static bool IsMono  (this TapeConfig      obj) => obj.Channels() == MonoChannels;
@@ -266,7 +281,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public   static bool IsStereo(this SynthWishes     obj) => obj.Channels() == StereoChannels;
         public   static bool IsStereo(this FlowNode        obj) => obj.Channels() == StereoChannels;
-        internal static bool IsStereo(this ConfigResolver    obj) => obj.Channels() == StereoChannels;
+        internal static bool IsStereo(this ConfigResolver  obj) => obj.Channels() == StereoChannels;
+        [UsedImplicitly]
         internal static bool IsStereo(this ConfigSection   obj) => obj.Channels() == StereoChannels;
         public   static bool IsStereo(this Tape            obj) => obj.Channels() == StereoChannels;
         public   static bool IsStereo(this TapeConfig      obj) => obj.Channels() == StereoChannels;
@@ -283,19 +299,19 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => obj == ChannelEnum.Left || obj == ChannelEnum.Right;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel          obj) => obj.ToEnum().IsStereo();
         
-        public   static SynthWishes     Mono  (this SynthWishes     obj) => obj.Channels(MonoChannels);
-        public   static FlowNode        Mono  (this FlowNode        obj) => obj.Channels(MonoChannels);
-        internal static ConfigResolver  Mono  (this ConfigResolver  obj) => obj.Channels(MonoChannels);
-        public   static Tape            Mono  (this Tape            obj) => obj.Channels(MonoChannels);
-        public   static TapeConfig      Mono  (this TapeConfig      obj) => obj.Channels(MonoChannels);
-        public   static TapeActions     Mono  (this TapeActions     obj) => obj.Channels(MonoChannels);
-        public   static TapeAction      Mono  (this TapeAction      obj) => obj.Channels(MonoChannels);
+        public   static SynthWishes     Mono  (this SynthWishes     obj                  ) => obj.Channels(MonoChannels         );
+        public   static FlowNode        Mono  (this FlowNode        obj                  ) => obj.Channels(MonoChannels         );
+        internal static ConfigResolver  Mono  (this ConfigResolver  obj                  ) => obj.Channels(MonoChannels         );
+        public   static Tape            Mono  (this Tape            obj                  ) => obj.Channels(MonoChannels         );
+        public   static TapeConfig      Mono  (this TapeConfig      obj                  ) => obj.Channels(MonoChannels         );
+        public   static TapeActions     Mono  (this TapeActions     obj                  ) => obj.Channels(MonoChannels         );
+        public   static TapeAction      Mono  (this TapeAction      obj                  ) => obj.Channels(MonoChannels         );
         public   static Buff            Mono  (this Buff            obj, IContext context) => obj.Channels(MonoChannels, context);
         public   static Sample          Mono  (this Sample          obj, IContext context) => obj.Channels(MonoChannels, context);
         public   static AudioFileOutput Mono  (this AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
-        public   static WavHeaderStruct Mono  (this WavHeaderStruct obj) => obj.Channels(MonoChannels);
-        public   static AudioInfoWish   Mono  (this AudioInfoWish   obj) => obj.Channels(MonoChannels);
-        public   static AudioFileInfo   Mono  (this AudioFileInfo   obj) => obj.Channels(MonoChannels);
+        public   static WavHeaderStruct Mono  (this WavHeaderStruct obj                  ) => obj.Channels(MonoChannels         );
+        public   static AudioInfoWish   Mono  (this AudioInfoWish   obj                  ) => obj.Channels(MonoChannels         );
+        public   static AudioFileInfo   Mono  (this AudioFileInfo   obj                  ) => obj.Channels(MonoChannels         );
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static SpeakerSetupEnum Mono(this SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
@@ -303,19 +319,19 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)]
         public static SpeakerSetup Mono(this SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
         
-        public   static SynthWishes     Stereo(this SynthWishes     obj) => obj.Channels(StereoChannels);
-        public   static FlowNode        Stereo(this FlowNode        obj) => obj.Channels(StereoChannels);
-        internal static ConfigResolver  Stereo(this ConfigResolver  obj) => obj.Channels(StereoChannels);
-        public   static Tape            Stereo(this Tape            obj) => obj.Channels(StereoChannels);
-        public   static TapeConfig      Stereo(this TapeConfig      obj) => obj.Channels(StereoChannels);
-        public   static TapeActions     Stereo(this TapeActions     obj) => obj.Channels(StereoChannels);
-        public   static TapeAction      Stereo(this TapeAction      obj) => obj.Channels(StereoChannels);
+        public   static SynthWishes     Stereo(this SynthWishes     obj                  ) => obj.Channels(StereoChannels         );
+        public   static FlowNode        Stereo(this FlowNode        obj                  ) => obj.Channels(StereoChannels         );
+        internal static ConfigResolver  Stereo(this ConfigResolver  obj                  ) => obj.Channels(StereoChannels         );
+        public   static Tape            Stereo(this Tape            obj                  ) => obj.Channels(StereoChannels         );
+        public   static TapeConfig      Stereo(this TapeConfig      obj                  ) => obj.Channels(StereoChannels         );
+        public   static TapeActions     Stereo(this TapeActions     obj                  ) => obj.Channels(StereoChannels         );
+        public   static TapeAction      Stereo(this TapeAction      obj                  ) => obj.Channels(StereoChannels         );
         public   static Buff            Stereo(this Buff            obj, IContext context) => obj.Channels(StereoChannels, context);
         public   static Sample          Stereo(this Sample          obj, IContext context) => obj.Channels(StereoChannels, context);
         public   static AudioFileOutput Stereo(this AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
-        public   static WavHeaderStruct Stereo(this WavHeaderStruct obj) => obj.Channels(StereoChannels);
-        public   static AudioInfoWish   Stereo(this AudioInfoWish   obj) => obj.Channels(StereoChannels);
-        public   static AudioFileInfo   Stereo(this AudioFileInfo   obj) => obj.Channels(StereoChannels);
+        public   static WavHeaderStruct Stereo(this WavHeaderStruct obj                  ) => obj.Channels(StereoChannels         );
+        public   static AudioInfoWish   Stereo(this AudioInfoWish   obj                  ) => obj.Channels(StereoChannels         );
+        public   static AudioFileInfo   Stereo(this AudioFileInfo   obj                  ) => obj.Channels(StereoChannels         );
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static SpeakerSetupEnum Stereo(this SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);

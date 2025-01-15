@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         [TestMethod] public void Test_Channels_Channel_Combo_Changes()
         {
-            AreEqual(SpeakerSetupEnum.Undefined, () => ChannelsEmpty    .ChannelsToEnum());
+            AreEqual(SpeakerSetupEnum.Undefined, () => ChannelsEmpty .ChannelsToEnum());
             AreEqual(SpeakerSetupEnum.Mono,      () => MonoChannels  .ChannelsToEnum());
             AreEqual(SpeakerSetupEnum.Stereo,    () => StereoChannels.ChannelsToEnum());
             ThrowsException(                     () => (-1)          .ChannelsToEnum());
