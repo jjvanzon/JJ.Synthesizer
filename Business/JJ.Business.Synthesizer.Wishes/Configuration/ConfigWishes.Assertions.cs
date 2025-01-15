@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Wishes.Common;
+using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Wishes.Text.StringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -62,6 +65,36 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int?    AssertFrameCount     (int   ? frameCount                  ) => !Has(frameCount)                         ? frameCount     : AssertFrameCount(frameCount.Value);
         public static int     AssertByteCount      (int     byteCount                   ) => byteCount                           >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} below 0.");
         public static int?    AssertByteCount      (int   ? byteCount                   ) => byteCount                                ?.                 AssertByteCount();
+    
+        // Misc
+                
+        public static int AssertCourtesyBytes(int courtesyBytes, int frameSize)
+        {
+            AssertCourtesyBytes(courtesyBytes);
+            AssertFrameSize(frameSize);
+
+            if (courtesyBytes % frameSize != 0)
+            {
+                throw new Exception($"{nameof(courtesyBytes)} not a multiple of {nameof(frameSize)}: " +
+                                    $"{new{courtesyBytes, frameSize}}");
+            }
+            
+            return courtesyBytes;
+        }
+
+        /// <summary> Max file size is 2GB. Returns 0 if file not exists. </summary>
+        public static int AssertFileSize(string filePath)
+        {
+            if (Exists(filePath))
+            {
+                long fileSize = new FileInfo(filePath).Length;
+                int maxSize = int.MaxValue;
+                if (fileSize > maxSize) throw new Exception($"File too large. Max size = {PrettyByteCount(maxSize)}");
+                return (int)fileSize;
+            }
+            
+            return 0;
+        }
     }
     
     public static class ConfigAssertionExtensionWishes
@@ -105,5 +138,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int                  ? AssertFrameCount    (this int                  ? frameCount    ) => ConfigWishes.AssertFrameCount    (frameCount    );
         public static int                    AssertByteCount     (this int                    byteCount     ) => ConfigWishes.AssertByteCount     (byteCount     );
         public static int                  ? AssertByteCount     (this int                  ? byteCount     ) => ConfigWishes.AssertByteCount     (byteCount     );
+ 
+        // Misc
+        
+        public static int AssertCourtesyBytes(this int courtesyBytes, int frameSize) => ConfigWishes.AssertCourtesyBytes(courtesyBytes, frameSize);
+        public static int AssertFileSize(this string filePath) => ConfigWishes.AssertFileSize(filePath);
     }
 }

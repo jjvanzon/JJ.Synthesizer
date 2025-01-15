@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
@@ -33,18 +34,24 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Buff-Bound
         
         public   static int  FrameSize(this Buff            obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public   static int  FrameSize(this Sample          obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this AudioFileOutput obj) => obj.SizeOfBitDepth() * obj.Channels();
-        public   static int  FrameSize(this WavHeaderStruct obj) => obj.SizeOfBitDepth() * obj.Channels();
+        
+        // Independent after Taping
+        
+        public   static int  FrameSize(this Sample          obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this AudioInfoWish   obj) => obj.SizeOfBitDepth() * obj.Channels();
         public   static int  FrameSize(this AudioFileInfo   obj) => obj.SizeOfBitDepth() * obj.Channels();
+
+        // Immutable
+        
+        public   static int  FrameSize(this WavHeaderStruct obj) => obj.SizeOfBitDepth() * obj.Channels();
         
         [Obsolete(ObsoleteMessage)]
-        public static int FrameSize(this (SampleDataType sampleDataType, SpeakerSetup speakerSetup) entities)
+        public   static int  FrameSize(this (SampleDataType sampleDataType, SpeakerSetup speakerSetup) entities)
             => entities.sampleDataType.SizeOfBitDepth() * entities.speakerSetup.Channels();
         
         [Obsolete(ObsoleteMessage)]
-        public static int FrameSize(this (SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
+        public   static int  FrameSize(this (SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
             => enums.sampleDataTypeEnum.SizeOfBitDepth() * enums.speakerSetupEnum.Channels();
     }
 
@@ -52,17 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public partial class ConfigWishes
     {
-        public static int FrameSize(int bits, int channels)
-        {
-            AssertBits(bits);
-            AssertChannels(channels);
-            return bits / 8 * channels;
-        }
-        public static int FrameSize(int? bits, int? channels)
-        {
-            AssertBits(bits);
-            AssertChannels(channels);
-            return CoalesceBits(bits) / 8 * CoalesceChannels(channels);
-        }
+        public static int FrameSize(int  bits, int  channels) =>   AssertBits(bits) / 8 *   AssertChannels(channels);
+        public static int FrameSize(int? bits, int? channels) => CoalesceBits(bits) / 8 * CoalesceChannels(channels);
     }
 }

@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -61,21 +62,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             if (obj == null) throw new NullException(() => obj);
             return obj.AudioLength;
         }
-        
-        public static double AudioLength(this Buff obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            // TODO: From bytes[] / filePath?
-            return AudioLength(obj.UnderlyingAudioFileOutput);
-        }
-        
-        public static Buff AudioLength(this Buff obj, double value)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            if (obj.UnderlyingAudioFileOutput == null) throw new NullException(() => obj.UnderlyingAudioFileOutput);
-            obj.UnderlyingAudioFileOutput.AudioLength(value);
-            return obj;
-        }
+
+        // Tape-Bound
         
         public static double AudioLength(this Tape obj)
         {
@@ -129,17 +117,20 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static double AudioLength(this Sample obj)
+        // Buff-Bound
+        
+        public static double AudioLength(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.GetDuration();
+            // TODO: From bytes[] / filePath?
+            return AudioLength(obj.UnderlyingAudioFileOutput);
         }
         
-        public static Sample AudioLength(this Sample obj, double value)
+        public static Buff AudioLength(this Buff obj, double value)
         {
             if (obj == null) throw new NullException(() => obj);
-            double originalAudioLength = obj.AudioLength();
-            obj.SamplingRate = (int)(obj.SamplingRate * value / originalAudioLength);
+            if (obj.UnderlyingAudioFileOutput == null) throw new NullException(() => obj.UnderlyingAudioFileOutput);
+            obj.UnderlyingAudioFileOutput.AudioLength(AssertAudioLength(value));
             return obj;
         }
         
@@ -156,27 +147,32 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static double AudioLength(this WavHeaderStruct obj)
-            => obj.ToWish().AudioLength();
+        // Independent after Taping
         
-        public static WavHeaderStruct AudioLength(this WavHeaderStruct obj, double value)
+        public static double AudioLength(this Sample obj)
         {
-            return obj.ToWish().AudioLength(value).ToWavHeader();
+            if (obj == null) throw new NullException(() => obj);
+            return obj.GetDuration();
         }
         
+        public static Sample AudioLength(this Sample obj, double value)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            double ratio = AssertAudioLength(value) / AssertAudioLength(obj.AudioLength());
+            obj.SamplingRate = AssertSamplingRate((int)(AssertSamplingRate(obj.SamplingRate) * ratio));
+            return obj;
+        }
+                
         public static double AudioLength(this AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            if (infoWish.FrameCount == 0) return 0;
-            if (infoWish.Channels == 0) throw new Exception("info.Channels == 0");
-            if (infoWish.SamplingRate == 0) throw new Exception("info.SamplingRate == 0");
-            return (double)infoWish.FrameCount / infoWish.Channels / infoWish.SamplingRate;
+            return ConfigWishes.AudioLength(infoWish.FrameCount, infoWish.Channels, infoWish.SamplingRate);
         }
         
         public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.FrameCount = (int)(value * infoWish.SamplingRate);
+            infoWish.FrameCount = FrameCount(value, infoWish.SamplingRate);
             return infoWish;
         }
         
@@ -189,12 +185,37 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioFileInfo AudioLength(this AudioFileInfo info, double value)
         {
             if (info == null) throw new NullException(() => info);
-            info.SampleCount = (int)(value * info.SamplingRate);
+            info.SampleCount = FrameCount(value, info.SamplingRate);;
             return info;
         }
+
+        // Immutable
+        
+        public static double AudioLength(this WavHeaderStruct obj)
+            => obj.ToWish().AudioLength();
+        
+        public static WavHeaderStruct AudioLength(this WavHeaderStruct obj, double value) 
+            => obj.ToWish().AudioLength(value).ToWavHeader();
+
+        // Conversion Formula
+        
+        public static double? AudioLength(this int? frameCount, int samplingRate) 
+            => ConfigWishes.AudioLength(frameCount, samplingRate);
+
+        public static double AudioLength(this int frameCount, int samplingRate) 
+            => ConfigWishes.AudioLength(frameCount, samplingRate);
+
+        public static double? AudioLength(this int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+            => ConfigWishes.AudioLength(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
+
+        public static double AudioLength(this int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+            => ConfigWishes.AudioLength(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
+
+        public static double AudioLength(this int frameCount, int channels, int samplingRate)
+            => ConfigWishes.AudioLength(frameCount, channels, samplingRate);
     }
 
-    // Conversion Formulas
+    // Conversion Formula
     
     public partial class ConfigWishes
     {
@@ -203,13 +224,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         public static double AudioLength(int frameCount, int samplingRate)
             => (double)AssertFrameCount(frameCount) / AssertSamplingRate(samplingRate);
+        
+        public static double AudioLength(int frameCount, int channels, int samplingRate) 
+            => (double)AssertFrameCount(frameCount) / AssertChannels(channels) / AssertSamplingRate(samplingRate);
 
         public static double? AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
         {
             if (byteCount == default) return default;
             return AudioLength(byteCount.Value, frameSize, samplingRate, headerLength, courtesyFrames);
         }
-        
+
         public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
         {
             AssertByteCount(byteCount);

@@ -2,9 +2,9 @@
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public static class HeaderLengthExtensionWishes
     {
         // Derived from AudioFormat
-        
+     
         // Synth-Bound
         
         /// <inheritdoc cref="docs._headerlength"/>
@@ -33,8 +33,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Tape-Bound
         
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Buff obj) => obj.AudioFormat().HeaderLength();
-        /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this Tape obj) => obj.AudioFormat().HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this TapeConfig obj) => obj.AudioFormat().HeaderLength();
@@ -46,38 +44,54 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Buff-Bound
         
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Sample obj) => obj.AudioFormat().HeaderLength();
+        public static int HeaderLength(this Buff obj) => obj.AudioFormat().HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this AudioFileOutput obj) => obj.AudioFormat().HeaderLength();
 
         // Independent after Taping
         
         /// <inheritdoc cref="docs._headerlength"/>
-        // ReSharper disable once UnusedParameter.Global
+        public static int HeaderLength(this Sample obj) => obj.AudioFormat().HeaderLength();
+
+        // Immutable
+        
+        /// <inheritdoc cref="docs._headerlength"/>
         public static int HeaderLength(this WavHeaderStruct obj) => Wav.HeaderLength();
         
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileFormatEnum obj) => ConfigWishes.HeaderLength(obj);
+        public static int HeaderLength(this AudioFileFormatEnum obj) => AudioFormatToHeaderLength(obj);
         
         /// <inheritdoc cref="docs._headerlength"/>
         [Obsolete(ObsoleteMessage)] 
-        public static int HeaderLength(this AudioFileFormat obj) => obj.AudioFormat().HeaderLength();
+        public static int HeaderLength(this AudioFileFormat obj) => obj.ToEnum().AudioFormatToHeaderLength();
+        
+        // Conversion-Style
+        
+        public static int AudioFormatToHeaderLength(this AudioFileFormatEnum? audioFormat) 
+            => ConfigWishes.AudioFormatToHeaderLength(audioFormat);
+
+        public static int AudioFormatToHeaderLength(this AudioFileFormatEnum audioFormat)
+            => ConfigWishes.AudioFormatToHeaderLength(audioFormat);
+        
     }
 
     public partial class ConfigWishes
     {
-        // Conversion Formulas
-
-        public static int HeaderLength(AudioFileFormatEnum? audioFormat) => HeaderLength(Coalesce(audioFormat));
+        // Conversion-Style
         
-        public static int HeaderLength(AudioFileFormatEnum audioFormat)
+        public static int AudioFormatToHeaderLength(AudioFileFormatEnum? audioFormat) 
+            => AudioFormatToHeaderLength(audioFormat.Coalesce());
+        
+        public static int AudioFormatToHeaderLength(AudioFileFormatEnum audioFormat)
         {
-            switch (Assert(audioFormat))
-            {
-                case Wav: return 44;
-                case Raw: return 0;
-                default: return default; // ncrunch: no coverage
-            }
+            if (audioFormat == Wav) return 44;
+            if (audioFormat == Raw) return 0;
+            Assert(audioFormat); return default;
         }
-    } 
+
+        // Synonyms
+
+        public static int HeaderLength(AudioFileFormatEnum? audioFormat) => AudioFormatToHeaderLength(audioFormat);
+        public static int HeaderLength(AudioFileFormatEnum  audioFormat) => AudioFormatToHeaderLength(audioFormat);
+    }
 }

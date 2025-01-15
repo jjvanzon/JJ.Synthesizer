@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JetBrains.Annotations.2024.2.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <HintPath>..\..\packages\JetBrains.Annotations.2024.3.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -194,7 +194,6 @@
     <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
     <Compile Include="Configuration\ConfigWishes.Defaults.cs" />
     <None Include="packages.config" />
-    <Compile Include="Configuration\ConfigWishes.Misc.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

@@ -1,8 +1,10 @@
-﻿using JJ.Business.Synthesizer.Infos;
+﻿using JetBrains.Annotations;
+using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -10,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public static class SamplingRateExtensionWishes
     {
         // A Primary Audio Attribute
-        
+
         // Synth-Bound
 
         public static int SamplingRate(this SynthWishes obj)
@@ -43,12 +45,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj.GetSamplingRate;
         }
         
+        [UsedImplicitly]
         internal static ConfigResolver SamplingRate(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithSamplingRate(value);
         }
-        
+
         // Global-Bound
 
         internal static int? SamplingRate(this ConfigSection obj)
@@ -56,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             if (obj == null) throw new NullException(() => obj);
             return obj.SamplingRate;
         }
-        
+
         // Tape-Bound
 
         public static int SamplingRate(this Tape obj)
@@ -110,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             obj.Tape.Config.SamplingRate = value;
             return obj;
         }
-        
+
         // Buff-Bound
 
         public static int SamplingRate(this Buff obj)
@@ -126,19 +129,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static int SamplingRate(this Sample obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.SamplingRate;
-        }
-        
-        public static Sample SamplingRate(this Sample obj, int value)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            obj.SamplingRate = value;
-            return obj;
-        }
-        
         public static int SamplingRate(this AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -148,15 +138,24 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioFileOutput SamplingRate(this AudioFileOutput obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.SamplingRate = value;
+            obj.SamplingRate = AssertSamplingRate(value);
             return obj;
         }
+
+        // Independent after Taping  
         
-        public static int SamplingRate(this WavHeaderStruct obj)
-            => obj.SamplingRate;
+        public static int SamplingRate(this Sample obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return obj.SamplingRate;
+        }
         
-        public static WavHeaderStruct SamplingRate(this WavHeaderStruct obj, int value)
-            => obj.ToWish().SamplingRate(value).ToWavHeader();
+        public static Sample SamplingRate(this Sample obj, int value)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            obj.SamplingRate = AssertSamplingRate(value);
+            return obj;
+        }
         
         public static int SamplingRate(this AudioInfoWish infoWish)
         {
@@ -167,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioInfoWish SamplingRate(this AudioInfoWish infoWish, int value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.SamplingRate = value;
+            infoWish.SamplingRate = AssertSamplingRate(value);
             return infoWish;
         }
         
@@ -180,8 +179,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioFileInfo SamplingRate(this AudioFileInfo info, int value)
         {
             if (info == null) throw new NullException(() => info);
-            info.SamplingRate = value;
+            info.SamplingRate = AssertSamplingRate(value);
             return info;
         }
+        
+        // Immutable
+        
+        public static int SamplingRate(this WavHeaderStruct obj)
+            => obj.SamplingRate;
+        
+        public static WavHeaderStruct SamplingRate(this WavHeaderStruct obj, int value)
+            => obj.ToWish().SamplingRate(value).ToWavHeader();
     }
 }

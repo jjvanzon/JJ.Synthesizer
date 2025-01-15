@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -10,6 +9,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
@@ -139,8 +139,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => Assert(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        // ReSharper disable once UnusedParameter.Global
-        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => Assert(newEnumValue);
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) 
+            => Assert(newEnumValue);
         
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => obj.ToEnum();
@@ -151,23 +151,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             => newEnumValue.ToEntity(context);
         
         // Shorthand
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (InterpolationTypeEnum)enumEntity.ID;
-        }
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context)
-        {
-            if (enumValue == default) return default;
-            var repository = ServiceFactory.CreateRepository<IInterpolationTypeRepository>(context);
-            return repository.Get((int)enumValue);
-        }
-        
-        // Interpolation Shorthand
         
         public   static bool IsLinear(this SynthWishes           obj) => obj.Interpolation() == Line;
         public   static bool IsLinear(this FlowNode              obj) => obj.Interpolation() == Line;
@@ -208,11 +191,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static TapeAction     Linear(this TapeAction     obj) => obj.Interpolation(Line);
         public   static TapeActions    Linear(this TapeActions    obj) => obj.Interpolation(Line);
         public   static Sample         Linear(this Sample         obj, IContext context) => obj.Interpolation(Line, context);
-        /// <inheritdoc cref="docs._quisetter" />
-        public   static InterpolationTypeEnum Linear(this InterpolationTypeEnum oldInterpolation) => oldInterpolation.Interpolation(Line);
-        /// <inheritdoc cref="docs._quisetter" />
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        public   static InterpolationTypeEnum Linear(this InterpolationTypeEnum oldInterpolation) 
+            => oldInterpolation.Interpolation(Line);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public   static InterpolationType Linear(this InterpolationType oldEnumEntity, IContext context) => oldEnumEntity.Interpolation(Line, context);
+        public   static InterpolationType Linear(this InterpolationType oldEnumEntity, IContext context) 
+            => oldEnumEntity.Interpolation(Line, context);
         
         public   static SynthWishes    Blocky(this SynthWishes    obj) => obj.Interpolation(Block);
         public   static FlowNode       Blocky(this FlowNode       obj) => obj.Interpolation(Block);
@@ -223,10 +210,45 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static TapeAction     Blocky(this TapeAction     obj) => obj.Interpolation(Block);
         public   static TapeActions    Blocky(this TapeActions    obj) => obj.Interpolation(Block);
         public   static Sample         Blocky(this Sample         obj, IContext context) => obj.Interpolation(Block, context);
-        /// <inheritdoc cref="docs._quisetter" />
-        public   static InterpolationTypeEnum Blocky(this InterpolationTypeEnum oldInterpolation) => Interpolation(oldInterpolation, Block);
-        /// <inheritdoc cref="docs._quisetter" />
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        public   static InterpolationTypeEnum Blocky(this InterpolationTypeEnum oldInterpolation) 
+            => Interpolation(oldInterpolation, Block);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public   static InterpolationType Blocky(this InterpolationType oldEnumEntity, IContext context) => oldEnumEntity.Interpolation(Block, context);
+        public   static InterpolationType Blocky(this InterpolationType oldEnumEntity, IContext context) 
+            => oldEnumEntity.Interpolation(Block, context);
+         
+        // Conversion-Style
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
+            => ConfigWishes.ToEnum(enumEntity);
+
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context)
+            => ConfigWishes.ToEntity(enumValue, context);
+    }
+    
+    public partial class ConfigWishes
+    {
+        // Conversion-Style
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationTypeEnum ToEnum(InterpolationType enumEntity)
+        {
+            if (enumEntity == null) throw new NullException(() => enumEntity);
+            return (InterpolationTypeEnum)enumEntity.ID;
+        }
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationType ToEntity(InterpolationTypeEnum enumValue, IContext context)
+        {
+            if (enumValue == default) return default;
+            Assert(enumValue);
+            var repository = CreateRepository<IInterpolationTypeRepository>(context);
+            return repository.Get((int)enumValue);
+        }
     }
 }

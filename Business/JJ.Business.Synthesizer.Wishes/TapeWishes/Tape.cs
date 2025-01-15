@@ -140,11 +140,32 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #endregion
 
         #region Durations
-        public double Duration { get; set; }
+        
+        private double _duration;
+        public double Duration
+        {
+            get => _duration;
+            set => _duration = AssertAudioLength(value);
+        }
+      
         /// <inheritdoc cref="docs._padding"/>
-        public double LeadingSilence { get; set; }
+        private double _leadingSilence;
         /// <inheritdoc cref="docs._padding"/>
-        public double TrailingSilence { get; set; }
+        public double LeadingSilence
+        {
+            get => _leadingSilence;
+            set => _leadingSilence = AssertAudioLength(value);
+        }
+        
+        /// <inheritdoc cref="docs._padding"/>
+        private double _trailingSilence;
+        /// <inheritdoc cref="docs._padding"/>
+        public double TrailingSilence
+        {
+            get => _trailingSilence;
+            set => _trailingSilence = AssertAudioLength(value);
+        }
+        
         #endregion
         
         #region Config

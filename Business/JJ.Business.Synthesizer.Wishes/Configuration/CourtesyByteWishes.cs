@@ -91,35 +91,55 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
     public partial class ConfigWishes
     {
-        public static int CourtesyBytes(int courtesyFrames, int frameSize) 
-            => AssertCourtesyFrames(courtesyFrames) * AssertFrameSize(frameSize);
+        // Conversion-Style
         
-        public static int CourtesyBytes(int courtesyFrames, int bits, int channels) 
+        // Courtesy Frames to Bytes
+        
+        public static int CourtesyFramesToBytes(int courtesyFrames, int bits, int channels) 
             => AssertCourtesyFrames(courtesyFrames) * FrameSize(bits, channels);
-        
-        public static int CourtesyBytes(int? courtesyFrames, int? bits, int? channels) 
+
+        public static int CourtesyFramesToBytes(int? courtesyFrames, int? bits, int? channels) 
             => CoalesceCourtesyFrames(courtesyFrames) * FrameSize(bits, channels);
         
-        public static int? CourtesyFrames(int? courtesyBytes, int frameSize)
-        {
-            if (courtesyBytes == null) return null;
-            return CourtesyFrames(courtesyBytes.Value, frameSize);
-        }
+        public static int CourtesyFramesToBytes(int courtesyFrames, int frameSize) 
+            => AssertCourtesyFrames(courtesyFrames) * AssertFrameSize(frameSize);
         
-        public static int CourtesyFrames(int courtesyBytes, int frameSize)
+        public static int CourtesyFramesToBytes(int? courtesyFrames, int? frameSize) 
+            => CoalesceCourtesyFrames(courtesyFrames) * CoalesceFrameSize(frameSize);
+
+        // Courtesy Bytes to Frames
+        
+        public static int? CourtesyBytesToFrames(int? courtesyBytes, int? frameSize) 
+            => CourtesyBytesToFrames(courtesyBytes.CoalesceCourtesyBytes(), frameSize.CoalesceFrameSize());
+        
+        public static int CourtesyBytesToFrames(int courtesyBytes, int frameSize)
         {
-            courtesyBytes = AssertCourtesyBytes(courtesyBytes);
-            frameSize = AssertFrameSize(frameSize);
-            
-            // TODO: Composite assertion method?
-            if (courtesyBytes % frameSize != 0) 
-            {
-                throw new Exception($"{nameof(courtesyBytes)} not a multiple of {nameof(frameSize)}: " +
-                                    $"{new{courtesyBytes, frameSize}}");
-            }
-            
+            courtesyBytes.AssertCourtesyBytes(frameSize);
             return courtesyBytes / frameSize;
         }
+        
+        // Synonyms
+        
+        // CourtesyBytes
+        
+        public static int CourtesyBytes(int courtesyFrames, int bits, int channels) 
+            => CourtesyFramesToBytes(courtesyFrames, bits, channels);
+        
+        public static int CourtesyBytes(int? courtesyFrames, int? bits, int? channels) 
+            => CourtesyFramesToBytes(courtesyFrames, bits, channels);
 
+        public static int CourtesyBytes(int courtesyFrames, int frameSize) 
+            => CourtesyFramesToBytes(courtesyFrames, frameSize);
+
+        public static int CourtesyBytes(int? courtesyFrames, int? frameSize) 
+            => CourtesyFramesToBytes(courtesyFrames, frameSize);
+        
+        // CourtesyFrames
+        
+        public static int? CourtesyFrames(int? courtesyBytes, int frameSize)
+            => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        
+        public static int CourtesyFrames(int courtesyBytes, int frameSize)
+            => CourtesyBytesToFrames(courtesyBytes, frameSize);
     }
 }

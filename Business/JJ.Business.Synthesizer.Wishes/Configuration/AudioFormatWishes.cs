@@ -137,18 +137,20 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static AudioFileFormatEnum AudioFormat(this Sample obj) => obj.GetAudioFileFormatEnum();
+        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput obj) => obj.GetAudioFileFormatEnum();
         
-        public static Sample AudioFormat(this Sample obj, AudioFileFormatEnum value, IContext context)
+        public static AudioFileOutput AudioFormat(this AudioFileOutput obj, AudioFileFormatEnum value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.SetAudioFileFormatEnum(value, context);
             return obj;
         }
         
-        public static AudioFileFormatEnum AudioFormat(this AudioFileOutput obj) => obj.GetAudioFileFormatEnum();
+        // Independent after Taping 
         
-        public static AudioFileOutput AudioFormat(this AudioFileOutput obj, AudioFileFormatEnum value, IContext context)
+        public static AudioFileFormatEnum AudioFormat(this Sample obj) => obj.GetAudioFileFormatEnum();
+        
+        public static Sample AudioFormat(this Sample obj, AudioFileFormatEnum value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.SetAudioFileFormatEnum(value, context);
@@ -176,17 +178,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AudioFormat(this AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context)
             => ToEntity(newAudioFormat, context);
-        
-        // Conversion-Style AudioFormat
-        
-        [Obsolete(ObsoleteMessage)] public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity)
-        {
-            if (enumEntity == null) throw new ArgumentNullException(nameof(enumEntity));
-            return (AudioFileFormatEnum)enumEntity.ID;
-        }
-        
-        [Obsolete(ObsoleteMessage)] public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context)
-            => ServiceFactory.CreateRepository<IAudioFileFormatRepository>(context).Get(audioFormat.ToID());
         
         // AudioFormat Shorthand
         
@@ -253,5 +244,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public   static AudioFileFormat AsRaw(this AudioFileFormat oldEnumEntity, IContext context) => oldEnumEntity.AudioFormat(Raw, context);
+        
+        // Conversion-Style
+        
+        [Obsolete(ObsoleteMessage)]
+        public static AudioFileFormatEnum ToEnum(this AudioFileFormat enumEntity) 
+            => (AudioFileFormatEnum)(enumEntity?.ID ?? 0);
+        
+        [Obsolete(ObsoleteMessage)]
+        public static AudioFileFormat ToEntity(this AudioFileFormatEnum audioFormat, IContext context)
+            => ServiceFactory.CreateRepository<IAudioFileFormatRepository>(context).Get(audioFormat.ToID());
     }
 }

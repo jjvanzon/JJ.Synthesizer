@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         private int? _bits;
         public int GetBits => AssertBits(Has(_bits) ? _bits.Value : _section.Bits ?? DefaultBits);
-        public ConfigResolver WithBits(int? bits) { _bits = AssertBits(bits); return this; }
+        public ConfigResolver WithBits(int? bits) { _bits = bits.AssertBits(); return this; }
         public bool Is32Bit => GetBits == 32;
         public ConfigResolver With32Bit() => WithBits(32);
         public bool Is16Bit => GetBits == 16;
@@ -560,6 +560,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // Tooling
         
+        private const string NCrunchEnvironmentVariableName         = "NCrunch";
+        private const string AzurePipelinesEnvironmentVariableValue = "True";
+        private const string AzurePipelinesEnvironmentVariableName  = "TF_BUILD";
+        private const string NCrunchEnvironmentVariableValue        = "1";
+
         private bool? _ncrunchImpersonationMode;
         private bool? GetNCrunchImpersonationMode => _ncrunchImpersonationMode ?? _section.NCrunch.ImpersonationMode ?? DefaultToolingImpersonationMode;
         

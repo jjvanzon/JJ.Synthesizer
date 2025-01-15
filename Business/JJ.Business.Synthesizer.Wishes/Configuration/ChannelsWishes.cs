@@ -145,19 +145,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static int Channels(this Sample obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.GetChannelCount();
-        }
-        
-        public static Sample Channels(this Sample obj, int value, IContext context)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            obj.SetSpeakerSetupEnum(value.ChannelsToEnum(), context);
-            return obj;
-        }
-        
         public static int Channels(this AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -173,22 +160,26 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
         
-        public static int Channels(this WavHeaderStruct obj)
-            => obj.ChannelCount;
+        // Independent after Taping
+                
+        public static int Channels(this Sample obj) => obj.GetChannelCount();
         
-        public static WavHeaderStruct Channels(this WavHeaderStruct obj, int value)
-            => obj.ToWish().Channels(value).ToWavHeader();
-        
+        public static Sample Channels(this Sample obj, int value, IContext context)
+        {
+            obj.SetSpeakerSetupEnum(value.ChannelsToEnum(), context);
+            return obj;
+        }
+                         
         public static int Channels(this AudioInfoWish obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
         }
-        
+       
         public static AudioInfoWish Channels(this AudioInfoWish obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.Channels = value;
+            obj.Channels = AssertChannels(value);
             return obj;
         }
         
@@ -201,61 +192,30 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioFileInfo Channels(this AudioFileInfo obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.ChannelCount = value;
+            obj.ChannelCount = AssertChannels(value);
             return obj;
         }
+
+        // Immutable
+        
+        public static int Channels(this WavHeaderStruct obj) => obj.ChannelCount;
+        
+        public static WavHeaderStruct Channels(this WavHeaderStruct obj, int value) => obj.ToWish().Channels(value).ToWavHeader();
         
         [Obsolete(ObsoleteMessage)]
-        public static int Channels(this SpeakerSetupEnum obj) 
-            => obj.EnumToChannels();
+        public static int Channels(this SpeakerSetupEnum obj) => obj.EnumToChannels();
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) 
-            => newChannels.ChannelsToEnum();
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) => newChannels.ChannelsToEnum();
         
         [Obsolete(ObsoleteMessage)] 
-        public static int Channels(this SpeakerSetup obj) 
-            => obj.EntityToChannels();
+        public static int Channels(this SpeakerSetup obj) => obj.EntityToChannels();
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
+        [Obsolete(ObsoleteMessage)]
         public static SpeakerSetup Channels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
             => newChannels.ChannelsToEntity(context);
-        
-        // Channels Conversion-Style
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum ChannelsToEnum(this int channels)
-        {
-            switch (channels)
-            {
-                case ChannelsEmpty: return SpeakerSetupEnum.Undefined;
-                case MonoChannels: return SpeakerSetupEnum.Mono;
-                case StereoChannels: return SpeakerSetupEnum.Stereo;
-                default: throw new Exception($"{new { channels }} not supported.");
-            }
-        }
-        
-        [Obsolete(ObsoleteMessage)]
-        public static int EnumToChannels(this SpeakerSetupEnum enumValue)
-        {
-            switch (enumValue)
-            {
-                case SpeakerSetupEnum.Mono: return MonoChannels;
-                case SpeakerSetupEnum.Stereo: return StereoChannels;
-                case SpeakerSetupEnum.Undefined: return ChannelsEmpty;
-                default: throw new ValueNotSupportedException(enumValue);
-            }
-        }
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context)
-            => channels.ChannelsToEnum().ToEntity(context);
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static int EntityToChannels(this SpeakerSetup entity) 
-            => entity.ToEnum().EnumToChannels();
         
         // Channels Shorthand
         
@@ -296,7 +256,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static bool IsStereo(this AudioFileInfo   obj) => obj.Channels() == StereoChannels;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Stereo;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetup     obj) => obj.ToEnum().IsStereo();
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => obj == ChannelEnum.Left || obj == ChannelEnum.Right;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => obj == ChannelEnum.Left || obj == ChannelEnum.Right || obj == ChannelEnum.Undefined; // Undefined so happens to be used for a stereo signal with 2 channels, not 1 in particular.
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel          obj) => obj.ToEnum().IsStereo();
         
         public   static SynthWishes     Mono  (this SynthWishes     obj                  ) => obj.Channels(MonoChannels         );
@@ -338,5 +298,59 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static SpeakerSetup Stereo(this SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
+        
+        // Conversion-Style
+
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum ChannelsToEnum(this int channels) => ConfigWishes.ChannelsToEnum(channels);
+        [Obsolete(ObsoleteMessage)]
+        public static int EnumToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.EnumToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
+        [Obsolete(ObsoleteMessage)] 
+        public static int EntityToChannels(this SpeakerSetup entity) => ConfigWishes.EntityToChannels(entity);
+    }
+    
+    public partial class ConfigWishes
+    {
+        // Constants
+    
+        public const int ChannelsEmpty = 0;
+        public const int MonoChannels = 1;
+        public const int StereoChannels = 2;
+
+        // Conversion-Style
+
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetupEnum ChannelsToEnum(int channels)
+        {
+            switch (AssertChannels((int?)channels))
+            {
+                case ChannelsEmpty: return SpeakerSetupEnum.Undefined;
+                case MonoChannels: return SpeakerSetupEnum.Mono;
+                case StereoChannels: return SpeakerSetupEnum.Stereo;
+                default: return default; // ncrunch: no coverage
+            }
+        }
+        
+        [Obsolete(ObsoleteMessage)]
+        public static int EnumToChannels(SpeakerSetupEnum enumValue)
+        {
+            switch (enumValue)
+            {
+                case SpeakerSetupEnum.Mono: return MonoChannels;
+                case SpeakerSetupEnum.Stereo: return StereoChannels;
+                case SpeakerSetupEnum.Undefined: return ChannelsEmpty;
+                default: throw new ValueNotSupportedException(enumValue);
+            }
+        }
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetup ChannelsToEntity(int channels, IContext context)
+            => channels.ChannelsToEnum().ToEntity(context);
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int EntityToChannels(SpeakerSetup entity) 
+            => entity.ToEnum().EnumToChannels();
     }
 }

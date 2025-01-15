@@ -11,19 +11,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class FrameCountExtensionWishes
     {
-        // A Duration Attribute
+        // A Duration Property
         
-        public static int FrameCount(this SynthWishes obj)
-            => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
+        // Synth-Bound
         
-        public static SynthWishes FrameCount(this SynthWishes obj, int? value)
-            => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
+        public static int FrameCount(this SynthWishes obj) => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
+        public static SynthWishes FrameCount(this SynthWishes obj, int? value) => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
-        public static int FrameCount(this FlowNode obj)
-            => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
-        
-        public static FlowNode FrameCount(this FlowNode obj, int? value)
-            => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
+        public static int FrameCount(this FlowNode obj) => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
+        public static FlowNode FrameCount(this FlowNode obj, int? value) => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
         internal static int FrameCount(this ConfigResolver obj, SynthWishes synthWishes)
             => ConfigWishes.FrameCount(obj.AudioLength(synthWishes), obj.SamplingRate());
@@ -54,8 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
         }
         
-        public static Tape FrameCount(this Tape obj, int value)
-            => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
+        public static Tape FrameCount(this Tape obj, int value) => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
         public static int FrameCount(this TapeConfig obj)
         {
@@ -117,27 +112,17 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return 0;
         }
         
+        public static int FrameCount(this AudioFileOutput obj) => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
+        public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value) => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
+        
+        // Independent after Taping
+                
         public static int FrameCount(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return ConfigWishes.FrameCount(obj.Bytes, obj.Location, obj.FrameSize(), obj.HeaderLength());
         }
-        
-        public static int FrameCount(this AudioFileOutput obj)
-            => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
-        
-        public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value)
-            => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
-        
-        public static int FrameCount(this WavHeaderStruct obj)
-            => obj.ToWish().FrameCount();
-        
-        public static WavHeaderStruct FrameCount(this WavHeaderStruct obj, int value)
-        {
-            double audioLength = AudioLength(value, obj.SamplingRate());
-            return obj.AudioLength(audioLength);
-        }
-        
+                
         public static int FrameCount(this AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
@@ -147,7 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioInfoWish FrameCount(this AudioInfoWish infoWish, int value)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.FrameCount = value;
+            infoWish.FrameCount = AssertFrameCount(value);
             return infoWish;
         }
         
@@ -160,8 +145,18 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioFileInfo FrameCount(this AudioFileInfo info, int value)
         {
             if (info == null) throw new NullException(() => info);
-            info.SampleCount = value;
+            info.SampleCount = AssertFrameCount(value);
             return info;
+        }
+
+        // Immutable
+        
+        public static int FrameCount(this WavHeaderStruct obj) => obj.ToWish().FrameCount();
+        
+        public static WavHeaderStruct FrameCount(this WavHeaderStruct obj, int value)
+        {
+            double audioLength = AudioLength(value, obj.SamplingRate());
+            return obj.AudioLength(audioLength);
         }
     }
     

@@ -118,8 +118,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int? Channel(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            if (obj.UnderlyingAudioFileOutput == null) return default;
-            return Channel(obj.UnderlyingAudioFileOutput);
+            return obj.UnderlyingAudioFileOutput?.Channel();
         }
         
         public static Buff Channel(this Buff obj, int? value, IContext context)
@@ -216,16 +215,18 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static int Channel(this AudioFileOutputChannel obj)
         {
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (obj == null) throw new NullException(() => obj);
             return obj.Index;
         }
         
         public static AudioFileOutputChannel Channel(this AudioFileOutputChannel obj, int value)
         {
-            if (obj == null) throw new ArgumentNullException(nameof(obj));
+            if (obj == null) throw new NullException(() => obj);
             obj.Index = value;
             return obj;
         }
+        
+        // Immutable
         
         [Obsolete(ObsoleteMessage)] 
         public static int? Channel(this ChannelEnum obj) => obj.EnumToChannel();
@@ -234,24 +235,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int? Channel(this Channel obj) => obj?.Index;
         
         // Shorthand
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static int? EnumToChannel(this ChannelEnum obj)
-        {
-            switch (obj)
-            {
-                case ChannelEnum.Single: return CenterChannel;
-                case ChannelEnum.Left: return LeftChannel;
-                case ChannelEnum.Right: return RightChannel;
-                case ChannelEnum.Undefined: return ChannelEmpty;
-                default: throw new ValueNotSupportedException(obj);
-            }
-        }
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static int? EntityToChannel(this Channel entity) => entity.ToEnum().EnumToChannel();
-        
-        // Channel Shorthand
         
         public   static bool IsCenter(this SynthWishes     obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
         public   static bool IsCenter(this FlowNode        obj) => obj.IsMono  () && obj.Channel() == CenterChannel;
@@ -348,5 +331,43 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum oldChannelEnum) => ChannelEnum.Undefined;
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel NoChannel(this Channel obj) => null;
+         
+        // Conversion-Style
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int? EnumToChannel(this ChannelEnum obj) => ConfigWishes.EnumToChannel(obj);
+
+        [Obsolete(ObsoleteMessage)] 
+        public static int? EntityToChannel(this Channel entity) => ConfigWishes.EntityToChannel(entity);
+    }
+    
+    public partial class ConfigWishes
+    { 
+        // Constants
+        
+        public const int CenterChannel = 0;
+        public const int LeftChannel = 0;
+        public const int RightChannel = 1;
+        public static readonly int? ChannelEmpty = null;
+        public static readonly int? EveryChannel = null;
+
+        // Conversion-Style
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int? EnumToChannel(ChannelEnum obj)
+        {
+            switch (obj)
+            {
+                case ChannelEnum.Single: return CenterChannel;
+                case ChannelEnum.Left: return LeftChannel;
+                case ChannelEnum.Right: return RightChannel;
+                case ChannelEnum.Undefined: return ChannelEmpty;
+                default: throw new ValueNotSupportedException(obj);
+            }
+        }
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int? EntityToChannel(Channel entity) => entity.ToEnum().EnumToChannel();
+
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System;
-using JetBrains.Annotations;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
@@ -65,15 +67,21 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._fileextension"/>
         public static Buff FileExtension(this Buff obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension(this Sample obj) => obj.AudioFormat().FileExtension();
-        /// <inheritdoc cref="docs._fileextension"/>
-        public static Sample FileExtension(this Sample obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
-        /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileOutput obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static AudioFileOutput FileExtension(this AudioFileOutput obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
+
+        // Independent after Taping
+        
         /// <inheritdoc cref="docs._fileextension"/>
-        public static string FileExtension([UsedImplicitly] this WavHeaderStruct obj) => obj.AudioFormat().FileExtension();
+        public static string FileExtension(this Sample obj) => obj.AudioFormat().FileExtension();
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static Sample FileExtension(this Sample obj, string value, IContext context) => obj.AudioFormat(value.AudioFormat(), context);
+
+        // Immutable
+        
+        /// <inheritdoc cref="docs._fileextension"/>
+        public static string FileExtension(this WavHeaderStruct obj) => obj.AudioFormat().FileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
         public static string FileExtension(this AudioFileFormatEnum obj) => obj.AudioFormatToFileExtension();
         /// <inheritdoc cref="docs._fileextension"/>
@@ -81,8 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
-        public static string FileExtension(this AudioFileFormat obj) 
-            => obj.ToEnum().FileExtension();
+        public static string FileExtension(this AudioFileFormat obj) => obj.ToEnum().FileExtension();
         
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
@@ -107,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             if (Is(fileExtension, ".wav")) return Wav;
             if (Is(fileExtension, ".raw")) return Raw;
             if (!Has(fileExtension)) return Undefined;
-            throw new Exception($"{new{fileExtension}} not supported.");
+            AssertFileExtension(fileExtension); return default;
         }
         
         public static string AudioFormatToFileExtension(AudioFileFormatEnum obj)
@@ -123,7 +130,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // Synonym
         
-        public static string FileExtension(AudioFileFormatEnum obj)
-            => AudioFormatToFileExtension(obj);
+        public static string FileExtension(AudioFileFormatEnum obj) => AudioFormatToFileExtension(obj);
     }
 }

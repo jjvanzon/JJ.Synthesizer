@@ -16,6 +16,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
@@ -249,11 +250,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
         internal static SpeakerSetup GetSubstituteSpeakerSetup(int channels, IContext context)
         {
-            switch (channels)
+            switch (AssertChannels(channels))
             {
                 case 1: return GetMonoSpeakerSetupSubstitute(context);
                 case 2: return GetStereoSpeakerSetupSubstitute(context);
-                default: throw new Exception($"Unsupported value {new{channels}}");
+                default: return default; // ncrunch: no coverage
             }
         }
         
