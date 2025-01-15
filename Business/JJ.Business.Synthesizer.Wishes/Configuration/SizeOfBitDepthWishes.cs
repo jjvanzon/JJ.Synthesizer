@@ -163,9 +163,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Type Arguments
         
         public static int TypeToSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth(typeof(TValueType));
-        public static int SizeOfBitDepth      <TValueType>() => TypeToSizeOfBitDepth(typeof(TValueType));
-                 
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type SizeOfBitDepth     <TValueType>(int value) => SizeOfBitDepthToType(value);
+        public static Type SizeOfBitDepthToType<TValueType>(int value) => SizeOfBitDepthToType(value);
+
+        // Synonyms
+        
+        public static int SizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type SizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
   }
 }
