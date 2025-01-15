@@ -91,13 +91,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Conversion-Style
         
-        public static int  TypeToSizeOfBitDepth(this Type obj          ) => ConfigWishes.TypeToSizeOfBitDepth(obj);
-        public static Type SizeOfBitDepthToType(this int value         ) => ConfigWishes.SizeOfBitDepthToType(value);
+        public static int  TypeToSizeOfBitDepth(this Type obj ) => ConfigWishes.TypeToSizeOfBitDepth(obj);
+        public static Type SizeOfBitDepthToType(this int value) => ConfigWishes.SizeOfBitDepthToType(value);
         
-        public static int  SizeOfBitDepthToBits(this int sizeOfBitDepth) => ConfigWishes.SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int  SizeOfBitDepthToBits(this int  sizeOfBitDepth) => ConfigWishes.SizeOfBitDepthToBits(sizeOfBitDepth);
         public static int? SizeOfBitDepthToBits(this int? sizeOfBitDepth) => ConfigWishes.SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int  BitsToSizeOfBitDepth(this int  bits) => ConfigWishes.BitsToSizeOfBitDepth(bits);
-        public static int? BitsToSizeOfBitDepth(this int? bits) => ConfigWishes.BitsToSizeOfBitDepth(bits);
+        public static int  BitsToSizeOfBitDepth(this int  bits)           => ConfigWishes.BitsToSizeOfBitDepth(bits);
+        public static int? BitsToSizeOfBitDepth(this int? bits)           => ConfigWishes.BitsToSizeOfBitDepth(bits);
         
         public static int  Bits(this int  sizeOfBitDepth) => ConfigWishes.Bits(sizeOfBitDepth);
         public static int? Bits(this int? sizeOfBitDepth) => ConfigWishes.Bits(sizeOfBitDepth);
