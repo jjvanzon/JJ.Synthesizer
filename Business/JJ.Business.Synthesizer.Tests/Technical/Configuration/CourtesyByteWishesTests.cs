@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(courtesyBytes, () => x.TapeBound.TapeAction.CourtesyBytes());
         }
                 
-        private void Assert_Immutable_Getters(int courtesyFrames, int frameSize, int courtesyBytes)
+        private void Assert_Immutable_Getters(int? courtesyFrames, int? frameSize, int courtesyBytes)
         {
             AreEqual(courtesyBytes, () => CourtesyBytes(courtesyFrames, frameSize));
         }
@@ -164,12 +164,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             get
             {
-                foreach (int? frames in _framesValues)
-                //foreach (int? frames in _framesValuesWithEmpty)
-                foreach (int? bits in _bitsValues)
-                //foreach (int? bits in _bitsValuesWithEmpty)
-                foreach (int? channels in _channelsValues)
-                //foreach (int? channels in _channelsValuesWithEmpty)
+                foreach (int? frames   in   _framesValuesWithEmpty)
+                foreach (int? bits     in     _bitsValuesWithEmpty)
+                foreach (int? channels in _channelsValuesWithEmpty)
                 {
                     yield return GetParameters(frames, bits, channels);
                 }
@@ -180,10 +177,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             get
             {
-                foreach (int frames1 in _framesValues)
-                foreach ((int bits1, int channels1) in _bitsChannelsCombos)
-                foreach (int frames2 in _framesValues)
-                foreach ((int bits2, int channels2) in _bitsChannelsCombos)
+                foreach ( int? frames1 in _framesValues)
+                foreach ((int? bits1, int? channels1) in _bitsChannelsCombos)
+                foreach ( int? frames2 in _framesValues)
+                foreach ((int? bits2, int? channels2) in _bitsChannelsCombos)
                 {
                     yield return GetParameters(frames1, bits1, channels1, frames2, bits2, channels2);
                 }
@@ -200,8 +197,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         };
                         
         static object[] GetParameters(
-            int frames1, int bits1, int channels1, 
-            int frames2, int bits2, int channels2)
+            int? frames1, int? bits1, int? channels1, 
+            int? frames2, int? bits2, int? channels2)
             => new object[]
             {
                 Descriptor(frames1, bits1, channels1, frames2, bits2, channels2),
@@ -211,13 +208,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 frames2, bits2, channels2
             };
         
-        static object[] GetParameters(int? frames, int? bits, int? channels) => new object[]
+        static object[] GetParameters(int? frames, int? bits, int? channels)
         {
-            Descriptor(frames, bits, channels),
-            frames * bits / 8 * channels, // = Courtesy Bytes
-            frames, bits, channels
-        };
-
+            int? courtesyFramesSetting = GetConfigSectionAccessor().CourtesyFrames;
+        
+            return new object[]
+            {
+                Descriptor(frames, bits, channels),
+                CoalesceCourtesyFrames(frames, courtesyFramesSetting) * CoalesceBits(bits) / 8 * CoalesceChannels(channels), // = Courtesy Bytes
+                frames, bits, channels
+            };
+        }
+        
         static string Descriptor(int? frames, int? bits, int? channels)
         {
             string formattedFrames   = frames   == null ? "(null)" : frames.ToString();
@@ -235,15 +237,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         const int _3Frames = 3;
         const int _4Frames = 4;
         
-        static readonly int []       _channelsValues          = { 1, 2 };
-        static readonly int?[]       _channelsValuesWithEmpty = { 1, 2, 0, null };
-        static readonly int []       _bitsValues              = { 8, 16, 32 };
-        static readonly int?[]       _bitsValuesWithEmpty     = { 8, 16, 32, 0, null };
-        static readonly int []       _framesValues            = { 3, 4, 8 };
-        static readonly int?[]       _framesValuesWithEmpty   = { 3, 4, 8, null };
-        static readonly int []       _bytesValues             = { 8, 12, 16, 20, 24, 28, 32 };
-        static readonly (int, int)[] _bitsChannelsCombos      = { (8, 1), (16, 2), (32, 1), (32, 2) };
+        static readonly int?[]         _channelsValues          = { 1, 2 };
+        static readonly int?[]         _channelsValuesWithEmpty = { 1, 2, 0, null };
+        static readonly int?[]         _bitsValues              = { 8, 16, 32 };
+        static readonly int?[]         _bitsValuesWithEmpty     = { 8, 16, 32, 0, null };
+        static readonly int?[]         _framesValues            = { 3, 4, 8 };
+        static readonly int?[]         _framesValuesWithEmpty   = { 3, 4, 8, null };
+        static readonly int?[]         _bytesValues             = { 8, 12, 16, 20, 24, 28, 32 };
+        static readonly (int?, int?)[] _bitsChannelsCombos      = { (8, 1), (16, 2), (32, 1), (32, 2) };
 
         // ncrunch: no coverage end
-   } 
+    } 
 }
