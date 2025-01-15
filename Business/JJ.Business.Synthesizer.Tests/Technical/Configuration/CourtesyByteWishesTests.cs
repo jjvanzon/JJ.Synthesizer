@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     public class CourtesyByteWishesTests
     {
         [TestMethod]
-        [DynamicData(nameof(ParameterSetInit))]
+        [DynamicData(nameof(ParameterSetInitWithEmpties))]
         public void Init_CourtesyBytes(string descriptor, int courtesyBytes, int? courtesyFrames, int? bits, int? channels)
         { 
             var init = (courtesyBytes, courtesyFrames, bits, channels);
@@ -31,11 +31,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         [TestMethod]
-        [DynamicData(nameof(ParameterSetSmall))]
+        [DynamicData(nameof(ParameterSetSmallWithEmpties))]
         public void SynthBound_CourtesyBytes(
             string descriptor,
-            int initCourtesyBytes, int initCourtesyFrames, int initBits, int initChannels,
-            int courtesyBytes, int courtesyFrames, int bits, int channels)
+            int initCourtesyBytes, int? initCourtesyFrames, int? initBits, int? initChannels,
+            int courtesyBytes, int? courtesyFrames, int? bits, int? channels)
         {
             var init = (courtesyBytes: initCourtesyBytes, courtesyFrames: initCourtesyFrames, 
                         bits: initBits, channels: initChannels);
@@ -71,8 +71,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             int initCourtesyBytes, int initCourtesyFrames, int initBits, int initChannels,
             int courtesyBytes, int courtesyFrames, int bits, int channels)
         {
-            var init = (courtesyBytes: initCourtesyBytes, courtesyFrames: initCourtesyFrames, 
-                bits: initBits, channels: initChannels);
+            var init = (courtesyBytes: initCourtesyBytes, courtesyFrames: initCourtesyFrames, bits: initBits, channels: initChannels);
             var val  = (courtesyBytes, courtesyFrames, bits, channels);
 
             void AssertProp(Action<TestEntities> setter)
@@ -107,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             // Immutable. Get-only.
             var configSection = GetConfigSectionAccessor();
             int circumstantialCourtesyFrames = 2;
-            int? circumstantialCourtesyBytes = CourtesyBytes(circumstantialCourtesyFrames, configSection.Bits, configSection.Channels);
+            int circumstantialCourtesyBytes = CourtesyBytes(circumstantialCourtesyFrames, configSection.Bits, configSection.Channels);
             AreEqual(circumstantialCourtesyBytes, () => configSection.CourtesyBytes());
             AreEqual(4 * 32 / 8, () => DefaultCourtesyBytes);
         }
@@ -160,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         // ncrunch: no coverage start
         
-        static IEnumerable<object[]> ParameterSetInit
+        static IEnumerable<object[]> ParameterSetInitWithEmpties
         {
             get
             {
@@ -195,29 +194,49 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             GetParameters(_2Frames, 16,   MonoChannels, _3Frames, 32, StereoChannels), // Change all
             GetParameters(_3Frames, 32, StereoChannels, _3Frames,  8, StereoChannels), // 8-bit
         };
-                        
+        
+        static IEnumerable<object> ParameterSetSmallWithEmpties => new[]
+        {
+            GetParameters(_3Frames , 32 , StereoChannels , _2Frames ,   32 , StereoChannels ), // Change frames
+            GetParameters(_3Frames , 32 , StereoChannels , _3Frames ,   16 , StereoChannels ), // Change bits
+            GetParameters(_3Frames , 32 , StereoChannels , _3Frames ,   32 ,   MonoChannels ), // Change channels
+            GetParameters(_2Frames , 16 ,   MonoChannels , _3Frames ,   32 , StereoChannels ), // Change all
+            GetParameters(_3Frames , 32 , StereoChannels , _3Frames ,    8 , StereoChannels ), // 8-bit
+            GetParameters(_3Frames , 32 , StereoChannels ,     null ,   32 , StereoChannels ), // Null frames
+            GetParameters(_3Frames , 32 , StereoChannels , _3Frames , null , StereoChannels ), // Null bits
+            GetParameters(_3Frames , 32 , StereoChannels , _3Frames ,   32 ,           null ), // Null channels
+            GetParameters(_2Frames , 16 ,   MonoChannels ,     null , null ,           null ), // Null all
+            GetParameters(_3Frames , 32 , StereoChannels , _3Frames ,    0 , StereoChannels ), // 0 bits
+            GetParameters(_3Frames , 32 , StereoChannels , _3Frames ,   32 ,              0 ), // 0 channels
+            GetParameters(_2Frames , 16 ,   MonoChannels ,     null ,    0 ,              0 ), // 0 bits and channels
+        };
+           
         static object[] GetParameters(
             int? frames1, int? bits1, int? channels1, 
             int? frames2, int? bits2, int? channels2)
             => new object[]
             {
                 Descriptor(frames1, bits1, channels1, frames2, bits2, channels2),
-                frames1 * bits1 / 8 * channels1, // = Courtesy Bytes
+                GetExpectedCourtesyBytes(frames1, bits1, channels1), 
                 frames1, bits1, channels1,
-                frames2 * bits2 / 8 * channels2, // = Courtesy Bytes
+                GetExpectedCourtesyBytes(frames2, bits2, channels2), 
                 frames2, bits2, channels2
             };
         
         static object[] GetParameters(int? frames, int? bits, int? channels)
         {
-            int? courtesyFramesSetting = GetConfigSectionAccessor().CourtesyFrames;
-        
             return new object[]
             {
                 Descriptor(frames, bits, channels),
-                CoalesceCourtesyFrames(frames, courtesyFramesSetting) * CoalesceBits(bits) / 8 * CoalesceChannels(channels), // = Courtesy Bytes
+                GetExpectedCourtesyBytes(frames, bits, channels),
                 frames, bits, channels
             };
+        }
+        
+        static int GetExpectedCourtesyBytes(int? frames, int? bits, int? channels)
+        {
+            int? courtesyFramesSetting = GetConfigSectionAccessor().CourtesyFrames;
+            return CoalesceCourtesyFrames(frames, courtesyFramesSetting) * CoalesceBits(bits) / 8 * CoalesceChannels(channels);
         }
         
         static string Descriptor(int? frames, int? bits, int? channels)
