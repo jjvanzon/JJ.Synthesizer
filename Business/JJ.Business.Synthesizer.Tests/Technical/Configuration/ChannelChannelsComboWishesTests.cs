@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(SpeakerSetupEnum.Stereo,    () => StereoChannels.ChannelsToEnum());
             ThrowsException(                     () => (-1)          .ChannelsToEnum());
 
-            AreEqual(ChannelsEmpty,     () => SpeakerSetupEnum.Undefined. EnumToChannels());
+            AreEqual(ChannelsEmpty,  () => SpeakerSetupEnum.Undefined. EnumToChannels());
             AreEqual(MonoChannels,   () => SpeakerSetupEnum.Mono      .EnumToChannels());
             AreEqual(StereoChannels, () => SpeakerSetupEnum.Stereo    .EnumToChannels());
             ThrowsException(() => ((SpeakerSetupEnum)(-1)).EnumToChannels());
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(ChannelEnum.Right,     2 .ChannelsToChannelEnum(RightChannel));
             ThrowsException(() =>         (-1).ChannelsToChannelEnum(CenterChannel));
             
-            AreEqual(ChannelsEmpty,     () => ChannelEnum.Undefined  .ChannelEnumToChannels());
+            AreEqual(ChannelsEmpty,  () => ChannelEnum.Undefined  .ChannelEnumToChannels());
             AreEqual(MonoChannels,   () => ChannelEnum.Single     .ChannelEnumToChannels());
             AreEqual(StereoChannels, () => ChannelEnum.Right      .ChannelEnumToChannels());
             AreEqual(StereoChannels, () => ChannelEnum.Left       .ChannelEnumToChannels());
@@ -68,7 +68,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             
             AreSame(monoEntities  .Immutable.SpeakerSetup, () => MonoChannels  .ChannelsToEntity(context));
             AreSame(stereoEntities.Immutable.SpeakerSetup, () => StereoChannels.ChannelsToEntity(context));
-            IsNull(                                        () => ChannelsEmpty    .ChannelsToEntity(context));
+            IsNull(                                        () => ChannelsEmpty .ChannelsToEntity(context));
             ThrowsException(                               () => (-1)          .ChannelsToEntity(context));
             
             var centerEntities = CreateTestEntities(MonoChannels,   CenterChannel, context);
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreSame( rightEntities.Immutable.ChannelEntity, StereoChannels.ChannelsToChannelEntity(RightChannel,  context));
             ThrowsException(() => (-1).ChannelsToChannelEntity(CenterChannel, context));
 
-            AreEqual(MonoChannels, () => centerEntities.Immutable.ChannelEntity.ChannelEntityToChannels());
+            AreEqual(MonoChannels,   () => centerEntities.Immutable.ChannelEntity.ChannelEntityToChannels());
             AreEqual(StereoChannels, () => leftEntities.Immutable.ChannelEntity.ChannelEntityToChannels());
             AreEqual(StereoChannels, () => rightEntities.Immutable.ChannelEntity.ChannelEntityToChannels());
             
