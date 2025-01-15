@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     {
         [TestMethod]
         [DynamicData(nameof(ParameterSetInit))]
-        public void Init_CourtesyBytes(string descriptor, int courtesyBytes, int courtesyFrames, int bits, int channels)
+        public void Init_CourtesyBytes(string descriptor, int courtesyBytes, int? courtesyFrames, int? bits, int? channels)
         { 
             var init = (courtesyBytes, courtesyFrames, bits, channels);
             var x = CreateTestEntities(init);
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities((int courtesyBytes, int courtesyFrames, int bits, int channels) init) 
+        private TestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init) 
             => new TestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels));
 
         // ncrunch: no coverage start
@@ -164,9 +164,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             get
             {
-                foreach (int frames in _framesValues)
-                foreach (int bits in _bitsValues)
-                foreach (int channels in _channelsValues)
+                foreach (int? frames in _framesValues)
+                //foreach (int? frames in _framesValuesWithEmpty)
+                foreach (int? bits in _bitsValues)
+                //foreach (int? bits in _bitsValuesWithEmpty)
+                foreach (int? channels in _channelsValues)
+                //foreach (int? channels in _channelsValuesWithEmpty)
                 {
                     yield return GetParameters(frames, bits, channels);
                 }
@@ -177,12 +180,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             get
             {
-                foreach (int initFrames in _framesValues)
-                foreach ((int initBits, int initChannels) in _bitsChannelsCombos)
-                foreach (int frames in _framesValues)
-                foreach ((int bits, int channels) in _bitsChannelsCombos)
+                foreach (int frames1 in _framesValues)
+                foreach ((int bits1, int channels1) in _bitsChannelsCombos)
+                foreach (int frames2 in _framesValues)
+                foreach ((int bits2, int channels2) in _bitsChannelsCombos)
                 {
-                    yield return GetParameters(initFrames, initBits, initChannels, frames, bits, channels);
+                    yield return GetParameters(frames1, bits1, channels1, frames2, bits2, channels2);
                 }
             }
         }
@@ -208,30 +211,38 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 frames2, bits2, channels2
             };
         
-        static object[] GetParameters(int frames, int bits, int channels) => new object[]
+        static object[] GetParameters(int? frames, int? bits, int? channels) => new object[]
         {
             Descriptor(frames, bits, channels),
             frames * bits / 8 * channels, // = Courtesy Bytes
             frames, bits, channels
         };
 
-        static string Descriptor(int courtesyFrames, int bits, int channels) 
-            => $"{courtesyFrames}x{bits}bit-{ChannelDescriptor(channels).ToLower()} ";
-
+        static string Descriptor(int? frames, int? bits, int? channels)
+        {
+            string formattedFrames   = frames   == null ? "(null)" : frames.ToString();
+            string formattedBits     = bits     == null ? "(null)" : bits + "bit";
+            string formattedChannels = channels == null ? "(null)" : channels == 0 ? "0" : ChannelDescriptor(channels).ToLower();
+            return $"{formattedFrames}x{formattedBits}x{formattedChannels} ";
+        }
+        
         static string Descriptor(
-            int initCourtesyFrames, int initBits, int initChannels,
-            int courtesyFrames, int bits, int channels)
-            => $"{Descriptor(initCourtesyFrames, initBits, initChannels)} => {Descriptor(courtesyFrames, bits, channels)}";
+            int? frames1, int? bits1, int? channels1,
+            int? frames2, int? bits2, int? channels2)
+            => $"{Descriptor(frames1, bits1, channels1)} => {Descriptor(frames2, bits2, channels2)}";
 
         const int _2Frames = 2;
         const int _3Frames = 3;
         const int _4Frames = 4;
         
-        static readonly int[]        _channelsValues     = { 1, 2 };
-        static readonly int[]        _bitsValues         = { 8, 16, 32 };
-        static readonly int[]        _framesValues       = { 3, 4, 8 };
-        static readonly int[]        _bytesValues        = { 8, 12, 16, 20, 24, 28, 32 };
-        static readonly (int, int)[] _bitsChannelsCombos = { (8, 1), (16, 2), (32, 1), (32, 2) };
+        static readonly int []       _channelsValues          = { 1, 2 };
+        static readonly int?[]       _channelsValuesWithEmpty = { 1, 2, 0, null };
+        static readonly int []       _bitsValues              = { 8, 16, 32 };
+        static readonly int?[]       _bitsValuesWithEmpty     = { 8, 16, 32, 0, null };
+        static readonly int []       _framesValues            = { 3, 4, 8 };
+        static readonly int?[]       _framesValuesWithEmpty   = { 3, 4, 8, null };
+        static readonly int []       _bytesValues             = { 8, 12, 16, 20, 24, 28, 32 };
+        static readonly (int, int)[] _bitsChannelsCombos      = { (8, 1), (16, 2), (32, 1), (32, 2) };
 
         // ncrunch: no coverage end
    } 
