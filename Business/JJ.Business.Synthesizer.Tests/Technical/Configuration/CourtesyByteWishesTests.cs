@@ -10,6 +10,8 @@ using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 
+// ReSharper disable UnusedMember.Local
+
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
 
@@ -20,7 +22,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     public class CourtesyByteWishesTests
     {
         [TestMethod]
-        [DynamicData(nameof(TestParametersInit))]
+        [DynamicData(nameof(ParameterSetInit))]
         public void Init_CourtesyBytes(string descriptor, int courtesyBytes, int courtesyFrames, int bits, int channels)
         { 
             var init = (courtesyBytes, courtesyFrames, bits, channels);
@@ -29,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
+        [DynamicData(nameof(ParameterSetSmall))]
         public void SynthBound_CourtesyBytes(
             string descriptor,
             int initCourtesyBytes, int initCourtesyFrames, int initBits, int initChannels,
@@ -63,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
+        [DynamicData(nameof(ParameterSetSmall))]
         public void TapeBound_CourtesyBytes(
             string descriptor,
             int initCourtesyBytes, int initCourtesyFrames, int initBits, int initChannels,
@@ -158,71 +160,78 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         // ncrunch: no coverage start
         
-        static IEnumerable<object[]> TestParametersInit
+        static IEnumerable<object[]> ParameterSetInit
         {
             get
             {
-                foreach (int courtesyFrames in _courtesyFramesValues)
+                foreach (int frames in _framesValues)
                 foreach (int bits in _bitsValues)
                 foreach (int channels in _channelsValues)
                 {
-                    yield return new object[]
-                    { 
-                        GetDescriptor(courtesyFrames, bits, channels),
-                        courtesyFrames * bits / 8 * channels, 
-                        courtesyFrames, 
-                        bits,
-                        channels
-                    };
+                    yield return GetParameters(frames, bits, channels);
                 }
             }
         }
 
-        static IEnumerable<object[]> TestParameters
+        static IEnumerable<object[]> ParameterSetLarge
         {
             get
             {
-                foreach (int initCourtesyFrames in _courtesyFramesValues)
-                foreach ((int initBits, int initChannels )in _bitsChannelsCombos)
-                foreach (int courtesyFrames in _courtesyFramesValues)
-                foreach ((int bits, int channels )in _bitsChannelsCombos)
+                foreach (int initFrames in _framesValues)
+                foreach ((int initBits, int initChannels) in _bitsChannelsCombos)
+                foreach (int frames in _framesValues)
+                foreach ((int bits, int channels) in _bitsChannelsCombos)
                 {
-                    if (initCourtesyFrames == courtesyFrames && initBits == bits && initChannels == channels) 
-                    {
-                        continue;
-                    }
-                    
-                    yield return new object[]
-                    {
-                        GetDescriptor(initCourtesyFrames, initBits, initChannels, courtesyFrames, bits, channels),
-                        initCourtesyFrames * initBits / 8 * initChannels, 
-                        initCourtesyFrames, 
-                        initBits,
-                        initChannels,
-                        courtesyFrames * bits / 8 * channels, 
-                        courtesyFrames, 
-                        bits,
-                        channels
-                    };
+                    yield return GetParameters(initFrames, initBits, initChannels, frames, bits, channels);
                 }
             }
         }
         
-        static string GetDescriptor(int courtesyFrames, int bits, int channels) 
+        static IEnumerable<object> ParameterSetSmall => new[]
+        {
+            GetParameters(_3Frames, 32, StereoChannels, _2Frames, 32, StereoChannels), // Change frames
+            GetParameters(_3Frames, 32, StereoChannels, _3Frames, 16, StereoChannels), // Change bits
+            GetParameters(_3Frames, 32, StereoChannels, _3Frames, 32,   MonoChannels), // Change channels
+            GetParameters(_2Frames, 16,   MonoChannels, _3Frames, 32, StereoChannels), // Change all
+            GetParameters(_3Frames, 32, StereoChannels, _3Frames,  8, StereoChannels), // 8-bit
+        };
+                        
+        static object[] GetParameters(
+            int frames1, int bits1, int channels1, 
+            int frames2, int bits2, int channels2)
+            => new object[]
+            {
+                Descriptor(frames1, bits1, channels1, frames2, bits2, channels2),
+                frames1 * bits1 / 8 * channels1, // = Courtesy Bytes
+                frames1, bits1, channels1,
+                frames2 * bits2 / 8 * channels2, // = Courtesy Bytes
+                frames2, bits2, channels2
+            };
+        
+        static object[] GetParameters(int frames, int bits, int channels) => new object[]
+        {
+            Descriptor(frames, bits, channels),
+            frames * bits / 8 * channels, // = Courtesy Bytes
+            frames, bits, channels
+        };
+
+        static string Descriptor(int courtesyFrames, int bits, int channels) 
             => $"{courtesyFrames}x{bits}bit-{ChannelDescriptor(channels).ToLower()} ";
 
-        static string GetDescriptor(
+        static string Descriptor(
             int initCourtesyFrames, int initBits, int initChannels,
             int courtesyFrames, int bits, int channels)
-            => $"{GetDescriptor(initCourtesyFrames, initBits, initChannels)} => {GetDescriptor(courtesyFrames, bits, channels)}";
+            => $"{Descriptor(initCourtesyFrames, initBits, initChannels)} => {Descriptor(courtesyFrames, bits, channels)}";
+
+        const int _2Frames = 2;
+        const int _3Frames = 3;
+        const int _4Frames = 4;
         
-        // TODO: Choose more literal combinations in next time,
-        // avoiding cartesian products where the number of combinations grows unwieldy.
-        static readonly int[]        _channelsValues       = { 1, 2 };
-        static readonly int[]        _bitsValues           = { 8, 16, 32 };
-        static readonly int[]        _courtesyFramesValues = { 3, 4, 8 };
-        static readonly int[]        _courtesyBytesValues  = { 8, 12, 16, 20, 24, 28, 32 };
-        static readonly (int, int)[] _bitsChannelsCombos   = { (8, 1), (16, 2), (32, 1), (32, 2) };
+        static readonly int[]        _channelsValues     = { 1, 2 };
+        static readonly int[]        _bitsValues         = { 8, 16, 32 };
+        static readonly int[]        _framesValues       = { 3, 4, 8 };
+        static readonly int[]        _bytesValues        = { 8, 12, 16, 20, 24, 28, 32 };
+        static readonly (int, int)[] _bitsChannelsCombos = { (8, 1), (16, 2), (32, 1), (32, 2) };
 
         // ncrunch: no coverage end
    } 
