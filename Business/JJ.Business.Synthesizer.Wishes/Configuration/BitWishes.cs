@@ -130,17 +130,21 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int Bits(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return Bits(obj.UnderlyingAudioFileOutput);
+            return obj.UnderlyingAudioFileOutput.Bits();
         }
         
         public static Buff Bits(this Buff obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.UnderlyingAudioFileOutput.Bits(value.AssertBits(), context);
+            obj.UnderlyingAudioFileOutput.Bits(value, context);
             return obj;
         }
         
-        public static int Bits(this AudioFileOutput obj) => obj.GetSampleDataTypeEnum().EnumToBits();
+        public static int Bits(this AudioFileOutput obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return obj.GetSampleDataTypeEnum().EnumToBits();
+        }
         
         public static AudioFileOutput Bits(this AudioFileOutput obj, int value, IContext context)
         {
@@ -151,7 +155,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // Independent after Taping
         
-        public static int Bits(this Sample obj) => obj.GetSampleDataTypeEnum().EnumToBits();
+        public static int Bits(this Sample obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return obj.GetSampleDataTypeEnum().EnumToBits();
+        }
         
         public static Sample Bits(this Sample obj, int value, IContext context)
         {
@@ -356,6 +364,17 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         [Obsolete(ObsoleteMessage)] 
         public static SampleDataType BitsToEntity(this int bits, IContext context) => ConfigWishes.BitsToEntity(bits, context);
+        
+        // Synonyms
+
+        public static int ToBits(this Type obj) => ConfigWishes.ToBits(obj);
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int ToBits(this SampleDataTypeEnum obj) => ConfigWishes.ToBits(obj);
+        
+        [Obsolete(ObsoleteMessage)]
+        public static int ToBits(this SampleDataType obj) => ConfigWishes.ToBits(obj);
+
     }
 
     public partial class ConfigWishes
@@ -368,9 +387,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type Bits<TValueType>(int value) => value.BitsToType();
 
-        public   static bool Is8Bit <TValue> () => Bits<TValue>() == 8;
-        public   static bool Is16Bit<TValue> () => Bits<TValue>() == 16;
-        public   static bool Is32Bit<TValue> () => Bits<TValue>() == 32;
+        public static bool Is8Bit <TValue> () => Bits<TValue>() == 8;
+        public static bool Is16Bit<TValue> () => Bits<TValue>() == 16;
+        public static bool Is32Bit<TValue> () => Bits<TValue>() == 32;
 
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type With8Bit<TValue>() => Bits<TValue>(8);
@@ -430,5 +449,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType BitsToEntity(int bits, IContext context) => bits.BitsToEnum().ToEntity(context);
-    }
+        
+        // Synonyms
+        
+        public static int ToBits(Type obj) => TypeToBits(obj);
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int ToBits(SampleDataTypeEnum obj) => EnumToBits(obj);
+        
+        [Obsolete(ObsoleteMessage)]
+        public static int ToBits(SampleDataType obj) => EntityToBits(obj);
+   }
 }
