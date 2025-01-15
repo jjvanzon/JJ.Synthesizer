@@ -9,6 +9,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 // ReSharper disable UnusedMember.Local
 
@@ -233,10 +234,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             };
         }
         
-        static int GetExpectedCourtesyBytes(int? frames, int? bits, int? channels)
+        static int GetExpectedCourtesyBytes(int? courtesyFrames, int? bits, int? channels)
         {
             int? courtesyFramesSetting = GetConfigSectionAccessor().CourtesyFrames;
-            return CoalesceCourtesyFrames(frames, courtesyFramesSetting) * CoalesceBits(bits) / 8 * CoalesceChannels(channels);
+            
+            int coalescedCourtesyFrames = courtesyFrames ?? courtesyFramesSetting ?? DefaultCourtesyFrames;
+            int coalescedBits           = Has(bits)      ?  bits.Value            :  DefaultBits;
+            int coalescedChannels       = Has(channels)  ?  channels.Value        :  DefaultChannels;
+            
+            return coalescedCourtesyFrames * coalescedBits / 8 * coalescedChannels;
         }
         
         static string Descriptor(int? frames, int? bits, int? channels)
