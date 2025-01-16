@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Is8Bit => _synthWishes.Is8Bit;
         public FlowNode With8Bit() { _synthWishes.With8Bit(); return this; }
 
-        public int ChannelsEmpty => ConfigWishes.ChannelsEmpty;
+        public int NoChannels => ConfigWishes.NoChannels;
         public int MonoChannels => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => _synthWishes.GetChannels;

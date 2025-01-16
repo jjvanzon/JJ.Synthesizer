@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int Channels(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            if (obj.UnderlyingAudioFileOutput == null) return ChannelsEmpty;
+            if (obj.UnderlyingAudioFileOutput == null) return NoChannels;
             return obj.UnderlyingAudioFileOutput.Channels();
         }
         
@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // Constants
     
-        public const int ChannelsEmpty = 0;
+        public const int NoChannels = 0;
         public const int MonoChannels = 1;
         public const int StereoChannels = 2;
 
@@ -326,7 +326,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             switch (AssertChannels((int?)channels))
             {
-                case ChannelsEmpty: return SpeakerSetupEnum.Undefined;
+                case NoChannels: return SpeakerSetupEnum.Undefined;
                 case MonoChannels: return SpeakerSetupEnum.Mono;
                 case StereoChannels: return SpeakerSetupEnum.Stereo;
                 default: return default; // ncrunch: no coverage
@@ -340,7 +340,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             {
                 case SpeakerSetupEnum.Mono: return MonoChannels;
                 case SpeakerSetupEnum.Stereo: return StereoChannels;
-                case SpeakerSetupEnum.Undefined: return ChannelsEmpty;
+                case SpeakerSetupEnum.Undefined: return NoChannels;
                 default: throw new ValueNotSupportedException(enumValue);
             }
         }

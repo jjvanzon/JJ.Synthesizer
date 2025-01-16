@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Is8Bit => Config.Is8Bit;
         public SynthWishes With8Bit() { Config.With8Bit(); return this; }
         
-        public int ChannelsEmpty  => ConfigWishes.ChannelsEmpty;
+        public int NoChannels  => ConfigWishes.NoChannels;
         public int MonoChannels   => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => Config.GetChannels;

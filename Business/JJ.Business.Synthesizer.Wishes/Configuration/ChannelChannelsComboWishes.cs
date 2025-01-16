@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
         public static ChannelEnum Channels(this ChannelEnum oldChannelEnum, int newChannelsValue)
         {
-            if (newChannelsValue == ChannelsEmpty) return ChannelEnum.Undefined;
+            if (newChannelsValue == NoChannels) return ChannelEnum.Undefined;
             if (newChannelsValue == MonoChannels) return ChannelEnum.Single;
             if (newChannelsValue == StereoChannels) 
             {
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)] 
         public static Channel Channels(this Channel oldChannelEntity, int newChannelsValue, IContext context)
         {
-            if (newChannelsValue == ChannelsEmpty) return null;
+            if (newChannelsValue == NoChannels) return null;
             if (newChannelsValue == MonoChannels) return ChannelEnum.Single.ToEntity(context);
             if (newChannelsValue == StereoChannels)
             {
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
 
             // Fallback: Tolerate inconsistent state for fluent switch between speaker setups.
-            if (oldChannels == ChannelsEmpty)
+            if (oldChannels == NoChannels)
             {
                 if (newChannelValue == 0) return ChannelEnum.Single;
                 if (newChannelValue == 1) return ChannelEnum.Right;
@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
 
             // Fallback for inconsistent state for fluent switch between speaker setups.
-            if (oldChannels == ChannelsEmpty)
+            if (oldChannels == NoChannels)
             {
                 if (newChannelValue == 0) return ChannelEnum.Single.ToEntity(context);
                 if (newChannelValue == 1) return ChannelEnum.Right.ToEntity(context);
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
 
             // Fallback: Tolerate inconsistent state for fluent switch between speaker setups.
-            if (channels == ChannelsEmpty)
+            if (channels == NoChannels)
             {
                 if (channel == 0) return ChannelEnum.Single;
                 if (channel == 1) return ChannelEnum.Right;
