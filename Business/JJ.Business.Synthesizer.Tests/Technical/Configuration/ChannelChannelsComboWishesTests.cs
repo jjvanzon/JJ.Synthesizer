@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(ChannelEnum.Right,     2 .ChannelsToChannelEnum(RightChannel));
             ThrowsException(() =>         (-1).ChannelsToChannelEnum(CenterChannel));
             
-            AreEqual(ChannelsEmpty,  () => ChannelEnum.Undefined  .ChannelEnumToChannels());
+            AreEqual(StereoChannels, () => ChannelEnum.Undefined  .ChannelEnumToChannels());
             AreEqual(MonoChannels,   () => ChannelEnum.Single     .ChannelEnumToChannels());
             AreEqual(StereoChannels, () => ChannelEnum.Right      .ChannelEnumToChannels());
             AreEqual(StereoChannels, () => ChannelEnum.Left       .ChannelEnumToChannels());
