@@ -801,6 +801,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // ncrunch: no coverage start
         
+        static readonly int? _ = null;
+
         /// <summary> Channels / Channel combos. </summary>
         static object TestParametersInit => new[]
         {
@@ -815,57 +817,102 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] {   MonoChannels ,  RightChannel },
             
             // All Mono: null / 0 Channels => defaults to Mono => ignores the channel.
-            new object[] { null, null }, 
-            new object[] {    0, null }, 
-            new object[] { null,    0 }, 
-            new object[] {    0,    0 }, 
-            new object[] { null,    1 }, 
-            new object[] {    0,    1 }, 
+            new object[] { _, _ }, 
+            new object[] { 0, _ }, 
+            new object[] { _, 0 }, 
+            new object[] { 0, 0 }, 
+            new object[] { _, 1 }, 
+            new object[] { 0, 1 }, 
         };
 
         static object TestParameters => new[]
         {
-            new object[] { 1,0,    2,0    },
-            new object[] { 1,0,    2,1    },
-            new object[] { 1,0,    2,null },
+            new object[] { 1,0, 2,0 },
+            new object[] { 1,0, 2,1 },
+            new object[] { 1,0, 2,_ },
             
-            new object[] { 2,0,    1,0    },
-            new object[] { 2,0,    2,1    },
-            new object[] { 2,0,    2,null },
+            new object[] { 2,0, 1,0 },
+            new object[] { 2,0, 2,1 },
+            new object[] { 2,0, 2,_ },
             
-            new object[] { 2,1,    1,0    },
-            new object[] { 2,1,    2,0    },
-            new object[] { 2,1,    2,null },
+            new object[] { 2,1, 1,0 },
+            new object[] { 2,1, 2,0 },
+            new object[] { 2,1, 2,_ },
             
-            new object[] { 2,null, 1,0    },
-            new object[] { 2,null, 2,0    },
-            new object[] { 2,null, 2,1    },
+            new object[] { 2,_, 1,0 },
+            new object[] { 2,_, 2,0 },
+            new object[] { 2,_, 2,1 },
         };
 
-        static object TestParametersWithEmpty => new[]
+        static object TestParametersWithEmpties => new[]
         {
-            new object[] { 1,0,    2,0    },
-            new object[] { 1,0,    2,1    },
-            new object[] { 1,0,    2,null },
+            new object[] { 1,0, 2,0 },
+            new object[] { 1,0, 2,1 },
+            new object[] { 1,0, 2,_ },
             
-            new object[] { 2,0,    1,0    },
-            new object[] { 2,0,    2,1    },
-            new object[] { 2,0,    2,null },
+            new object[] { 2,0, 1,0 },
+            new object[] { 2,0, 2,1 },
+            new object[] { 2,0, 2,_ },
             
-            new object[] { 2,1,    1,0    },
-            new object[] { 2,1,    2,0    },
-            new object[] { 2,1,    2,null },
+            new object[] { 2,1, 1,0 },
+            new object[] { 2,1, 2,0 },
+            new object[] { 2,1, 2,_ },
             
-            new object[] { 2,null, 1,0    },
-            new object[] { 2,null, 2,0    },
-            new object[] { 2,null, 2,1    },
+            new object[] { 2,_, 1,0 },
+            new object[] { 2,_, 2,0 },
+            new object[] { 2,_, 2,1 },
             
             // The 2nd pairs should all coalesce to Mono: null / 0 / 1 channels => defaults to Mono => ignores the channel.
-            new object[] { 2,1,    null,null },
-            new object[] { 2,0,    0,null    },
-            new object[] { 2,null, 1,1       },
+            new object[] { 2,1, _,_ },
+            new object[] { 2,0, 0,_ },
+            new object[] { 2,_, 1,1 },
+        };
+        
+        // New attempt to define test data
+ 
+        private static readonly 
+            ( ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) init,
+              ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) val ) [] TestTuples =
+        {
+            (init: ((1,0), (_,_)), val: ((2,0), (_,_))),
+            (init: ((1,0), (_,_)), val: ((2,1), (_,_))),
+            (init: ((2,1), (_,_)), val: ((_,_), (1,0))),
+            (init: ((_,_), (1,0)), val: ((2,1), (_,_))),
         };
 
+        private static IEnumerable<object[]> TestParametersNew
+            => TestDataDictionary.Keys.Select(x => new object[] { x }).ToArray();
+        
+        private static readonly Dictionary<string, object> TestDataDictionary = CreateTestDataDictionary();
+        
+        private static Dictionary<string, object> CreateTestDataDictionary()
+        {
+            var dictionary = new Dictionary<string, object>();
+            
+            foreach (var x in TestTuples)
+            {
+                string descriptor = GetDescriptor(x);
+                var coalesced = (CoalesceExpect(x.init), CoalesceExpect(x.val));
+                dictionary.Add(descriptor, coalesced);
+            }
+            
+            return dictionary;
+        }
+        
+        private static string GetDescriptor(
+            ( ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) init,
+              ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) val ) x)
+        {
+            return $"({x.init.input.channels},{x.init.input.channel}) => ({x.val.input.channels},{x.val.input.channel})";
+        }
+
+        private static 
+            ((int? channels, int? channel) input, (int  channels, int? channel) expect) CoalesceExpect(
+            ((int? channels, int? channel) input, (int? channels, int? channel) expect) x)
+        {
+            return (x.input, (channels: x.expect.channels ?? x.input.channels ?? 0, channel: x.expect.channel ?? x.input.channel));
+        }
+        
         // ncrunch: no coverage end
     } 
 }
