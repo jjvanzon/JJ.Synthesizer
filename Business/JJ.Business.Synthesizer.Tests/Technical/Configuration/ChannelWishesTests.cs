@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         [DynamicData(nameof(TestParametersNew))]
         public void SynthBound_Channel(string testKey)
         {
-            TestCase testCase = TestDataDictionary[testKey];
+            Case testCase = TestDataDictionary[testKey];
             
             var init = testCase.init.input;
             var initCoalesced = testCase.init.expect;
@@ -885,23 +885,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // New attempt to define test data
  
-        private static readonly TestCase[] TestTuples =
+        private static readonly Case[] TestTuples =
         {
-            Case(init: ((1,0), (_,_)), val: ((2,0), (_,_))),
-            Case(init: ((1,0), (_,_)), val: ((2,1), (_,_))),
-            Case(init: ((1,0), (_,_)), val: ((2,_), (_,_))),
-            
-            Case(init: ((2,0), (_,_)), val: ((1,0), (_,_))),
-            Case(init: ((2,0), (_,_)), val: ((2,1), (_,_))),
-            Case(init: ((2,0), (_,_)), val: ((2,_), (_,_))),
-            
-            Case(init: ((2,1), (_,_)), val: ((1,0), (_,_))),
-            Case(init: ((2,1), (_,_)), val: ((2,0), (_,_))),
-            Case(init: ((2,1), (_,_)), val: ((2,_), (_,_))),
-            
-            Case(init: ((2,_), (_,_)), val: ((1,0), (_,_))),
-            Case(init: ((2,_), (_,_)), val: ((2,0), (_,_))),
-            Case(init: ((2,_), (_,_)), val: ((2,1), (_,_))),
+            new Case( init: ((1,0), (_,_)), val: ((2,0), (_,_)) ),
+            new Case( init: ((1,0), (_,_)), val: ((2,1), (_,_)) ),
+            new Case( init: ((1,0), (_,_)), val: ((2,_), (_,_)) ),
+                                                                    
+            new Case( init: ((2,0), (_,_)), val: ((1,0), (_,_)) ),
+            new Case( init: ((2,0), (_,_)), val: ((2,1), (_,_)) ),
+            new Case( init: ((2,0), (_,_)), val: ((2,_), (_,_)) ),
+                                                                    
+            new Case( init: ((2,1), (_,_)), val: ((1,0), (_,_)) ),
+            new Case( init: ((2,1), (_,_)), val: ((2,0), (_,_)) ),
+            new Case( init: ((2,1), (_,_)), val: ((2,_), (_,_)) ),
+                                                                    
+            new Case( init: ((2,_), (_,_)), val: ((1,0), (_,_)) ),
+            new Case( init: ((2,_), (_,_)), val: ((2,0), (_,_)) ),
+            new Case( init: ((2,_), (_,_)), val: ((2,1), (_,_)) ),
 
             //Case(init: ((2,1), (_,_)), val: ((_,_), (1,0))),
             //Case(init: ((_,_), (1,0)), val: ((2,1), (_,_))),
@@ -910,11 +910,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         private static IEnumerable<object[]> TestParametersNew
             => TestDataDictionary.Keys.Select(x => new object[] { x }).ToArray();
         
-        private static readonly Dictionary<string, TestCase> TestDataDictionary = CreateTestDataDictionary();
+        private static readonly Dictionary<string, Case> TestDataDictionary = CreateTestDataDictionary();
         
-        private static Dictionary<string, TestCase> CreateTestDataDictionary()
+        private static Dictionary<string, Case> CreateTestDataDictionary()
         {
-            var dictionary = new Dictionary<string, TestCase>();
+            var dictionary = new Dictionary<string, Case>();
             
             foreach (var x in TestTuples)
             {
@@ -931,32 +931,33 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             return $"({init.input.channels},{init.input.channel}) => ({val.input.channels},{val.input.channel})";
         }
-
-        private static 
-            ((int? channels, int? channel) input, (int  channels, int? channel) expect) CoalesceExpect(
-            ((int? channels, int? channel) input, (int? channels, int? channel) expect) x)
-        {
-            return (x.input, (channels: x.expect.channels ?? x.input.channels ?? 0, channel: x.expect.channel ?? x.input.channel));
-        }
                 
-        private static TestCase Case(
-            ((int? channels, int? channel) input, (int? channels, int? channel) expect) init,
-            ((int? channels, int? channel) input, (int? channels, int? channel) expect) val )
-        {
-            return new TestCase(CoalesceExpect(init), CoalesceExpect(val));
-        }
-        
-        private struct TestCase
+        private struct Case
         {
             public ((int? channels, int? channel) input, (int channels, int? channel) expect) init;
             public ((int? channels, int? channel) input, (int channels, int? channel) expect) val;
 
-            public TestCase(
+            public Case(
                 ((int? channels, int? channel) input, (int channels, int? channel) expect) init, 
                 ((int? channels, int? channel) input, (int channels, int? channel) expect) val )
             {
                 this.init = init;
                 this.val = val;
+            }
+            
+            public Case(
+                ((int? channels, int? channel) input, (int? channels, int? channel) expect) init,
+                ((int? channels, int? channel) input, (int? channels, int? channel) expect) val )
+            {
+                this.init = CoalesceExpect(init);
+                this.val  = CoalesceExpect(val);
+            }
+            
+            static
+                ((int? channels, int? channel) input, (int  channels, int? channel) expect) CoalesceExpect(
+                ((int? channels, int? channel) input, (int? channels, int? channel) expect) x)
+            {
+                return (x.input, (channels: x.expect.channels ?? x.input.channels ?? 0, channel: x.expect.channel ?? x.input.channel));
             }
         }
         
