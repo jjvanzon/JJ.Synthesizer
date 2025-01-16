@@ -10,9 +10,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public static class ConfigCoalesceExtensionWishes
     {
         // Coalesce Defaults
-    
+
         // Primary Audio Properties
-        
+
         public static int CoalesceBits(this int? bits, int? defaultValue = null) => ConfigWishes.CoalesceBits(bits, defaultValue);
         public static int CoalesceChannels(this int? channels, int? defaultValue = null) => ConfigWishes.CoalesceChannels(channels, defaultValue);
         public static int CoalesceSamplingRate(this int? samplingRate, int? defaultValue = null) => ConfigWishes.CoalesceSamplingRate(samplingRate, defaultValue);
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int CoalesceCourtesyFrames(this int? courtesyFrames, int? defaultValue = null) => ConfigWishes.CoalesceCourtesyFrames(courtesyFrames, defaultValue);
 
         // Derived Audio Properties
-        
+
         public static int CoalesceSizeOfBitDepth(this int? sizeOfBitDepth, int? defaultValue = null) => ConfigWishes.CoalesceSizeOfBitDepth(sizeOfBitDepth, defaultValue);
         public static double CoalesceMaxAmplitude(this double? maxAmplitude, double? defaultValue = null) => ConfigWishes.CoalesceMaxAmplitude(maxAmplitude, defaultValue);
         public static int CoalesceFrameSize(this int? frameSize, int? defaultValue = null) => ConfigWishes.CoalesceFrameSize(frameSize, defaultValue);
@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int CoalesceCourtesyBytes(this int? courtesyBytes, int? defaultValue = null) => ConfigWishes.CoalesceCourtesyBytes(courtesyBytes, defaultValue);
 
         // Durations
-        
+
         public static double CoalesceAudioLength(this double? audioLength, double? defaultValue = null) => ConfigWishes.CoalesceAudioLength(audioLength, defaultValue);
         public static int CoalesceFrameCount(this int? frameCount, int? defaultValue = null) => ConfigWishes.CoalesceFrameCount(frameCount, defaultValue);
         public static int CoalesceByteCount(this int? byteCount, int? defaultValue = null) => ConfigWishes.CoalesceByteCount(byteCount, defaultValue);

@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public   static bool IsStereo(this AudioFileInfo   obj) => obj.Channels() == StereoChannels;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Stereo;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this SpeakerSetup     obj) => obj.ToEnum().IsStereo();
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => obj == ChannelEnum.Left || obj == ChannelEnum.Right || obj == ChannelEnum.Undefined; // Undefined so happens to be used for a stereo signal with 2 channels, not 1 in particular.
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum      obj) => obj == ChannelEnum.Left || obj == ChannelEnum.Right || obj == ChannelEnum.Undefined; // Undefined = stereo signal with 2 channels = not a specific channel
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel          obj) => obj.ToEnum().IsStereo();
         
         public   static SynthWishes     Mono  (this SynthWishes     obj                  ) => obj.Channels(MonoChannels         );
