@@ -816,7 +816,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // ncrunch: no coverage start
         
-        static readonly int? _ = null;
+        private static int? _ = null;
 
         /// <summary> Channels / Channel combos. </summary>
         static object TestParametersInit => new[]
@@ -885,7 +885,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // New attempt to define test data
  
-        private static readonly Case[] Cases =
+        static Case[] Cases =
         {
             new Case( init: ((1,0), (_,_)), val: ((2,0), (_,_)) ),
             new Case( init: ((1,0), (_,_)), val: ((2,1), (_,_)) ),
@@ -907,28 +907,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             //Case(init: ((_,_), (1,0)), val: ((2,1), (_,_))),
         };
 
-        private static IEnumerable<object[]> TestParametersNew
-            => TestDataDictionary.Keys.Select(x => new object[] { x }).ToArray();
+        static object TestParametersNew => TestDataDictionary.Keys.Select(x => new object[] { x }).ToArray();
+        static Dictionary<string, Case> TestDataDictionary = Cases.ToDictionary(x => x.Descriptor);
         
-        private static readonly Dictionary<string, Case> TestDataDictionary = CreateTestDataDictionary();
-        
-        private static Dictionary<string, Case> CreateTestDataDictionary()
+        struct Case
         {
-            var dictionary = new Dictionary<string, Case>();
-            
-            foreach (var x in Cases)
-            {
-                dictionary.Add(x.Descriptor, x);
-            }
-            
-            return dictionary;
-        }
-        
-        
-        private struct Case
-        {
-            public readonly Values init;
-            public readonly Values val;
+            public Values init;
+            public Values val;
 
             public Case(
                 ((int? channels, int? channel) input, (int? channels, int? channel) expect) init,
@@ -940,13 +925,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             
             public string Descriptor =>
                 $"({init.input.channels},{init.input.channel}) => ({val.input.channels},{val.input.channel})";
-
         }
  
-        private struct Values
+        struct Values
         {
-            public readonly (int? channels, int? channel) input;
-            public readonly (int  channels, int? channel) expect;
+            public (int? channels, int? channel) input;
+            public (int  channels, int? channel) expect;
 
             public Values( 
                 (int? channels, int? channel) input, 
