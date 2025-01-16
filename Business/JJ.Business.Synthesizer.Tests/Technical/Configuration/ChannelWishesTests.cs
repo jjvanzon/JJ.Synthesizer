@@ -884,21 +884,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
  
         static Case[] Cases =
         {
-            new Case( init: ((1,0), (_,_)), val: ((2,0), (_,_)) ),
-            new Case( init: ((1,0), (_,_)), val: ((2,1), (_,_)) ),
-            new Case( init: ((1,0), (_,_)), val: ((2,_), (_,_)) ),
-
-            new Case( init: ((2,0), (_,_)), val: ((1,0), (_,_)) ),
-            new Case( init: ((2,0), (_,_)), val: ((2,1), (_,_)) ),
-            new Case( init: ((2,0), (_,_)), val: ((2,_), (_,_)) ),
-
-            new Case( init: ((2,1), (_,_)), val: ((1,0), (_,_)) ),
-            new Case( init: ((2,1), (_,_)), val: ((2,0), (_,_)) ),
-            new Case( init: ((2,1), (_,_)), val: ((2,_), (_,_)) ),
-
-            new Case( init: ((2,_), (_,_)), val: ((1,0), (_,_)) ),
-            new Case( init: ((2,_), (_,_)), val: ((2,0), (_,_)) ),
-            new Case( init: ((2,_), (_,_)), val: ((2,1), (_,_)) ),
+            new Case( init: (1,0), val: (2,0) ),
+            new Case( init: (1,0), val: (2,1) ),
+            new Case( init: (1,0), val: (2,_) ),
+                                              
+            new Case( init: (2,0), val: (1,0) ),
+            new Case( init: (2,0), val: (2,1) ),
+            new Case( init: (2,0), val: (2,_) ),
+                                              
+            new Case( init: (2,1), val: (1,0) ),
+            new Case( init: (2,1), val: (2,0) ),
+            new Case( init: (2,1), val: (2,_) ),
+                                              
+            new Case( init: (2,_), val: (1,0) ),
+            new Case( init: (2,_), val: (2,0) ),
+            new Case( init: (2,_), val: (2,1) ),
 
             //new Case( init: ((2,1), (_,_)), val: ((_,_), (1,_)) ),
             //new Case( init: ((_,_), (1,0)), val: ((2,1), (_,_)) )
@@ -919,7 +919,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 this.init = new Values(init.input, init.expect);
                 this.val  = new Values(val .input, val .expect);
             }
-            
+
+            public Case((int channels, int? channel) init, (int channels, int? channel) val) 
+                : this(init: (init, default), val: (val, default))
+            { }
+
             public string Descriptor =>
                 $"({init.channels.nully},{init.channel.nully}) => ({val.channels.nully},{val.channel.nully})";
         }
