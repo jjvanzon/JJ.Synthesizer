@@ -885,7 +885,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // New attempt to define test data
  
-        private static readonly Case[] TestTuples =
+        private static readonly Case[] Cases =
         {
             new Case( init: ((1,0), (_,_)), val: ((2,0), (_,_)) ),
             new Case( init: ((1,0), (_,_)), val: ((2,1), (_,_)) ),
@@ -916,51 +916,52 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             var dictionary = new Dictionary<string, Case>();
             
-            foreach (var x in TestTuples)
+            foreach (var x in Cases)
             {
-                string descriptor = GetDescriptor(x.init, x.val);
-                dictionary.Add(descriptor, x);
+                dictionary.Add(x.Descriptor, x);
             }
             
             return dictionary;
         }
         
-        private static string GetDescriptor(
-            ( (int? channels, int? channel) input, (int channels, int? channel) expect ) init,
-            ( (int? channels, int? channel) input, (int channels, int? channel) expect ) val)
-        {
-            return $"({init.input.channels},{init.input.channel}) => ({val.input.channels},{val.input.channel})";
-        }
-                
+        
         private struct Case
         {
-            public ((int? channels, int? channel) input, (int channels, int? channel) expect) init;
-            public ((int? channels, int? channel) input, (int channels, int? channel) expect) val;
+            public readonly Values init;
+            public readonly Values val;
 
-            public Case(
-                ((int? channels, int? channel) input, (int channels, int? channel) expect) init, 
-                ((int? channels, int? channel) input, (int channels, int? channel) expect) val )
-            {
-                this.init = init;
-                this.val = val;
-            }
-            
             public Case(
                 ((int? channels, int? channel) input, (int? channels, int? channel) expect) init,
                 ((int? channels, int? channel) input, (int? channels, int? channel) expect) val )
             {
-                this.init = CoalesceExpect(init);
-                this.val  = CoalesceExpect(val);
+                this.init = new Values(init.input, init.expect);
+                this.val  = new Values(val .input, val .expect);
             }
             
-            static
-                ((int? channels, int? channel) input, (int  channels, int? channel) expect) CoalesceExpect(
-                ((int? channels, int? channel) input, (int? channels, int? channel) expect) x)
+            public string Descriptor =>
+                $"({init.input.channels},{init.input.channel}) => ({val.input.channels},{val.input.channel})";
+
+        }
+ 
+        private struct Values
+        {
+            public readonly (int? channels, int? channel) input;
+            public readonly (int  channels, int? channel) expect;
+
+            public Values( 
+                (int? channels, int? channel) input, 
+                (int? channels, int? channel) expect )
             {
-                return (x.input, (channels: x.expect.channels ?? x.input.channels ?? 0, channel: x.expect.channel ?? x.input.channel));
+                if (input.channels == null && expect.channels == null)
+                {
+                    throw new Exception("input.channels and expect.channels can't both be null.");
+                }
+
+                this.input = input;
+                this.expect = (expect.channels ?? input.channels.Value, expect.channel  ?? input.channel);
             }
         }
-        
+       
         // ncrunch: no coverage end
     } 
 }
