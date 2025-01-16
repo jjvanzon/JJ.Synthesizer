@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public const int                   DefaultBits           = 32;
         public const int                   DefaultChannels       = 1;
-        public static readonly int?        DefaultChannel        = null;
         public const int                   DefaultSamplingRate   = 48000;
         public const AudioFileFormatEnum   DefaultAudioFormat    = Wav;
         public const InterpolationTypeEnum DefaultInterpolation  = Line;
