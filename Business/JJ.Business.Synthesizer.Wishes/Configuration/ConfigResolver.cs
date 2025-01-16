@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Channel
         
         private int? _channel;
-        public int? GetChannel => AssertChannel(_channel);
+        public int? GetChannel => _channel;
         public ConfigResolver WithChannel(int? channel) { _channel = AssertChannel(channel); return this; }
         public bool           IsCenter  =>       IsMono  ? GetChannel == CenterChannel : default;
         public ConfigResolver WithCenter() {   WithMono(); WithChannel  (CenterChannel); return this; }
