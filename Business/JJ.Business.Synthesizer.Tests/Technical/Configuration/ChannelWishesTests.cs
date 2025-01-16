@@ -20,10 +20,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     {
         [TestMethod]
         [DynamicData(nameof(TestParametersInit))]
-        public void Init_Channel(int channels, int? channel)
+        public void Init_Channel(int? channels, int? channel)
         {
             var x = CreateTestEntities((channels, channel));
-            Assert_All_Getters(x, (channels, channel));
+            
+            var coalescedChannels = CoalesceChannels(channels);
+            Assert_All_Getters(x, (coalescedChannels, channel));
         }
         
         [TestMethod]
@@ -720,58 +722,105 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         private void Assert_Immutable_Getters(ChannelEnum channelEnum, (int channels, int? channel) c)
         {
-            if (channelEnum == ChannelEnum.Undefined) IsNull(c.channel);
-            AreEqual(c.channel,  () => channelEnum.Channel());
-            AreEqual(c.channel,  () => channelEnum.EnumToChannel());
-            
-            AreEqual(c == (1,0), () => channelEnum.IsCenter());
-            AreEqual(c == (2,0), () => channelEnum.IsLeft());
-            AreEqual(c == (2,1), () => channelEnum.IsRight());
-            
-            if (channelEnum != ChannelEnum.Undefined) // For Stereo / No Channel you cannot use the channel to derive stereo/mono from.
+            if (c.channels == MonoChannels)
             {
-                AreEqual(c.channels, () => channelEnum.Channels());
-                AreEqual(c.channels, () => channelEnum.ChannelEnumToChannels());
+                IsTrue (() => channelEnum.IsMono  ());
+                IsTrue (() => channelEnum.IsCenter());
                 
-                AreEqual(c.channels == MonoChannels  , () => channelEnum.IsMono());
-                AreEqual(c.channels == StereoChannels, () => channelEnum.IsStereo());
+                IsFalse(() => channelEnum.IsStereo());
+                IsFalse(() => channelEnum.IsLeft  ());
+                IsFalse(() => channelEnum.IsRight ());
+
+                AreEqual(MonoChannels, () => channelEnum.Channels());
+                AreEqual(MonoChannels, () => channelEnum.ChannelEnumToChannels());
+                
+                AreEqual(CenterChannel, () => channelEnum.Channel());
+                AreEqual(CenterChannel, () => channelEnum.EnumToChannel());
+            }
+            else if (c.channels == StereoChannels)
+            {
+                IsTrue(() => channelEnum.IsStereo());
+                AreEqual(c.channel == 0, () => channelEnum.IsLeft());
+                AreEqual(c.channel == 1, () => channelEnum.IsRight());
+                
+                IsFalse(() => channelEnum.IsMono());
+                IsFalse(() => channelEnum.IsCenter());
+
+                AreEqual(StereoChannels, () => channelEnum.Channels());
+                AreEqual(StereoChannels, () => channelEnum.ChannelEnumToChannels());
+
+                AreEqual(c.channel, () => channelEnum.Channel());
+                AreEqual(c.channel, () => channelEnum.EnumToChannel());
+            }
+            else
+            {
+                Fail($"Unsupported combination of values: {new{ channelEnum, c.channels, c.channel }}");
             }
         }
-        
+            
         private void Assert_Immutable_Getters(Channel channelEntity, (int channels, int? channel) c)
         {
-            if (channelEntity == null) IsNull(c.channel);
-            AreEqual(c.channel,  () => channelEntity.Channel());
-            AreEqual(c.channel,  () => channelEntity.EntityToChannel());
-            
-            AreEqual(c == (1,0), () => channelEntity.IsCenter());
-            AreEqual(c == (2,0), () => channelEntity.IsLeft());
-            AreEqual(c == (2,1), () => channelEntity.IsRight());
-            
-            if (channelEntity != null) // For Stereo / No Channel you cannot use the channel to derive stereo/mono from.
+            if (c.channels == MonoChannels)
             {
-                AreEqual(c.channels, () => channelEntity.Channels());
-                AreEqual(c.channels, () => channelEntity.ChannelEntityToChannels());
+                IsTrue (() => channelEntity.IsMono  ());
+                IsTrue (() => channelEntity.IsCenter());
+                
+                IsFalse(() => channelEntity.IsStereo());
+                IsFalse(() => channelEntity.IsLeft  ());
+                IsFalse(() => channelEntity.IsRight ());
 
-                AreEqual(c.channels == MonoChannels  , () => channelEntity.IsMono());
-                AreEqual(c.channels == StereoChannels, () => channelEntity.IsStereo());
+                AreEqual(MonoChannels, () => channelEntity.Channels());
+                AreEqual(CenterChannel, () => channelEntity.Channel());
+            }
+            else if (c.channels == StereoChannels)
+            {
+                IsTrue(() => channelEntity.IsStereo());
+                AreEqual(c.channel == 0, () => channelEntity.IsLeft());
+                AreEqual(c.channel == 1, () => channelEntity.IsRight());
+                
+                IsFalse(() => channelEntity.IsMono());
+                IsFalse(() => channelEntity.IsCenter());
+
+                AreEqual(StereoChannels, () => channelEntity.Channels());
+                AreEqual(StereoChannels, () => channelEntity.ChannelEntityToChannels());
+
+                AreEqual(c.channel, () => channelEntity.Channel());
+                AreEqual(c.channel, () => channelEntity.EntityToChannel());
+            }
+            else
+            {
+                Fail($"Unsupported combination of values: {channelEntity?.ID} - {channelEntity?.Name}, {new{ c.channels, c.channel }}");
             }
         }
         
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities((int channels, int? channel) c)
+        private TestEntities CreateTestEntities((int? channels, int? channel) c)
             => new TestEntities(x => x.WithChannels(c.channels)
                                       .WithChannel (c.channel));
         
         // ncrunch: no coverage start
         
+        /// <summary> Channels / Channel combos. </summary>
         static object TestParametersInit => new[]
         {
-            new object[] { 1,    0 },
-            new object[] { 2,    0 },
-            new object[] { 2,    1 },
-            new object[] { 2, null }
+            // Stereo configurations
+            new object[] { StereoChannels ,   LeftChannel },
+            new object[] { StereoChannels ,  RightChannel },
+            new object[] { StereoChannels ,  EveryChannel },
+
+            // Mono: channel ignored (defaults to CenterChannel)
+            new object[] {   MonoChannels ,    AnyChannel },
+            new object[] {   MonoChannels , CenterChannel },
+            new object[] {   MonoChannels ,  RightChannel },
+            
+            // All Mono: null / 0 Channels => defaults to Mono => ignores the channel.
+            new object[] { null, null }, 
+            new object[] {    0, null }, 
+            new object[] { null,    0 }, 
+            new object[] {    0,    0 }, 
+            new object[] { null,    1 }, 
+            new object[] {    0,    1 }, 
         };
 
         static object TestParameters => new[]
