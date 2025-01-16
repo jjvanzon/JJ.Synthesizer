@@ -839,7 +839,31 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             
             new object[] { 2,null, 1,0    },
             new object[] { 2,null, 2,0    },
-            new object[] { 2,null, 2,1    }
+            new object[] { 2,null, 2,1    },
+        };
+
+        static object TestParametersWithEmpty => new[]
+        {
+            new object[] { 1,0,    2,0    },
+            new object[] { 1,0,    2,1    },
+            new object[] { 1,0,    2,null },
+            
+            new object[] { 2,0,    1,0    },
+            new object[] { 2,0,    2,1    },
+            new object[] { 2,0,    2,null },
+            
+            new object[] { 2,1,    1,0    },
+            new object[] { 2,1,    2,0    },
+            new object[] { 2,1,    2,null },
+            
+            new object[] { 2,null, 1,0    },
+            new object[] { 2,null, 2,0    },
+            new object[] { 2,null, 2,1    },
+            
+            // The 2nd pairs should all coalesce to Mono: null / 0 / 1 channels => defaults to Mono => ignores the channel.
+            new object[] { 2,1,    null,null },
+            new object[] { 2,0,    0,null    },
+            new object[] { 2,null, 1,1       },
         };
 
         // ncrunch: no coverage end
