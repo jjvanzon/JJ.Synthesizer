@@ -349,6 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public const int LeftChannel = 0;
         public const int RightChannel = 1;
         public static readonly int? ChannelEmpty = null;
+        public static readonly int? AnyChannel = null;
         public static readonly int? EveryChannel = null;
 
         // Conversion-Style

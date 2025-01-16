@@ -37,6 +37,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public int CenterChannel => ConfigWishes.CenterChannel;
         public int LeftChannel => ConfigWishes.LeftChannel;
         public int RightChannel => ConfigWishes.RightChannel;
+        public int? AnyChannel => ConfigWishes.AnyChannel;
         public int? EveryChannel => ConfigWishes.EveryChannel;
         public int? ChannelEmpty => ConfigWishes.ChannelEmpty;
         public int? GetChannel => _synthWishes.GetChannel;

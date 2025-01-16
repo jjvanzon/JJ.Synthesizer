@@ -21,9 +21,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes With16Bit() { Config.With16Bit(); return this; }
         public bool Is8Bit => Config.Is8Bit;
         public SynthWishes With8Bit() { Config.With8Bit(); return this; }
-
-        public int ChannelsEmpty => ConfigWishes.ChannelsEmpty;
-        public int MonoChannels => ConfigWishes.MonoChannels;
+        
+        public int ChannelsEmpty  => ConfigWishes.ChannelsEmpty;
+        public int MonoChannels   => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => Config.GetChannels;
         public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
@@ -31,12 +31,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithMono() { Config.WithMono(); return this; }
         public bool IsStereo => Config.IsStereo;
         public SynthWishes WithStereo() { Config.WithStereo(); return this; }
-
-        public int CenterChannel => ConfigWishes.CenterChannel;
-        public int LeftChannel => ConfigWishes.LeftChannel;
-        public int RightChannel => ConfigWishes.RightChannel;
-        public int? EveryChannel => ConfigWishes.EveryChannel;
-        public int? ChannelEmpty => ConfigWishes.ChannelEmpty;
+        
+        public int  CenterChannel => ConfigWishes.CenterChannel;
+        public int  LeftChannel   => ConfigWishes.LeftChannel;
+        public int  RightChannel  => ConfigWishes.RightChannel;
+        public int? AnyChannel    => ConfigWishes.AnyChannel;
+        public int? EveryChannel  => ConfigWishes.EveryChannel;
+        public int? ChannelEmpty  => ConfigWishes.ChannelEmpty;
         public int? GetChannel => Config.GetChannel;
         public SynthWishes WithChannel(int? channel) { Config.WithChannel(channel); return this; }
         public bool IsLeft => Config.IsLeft;
