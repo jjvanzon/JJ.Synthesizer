@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             }
             else
             {
-                synthWishes.RunOnThis(action);
+                synthWishes.RunOnThisOne(action);
             }
         }
 

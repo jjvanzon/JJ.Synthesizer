@@ -36,10 +36,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int    ? AssertChannel       (int   ? channel                     ) => channel                                 ?.                 AssertChannel();
         public static int      AssertSamplingRate  (int     samplingRate                ) => samplingRate                        > 0 ? samplingRate   : throw new Exception($"{nameof(samplingRate)} {samplingRate} below 0.");
         public static int    ? AssertSamplingRate  (int   ? samplingRate                ) => !Has(samplingRate)                      ? samplingRate   : AssertSamplingRate(samplingRate.Value);
-        public static AudioFileFormatEnum    Assert(AudioFileFormatEnum    audioFormat  ) => audioFormat   .In(ValidAudioFormats   ) ? audioFormat    : throw new Exception($"AudioFormat = {audioFormat} not valid. Supported values: " + Join(", ", ValidAudioFormats));
-        public static AudioFileFormatEnum  ? Assert(AudioFileFormatEnum  ? audioFormat  ) => !Has(audioFormat)                       ? audioFormat    : Assert(audioFormat.Value);
-        public static InterpolationTypeEnum  Assert(InterpolationTypeEnum  interpolation) => interpolation .In(ValidInterpolations ) ? interpolation  : throw new Exception($"Interpolation = {interpolation} not valid. Supported values: " + Join(", ", ValidInterpolations));
-        public static InterpolationTypeEnum? Assert(InterpolationTypeEnum? interpolation) => !Has(interpolation)                     ? interpolation  : Assert(interpolation.Value);
+        public static AudioFileFormatEnum    AssertAudioFormat  (AudioFileFormatEnum    audioFormat  ) => audioFormat   .In(ValidAudioFormats   ) ? audioFormat    : throw new Exception($"AudioFormat = {audioFormat} not valid. Supported values: " + Join(", ", ValidAudioFormats));
+        public static AudioFileFormatEnum  ? AssertAudioFormat  (AudioFileFormatEnum  ? audioFormat  ) => !Has(audioFormat)                       ? audioFormat    : AssertAudioFormat(audioFormat.Value);
+        public static InterpolationTypeEnum  AssertInterpolation(InterpolationTypeEnum  interpolation) => interpolation .In(ValidInterpolations ) ? interpolation  : throw new Exception($"Interpolation = {interpolation} not valid. Supported values: " + Join(", ", ValidInterpolations));
+        public static InterpolationTypeEnum? AssertInterpolation(InterpolationTypeEnum? interpolation) => !Has(interpolation)                     ? interpolation  : AssertInterpolation(interpolation.Value);
         public static int      AssertCourtesyFrames(int     courtesyFrames              ) => courtesyFrames                     >= 0 ? courtesyFrames : throw new Exception($"{nameof(CourtesyFrames)} {courtesyFrames} below 0.");
         public static int    ? AssertCourtesyFrames(int   ? courtesyFrames              ) => courtesyFrames                          ?.                 AssertCourtesyFrames();
         
@@ -109,10 +109,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int                  ? AssertChannel       (this int                  ? channel       ) => ConfigWishes.AssertChannel       (channel       );
         public static int                    AssertSamplingRate  (this int                    samplingRate  ) => ConfigWishes.AssertSamplingRate  (samplingRate  );
         public static int                  ? AssertSamplingRate  (this int                  ? samplingRate  ) => ConfigWishes.AssertSamplingRate  (samplingRate  );
-        public static AudioFileFormatEnum    Assert              (this AudioFileFormatEnum    audioFormat   ) => ConfigWishes.Assert              (audioFormat   );
-        public static AudioFileFormatEnum  ? Assert              (this AudioFileFormatEnum  ? audioFormat   ) => ConfigWishes.Assert              (audioFormat   );
-        public static InterpolationTypeEnum  Assert              (this InterpolationTypeEnum  interpolation ) => ConfigWishes.Assert              (interpolation );
-        public static InterpolationTypeEnum? Assert              (this InterpolationTypeEnum? interpolation ) => ConfigWishes.Assert              (interpolation );
+        public static AudioFileFormatEnum    Assert              (this AudioFileFormatEnum    audioFormat   ) => ConfigWishes.AssertAudioFormat              (audioFormat   );
+        public static AudioFileFormatEnum  ? Assert              (this AudioFileFormatEnum  ? audioFormat   ) => ConfigWishes.AssertAudioFormat              (audioFormat   );
+        public static InterpolationTypeEnum  Assert              (this InterpolationTypeEnum  interpolation ) => ConfigWishes.AssertInterpolation              (interpolation );
+        public static InterpolationTypeEnum? Assert              (this InterpolationTypeEnum? interpolation ) => ConfigWishes.AssertInterpolation              (interpolation );
         public static int                    AssertCourtesyFrames(this int                    courtesyFrames) => ConfigWishes.AssertCourtesyFrames(courtesyFrames);
         public static int                  ? AssertCourtesyFrames(this int                  ? courtesyFrames) => ConfigWishes.AssertCourtesyFrames(courtesyFrames);
         

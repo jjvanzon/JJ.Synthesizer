@@ -258,8 +258,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         private AudioFileFormatEnum _audioFormat;
         public AudioFileFormatEnum AudioFormat
         {
-            get => Assert(_audioFormat);
-            set => _audioFormat = Assert(value);
+            get => AssertAudioFormat(_audioFormat);
+            set => _audioFormat = AssertAudioFormat(value);
         }
         
         /// <inheritdoc cref="docs._tapeinterpolation" />
@@ -267,8 +267,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         /// <inheritdoc cref="docs._tapeinterpolation" />
         public InterpolationTypeEnum Interpolation
         {
-            get => Assert(_interpolation);
-            set => _interpolation = Assert(value);
+            get => AssertInterpolation(_interpolation);
+            set => _interpolation = AssertInterpolation(value);
         }
         
         private int _courtesyFrames;

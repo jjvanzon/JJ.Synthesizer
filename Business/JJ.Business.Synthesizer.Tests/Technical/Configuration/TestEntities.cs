@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             }
             
             // Record
-            SynthBound.SynthWishes.RunOnThis(
+            SynthBound.SynthWishes.RunOnThisOne(
                 () => (SynthBound.SynthWishes.GetChannel == 0 ? SynthBound.FlowNode : SynthBound.FlowNode2)
                       .AfterRecord(t =>
                       {

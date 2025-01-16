@@ -112,8 +112,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // AudioFormat
         
         private AudioFileFormatEnum? _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat => Assert(Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? DefaultAudioFormat);
-        public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = Assert(audioFormat); return this; }
+        public AudioFileFormatEnum GetAudioFormat => AssertAudioFormat(Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? DefaultAudioFormat);
+        public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = AssertAudioFormat(audioFormat); return this; }
         public bool IsWav => GetAudioFormat == AudioFileFormatEnum.Wav;
         public ConfigResolver AsWav() => WithAudioFormat(AudioFileFormatEnum.Wav);
         public bool IsRaw => GetAudioFormat == AudioFileFormatEnum.Raw;
@@ -122,8 +122,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Interpolation
         
         private InterpolationTypeEnum? _interpolation;
-        public InterpolationTypeEnum GetInterpolation => Assert(Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? DefaultInterpolation);
-        public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = Assert(interpolation); return this; }
+        public InterpolationTypeEnum GetInterpolation => AssertInterpolation(Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? DefaultInterpolation);
+        public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = AssertInterpolation(interpolation); return this; }
         public bool IsLinear => GetInterpolation == InterpolationTypeEnum.Line;
         public ConfigResolver WithLinear() => WithInterpolation(InterpolationTypeEnum.Line);
         public bool IsBlocky => GetInterpolation == InterpolationTypeEnum.Block;

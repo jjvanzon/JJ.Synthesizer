@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             if (audioFormat == Wav) return 44;
             if (audioFormat == Raw) return 0;
-            Assert(audioFormat); return default;
+            AssertAudioFormat(audioFormat); return default;
         }
 
         // Synonyms

@@ -136,11 +136,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // Immutable
         
-        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => Assert(obj);
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => AssertInterpolation(obj);
         
         /// <inheritdoc cref="docs._quasisetter" />
         public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) 
-            => Assert(newEnumValue);
+            => AssertInterpolation(newEnumValue);
         
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => obj.ToEnum();
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static InterpolationType ToEntity(InterpolationTypeEnum enumValue, IContext context)
         {
             if (enumValue == default) return default;
-            Assert(enumValue);
+            AssertInterpolation(enumValue);
             var repository = CreateRepository<IInterpolationTypeRepository>(context);
             return repository.Get((int)enumValue);
         }

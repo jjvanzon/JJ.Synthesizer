@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 var newAction = (Action)Delegate.CreateDelegate(typeof(Action), newInstance, methodInfo);
             
                 // Run the action on the new instance
-                return newInstance.RunOnThis(() => newAction());
+                return newInstance.RunOnThisOne(() => newAction());
             }
             catch (ArgumentException)
             {
@@ -117,11 +117,11 @@ namespace JJ.Business.Synthesizer.Wishes
                     $"Could not start a new SynthWishes for {concreteType.Name}. " +
                     $"Reusing already running SynthWishes.");
                 
-                return RunOnThis(action);
+                return RunOnThisOne(action);
             }            
         }
         
-        public SynthWishes RunOnThis(Action action)
+        public SynthWishes RunOnThisOne(Action action)
         {
             RunChannelSignals(action);
 
