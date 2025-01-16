@@ -148,10 +148,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             switch (channelEnum)
             {
-                case ChannelEnum.Undefined: return ChannelsEmpty;
                 case ChannelEnum.Single: return MonoChannels;
                 case ChannelEnum.Left: return StereoChannels;
                 case ChannelEnum.Right: return StereoChannels;
+                case ChannelEnum.Undefined: return StereoChannels; // Undefined = stereo signal with 2 channels = not a specific channel
                 default: throw new ValueNotSupportedException(channelEnum);
             }
         }
@@ -169,9 +169,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [Obsolete(ObsoleteMessage)] 
         public static ChannelEnum ChannelToEnum(this int? channel, int channels)
         {
-            // Unspecified
-            if (channel == null) return ChannelEnum.Undefined;
-
             // Mono
             if (channels == MonoChannels)
             {
@@ -181,8 +178,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             // Stereo case
             if (channels == StereoChannels)
             {
-                if (channel == 0) return ChannelEnum.Left;
-                if (channel == 1) return ChannelEnum.Right;
+                if (channel == null) return ChannelEnum.Undefined;
+                if (channel ==    0) return ChannelEnum.Left;
+                if (channel ==    1) return ChannelEnum.Right;
             }
 
             // Fallback: Tolerate inconsistent state for fluent switch between speaker setups.
