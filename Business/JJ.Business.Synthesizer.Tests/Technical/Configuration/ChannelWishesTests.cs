@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
@@ -30,25 +31,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
-        public void SynthBound_Channel(int initChannels, int? initChannel, int channels, int? channel)
+        public void SynthBound_Channel(int? initChannels, int? initChannel, int? channels, int? channel)
         {
             var init = (initChannels, initChannel);
+            var initCoalesced = (initChannels.CoalesceChannels(), initChannel);
             var val = (channels, channel);
-                
+            var valCoalesced = (channels.CoalesceChannels(), channel);
+
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters(x, initCoalesced);
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, val);
-                Assert_TapeBound_Getters_Complete(x, init);
-                Assert_BuffBound_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_SynthBound_Getters(x, valCoalesced);
+                Assert_TapeBound_Getters_Complete(x, initCoalesced);
+                Assert_BuffBound_Getters(x, initCoalesced);
+                Assert_Immutable_Getters(x, initCoalesced);
                 
                 x.Record();
-                Assert_All_Getters(x, val);
+                Assert_All_Getters(x, valCoalesced);
             }
             
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Channels    (val.channels).Channel    (val.channel)));
@@ -59,10 +62,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithChannels(val.channels).WithChannel(val.channel)));
             
             AssertProp(x => {
-                if (val == (1,0))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithCenter());
-                if (val == (2,0))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithLeft());
-                if (val == (2,1))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithRight());
-                if (val == (2,null)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithStereo().WithChannel(null)); });
+                if      (val == (1,0))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithCenter());
+                else if (val == (2,0))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithLeft());
+                else if (val == (2,1))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithRight());
+                else if (val == (2,null)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithStereo().WithChannel(null)); 
+                else                      AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithCenter()); });
             
             AssertProp(x => {
                 if (val == (1,0))    AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Center());
@@ -870,29 +874,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // New attempt to define test data
  
-        private static readonly 
-            ( ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) init,
-              ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) val ) [] TestTuples =
+        private static readonly TestCase[] TestTuples =
         {
-            (init: ((1,0), (_,_)), val: ((2,0), (_,_))),
-            (init: ((1,0), (_,_)), val: ((2,1), (_,_))),
-            (init: ((2,1), (_,_)), val: ((_,_), (1,0))),
-            (init: ((_,_), (1,0)), val: ((2,1), (_,_))),
+            Case(init: ((1,0), (_,_)), val: ((2,0), (_,_))),
+            Case(init: ((1,0), (_,_)), val: ((2,1), (_,_))),
+            Case(init: ((2,1), (_,_)), val: ((_,_), (1,0))),
+            Case(init: ((_,_), (1,0)), val: ((2,1), (_,_))),
         };
 
         private static IEnumerable<object[]> TestParametersNew
             => TestDataDictionary.Keys.Select(x => new object[] { x }).ToArray();
         
-        private static readonly Dictionary<string, object> TestDataDictionary = CreateTestDataDictionary();
+        private static readonly Dictionary<string, TestCase> TestDataDictionary = CreateTestDataDictionary();
         
-        private static Dictionary<string, object> CreateTestDataDictionary()
+        private static Dictionary<string, TestCase> CreateTestDataDictionary()
         {
-            var dictionary = new Dictionary<string, object>();
+            var dictionary = new Dictionary<string, TestCase>();
             
             foreach (var x in TestTuples)
             {
-                string descriptor = GetDescriptor(x);
-                var coalesced = (CoalesceExpect(x.init), CoalesceExpect(x.val));
+                string descriptor = GetDescriptor(x.init, x.val);
+                TestCase coalesced = new TestCase(CoalesceExpect(x.init), CoalesceExpect(x.val));
                 dictionary.Add(descriptor, coalesced);
             }
             
@@ -900,10 +902,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
         
         private static string GetDescriptor(
-            ( ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) init,
-              ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) val ) x)
+            ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) init,
+            ( (int? channels, int? channel) input, (int? channels, int? channel) expect ) val)
         {
-            return $"({x.init.input.channels},{x.init.input.channel}) => ({x.val.input.channels},{x.val.input.channel})";
+            return $"({init.input.channels},{init.input.channel}) => ({val.input.channels},{val.input.channel})";
         }
 
         private static 
@@ -911,6 +913,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             ((int? channels, int? channel) input, (int? channels, int? channel) expect) x)
         {
             return (x.input, (channels: x.expect.channels ?? x.input.channels ?? 0, channel: x.expect.channel ?? x.input.channel));
+        }
+                
+        private static TestCase Case(
+            ((int? channels, int? channel) input, (int? channels, int? channel) expect) init,
+            ((int? channels, int? channel) input, (int? channels, int? channel) expect) val )
+        {
+            return new TestCase(init, val);
+        }
+        
+        private struct TestCase
+        {
+            public ((int? channels, int? channel) input, (int? channels, int? channel) expect) init;
+            public ((int? channels, int? channel) input, (int? channels, int? channel) expect) val;
+
+            public TestCase(
+                ((int? channels, int? channel) input, (int? channels, int? channel) expect) init, 
+                ((int? channels, int? channel) input, (int? channels, int? channel) expect) val )
+            {
+                this.init = init;
+                this.val = val;
+            }
         }
         
         // ncrunch: no coverage end
