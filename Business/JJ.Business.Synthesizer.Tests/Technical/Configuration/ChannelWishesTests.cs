@@ -31,15 +31,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             Assert_All_Getters(x, (coalescedChannels, channel));
         }
         
-        //[TestMethod]
-        //[DynamicData(nameof(TestParameters))]
-        //public void SynthBound_Channel(int? initChannels, int? initChannel, int? channels, int? channel)
-        //{
-        //    var init = (initChannels, initChannel);
-        //    var initCoalesced = (initChannels.CoalesceChannels(), initChannel);
-        //    var val = (channels, channel);
-        //    var valCoalesced = (channels.CoalesceChannels(), channel);
-
         [TestMethod]
         [DynamicData(nameof(TestParametersNew))]
         public void SynthBound_Channel(string testKey)
@@ -900,8 +891,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new Case( init: (2,_), val: (2,0) ),
             new Case( init: (2,_), val: (2,1) ),
 
-            //new Case( init: ((2,1), (_,_)), val: ((_,_), (1,_)) ),
-            //new Case( init: ((_,_), (1,0)), val: ((2,1), (_,_)) )
+            //new Case( init: (2,1), val: ( (_,_), (1,0) ) ),
+            //new Case( init: ((_,_), (1,0)), val: (2,1) )
         };
 
         static object TestParametersNew => TestDataDictionary.Keys.Select(x => new object[] { x }).ToArray();
@@ -909,49 +900,128 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         struct Case
         {
-            public Values init;
-            public Values val;
+            private int? _fromChannelsNully;
+            private int? _fromChannelsCoalesced;
+            private int? _fromChannelNully;
+            private int? _fromChannelCoalesced;
+            private int? _toChannelsNully;
+            private int? _toChannelsCoalesced;
+            private int? _toChannelNully;
+            private int? _toChannelCoalesced;
+            
+            public readonly Values init;
+            public readonly Values val;
 
             public Case(
-                ((int? channels, int? channel) input, (int? channels, int? channel) expect) init,
-                ((int? channels, int? channel) input, (int? channels, int? channel) expect) val )
-            {
-                this.init = new Values(init.input, init.expect);
-                this.val  = new Values(val .input, val .expect);
-            }
-
-            public Case((int channels, int? channel) init, (int channels, int? channel) val) 
-                : this(init: (init, default), val: (val, default))
+                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) init,
+                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) val )
+                : this(fromChannelsNully     : init.nully   .channels,
+                       fromChannelsCoalesced : init.coalesce.channels,
+                       fromChannelNully      : init.nully   .channel ,
+                       fromChannelCoalesced  : init.coalesce.channel ,
+                       toChannelsNully       : val .nully   .channels,
+                       toChannelsCoalesced   : val .coalesce.channels,
+                       toChannelNully        : val .nully   .channel ,
+                       toChannelCoalesced    : val .coalesce.channel )
             { }
 
+            public Case(
+                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) init,
+                ( int  channels, int? channel) val) 
+                : this(fromChannelsNully     : init.nully   .channels,
+                       fromChannelsCoalesced : init.coalesce.channels,
+                       fromChannelNully      : init.nully   .channel ,
+                       fromChannelCoalesced  : init.coalesce.channel ,
+                       toChannelsNully       : val          .channels,
+                       toChannelsCoalesced   : val          .channels,
+                       toChannelNully        : val          .channel,
+                       toChannelCoalesced    : val          .channel)                        
+            { }
+
+            public Case(
+                ( int  channels, int? channel) init,
+                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) val )
+                : this(fromChannelsNully     : init         .channels,
+                       fromChannelsCoalesced : init         .channels,
+                       fromChannelNully      : init         .channel,
+                       fromChannelCoalesced  : init         .channel,
+                       toChannelsNully       : val .nully   .channels,
+                       toChannelsCoalesced   : val .coalesce.channels,
+                       toChannelNully        : val .nully   .channel ,
+                       toChannelCoalesced    : val .coalesce.channel )
+            { }
+            
+            public Case(
+                (int channels, int? channel) init,
+                (int channels, int? channel) val) 
+                : this(fromChannelsNully     : init.channels,
+                       fromChannelsCoalesced : init.channels,
+                       fromChannelNully      : init.channel,
+                       fromChannelCoalesced  : init.channel,
+                       toChannelsNully       : val .channels,
+                       toChannelsCoalesced   : val .channels,
+                       toChannelNully        : val .channel,
+                       toChannelCoalesced    : val .channel)
+                { }
+
+            public Case(
+                int? fromChannelsNully, int fromChannelsCoalesced, int? fromChannelNully, int? fromChannelCoalesced, 
+                int? toChannelsNully,   int toChannelsCoalesced,   int? toChannelNully,   int? toChannelCoalesced)
+            {
+                _fromChannelsNully     = fromChannelsNully;
+                _fromChannelsCoalesced = fromChannelsCoalesced;
+                _fromChannelNully      = fromChannelNully;
+                _fromChannelCoalesced  = fromChannelCoalesced;
+                _toChannelsNully       = toChannelsNully;
+                _toChannelsCoalesced   = toChannelsCoalesced;
+                _toChannelNully        = toChannelNully;
+                _toChannelCoalesced    = toChannelCoalesced;
+                
+                init = new Values(_fromChannelsNully, _fromChannelNully, _fromChannelsCoalesced, _fromChannelCoalesced);
+                val  = new Values(  _toChannelsNully,   _toChannelNully,   _toChannelsCoalesced,   _toChannelCoalesced);
+
+            }
+
             public string Descriptor =>
-                $"({init.channels.nully},{init.channel.nully}) => ({val.channels.nully},{val.channel.nully})";
+                $"({_fromChannelsNully},{_fromChannelNully}) => ({_toChannelsNully},{_toChannelNully})";
         }
  
         struct Values
         {
-            public (int? nully, int coalesce) channels;
-            public (int? nully, int? coalesce) channel;
+            private readonly int? _channelsNully;
+            private readonly int  _channelsCoalesced;
+            private readonly int? _channelNully;
+            private readonly int? _channelCoalesced;
             
-            public (int? channels, int? channel) nully;
-            public (int  channels, int? channel) coalesce;
+            public readonly (int? nully   , int  coalesce) channels;
+            public readonly (int? nully   , int? coalesce) channel ;
+            public readonly (int? channels, int? channel)  nully   ;
+            public readonly (int  channels, int? channel)  coalesce;
 
             public Values( 
-                (int? channels, int? channel) nully, 
-                (int? channels, int? channel) coalesce )
+                int? channelsNully, int? channelNully, 
+                int? channelsCoalesced, int? channelCoalesced )
             {
-                if (nully.channels == null && coalesce.channels == null)
+                if (channelsNully == null && channelsCoalesced == null)
                 {
-                    throw new Exception("nully.channels and coalesce.channels can't both be null.");
+                    throw new Exception(nameof(channelsNully) + " and " + nameof(channelsCoalesced) + " can't both be null.");
                 }
                 
-                channels.nully    = nully   .channels;
-                channel .nully    = nully   .channel;
-                channels.coalesce = coalesce.channels ?? nully.channels.Value;
-                channel .coalesce = coalesce.channel  ?? nully.channel;
+                if (channelsCoalesced == default && channelCoalesced == default)
+                {
+                    channelsCoalesced = channelsNully;
+                    channelCoalesced  = channelNully;
+                }
                 
-                this.nully = nully;
-                this.coalesce = (channels.coalesce, channel.coalesce);
+                _channelsNully     = channelsNully;
+                _channelNully      = channelNully;
+                _channelsCoalesced = channelsCoalesced.Value;
+                _channelCoalesced  = channelCoalesced;
+                
+                channels = (    _channelsNully, _channelsCoalesced);
+                channel  = (     _channelNully,  _channelCoalesced);
+                nully    = (    _channelsNully,      _channelNully);
+                coalesce = (_channelsCoalesced,  _channelCoalesced);
             }
         }
        
