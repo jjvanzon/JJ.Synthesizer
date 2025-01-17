@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Init_Interpolation(InterpolationTypeEnum? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, Coalesce(init));
+            Assert_All_Getters(x, CoalesceInterpolation(init));
         }
 
         [TestMethod] 
@@ -37,17 +37,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, Coalesce(init));
+                Assert_All_Getters(x, CoalesceInterpolation(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, Coalesce(value));
-                Assert_TapeBound_Getters(x, Coalesce(init));
-                Assert_Independent_Getters(x, Coalesce(init));
-                Assert_Immutable_Getters(x, Coalesce(init));
+                Assert_SynthBound_Getters(x, CoalesceInterpolation(value));
+                Assert_TapeBound_Getters(x, CoalesceInterpolation(init));
+                Assert_Independent_Getters(x, CoalesceInterpolation(init));
+                Assert_Immutable_Getters(x, CoalesceInterpolation(init));
                 
                 x.Record();
-                Assert_All_Getters(x, Coalesce(value));
+                Assert_All_Getters(x, CoalesceInterpolation(value));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Interpolation(value)));

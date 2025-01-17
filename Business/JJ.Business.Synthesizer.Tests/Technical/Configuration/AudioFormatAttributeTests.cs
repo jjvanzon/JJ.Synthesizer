@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Init_AudioFormat(AudioFileFormatEnum? init)
         { 
             var x = CreateTestEntities(init);
-            Assert_All_Getters(x, Coalesce(init));
+            Assert_All_Getters(x, CoalesceAudioFormat(init));
         }
 
         [TestMethod] 
@@ -39,18 +39,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, Coalesce(init));
+                Assert_All_Getters(x, CoalesceAudioFormat(init));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters (x, Coalesce(value));
-                Assert_TapeBound_Getters  (x, Coalesce(init));
-                Assert_BuffBound_Getters  (x, Coalesce(init));
-                Assert_Independent_Getters(x, Coalesce(init));
-                Assert_Immutable_Getters  (x, Coalesce(init));
+                Assert_SynthBound_Getters (x, CoalesceAudioFormat(value));
+                Assert_TapeBound_Getters  (x, CoalesceAudioFormat(init));
+                Assert_BuffBound_Getters  (x, CoalesceAudioFormat(init));
+                Assert_Independent_Getters(x, CoalesceAudioFormat(init));
+                Assert_Immutable_Getters  (x, CoalesceAudioFormat(init));
                 
                 x.Record();
-                Assert_All_Getters(x, Coalesce(value));
+                Assert_All_Getters(x, CoalesceAudioFormat(value));
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .AudioFormat(value)));

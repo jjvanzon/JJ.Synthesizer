@@ -7,6 +7,8 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Reflection;
+using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -84,15 +86,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 
                 if (testIsLong)
                 {
-                    return Has(_section.NCrunch.SamplingRateLongRunning) ? 
-                               _section.NCrunch.SamplingRateLongRunning.Value : 
-                               DefaultNCrunchSamplingRateLongRunning;
+                    return Coalesce(_section.NCrunch.SamplingRateLongRunning, DefaultNCrunchSamplingRateLongRunning);
                 }
                 else
                 {
-                    return Has(_section.NCrunch.SamplingRate) ? 
-                               _section.NCrunch.SamplingRate.Value : 
-                               DefaultNCrunchSamplingRate;
+                    return Coalesce(_section.NCrunch.SamplingRate, DefaultNCrunchSamplingRate);
                 }
             }
             
@@ -102,15 +100,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 
                 if (testIsLong)
                 {
-                    return Has(_section.AzurePipelines.SamplingRateLongRunning) ? 
-                               _section.AzurePipelines.SamplingRateLongRunning.Value : 
-                               DefaultAzurePipelinesSamplingRateLongRunning;
+                    return Coalesce(_section.AzurePipelines.SamplingRateLongRunning, DefaultAzurePipelinesSamplingRateLongRunning);
                 }
                 else
                 {
-                    return Has(_section.AzurePipelines.SamplingRate) ? 
-                               _section.AzurePipelines.SamplingRate.Value : 
-                               DefaultAzurePipelinesSamplingRate;
+                    return Coalesce(_section.AzurePipelines.SamplingRate, DefaultAzurePipelinesSamplingRate);
                 }
             }
             
@@ -120,22 +114,22 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // AudioFormat
         
         private AudioFileFormatEnum? _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat => Coalesce(_audioFormat, _section.AudioFormat);
+        public AudioFileFormatEnum GetAudioFormat => CoalesceAudioFormat(_audioFormat, _section.AudioFormat);
         public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = AssertAudioFormat(audioFormat); return this; }
-        public bool IsWav => GetAudioFormat == AudioFileFormatEnum.Wav;
-        public ConfigResolver AsWav() => WithAudioFormat(AudioFileFormatEnum.Wav);
-        public bool IsRaw => GetAudioFormat == AudioFileFormatEnum.Raw;
-        public ConfigResolver AsRaw() => WithAudioFormat(AudioFileFormatEnum.Raw);
+        public bool IsWav => GetAudioFormat == Wav;
+        public ConfigResolver AsWav() => WithAudioFormat(Wav);
+        public bool IsRaw => GetAudioFormat == Raw;
+        public ConfigResolver AsRaw() => WithAudioFormat(Raw);
         
         // Interpolation
         
         private InterpolationTypeEnum? _interpolation;
-        public InterpolationTypeEnum GetInterpolation => Coalesce(_interpolation, _section.Interpolation);
+        public InterpolationTypeEnum GetInterpolation => CoalesceInterpolation(_interpolation, _section.Interpolation);
         public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = AssertInterpolation(interpolation); return this; }
-        public bool IsLinear => GetInterpolation == InterpolationTypeEnum.Line;
-        public ConfigResolver WithLinear() => WithInterpolation(InterpolationTypeEnum.Line);
-        public bool IsBlocky => GetInterpolation == InterpolationTypeEnum.Block;
-        public ConfigResolver WithBlocky() => WithInterpolation(InterpolationTypeEnum.Block);
+        public bool IsLinear => GetInterpolation == Line;
+        public ConfigResolver WithLinear() => WithInterpolation(Line);
+        public bool IsBlocky => GetInterpolation == Block;
+        public ConfigResolver WithBlocky() => WithInterpolation(Block);
         
         // Durations
         
@@ -537,9 +531,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         private TimeOutActionEnum? _timeOutAction;
         /// <inheritdoc cref="docs._timeoutaction" />
         // ReSharper disable once PossibleInvalidOperationException
-        public TimeOutActionEnum GetTimeOutAction => Has(_timeOutAction) ? _timeOutAction.Value : 
-                                                     Has(_section.TimeOutAction) ? _section.TimeOutAction.Value : 
-                                                     DefaultTimeOutAction;
+        public TimeOutActionEnum GetTimeOutAction => Coalesce(_timeOutAction, _section.TimeOutAction, DefaultTimeOutAction);
         /// <inheritdoc cref="docs._timeoutaction" />
         public ConfigResolver WithTimeOutAction(TimeOutActionEnum? action) { _timeOutAction = action; return this; }
         
@@ -556,9 +548,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         private string _longTestCategory;
         public ConfigResolver WithLongTestCategory(string category) { _longTestCategory = category; return this; }
         
-        public string GetLongTestCategory => Has(_longTestCategory) ? _longTestCategory : 
-                                             Has(_section.LongTestCategory) ? _section.LongTestCategory : 
-                                             DefaultLongTestCategory;
+        public string GetLongTestCategory => Coalesce(_longTestCategory, _section.LongTestCategory, DefaultLongTestCategory);
         
         // Tooling
         

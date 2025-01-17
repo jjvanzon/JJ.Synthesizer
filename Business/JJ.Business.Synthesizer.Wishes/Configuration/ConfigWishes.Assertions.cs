@@ -109,10 +109,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int                  ? AssertChannel       (this int                  ? channel       ) => ConfigWishes.AssertChannel       (channel       );
         public static int                    AssertSamplingRate  (this int                    samplingRate  ) => ConfigWishes.AssertSamplingRate  (samplingRate  );
         public static int                  ? AssertSamplingRate  (this int                  ? samplingRate  ) => ConfigWishes.AssertSamplingRate  (samplingRate  );
-        public static AudioFileFormatEnum    Assert              (this AudioFileFormatEnum    audioFormat   ) => ConfigWishes.AssertAudioFormat              (audioFormat   );
-        public static AudioFileFormatEnum  ? Assert              (this AudioFileFormatEnum  ? audioFormat   ) => ConfigWishes.AssertAudioFormat              (audioFormat   );
-        public static InterpolationTypeEnum  Assert              (this InterpolationTypeEnum  interpolation ) => ConfigWishes.AssertInterpolation              (interpolation );
-        public static InterpolationTypeEnum? Assert              (this InterpolationTypeEnum? interpolation ) => ConfigWishes.AssertInterpolation              (interpolation );
+        public static AudioFileFormatEnum    AssertAudioFormat   (this AudioFileFormatEnum    audioFormat   ) => ConfigWishes.AssertAudioFormat              (audioFormat   );
+        public static AudioFileFormatEnum  ? AssertAudioFormat   (this AudioFileFormatEnum  ? audioFormat   ) => ConfigWishes.AssertAudioFormat              (audioFormat   );
+        public static InterpolationTypeEnum  AssertInterpolation (this InterpolationTypeEnum  interpolation ) => ConfigWishes.AssertInterpolation              (interpolation );
+        public static InterpolationTypeEnum? AssertInterpolation (this InterpolationTypeEnum? interpolation ) => ConfigWishes.AssertInterpolation              (interpolation );
         public static int                    AssertCourtesyFrames(this int                    courtesyFrames) => ConfigWishes.AssertCourtesyFrames(courtesyFrames);
         public static int                  ? AssertCourtesyFrames(this int                  ? courtesyFrames) => ConfigWishes.AssertCourtesyFrames(courtesyFrames);
         
