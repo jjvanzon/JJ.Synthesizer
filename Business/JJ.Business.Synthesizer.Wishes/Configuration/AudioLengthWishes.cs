@@ -129,7 +129,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static Buff AudioLength(this Buff obj, double value)
         {
             if (obj == null) throw new NullException(() => obj);
-            if (obj.UnderlyingAudioFileOutput == null) throw new NullException(() => obj.UnderlyingAudioFileOutput);
             obj.UnderlyingAudioFileOutput.AudioLength(AssertAudioLength(value));
             return obj;
         }
@@ -149,11 +148,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // Independent after Taping
         
-        public static double AudioLength(this Sample obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.GetDuration();
-        }
+        public static double AudioLength(this Sample obj) => obj.GetDuration();
         
         public static Sample AudioLength(this Sample obj, double value)
         {
@@ -176,11 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return infoWish;
         }
         
-        public static double AudioLength(this AudioFileInfo info)
-        {
-            if (info == null) throw new NullException(() => info);
-            return info.ToWish().AudioLength();
-        }
+        public static double AudioLength(this AudioFileInfo info) => info.ToWish().AudioLength();
         
         public static AudioFileInfo AudioLength(this AudioFileInfo info, double value)
         {
