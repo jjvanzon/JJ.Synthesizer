@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
@@ -29,7 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Bits
         
         private int? _bits;
-        public int GetBits => AssertBits(Has(_bits) ? _bits.Value : _section.Bits ?? DefaultBits);
+        public int GetBits => CoalesceBits(_bits, _section.Bits);
         public ConfigResolver WithBits(int? bits) { _bits = bits.AssertBits(); return this; }
         public bool Is32Bit => GetBits == 32;
         public ConfigResolver With32Bit() => WithBits(32);
@@ -41,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Channels
         
         private int? _channels;
-        public int GetChannels => AssertChannels(Has(_channels) ? _channels.Value : _section.Channels ?? DefaultChannels);
+        public int GetChannels => CoalesceChannels(_channels, _section.Channels);
         public ConfigResolver WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
         public bool IsMono => GetChannels == 1;
         public ConfigResolver WithMono() => WithChannels(1);
@@ -51,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Channel
         
         private int? _channel;
-        public int? GetChannel => CoalesceChannelsChannelCombo(_channels, _channel).channel;
+        public int? GetChannel => CoalesceChannelsChannelCombo(GetChannels, _channel).channel;
         public ConfigResolver WithChannel(int? channel) { _channel = AssertChannel(channel); return this; }
         public bool           IsCenter  =>       IsMono  ? GetChannel == CenterChannel : default;
         public ConfigResolver WithCenter() {   WithMono(); WithChannel  (CenterChannel); return this; }
@@ -68,51 +69,58 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public ConfigResolver WithSamplingRate(int? value) { _samplingRate = AssertSamplingRate(value); return this; }
         
         /// <inheritdoc cref="docs._withsamplingrate"/>
-        public int GetSamplingRate
+        public int GetSamplingRate => ResolveSamplingRate().AssertSamplingRate();
+        
+        private int ResolveSamplingRate()
         {
-            get
+            if (Has(_samplingRate))
             {
-                if (Has(_samplingRate))
-                {
-                    return AssertSamplingRate(_samplingRate.Value);
-                }
-                
-                if (IsUnderNCrunch)
-                {
-                    bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
-                    
-                    if (testIsLong)
-                    {
-                        return AssertSamplingRate(_section.NCrunch.SamplingRateLongRunning ?? DefaultNCrunchSamplingRateLongRunning);
-                    }
-                    else
-                    {
-                        return AssertSamplingRate(_section.NCrunch.SamplingRate ?? DefaultNCrunchSamplingRate);
-                    }
-                }
-                
-                if (IsUnderAzurePipelines)
-                {
-                    bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
-                    
-                    if (testIsLong)
-                    {
-                        return AssertSamplingRate(_section.AzurePipelines.SamplingRateLongRunning ?? DefaultAzurePipelinesSamplingRateLongRunning);
-                    }
-                    else
-                    {
-                        return AssertSamplingRate(_section.AzurePipelines.SamplingRate ?? DefaultAzurePipelinesSamplingRate);
-                    }
-                }
-                
-                return AssertSamplingRate(_section.SamplingRate ?? DefaultSamplingRate);
+                return _samplingRate.Value;
             }
+            
+            if (IsUnderNCrunch)
+            {
+                bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
+                
+                if (testIsLong)
+                {
+                    return Has(_section.NCrunch.SamplingRateLongRunning) ? 
+                               _section.NCrunch.SamplingRateLongRunning.Value : 
+                               DefaultNCrunchSamplingRateLongRunning;
+                }
+                else
+                {
+                    return Has(_section.NCrunch.SamplingRate) ? 
+                               _section.NCrunch.SamplingRate.Value : 
+                               DefaultNCrunchSamplingRate;
+                }
+            }
+            
+            if (IsUnderAzurePipelines)
+            {
+                bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
+                
+                if (testIsLong)
+                {
+                    return Has(_section.AzurePipelines.SamplingRateLongRunning) ? 
+                               _section.AzurePipelines.SamplingRateLongRunning.Value : 
+                               DefaultAzurePipelinesSamplingRateLongRunning;
+                }
+                else
+                {
+                    return Has(_section.AzurePipelines.SamplingRate) ? 
+                               _section.AzurePipelines.SamplingRate.Value : 
+                               DefaultAzurePipelinesSamplingRate;
+                }
+            }
+            
+            return CoalesceSamplingRate(_section.SamplingRate);
         }
         
         // AudioFormat
         
         private AudioFileFormatEnum? _audioFormat;
-        public AudioFileFormatEnum GetAudioFormat => AssertAudioFormat(Has(_audioFormat) ? _audioFormat.Value : _section.AudioFormat ?? DefaultAudioFormat);
+        public AudioFileFormatEnum GetAudioFormat => Coalesce(_audioFormat, _section.AudioFormat);
         public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = AssertAudioFormat(audioFormat); return this; }
         public bool IsWav => GetAudioFormat == AudioFileFormatEnum.Wav;
         public ConfigResolver AsWav() => WithAudioFormat(AudioFileFormatEnum.Wav);
@@ -122,7 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Interpolation
         
         private InterpolationTypeEnum? _interpolation;
-        public InterpolationTypeEnum GetInterpolation => AssertInterpolation(Has(_interpolation) ? _interpolation.Value : _section.Interpolation ?? DefaultInterpolation);
+        public InterpolationTypeEnum GetInterpolation => Coalesce(_interpolation, _section.Interpolation);
         public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = AssertInterpolation(interpolation); return this; }
         public bool IsLinear => GetInterpolation == InterpolationTypeEnum.Line;
         public ConfigResolver WithLinear() => WithInterpolation(InterpolationTypeEnum.Line);
@@ -143,10 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public FlowNode GetNoteLength(SynthWishes synthWishes, FlowNode noteLength)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
-            
-            noteLength = noteLength ?? _noteLength ?? _beatLength;
-            noteLength = noteLength ?? synthWishes[_section.NoteLength ?? DefaultNoteLength];
-            return noteLength;
+            return noteLength ?? _noteLength ?? _beatLength ?? synthWishes[Coalesce(_section.NoteLength, DefaultNoteLength)];
         }
         
         /// <inheritdoc cref="docs._notelength" />
@@ -203,7 +208,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _beatLength * 4;
             }
             
-            return synthWishes[_section.BarLength ?? DefaultBarLength];
+            return synthWishes[Coalesce(_section.BarLength, DefaultBarLength)];
         }
         
         public ConfigResolver WithBarLength(FlowNode barLength)
@@ -238,7 +243,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _barLength * 0.25;
             }
             
-            return synthWishes[_section.BeatLength ?? DefaultBeatLength];
+            return synthWishes[Coalesce(_section.BeatLength, DefaultBeatLength)];
         }
         
         public ConfigResolver WithBeatLength(FlowNode beatLength)
@@ -271,7 +276,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _audioLength;
             }
             
-            return synthWishes[_section.AudioLength ?? DefaultAudioLength];
+            return synthWishes[Coalesce(_section.AudioLength, DefaultAudioLength)];
         }
         
         /// <inheritdoc cref="docs._audiolength" />
@@ -347,7 +352,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _leadingSilence;
             }
             
-            return synthWishes[_section.LeadingSilence ?? DefaultLeadingSilence];
+            return synthWishes[Coalesce(_section.LeadingSilence, DefaultLeadingSilence)];
         }
         
         /// <inheritdoc cref="docs._padding"/>
@@ -386,7 +391,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _trailingSilence;
             }
             
-            return synthWishes[_section.TrailingSilence ?? DefaultTrailingSilence];
+            return synthWishes[Coalesce(_section.TrailingSilence, DefaultTrailingSilence)];
         }
         
         /// <inheritdoc cref="docs._padding"/>
@@ -475,9 +480,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 return _section.AzurePipelines.AudioPlayback ?? DefaultToolingAudioPlayback;
             }
             
-            if (!string.IsNullOrWhiteSpace(fileExtension))
+            if (Has(fileExtension))
             {
-                if (!string.Equals(fileExtension, ".wav", StringComparison.OrdinalIgnoreCase))
+                if (!fileExtension.Is(".wav"))
                 {
                     return false;
                 }
@@ -532,7 +537,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         private TimeOutActionEnum? _timeOutAction;
         /// <inheritdoc cref="docs._timeoutaction" />
         // ReSharper disable once PossibleInvalidOperationException
-        public TimeOutActionEnum GetTimeOutAction => Has(_timeOutAction) ? _timeOutAction.Value : _section.TimeOutAction ?? DefaultTimeOutAction;
+        public TimeOutActionEnum GetTimeOutAction => Has(_timeOutAction) ? _timeOutAction.Value : 
+                                                     Has(_section.TimeOutAction) ? _section.TimeOutAction.Value : 
+                                                     DefaultTimeOutAction;
         /// <inheritdoc cref="docs._timeoutaction" />
         public ConfigResolver WithTimeOutAction(TimeOutActionEnum? action) { _timeOutAction = action; return this; }
         
@@ -544,19 +551,14 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public ConfigResolver WithCourtesyFrames(int? value) { _courtesyFrames = value; return this; }
         
         /// <inheritdoc cref="docs._fileextensionmaxlength" />
-        public int GetFileExtensionMaxLength => _section.FileExtensionMaxLength ?? DefaultFileExtensionMaxLength;
+        public int GetFileExtensionMaxLength => Coalesce(_section.FileExtensionMaxLength, DefaultFileExtensionMaxLength);
         
         private string _longTestCategory;
         public ConfigResolver WithLongTestCategory(string category) { _longTestCategory = category; return this; }
-        public string GetLongTestCategory
-        {
-            get
-            {
-                if (Has(_longTestCategory)) return _longTestCategory;
-                if (Has(_section.LongTestCategory)) return _section.LongTestCategory;
-                return DefaultLongTestCategory;
-            }
-        }
+        
+        public string GetLongTestCategory => Has(_longTestCategory) ? _longTestCategory : 
+                                             Has(_section.LongTestCategory) ? _section.LongTestCategory : 
+                                             DefaultLongTestCategory;
         
         // Tooling
         

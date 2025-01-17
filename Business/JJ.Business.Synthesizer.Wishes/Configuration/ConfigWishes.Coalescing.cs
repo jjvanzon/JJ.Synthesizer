@@ -11,6 +11,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // Coalesce Defaults
 
+        public static T Coalesce<T>(T value, T defaultValue) => ConfigWishes.Coalesce(value, defaultValue);
+        public static T Coalesce<T>(T? value, T defaultValue) where T : struct => ConfigWishes.Coalesce(value, defaultValue);
+        
         // Primary Audio Properties
 
         public static int CoalesceBits(this int? bits, int? defaultValue = null) => ConfigWishes.CoalesceBits(bits, defaultValue);
@@ -41,6 +44,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // Coalesce Defaults
         
+        public static T Coalesce<T>(T value, T defaultValue) => Has(value) ? value : defaultValue;
+        public static T Coalesce<T>(T? value, T defaultValue) where T : struct => Has(value) ? value.Value : defaultValue;
+        
         // Primary Audio Properties
         
         public static int CoalesceBits(int? bits, int? defaultValue = null)
@@ -49,14 +55,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int CoalesceChannels(int? channels, int? defaultValue = null)
             => (Has(channels) ? channels.Value : Has(defaultValue) ? defaultValue.Value : DefaultChannels).AssertChannels();
 
-        public static (int channels, int? channel) CoalesceChannelsChannelCombo((int? channels, int? channel) tuple)
-            => CoalesceChannelsChannelCombo(tuple.channels, tuple.channel);
-
-        public static (int channels, int? channel) CoalesceChannelsChannelCombo(int? channels, int? channel)
+        public static (int channels, int? channel) CoalesceChannelsChannelCombo(int? channels, int? channel, int? defaultChannels = null, int? defaultChannel = null)
         {
-            channels = (Has(channels) ? channels : DefaultChannels).AssertChannels();
-            
-            channel = AssertChannels(channel);
+            channels = CoalesceChannels(channels, defaultChannels);
+            channel = AssertChannel(channel ?? defaultChannel);
             
             if (channels == MonoChannels) return (MonoChannels, CenterChannel);
             if (channels == StereoChannels) return (StereoChannels, channel);
