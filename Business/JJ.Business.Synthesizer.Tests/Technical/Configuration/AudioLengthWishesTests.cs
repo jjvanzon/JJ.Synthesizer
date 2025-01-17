@@ -12,6 +12,7 @@ using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
@@ -292,32 +293,36 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength)
         {
-            AreEqual(audioLength, audioFileInfo.AudioLength(), tolerance);
+            LogTolerance(audioLength, audioFileInfo.AudioLength(), _tolerance, "audioFileInfo.AudioLength()");
+            AreEqual    (audioLength, audioFileInfo.AudioLength(), _tolerance);
         }
 
         private void Assert_Independent_Getters(Sample sample, double audioLength)
         {
-            AreEqual(audioLength, sample.AudioLength(), tolerance);
+            LogTolerance(audioLength, sample.AudioLength(), _tolerance, "sample.AudioLength()");
+            AreEqual    (audioLength, sample.AudioLength(), _tolerance);
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength)
         {
-            AreEqual(audioLength, audioInfoWish.AudioLength(), tolerance);
+            LogTolerance(audioLength, audioInfoWish.AudioLength(), _tolerance, "audioInfoWish.AudioLength()");
+            AreEqual    (audioLength, audioInfoWish.AudioLength(), _tolerance);
         }
 
         private void Assert_Independent_Getters(WavHeaderStruct wavHeader, double audioLength)
         {
-            AreEqual(audioLength, wavHeader.AudioLength(), tolerance);
+            LogTolerance(audioLength, wavHeader.AudioLength(), _tolerance, "wavHeader.AudioLength()");
+            AreEqual    (audioLength, wavHeader.AudioLength(), _tolerance);
         }
  
         // Test Data Helpers
         
         // TODO: Needed tolerance is a bit much for the sampling rate.
-        int samplingRate = 2000;
-        double tolerance = 0.03; 
+        int _samplingRate = 2000;
+        double _tolerance = 0.005;
         
         TestEntities CreateTestEntities(double? audioLength) 
-            => new TestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(samplingRate));
+            => new TestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
         
         double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength, 1);
 
@@ -373,5 +378,30 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         };
         
         // ncrunch: no coverage end
+        
+        // Log Helper
+        
+        private static void LogTolerance(double expected, double actual, double tolerance, string title)
+        {
+            double toleranceRequired        = actual - expected;
+            double tolerancePercent         = ((expected + tolerance) / expected - 1) * 100;
+            double tolerancePercentRequired = (actual / expected - 1) * 100;
+                
+            LogTitle(title);
+            Log();
+            Log($"expected = {expected}");
+            Log($"  actual = {actual}");
+            Log();
+            Log("Tolerance:" );
+            Log();
+            Log($"    used = {tolerance:0.0000####}");
+            Log($"required = {toleranceRequired:0.0000####}");
+            Log();
+            Log();
+            Log($"    used = {tolerancePercent:0.000}%");
+            Log($"required = {tolerancePercentRequired:0.000}%");
+            Log();
+            
+        }
     } 
 }
