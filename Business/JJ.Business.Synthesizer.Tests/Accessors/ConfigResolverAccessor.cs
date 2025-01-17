@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly Type _underlyingType = GetUnderlyingType();
         private static readonly Accessor _staticAccessor = new Accessor(_underlyingType);
         private readonly Accessor_Copied_Adapted _accessor;
-        public object UnderlyingObject { get; }
+        public object Obj { get; }
         
         private static Type GetUnderlyingType()
         {
@@ -27,13 +27,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public ConfigResolverAccessor(object obj)
         {
             _accessor = new Accessor_Copied_Adapted(obj, _underlyingType);
-            UnderlyingObject = obj;
+            Obj = obj;
         }
         
         public override bool Equals(object obj)
         {
-            if (obj == null) return UnderlyingObject == null;
-            if (obj is ConfigResolverAccessor other) return UnderlyingObject == other.UnderlyingObject;
+            if (obj == null) return Obj == null;
+            if (obj is ConfigResolverAccessor other) return Obj == other.Obj;
             return false;
         }
         
@@ -100,10 +100,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public bool IsBlocky => (bool)_accessor.GetPropertyValue(MemberName());
         public ConfigResolverAccessor WithBlocky() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
         
-        
         // CourtesyFrames
         
         public int GetCourtesyFrames => (int)_accessor.GetPropertyValue(MemberName());
         public ConfigResolverAccessor WithCourtesyFrames(int? value) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new object[] { value }, new[] { typeof(int?) }));
+        
+        // AudioLength
+                
+        public ConfigResolverAccessor WithAudioLength(double? value, SynthWishes synthWishes) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), value, synthWishes));
     }
 }
