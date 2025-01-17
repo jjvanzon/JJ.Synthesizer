@@ -207,12 +207,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             {
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
-                    Assert_Independent_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
                     
                     WavHeaderStruct wavHeader2 = setter();
                     
-                    Assert_Independent_Getters(x.Immutable.WavHeader, init);
-                    Assert_Independent_Getters(wavHeader2, value);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(wavHeader2, value);
                     
                     wavHeaders.Add(wavHeader2);
                 }
@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             Assert_All_Getters(x, init);
             
             // Except for our variables
-            wavHeaders.ForEach(w => Assert_Independent_Getters(w, value));
+            wavHeaders.ForEach(w => Assert_Immutable_Getters(w, value));
         }
 
         [TestMethod] public void ConfigSections_SamplingRate()
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         private void Assert_Immutable_Getters(TestEntities x, int samplingRate)
         {
-            Assert_Independent_Getters(x.Immutable.WavHeader, samplingRate);
+            Assert_Immutable_Getters(x.Immutable.WavHeader, samplingRate);
         }
 
         private void Assert_SynthBound_Getters(TestEntities x, int samplingRate)
@@ -312,7 +312,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(samplingRate, () => audioInfoWish.SamplingRate);
         }
 
-        private void Assert_Independent_Getters(WavHeaderStruct wavHeader, int samplingRate)
+        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int samplingRate)
         {
             AreEqual(samplingRate, () => wavHeader.SamplingRate());
             AreEqual(samplingRate, () => wavHeader.SamplingRate);
