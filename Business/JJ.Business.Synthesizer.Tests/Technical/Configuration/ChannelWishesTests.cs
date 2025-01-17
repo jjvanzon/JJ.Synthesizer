@@ -25,9 +25,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         [DynamicData(nameof(CaseKeysInit))]
         public void Init_Channel(string caseKey)
         {
-            (int? channels, int? channel) c = _caseDictionary[caseKey].init.nully;
-            var x = CreateTestEntities(c);
-            Assert_All_Getters(x, CoalesceChannelsChannelCombo(c));
+            Case testCase = _caseDictionary[caseKey];
+            var  nully    = testCase.init.nully;
+            var  coalesce = testCase.val.coalesce;
+            var  x        = CreateTestEntities(nully);
+            Assert_All_Getters(x, coalesce);
         }
         
         [TestMethod]
@@ -831,17 +833,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new Case (2,_),
 
             // Mono: channel ignored (defaults to CenterChannel)
-            new Case (1,_),
-            new Case (1,0),
-            new Case (1,1),
+            new Case ( (1,_), (1,0) ),
+            new Case   (1,0),
+            new Case ( (1,1), (1,0) ),
             
             // All Mono: null / 0 Channels => defaults to Mono => ignores the channel.
-            new Case (_,_),
-            new Case (0,_), 
-            new Case (_,0), 
-            new Case (0,0), 
-            new Case (_,1), 
-            new Case (0,1) 
+            new Case ( (_,_) , (1,0) ),
+            new Case ( (0,_) , (1,0) ), 
+            new Case ( (_,0) , (1,0) ), 
+            new Case ( (0,0) , (1,0) ), 
+            new Case ( (_,1) , (1,0) ), 
+            new Case ( (0,1) , (1,0) ) 
         };
 
         static Case[] _cases =
