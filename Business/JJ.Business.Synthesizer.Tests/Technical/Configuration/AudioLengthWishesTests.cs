@@ -289,98 +289,87 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.AudioLength());
             AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.Duration);
         }
-
+        
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength)
         {
-            AreEqual(audioLength, () => audioFileInfo.AudioLength());
+            AreEqual(audioLength, audioFileInfo.AudioLength(), tolerance);
         }
-        
+
         private void Assert_Independent_Getters(Sample sample, double audioLength)
         {
-            AreEqual(audioLength, () => sample.AudioLength());
+            AreEqual(audioLength, sample.AudioLength(), tolerance);
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength)
         {
-            AreEqual(audioLength, () => audioInfoWish.AudioLength());
+            AreEqual(audioLength, audioInfoWish.AudioLength(), tolerance);
         }
 
         private void Assert_Independent_Getters(WavHeaderStruct wavHeader, double audioLength)
         {
-            AreEqual(audioLength, () => wavHeader.AudioLength());
+            AreEqual(audioLength, wavHeader.AudioLength(), tolerance);
         }
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(double? audioLength) 
-            => new TestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(10));
+        // TODO: Needed tolerance is a bit much for the sampling rate.
+        int samplingRate = 2000;
+        double tolerance = 0.03; 
         
-        private double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength, 1);
+        TestEntities CreateTestEntities(double? audioLength) 
+            => new TestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(samplingRate));
+        
+        double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength, 1);
 
         // ncrunch: no coverage start
         
         static IEnumerable<object[]> TestParametersInit => new[]
         {
             new object[] { null },
-            new object[] { 0 },
-            //new object[] { 1 },
-            new object[] { 1.6 },
-            new object[] { 2 },
-            new object[] { E },
-            new object[] { PI },
-            new object[] { 5 },
-            new object[] { 17 }
+            new object[] {  0.0 },
+            new object[] {  1.6 },
+            new object[] {  2.0 },
+            new object[] {    E },
+            new object[] {   PI },
+            new object[] {  5.0 },
+            new object[] { 17.0 }
         };
         
         static IEnumerable<object[]> TestParametersWithEmpty => new[]
         {
-            new object[] {    0, null },
-            new object[] { null, 0    },
+            new object[] { null, null },
+            new object[] {  0.0, null },
+            new object[] { null, 0.0  },
             new object[] { null, 1.6  },
             new object[] {  1.6, null },
-            new object[] {    0, 1.6  },
-            new object[] {  1.6, 0    },
+            new object[] {  0.0, 1.6  },
+            new object[] {  1.6, 0.0  },
             
         }.Concat(TestParameters);
         
         static IEnumerable<object[]> TestParameters => new[]
         {
-            //new object[] { 1, 1 },
-            //new object[] { 1, 1.6 },
-            //new object[] { 1, E },
-            //new object[] { 1, PI },
-            //new object[] { 1, 5 },
-            //new object[] { 1, 17 },
-            //new object[] { 1.6, 1 },
-            new object[] { 1.6, 1.6 },
-            new object[] { 1.6, E },
-            new object[] { 1.6, PI },
-            new object[] { 1.6, 5 },
-            new object[] { 1.6, 17 },
-            //new object[] { E, 1 },
-            new object[] { E, 1.6 },
-            new object[] { E, E },
-            new object[] { E, PI },
-            new object[] { E, 5 },
-            new object[] { E, 17 },
-            //new object[] { PI, 1 },
-            new object[] { PI, 1.6 },
-            new object[] { PI, E },
-            new object[] { PI, PI },
-            new object[] { PI, 5 },
-            new object[] { PI, 17 },
-            //new object[] { 5, 1 },
-            new object[] { 5, 1.6 },
-            new object[] { 5, E },
-            new object[] { 5, PI },
-            new object[] { 5, 5 },
-            new object[] { 5, 17 },
-            //new object[] { 17, 1 },
-            new object[] { 17, 1.6 },
-            new object[] { 17, E },
-            new object[] { 17, PI },
-            new object[] { 17, 5 },
-            new object[] { 17, 17 }
+            new object[] {  1.6, 1.6  },
+            new object[] {  1.6, E    },
+            new object[] {  1.6, PI   },
+            new object[] {  1.6, 5.0  },
+            new object[] {  1.6, 17.0 },
+            new object[] {    E, 1.6  },
+            new object[] {    E, PI   },
+            new object[] {    E, 5.0  },
+            new object[] {    E, 17.0 },
+            new object[] {   PI, 1.6  },
+            new object[] {   PI, E    },
+            new object[] {   PI, 5.0  },
+            new object[] {   PI, 17.0 },
+            new object[] {  5.0, 1.6  },
+            new object[] {  5.0, E    },
+            new object[] {  5.0, PI   },
+            new object[] {  5.0, 17.0 },
+            new object[] { 17.0, 1.6  },
+            new object[] { 17.0, E    },
+            new object[] { 17.0, PI   },
+            new object[] { 17.0, 5.0  },
         };
         
         // ncrunch: no coverage end

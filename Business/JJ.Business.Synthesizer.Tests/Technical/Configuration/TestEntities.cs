@@ -107,7 +107,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             };
             
             // Initialize
-            SynthBound.SynthWishes.WithSamplingRate(8);
             initialize?.Invoke(SynthBound.SynthWishes);
             
             Record();
