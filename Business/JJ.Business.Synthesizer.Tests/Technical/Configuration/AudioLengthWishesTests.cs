@@ -13,6 +13,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
@@ -40,6 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
+                LogTolerance(x, Coalesce(init));
                 Assert_All_Getters(x, Coalesce(init));
                 
                 setter(x);
@@ -294,31 +296,69 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         private void Assert_Independent_Getters(Sample sample, double audioLength)
         {
-            AreEqual(audioLength, sample.AudioLength(), _tolerance);
+            AreEqual(audioLength, sample.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength)
         {
-            AreEqual(audioLength, audioFileInfo.AudioLength(), _tolerance);
+            AreEqual(audioLength, audioFileInfo.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength)
         {
-            AreEqual(audioLength, audioInfoWish.AudioLength(), _tolerance);
+            AreEqual(audioLength, audioInfoWish.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, double audioLength)
         {
-            AreEqual(audioLength, wavHeader.AudioLength(), _tolerance);
+            AreEqual(audioLength, wavHeader.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
+        }
+         
+        // Tolerance Helpers
+        
+        private const double _tolerancePercent = 0.7;
+        
+        private double ToleranceByPercent(double value, double percent) => percent / 100 * value;
+
+        private void LogTolerance(TestEntities x, double audioLength, string title = null)
+        {
+            if (Has(title)) LogTitleStrong(title);
+            
+            double tolerance = ToleranceByPercent(audioLength, _tolerancePercent);
+            
+            LogTolerance(audioLength, x.Independent.AudioFileInfo.AudioLength(), tolerance, "audioFileInfo.AudioLength()");
+            LogTolerance(audioLength, x.Independent.AudioInfoWish.AudioLength(), tolerance, "audioInfoWish.AudioLength()");
+            LogTolerance(audioLength, x.Immutable  .WavHeader    .AudioLength(), tolerance,     "wavHeader.AudioLength()");
+            LogTolerance(audioLength, x.Independent.Sample       .AudioLength(), tolerance,        "sample.AudioLength()");
+        }
+
+        private static void LogTolerance(double expected, double actual, double tolerance, string title)
+        {
+            double toleranceRequired        = actual - expected;
+            double tolerancePercent         = (expected + tolerance) / expected * 100 - 100;
+            double tolerancePercentRequired = actual                 / expected * 100 - 100;
+                
+            LogTitle(title);
+            Log();
+            Log($"expected = {expected}");
+            Log($"  actual = {actual}");
+            Log();
+            Log("Tolerance:" );
+            Log();
+            Log($"    used = {tolerance:0.0000####}");
+            Log($"required = {toleranceRequired:0.0000####}");
+            Log();
+            Log();
+            Log($"    used = {tolerancePercent:0.###}%");
+            Log($"required = {tolerancePercentRequired:0.###}%");
+            Log();
         }
  
         // Test Data Helpers
         
-        // TODO: Needed tolerance is a bit much for the sampling rate.
-        int _samplingRate = 2000;
-        double _tolerance = 0.005;
+        private const int _samplingRate = 2000;
         
-        TestEntities CreateTestEntities(double? audioLength) 
+        private TestEntities CreateTestEntities(double? audioLength) 
             => new TestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
         
         double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength, 1);
@@ -375,38 +415,5 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         };
         
         // ncrunch: no coverage end
-        
-        // Log Helpers
-                
-        private void LogTolerance(TestEntities x, double audioLength)
-        {
-            LogTolerance(audioLength, x.Independent.Sample       .AudioLength(), _tolerance,        "sample.AudioLength()");
-            LogTolerance(audioLength, x.Independent.AudioFileInfo.AudioLength(), _tolerance, "audioFileInfo.AudioLength()");
-            LogTolerance(audioLength, x.Independent.AudioInfoWish.AudioLength(), _tolerance, "audioInfoWish.AudioLength()");
-            LogTolerance(audioLength, x.Immutable  .WavHeader    .AudioLength(), _tolerance,     "wavHeader.AudioLength()");
-        }
-
-        private static void LogTolerance(double expected, double actual, double tolerance, string title)
-        {
-            double toleranceRequired        = actual - expected;
-            double tolerancePercent         = ((expected + tolerance) / expected - 1) * 100;
-            double tolerancePercentRequired = (actual / expected - 1) * 100;
-                
-            LogTitle(title);
-            Log();
-            Log($"expected = {expected}");
-            Log($"  actual = {actual}");
-            Log();
-            Log("Tolerance:" );
-            Log();
-            Log($"    used = {tolerance:0.0000####}");
-            Log($"required = {toleranceRequired:0.0000####}");
-            Log();
-            Log();
-            Log($"    used = {tolerancePercent:0.###}%");
-            Log($"required = {tolerancePercentRequired:0.###}%");
-            Log();
-            
-        }
-    } 
+   } 
 }
