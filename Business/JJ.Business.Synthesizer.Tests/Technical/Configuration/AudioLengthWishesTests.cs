@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Init_AudioLength(double? init)
         {
             var x = CreateTestEntities(init);
+            LogTolerance(x, Coalesce(init));
             Assert_All_Getters(x, Coalesce(init));
         }
         
@@ -207,12 +208,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             {
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
-                    Assert_Independent_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
                     
                     WavHeaderStruct wavHeader2 = setter();
                     
-                    Assert_Independent_Getters(x.Immutable.WavHeader, init);
-                    Assert_Independent_Getters(wavHeader2, value);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(wavHeader2, value);
                     
                     wavHeaders.Add(wavHeader2);
                 }
@@ -227,7 +228,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             Assert_All_Getters(x, init);
             
             // Except for our variables
-            wavHeaders.ForEach(w => Assert_Independent_Getters(w, value));
+            wavHeaders.ForEach(w => Assert_Immutable_Getters(w, value));
         }
 
         [TestMethod] public void ConfigSections_AudioLength()
@@ -265,7 +266,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         private void Assert_Immutable_Getters(TestEntities x, double audioLength)
         {
-            Assert_Independent_Getters(x.Immutable.WavHeader, audioLength);
+            Assert_Immutable_Getters(x.Immutable.WavHeader, audioLength);
         }
 
         private void Assert_SynthBound_Getters(TestEntities x, double audioLength)
@@ -290,29 +291,25 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.AudioLength());
             AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.Duration);
         }
-        
-        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength)
-        {
-            LogTolerance(audioLength, audioFileInfo.AudioLength(), _tolerance, "audioFileInfo.AudioLength()");
-            AreEqual    (audioLength, audioFileInfo.AudioLength(), _tolerance);
-        }
 
         private void Assert_Independent_Getters(Sample sample, double audioLength)
         {
-            LogTolerance(audioLength, sample.AudioLength(), _tolerance, "sample.AudioLength()");
-            AreEqual    (audioLength, sample.AudioLength(), _tolerance);
+            AreEqual(audioLength, sample.AudioLength(), _tolerance);
+        }
+
+        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength)
+        {
+            AreEqual(audioLength, audioFileInfo.AudioLength(), _tolerance);
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength)
         {
-            LogTolerance(audioLength, audioInfoWish.AudioLength(), _tolerance, "audioInfoWish.AudioLength()");
-            AreEqual    (audioLength, audioInfoWish.AudioLength(), _tolerance);
+            AreEqual(audioLength, audioInfoWish.AudioLength(), _tolerance);
         }
 
-        private void Assert_Independent_Getters(WavHeaderStruct wavHeader, double audioLength)
+        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, double audioLength)
         {
-            LogTolerance(audioLength, wavHeader.AudioLength(), _tolerance, "wavHeader.AudioLength()");
-            AreEqual    (audioLength, wavHeader.AudioLength(), _tolerance);
+            AreEqual(audioLength, wavHeader.AudioLength(), _tolerance);
         }
  
         // Test Data Helpers
@@ -379,8 +376,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // ncrunch: no coverage end
         
-        // Log Helper
-        
+        // Log Helpers
+                
+        private void LogTolerance(TestEntities x, double audioLength)
+        {
+            LogTolerance(audioLength, x.Independent.Sample       .AudioLength(), _tolerance,        "sample.AudioLength()");
+            LogTolerance(audioLength, x.Independent.AudioFileInfo.AudioLength(), _tolerance, "audioFileInfo.AudioLength()");
+            LogTolerance(audioLength, x.Independent.AudioInfoWish.AudioLength(), _tolerance, "audioInfoWish.AudioLength()");
+            LogTolerance(audioLength, x.Immutable  .WavHeader    .AudioLength(), _tolerance,     "wavHeader.AudioLength()");
+        }
+
         private static void LogTolerance(double expected, double actual, double tolerance, string title)
         {
             double toleranceRequired        = actual - expected;
@@ -398,8 +403,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             Log($"required = {toleranceRequired:0.0000####}");
             Log();
             Log();
-            Log($"    used = {tolerancePercent:0.000}%");
-            Log($"required = {tolerancePercentRequired:0.000}%");
+            Log($"    used = {tolerancePercent:0.###}%");
+            Log($"required = {tolerancePercentRequired:0.###}%");
             Log();
             
         }
