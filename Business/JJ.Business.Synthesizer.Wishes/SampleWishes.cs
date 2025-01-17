@@ -8,7 +8,6 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.IO.StreamHelper;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using System.Runtime.Remoting.Channels;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 
