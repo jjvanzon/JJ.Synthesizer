@@ -22,9 +22,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         private static int? _ = null;
 
         [TestMethod]
-        [DynamicData(nameof(TestParametersInit))]
-        public void Init_Channel(int? channels, int? channel)
+        [DynamicData(nameof(CaseKeysInit))]
+        public void Init_Channel(string caseKey)
         {
+            (int? channels, int? channel) = _caseDictionary[caseKey].init.nully;
+            
             var x = CreateTestEntities((channels, channel));
             
             var coalescedChannels = CoalesceChannels(channels);
@@ -32,12 +34,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
         
         [TestMethod]
-        [DynamicData(nameof(TestParametersNew))]
-        public void SynthBound_Channel(string testKey)
+        [DynamicData(nameof(CaseKeys))]
+        public void SynthBound_Channel(string caseKey)
         {
-            Case testCase = TestDataDictionary[testKey];
-            var init = testCase.init;
-            var val = testCase.val;
+            Case testCase = _caseDictionary[caseKey];
+            Values init = testCase.init;
+            Values val  = testCase.val;
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -125,11 +127,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
         
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
-        public void TapeBound_Channel(int initChannels, int? initChannel, int channels, int? channel)
+        [DynamicData(nameof(CaseKeys))]
+        public void TapeBound_Channel(string caseKey)
         {
-            var init = (initChannels, initChannel);
-            var val = (channels, channel);
+            Case testCase = _caseDictionary[caseKey];
+            var init = testCase.init.coalesce;
+            var val  = testCase.val.coalesce;
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -196,11 +199,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
                 
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
-        public void BuffBound_Channel(int initChannels, int? initChannel, int channels, int? channel)
+        [DynamicData(nameof(CaseKeys))]
+        public void BuffBound_Channel(string caseKey)
         {
-            var init = (initChannels, initChannel);
-            var val = (channels, channel);
+            Case testCase = _caseDictionary[caseKey];
+            var init = testCase.init.coalesce;
+            var val  = testCase.val.coalesce;
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -260,11 +264,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
         
         [TestMethod]
-        [DynamicData(nameof(TestParameters))]
-        public void Immutables_Channel(int initChannels, int? initChannel, int channels, int? channel)
+        [DynamicData(nameof(CaseKeys))]
+        public void Immutables_Channel(string caseKey)
         {
-            var init = (initChannels, initChannel);
-            var val = (channels, channel);
+            Case testCase = _caseDictionary[caseKey];
+            var init = testCase.init.coalesce;
+            var val  = testCase.val.coalesce;
             var x = CreateTestEntities(init);
             
             // ChannelEnum
@@ -806,115 +811,80 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // ncrunch: no coverage start
 
-        /// <summary> Channels / Channel combos. </summary>
-        static object TestParametersInit => new[]
+        static object CaseKeys            => _cases           .Select(x => new object[] { x.Descriptor }).ToArray();
+        static object CaseKeysInit        => _casesInit       .Select(x => new object[] { x.Descriptor }).ToArray();
+        static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
+
+        static Case[] _casesInit =
         {
             // Stereo configurations
-            new object[] { StereoChannels ,   LeftChannel },
-            new object[] { StereoChannels ,  RightChannel },
-            new object[] { StereoChannels ,  EveryChannel },
+            new Case (2,0),
+            new Case (2,1),
+            new Case (2,_),
 
             // Mono: channel ignored (defaults to CenterChannel)
-            new object[] {   MonoChannels ,    AnyChannel },
-            new object[] {   MonoChannels , CenterChannel },
-            new object[] {   MonoChannels ,  RightChannel },
+            new Case (1,_),
+            new Case (1,0),
+            new Case (1,1),
             
             // All Mono: null / 0 Channels => defaults to Mono => ignores the channel.
-            new object[] { _, _ }, 
-            new object[] { 0, _ }, 
-            new object[] { _, 0 }, 
-            new object[] { 0, 0 }, 
-            new object[] { _, 1 }, 
-            new object[] { 0, 1 }, 
+            new Case (_,_),
+            new Case (0,_), 
+            new Case (_,0), 
+            new Case (0,0), 
+            new Case (_,1), 
+            new Case (0,1) 
         };
 
-        static object TestParameters => new[]
+        static Case[] _cases =
         {
-            new object[] { 1,0, 2,0 },
-            new object[] { 1,0, 2,1 },
-            new object[] { 1,0, 2,_ },
-            
-            new object[] { 2,0, 1,0 },
-            new object[] { 2,0, 2,1 },
-            new object[] { 2,0, 2,_ },
-            
-            new object[] { 2,1, 1,0 },
-            new object[] { 2,1, 2,0 },
-            new object[] { 2,1, 2,_ },
-            
-            new object[] { 2,_, 1,0 },
-            new object[] { 2,_, 2,0 },
-            new object[] { 2,_, 2,1 },
+            new Case( init:(1,0) , val:(2,0) ),
+            new Case( init:(1,0) , val:(2,1) ),
+            new Case( init:(1,0) , val:(2,_) ),
+                                             
+            new Case( init:(2,0) , val:(1,0) ),
+            new Case( init:(2,0) , val:(2,1) ),
+            new Case( init:(2,0) , val:(2,_) ),
+                                             
+            new Case( init:(2,1) , val:(1,0) ),
+            new Case( init:(2,1) , val:(2,0) ),
+            new Case( init:(2,1) , val:(2,_) ),
+                                             
+            new Case( init:(2,_) , val:(1,0) ),
+            new Case( init:(2,_) , val:(2,0) ),
+            new Case( init:(2,_) , val:(2,1) ),
         };
 
-        static object TestParametersWithEmpties => new[]
+        static Case[] _casesWithEmpties = _cases.Concat(new[]
         {
-            new object[] { 1,0, 2,0 },
-            new object[] { 1,0, 2,1 },
-            new object[] { 1,0, 2,_ },
-            
-            new object[] { 2,0, 1,0 },
-            new object[] { 2,0, 2,1 },
-            new object[] { 2,0, 2,_ },
-            
-            new object[] { 2,1, 1,0 },
-            new object[] { 2,1, 2,0 },
-            new object[] { 2,1, 2,_ },
-            
-            new object[] { 2,_, 1,0 },
-            new object[] { 2,_, 2,0 },
-            new object[] { 2,_, 2,1 },
-            
-            // The 2nd pairs should all coalesce to Mono: null / 0 / 1 channels => defaults to Mono => ignores the channel.
-            new object[] { 2,1, _,_ },
-            new object[] { 2,0, 0,_ },
-            new object[] { 2,_, 1,1 },
-        };
+            // Most vals should all coalesce to Mono: null / 0 / 1 channels => defaults to Mono => ignores the channel.
+            new Case( init: ( (2,1)        ), val: ( (_,_), (1,0) ) ),
+            new Case( init: ( (2,0)        ), val: ( (0,_), (1,0) ) ),
+            new Case( init: ( (2,_)        ), val: ( (1,1), (1,0) ) ),
+            new Case( init: ( (_,_), (1,0) ), val: ( (2,1)        ) )
+        }).ToArray();
         
-        // New attempt to define test data
- 
-        static Case[] Cases =
-        {
-            new Case( init: (1,0), val: (2,0) ),
-            new Case( init: (1,0), val: (2,1) ),
-            new Case( init: (1,0), val: (2,_) ),
-                                              
-            new Case( init: (2,0), val: (1,0) ),
-            new Case( init: (2,0), val: (2,1) ),
-            new Case( init: (2,0), val: (2,_) ),
-                                              
-            new Case( init: (2,1), val: (1,0) ),
-            new Case( init: (2,1), val: (2,0) ),
-            new Case( init: (2,1), val: (2,_) ),
-                                              
-            new Case( init: (2,_), val: (1,0) ),
-            new Case( init: (2,_), val: (2,0) ),
-            new Case( init: (2,_), val: (2,1) ),
+        static Dictionary<string, Case> _caseDictionary = _casesWithEmpties.Union(_casesInit).ToDictionary(x => x.Descriptor);
 
-            //new Case( init: (2,1), val: ( (_,_), (1,0) ) ),
-            //new Case( init: ((_,_), (1,0)), val: (2,1) )
-        };
-
-        static object TestParametersNew => TestDataDictionary.Keys.Select(x => new object[] { x }).ToArray();
-        static Dictionary<string, Case> TestDataDictionary = Cases.ToDictionary(x => x.Descriptor);
-        
         struct Case
         {
             private int? _fromChannelsNully;
-            private int? _fromChannelsCoalesced;
+            private int  _fromChannelsCoalesced;
             private int? _fromChannelNully;
             private int? _fromChannelCoalesced;
             private int? _toChannelsNully;
-            private int? _toChannelsCoalesced;
+            private int  _toChannelsCoalesced;
             private int? _toChannelNully;
             private int? _toChannelCoalesced;
             
             public readonly Values init;
             public readonly Values val;
+            
+            public string Descriptor { get; }
 
             public Case(
-                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) init,
-                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) val )
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) init,
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) val )
                 : this(fromChannelsNully     : init.nully   .channels,
                        fromChannelsCoalesced : init.coalesce.channels,
                        fromChannelNully      : init.nully   .channel ,
@@ -922,12 +892,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                        toChannelsNully       : val .nully   .channels,
                        toChannelsCoalesced   : val .coalesce.channels,
                        toChannelNully        : val .nully   .channel ,
-                       toChannelCoalesced    : val .coalesce.channel )
-            { }
+                       toChannelCoalesced    : val .coalesce.channel ) { }
 
             public Case(
-                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) init,
-                ( int  channels, int? channel) val) 
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) init,
+                ( int? channels, int? channel) val) 
                 : this(fromChannelsNully     : init.nully   .channels,
                        fromChannelsCoalesced : init.coalesce.channels,
                        fromChannelNully      : init.nully   .channel ,
@@ -935,12 +904,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                        toChannelsNully       : val          .channels,
                        toChannelsCoalesced   : val          .channels,
                        toChannelNully        : val          .channel,
-                       toChannelCoalesced    : val          .channel)                        
-            { }
+                       toChannelCoalesced    : val          .channel) { }
 
             public Case(
-                ( int  channels, int? channel) init,
-                ((int? channels, int? channel) nully, (int channels, int? channel) coalesce) val )
+                ( int? channels, int? channel) init,
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) val )
                 : this(fromChannelsNully     : init         .channels,
                        fromChannelsCoalesced : init         .channels,
                        fromChannelNully      : init         .channel,
@@ -952,8 +920,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             { }
             
             public Case(
-                (int channels, int? channel) init,
-                (int channels, int? channel) val) 
+                (int? channels, int? channel) init,
+                (int? channels, int? channel) val) 
                 : this(fromChannelsNully     : init.channels,
                        fromChannelsCoalesced : init.channels,
                        fromChannelNully      : init.channel,
@@ -961,29 +929,48 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                        toChannelsNully       : val .channels,
                        toChannelsCoalesced   : val .channels,
                        toChannelNully        : val .channel,
-                       toChannelCoalesced    : val .channel)
-                { }
+                       toChannelCoalesced    : val .channel) { }
 
+            public Case(int? channels, int? channel)
+                : this(fromChannelsNully     : channels,
+                       fromChannelsCoalesced : channels,
+                       fromChannelNully      : channel,
+                       fromChannelCoalesced  : channel,
+                       toChannelsNully       : channels,
+                       toChannelsCoalesced   : channels,
+                       toChannelNully        : channel,
+                       toChannelCoalesced    : channel) { }
+                
             public Case(
-                int? fromChannelsNully, int fromChannelsCoalesced, int? fromChannelNully, int? fromChannelCoalesced, 
-                int? toChannelsNully,   int toChannelsCoalesced,   int? toChannelNully,   int? toChannelCoalesced)
+                int? fromChannelsNully, int? fromChannelsCoalesced, int? fromChannelNully, int? fromChannelCoalesced, 
+                int? toChannelsNully,   int? toChannelsCoalesced,   int? toChannelNully,   int? toChannelCoalesced)
             {
+                if (fromChannelsCoalesced == default && fromChannelCoalesced == default)
+                {
+                    fromChannelsCoalesced = fromChannelsNully; 
+                    fromChannelCoalesced  = fromChannelNully;
+                }
+                
+                if (toChannelsCoalesced == default && toChannelCoalesced == default)
+                {
+                    toChannelsCoalesced = toChannelsNully;
+                    toChannelCoalesced  = toChannelNully;
+                }
+
                 _fromChannelsNully     = fromChannelsNully;
-                _fromChannelsCoalesced = fromChannelsCoalesced;
+                _fromChannelsCoalesced = fromChannelsCoalesced ?? 0;
                 _fromChannelNully      = fromChannelNully;
                 _fromChannelCoalesced  = fromChannelCoalesced;
                 _toChannelsNully       = toChannelsNully;
-                _toChannelsCoalesced   = toChannelsCoalesced;
+                _toChannelsCoalesced   = toChannelsCoalesced ?? 0;
                 _toChannelNully        = toChannelNully;
                 _toChannelCoalesced    = toChannelCoalesced;
                 
                 init = new Values(_fromChannelsNully, _fromChannelNully, _fromChannelsCoalesced, _fromChannelCoalesced);
-                val  = new Values(  _toChannelsNully,   _toChannelNully,   _toChannelsCoalesced,   _toChannelCoalesced);
-
+                val  = new Values(_toChannelsNully,   _toChannelNully,   _toChannelsCoalesced,   _toChannelCoalesced);
+                
+                Descriptor = $"({init.channels.nully},{init.channel.nully}) => ({val.channels.nully},{val.channel.nully})";
             }
-
-            public string Descriptor =>
-                $"({_fromChannelsNully},{_fromChannelNully}) => ({_toChannelsNully},{_toChannelNully})";
         }
  
         struct Values
@@ -1000,22 +987,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
             public Values( 
                 int? channelsNully, int? channelNully, 
-                int? channelsCoalesced, int? channelCoalesced )
+                int  channelsCoalesced, int? channelCoalesced )
             {
-                if (channelsNully == null && channelsCoalesced == null)
-                {
-                    throw new Exception(nameof(channelsNully) + " and " + nameof(channelsCoalesced) + " can't both be null.");
-                }
-                
-                if (channelsCoalesced == default && channelCoalesced == default)
-                {
-                    channelsCoalesced = channelsNully;
-                    channelCoalesced  = channelNully;
-                }
-                
                 _channelsNully     = channelsNully;
                 _channelNully      = channelNully;
-                _channelsCoalesced = channelsCoalesced.Value;
+                _channelsCoalesced = channelsCoalesced;
                 _channelCoalesced  = channelCoalesced;
                 
                 channels = (    _channelsNully, _channelsCoalesced);
