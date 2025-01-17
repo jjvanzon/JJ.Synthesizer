@@ -166,7 +166,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(AudioLengthExtensionWishes));
         public static double AudioLength(this ConfigResolverAccessor obj, SynthWishes synthWishes) 
             => (double)_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject, synthWishes);
+        public static double? AudioLength(this ConfigSectionAccessor obj) => (double?)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static ConfigResolverAccessor AudioLength(this ConfigResolverAccessor obj, double? value, SynthWishes synthWishes) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject, value, synthWishes));
+        public static ConfigResolverAccessor WithAudioLength(this ConfigResolverAccessor obj, double? value, SynthWishes synthWishes) 
             => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.UnderlyingObject, value, synthWishes));
     }
         

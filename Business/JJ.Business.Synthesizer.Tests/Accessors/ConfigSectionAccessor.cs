@@ -31,5 +31,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public InterpolationTypeEnum? Interpolation => (InterpolationTypeEnum?)_accessor.GetPropertyValue(MemberName());
         public AudioFileFormatEnum? AudioFormat => (AudioFileFormatEnum?)_accessor.GetPropertyValue(MemberName());
         public int? CourtesyFrames => (int?)_accessor.GetPropertyValue(MemberName());
+        public double? AudioLength => (double?)_accessor.GetPropertyValue(MemberName());
     }
 }
