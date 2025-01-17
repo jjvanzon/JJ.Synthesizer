@@ -48,7 +48,22 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static int CoalesceChannels(int? channels, int? defaultValue = null)
             => (Has(channels) ? channels.Value : Has(defaultValue) ? defaultValue.Value : DefaultChannels).AssertChannels();
-                            
+
+        public static (int channels, int? channel) CoalesceChannelsChannelCombo((int? channels, int? channel) tuple)
+            => CoalesceChannelsChannelCombo(tuple.channels, tuple.channel);
+
+        public static (int channels, int? channel) CoalesceChannelsChannelCombo(int? channels, int? channel)
+        {
+            channels = (Has(channels) ? channels : DefaultChannels).AssertChannels();
+            
+            channel = AssertChannels(channel);
+            
+            if (channels == MonoChannels) return (MonoChannels, CenterChannel);
+            if (channels == StereoChannels) return (StereoChannels, channel);
+            
+            throw new Exception($"Unsupported combination of values: {new { channels, channel }}");
+        }
+        
         public static int CoalesceSamplingRate(int? samplingRate, int? defaultValue = null) 
             => (Has(samplingRate) ? samplingRate.Value : Has(defaultValue) ? defaultValue.Value : DefaultSamplingRate).AssertSamplingRate();
 
