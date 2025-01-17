@@ -150,11 +150,24 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static double AudioLength(this Sample obj) => obj.GetDuration();
         
-        public static Sample AudioLength(this Sample obj, double value)
+        /// <summary>
+        /// Adjusts sampling rate to match the new audio length.
+        /// </summary>
+        public static Sample AudioLength(this Sample obj, double newLength)
         {
             if (obj == null) throw new NullException(() => obj);
-            double ratio = AssertAudioLength(value) / AssertAudioLength(obj.AudioLength());
-            obj.SamplingRate = AssertSamplingRate((int)(AssertSamplingRate(obj.SamplingRate) * ratio));
+            
+            double oldLength       = obj.AudioLength();
+            int    oldSamplingRate = obj.SamplingRate;
+            double lengthRatio     = newLength / oldLength;
+            int    newSamplingRate = (int)(oldSamplingRate / lengthRatio);
+            
+            AssertAudioLength(oldLength);
+            AssertSamplingRate(oldSamplingRate);
+            AssertAudioLength(newLength);
+            AssertSamplingRate(newSamplingRate);
+            
+            obj.SamplingRate = newSamplingRate;
             return obj;
         }
                 
