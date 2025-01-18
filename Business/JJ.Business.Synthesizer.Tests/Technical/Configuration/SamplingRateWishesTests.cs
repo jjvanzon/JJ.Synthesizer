@@ -293,12 +293,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.SamplingRate());
             AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.SamplingRate);
         }
-
-        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int samplingRate)
-        {
-            AreEqual(samplingRate, () => audioFileInfo.SamplingRate());
-            AreEqual(samplingRate, () => audioFileInfo.SamplingRate);
-        }
         
         private void Assert_Independent_Getters(Sample sample, int samplingRate)
         {
@@ -306,6 +300,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(samplingRate, () => sample.SamplingRate);
         }
         
+        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int samplingRate)
+        {
+            AreEqual(samplingRate, () => audioFileInfo.SamplingRate());
+            AreEqual(samplingRate, () => audioFileInfo.SamplingRate);
+        }
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int samplingRate)
         {
             AreEqual(samplingRate, () => audioInfoWish.SamplingRate());
@@ -323,7 +322,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         private TestEntities CreateTestEntities(int? samplingRate)
         {
             double audioLength = DefaultAudioLength;
-            if (samplingRate > 100) audioLength = 0.001; // Tape audio length in case of larger sampling rates for performance.
+            if (samplingRate > 100) audioLength = 0.001; // Tame audio length in case of larger sampling rates for performance.
             return new TestEntities(x =>
             {
                 x.WithSamplingRate(samplingRate);
