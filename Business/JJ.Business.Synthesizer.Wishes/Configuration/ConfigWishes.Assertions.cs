@@ -67,7 +67,36 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int?    AssertByteCount      (int   ? byteCount                   ) => byteCount                                ?.                 AssertByteCount();
     
         // Misc
-                
+
+        public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int courtesyFrames)
+        {
+            AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames);
+            return frameCount - courtesyFrames;
+        }
+        
+        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int courtesyFrames)
+        {
+            if (frameCount == null) return;
+            AssertFrameCountWithCourtesyFrames(frameCount.Value, courtesyFrames);
+        }        
+
+        public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames)
+        {
+            AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames);
+            return frameCount - courtesyFrames;
+        }
+        
+        public static void AssertFrameCountWithCourtesyFrames(int frameCount, int courtesyFrames)
+        {
+            AssertFrameCount(frameCount);
+            AssertCourtesyFrames(courtesyFrames);
+            
+            if (frameCount < courtesyFrames)
+            {
+                throw new Exception($"{nameof(frameCount)} = {frameCount} but should be a minimum of {courtesyFrames} {nameof(courtesyFrames)}.");
+            }
+        }
+        
         public static int AssertCourtesyBytes(int courtesyBytes, int frameSize)
         {
             AssertCourtesyBytes(courtesyBytes);
