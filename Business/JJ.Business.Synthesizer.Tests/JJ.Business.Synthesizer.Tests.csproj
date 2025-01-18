@@ -140,6 +140,7 @@
     <Compile Include="Technical\Configuration\AudioFormatAttributeTests.cs" />
     <Compile Include="Technical\Configuration\FrameSizeWishesTests.cs" />
     <Compile Include="Technical\Configuration\AudioLengthWishesTests.cs" />
+    <Compile Include="Technical\Configuration\FrameCountWishesTests.cs" />
     <Compile Include="Technical\Configuration\SizeOfBitDepthWishesTests.cs" />
     <Compile Include="Technical\Configuration\CourtesyByteWishesTests.cs" />
     <Compile Include="Technical\Configuration\CourtesyFrameWishesTests.cs" />
