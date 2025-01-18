@@ -112,8 +112,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return 0;
         }
         
-        public static int FrameCount(this AudioFileOutput obj) => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
-        public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value) => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
+        public static int FrameCount(this AudioFileOutput obj) 
+            => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate());
+        
+        public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value) 
+            => obj.AudioLength(AudioLength(value, obj.SamplingRate()));
         
         // Independent after Taping
                 
