@@ -242,7 +242,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             AssertCourtesyFrames(courtesyFrames);
             AssertFrameSize(frameSize);
             
-            return (double)(byteCount - headerLength) / frameSize / samplingRate - courtesyFrames * frameSize;
+            double frameCount = (double)(byteCount - headerLength) / frameSize;
+            return (frameCount - courtesyFrames) / samplingRate;
         }
     }
 }
