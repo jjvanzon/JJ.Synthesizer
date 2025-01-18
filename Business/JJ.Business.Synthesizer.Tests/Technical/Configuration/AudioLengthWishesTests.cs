@@ -72,6 +72,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
+                LogTolerance(x, init);
                 Assert_All_Getters(x, init);
                 
                 setter(x);
@@ -100,6 +101,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
+                LogTolerance(x, init);
                 Assert_All_Getters(x, init);
                 
                 setter(x);
@@ -132,6 +134,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 void AssertProp(Action setter)
                 {
                     x = CreateTestEntities(init);
+                    LogTolerance(x, init);
                     Assert_All_Getters(x, init);
                     
                     setter();
@@ -156,6 +159,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 void AssertProp(Action setter)
                 {
                     x = CreateTestEntities(init);
+                    LogTolerance(x, init);
                     Assert_All_Getters(x, init);
                     
                     setter();
@@ -180,6 +184,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 void AssertProp(Action setter)
                 {
                     x = CreateTestEntities(init);
+                    LogTolerance(x, init);
                     Assert_All_Getters(x, init);
                     
                     setter();
