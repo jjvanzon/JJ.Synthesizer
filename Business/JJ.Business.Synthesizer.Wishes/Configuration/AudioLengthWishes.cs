@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -171,10 +172,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
                 
-        public static double AudioLength(this AudioInfoWish infoWish)
+        public static double AudioLength(this AudioInfoWish infoWish, int courtesyFrames = 0) // TODO: Make required?
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            return ConfigWishes.AudioLength(infoWish.FrameCount, infoWish.Channels, infoWish.SamplingRate);
+            return ConfigWishes.AudioLength(infoWish.FrameCount, infoWish.Channels, infoWish.SamplingRate, courtesyFrames);
         }
         
         public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double value)
@@ -203,42 +204,36 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Conversion Formula
         
-        public static double? AudioLength(this int? frameCount, int samplingRate) 
-            => ConfigWishes.AudioLength(frameCount, samplingRate);
+        public static double? AudioLength(this int? frameCount, int channels, int samplingRate, int courtesyFrames) 
+            => ConfigWishes.AudioLength(frameCount, channels, samplingRate, courtesyFrames);
 
-        public static double AudioLength(this int frameCount, int samplingRate) 
-            => ConfigWishes.AudioLength(frameCount, samplingRate);
+        public static double AudioLength(this int frameCount, int channels, int samplingRate, int courtesyFrames) 
+            => ConfigWishes.AudioLength(frameCount, channels, samplingRate, courtesyFrames);
 
-        public static double? AudioLength(this int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+        public static double? AudioLength(this int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
             => ConfigWishes.AudioLength(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
 
-        public static double AudioLength(this int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+        public static double AudioLength(this int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
             => ConfigWishes.AudioLength(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
-
-        public static double AudioLength(this int frameCount, int channels, int samplingRate)
-            => ConfigWishes.AudioLength(frameCount, channels, samplingRate);
     }
 
     // Conversion Formula
     
     public partial class ConfigWishes
     {
-        public static double? AudioLength(int? frameCount, int samplingRate)
-            => (double?)AssertFrameCount(frameCount) / AssertSamplingRate(samplingRate);
-
-        public static double AudioLength(int frameCount, int samplingRate)
-            => (double)AssertFrameCount(frameCount) / AssertSamplingRate(samplingRate);
+        public static double? AudioLength(int? frameCount, int channels, int samplingRate, int courtesyFrames) 
+            => (double?)AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames) / AssertChannels(channels) / AssertSamplingRate(samplingRate);
         
-        public static double AudioLength(int frameCount, int channels, int samplingRate) 
-            => (double)AssertFrameCount(frameCount) / AssertChannels(channels) / AssertSamplingRate(samplingRate);
+        public static double AudioLength(int frameCount, int channels, int samplingRate, int courtesyFrames) 
+            => (double)AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames) / AssertChannels(channels) / AssertSamplingRate(samplingRate);
 
-        public static double? AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+        public static double? AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
         {
-            if (byteCount == default) return default;
+            if (!Has(byteCount)) return byteCount;
             return AudioLength(byteCount.Value, frameSize, samplingRate, headerLength, courtesyFrames);
         }
 
-        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames = 0)
+        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
         {
             AssertByteCount(byteCount);
             AssertHeaderLength(headerLength);
