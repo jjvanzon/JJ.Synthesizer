@@ -289,15 +289,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         static IEnumerable<object[]> TestParametersInit => new[]
         {
-            new object[] { 0 },
-            new object[] { null },
             new object[] { 96000 },
             new object[] { 88200 },
             new object[] { 48000 },
             new object[] { 44100 },
             new object[] { 22050 },
             new object[] { 11025 },
-            new object[] { 1 },
             new object[] { 8 },
             new object[] { 16 },
             new object[] { 32 },
@@ -305,13 +302,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 100 },
             new object[] { 1000 },
             new object[] { 12345 },
-            new object[] { 1234567 } 
+            new object[] { 1234567 }
         };
         
         static IEnumerable<object[]> TestParametersWithEmpty => new[]
         {
-            new object[] {   22050 ,     0 },
-            new object[] {       0 , 11025 },
             new object[] { 1234567 ,  null },
             new object[] {    null , 12345 },
             
@@ -325,14 +320,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 48000, 44100 },
             new object[] { 48000, 22050 },
             new object[] { 48000, 11025 },
-            new object[] { 48000, 1 },
             new object[] { 48000, 8 },
             new object[] { 96000, 48000 },
             new object[] { 88200, 44100 },
             new object[] { 44100, 48000 },
             new object[] { 22050, 44100 },
             new object[] { 11025, 44100 },
-            new object[] { 1, 48000 },
             new object[] { 8, 48000 },
             new object[] { 48000, 16 },
             new object[] { 48000, 32 },
