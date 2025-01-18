@@ -34,13 +34,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int    ? AssertChannels      (int   ? channels                    ) => !Has(channels)                          ? channels       : AssertChannels(channels.Value);
         public static int      AssertChannel       (int     channel                     ) => channel       .In(ValidChannel        ) ? channel        : throw new Exception($"Channel = {channel} not valid. Supported values: " + Join(", ", ValidChannel));
         public static int    ? AssertChannel       (int   ? channel                     ) => channel                                 ?.                 AssertChannel();
-        public static int      AssertSamplingRate  (int     samplingRate                ) => samplingRate                        > 0 ? samplingRate   : throw new Exception($"{nameof(samplingRate)} {samplingRate} below 0.");
+        public static int      AssertSamplingRate  (int     samplingRate                ) => samplingRate                        > 0 ? samplingRate   : throw new Exception($"{nameof(samplingRate)} {samplingRate} is below 0.");
         public static int    ? AssertSamplingRate  (int   ? samplingRate                ) => !Has(samplingRate)                      ? samplingRate   : AssertSamplingRate(samplingRate.Value);
         public static AudioFileFormatEnum    AssertAudioFormat  (AudioFileFormatEnum    audioFormat  ) => audioFormat   .In(ValidAudioFormats   ) ? audioFormat    : throw new Exception($"AudioFormat = {audioFormat} not valid. Supported values: " + Join(", ", ValidAudioFormats));
         public static AudioFileFormatEnum  ? AssertAudioFormat  (AudioFileFormatEnum  ? audioFormat  ) => !Has(audioFormat)                       ? audioFormat    : AssertAudioFormat(audioFormat.Value);
         public static InterpolationTypeEnum  AssertInterpolation(InterpolationTypeEnum  interpolation) => interpolation .In(ValidInterpolations ) ? interpolation  : throw new Exception($"Interpolation = {interpolation} not valid. Supported values: " + Join(", ", ValidInterpolations));
         public static InterpolationTypeEnum? AssertInterpolation(InterpolationTypeEnum? interpolation) => !Has(interpolation)                     ? interpolation  : AssertInterpolation(interpolation.Value);
-        public static int      AssertCourtesyFrames(int     courtesyFrames              ) => courtesyFrames                     >= 0 ? courtesyFrames : throw new Exception($"{nameof(CourtesyFrames)} {courtesyFrames} below 0.");
+        public static int      AssertCourtesyFrames(int     courtesyFrames              ) => courtesyFrames                     >= 0 ? courtesyFrames : throw new Exception($"{nameof(CourtesyFrames)} {courtesyFrames} is below 0.");
         public static int    ? AssertCourtesyFrames(int   ? courtesyFrames              ) => courtesyFrames                          ?.                 AssertCourtesyFrames();
         
         // Derived Audio Properties
@@ -54,16 +54,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int      AssertHeaderLength  (int     headerLength                ) => headerLength  .In(ValidHeaderLengths  ) ? headerLength   : throw new Exception($"{nameof(HeaderLength)} {headerLength} not supported. Supported values: " + Join(", ", ValidHeaderLengths));
         public static int    ? AssertHeaderLength  (int   ? headerLength                ) => headerLength                            ?.                 AssertHeaderLength();
         public static string   AssertFileExtension (string  fileExtension               ) => fileExtension .In(ValidFileExtensions ) || !Has(fileExtension) ? fileExtension : throw new Exception($"{nameof(FileExtension)} = {fileExtension} not valid. Supported values:" + Join(", ", ValidFileExtensions));
-        public static int      AssertCourtesyBytes (int     courtesyBytes               ) => courtesyBytes                      >= 0 ? courtesyBytes  : throw new Exception($"{nameof(CourtesyBytes)} {courtesyBytes} below 0.");
+        public static int      AssertCourtesyBytes (int     courtesyBytes               ) => courtesyBytes                      >= 0 ? courtesyBytes  : throw new Exception($"{nameof(CourtesyBytes)} {courtesyBytes} is below 0.");
         public static int    ? AssertCourtesyBytes (int   ? courtesyBytes               ) => courtesyBytes                           ?.                 AssertCourtesyBytes();
         
         // Durations
         
-        public static double  AssertAudioLength    (double  audioLength                 ) => audioLength                         >= 0 ? audioLength    : throw new Exception($"{nameof(AudioLength)} {audioLength} below 0.");
+        public static double  AssertAudioLength    (double  audioLength                 ) => audioLength                         >= 0 ? audioLength    : throw new Exception($"{nameof(AudioLength)} {audioLength} is below 0.");
         public static double? AssertAudioLength    (double? audioLength                 ) => !Has(audioLength)                        ? audioLength    : AssertAudioLength(audioLength.Value);
-        public static int     AssertFrameCount     (int     frameCount                  ) => frameCount                          >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCount)} {frameCount} below 0.");
+        public static int     AssertFrameCount     (int     frameCount                  ) => frameCount                          >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCount)} {frameCount} is below 0.");
         public static int?    AssertFrameCount     (int   ? frameCount                  ) => !Has(frameCount)                         ? frameCount     : AssertFrameCount(frameCount.Value);
-        public static int     AssertByteCount      (int     byteCount                   ) => byteCount                           >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} below 0.");
+        public static int     AssertByteCount      (int     byteCount                   ) => byteCount                           >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} is below 0.");
         public static int?    AssertByteCount      (int   ? byteCount                   ) => byteCount                                ?.                 AssertByteCount();
     
         // Misc
