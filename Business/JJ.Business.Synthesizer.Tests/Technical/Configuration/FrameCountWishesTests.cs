@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     wavHeaders.Add(wavHeader2);
                 }
 
-                AssertProp(() => x.Immutable.WavHeader.FrameCount(value));
+                AssertProp(() => x.Immutable.WavHeader.FrameCount(value, x.Immutable.CourtesyFrames));
             }
             
             // After-Record
@@ -253,8 +253,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         private void Assert_BuffBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount());
-            AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount());
+            AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount(x.Immutable.CourtesyFrames));
+            AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount(x.Immutable.CourtesyFrames));
         }
         
         private void Assert_Independent_Getters(Sample sample, int frameCount)
@@ -283,7 +283,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         private TestEntities CreateTestEntities(int? frameCount) => new TestEntities(x => x.FrameCount(frameCount));
         
-        private int Coalesce(int? frameCount) => CoalesceFrameCount(frameCount, defaultValue: 1 * 48000);
+        private int Coalesce(int? frameCount)
+        {
+            int defaultValue = 1 /*sec*/ * 48000 /*Hz*/ + 2 /*CourtesyFrames*/;
+            return CoalesceFrameCount(frameCount, defaultValue);
+        }
 
         // ncrunch: no coverage start
         
