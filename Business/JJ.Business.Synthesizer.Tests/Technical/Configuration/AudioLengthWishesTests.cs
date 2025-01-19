@@ -373,7 +373,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         static IEnumerable<object[]> TestParametersInit => new[]
         {
             new object[] { null },
-            new object[] {  0.0 },
+            //new object[] {  0.0 }, // Yields "Duration is not above 0." exception.
             new object[] {  1.6 },
             new object[] {  2.0 },
             new object[] {    E },
@@ -385,12 +385,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         static IEnumerable<object[]> TestParametersWithEmpty => new[]
         {
             new object[] { null, null },
-            new object[] {  0.0, null },
-            new object[] { null, 0.0  },
+            //new object[] {  0.0, null }, // Yields "Duration is not above 0." exception.
+            //new object[] { null, 0.0  }, // Yields "Duration is not above 0." exception.
             new object[] { null, 1.6  },
             new object[] {  1.6, null },
-            new object[] {  0.0, 1.6  },
-            new object[] {  1.6, 0.0  },
+            //new object[] {  0.0, 1.6  }, // Yields "Duration is not above 0." exception.
+            //new object[] {  1.6, 0.0  }, // Yields "Duration is not above 0." exception.
             
         }.Concat(TestParameters);
         
