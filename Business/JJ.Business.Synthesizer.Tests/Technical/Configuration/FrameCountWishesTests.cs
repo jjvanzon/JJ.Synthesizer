@@ -24,12 +24,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     {
         
         [DataTestMethod]
-        //[DynamicData(nameof(TestParametersInit))]
         [DynamicData(nameof(CaseKeysInit))]
         public void Init_FrameCount(string caseKey)
         {
-            var init     = _caseDictionary[caseKey].FromFrameCountNully;
-            var coalesce = _caseDictionary[caseKey].ToFrameCountCoalesced;
+            var init     = _caseDictionary[caseKey].FrameCount.Nully;
+            var coalesce = _caseDictionary[caseKey].FrameCount.Coalesced;
             var x        = CreateTestEntities(init);
             Assert_All_Getters(x, coalesce);
         }
@@ -339,32 +338,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         static object CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
         
-        static IEnumerable<object[]> TestParametersInit => new[]
-        {
-            new object[] { 96000 },
-            new object[] { 88200 },
-            new object[] { 48000 },
-            new object[] { 44100 },
-            new object[] { 22050 },
-            new object[] { 11025 },
-            new object[] { 8 },
-            new object[] { 16 },
-            new object[] { 19 },
-            new object[] { 31 },
-            new object[] { 61 },
-            new object[] { 100 },
-            new object[] { 1000 },
-            new object[] { 12345 },
-            new object[] { 1234567 }
-        };
-        
-        static IEnumerable<object[]> TestParametersWithEmpties => new[]
-        {
-            new object[] { 1234567 ,  null },
-            new object[] {    null , 12345 },
-            
-        }.Concat(TestParameters);
-
         static IEnumerable<object[]> TestParameters => new[] 
         {
             new object[] { 48000, 96000 },
@@ -390,74 +363,48 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 48000, 1234567 },
         };
         
-        static Dictionary<string, Case> _caseDictionary = _casesInit.ToDictionary(x => x.Descriptor);
-        
-        static Case[] _caseExamples = 
+        static IEnumerable<object[]> TestParametersWithEmpties => new[]
         {
-            // Example with all values specified
-            new Case 
-            { 
-                FromFrameCountNully     = 22050 * 3, FromFrameCountCoalesced     = 22050 * 3, ToFrameCountNully     = 22050 * 5, ToFrameCountCoalesced     = 22050 * 5, 
-                FromSamplingRateNully   =     22050, FromSamplingRateCoalesced   =     22050, ToSamplingRateNully   =     22050, ToSamplingRateCoalesced   =     22050, 
-                FromAudioLengthNully    =         3, FromAudioLengthCoalesced    =         3, ToAudioLengthNully    =         5, ToAudioLengthCoalesced    =         5, 
-                FromCourtesyFramesNully =         4, FromCourtesyFramesCoalesced =         4, ToCourtesyFramesNully =         4, ToCourtesyFramesCoalesced =         4, 
-                FromChannelsNully       =         2, FromChannelsCoalesced       =         2, ToChannelsNully       =         2, ToChannelsCoalesced       =         2
-            },
+            new object[] { 1234567 ,  null },
+            new object[] {    null , 12345 },
             
-            // Example with same value for Nully and Coalesced
-            new Case 
-            { 
-                FromFrameCount     = 22050 * 3, ToFrameCount     = 22050 * 5,
-                FromSamplingRate   =     22050, ToSamplingRate   =     22050,
-                FromAudioLength    =         3, ToAudioLength    =         5,
-                FromCourtesyFrames =         4, ToCourtesyFrames =         4,
-                FromChannels       =         2, ToChannels       =         2
-            },
-            
-            // Example with single mentioning of values that don't change.
-            new Case
-            { 
-                SamplingRate    =     22050 , Channels       =         2 , CourtesyFrames = 4, 
-                FromAudioLength =         3 , ToAudioLength  =         5 ,
-                FromFrameCount  = 22050 * 3 , ToFrameCount   = 22050 * 5
-            },
-            
-            // Example using constructor parameters for side-issues
-            new Case(channels: 2, courtesyFrames: 4)
-            { 
-                FromFrameCount  = 3 * 22050, ToFrameCount   = 5 * 22050,
-                FromAudioLength = 3        , ToAudioLength  = 5,
-                SamplingRate    =     22050
-            },
-            
-            // Examples initializing main property in constructor.
-            
-            new Case(from: 3 * 22050, to: 5 * 22050) { SamplingRate = 22050, FromAudioLength = 3, ToAudioLength = 5 },
+        }.Concat(TestParameters);
 
-            new Case(3 * 22050, 5 * 22050) { SamplingRate = 22050, FromAudioLength = 3, ToAudioLength = 5 }
-        };
+        static Dictionary<string, Case> _caseDictionary = _casesInit.ToDictionary(x => x.Descriptor);
 
         class Case
         {
+            // FrameCount: The main property being tested, adjusted directly or via dependencies.
+            public CaseProp<int> FrameCount { get; set; } = new CaseProp<int>();
+
+            // SamplingRate: Scales FrameCount
+            public CaseProp<int> SamplingRate { get; set; } = new CaseProp<int>();
+
+            // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
+            public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
+            
+            // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
+            public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
+
+            // Channels: AudioLength vs FrameCount should be invariant under Channels, but was accidentally involved in the formulas.
+            public CaseProp<int> Channels { get; set; } = new CaseProp<int>();
+            
+            public string Descriptor
+            {
+                get
+                {
+                    string descriptor = FrameCount.Descriptor;
+                    string samplingRateDescriptor = SamplingRate.Descriptor;
+                    if (Has(samplingRateDescriptor)) descriptor += $" ({samplingRateDescriptor})";
+                    return descriptor;
+                }
+            }
+
             public const int    SamplingRateTestDefault   = 44100;
             public const double AudioLengthTestDefault    = 1.6;
             public const int    CourtesyFramesTestDefault = 3;
             public const int    ChannelsTestDefault       = 2;
 
-            /// <summary>
-            /// Constructor that initializes main property.
-            /// </summary>
-            public Case(int frameCount) => FrameCount = frameCount;
-
-            /// <summary>
-            /// Constructor that initializes main property.
-            /// </summary>
-            public Case(int from, int to) { FromFrameCount = from; ToFrameCount = to; }
-                
-            /// <summary>
-            /// Constructor that initializes dependencies to practical defaults for testing.
-            /// (Not exactly the same as the defaults, and a bit of variation in numbers.)
-            /// </summary>
             public Case(
                 int    samplingRate   = SamplingRateTestDefault,
                 double audioLength    = AudioLengthTestDefault,
@@ -469,250 +416,125 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 CourtesyFrames = courtesyFrames;
                 Channels       = channels;
             }
+            
+            public Case(int frameCount) => FrameCount = frameCount;
+            public Case(int from, int to) { FrameCount.From = from; FrameCount.To = to; }
+        }
+                            
+        class CaseProp<T> where T : struct
+        {
+            public T? FromNully     { get; set; }
+            public T  FromCoalesced { get; set; }
+            public T? ToNully       { get; set; }
+            public T  ToCoalesced   { get; set; }
 
-            // Descriptor
+            public T Value
+            {
+                get => Equals(From, To) ? To : default;
+                set => From = To = value;
+            }
+            
+            public T From
+            {
+                get => Equals(FromNully, FromCoalesced) ? FromCoalesced : default;
+                set => FromNully = FromCoalesced = value;
+            }
+                        
+            public T To
+            {
+                get => Equals(ToNully, ToCoalesced) ? ToCoalesced : default;
+                set => ToNully = ToCoalesced = value;
+            }
+            
+            public T? Nully
+            {
+                get => Equals(FromNully, ToNully) ? ToNully : default;
+                set => FromNully= ToNully = value;
+            }
+            
+            public T Coalesced
+            {
+                get => Equals(FromCoalesced, ToCoalesced) ? ToCoalesced : default;
+                set => FromCoalesced = ToCoalesced = value;
+            }
 
             public string Descriptor
             {
                 get
                 {
-                    string frameCountPart = GetDescriptorPart(FromFrameCountNully, FromFrameCountCoalesced, ToFrameCountNully, ToFrameCountCoalesced);
-                    string samplingRatePart = GetDescriptorPart(FromSamplingRateNully, FromSamplingRateCoalesced, ToSamplingRateNully, ToSamplingRateCoalesced);
-                    string descriptor = frameCountPart;
-                    if (Has(samplingRatePart)) descriptor += $" ({samplingRatePart})";
-                    return descriptor;
-                }
-            }
-            
-            private string GetDescriptorPart(double? fromNully, double fromCoalesced, double? toNully, double toCoalesced)
-            {
-                double  from      = fromNully     == fromCoalesced ? fromCoalesced : default;
-                double  to        = toNully       == toCoalesced   ? toCoalesced   : default;
-                double? nully     = fromNully     == toNully       ? toNully       : default;
-                double  coalesced = fromCoalesced == toCoalesced   ? toCoalesced   : default;
-                double  value     = from          == to            ? to            : default;
-             
-                if (value != default)
-                {
-                    return $"{value}";
-                }
-                else if (from != default && to != default)
-                {
-                    return $"{from} => {to}";
-                }
-                else if (nully != default && coalesced != default)
-                {
-                    return $"({nully},{coalesced})";
-                }
-                else if (fromNully == default  && fromCoalesced == default && toNully == default && toCoalesced == default)
-                {
-                    return default;
-                }
-                else
-                {
-                    return $"({fromNully},{fromCoalesced}) => ({toNully},{toCoalesced})";
+                    if (Has(Value))
+                    {
+                        return $"{Value}";
+                    }
+                    
+                    if (Has(From) && Has(To))
+                    {
+                        return $"{From} => {To}";
+                    }
+                    
+                    if (Has(Nully) && Has(Coalesced))
+                    {
+                        return $"({Nully},{Coalesced})";
+                    }
+                    
+                    if (!Has(FromNully) && !Has(FromCoalesced) && !Has(ToNully) && !Has(ToCoalesced))
+                    {
+                        return default;
+                    }
+                    
+                    return $"({FromNully},{FromCoalesced}) => ({ToNully},{ToCoalesced})";
                 }
             }
 
-            // FrameCount:
-
-            // The main property being tested,
-            // adjusted directly or via dependencies.
-
-            public int? FromFrameCountNully     { get; set; }
-            public int  FromFrameCountCoalesced { get; set; }
-            public int? ToFrameCountNully       { get; set; }
-            public int  ToFrameCountCoalesced   { get; set; }
-
-            public int FrameCount
-            {
-                get => FromFrameCount == ToFrameCount ? ToFrameCount : default;
-                set => FromFrameCount  = ToFrameCount = value;
-            }
-            
-            public int FromFrameCount
-            {
-                get => FromFrameCountNully == FromFrameCountCoalesced ? FromFrameCountCoalesced : default;
-                set => FromFrameCountNully  = FromFrameCountCoalesced = value;
-            }
-                        
-            public int ToFrameCount
-            {
-                get => ToFrameCountNully == ToFrameCountCoalesced ? ToFrameCountCoalesced : default;
-                set => ToFrameCountNully  = ToFrameCountCoalesced = value;
-            }
-            
-            public int? FrameCountNully
-            {
-                get => FromFrameCountNully == ToFrameCountNully ? ToFrameCountNully : default;
-                set => FromFrameCountNully  = ToFrameCountNully = value;
-            }
-            
-            public int FrameCountCoalesced
-            {
-                get => FromFrameCountCoalesced == ToFrameCountCoalesced ? ToFrameCountCoalesced : default;
-                set => FromFrameCountCoalesced  = ToFrameCountCoalesced = value;
-            }
-
-            // SamplingRate:
-
-            // Scales FrameCount
-            
-            public int? FromSamplingRateNully     { get; set; }
-            public int  FromSamplingRateCoalesced { get; set; }
-            public int? ToSamplingRateNully       { get; set; }
-            public int  ToSamplingRateCoalesced   { get; set; }
-
-            public int SamplingRate
-            {
-                get => FromSamplingRate == ToSamplingRate ? ToSamplingRate : default;
-                set => FromSamplingRate  = ToSamplingRate = value;
-            }
-
-            public int FromSamplingRate
-            {
-                get => FromSamplingRateNully == FromSamplingRateCoalesced ? FromSamplingRateCoalesced : default;
-                set => FromSamplingRateNully  = FromSamplingRateCoalesced = value;
-            }
-                        
-            public int ToSamplingRate
-            {
-                get => ToSamplingRateNully == ToSamplingRateCoalesced ? ToSamplingRateCoalesced : default;
-                set => ToSamplingRateNully  = ToSamplingRateCoalesced = value;
-            }
-
-            public int? SamplingRateNully
-            {
-                get => FromSamplingRateNully == ToSamplingRateNully ? ToSamplingRateNully : default;
-                set => FromSamplingRateNully  = ToSamplingRateNully = value;
-            }
-            
-            public int SamplingRateCoalesced
-            {
-                get => FromSamplingRateCoalesced == ToSamplingRateCoalesced ? ToSamplingRateCoalesced : default;
-                set => FromSamplingRateCoalesced  = ToSamplingRateCoalesced = value;
-            }
-
-            // AudioLength:
-            
-            // Scales FrameCount + FrameCount setters adjust AudioLength.
-            
-            public double? FromAudioLengthNully     { get; set; }
-            public double  FromAudioLengthCoalesced { get; set; }
-            public double? ToAudioLengthNully       { get; set; }
-            public double  ToAudioLengthCoalesced   { get; set; }
-
-            public double AudioLength
-            {
-                get => FromAudioLength == ToAudioLength ? ToAudioLength : default;
-                set => FromAudioLength  = ToAudioLength = value;
-            }
-
-            public double FromAudioLength
-            {
-                get => FromAudioLengthNully == FromAudioLengthCoalesced ? FromAudioLengthCoalesced : default;
-                set => FromAudioLengthNully  = FromAudioLengthCoalesced = value;
-            }
-                        
-            public double ToAudioLength
-            {
-                get => ToAudioLengthNully == ToAudioLengthCoalesced ? ToAudioLengthCoalesced : default;
-                set => ToAudioLengthNully  = ToAudioLengthCoalesced = value;
-            }
-            
-            public double? AudioLengthNully
-            {
-                get => FromAudioLengthNully == ToAudioLengthNully ? ToAudioLengthNully : default;
-                set => FromAudioLengthNully  = ToAudioLengthNully = value;
-            }
-            
-            public double AudioLengthCoalesced
-            {
-                get => FromAudioLengthCoalesced == ToAudioLengthCoalesced ? ToAudioLengthCoalesced : default;
-                set => FromAudioLengthCoalesced  = ToAudioLengthCoalesced = value;
-            }
-
-            // CourtesyFrames:
-            
-            // AudioLength does not incorporate CourtesyFrames, but
-            // FrameCount does.
-            
-            public int? FromCourtesyFramesNully     { get; set; }
-            public int  FromCourtesyFramesCoalesced { get; set; }
-            public int? ToCourtesyFramesNully       { get; set; }
-            public int  ToCourtesyFramesCoalesced   { get; set; }
-
-            public int CourtesyFrames
-            {
-                get => FromCourtesyFrames == ToCourtesyFrames ? ToCourtesyFrames : default;
-                set => FromCourtesyFrames  = ToCourtesyFrames = value;
-            }
-
-            public int FromCourtesyFrames
-            {
-                get => FromCourtesyFramesNully == FromCourtesyFramesCoalesced ? FromCourtesyFramesCoalesced : default;
-                set => FromCourtesyFramesNully  = FromCourtesyFramesCoalesced = value;
-            }
-            
-            public int ToCourtesyFrames
-            {
-                get => ToCourtesyFramesNully == ToCourtesyFramesCoalesced ? ToCourtesyFramesCoalesced : default;
-                set => ToCourtesyFramesNully  = ToCourtesyFramesCoalesced = value;
-            }
-            
-            public int? CourtesyFramesNully
-            {
-                get => FromCourtesyFramesNully == ToCourtesyFramesNully ? ToCourtesyFramesNully : default;
-                set => FromCourtesyFramesNully  = ToCourtesyFramesNully = value;
-            }
-            
-            public int CourtesyFramesCoalesced
-            {
-                get => FromCourtesyFramesCoalesced == ToCourtesyFramesCoalesced ? ToCourtesyFramesCoalesced : default;
-                set => FromCourtesyFramesCoalesced  = ToCourtesyFramesCoalesced = value;
-            }
-
-            // Channels:
-            
-            // AudioLength vs FrameCount should be invariant under Channels,
-            // but was accidentally involved in the formulas.
-            
-            public int? FromChannelsNully     { get; set; }
-            public int  FromChannelsCoalesced { get; set; }
-            public int? ToChannelsNully       { get; set; }
-            public int  ToChannelsCoalesced   { get; set; }
-
-            public int Channels
-            {
-                get => FromChannels == ToChannels ? ToChannels : default;
-                set => FromChannels  = ToChannels = value;
-            }
-
-            public int FromChannels
-            {
-                get => FromChannelsNully == FromChannelsCoalesced ? FromChannelsCoalesced : default;
-                set => FromChannelsNully  = FromChannelsCoalesced = value;
-            }
-
-            public int ToChannels
-            {
-                get => ToChannelsNully == ToChannelsCoalesced ? ToChannelsCoalesced : default;
-                set => ToChannelsNully  = ToChannelsCoalesced = value;
-            }
-
-            public int? ChannelsNully
-            {
-                get => FromChannelsNully == ToChannelsNully ? ToChannelsNully : default;
-                set => FromChannelsNully  = ToChannelsNully = value;
-            }
-            
-            public int ChannelsCoalesced
-            {
-                get => FromChannelsCoalesced == ToChannelsCoalesced ? ToChannelsCoalesced : default;
-                set => FromChannelsCoalesced  = ToChannelsCoalesced = value;
-            }
+            public static implicit operator T(CaseProp<T> prop) => prop.Value;
+            public static implicit operator CaseProp<T>(T val) => new CaseProp<T> { Value = val };
         }
-        
+                
+        static Case[] _caseExamples = 
+        {
+            // Example with all values specified
+            new Case 
+            { 
+                FrameCount     = { FromNully = 22050 * 3 , FromCoalesced = 22050 * 3 , ToNully = 22050 * 5 , ToCoalesced = 22050 * 5 }, 
+                SamplingRate   = { FromNully = 22050     , FromCoalesced = 22050     , ToNully = 22050     , ToCoalesced = 22050     }, 
+                AudioLength    = { FromNully =         3 , FromCoalesced =         3 , ToNully =         5 , ToCoalesced =         5 }, 
+                CourtesyFrames = { FromNully = 4         , FromCoalesced = 4         , ToNully = 4         , ToCoalesced = 4         }, 
+                Channels       = { FromNully = 2         , FromCoalesced = 2         , ToNully = 2         , ToCoalesced = 2         }
+            },
+            
+            // Example with same value for Nully and Coalesced
+            new Case 
+            { 
+                FrameCount     = { From = 22050 * 3 , To = 22050 * 5 },
+                SamplingRate   = { From = 22050     , To = 22050     },
+                AudioLength    = { From =         3 , To =         5 },
+                CourtesyFrames = { From = 4         , To = 4         },
+                Channels       = { From = 2         , To = 2         }
+            },
+            
+            // Example with single mentioning of values that don't change.
+            new Case
+            { 
+                SamplingRate = 22050, Channels = 2, CourtesyFrames = 4, 
+                AudioLength  = { From = 3         , To = 5         },
+                FrameCount   = { From = 3 * 22050 , To = 5 * 22050 }
+            },
+            
+            // Example using constructor parameters for side-issues
+            new Case(channels: 2, courtesyFrames: 4)
+            { 
+                FrameCount   = { From = 3 * 22050, To = 5 * 22050 },
+                AudioLength  = { From = 3        , To = 5         },
+                SamplingRate = 22050
+            },
+            
+            // Examples initializing main property in constructor.
+            new Case(    48000           ),
+            new Case(    22050,     96000),
+            new Case(3 * 22050, 5 * 22050) { SamplingRate = 22050, AudioLength = { From = 3, To = 5 } },
+            new Case(from: 3 * 22050, to: 5 * 22050) { SamplingRate = 22050, AudioLength = { From = 3, To = 5 } }
+        };
+
         // ncrunch: no coverage end
     } 
 }
