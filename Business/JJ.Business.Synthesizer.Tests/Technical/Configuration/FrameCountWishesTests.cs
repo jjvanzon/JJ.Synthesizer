@@ -364,6 +364,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 48000, 12345 },
             new object[] { 48000, 1234567 },
         };
+        
+        static Case[] Cases = 
+        {
+            new Case 
+            { 
+                FromFrameCountNully     = 22050 * 3, FromFrameCountCoalesced     = 22050 * 3, ToFrameCountNully     = 22050 * 5, ToFrameCountCoalesced     = 22050 * 5, 
+                FromSamplingRateNully   =     22050, FromSamplingRateCoalesced   =     22050, ToSamplingRateNully   =     22050, ToSamplingRateCoalesced   =     22050, 
+                FromAudioLengthNully    =         3, FromAudioLengthCoalesced    =         3, ToAudioLengthNully    =         5, ToAudioLengthCoalesced    =         5, 
+                FromCourtesyFramesNully =         4, FromCourtesyFramesCoalesced =         4, ToCourtesyFramesNully =         4, ToCourtesyFramesCoalesced =         4, 
+                FromChannelsNully       =         2, FromChannelsCoalesced       =         2, ToChannelsNully       =         2, ToChannelsCoalesced       =         2
+            }
+        };
 
         class Case
         {
@@ -373,7 +385,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             public int     FromFrameCountCoalesced     { get; set; }
             public int?    ToFrameCountNully           { get; set; }
             public int     ToFrameCountCoalesced       { get; set; }
-
+            
             // SamplingRate scales FrameCount.
             public int?    FromSamplingRateNully       { get; set; }
             public int     FromSamplingRateCoalesced   { get; set; }
