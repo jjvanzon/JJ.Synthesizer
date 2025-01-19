@@ -365,9 +365,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 48000, 1234567 },
         };
         
-        static Case[] Cases = 
+        static Case[] CaseExamples = 
         {
-            // Draft Case with all values specified
+            // Example with all values specified
             new Case 
             { 
                 FromFrameCountNully     = 22050 * 3, FromFrameCountCoalesced     = 22050 * 3, ToFrameCountNully     = 22050 * 5, ToFrameCountCoalesced     = 22050 * 5, 
@@ -376,52 +376,61 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 FromCourtesyFramesNully =         4, FromCourtesyFramesCoalesced =         4, ToCourtesyFramesNully =         4, ToCourtesyFramesCoalesced =         4, 
                 FromChannelsNully       =         2, FromChannelsCoalesced       =         2, ToChannelsNully       =         2, ToChannelsCoalesced       =         2
             },
-            // Draft Case with same value for Nully and Coalesced
+            
+            // Example with same value for Nully and Coalesced
             new Case 
             { 
                 FromFrameCount     = 22050 * 3, ToFrameCount     = 22050 * 5,
                 FromSamplingRate   =     22050, ToSamplingRate   =     22050,
                 FromAudioLength    =         3, ToAudioLength    =         5,
                 FromCourtesyFrames =         4, ToCourtesyFrames =         4,
-                FromChannels       =         2, ToChannels       =         2,
+                FromChannels       =         2, ToChannels       =         2
             },
-            // Draft Case with single mentioning of values that don't change.
+            
+            // Example with single mentioning of values that don't change.
             new Case
             { 
                 SamplingRate    =     22050 , Channels       =         2 , CourtesyFrames = 4, 
                 FromAudioLength =         3 , ToAudioLength  =         5 ,
-                FromFrameCount  = 22050 * 3 , ToFrameCount   = 22050 * 5 , 
+                FromFrameCount  = 22050 * 3 , ToFrameCount   = 22050 * 5
             },
-            // Draft Case using constructor parameters for side-issue parameters
+            
+            // Example using constructor parameters for side-issues
             new Case(channels: 2, courtesyFrames: 4)
             { 
                 FromFrameCount  = 3 * 22050, ToFrameCount   = 5 * 22050,
                 FromAudioLength = 3        , ToAudioLength  = 5,
-                SamplingRate    =     22050,
+                SamplingRate    =     22050
             },
-            // Draft Case leaving out side-issue parameters, relying on the most "neutral" defaults assigned internally?
-            new Case
-            { 
-                FromFrameCount  = 3 * 22050, ToFrameCount   = 5 * 22050,
-                FromAudioLength = 3        , ToAudioLength  = 5,
-                SamplingRate    =     22050,
-            }
+            
+            // Examples initializing main property in constructor.
+            
+            new Case(from: 3 * 22050, to: 5 * 22050) { SamplingRate = 22050, FromAudioLength = 3, ToAudioLength = 5 },
+
+            new Case(3 * 22050, 5 * 22050) { SamplingRate = 22050, FromAudioLength = 3, ToAudioLength = 5 }
         };
 
         class Case
         {
+
+            /// <summary>
+            /// Constructor that initializes main property.
+            /// </summary>
+            public Case(int from, int to) { FromFrameCount = from; ToFrameCount = to; }
+                
+            /// <summary>
+            /// Constructor that initializes dependencies to practical defaults.
+            /// </summary>
             public Case(
-                int? frameCount = null, 
-                int? samplingRate = null, 
-                int? audioLength = null, 
-                int? courtesyFrames = null, 
-                int? channels = null)
+                int    samplingRate   = 44100,
+                double audioLength    = 1.6,
+                int    courtesyFrames = 3,
+                int    channels       = 2)
             {
-                if (frameCount     != null) FrameCount     = frameCount.Value;
-                if (samplingRate   != null) SamplingRate   = samplingRate.Value;
-                if (audioLength    != null) AudioLength    = audioLength.Value;
-                if (courtesyFrames != null) CourtesyFrames = courtesyFrames.Value;
-                if (channels       != null) Channels       = channels.Value;
+                SamplingRate   = samplingRate;
+                AudioLength    = audioLength;
+                CourtesyFrames = courtesyFrames;
+                Channels       = channels;
             }
             
             // FrameCount:
