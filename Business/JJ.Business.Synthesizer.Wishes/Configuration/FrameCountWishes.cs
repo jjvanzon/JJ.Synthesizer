@@ -51,7 +51,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
         }
         
-        public static Tape FrameCount(this Tape obj, int value) => obj.AudioLength(AudioLength(value, obj.Channels(), obj.SamplingRate(), obj.CourtesyFrames()));
+        public static Tape FrameCount(this Tape obj, int value) 
+            => obj.AudioLength(AudioLength(value, obj.Channels(), obj.SamplingRate(), obj.CourtesyFrames()));
         
         public static int FrameCount(this TapeConfig obj)
         {
