@@ -299,9 +299,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             return new TestEntities(x =>
             {
-                x.FrameCount(frameCount);
                 x.IsUnderNCrunch = true;
                 x.IsUnderAzurePipelines = false;
+                x.FrameCount(frameCount);
             });
         }
         
