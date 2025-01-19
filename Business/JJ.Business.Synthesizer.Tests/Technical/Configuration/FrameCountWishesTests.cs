@@ -472,47 +472,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             {
                 get
                 {
-                    string frameCountPart;  
-                    if (FrameCount != default)
-                    {
-                        frameCountPart = $"{FrameCount}";
+                    string frameCountPart = GetDescriptorPart(FromFrameCountNully, FromFrameCountCoalesced, ToFrameCountNully, ToFrameCountCoalesced);
+                    string samplingRatePart = GetDescriptorPart(FromSamplingRateNully, FromSamplingRateCoalesced, ToSamplingRateNully, ToSamplingRateCoalesced);
+                    string descriptor = frameCountPart;
+                    if (Has(samplingRatePart)) descriptor += $" ({samplingRatePart})";
+                    return descriptor;
                     }
-                    else if (FromFrameCount != default && ToFrameCount != default) 
-                    {
-                        frameCountPart = $"{FromFrameCount} => {ToFrameCount}";
-                    }
-                    else if (FrameCountNully != default && FrameCountCoalesced != default)
-                    {
-                        frameCountPart = $"({FrameCountNully},{FrameCountCoalesced})";
-                    }
-                    else
-                    {
-                        frameCountPart = $"({FromFrameCountNully},{FromFrameCountCoalesced}) => ({ToFrameCountNully},{ToFrameCountCoalesced})";
                     }
 
-                    string samplingRatePart;
-                    if (SamplingRate != default)
-                    {
-                        samplingRatePart = $"{SamplingRate}";
-                    }
-                    else if (FromSamplingRate != default && ToSamplingRate != default)
-                    {
-                        samplingRatePart = $"{FromSamplingRate} => {ToSamplingRate}";
-                    }
-                    else if (SamplingRateNully != default && SamplingRateCoalesced != default)
-                    {
-                        samplingRatePart = $"({SamplingRateNully},{SamplingRateCoalesced})";
-                    }
-                    else
-                    {
-                        samplingRatePart = $"({FromSamplingRateNully},{FromSamplingRateCoalesced}) => ({ToSamplingRateNully},{ToSamplingRateCoalesced})";
-                    }
-                    
-                    return $"{frameCountPart} ({samplingRatePart})";
-                }
-            }
-            
-            private string GetDescriptorPart(double? fromNully, double? toNully, double fromCoalesced, double toCoalesced)
+            private string GetDescriptorPart(double? fromNully, double fromCoalesced, double? toNully, double toCoalesced)
             {
                 double  from      = fromNully     == fromCoalesced ? fromCoalesced : default;
                 double  to        = toNully       == toCoalesced   ? toCoalesced   : default;
@@ -531,6 +499,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 else if (nully != default && coalesced != default)
                 {
                     return $"({nully},{coalesced})";
+                }
+                else if (fromNully == default  && fromCoalesced == default && toNully == default && toCoalesced == default)
+                {
+                    return default;
                 }
                 else
                 {
