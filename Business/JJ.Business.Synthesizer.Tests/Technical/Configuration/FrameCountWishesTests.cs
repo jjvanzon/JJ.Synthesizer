@@ -367,6 +367,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         static Case[] Cases = 
         {
+            // Draft Case with all values specified
             new Case 
             { 
                 FromFrameCountNully     = 22050 * 3, FromFrameCountCoalesced     = 22050 * 3, ToFrameCountNully     = 22050 * 5, ToFrameCountCoalesced     = 22050 * 5, 
@@ -374,44 +375,164 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 FromAudioLengthNully    =         3, FromAudioLengthCoalesced    =         3, ToAudioLengthNully    =         5, ToAudioLengthCoalesced    =         5, 
                 FromCourtesyFramesNully =         4, FromCourtesyFramesCoalesced =         4, ToCourtesyFramesNully =         4, ToCourtesyFramesCoalesced =         4, 
                 FromChannelsNully       =         2, FromChannelsCoalesced       =         2, ToChannelsNully       =         2, ToChannelsCoalesced       =         2
+            },
+            // Draft Case with same value for Nully and Coalesced
+            new Case 
+            { 
+                FromFrameCount     = 22050 * 3, ToFrameCount     = 22050 * 5,
+                FromSamplingRate   =     22050, ToSamplingRate   =     22050,
+                FromAudioLength    =         3, ToAudioLength    =         5,
+                FromCourtesyFrames =         4, ToCourtesyFrames =         4,
+                FromChannels       =         2, ToChannels       =         2,
+            },
+            // Draft Case with single mentioning of values that don't change.
+            new Case 
+            { 
+                SamplingRate    =     22050 , Channels       =         2 , CourtesyFrames = 4, 
+                FromAudioLength =         3 , ToAudioLength  =         5 ,
+                FromFrameCount  = 22050 * 3 , ToFrameCount   = 22050 * 5 , 
             }
         };
 
         class Case
         {
-            // FrameCount is the main property being tested,
+            // FrameCount:
+            
+            // The main property being tested,
             // adjusted directly or via dependencies.
-            public int?    FromFrameCountNully         { get; set; }
-            public int     FromFrameCountCoalesced     { get; set; }
-            public int?    ToFrameCountNully           { get; set; }
-            public int     ToFrameCountCoalesced       { get; set; }
             
-            // SamplingRate scales FrameCount.
-            public int?    FromSamplingRateNully       { get; set; }
-            public int     FromSamplingRateCoalesced   { get; set; }
-            public int?    ToSamplingRateNully         { get; set; }
-            public int     ToSamplingRateCoalesced     { get; set; }
+            public int? FromFrameCountNully     { get; set; }
+            public int  FromFrameCountCoalesced { get; set; }
+            public int? ToFrameCountNully       { get; set; }
+            public int  ToFrameCountCoalesced   { get; set; }
+
+            public int FrameCount
+            {
+                get => FromFrameCount == ToFrameCount ? ToFrameCount : default;
+                set => FromFrameCount  = ToFrameCount = value;
+            }
             
-            // AudioLength scales FrameCount.
-            // + FrameCount setters adjust AudioLength.
-            public double? FromAudioLengthNully        { get; set; }
-            public double  FromAudioLengthCoalesced    { get; set; }
-            public double? ToAudioLengthNully          { get; set; }
-            public double  ToAudioLengthCoalesced      { get; set; }
+            public int FromFrameCount
+            {
+                get => FromFrameCountNully == FromFrameCountCoalesced ? FromFrameCountCoalesced : default;
+                set => FromFrameCountNully  = FromFrameCountCoalesced = value;
+            }
+                        
+            public int ToFrameCount
+            {
+                get => ToFrameCountNully == ToFrameCountCoalesced ? ToFrameCountCoalesced : default;
+                set => ToFrameCountNully  = ToFrameCountCoalesced = value;
+            }
+                        
+            // SamplingRate:
+
+            // Scales FrameCount
+            
+            public int? FromSamplingRateNully     { get; set; }
+            public int  FromSamplingRateCoalesced { get; set; }
+            public int? ToSamplingRateNully       { get; set; }
+            public int  ToSamplingRateCoalesced   { get; set; }
+
+            public int SamplingRate
+            {
+                get => FromSamplingRate == ToSamplingRate ? ToSamplingRate : default;
+                set => FromSamplingRate  = ToSamplingRate = value;
+            }
+
+            public int FromSamplingRate
+            {
+                get => FromSamplingRateNully == FromSamplingRateCoalesced ? FromSamplingRateCoalesced : default;
+                set => FromSamplingRateNully  = FromSamplingRateCoalesced = value;
+            }
+                        
+            public int ToSamplingRate
+            {
+                get => ToSamplingRateNully == ToSamplingRateCoalesced ? ToSamplingRateCoalesced : default;
+                set => ToSamplingRateNully  = ToSamplingRateCoalesced = value;
+            }
+                        
+            // AudioLength:
+            
+            // Scales FrameCount + FrameCount setters adjust AudioLength.
+            
+            public double? FromAudioLengthNully     { get; set; }
+            public double  FromAudioLengthCoalesced { get; set; }
+            public double? ToAudioLengthNully       { get; set; }
+            public double  ToAudioLengthCoalesced   { get; set; }
+
+            public double AudioLength
+            {
+                get => FromAudioLength == ToAudioLength ? ToAudioLength : default;
+                set => FromAudioLength  = ToAudioLength = value;
+            }
+
+            public double FromAudioLength
+            {
+                get => FromAudioLengthNully == FromAudioLengthCoalesced ? FromAudioLengthCoalesced : default;
+                set => FromAudioLengthNully  = FromAudioLengthCoalesced = value;
+            }
+                        
+            public double ToAudioLength
+            {
+                get => ToAudioLengthNully == ToAudioLengthCoalesced ? ToAudioLengthCoalesced : default;
+                set => ToAudioLengthNully  = ToAudioLengthCoalesced = value;
+            }
+                        
+            // CourtesyFrames:
             
             // AudioLength does not incorporate CourtesyFrames, but
             // FrameCount does.
-            public int?    FromCourtesyFramesNully     { get; set; }
-            public int     FromCourtesyFramesCoalesced { get; set; }
-            public int?    ToCourtesyFramesNully       { get; set; }
-            public int     ToCourtesyFramesCoalesced   { get; set; }
+            
+            public int? FromCourtesyFramesNully     { get; set; }
+            public int  FromCourtesyFramesCoalesced { get; set; }
+            public int? ToCourtesyFramesNully       { get; set; }
+            public int  ToCourtesyFramesCoalesced   { get; set; }
 
+            public int CourtesyFrames
+            {
+                get => FromCourtesyFrames == ToCourtesyFrames ? ToCourtesyFrames : default;
+                set => FromCourtesyFrames  = ToCourtesyFrames = value;
+            }
+
+            public int FromCourtesyFrames
+            {
+                get => FromCourtesyFramesNully == FromCourtesyFramesCoalesced ? FromCourtesyFramesCoalesced : default;
+                set => FromCourtesyFramesNully  = FromCourtesyFramesCoalesced = value;
+            }
+            
+            public int ToCourtesyFrames
+            {
+                get => ToCourtesyFramesNully == ToCourtesyFramesCoalesced ? ToCourtesyFramesCoalesced : default;
+                set => ToCourtesyFramesNully  = ToCourtesyFramesCoalesced = value;
+            }
+            
+            // Channels:
+            
             // AudioLength vs FrameCount should be invariant under Channels,
             // but was accidentally involved in the formulas.
-            public double? FromChannelsNully           { get; set; }
-            public double  FromChannelsCoalesced       { get; set; }
-            public double? ToChannelsNully             { get; set; }
-            public double  ToChannelsCoalesced         { get; set; }
+            
+            public int? FromChannelsNully     { get; set; }
+            public int  FromChannelsCoalesced { get; set; }
+            public int? ToChannelsNully       { get; set; }
+            public int  ToChannelsCoalesced   { get; set; }
+
+            public int Channels
+            {
+                get => FromChannels == ToChannels ? ToChannels : default;
+                set => FromChannels  = ToChannels = value;
+            }
+
+            public int FromChannels
+            {
+                get => FromChannelsNully == FromChannelsCoalesced ? FromChannelsCoalesced : default;
+                set => FromChannelsNully  = FromChannelsCoalesced = value;
+            }
+
+            public int ToChannels
+            {
+                get => ToChannelsNully == ToChannelsCoalesced ? ToChannelsCoalesced : default;
+                set => ToChannelsNully  = ToChannelsCoalesced = value;
+            }
         }
         
         // ncrunch: no coverage end
