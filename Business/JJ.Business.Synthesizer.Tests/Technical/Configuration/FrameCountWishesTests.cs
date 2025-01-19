@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 
 #pragma warning disable CS0611
@@ -23,11 +24,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     {
         
         [DataTestMethod]
-        [DynamicData(nameof(TestParametersInit))]
-        public void Init_FrameCount(int? init)
+        //[DynamicData(nameof(TestParametersInit))]
+        [DynamicData(nameof(CaseKeysInit))]
+        public void Init_FrameCount(string caseKey)
         {
-            var x = CreateTestEntities(init);
-            Assert_All_Getters(x, Coalesce(init));
+            var init     = _caseDictionary[caseKey].FromFrameCountNully;
+            var coalesce = _caseDictionary[caseKey].ToFrameCountCoalesced;
+            var x        = CreateTestEntities(init);
+            Assert_All_Getters(x, coalesce);
         }
         
         [TestMethod] 
@@ -477,9 +481,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     string descriptor = frameCountPart;
                     if (Has(samplingRatePart)) descriptor += $" ({samplingRatePart})";
                     return descriptor;
-                    }
-                    }
-
+                }
+            }
+            
             private string GetDescriptorPart(double? fromNully, double fromCoalesced, double? toNully, double toCoalesced)
             {
                 double  from      = fromNully     == fromCoalesced ? fromCoalesced : default;
