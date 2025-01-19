@@ -433,6 +433,78 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Channels       = channels;
             }
             
+            // Descriptor
+
+            public string Descriptor
+            {
+                get
+                {
+                    string frameCountPart;  
+                    if (FrameCount != default)
+                    {
+                        frameCountPart = $"{FrameCount}";
+                    }
+                    else if (FromFrameCount != default && ToFrameCount != default) 
+                    {
+                        frameCountPart = $"{FromFrameCount} => {ToFrameCount}";
+                    }
+                    else if (FrameCountNully != default && FrameCountCoalesced != default)
+                    {
+                        frameCountPart = $"({FrameCountNully},{FrameCountCoalesced})";
+                    }
+                    else
+                    {
+                        frameCountPart = $"({FromFrameCountNully},{FromFrameCountCoalesced}) => ({ToFrameCountNully},{ToFrameCountCoalesced})";
+                    }
+
+                    string samplingRatePart;
+                    if (SamplingRate != default)
+                    {
+                        samplingRatePart = $"{SamplingRate}";
+                    }
+                    else if (FromSamplingRate != default && ToSamplingRate != default)
+                    {
+                        samplingRatePart = $"{FromSamplingRate} => {ToSamplingRate}";
+                    }
+                    else if (SamplingRateNully != default && SamplingRateCoalesced != default)
+                    {
+                        samplingRatePart = $"({SamplingRateNully},{SamplingRateCoalesced})";
+                    }
+                    else
+                    {
+                        samplingRatePart = $"({FromSamplingRateNully},{FromSamplingRateCoalesced}) => ({ToSamplingRateNully},{ToSamplingRateCoalesced})";
+                    }
+                    
+                    return $"{frameCountPart} ({samplingRatePart})";
+                }
+            }
+            
+            private string GetDescriptorPart(double? fromNully, double? toNully, double fromCoalesced, double toCoalesced)
+            {
+                double  from      = fromNully     == fromCoalesced ? fromCoalesced : default;
+                double  to        = toNully       == toCoalesced   ? toCoalesced   : default;
+                double? nully     = fromNully     == toNully       ? toNully       : default;
+                double  coalesced = fromCoalesced == toCoalesced   ? toCoalesced   : default;
+                double  value     = from          == to            ? to            : default;
+             
+                if (value != default)
+                {
+                    return $"{value}";
+                }
+                else if (from != default && to != default)
+                {
+                    return $"{from} => {to}";
+                }
+                else if (nully != default && coalesced != default)
+                {
+                    return $"({nully},{coalesced})";
+                }
+                else
+                {
+                    return $"({fromNully},{fromCoalesced}) => ({toNully},{toCoalesced})";
+                }
+            }
+
             // FrameCount:
             
             // The main property being tested,
