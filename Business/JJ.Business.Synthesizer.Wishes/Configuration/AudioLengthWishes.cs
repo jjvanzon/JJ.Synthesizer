@@ -172,35 +172,35 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
                 
-        public static double AudioLength(this AudioInfoWish infoWish, int courtesyFrames = 0) // TODO: Make required?
+        public static double AudioLength(this AudioInfoWish infoWish, int courtesyFrames)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             return ConfigWishes.AudioLength(infoWish.FrameCount, infoWish.Channels, infoWish.SamplingRate, courtesyFrames);
         }
         
-        public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double value)
+        public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double value, int courtesyFrames)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.FrameCount = FrameCount(value, infoWish.SamplingRate);
+            infoWish.FrameCount = FrameCount(value, infoWish.SamplingRate, courtesyFrames);
             return infoWish;
         }
         
-        public static double AudioLength(this AudioFileInfo info) => info.ToWish().AudioLength();
+        public static double AudioLength(this AudioFileInfo info, int courtesyFrames) => info.ToWish().AudioLength(courtesyFrames);
         
-        public static AudioFileInfo AudioLength(this AudioFileInfo info, double value)
+        public static AudioFileInfo AudioLength(this AudioFileInfo info, double value, int courtesyFrames)
         {
             if (info == null) throw new NullException(() => info);
-            info.SampleCount = FrameCount(value, info.SamplingRate);;
+            info.SampleCount = FrameCount(value, info.SamplingRate, courtesyFrames);
             return info;
         }
 
         // Immutable
         
-        public static double AudioLength(this WavHeaderStruct obj)
-            => obj.ToWish().AudioLength();
+        public static double AudioLength(this WavHeaderStruct obj, int courtesyFrames)
+            => obj.ToWish().AudioLength(courtesyFrames);
         
-        public static WavHeaderStruct AudioLength(this WavHeaderStruct obj, double value) 
-            => obj.ToWish().AudioLength(value).ToWavHeader();
+        public static WavHeaderStruct AudioLength(this WavHeaderStruct obj, double value, int courtesyFrames) 
+            => obj.ToWish().AudioLength(value, courtesyFrames).ToWavHeader();
 
         // Conversion Formula
         
@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             AssertSamplingRate(samplingRate);
             AssertCourtesyFrames(courtesyFrames);
             AssertFrameSize(frameSize);
-            
+
             double frameCount = (double)(byteCount - headerLength) / frameSize;
             return (frameCount - courtesyFrames) / samplingRate;
         }

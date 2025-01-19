@@ -141,8 +141,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     
                     Assert_Bound_Getters(x, init);
                     Assert_Independent_Getters(x.Independent.Sample, value);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish,init);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init, x.Immutable.CourtesyFrames);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init, x.Immutable.CourtesyFrames);
                     Assert_Immutable_Getters(x, init);
 
                     x.Record();
@@ -165,8 +165,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     setter();
                     
                     Assert_Bound_Getters(x, init);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, value);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, value, x.Immutable.CourtesyFrames);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init, x.Immutable.CourtesyFrames);
                     Assert_Independent_Getters(x.Independent.Sample, init);
                     Assert_Immutable_Getters(x, init);
 
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.AudioLength(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.AudioLength(value, x.Immutable.CourtesyFrames)));
             }
                         
             // AudioFileInfo
@@ -190,8 +190,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     setter();
                     
                     Assert_Bound_Getters(x, init);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, value);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init);
+                    Assert_Independent_Getters(x.Independent.AudioFileInfo, value, x.Immutable.CourtesyFrames);
+                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init, x.Immutable.CourtesyFrames);
                     Assert_Independent_Getters(x.Independent.Sample, init);
                     Assert_Immutable_Getters(x, init);
 
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.AudioLength(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.AudioLength(value, x.Immutable.CourtesyFrames)));
             }
         }
         
@@ -215,17 +215,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             {
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
-                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init, x.Immutable.CourtesyFrames);
                     
                     WavHeaderStruct wavHeader2 = setter();
                     
-                    Assert_Immutable_Getters(x.Immutable.WavHeader, init);
-                    Assert_Immutable_Getters(wavHeader2, value);
+                    Assert_Immutable_Getters(x.Immutable.WavHeader, init, x.Immutable.CourtesyFrames);
+                    Assert_Immutable_Getters(wavHeader2, value, x.Immutable.CourtesyFrames);
                     
                     wavHeaders.Add(wavHeader2);
                 }
 
-                AssertProp(() => x.Immutable.WavHeader.AudioLength(value));
+                AssertProp(() => x.Immutable.WavHeader.AudioLength(value, x.Immutable.CourtesyFrames));
             }
             
             // After-Record
@@ -235,7 +235,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             Assert_All_Getters(x, init);
             
             // Except for our variables
-            wavHeaders.ForEach(w => Assert_Immutable_Getters(w, value));
+            wavHeaders.ForEach(w => Assert_Immutable_Getters(w, value, x.Immutable.CourtesyFrames));
         }
 
         [TestMethod] public void ConfigSections_AudioLength()
@@ -267,13 +267,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample, audioLength);
-            Assert_Independent_Getters(x.Independent.AudioInfoWish, audioLength);
-            Assert_Independent_Getters(x.Independent.AudioFileInfo, audioLength);
+            Assert_Independent_Getters(x.Independent.AudioInfoWish, audioLength, x.Immutable.CourtesyFrames);
+            Assert_Independent_Getters(x.Independent.AudioFileInfo, audioLength, x.Immutable.CourtesyFrames);
         }
 
         private void Assert_Immutable_Getters(TestEntities x, double audioLength)
         {
-            Assert_Immutable_Getters(x.Immutable.WavHeader, audioLength);
+            Assert_Immutable_Getters(x.Immutable.WavHeader, audioLength, x.Immutable.CourtesyFrames);
         }
 
         private void Assert_SynthBound_Getters(TestEntities x, double audioLength)
@@ -304,19 +304,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AreEqual(audioLength, sample.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
-        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength)
+        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength, int courtesyFrames)
         {
-            AreEqual(audioLength, audioFileInfo.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioFileInfo.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
         }
         
-        private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength)
+        private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength, int courtesyFrames)
         {
-            AreEqual(audioLength, audioInfoWish.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioInfoWish.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
-        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, double audioLength)
+        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, double audioLength, int courtesyFrames)
         {
-            AreEqual(audioLength, wavHeader.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, wavHeader.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
         }
          
         // Tolerance Helpers
@@ -331,10 +331,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             
             double tolerance = ToleranceByPercent(audioLength, _tolerancePercent);
             
-            LogTolerance(audioLength, x.Independent.AudioFileInfo.AudioLength(), tolerance, "audioFileInfo.AudioLength()");
-            LogTolerance(audioLength, x.Independent.AudioInfoWish.AudioLength(), tolerance, "audioInfoWish.AudioLength()");
-            LogTolerance(audioLength, x.Immutable  .WavHeader    .AudioLength(), tolerance,     "wavHeader.AudioLength()");
-            LogTolerance(audioLength, x.Independent.Sample       .AudioLength(), tolerance,        "sample.AudioLength()");
+            LogTolerance(audioLength, x.Independent.AudioFileInfo.AudioLength(x.Immutable.CourtesyFrames), tolerance, "audioFileInfo.AudioLength()");
+            LogTolerance(audioLength, x.Independent.AudioInfoWish.AudioLength(x.Immutable.CourtesyFrames), tolerance, "audioInfoWish.AudioLength()");
+            LogTolerance(audioLength, x.Immutable  .WavHeader    .AudioLength(x.Immutable.CourtesyFrames), tolerance,     "wavHeader.AudioLength()");
+            LogTolerance(audioLength, x.Independent.Sample       .AudioLength(                          ), tolerance,        "sample.AudioLength()");
         }
 
         private static void LogTolerance(double expected, double actual, double tolerance, string title)
