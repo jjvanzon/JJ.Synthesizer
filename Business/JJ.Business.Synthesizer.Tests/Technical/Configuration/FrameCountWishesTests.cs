@@ -301,6 +301,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             {
                 x.FrameCount(frameCount);
                 x.IsUnderNCrunch = true;
+                x.IsUnderAzurePipelines = false;
             });
         }
         
