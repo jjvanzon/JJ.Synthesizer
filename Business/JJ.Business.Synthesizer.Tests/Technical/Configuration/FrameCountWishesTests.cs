@@ -461,6 +461,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 set => ToFrameCountNully  = ToFrameCountCoalesced = value;
             }
                         
+            public int? FrameCountNully
+            {
+                get => FromFrameCountNully == ToFrameCountNully ? ToFrameCountNully : default;
+                set => FromFrameCountNully  = ToFrameCountNully = value;
+            }
+            
+            public int FrameCountCoalesced
+            {
+                get => FromFrameCountCoalesced == ToFrameCountCoalesced ? ToFrameCountCoalesced : default;
+                set => FromFrameCountCoalesced  = ToFrameCountCoalesced = value;
+            }
+
             // SamplingRate:
 
             // Scales FrameCount
@@ -488,6 +500,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 set => ToSamplingRateNully  = ToSamplingRateCoalesced = value;
             }
                         
+            public int? SamplingRateNully
+            {
+                get => FromSamplingRateNully == ToSamplingRateNully ? ToSamplingRateNully : default;
+                set => FromSamplingRateNully  = ToSamplingRateNully = value;
+            }
+            
+            public int SamplingRateCoalesced
+            {
+                get => FromSamplingRateCoalesced == ToSamplingRateCoalesced ? ToSamplingRateCoalesced : default;
+                set => FromSamplingRateCoalesced  = ToSamplingRateCoalesced = value;
+            }
+
             // AudioLength:
             
             // Scales FrameCount + FrameCount setters adjust AudioLength.
@@ -515,6 +539,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 set => ToAudioLengthNully  = ToAudioLengthCoalesced = value;
             }
                         
+            public double? AudioLengthNully
+            {
+                get => FromAudioLengthNully == ToAudioLengthNully ? ToAudioLengthNully : default;
+                set => FromAudioLengthNully  = ToAudioLengthNully = value;
+            }
+            
+            public double AudioLengthCoalesced
+            {
+                get => FromAudioLengthCoalesced == ToAudioLengthCoalesced ? ToAudioLengthCoalesced : default;
+                set => FromAudioLengthCoalesced  = ToAudioLengthCoalesced = value;
+            }
+
             // CourtesyFrames:
             
             // AudioLength does not incorporate CourtesyFrames, but
@@ -543,6 +579,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 set => ToCourtesyFramesNully  = ToCourtesyFramesCoalesced = value;
             }
             
+            public int? CourtesyFramesNully
+            {
+                get => FromCourtesyFramesNully == ToCourtesyFramesNully ? ToCourtesyFramesNully : default;
+                set => FromCourtesyFramesNully  = ToCourtesyFramesNully = value;
+            }
+            
+            public int CourtesyFramesCoalesced
+            {
+                get => FromCourtesyFramesCoalesced == ToCourtesyFramesCoalesced ? ToCourtesyFramesCoalesced : default;
+                set => FromCourtesyFramesCoalesced  = ToCourtesyFramesCoalesced = value;
+            }
+
             // Channels:
             
             // AudioLength vs FrameCount should be invariant under Channels,
@@ -569,6 +617,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             {
                 get => ToChannelsNully == ToChannelsCoalesced ? ToChannelsCoalesced : default;
                 set => ToChannelsNully  = ToChannelsCoalesced = value;
+            }
+
+            public int? ChannelsNully
+            {
+                get => FromChannelsNully == ToChannelsNully ? ToChannelsNully : default;
+                set => FromChannelsNully  = ToChannelsNully = value;
+            }
+            
+            public int ChannelsCoalesced
+            {
+                get => FromChannelsCoalesced == ToChannelsCoalesced ? ToChannelsCoalesced : default;
+                set => FromChannelsCoalesced  = ToChannelsCoalesced = value;
             }
         }
         
