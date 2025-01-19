@@ -60,7 +60,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Derived Defaults
         
-        public static int    DefaultByteCount      { get; } = ByteCount(DefaultAudioLength, DefaultSamplingRate, DefaultBits, DefaultChannels, DefaultAudioFormat, DefaultCourtesyFrames);
         public static int    DefaultCourtesyBytes  { get; } = CourtesyBytes(DefaultCourtesyFrames, DefaultBits, DefaultChannels);
         public static string DefaultFileExtension  { get; } = FileExtension(DefaultAudioFormat);
         public static int    DefaultFrameSize      { get; } = FrameSize(DefaultBits, DefaultChannels);
@@ -68,5 +67,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static double DefaultMaxAmplitude   { get; } = MaxAmplitude(DefaultBits);
         public static int    DefaultSizeOfBitDepth { get; } = SizeOfBitDepth(DefaultBits);
         public static int    DefaultFrameCount     { get; } = FrameCount(DefaultAudioLength, DefaultSamplingRate, DefaultCourtesyFrames);
+        public static int    DefaultByteCount      { get; } = ByteCount(DefaultFrameCount, DefaultFrameSize, DefaultHeaderLength);
     }
 }

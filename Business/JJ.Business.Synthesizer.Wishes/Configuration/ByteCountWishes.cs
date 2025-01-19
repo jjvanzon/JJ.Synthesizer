@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Structs;
@@ -21,19 +20,19 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Synth-Bound
         
         public static int ByteCount(this SynthWishes obj) 
-            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
+            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
 
         public static SynthWishes ByteCount(this SynthWishes obj, int? value) 
             => obj.AudioLength(value.AudioLength(obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
         
         public static int ByteCount(this FlowNode obj) 
-            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
+            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
         
         public static FlowNode ByteCount(this FlowNode obj, int? value) 
             => obj.AudioLength(value.AudioLength(obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
         
         internal static int ByteCount(this ConfigResolver obj, SynthWishes synthWishes) 
-            => ConfigWishes.ByteCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength(), obj.CourtesyFrames());
+            => ConfigWishes.ByteCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength());
         
         internal static ConfigResolver ByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) 
             => obj.AudioLength(value.AudioLength(obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
@@ -44,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             if (obj.FrameCount() == null) return null;
             if (obj.FrameSize() == null) return null;
-            return ConfigWishes.ByteCount(obj.FrameCount().Value, obj.FrameSize().Value, CoalesceHeaderLength(obj.HeaderLength()), CoalesceHeaderLength(obj.CourtesyFrames().Value));
+            return ConfigWishes.ByteCount(obj.FrameCount().Value, obj.FrameSize().Value, CoalesceHeaderLength(obj.HeaderLength()));
         }
         
         // Tape-Bound
@@ -59,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
             else
             {
-                return ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), obj.Config.CourtesyFrames);
+                return ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
             }
         }
 
@@ -133,10 +132,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         }
 
         public static int ByteCount(this AudioFileOutput obj) 
-            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+            => ConfigWishes.ByteCount(obj.FrameCount(courtesyFrames: 0), obj.FrameSize(), obj.HeaderLength());
 
         public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames = 0) 
-            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength(), courtesyFrames);
+            => ConfigWishes.ByteCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
 
         public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames = 0) 
             => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
@@ -150,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             var wish = obj.ToWish();
             double audioLength = AudioLength(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), courtesyFrames);
-            return wish.AudioLength(audioLength).ToWavHeader();
+            return wish.AudioLength(audioLength, courtesyFrames).ToWavHeader();
         }
     }
     
@@ -160,24 +159,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         public static int ByteCount(byte[] bytes, string filePath) => Has(bytes) ? bytes.Length : AssertFileSize(filePath);
         
-        public static int ByteCount(int frameCount, int frameSize, int headerLength, int courtesyFrames = 0)
+        public static int ByteCount(int frameCount, int frameSize, int headerLength)
         {
             AssertFrameCount(frameCount);
             AssertFrameSize(frameSize);
             AssertHeaderLength(headerLength);
             
-            int courtesyBytes = CourtesyBytes(courtesyFrames, frameSize);
-            
-            return frameCount * frameSize + headerLength + courtesyBytes;
+            return frameCount * frameSize + headerLength;
         }
         
-        public static int ByteCount(double audioLength, int samplingRate, int bits, int channels, AudioFileFormatEnum audioFormat, int courtesyFrames = 0)
-        {
-            int frameCount = FrameCount(audioLength, samplingRate);
-            int frameSize = FrameSize(bits, channels);
-            int headerLength = HeaderLength(audioFormat);
-            int courtesyBytes = CourtesyBytes(courtesyFrames, bits, channels);
-            return frameCount * frameSize + headerLength + courtesyBytes;
-        }
+
     }
 }
