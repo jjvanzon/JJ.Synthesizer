@@ -412,6 +412,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         class Case
         {
+            public const int    SamplingRateTestDefault   = 44100;
+            public const double AudioLengthTestDefault    = 1.6;
+            public const int    CourtesyFramesTestDefault = 3;
+            public const int    ChannelsTestDefault       = 2;
+
+            /// <summary>
+            /// Constructor that initializes main property.
+            /// </summary>
+            public Case(int frameCount) => FrameCount = frameCount;
 
             /// <summary>
             /// Constructor that initializes main property.
@@ -419,13 +428,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             public Case(int from, int to) { FromFrameCount = from; ToFrameCount = to; }
                 
             /// <summary>
-            /// Constructor that initializes dependencies to practical defaults.
+            /// Constructor that initializes dependencies to practical defaults for testing.
+            /// (Not exactly the same as the defaults, and a bit of variation in numbers.)
             /// </summary>
             public Case(
-                int    samplingRate   = 44100,
-                double audioLength    = 1.6,
-                int    courtesyFrames = 3,
-                int    channels       = 2)
+                int    samplingRate   = SamplingRateTestDefault,
+                double audioLength    = AudioLengthTestDefault,
+                int    courtesyFrames = CourtesyFramesTestDefault,
+                int    channels       = ChannelsTestDefault)
             {
                 SamplingRate   = samplingRate;
                 AudioLength    = audioLength;
