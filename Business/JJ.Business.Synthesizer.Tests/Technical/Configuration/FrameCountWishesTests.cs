@@ -314,6 +314,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // ncrunch: no coverage start
         
+        static Case[] _casesInit =
+        {
+            new Case(   96000 ),
+            new Case(   88200 ),
+            new Case(   48000 ),
+            new Case(   44100 ),
+            new Case(   22050 ),
+            new Case(   11025 ),
+            new Case(       8 ),
+            new Case(      16 ),
+            new Case(      19 ),
+            new Case(      31 ),
+            new Case(      61 ),
+            new Case(     100 ),
+            new Case(    1000 ),
+            new Case(   12345 ),
+            new Case( 1234567 )
+        };
+        
+        static object CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
+        
         static IEnumerable<object[]> TestParametersInit => new[]
         {
             new object[] { 96000 },
@@ -365,7 +386,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 48000, 1234567 },
         };
         
-        static Case[] CaseExamples = 
+        static Dictionary<string, Case> _caseDictionary = _casesInit.ToDictionary(x => x.Descriptor);
+        
+        static Case[] _caseExamples = 
         {
             // Example with all values specified
             new Case 
@@ -442,7 +465,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 CourtesyFrames = courtesyFrames;
                 Channels       = channels;
             }
-            
+
             // Descriptor
 
             public string Descriptor
@@ -516,10 +539,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             }
 
             // FrameCount:
-            
+
             // The main property being tested,
             // adjusted directly or via dependencies.
-            
+
             public int? FromFrameCountNully     { get; set; }
             public int  FromFrameCountCoalesced { get; set; }
             public int? ToFrameCountNully       { get; set; }
@@ -542,7 +565,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 get => ToFrameCountNully == ToFrameCountCoalesced ? ToFrameCountCoalesced : default;
                 set => ToFrameCountNully  = ToFrameCountCoalesced = value;
             }
-                        
+            
             public int? FrameCountNully
             {
                 get => FromFrameCountNully == ToFrameCountNully ? ToFrameCountNully : default;
@@ -581,7 +604,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 get => ToSamplingRateNully == ToSamplingRateCoalesced ? ToSamplingRateCoalesced : default;
                 set => ToSamplingRateNully  = ToSamplingRateCoalesced = value;
             }
-                        
+
             public int? SamplingRateNully
             {
                 get => FromSamplingRateNully == ToSamplingRateNully ? ToSamplingRateNully : default;
@@ -620,7 +643,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 get => ToAudioLengthNully == ToAudioLengthCoalesced ? ToAudioLengthCoalesced : default;
                 set => ToAudioLengthNully  = ToAudioLengthCoalesced = value;
             }
-                        
+            
             public double? AudioLengthNully
             {
                 get => FromAudioLengthNully == ToAudioLengthNully ? ToAudioLengthNully : default;
