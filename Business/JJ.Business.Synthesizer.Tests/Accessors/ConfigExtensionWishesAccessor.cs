@@ -305,7 +305,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => (int)_accessor.InvokeMethod(MemberName(), obj.Obj, synthWishes);
         
         public static ConfigResolverAccessor FrameCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)  
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj, value, synthWishes));
+            => new ConfigResolverAccessor(
+                _accessor.InvokeMethod(MemberName(), 
+                new[]{ obj.Obj, value, synthWishes },
+                new[] { null, typeof(int?), null }));
         
         public static int? FrameCount(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }

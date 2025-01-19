@@ -30,8 +30,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             Assert_All_Getters(x, Coalesce(init));
         }
         
-        //[TestMethod] 
-        //[DynamicData(nameof(TestParametersWithEmpty))]
+        [TestMethod] 
+        [DynamicData(nameof(TestParametersWithEmpties))]
         public void SynthBound_FrameCount(int? init, int? value)
         {            
             void AssertProp(Action<TestEntities> setter)
@@ -295,11 +295,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(int? frameCount) => new TestEntities(x => x.FrameCount(frameCount));
+        private TestEntities CreateTestEntities(int? frameCount)
+        {
+            return new TestEntities(x =>
+            {
+                x.FrameCount(frameCount);
+                x.IsUnderNCrunch = true;
+            });
+        }
         
         private int Coalesce(int? frameCount)
         {
-            int defaultValue = 1 /*sec*/ * 48000 /*Hz*/ + 2 /*CourtesyFrames*/;
+            int defaultValue = 1 /*sec*/ * 10 /*Hz*/ + 2 /*CourtesyFrames*/;
             return CoalesceFrameCount(frameCount, defaultValue);
         }
         
@@ -317,14 +324,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 16 },
             new object[] { 19 },
             new object[] { 31 },
-            new object[] { 63 },
+            new object[] { 61 },
             new object[] { 100 },
             new object[] { 1000 },
             new object[] { 12345 },
             new object[] { 1234567 }
         };
         
-        static IEnumerable<object[]> TestParametersWithEmpty => new[]
+        static IEnumerable<object[]> TestParametersWithEmpties => new[]
         {
             new object[] { 1234567 ,  null },
             new object[] {    null , 12345 },
@@ -347,8 +354,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new object[] { 11025, 44100 },
             new object[] { 8, 48000 },
             new object[] { 48000, 16 },
+            new object[] { 48000, 19 },
             new object[] { 48000, 31 },
-            new object[] { 48000, 63 },
+            new object[] { 48000, 61 },
             new object[] { 48000, 100 },
             new object[] { 48000, 1000 },
             new object[] { 48000, 12345 },
