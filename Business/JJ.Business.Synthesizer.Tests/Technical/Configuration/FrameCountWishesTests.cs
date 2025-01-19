@@ -367,38 +367,39 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         class Case
         {
-            // FrameCount: the main property tested
+            // FrameCount is the main property being tested,
+            // adjusted directly or via dependencies.
             public int? FromFrameCountNully { get; set; }
-            public int? FromFrameCountCoalesced { get; set; }
+            public int FromFrameCountCoalesced { get; set; }
             public int? ToFrameCountNully { get; set; }
-            public int? ToFrameCountCoalesced { get; set; }
+            public int ToFrameCountCoalesced { get; set; }
 
             // SamplingRate scales FrameCount.
             public int? FromSamplingRateNully { get; set; }
-            public int? FromSamplingRateCoalesced { get; set; }
+            public int FromSamplingRateCoalesced { get; set; }
             public int? ToSamplingRateNully { get; set; }
-            public int? ToSamplingRateCoalesced { get; set; }
+            public int ToSamplingRateCoalesced { get; set; }
             
             // AudioLength scales FrameCount.
             // + FrameCount setters adjust AudioLength.
             public double? FromAudioLengthNully { get; set; }
-            public double? FromAudioLengthCoalesced { get; set; }
+            public double FromAudioLengthCoalesced { get; set; }
             public double? ToAudioLengthNully { get; set; }
-            public double? ToAudioLengthCoalesced { get; set; }
+            public double ToAudioLengthCoalesced { get; set; }
             
             // AudioLength does not incorporate CourtesyFrames, but
             // FrameCount does.
             public int? FromCourtesyFramesNully { get;set; }
-            public int? FromCourtesyFramesCoalesced { get;set; }
+            public int FromCourtesyFramesCoalesced { get;set; }
             public int? ToCourtesyFramesNully { get;set; }
-            public int? ToCourtesyFramesCoalesced { get;set; }
+            public int ToCourtesyFramesCoalesced { get;set; }
 
             // AudioLength vs FrameCount should be invariant under Channels,
             // but was accidentally involved in the formulas.
             public double? FromChannelsNully { get; set; }
-            public double? FromChannelsCoalesced { get; set; }
+            public double FromChannelsCoalesced { get; set; }
             public double? ToChannelsNully { get; set; }
-            public double? ToChannelsCoalesced { get; set; }
+            public double ToChannelsCoalesced { get; set; }
         }
         
         // ncrunch: no coverage end
