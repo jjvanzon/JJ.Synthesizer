@@ -299,6 +299,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         {
             return new TestEntities(x =>
             {
+                // Impersonate NCrunch for reliable default SamplingRate of 10 Hz.
                 x.IsUnderNCrunch = true;
                 x.IsUnderAzurePipelines = false;
                 x.FrameCount(frameCount);
