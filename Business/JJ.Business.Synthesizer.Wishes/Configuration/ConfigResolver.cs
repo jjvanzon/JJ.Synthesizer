@@ -264,8 +264,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             
-            if (_audioLength != null &&
-                _audioLength.Calculate(time: 0) != 0)
+            if (_audioLength != null) // && _audioLength.Calculate(time: 0) != 0
             {
                 return _audioLength;
             }
