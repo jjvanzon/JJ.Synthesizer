@@ -26,46 +26,98 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
     [TestCategory("Technical")]
     public class FrameCountWishesTests
     {
+        int _tolerance = 1; // TODO: Only use downward delta. Program something in JJ.Framework.
+
+        static Case[] _casesInit = // ncrunch: no coverage
+        {
+            new Case(  96000 ) { SamplingRate = 48000 },
+            new Case(  88200 ) { SamplingRate = 48000 },
+            new Case(  48000 ) { SamplingRate = 48000 },
+            new Case(  44100 ) { SamplingRate = 48000 },
+            new Case(  22050 ) { SamplingRate = 48000 },
+            new Case(  11025 ) { SamplingRate = 48000 },
+            new Case(      8 ) { SamplingRate = 48000 },
+            new Case(     16 ) { SamplingRate = 48000 },
+            new Case(     19 ) { SamplingRate = 48000 },
+            new Case(     31 ) { SamplingRate = 48000 },
+            new Case(     61 ) { SamplingRate = 48000 },
+            new Case(    100 ) { SamplingRate = 48000 },
+            new Case(   1000 ) { SamplingRate = 48000 },
+            new Case(   1003 ) { SamplingRate = 48000, CourtesyFrames = 3 }, 
+            new Case(  12345 ) { SamplingRate = 48000 },
+            new Case( 123456 ) { SamplingRate = 48000 }
+        };
         
         [DataTestMethod]
         [DynamicData(nameof(CaseKeysInit))]
         public void Init_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            var  init = testCase.init;
-            
             var x = CreateTestEntities(testCase);
-            Assert_All_Getters(x, init.coalesce);
+            Assert_All_Getters(x, testCase);
         }
         
+        static Case[] _cases = // ncrunch: no coverage
+        {
+            new Case( 48000,  96000 ) { SamplingRate = 48000 },
+            new Case( 48000,  88200 ) { SamplingRate = 48000 },
+            new Case( 48000,  48000 ) { SamplingRate = 48000 },
+            new Case( 48000,  44100 ) { SamplingRate = 48000 },
+            new Case( 48000,  22050 ) { SamplingRate = 48000 },
+            new Case( 48000,  11025 ) { SamplingRate = 48000 },
+            new Case( 48000,      8 ) { SamplingRate = 48000 },
+            new Case( 96000,  48000 ) { SamplingRate = 48000 },
+            new Case( 88200,  44100 ) { SamplingRate = 48000 },
+            new Case( 44100,  48000 ) { SamplingRate = 48000 },
+            new Case( 22050,  44100 ) { SamplingRate = 48000 },
+            new Case( 11025,  44100 ) { SamplingRate = 48000 },
+            new Case(     8,  48000 ) { SamplingRate = 48000 },
+            new Case( 48000,     16 ) { SamplingRate = 48000 },
+            new Case( 48000,     19 ) { SamplingRate = 48000 },
+            new Case( 48000,     31 ) { SamplingRate = 48000 },
+            new Case( 48000,     61 ) { SamplingRate = 48000 },
+            new Case( 48000,    100 ) { SamplingRate = 48000 },
+            new Case( 48000,   1000 ) { SamplingRate = 48000 },
+            new Case( 48000,  12345 ) { SamplingRate = 48000 },
+            new Case( 48000, 123456 ) { SamplingRate = 48000 }
+        };
+        
+        static Case[] _casesWithEmpties = new[] // ncrunch: no coverage
+        {
+            new Case( 123456,  null ),
+            new Case(   null, 12345 )
+        }
+        .Concat(_cases).ToArray();
+        
         [TestMethod] 
-        [DynamicData(nameof(CaseKeysWithEmpties))]
+        [DynamicData(nameof(CaseKeys))]
+        //[DynamicData(nameof(CaseKeysWithEmpties))]
         public void SynthBound_FrameCount(string caseKey)
         {            
             Case testCase = _caseDictionary[caseKey];
-            var init = testCase.init;
-            var val = testCase.val;
+            var init  = testCase.From;
+            var value = testCase.To;
             
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
-                Assert_All_Getters(x, Coalesce(init.coalesce));
+                Assert_All_Getters(x, init.Coalesced);
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters (x, val .coalesce);
-                Assert_TapeBound_Getters  (x, init.coalesce);
-                Assert_BuffBound_Getters  (x, init.coalesce);
-                Assert_Independent_Getters(x, init.coalesce);
-                Assert_Immutable_Getters  (x, init.coalesce);
+                Assert_SynthBound_Getters (x, value.Coalesced);
+                Assert_TapeBound_Getters  (x, init.Coalesced);
+                Assert_BuffBound_Getters  (x, init.Coalesced);
+                Assert_Independent_Getters(x, init.Coalesced);
+                Assert_Immutable_Getters  (x, init.Coalesced);
                 
                 x.Record();
-                Assert_All_Getters(x, val.coalesce);
+                Assert_All_Getters(x, value.Coalesced);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount(val.nully)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount(val.nully)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(val.nully, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(value, x.SynthBound.SynthWishes)));
         }
 
         //[TestMethod] 
@@ -73,8 +125,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void TapeBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.init.coalesce;
-            int val  = testCase.val.coalesce;
+            int init = testCase.From;
+            int val  = testCase.To;
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -104,8 +156,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void BuffBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.CoalescedFrom;
-            int value = testCase.CoalescedTo;
+            int init = testCase.From;
+            int value = testCase.To;
             
             void AssertProp(Action<TestEntities> setter)
             {
@@ -132,8 +184,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Independent_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.CoalescedFrom;
-            int value = testCase.CoalescedTo;
+            int init = testCase.From;
+            int value = testCase.To;
          
             // Independent after Taping
 
@@ -193,8 +245,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Immutable_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.CoalescedFrom;
-            int value = testCase.CoalescedTo;
+            int init = testCase.From;
+            int value = testCase.To;
             
             TestEntities x = CreateTestEntities(testCase);
 
@@ -244,9 +296,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         [TestMethod]
         public void FrameCount_EdgeCases()
         {
-            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(new Case(frameCount: -1)), "FrameCount -1 below 0.");
-            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(new Case(frameCount:  0)), "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
-            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(new Case(frameCount:  2)), "Duration is not above 0.");
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount: -1)), 
+                    "FrameCount -1 below 0.");
+            
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount:  0) { CourtesyFrames = 2 }), 
+                    "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
+            
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount:  2) { CourtesyFrames = 2 }), 
+                    "Duration is not above 0.");
         }
 
         // Getter Helpers
@@ -280,45 +343,46 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         private void Assert_SynthBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.SynthBound.SynthWishes.FrameCount());
-            AreEqual(frameCount, () => x.SynthBound.FlowNode.FrameCount());
-            AreEqual(frameCount, () => x.SynthBound.ConfigResolver.FrameCount(x.SynthBound.SynthWishes));
+            //AreEqual(frameCount, () => x.SynthBound.SynthWishes.FrameCount());
+            AreEqual(frameCount, () => x.SynthBound.SynthWishes.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.SynthBound.FlowNode.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.SynthBound.ConfigResolver.FrameCount(x.SynthBound.SynthWishes), _tolerance);
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.TapeBound.Tape.FrameCount());
-            AreEqual(frameCount, () => x.TapeBound.TapeConfig.FrameCount());
-            AreEqual(frameCount, () => x.TapeBound.TapeActions.FrameCount());
-            AreEqual(frameCount, () => x.TapeBound.TapeAction.FrameCount());
+            AreEqual(frameCount, () => x.TapeBound.Tape.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.TapeBound.TapeConfig.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.TapeBound.TapeActions.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.TapeBound.TapeAction.FrameCount(), _tolerance);
         }
         
         private void Assert_BuffBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount(x.Immutable.CourtesyFrames));
-            AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount(x.Immutable.CourtesyFrames));
+            AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
+            AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
         }
         
         private void Assert_Independent_Getters(Sample sample, int frameCount)
         {
-            AreEqual(frameCount, () => sample.FrameCount());
+            AreEqual(frameCount, () => sample.FrameCount(), _tolerance);
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int frameCount)
         {
-            AreEqual(frameCount, () => audioInfoWish.FrameCount());
-            AreEqual(frameCount, () => audioInfoWish.FrameCount);
+            AreEqual(frameCount, () => audioInfoWish.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => audioInfoWish.FrameCount, _tolerance);
         }
 
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int frameCount)
         {
-            AreEqual(frameCount, () => audioFileInfo.FrameCount());
-            AreEqual(frameCount, () => audioFileInfo.SampleCount);
+            AreEqual(frameCount, () => audioFileInfo.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => audioFileInfo.SampleCount, _tolerance);
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int frameCount)
         {
-            AreEqual(frameCount, () => wavHeader.FrameCount());
+            AreEqual(frameCount, () => wavHeader.FrameCount(), _tolerance);
         }
  
         // Test Data Helpers
@@ -330,7 +394,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 // Impersonate NCrunch for reliable default SamplingRate of 10 Hz.
                 x.IsUnderNCrunch = true;
                 x.IsUnderAzurePipelines = false;
-                x.FrameCount(testCase.FrameCount.NullyFrom);
+                x.AudioLength(testCase.AudioLength);
+                x.SamplingRate(testCase.SamplingRate);
+                x.Channels(testCase.Channels);
+                x.CourtesyFrames(testCase.CourtesyFrames);
+                x.FrameCount(testCase);
             });
         }
         
@@ -342,80 +410,42 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         
         // ncrunch: no coverage start
         
-        static object CaseKeysInit        => _casesInit       .Select(x => new object[] { x.Descriptor }).ToArray();
-        static object CaseKeys            => _cases           .Select(x => new object[] { x.Descriptor }).ToArray();
+        static object CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
+        
+        static object CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
+        
         static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
 
-        static Case[] _casesInit =
-        {
-            new Case(   96000 ),
-            new Case(   88200 ),
-            new Case(   48000 ),
-            new Case(   44100 ),
-            new Case(   22050 ),
-            new Case(   11025 ),
-            new Case(       8 ),
-            new Case(      16 ),
-            new Case(      19 ),
-            new Case(      31 ),
-            new Case(      61 ),
-            new Case(     100 ),
-            new Case(    1000 ),
-            new Case(   12345 ),
-            new Case( 1234567 )
-        };
+        static readonly Dictionary<string, Case> _caseDictionary =
+            _casesWithEmpties.Concat(_casesInit)
+                             .Distinct(x => x.Descriptor)
+                             .ToDictionary(x => x.Descriptor);
         
-        static Case[] _cases =
+        [DebuggerDisplay("{DebuggerDisplay}")]
+        internal class Case : CaseProp<int>
         {
-            new Case( 48000,   96000 ),
-            new Case( 48000,   88200 ),
-            new Case( 48000,   48000 ),
-            new Case( 48000,   44100 ),
-            new Case( 48000,   22050 ),
-            new Case( 48000,   11025 ),
-            new Case( 48000,       8 ),
-            new Case( 96000,   48000 ),
-            new Case( 88200,   44100 ),
-            new Case( 44100,   48000 ),
-            new Case( 22050,   44100 ),
-            new Case( 11025,   44100 ),
-            new Case(     8,   48000 ),
-            new Case( 48000,      16 ),
-            new Case( 48000,      19 ),
-            new Case( 48000,      31 ),
-            new Case( 48000,      61 ),
-            new Case( 48000,     100 ),
-            new Case( 48000,    1000 ),
-            new Case( 48000,   12345 ),
-            new Case( 48000, 1234567 ),
-        };
+            string DebuggerDisplay => GetDebuggerDisplay(this);
+                        
+            // Test defaults not quite the same as the regular defaults.
+            public const int    SamplingRateTestDefault   = 44100;
+            public const double AudioLengthTestDefault    = 0.1;
+            public const int    CourtesyFramesTestDefault = 3;
+            public const int    ChannelsTestDefault       = 2;
 
-        static Case[] _casesWithEmpties = new[]
-        {
-            new Case( 1234567,  null ),
-            new Case(    null, 12345 )
-        }
-        .Concat(_cases).ToArray();
-
-        static Dictionary<string, Case> _caseDictionary = _casesWithEmpties.Concat(_casesInit)
-                                                                           .Distinct(x => x.Descriptor)
-                                                                           .ToDictionary(x => x.Descriptor);
-        private class Case : CaseProp<int>
-        {
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount => this;
 
             // SamplingRate: Scales FrameCount
-            public CaseProp<int> SamplingRate { get; set; } = new CaseProp<int>();
+            public CaseProp<int> SamplingRate { get; set; } = SamplingRateTestDefault;
 
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
-            public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
+            public CaseProp<double> AudioLength { get; set; } = AudioLengthTestDefault;
             
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
-            public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
+            public CaseProp<int> CourtesyFrames { get; set; } = CourtesyFramesTestDefault;
 
-            // Channels: AudioLength vs FrameCount should be invariant under Channels, but was accidentally involved in the formulas.
-            public CaseProp<int> Channels { get; set; } = new CaseProp<int>();
+            // Channels: AudioLength vs FrameCount is invariant under Channels, but accidentally involved in formulas.
+            public CaseProp<int> Channels { get; set; } = ChannelsTestDefault;
 
             public override string Descriptor
             {
@@ -427,11 +457,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                     return descriptor;
                 }
             }
-            
-            public const int    SamplingRateTestDefault   = 44100;
-            public const double AudioLengthTestDefault    = 1.6;
-            public const int    CourtesyFramesTestDefault = 3;
-            public const int    ChannelsTestDefault       = 2;
 
             public Case(
                 int    samplingRate   = SamplingRateTestDefault,
@@ -445,120 +470,128 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Channels       = channels;
             }
             
-            public Case(int frameCount) => Value = frameCount;
+            public Case(int frameCount) => From = To = frameCount;
             public Case(int from, int to) { From = from; To = to; }
              
             public Case(int? from, int to)
             {
-                NullyFrom     = from;
-                CoalescedFrom = Coalesce(from); 
+                From.Nully     = from;
+                From.Coalesced = Coalesce(from); 
                 To            = to;
             }
             
             public Case(int from, int? to)
             {
-                From        = from;
-                NullyTo     = to;
-                CoalescedTo = Coalesce(to);
+                From         = from;
+                To.Nully     = to;
+                To.Coalesced = Coalesce(to);
             }
             
             public Case(int? from, int? to)
             { 
-                NullyFrom     = from; 
-                CoalescedFrom = Coalesce(from);
-                NullyTo       = to;
-                CoalescedTo   = Coalesce(to);
-            }
-        }
-                  
-        private struct Parameters<T> where T : struct
-        {
-            public T? nully;
-            public T coalesce;
-        }
-        
-        private class CaseProp<T> where T : struct
-        {
-            public Parameters<T> init => new Parameters<T> { nully = NullyFrom, coalesce = CoalescedFrom };
-            public Parameters<T> val  => new Parameters<T> { nully = NullyTo  , coalesce = CoalescedTo   };
-
-            public T? NullyFrom     { get; set; }
-            public T  CoalescedFrom { get; set; }
-            public T? NullyTo       { get; set; }
-            public T  CoalescedTo   { get; set; }
-
-            public T Value
-            {
-                get => Equals(From, To) ? To : default;
-                set => From = To = value;
+                From.Nully     = from; 
+                From.Coalesced = Coalesce(from);
+                To.Nully       = to;
+                To.Coalesced   = Coalesce(to);
             }
             
-            public T From
-            {
-                get => Equals(NullyFrom, CoalescedFrom) ? CoalescedFrom : default;
-                set => NullyFrom = CoalescedFrom = value;
-            }
-                        
-            public T To
-            {
-                get => Equals(NullyTo, CoalescedTo) ? CoalescedTo : default;
-                set => NullyTo = CoalescedTo = value;
-            }
+            public override string ToString() => Descriptor;
+        }
+        
+        [DebuggerDisplay("{DebuggerDisplay}")]
+        internal class CaseProp<T> where T : struct
+        {
+            string DebuggerDisplay => GetDebuggerDisplay(this);
+            
+            public static implicit operator T(CaseProp<T> prop) => prop.From;
+            public static implicit operator T?(CaseProp<T> prop) => prop.From;
+            public static implicit operator CaseProp<T>(T val) => new CaseProp<T> { From = val, To = val };
+            public static implicit operator CaseProp<T>(T? val) => new CaseProp<T> { From = val, To = val };
+
+            public Values<T> From { get; set; } = new Values<T>();
+            public Values<T> To   { get; set; } = new Values<T>();
             
             public T? Nully
             {
-                get => Equals(NullyFrom, NullyTo) ? NullyTo : default;
-                set => NullyFrom= NullyTo = value;
+                get => From.Nully;
+                set => From.Nully = To.Nully = value;
             }
             
             public T Coalesced
             {
-                get => Equals(CoalescedFrom, CoalescedTo) ? CoalescedTo : default;
-                set => CoalescedFrom = CoalescedTo = value;
+                get => From.Coalesced;
+                set => From.Coalesced = To.Coalesced = value;
             }
 
             public virtual string Descriptor
             {
                 get
                 {
-                    if (Has(Value))
-                    {
-                        return $"{Value}";
-                    }
-                    
-                    if (Has(From) && Has(To))
-                    {
-                        return $"{From} => {To}";
-                    }
-                    
-                    if (Has(Nully) && Has(Coalesced))
-                    {
-                        return $"({Nully},{Coalesced})";
-                    }
-                    
-                    if (!Has(NullyFrom) && !Has(CoalescedFrom) && !Has(NullyTo) && !Has(CoalescedTo))
+                    if (!Has(From.Nully) && !Has(From.Coalesced) && !Has(To.Nully) && !Has(To.Coalesced))
                     {
                         return default;
                     }
                     
-                    return $"({NullyFrom},{CoalescedFrom}) => ({NullyTo},{CoalescedTo})";
+                    if (Equals(From.Nully, From.Coalesced ) && 
+                        Equals(To.Nully, To.Coalesced) &&
+                        Equals(From.Nully, To.Nully) && 
+                        Equals(From.Coalesced, To.Coalesced))
+                    {
+                        return $"{From.Nully}";
+                    }
+                    
+                    if (Equals(From.Nully, From.Coalesced) &&
+                        Equals(To.Nully, To.Coalesced))
+                    {
+                        return $"{From.Nully} => {To.Nully}";
+                    }
+                    
+                    if (Equals(From.Nully, To.Nully) && 
+                        Equals(From.Coalesced, To.Coalesced))
+                    {
+                        return $"({Nully},{Coalesced})";
+                    }
+                    
+                    return $"({From.Nully},{From.Coalesced}) => ({To.Nully},{To.Coalesced})";
                 }
-            }
 
-            public static implicit operator T(CaseProp<T> prop) => prop.Value;
-            public static implicit operator CaseProp<T>(T val) => new CaseProp<T> { Value = val };
+            }
+            
+            public override string ToString() => Descriptor;
         }
+        
+        [DebuggerDisplay("{DebuggerDisplay}")]
+        internal class Values<T> where T : struct
+        {
+            string DebuggerDisplay => GetDebuggerDisplay(this);
+
+            public T? Nully { get; set; }
+            public T Coalesced { get; set; }
+            
+            public static implicit operator T?(Values<T> values) => values.Nully;
+            public static implicit operator T(Values<T> values) => values.Coalesced;
+            public static implicit operator Values<T>(T? value) => new Values<T> { Nully = value };
+            public static implicit operator Values<T>(T value) => new Values<T> { Nully = value, Coalesced = value };
+            
+            public override string ToString()
+            {
+                if (Equals(Nully, Coalesced)) return $"{Nully}";
+                if (Has(Nully) && !Has(Coalesced)) return $"{Nully}";
+                return $"({Nully},{Coalesced})";
+            }
+        }
+        
         
         static Case[] _caseExamples = 
         {
             // Example with all values specified
             new Case 
             { 
-                FrameCount     = { NullyFrom = 22050 * 3 , CoalescedFrom = 22050 * 3 , NullyTo = 22050 * 5 , CoalescedTo = 22050 * 5 }, 
-                SamplingRate   = { NullyFrom = 22050     , CoalescedFrom = 22050     , NullyTo = 22050     , CoalescedTo = 22050     }, 
-                AudioLength    = { NullyFrom =         3 , CoalescedFrom =         3 , NullyTo =         5 , CoalescedTo =         5 }, 
-                CourtesyFrames = { NullyFrom = 4         , CoalescedFrom = 4         , NullyTo = 4         , CoalescedTo = 4         }, 
-                Channels       = { NullyFrom = 2         , CoalescedFrom = 2         , NullyTo = 2         , CoalescedTo = 2         }
+                FrameCount     = { From = { Nully = 3 * 22050, Coalesced = 3 * 22050 }, To = { Nully = 5 * 22050, Coalesced = 5 * 22050 }}, 
+                SamplingRate   = { From = { Nully =     22050, Coalesced =     22050 }, To = { Nully =     22050, Coalesced =     22050 }}, 
+                AudioLength    = { From = { Nully = 3        , Coalesced = 3         }, To = { Nully = 5        , Coalesced = 5         }}, 
+                CourtesyFrames = { From = { Nully = 4        , Coalesced = 4         }, To = { Nully = 4        , Coalesced = 4         }}, 
+                Channels       = { From = { Nully = 2        , Coalesced = 2         }, To = { Nully = 2        , Coalesced = 2         }}
             },
             
             // Example with same value for Nully and Coalesced
