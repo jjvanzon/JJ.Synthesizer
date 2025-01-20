@@ -29,8 +29,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Init_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            var  init     = testCase.FrameCount.Nully;
-            var  coalesce = testCase.FrameCount.Coalesced;
+            var  init     = testCase.Nully;
+            var  coalesce = testCase.Coalesced;
             
             var x = CreateTestEntities(init);
             Assert_All_Getters(x, coalesce);
@@ -41,8 +41,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void SynthBound_FrameCount(string caseKey)
         {            
             Case testCase = _caseDictionary[caseKey];
-            int? init = testCase.FrameCount.FromNully;
-            int? value = testCase.FrameCount.ToNully;
+            int? init = testCase.FromNully;
+            int? value = testCase.ToNully;
             
             void AssertProp(Action<TestEntities> setter)
             {
@@ -71,8 +71,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void TapeBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FrameCount.FromCoalesced;
-            int value = testCase.FrameCount.ToCoalesced;
+            int init = testCase.FromCoalesced;
+            int value = testCase.ToCoalesced;
 
             void AssertProp(Action<TestEntities> setter)
             {
@@ -102,8 +102,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void BuffBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FrameCount.FromCoalesced;
-            int value = testCase.FrameCount.ToCoalesced;
+            int init = testCase.FromCoalesced;
+            int value = testCase.ToCoalesced;
             
             void AssertProp(Action<TestEntities> setter)
             {
@@ -130,8 +130,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Independent_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FrameCount.FromCoalesced;
-            int value = testCase.FrameCount.ToCoalesced;
+            int init = testCase.FromCoalesced;
+            int value = testCase.ToCoalesced;
          
             // Independent after Taping
 
@@ -191,8 +191,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Immutable_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FrameCount.FromCoalesced;
-            int value = testCase.FrameCount.ToCoalesced;
+            int init = testCase.FromCoalesced;
+            int value = testCase.ToCoalesced;
             
             TestEntities x = CreateTestEntities(init);
 
@@ -335,11 +335,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         private static int Coalesce(int? frameCount)
         {
             int defaultValue = 1 /*sec*/ * 10 /*Hz*/ + 2 /*CourtesyFrames*/;
-            return CoalesceFrameCount(frameCount, defaultValue); // TODO: Specify expectation of coalesce more literally instead of relying on CoalesceFrameCount from the API?
+            return CoalesceFrameCount(frameCount, defaultValue);
         }
         
         // ncrunch: no coverage start
-                        
+        
         static object CaseKeysInit        => _casesInit       .Select(x => new object[] { x.Descriptor }).ToArray();
         static object CaseKeys            => _cases           .Select(x => new object[] { x.Descriptor }).ToArray();
         static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
@@ -398,10 +398,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         static Dictionary<string, Case> _caseDictionary = _casesWithEmpties.Concat(_casesInit)
                                                                            .Distinct(x => x.Descriptor)
                                                                            .ToDictionary(x => x.Descriptor);
-        private class Case
+        private class Case : CaseProp<int>
         {
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
-            public CaseProp<int> FrameCount { get; set; } = new CaseProp<int>();
+            public CaseProp<int> FrameCount => this;
 
             // SamplingRate: Scales FrameCount
             public CaseProp<int> SamplingRate { get; set; } = new CaseProp<int>();
@@ -414,18 +414,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
             // Channels: AudioLength vs FrameCount should be invariant under Channels, but was accidentally involved in the formulas.
             public CaseProp<int> Channels { get; set; } = new CaseProp<int>();
-            
-            public string Descriptor
+
+            public override string Descriptor
             {
                 get
                 {
-                    string descriptor = FrameCount.Descriptor;
+                    string descriptor = base.Descriptor;
                     string samplingRateDescriptor = SamplingRate.Descriptor;
                     if (Has(samplingRateDescriptor)) descriptor += $" ({samplingRateDescriptor})";
                     return descriptor;
                 }
             }
-
+            
             public const int    SamplingRateTestDefault   = 44100;
             public const double AudioLengthTestDefault    = 1.6;
             public const int    CourtesyFramesTestDefault = 3;
@@ -443,29 +443,29 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Channels       = channels;
             }
             
-            public Case(int frameCount) => FrameCount = frameCount;
-            public Case(int from, int to) { FrameCount.From = from; FrameCount.To = to; }
+            public Case(int frameCount) => Value = frameCount;
+            public Case(int from, int to) { From = from; To = to; }
              
             public Case(int? from, int to)
             {
-                FrameCount.FromNully     = from;
-                FrameCount.FromCoalesced = Coalesce(from); 
-                FrameCount.To            = to;
+                FromNully     = from;
+                FromCoalesced = Coalesce(from); 
+                To            = to;
             }
             
             public Case(int from, int? to)
             {
-                FrameCount.From        = from;
-                FrameCount.ToNully     = to;
-                FrameCount.ToCoalesced = Coalesce(to);
+                From        = from;
+                ToNully     = to;
+                ToCoalesced = Coalesce(to);
             }
             
             public Case(int? from, int? to)
             { 
-                FrameCount.FromNully     = from; 
-                FrameCount.FromCoalesced = Coalesce(from);
-                FrameCount.ToNully       = to;
-                FrameCount.ToCoalesced   = Coalesce(to);
+                FromNully     = from; 
+                FromCoalesced = Coalesce(from);
+                ToNully       = to;
+                ToCoalesced   = Coalesce(to);
             }
         }
                             
@@ -506,7 +506,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 set => FromCoalesced = ToCoalesced = value;
             }
 
-            public string Descriptor
+            public virtual string Descriptor
             {
                 get
                 {
@@ -537,7 +537,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             public static implicit operator T(CaseProp<T> prop) => prop.Value;
             public static implicit operator CaseProp<T>(T val) => new CaseProp<T> { Value = val };
         }
-                
+        
         static Case[] _caseExamples = 
         {
             // Example with all values specified
@@ -566,6 +566,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 SamplingRate = 22050, Channels = 2, CourtesyFrames = 4, 
                 AudioLength  = { From = 3         , To = 5         },
                 FrameCount   = { From = 3 * 22050 , To = 5 * 22050 }
+            },
+            
+            // Using inherited properties From and To to set main property FrameCount.
+            new Case
+            { 
+                From = 3 * 22050 , To = 5 * 22050,
+                AudioLength = { From = 3, To = 5 },
+                SamplingRate = 22050, Channels = 2, CourtesyFrames = 4, 
             },
             
             // Example using constructor parameters for side-issues
