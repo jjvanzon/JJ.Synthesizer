@@ -159,7 +159,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     Console.WriteLine($"Found {courtesyFramesFound} courtesy frames in addOperand[{i}].");
                     if (courtesyFramesFound > GetCourtesyFrames)
                     {
-                        Assert.Fail($"courtesyValuesFound = {courtesyFramesFound} > {GetCourtesyFrames}");
+                        Fail($"courtesyValuesFound = {courtesyFramesFound} > {GetCourtesyFrames}");
                     }
                 }
             }
