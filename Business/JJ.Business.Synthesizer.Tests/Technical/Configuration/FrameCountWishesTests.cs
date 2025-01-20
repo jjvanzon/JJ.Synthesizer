@@ -29,11 +29,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Init_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            var  init     = testCase.Nully;
-            var  coalesce = testCase.Coalesced;
+            var  init = testCase.init;
             
-            var x = CreateTestEntities(init);
-            Assert_All_Getters(x, coalesce);
+            var x = CreateTestEntities(testCase);
+            Assert_All_Getters(x, init.coalesce);
         }
         
         [TestMethod] 
@@ -41,29 +40,29 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void SynthBound_FrameCount(string caseKey)
         {            
             Case testCase = _caseDictionary[caseKey];
-            int? init = testCase.FromNully;
-            int? value = testCase.ToNully;
+            var init = testCase.init;
+            var val = testCase.val;
             
             void AssertProp(Action<TestEntities> setter)
             {
-                var x = CreateTestEntities(init);
-                Assert_All_Getters(x, Coalesce(init));
+                var x = CreateTestEntities(testCase);
+                Assert_All_Getters(x, Coalesce(init.coalesce));
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, Coalesce(value));
-                Assert_TapeBound_Getters(x, Coalesce(init));
-                Assert_BuffBound_Getters(x, Coalesce(init));
-                Assert_Independent_Getters(x, Coalesce(init));
-                Assert_Immutable_Getters(x, Coalesce(init));
+                Assert_SynthBound_Getters (x, val .coalesce);
+                Assert_TapeBound_Getters  (x, init.coalesce);
+                Assert_BuffBound_Getters  (x, init.coalesce);
+                Assert_Independent_Getters(x, init.coalesce);
+                Assert_Immutable_Getters  (x, init.coalesce);
                 
                 x.Record();
-                Assert_All_Getters(x, Coalesce(value));
+                Assert_All_Getters(x, val.coalesce);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(value, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount(val.nully)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount(val.nully)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(val.nully, x.SynthBound.SynthWishes)));
         }
 
         //[TestMethod] 
@@ -71,18 +70,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void TapeBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FromCoalesced;
-            int value = testCase.ToCoalesced;
+            int init = testCase.init.coalesce;
+            int val  = testCase.val.coalesce;
 
             void AssertProp(Action<TestEntities> setter)
             {
-                var x = CreateTestEntities(init);
+                var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
                 
                 setter(x);
                 
                 Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters(x, value);
+                Assert_TapeBound_Getters(x, val);
                 Assert_BuffBound_Getters(x, init);
                 Assert_Independent_Getters(x, init);
                 Assert_Immutable_Getters(x, init);
@@ -91,10 +90,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .FrameCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .FrameCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FrameCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .FrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .FrameCount(val)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .FrameCount(val)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FrameCount(val)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .FrameCount(val)));
         }
 
         //[TestMethod] 
@@ -102,12 +101,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void BuffBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FromCoalesced;
-            int value = testCase.ToCoalesced;
+            int init = testCase.CoalescedFrom;
+            int value = testCase.CoalescedTo;
             
             void AssertProp(Action<TestEntities> setter)
             {
-                var x = CreateTestEntities(init);
+                var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
                 
                 setter(x);
@@ -130,8 +129,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Independent_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FromCoalesced;
-            int value = testCase.ToCoalesced;
+            int init = testCase.CoalescedFrom;
+            int value = testCase.CoalescedTo;
          
             // Independent after Taping
 
@@ -141,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
                 void AssertProp(Action setter)
                 {
-                    x = CreateTestEntities(init);
+                    x = CreateTestEntities(testCase);
                     Assert_All_Getters(x, init);
                     
                     setter();
@@ -166,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                 
                 void AssertProp(Action setter)
                 {
-                    x = CreateTestEntities(init);
+                    x = CreateTestEntities(testCase);
                     Assert_All_Getters(x, init);
                     
                     setter();
@@ -191,10 +190,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         public void Immutable_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.FromCoalesced;
-            int value = testCase.ToCoalesced;
+            int init = testCase.CoalescedFrom;
+            int value = testCase.CoalescedTo;
             
-            TestEntities x = CreateTestEntities(init);
+            TestEntities x = CreateTestEntities(testCase);
 
             // WavHeader
             
@@ -242,9 +241,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         [TestMethod]
         public void FrameCount_EdgeCases()
         {
-            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(frameCount: -1), "FrameCount -1 below 0.");
-            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(frameCount:  0), "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
-            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(frameCount:  2), "Duration is not above 0.");
+            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(new Case(frameCount: -1)), "FrameCount -1 below 0.");
+            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(new Case(frameCount:  0)), "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
+            ThrowsException_OrInnerException<Exception>(() => CreateTestEntities(new Case(frameCount:  2)), "Duration is not above 0.");
         }
 
         // Getter Helpers
@@ -321,14 +320,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(int? frameCount)
+        private TestEntities CreateTestEntities(Case testCase)
         {
             return new TestEntities(x =>
             {
                 // Impersonate NCrunch for reliable default SamplingRate of 10 Hz.
                 x.IsUnderNCrunch = true;
                 x.IsUnderAzurePipelines = false;
-                x.FrameCount(frameCount);
+                x.FrameCount(testCase.FrameCount.NullyFrom);
             });
         }
         
@@ -448,33 +447,42 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
              
             public Case(int? from, int to)
             {
-                FromNully     = from;
-                FromCoalesced = Coalesce(from); 
+                NullyFrom     = from;
+                CoalescedFrom = Coalesce(from); 
                 To            = to;
             }
             
             public Case(int from, int? to)
             {
                 From        = from;
-                ToNully     = to;
-                ToCoalesced = Coalesce(to);
+                NullyTo     = to;
+                CoalescedTo = Coalesce(to);
             }
             
             public Case(int? from, int? to)
             { 
-                FromNully     = from; 
-                FromCoalesced = Coalesce(from);
-                ToNully       = to;
-                ToCoalesced   = Coalesce(to);
+                NullyFrom     = from; 
+                CoalescedFrom = Coalesce(from);
+                NullyTo       = to;
+                CoalescedTo   = Coalesce(to);
             }
         }
-                            
+                  
+        private struct Parameters<T> where T : struct
+        {
+            public T? nully;
+            public T coalesce;
+        }
+        
         private class CaseProp<T> where T : struct
         {
-            public T? FromNully     { get; set; }
-            public T  FromCoalesced { get; set; }
-            public T? ToNully       { get; set; }
-            public T  ToCoalesced   { get; set; }
+            public Parameters<T> init => new Parameters<T> { nully = NullyFrom, coalesce = CoalescedFrom };
+            public Parameters<T> val  => new Parameters<T> { nully = NullyTo  , coalesce = CoalescedTo   };
+
+            public T? NullyFrom     { get; set; }
+            public T  CoalescedFrom { get; set; }
+            public T? NullyTo       { get; set; }
+            public T  CoalescedTo   { get; set; }
 
             public T Value
             {
@@ -484,26 +492,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             
             public T From
             {
-                get => Equals(FromNully, FromCoalesced) ? FromCoalesced : default;
-                set => FromNully = FromCoalesced = value;
+                get => Equals(NullyFrom, CoalescedFrom) ? CoalescedFrom : default;
+                set => NullyFrom = CoalescedFrom = value;
             }
                         
             public T To
             {
-                get => Equals(ToNully, ToCoalesced) ? ToCoalesced : default;
-                set => ToNully = ToCoalesced = value;
+                get => Equals(NullyTo, CoalescedTo) ? CoalescedTo : default;
+                set => NullyTo = CoalescedTo = value;
             }
             
             public T? Nully
             {
-                get => Equals(FromNully, ToNully) ? ToNully : default;
-                set => FromNully= ToNully = value;
+                get => Equals(NullyFrom, NullyTo) ? NullyTo : default;
+                set => NullyFrom= NullyTo = value;
             }
             
             public T Coalesced
             {
-                get => Equals(FromCoalesced, ToCoalesced) ? ToCoalesced : default;
-                set => FromCoalesced = ToCoalesced = value;
+                get => Equals(CoalescedFrom, CoalescedTo) ? CoalescedTo : default;
+                set => CoalescedFrom = CoalescedTo = value;
             }
 
             public virtual string Descriptor
@@ -525,12 +533,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
                         return $"({Nully},{Coalesced})";
                     }
                     
-                    if (!Has(FromNully) && !Has(FromCoalesced) && !Has(ToNully) && !Has(ToCoalesced))
+                    if (!Has(NullyFrom) && !Has(CoalescedFrom) && !Has(NullyTo) && !Has(CoalescedTo))
                     {
                         return default;
                     }
                     
-                    return $"({FromNully},{FromCoalesced}) => ({ToNully},{ToCoalesced})";
+                    return $"({NullyFrom},{CoalescedFrom}) => ({NullyTo},{CoalescedTo})";
                 }
             }
 
@@ -543,11 +551,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             // Example with all values specified
             new Case 
             { 
-                FrameCount     = { FromNully = 22050 * 3 , FromCoalesced = 22050 * 3 , ToNully = 22050 * 5 , ToCoalesced = 22050 * 5 }, 
-                SamplingRate   = { FromNully = 22050     , FromCoalesced = 22050     , ToNully = 22050     , ToCoalesced = 22050     }, 
-                AudioLength    = { FromNully =         3 , FromCoalesced =         3 , ToNully =         5 , ToCoalesced =         5 }, 
-                CourtesyFrames = { FromNully = 4         , FromCoalesced = 4         , ToNully = 4         , ToCoalesced = 4         }, 
-                Channels       = { FromNully = 2         , FromCoalesced = 2         , ToNully = 2         , ToCoalesced = 2         }
+                FrameCount     = { NullyFrom = 22050 * 3 , CoalescedFrom = 22050 * 3 , NullyTo = 22050 * 5 , CoalescedTo = 22050 * 5 }, 
+                SamplingRate   = { NullyFrom = 22050     , CoalescedFrom = 22050     , NullyTo = 22050     , CoalescedTo = 22050     }, 
+                AudioLength    = { NullyFrom =         3 , CoalescedFrom =         3 , NullyTo =         5 , CoalescedTo =         5 }, 
+                CourtesyFrames = { NullyFrom = 4         , CoalescedFrom = 4         , NullyTo = 4         , CoalescedTo = 4         }, 
+                Channels       = { NullyFrom = 2         , CoalescedFrom = 2         , NullyTo = 2         , CoalescedTo = 2         }
             },
             
             // Example with same value for Nully and Coalesced
