@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
-using JJ.Persistence.Synthesizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Framework.Wishes.Collections_Copied;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
@@ -27,16 +28,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         [DynamicData(nameof(CaseKeysInit))]
         public void Init_FrameCount(string caseKey)
         {
-            var init     = _caseDictionary[caseKey].FrameCount.Nully;
-            var coalesce = _caseDictionary[caseKey].FrameCount.Coalesced;
-            var x        = CreateTestEntities(init);
+            Case testCase = _caseDictionary[caseKey];
+            var  init     = testCase.FrameCount.Nully;
+            var  coalesce = testCase.FrameCount.Coalesced;
+            
+            var x = CreateTestEntities(init);
             Assert_All_Getters(x, coalesce);
         }
         
         [TestMethod] 
-        [DynamicData(nameof(TestParametersWithEmpties))]
-        public void SynthBound_FrameCount(int? init, int? value)
+        [DynamicData(nameof(CaseKeysWithEmpties))]
+        public void SynthBound_FrameCount(string caseKey)
         {            
+            Case testCase = _caseDictionary[caseKey];
+            int? init = testCase.FrameCount.FromNully;
+            int? value = testCase.FrameCount.ToNully;
+            
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
@@ -60,9 +67,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         //[TestMethod] 
-        //[DynamicData(nameof(TestParameters))]
-        public void TapeBound_FrameCount(int init, int value)
+        //[DynamicData(nameof(CaseKeys))]
+        public void TapeBound_FrameCount(string caseKey)
         {
+            Case testCase = _caseDictionary[caseKey];
+            int init = testCase.FrameCount.FromCoalesced;
+            int value = testCase.FrameCount.ToCoalesced;
+
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
@@ -87,9 +98,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
         }
 
         //[TestMethod] 
-        //[DynamicData(nameof(TestParameters))]
-        public void BuffBound_FrameCount(int init, int value)
+        //[DynamicData(nameof(CaseKeys))]
+        public void BuffBound_FrameCount(string caseKey)
         {
+            Case testCase = _caseDictionary[caseKey];
+            int init = testCase.FrameCount.FromCoalesced;
+            int value = testCase.FrameCount.ToCoalesced;
+            
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
@@ -110,10 +125,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.FrameCount(value, courtesyFrames: 2))); // TODO: Replace hard coded value for courtesyFrames.
         }
         
-        //[TestMethod]
-        //[DynamicData(nameof(TestParameters))]
-        public void Independent_FrameCount(int init, int value)
+        [TestMethod] 
+        [DynamicData(nameof(CaseKeys))]
+        public void Independent_FrameCount(string caseKey)
         {
+            Case testCase = _caseDictionary[caseKey];
+            int init = testCase.FrameCount.FromCoalesced;
+            int value = testCase.FrameCount.ToCoalesced;
+         
             // Independent after Taping
 
             // AudioInfoWish
@@ -167,10 +186,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             }
         }
         
-        //[TestMethod] 
-        //[DynamicData(nameof(TestParameters))]
-        public void Immutable_FrameCount(int init, int value)
+        [TestMethod] 
+        [DynamicData(nameof(CaseKeys))]
+        public void Immutable_FrameCount(string caseKey)
         {
+            Case testCase = _caseDictionary[caseKey];
+            int init = testCase.FrameCount.FromCoalesced;
+            int value = testCase.FrameCount.ToCoalesced;
+            
             TestEntities x = CreateTestEntities(init);
 
             // WavHeader
@@ -309,14 +332,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             });
         }
         
-        private int Coalesce(int? frameCount)
+        private static int Coalesce(int? frameCount)
         {
             int defaultValue = 1 /*sec*/ * 10 /*Hz*/ + 2 /*CourtesyFrames*/;
-            return CoalesceFrameCount(frameCount, defaultValue);
+            return CoalesceFrameCount(frameCount, defaultValue); // TODO: Specify expectation of coalesce more literally instead of relying on CoalesceFrameCount from the API?
         }
         
         // ncrunch: no coverage start
-        
+                        
+        static object CaseKeysInit        => _casesInit       .Select(x => new object[] { x.Descriptor }).ToArray();
+        static object CaseKeys            => _cases           .Select(x => new object[] { x.Descriptor }).ToArray();
+        static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
+
         static Case[] _casesInit =
         {
             new Case(   96000 ),
@@ -336,43 +363,42 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             new Case( 1234567 )
         };
         
-        static object CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
-        
-        static IEnumerable<object[]> TestParameters => new[] 
+        static Case[] _cases =
         {
-            new object[] { 48000, 96000 },
-            new object[] { 48000, 88200 },
-            new object[] { 48000, 48000 },
-            new object[] { 48000, 44100 },
-            new object[] { 48000, 22050 },
-            new object[] { 48000, 11025 },
-            new object[] { 48000, 8 },
-            new object[] { 96000, 48000 },
-            new object[] { 88200, 44100 },
-            new object[] { 44100, 48000 },
-            new object[] { 22050, 44100 },
-            new object[] { 11025, 44100 },
-            new object[] { 8, 48000 },
-            new object[] { 48000, 16 },
-            new object[] { 48000, 19 },
-            new object[] { 48000, 31 },
-            new object[] { 48000, 61 },
-            new object[] { 48000, 100 },
-            new object[] { 48000, 1000 },
-            new object[] { 48000, 12345 },
-            new object[] { 48000, 1234567 },
+            new Case( 48000,   96000 ),
+            new Case( 48000,   88200 ),
+            new Case( 48000,   48000 ),
+            new Case( 48000,   44100 ),
+            new Case( 48000,   22050 ),
+            new Case( 48000,   11025 ),
+            new Case( 48000,       8 ),
+            new Case( 96000,   48000 ),
+            new Case( 88200,   44100 ),
+            new Case( 44100,   48000 ),
+            new Case( 22050,   44100 ),
+            new Case( 11025,   44100 ),
+            new Case(     8,   48000 ),
+            new Case( 48000,      16 ),
+            new Case( 48000,      19 ),
+            new Case( 48000,      31 ),
+            new Case( 48000,      61 ),
+            new Case( 48000,     100 ),
+            new Case( 48000,    1000 ),
+            new Case( 48000,   12345 ),
+            new Case( 48000, 1234567 ),
         };
-        
-        static IEnumerable<object[]> TestParametersWithEmpties => new[]
+
+        static Case[] _casesWithEmpties = new[]
         {
-            new object[] { 1234567 ,  null },
-            new object[] {    null , 12345 },
-            
-        }.Concat(TestParameters);
+            new Case( 1234567,  null ),
+            new Case(    null, 12345 )
+        }
+        .Concat(_cases).ToArray();
 
-        static Dictionary<string, Case> _caseDictionary = _casesInit.ToDictionary(x => x.Descriptor);
-
-        class Case
+        static Dictionary<string, Case> _caseDictionary = _casesWithEmpties.Concat(_casesInit)
+                                                                           .Distinct(x => x.Descriptor)
+                                                                           .ToDictionary(x => x.Descriptor);
+        private class Case
         {
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount { get; set; } = new CaseProp<int>();
@@ -419,9 +445,31 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
             
             public Case(int frameCount) => FrameCount = frameCount;
             public Case(int from, int to) { FrameCount.From = from; FrameCount.To = to; }
+             
+            public Case(int? from, int to)
+            {
+                FrameCount.FromNully     = from;
+                FrameCount.FromCoalesced = Coalesce(from); 
+                FrameCount.To            = to;
+            }
+            
+            public Case(int from, int? to)
+            {
+                FrameCount.From        = from;
+                FrameCount.ToNully     = to;
+                FrameCount.ToCoalesced = Coalesce(to);
+            }
+            
+            public Case(int? from, int? to)
+            { 
+                FrameCount.FromNully     = from; 
+                FrameCount.FromCoalesced = Coalesce(from);
+                FrameCount.ToNully       = to;
+                FrameCount.ToCoalesced   = Coalesce(to);
+            }
         }
                             
-        class CaseProp<T> where T : struct
+        private class CaseProp<T> where T : struct
         {
             public T? FromNully     { get; set; }
             public T  FromCoalesced { get; set; }
