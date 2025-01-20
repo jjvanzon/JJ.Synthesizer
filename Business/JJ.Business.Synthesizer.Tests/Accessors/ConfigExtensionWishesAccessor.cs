@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     internal static class BitExtensionWishesAccessor
     {
         private static readonly Type _underlyingType = typeof(BitExtensionWishes);
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(_underlyingType);
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(_underlyingType);
         
         // With ConfigResolver
         
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class ChannelsExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(ChannelsExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(ChannelsExtensionWishes));
         
         // With ConfigResolver
         
@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class ChannelExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(ChannelExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(ChannelExtensionWishes));
         
         // With ConfigResolver
         
@@ -95,7 +95,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class SamplingRateExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(SamplingRateExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(SamplingRateExtensionWishes));
         
         // With ConfigResolver
         
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class AudioFormatExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(AudioFormatExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(AudioFormatExtensionWishes));
 
         // With ConfigResolver
         
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class InterpolationExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(InterpolationExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(InterpolationExtensionWishes));
 
         // With ConfigResolver
         
@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class CourtesyFrameExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(CourtesyFrameExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(CourtesyFrameExtensionWishes));
         
         // With ConfigResolver
         
@@ -189,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class SizeOfBitDepthExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(SizeOfBitDepthExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(SizeOfBitDepthExtensionWishes));
         
         // With ConfigResolver
         
@@ -208,7 +208,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class FrameSizeExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(FrameSizeExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(FrameSizeExtensionWishes));
         
         internal static int  FrameSize(this ConfigResolverAccessor  obj)  => (int)_accessor.InvokeMethod(MemberName(), obj.Obj);
         internal static int? FrameSize(this ConfigSectionAccessor   obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class HeaderLengthExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(HeaderLengthExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(HeaderLengthExtensionWishes));
         
         public static int? HeaderLength(this ConfigResolverAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static int? HeaderLength(this ConfigSectionAccessor  obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
@@ -264,7 +264,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class AudioLengthExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(AudioLengthExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(AudioLengthExtensionWishes));
         
         // With ConfigResolver
         
@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
     internal static class FrameCountExtensionWishesAccessor
     {
-        private static readonly Accessor_Copied_Adapted _accessor = new Accessor_Copied_Adapted(typeof(FrameCountExtensionWishes));
+        private static readonly Accessor_AdaptedFromFramework _accessor = new Accessor_AdaptedFromFramework(typeof(FrameCountExtensionWishes));
 
         // With ConfigResolver
         

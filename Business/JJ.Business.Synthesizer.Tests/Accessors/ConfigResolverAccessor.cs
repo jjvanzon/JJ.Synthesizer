@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private static readonly Type _underlyingType = GetUnderlyingType();
         private static readonly Accessor _staticAccessor = new Accessor(_underlyingType);
-        private readonly Accessor_Copied_Adapted _accessor;
+        private readonly Accessor_AdaptedFromFramework _accessor;
         public object Obj { get; }
         
         private static Type GetUnderlyingType()
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public ConfigResolverAccessor(object obj)
         {
-            _accessor = new Accessor_Copied_Adapted(obj, _underlyingType);
+            _accessor = new Accessor_AdaptedFromFramework(obj, _underlyingType);
             Obj = obj;
         }
         
