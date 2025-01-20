@@ -338,6 +338,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return title + NewLine + dashes;
         }
     
+        // TODO: Move to Framework.
         /// <inheritdoc cref="docs._membername"/>
         public static string MemberName([CallerMemberName] string calledMemberName = null)
             => calledMemberName.CutLeft("get_").CutLeft("set_");
