@@ -302,22 +302,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
 
         private void Assert_Independent_Getters(Sample sample, double audioLength)
         {
-            AreEqual(audioLength, sample.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, () => sample.AudioLength(), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength, int courtesyFrames)
         {
-            AreEqual(audioLength, audioFileInfo.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, () => audioFileInfo.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength, int courtesyFrames)
         {
-            AreEqual(audioLength, audioInfoWish.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, () => audioInfoWish.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, double audioLength, int courtesyFrames)
         {
-            AreEqual(audioLength, wavHeader.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, () => wavHeader.AudioLength(courtesyFrames), ToleranceByPercent(audioLength, _tolerancePercent));
         }
          
         // Tolerance Helpers

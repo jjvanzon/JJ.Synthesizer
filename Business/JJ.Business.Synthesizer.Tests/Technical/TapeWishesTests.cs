@@ -176,11 +176,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Console.WriteLine($"{new { operandValue1, operandValue2, operandValue3 }}");
 
             // Assert Values
-            Assert.AreEqual(0.1 + 0.2 + 0.3, operandValue1 + operandValue2 + operandValue3, tolerance);
-            Assert.AreEqual(0.1,             operandValuesSorted[0],                        tolerance);
-            Assert.AreEqual(0.2,             operandValuesSorted[1],                        tolerance);
-            Assert.AreEqual(0.3,             operandValuesSorted[2],                        tolerance);
-            Assert.AreEqual(0.1 + 0.2 + 0.3, adderResult,                                   tolerance);
+            AreEqual(0.1 + 0.2 + 0.3,       operandValue1 + operandValue2 + operandValue3, tolerance);
+            AreEqual(0.1,             () => operandValuesSorted[0],                        tolerance);
+            AreEqual(0.2,             () => operandValuesSorted[1],                        tolerance);
+            AreEqual(0.3,             () => operandValuesSorted[2],                        tolerance);
+            AreEqual(0.1 + 0.2 + 0.3, () => adderResult,                                   tolerance);
         }
 
         [TestMethod] public void Tape_ConstSignal_WithPlayAllTapes_Test() => Run(Tape_ConstSignal_WithPlayAllTapes);
