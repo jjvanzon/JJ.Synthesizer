@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Reflection_Copied;
+using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors

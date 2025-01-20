@@ -2,9 +2,8 @@
 using JJ.Framework.Reflection;
 using System.Reflection;
 using System;
-using System.Linq.Expressions;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Wishes.Reflection_Copied;
+using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors

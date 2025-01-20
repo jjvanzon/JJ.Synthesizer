@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using JJ.Framework.Wishes.Text_Copied;
+using JJ.Framework.Common;
 using JJ.Framework.Wishes.Text;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
-using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;

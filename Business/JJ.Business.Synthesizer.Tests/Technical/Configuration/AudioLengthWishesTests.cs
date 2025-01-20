@@ -11,6 +11,7 @@ using static System.Math;
 using static JJ.Business.Synthesizer.Tests.Technical.Configuration.TestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;

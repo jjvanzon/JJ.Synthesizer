@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Threading.Thread;
 using static JJ.Framework.Wishes.Mathematics.RandomizerWishes;
-using static JJ.Framework.Wishes.Mathematics_Copied.Randomizer_Copied;
+using static JJ.Framework.Wishes.Mathematics.Randomizer_Copied;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 // ReSharper disable ExplicitCallerInfoArgument
