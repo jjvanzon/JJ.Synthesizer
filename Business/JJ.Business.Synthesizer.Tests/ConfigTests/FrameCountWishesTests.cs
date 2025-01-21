@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Persistence.Synthesizer;
+using System.Text;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Wishes.Collections;
+using JJ.Persistence.Synthesizer;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
@@ -20,10 +21,10 @@ using static JJ.Framework.Wishes.Testing.AssertWishes;
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
+namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Technical")]
+    [TestCategory("Configuration")]
     public class FrameCountWishesTests
     {
         int _tolerance = 1; // TODO: Only use downward delta. Program something in JJ.Framework.

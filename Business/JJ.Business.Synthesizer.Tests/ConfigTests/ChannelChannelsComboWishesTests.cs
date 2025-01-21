@@ -1,4 +1,8 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -9,10 +13,10 @@ using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
+namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Technical")]
+    [TestCategory("Configuration")]
     public class ChannelChannelsComboWishesTests
     {
         // Channels/Channel Combos

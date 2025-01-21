@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
@@ -16,7 +18,7 @@ using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
+namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     internal class TapeEntities
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
@@ -14,10 +15,10 @@ using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
+namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Technical")]
+    [TestCategory("Configuration")]
     public class SamplingRateWishesTests
     {
         

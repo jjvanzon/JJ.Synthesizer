@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
@@ -15,10 +17,10 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 #pragma warning disable CS0611 
 #pragma warning disable MSTEST0018 
 
-namespace JJ.Business.Synthesizer.Tests.Technical.Configuration
+namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Technical")]
+    [TestCategory("Configuration")]
     public class ChannelsWishesTests
     {
         [TestMethod, DataRow(null), DataRow(0), DataRow(1) ,DataRow(2)]

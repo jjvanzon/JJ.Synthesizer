@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Tests.Technical.Configuration;
+using JJ.Business.Synthesizer.Tests.ConfigTests;
 using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
