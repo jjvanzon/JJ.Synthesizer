@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     [TestCategory("Configuration")]
     public class FrameCountWishesTests
     {
-        int _tolerance = 1; // TODO: Only use downward delta. Program something in JJ.Framework.
+        int _tolerance = -1;
 
         static Case[] _casesInit = // ncrunch: no coverage
         {
@@ -317,22 +317,22 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_All_Getters(TestEntities x, int frameCount)
         {
-            Assert_Bound_Getters(x, frameCount);
+            Assert_Bound_Getters      (x, frameCount);
             Assert_Independent_Getters(x, frameCount);
-            Assert_Immutable_Getters(x, frameCount);
+            Assert_Immutable_Getters  (x, frameCount);
         }
 
         private void Assert_Bound_Getters(TestEntities x, int frameCount)
         {
             Assert_SynthBound_Getters(x, frameCount);
-            Assert_TapeBound_Getters(x, frameCount);
-            Assert_BuffBound_Getters(x, frameCount);
+            Assert_TapeBound_Getters (x, frameCount);
+            Assert_BuffBound_Getters (x, frameCount);
         }
         
         private void Assert_Independent_Getters(TestEntities x, int frameCount)
         {
             // Independent after Taping
-            Assert_Independent_Getters(x.Independent.Sample, frameCount);
+            Assert_Independent_Getters(x.Independent.Sample       , frameCount);
             Assert_Independent_Getters(x.Independent.AudioInfoWish, frameCount);
             Assert_Independent_Getters(x.Independent.AudioFileInfo, frameCount);
         }
@@ -344,23 +344,22 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, int frameCount)
         {
-            //AreEqual(frameCount, () => x.SynthBound.SynthWishes.FrameCount());
-            AreEqual(frameCount, () => x.SynthBound.SynthWishes.FrameCount(), _tolerance);
-            AreEqual(frameCount, () => x.SynthBound.FlowNode.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.SynthBound.SynthWishes   .FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.SynthBound.FlowNode      .FrameCount(), _tolerance);
             AreEqual(frameCount, () => x.SynthBound.ConfigResolver.FrameCount(x.SynthBound.SynthWishes), _tolerance);
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.TapeBound.Tape.FrameCount(), _tolerance);
-            AreEqual(frameCount, () => x.TapeBound.TapeConfig.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.TapeBound.Tape       .FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.TapeBound.TapeConfig .FrameCount(), _tolerance);
             AreEqual(frameCount, () => x.TapeBound.TapeActions.FrameCount(), _tolerance);
-            AreEqual(frameCount, () => x.TapeBound.TapeAction.FrameCount(), _tolerance);
+            AreEqual(frameCount, () => x.TapeBound.TapeAction .FrameCount(), _tolerance);
         }
         
         private void Assert_BuffBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
+            AreEqual(frameCount, () => x.BuffBound.Buff           .FrameCount(x.Immutable.CourtesyFrames), _tolerance);
             AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
         }
         
@@ -372,13 +371,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int frameCount)
         {
             AreEqual(frameCount, () => audioInfoWish.FrameCount(), _tolerance);
-            AreEqual(frameCount, () => audioInfoWish.FrameCount, _tolerance);
+            AreEqual(frameCount, () => audioInfoWish.FrameCount  , _tolerance);
         }
 
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int frameCount)
         {
             AreEqual(frameCount, () => audioFileInfo.FrameCount(), _tolerance);
-            AreEqual(frameCount, () => audioFileInfo.SampleCount, _tolerance);
+            AreEqual(frameCount, () => audioFileInfo.SampleCount , _tolerance);
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int frameCount)
