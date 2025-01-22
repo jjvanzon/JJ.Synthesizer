@@ -18,6 +18,7 @@ using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
+using JJ.Framework.Wishes.Common;
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
