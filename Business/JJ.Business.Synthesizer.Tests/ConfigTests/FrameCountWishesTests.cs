@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Wishes.Collections;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
@@ -121,8 +122,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(value, x.SynthBound.SynthWishes)));
         }
 
-        //[TestMethod] 
-        //[DynamicData(nameof(CaseKeys))]
+        [TestMethod] 
+        [DynamicData(nameof(CaseKeys))]
         public void TapeBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -137,7 +138,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 setter(x);
                 
                 Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters(x, val);
+                Assert_TapeBound_Getters(x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
                 Assert_BuffBound_Getters(x, init);
                 Assert_Independent_Getters(x, init);
                 Assert_Immutable_Getters(x, init);
@@ -152,8 +153,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .FrameCount(val)));
         }
 
-        //[TestMethod] 
-        //[DynamicData(nameof(CaseKeys))]
+        [TestMethod] 
+        [DynamicData(nameof(CaseKeys))]
         public void BuffBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -167,17 +168,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters(x, init);
-                Assert_BuffBound_Getters(x, value);
-                Assert_Independent_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_SynthBound_Getters     (x, init );
+                Assert_TapeBound_Getters      (x, init );
+                Assert_Buff_Getters           (x, init ); // By Design: Buff's "too buff" to change! FrameCount will be based on bytes!
+                Assert_AudioFileOutput_Getters(x, value); // By Design: "Out" will take on new properties when asked.
+                Assert_Independent_Getters    (x, init );
+                Assert_Immutable_Getters      (x, init );
                 
                 x.Record();
                 Assert_All_Getters(x, init);
             }
 
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.FrameCount(value, courtesyFrames: 2))); // TODO: Replace hard coded value for courtesyFrames.
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .FrameCount(value, testCase.CourtesyFrames)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.FrameCount(value, testCase.CourtesyFrames)));
         }
         
         [TestMethod] 
@@ -286,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Immutable. Get-only.
             
             // Config
-            var configSection = TestEntities.GetConfigSectionAccessor();
+            var configSection = GetConfigSectionAccessor();
             int configCourtesyFrames = 2;
             AreEqual(DefaultFrameCount - DefaultCourtesyFrames + configCourtesyFrames, () => configSection.FrameCount());
             
@@ -359,8 +362,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_BuffBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.BuffBound.Buff           .FrameCount(x.Immutable.CourtesyFrames), _tolerance);
+            Assert_Buff_Getters           (x, frameCount);
+            Assert_AudioFileOutput_Getters(x, frameCount);
+        }
+
+        private void Assert_AudioFileOutput_Getters(TestEntities x, int frameCount)
+        {
             AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
+        }
+        
+        private void Assert_Buff_Getters(TestEntities x, int frameCount)
+        {
+            AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
         }
         
         private void Assert_Independent_Getters(Sample sample, int frameCount)
