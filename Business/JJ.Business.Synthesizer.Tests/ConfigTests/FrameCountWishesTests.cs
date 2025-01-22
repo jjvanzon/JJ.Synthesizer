@@ -28,9 +28,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     [TestCategory("Configuration")]
     public class FrameCountWishesTests
     {
-        int _tolerance = -1;
+        private int _tolerance = -1;
 
-        static Case[] _casesInit = // ncrunch: no coverage
+        // ncrunch: no coverage start
+        
+        private static Case[] _casesInit = 
         {
             new Case(  96000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
             new Case(  88200+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
@@ -50,6 +52,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case( 123456+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         
+        private static object CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
+
+        // ncrunch: no coverage end
+        
         [DataTestMethod]
         [DynamicData(nameof(CaseKeysInit))]
         public void Init_FrameCount(string caseKey)
@@ -59,38 +65,49 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_All_Getters(x, testCase);
         }
         
-        static Case[] _cases = // ncrunch: no coverage
+        // ncrunch: no coverage start
+        
+        static Case[] _cases =
         {
-            new Case( 48000+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,  96000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,  88200+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,  22050+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,  11025+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,      8+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 96000+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 88200+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 44100+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 22050+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 11025+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(     8+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,     16+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,     19+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,     31+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,     61+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,    100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,   1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3,  12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 48000+3, 123456+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
+            new Case( 4800+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,  9600+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,  8820+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,  2205+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,  1102+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,     8+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 9600+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 8820+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4410+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 2205+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 1102+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(    8+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,    16+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,    19+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,    31+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,    61+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,   100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,  1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3,  1234+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 4800+3, 12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         
-        static Case[] _casesWithEmpties = new[] // ncrunch: no coverage
+        private static object CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
+
+        private static Case[] _casesWithEmpties = new[] // ncrunch: no coverage
         {
-            new Case( 123456,  null ),
-            new Case(   null, 12345 )
+            new Case( 4800, null ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( null, 4800 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         }
         .Concat(_cases).ToArray();
         
+        private static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
+        
+        static Dictionary<string, Case> _caseDictionary = _casesWithEmpties.Concat(_casesInit)
+                                                                           .Distinct(x => x.Descriptor)
+                                                                           .ToDictionary(x => x.Descriptor);
+        // ncrunch: no coverage end
+         
         [TestMethod] 
         [DynamicData(nameof(CaseKeys))]
         //[DynamicData(nameof(CaseKeysWithEmpties))]
