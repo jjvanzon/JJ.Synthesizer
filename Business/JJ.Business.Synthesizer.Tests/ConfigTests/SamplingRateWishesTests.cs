@@ -231,11 +231,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             wavHeaders.ForEach(w => Assert_Immutable_Getters(w, value));
         }
 
-        [TestMethod] public void ConfigSections_SamplingRate()
+        [TestMethod]
+        public void ConfigSection_SamplingRate()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = TestEntities.GetConfigSectionAccessor();
-            
+            // Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(DefaultSamplingRate, () => configSection.SamplingRate);
             AreEqual(DefaultSamplingRate, () => configSection.SamplingRate());
         }

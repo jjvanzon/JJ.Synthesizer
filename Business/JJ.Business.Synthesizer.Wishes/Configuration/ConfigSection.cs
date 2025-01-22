@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
-    
+    /// <inheritdoc cref="docs._leafchecktimeout" />
     public enum TimeOutActionEnum
     {
         Undefined,
@@ -26,8 +26,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         [XmlAttribute] public int? SamplingRate { get; set; }
         [XmlAttribute] public AudioFileFormatEnum? AudioFormat { get; set; }
         [XmlAttribute] public InterpolationTypeEnum? Interpolation { get; set; }
+        [XmlAttribute] public int? CourtesyFrames { get; set; }
         
-        // Audio Lengths
+        // Durations
         
         /// <inheritdoc cref="docs._notelength" />
         [XmlAttribute] public double? NoteLength { get; set; }
@@ -50,22 +51,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
         public ConfigToolingElement NCrunch { get; set; } = new ConfigToolingElement();
         
-        // Misc Settings
+        // Misc
         
         /// <inheritdoc cref="docs._leafchecktimeout" />
         [XmlAttribute] public double? LeafCheckTimeOut { get; set; }
         /// <inheritdoc cref="docs._leafchecktimeout" />
         [XmlAttribute] public TimeOutActionEnum? TimeOutAction { get; set; }
-        [XmlAttribute] public int? CourtesyFrames { get; set; }
         [XmlAttribute] public int? FileExtensionMaxLength { get; set; }
         [XmlAttribute] public string LongTestCategory { get; set; }
-    }
-
-    internal class ConfigToolingElement
-    {
-        [XmlAttribute] public bool? AudioPlayback { get; set; }
-        [XmlAttribute] public int? SamplingRate { get; set; }
-        [XmlAttribute] public int? SamplingRateLongRunning { get; set; }
-        [XmlAttribute] public bool? ImpersonationMode { get; set; }
     }
 }

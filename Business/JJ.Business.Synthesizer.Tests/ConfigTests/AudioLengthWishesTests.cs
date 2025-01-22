@@ -240,11 +240,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             wavHeaders.ForEach(w => Assert_Immutable_Getters(w, value, x.Immutable.CourtesyFrames));
         }
 
-        [TestMethod] public void ConfigSections_AudioLength()
+        [TestMethod] public void ConfigSection_AudioLength()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = GetConfigSectionAccessor();
-            
+            // Synth-Bound. Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(DefaultAudioLength, () => configSection.AudioLength);
             AreEqual(DefaultAudioLength, () => configSection.AudioLength());
         }

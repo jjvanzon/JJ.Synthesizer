@@ -234,10 +234,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             interpolationEntity    .ForEach(s => Assert_Independent_Getters(s, value));
         }
 
-        [TestMethod] public void ConfigSections_Interpolation()
+        [TestMethod]
+        public void ConfigSection_Interpolation()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = TestEntities.GetConfigSectionAccessor();
+            // Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             
             AreEqual(DefaultInterpolation,          () => configSection.Interpolation);
             AreEqual(DefaultInterpolation,          () => configSection.Interpolation());

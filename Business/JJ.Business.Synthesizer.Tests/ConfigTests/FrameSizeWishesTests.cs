@@ -249,10 +249,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod]
-        public void GlobalBound_FrameSize()
+        public void ConfigSection_FrameSize()
         {
             // Immutable. Get-only.
-            var configSection = GetConfigSectionAccessor();
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(DefaultBits / 8 * DefaultChannels      , () => DefaultFrameSize);
             AreEqual(FrameSize(DefaultBits, DefaultChannels), () => configSection.FrameSize());
         }

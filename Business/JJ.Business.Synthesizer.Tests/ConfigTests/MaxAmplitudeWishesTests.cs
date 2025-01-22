@@ -405,10 +405,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod]
-        public void GlobalBound_MaxAmplitude()
+        public void ConfigSection_MaxAmplitude()
         {
             // Immutable. Get-only.
-            var configSection = GetConfigSectionAccessor();
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(1, () => DefaultBits.MaxAmplitude());
             AreEqual(DefaultBits.MaxAmplitude(), () => configSection.MaxAmplitude());
         }

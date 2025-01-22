@@ -17,7 +17,6 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 
 #pragma warning disable CS0611
@@ -301,12 +300,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod]
-        public void GlobalBound_FrameCount()
+        public void ConfigSection_FrameCount()
         {
             // Immutable. Get-only.
             
             // Config
-            var configSection = GetConfigSectionAccessor();
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             int configCourtesyFrames = 2;
             AreEqual(DefaultFrameCount - DefaultCourtesyFrames + configCourtesyFrames, () => configSection.FrameCount());
             
@@ -419,6 +419,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private TestEntities CreateTestEntities(Case testCase)
         {
+            testCase = testCase ?? new Case();
+            
             return new TestEntities(x =>
             {
                 // Impersonate NCrunch for reliable default SamplingRate of 10 Hz.

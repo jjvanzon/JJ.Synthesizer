@@ -76,9 +76,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     
     internal class TestEntities : TapeEntities
     {   
-        // Global-Bound (read-only)
-        public static ConfigSectionAccessor GetConfigSectionAccessor() => ConfigResolverAccessor._section;
-        
         public SynthBoundEntities SynthBound { get; set; } = new SynthBoundEntities();
         
         public class SynthBoundEntities
@@ -88,6 +85,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public FlowNode               FlowNode       { get; set; }
             public FlowNode               FlowNode2      { get; set; }
             public ConfigResolverAccessor ConfigResolver { get; set; }
+            public ConfigSectionAccessor  ConfigSection  { get; set; }
         }
                                                        
         // Tape-Bound
@@ -99,11 +97,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             var synthWishes = new SynthWishes(context);
             
+            var synthWishesAccessor = new SynthWishesAccessor(synthWishes);
+            
             SynthBound = new SynthBoundEntities
             {
                 SynthWishes    = synthWishes,
                 Context        = synthWishes.Context,
-                ConfigResolver = new SynthWishesAccessor(synthWishes).Config,
+                ConfigResolver = synthWishesAccessor.Config,
+                ConfigSection  = synthWishesAccessor.Config._section,
                 FlowNode       = synthWishes.Sine(),
                 FlowNode2      = synthWishes.Sine() / 2
             };

@@ -10,23 +10,22 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class ConfigResolverAccessor
     {
-        private static readonly Type _underlyingType = GetUnderlyingType();
-        private static readonly Accessor _staticAccessor = new Accessor(_underlyingType);
         private readonly Accessor_AdaptedFromFramework _accessor;
+        
         public object Obj { get; }
+        
+        public ConfigResolverAccessor(object obj)
+        {
+            _accessor = new Accessor_AdaptedFromFramework(obj, GetUnderlyingType());
+            Obj = obj;
+        }
         
         private static Type GetUnderlyingType()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
             string   typeName = "JJ.Business.Synthesizer.Wishes.Configuration.ConfigResolver";
             Type     type     = assembly.GetType(typeName, true);
-            return type;
-        }
-        
-        public ConfigResolverAccessor(object obj)
-        {
-            _accessor = new Accessor_AdaptedFromFramework(obj, _underlyingType);
-            Obj = obj;
+            return   type;
         }
         
         public override bool Equals(object obj)
@@ -36,8 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             return false;
         }
         
-        public static ConfigSectionAccessor _section 
-            => new ConfigSectionAccessor(_staticAccessor.GetFieldValue(MemberName()));
+        public ConfigSectionAccessor _section => new ConfigSectionAccessor(_accessor.GetFieldValue(MemberName()));
         
         public int _channel
         {

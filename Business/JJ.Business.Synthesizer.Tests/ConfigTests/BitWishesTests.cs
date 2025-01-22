@@ -392,9 +392,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void ConfigSection_Bits()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = TestEntities.GetConfigSectionAccessor();
-            
+            // Synth-Bound. Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(DefaultBits,       () => configSection.Bits);
             AreEqual(DefaultBits,       () => configSection.Bits());
             AreEqual(DefaultBits == 8,  () => configSection.Is8Bit());

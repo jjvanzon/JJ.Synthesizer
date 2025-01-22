@@ -431,9 +431,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void ConfigSection_SizeOfBitDepth()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = GetConfigSectionAccessor();
-            
+            // Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(DefaultBits / 8, () => configSection.SizeOfBitDepth());
         }
 

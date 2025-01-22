@@ -262,11 +262,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod] 
-        public void GlobalBound_HeaderLength()
+        public void ConfigSection_HeaderLength()
         {
             // Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(44, () => DefaultAudioFormat.HeaderLength());
-            AreEqual(DefaultAudioFormat.HeaderLength(), () => GetConfigSectionAccessor().HeaderLength());
+            AreEqual(DefaultAudioFormat.HeaderLength(), () => configSection.HeaderLength());
         }
 
         // Getter Helpers

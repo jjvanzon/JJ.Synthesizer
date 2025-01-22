@@ -287,11 +287,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod]
-        public void ConfigSections_AudioFormat()
+        public void ConfigSection_AudioFormat()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = GetConfigSectionAccessor();
-            
+            // Synth-Bound. Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(DefaultAudioFormat,        () => configSection.AudioFormat);
             AreEqual(DefaultAudioFormat,        () => configSection.AudioFormat());
             AreEqual(DefaultAudioFormat == Raw, () => configSection.IsRaw());

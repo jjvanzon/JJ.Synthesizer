@@ -287,11 +287,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod] 
-        public void GlobalBound_FileExtension()
+        public void ConfigSection_FileExtension()
         {
-            // Immutable. Get-only.
+            // Synth-Bound. Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(".wav", () => DefaultAudioFormat.FileExtension());
-            AreEqual(DefaultAudioFormat.FileExtension(), () => GetConfigSectionAccessor().FileExtension());
+            AreEqual(DefaultAudioFormat.FileExtension(), () => configSection.FileExtension());
         }
         
         [TestMethod]

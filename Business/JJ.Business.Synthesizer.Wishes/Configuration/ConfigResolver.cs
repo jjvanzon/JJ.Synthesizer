@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <summary> For static contexts use this. </summary>
         internal static ConfigResolver Static { get; } = new ConfigResolver();
         
-        private static readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
         // Audio Attributes
         

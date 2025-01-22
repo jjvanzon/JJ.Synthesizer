@@ -83,8 +83,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void ConfigSection_CourtesyFrames()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = GetConfigSectionAccessor();
+            // Synth-Bound. Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             int circumstantialConfigValue = 2;
             AreEqual(circumstantialConfigValue, () => configSection.CourtesyFrames);
             AreEqual(circumstantialConfigValue, () => configSection.CourtesyFrames());

@@ -351,11 +351,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             speakerSetups    .ForEach(s => Assert_Immutable_Getters(s, value));
         }
 
-        [TestMethod] public void ConfigSections_Channels()
+        [TestMethod] public void ConfigSection_Channels()
         {
-            // Global-Bound. Immutable. Get-only.
-            var configSection = TestEntities.GetConfigSectionAccessor();
-            
+            // Synth-Bound. Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
             AreEqual(DefaultChannels,      () => configSection.Channels);
             AreEqual(DefaultChannels,      () => configSection.Channels());
             AreEqual(DefaultChannels == 1, () => configSection.IsMono());

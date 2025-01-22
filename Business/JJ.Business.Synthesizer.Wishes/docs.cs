@@ -9,7 +9,7 @@
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    internal struct docs
+    public struct docs
     {
         /// <summary> 
         /// Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible.

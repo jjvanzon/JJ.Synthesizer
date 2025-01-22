@@ -1,0 +1,55 @@
+﻿using JJ.Business.Synthesizer.Wishes;
+using JJ.Framework.Reflection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
+
+namespace JJ.Business.Synthesizer.Tests.Accessors
+{
+    internal class ConfigToolingElementAccessor
+    {
+        public object Obj { get; }
+        
+        private readonly Accessor _accessor;
+        
+        public ConfigToolingElementAccessor(object obj)
+        {
+            _accessor = new Accessor(obj, GetUnderlyingType());
+            Obj = obj;
+        }
+        
+        private Type GetUnderlyingType()
+        {
+            Assembly assembly = typeof(SynthWishes).Assembly;
+            string   typeName = "JJ.Business.Synthesizer.Wishes.Configuration.ConfigToolingElement";
+            return   assembly.GetType(typeName, true);
+        }
+        
+        public bool? AudioPlayback
+        {
+            get => (bool?)_accessor.GetPropertyValue(MemberName());
+            set =>        _accessor.SetPropertyValue(MemberName(), value);
+        }
+        
+        public int? SamplingRate
+        {
+            get => (int?)_accessor.GetPropertyValue(MemberName());
+            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+        }
+
+        public int? SamplingRateLongRunning
+        {
+            get => (int?)_accessor.GetPropertyValue(MemberName());
+            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+        }
+                
+        public bool? ImpersonationMode
+        {
+            get => (bool?)_accessor.GetPropertyValue(MemberName());
+            set =>        _accessor.SetPropertyValue(MemberName(), value);
+        }
+    }
+}
