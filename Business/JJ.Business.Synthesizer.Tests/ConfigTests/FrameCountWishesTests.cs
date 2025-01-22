@@ -31,22 +31,22 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         static Case[] _casesInit = // ncrunch: no coverage
         {
-            new Case(  96000 ) { SamplingRate = 48000 },
-            new Case(  88200 ) { SamplingRate = 48000 },
-            new Case(  48000 ) { SamplingRate = 48000 },
-            new Case(  44100 ) { SamplingRate = 48000 },
-            new Case(  22050 ) { SamplingRate = 48000 },
-            new Case(  11025 ) { SamplingRate = 48000 },
-            new Case(      8 ) { SamplingRate = 48000 },
-            new Case(     16 ) { SamplingRate = 48000 },
-            new Case(     19 ) { SamplingRate = 48000 },
-            new Case(     31 ) { SamplingRate = 48000 },
-            new Case(     61 ) { SamplingRate = 48000 },
-            new Case(    100 ) { SamplingRate = 48000 },
-            new Case(   1000 ) { SamplingRate = 48000 },
-            new Case(   1003 ) { SamplingRate = 48000, CourtesyFrames = 3 }, 
-            new Case(  12345 ) { SamplingRate = 48000 },
-            new Case( 123456 ) { SamplingRate = 48000 }
+            new Case(  96000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  88200+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  22050+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  11025+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(      8+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(     16+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(     19+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(     31+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(     61+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(    100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(   1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(   1003+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }, 
+            new Case(  12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 123456+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         
         [DataTestMethod]
@@ -60,27 +60,27 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static Case[] _cases = // ncrunch: no coverage
         {
-            new Case( 48000,  96000 ) { SamplingRate = 48000 },
-            new Case( 48000,  88200 ) { SamplingRate = 48000 },
-            new Case( 48000,  48000 ) { SamplingRate = 48000 },
-            new Case( 48000,  44100 ) { SamplingRate = 48000 },
-            new Case( 48000,  22050 ) { SamplingRate = 48000 },
-            new Case( 48000,  11025 ) { SamplingRate = 48000 },
-            new Case( 48000,      8 ) { SamplingRate = 48000 },
-            new Case( 96000,  48000 ) { SamplingRate = 48000 },
-            new Case( 88200,  44100 ) { SamplingRate = 48000 },
-            new Case( 44100,  48000 ) { SamplingRate = 48000 },
-            new Case( 22050,  44100 ) { SamplingRate = 48000 },
-            new Case( 11025,  44100 ) { SamplingRate = 48000 },
-            new Case(     8,  48000 ) { SamplingRate = 48000 },
-            new Case( 48000,     16 ) { SamplingRate = 48000 },
-            new Case( 48000,     19 ) { SamplingRate = 48000 },
-            new Case( 48000,     31 ) { SamplingRate = 48000 },
-            new Case( 48000,     61 ) { SamplingRate = 48000 },
-            new Case( 48000,    100 ) { SamplingRate = 48000 },
-            new Case( 48000,   1000 ) { SamplingRate = 48000 },
-            new Case( 48000,  12345 ) { SamplingRate = 48000 },
-            new Case( 48000, 123456 ) { SamplingRate = 48000 }
+            new Case( 48000+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,  96000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,  88200+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,  22050+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,  11025+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,      8+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 96000+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 88200+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 44100+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 22050+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 11025+3,  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(     8+3,  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,     16+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,     19+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,     31+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,     61+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,    100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,   1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3,  12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 48000+3, 123456+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         
         static Case[] _casesWithEmpties = new[] // ncrunch: no coverage
