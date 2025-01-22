@@ -494,26 +494,35 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public Case(int frameCount) => From = To = frameCount;
             public Case(int from, int to) { From = from; To = to; }
              
+            public Case(int from, (int? nully, int coalesced) to)
+            {
+                From         = from;
+                To.Nully     = to.nully;
+                To.Coalesced = to.coalesced;
+            }
+            public Case((int? nully, int coalesced) from, int to)
+            {
+                From.Nully     = from.nully;
+                From.Coalesced = from.coalesced;
+                To             = to;
+            }
+             
             public Case(int? from, int to)
             {
-                From.Nully     = from;
-                //From.Coalesced = Coalesce(from); 
-                To            = to;
+                From.Nully = from;
+                To         = to;
             }
             
             public Case(int from, int? to)
             {
-                From         = from;
-                To.Nully     = to;
-                //To.Coalesced = Coalesce(to);
+                From     = from;
+                To.Nully = to;
             }
             
             public Case(int? from, int? to)
             { 
-                From.Nully     = from; 
-                //From.Coalesced = Coalesce(from);
-                To.Nully       = to;
-                //To.Coalesced   = Coalesce(to);
+                From.Nully = from; 
+                To.Nully   = to;
             }
             
             public override string ToString() => Descriptor;
