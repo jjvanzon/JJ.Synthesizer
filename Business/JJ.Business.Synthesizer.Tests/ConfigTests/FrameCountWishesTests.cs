@@ -453,7 +453,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 {
                     string descriptor = base.Descriptor;
                     string samplingRateDescriptor = SamplingRate.Descriptor;
-                    if (Has(samplingRateDescriptor)) descriptor += $" ({samplingRateDescriptor})";
+                    string courtesyFramesDescriptor = CourtesyFrames.Descriptor;
+                    if (Has(samplingRateDescriptor)) descriptor += $" ({samplingRateDescriptor}Hz+{courtesyFramesDescriptor})";
                     return descriptor;
                 }
             }
