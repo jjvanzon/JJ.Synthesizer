@@ -83,12 +83,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void ConfigSection_CourtesyFrames()
         {
-            // Synth-Bound. Immutable. Get-only.
-            var x = CreateTestEntities(default);
-            var configSection = x.SynthBound.ConfigSection;
-            int circumstantialConfigValue = 2;
-            AreEqual(circumstantialConfigValue, () => configSection.CourtesyFrames);
-            AreEqual(circumstantialConfigValue, () => configSection.CourtesyFrames());
+            // Get-only
+            var configSection = CreateTestEntities().SynthBound.ConfigSection;
+            AreEqual(DefaultCourtesyFrames, () => configSection.CourtesyFrames);
+            AreEqual(DefaultCourtesyFrames, () => configSection.CourtesyFrames());
         }
         
         [TestMethod]
@@ -131,7 +129,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities(int? courtesyFrames) => new TestEntities(x => x.CourtesyFrames(courtesyFrames));
+        private TestEntities CreateTestEntities(int? courtesyFrames = default) => new TestEntities(x => x.CourtesyFrames(courtesyFrames));
         
         // ncrunch: no coverage start
         
@@ -173,7 +171,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // ncrunch: no coverage end
         
-        static int CoalesceDefault(int? courtesyFrames) 
-            => CoalesceCourtesyFrames(courtesyFrames, 2);
+        static int CoalesceDefault(int? courtesyFrames) => CoalesceCourtesyFrames(courtesyFrames);
     } 
 }

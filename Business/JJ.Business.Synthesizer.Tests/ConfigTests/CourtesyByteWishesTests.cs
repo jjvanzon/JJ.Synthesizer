@@ -105,13 +105,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void ConfigSection_CourtesyBytes()
         {
-            // Synth-Bound. Immutable. Get-only.
-            var x = CreateTestEntities(default);
-            var configSection = x.SynthBound.ConfigSection;
-            int circumstantialCourtesyFrames = 2;
-            int circumstantialCourtesyBytes = CourtesyBytes(circumstantialCourtesyFrames, configSection.Bits, configSection.Channels);
-            AreEqual(circumstantialCourtesyBytes, () => configSection.CourtesyBytes());
-            AreEqual(4 * 32 / 8, () => DefaultCourtesyBytes);
+            // Get-only
+            var configSection = CreateTestEntities().SynthBound.ConfigSection;
+            int? expected = configSection.CourtesyFrames * configSection.Bits / 8 * configSection.Channels;
+            AreEqual(expected, () => configSection.CourtesyBytes());
+        }
+        
+        [TestMethod]
+        public void Default_CourtesyBytes()
+        {
+            int expected = DefaultCourtesyFrames * DefaultBits / 8 * DefaultChannels;
+            AreEqual(expected, () => DefaultCourtesyBytes);
         }
 
         [TestMethod]
@@ -157,7 +161,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
 
-        private static TestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init) 
+        private static TestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default) 
             => new TestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels));
 
         // ncrunch: no coverage start

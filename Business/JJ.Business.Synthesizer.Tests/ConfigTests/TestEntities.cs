@@ -81,12 +81,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         public class SynthBoundEntities
         {
-            public SynthWishes            SynthWishes    { get; set; }
-            public IContext               Context        { get; set; }
-            public FlowNode               FlowNode       { get; set; }
-            public FlowNode               FlowNode2      { get; set; }
-            public ConfigResolverAccessor ConfigResolver { get; set; }
-            public ConfigSectionAccessor  ConfigSection  { get; set; }
+            public SynthWishes            SynthWishes         { get; set; }
+            public SynthWishesAccessor    SynthWishesAccessor { get; set; }
+            public IContext               Context             { get; set; }
+            public FlowNode               FlowNode            { get; set; }
+            public FlowNode               FlowNode2           { get; set; }
+            public ConfigResolverAccessor ConfigResolver      { get; set; }
+            public ConfigSectionAccessor  ConfigSection       { get; set; }
         }
                                                        
         // Tape-Bound
@@ -97,17 +98,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public void Initialize(Action<SynthWishes> initialize, IContext context = null)
         {
             var synthWishes = new SynthWishes(context);
-            
             var synthWishesAccessor = new SynthWishesAccessor(synthWishes);
-            
+            synthWishesAccessor.Config._section = CreateConfigSectionWithDefaults();
+                
             SynthBound = new SynthBoundEntities
             {
-                SynthWishes    = synthWishes,
-                Context        = synthWishes.Context,
-                ConfigResolver = synthWishesAccessor.Config,
-                ConfigSection  = synthWishesAccessor.Config._section,
-                FlowNode       = synthWishes.Sine(),
-                FlowNode2      = synthWishes.Sine() / 2
+                SynthWishes         = synthWishes,
+                SynthWishesAccessor = synthWishesAccessor,
+                Context             = synthWishes.Context,
+                ConfigResolver      = synthWishesAccessor.Config,
+                ConfigSection       = synthWishesAccessor.Config._section,
+                FlowNode            = synthWishes.Sine(),
+                FlowNode2           = synthWishes.Sine() / 2
             };
             
             // Initialize
@@ -149,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     SamplingRateLongRunning = DefaultNCrunchSamplingRateLongRunning
                 },
                 AzurePipelines         = new ConfigToolingElementAccessor
-        {
+                {
                     AudioPlayback           = DefaultToolingAudioPlayback,
                     ImpersonationMode       = DefaultToolingImpersonationMode,
                     SamplingRate            = DefaultAzurePipelinesSamplingRate,

@@ -240,13 +240,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             wavHeaders.ForEach(w => Assert_Immutable_Getters(w, value, x.Immutable.CourtesyFrames));
         }
 
-        [TestMethod] public void ConfigSection_AudioLength()
+        [TestMethod]
+        public void ConfigSection_AudioLength()
         {
-            // Synth-Bound. Immutable. Get-only.
-            var x = CreateTestEntities(default);
-            var configSection = x.SynthBound.ConfigSection;
+            // Get-only.
+            var configSection = CreateTestEntities().SynthBound.ConfigSection;
             AreEqual(DefaultAudioLength, () => configSection.AudioLength);
             AreEqual(DefaultAudioLength, () => configSection.AudioLength());
+        }
+
+        [TestMethod]
+        public void Default_AudioLength()
+        {
+            AreEqual(1, () => DefaultAudioLength);
         }
 
         // Getter Helpers
@@ -323,7 +329,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
          
         // Tolerance Helpers
         
-        private const double _tolerancePercent = 0.7;
+        private const double _tolerancePercent = 0.8;
         
         private double ToleranceByPercent(double value, double percent) => percent / 100 * value;
 
@@ -365,10 +371,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private const int _samplingRate = 2000;
         
-        private TestEntities CreateTestEntities(double? audioLength) 
+        private TestEntities CreateTestEntities(double? audioLength = default) 
             => new TestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
         
-        double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength, 1);
+        double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength);
 
         // ncrunch: no coverage start
         

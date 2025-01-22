@@ -302,16 +302,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void ConfigSection_FrameCount()
         {
-            // Immutable. Get-only.
-            
-            // Config
-            var x = CreateTestEntities(default);
-            var configSection = x.SynthBound.ConfigSection;
-            int configCourtesyFrames = 2;
-            AreEqual(DefaultFrameCount - DefaultCourtesyFrames + configCourtesyFrames, () => configSection.FrameCount());
-            
-            // Default
-            AreEqual( 1 /*sec*/ * 48000 /*Hz*/ + 4 /*CourtesyFrames*/, () => DefaultFrameCount);
+            // Get-only
+            var configSection = CreateTestEntities().SynthBound.ConfigSection;
+            AreEqual(DefaultFrameCount, () => configSection.FrameCount());
+        }
+
+        [TestMethod]
+        public void Default_FrameCount()
+        {
+            AreEqual(DefaultAudioLength * DefaultSamplingRate + DefaultCourtesyFrames, () => DefaultFrameCount);
         }
         
         [TestMethod]
@@ -417,7 +416,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(Case testCase)
+        private TestEntities CreateTestEntities(Case testCase = default)
         {
             testCase = testCase ?? new Case();
             
