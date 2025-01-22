@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Framework.Wishes.Collections;
+using JJ.Framework.Wishes.Common;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
-using JJ.Framework.Wishes.Collections;
-using JJ.Persistence.Synthesizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
-using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
-using JJ.Framework.Wishes.Common;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
@@ -554,7 +554,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     string to = To.Descriptor;
                     
                     // None Filled In
-                    if (!Has(from) && !Has(to)) return default;
+                    if (from.IsNully() && to.IsNully()) return default;
                     
                     // All Equal
                     if (from.Is(to)) return from;
@@ -565,7 +565,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         return $"({Nully},{Coalesced})";
                     }
                     
-                    // Change
+                    // Mutation
                     return $"{from} => {to}";
                 }
 
@@ -607,7 +607,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public override string ToString() => Descriptor;
         }
         
-        
+        // ReSharper disable once UnusedMember.Local
         static Case[] _caseExamples = 
         {
             // Example with all values specified
