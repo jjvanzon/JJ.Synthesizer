@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
             
-            if (!Has(name)) return op;
+            if (name.IsNully()) return op;
             op.Name = name;
             if (op.AsCurveIn?.Curve != null) op.AsCurveIn.Curve.Name = name;
             if (op.AsSampleOperator?.Sample != null) op.AsSampleOperator.Sample.Name = name;
