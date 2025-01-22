@@ -20,7 +20,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class ChannelsWishesTests
     {
         [TestMethod, DataRow(null), DataRow(0), DataRow(1) ,DataRow(2)]

@@ -21,7 +21,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class AudioFormatAttributeTests
     {
         [TestMethod, DataRow(Raw), DataRow(Wav), DataRow(Undefined), DataRow(null)]

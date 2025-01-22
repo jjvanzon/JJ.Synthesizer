@@ -16,7 +16,7 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class ChannelChannelsComboWishesTests
     {
         // Channels/Channel Combos

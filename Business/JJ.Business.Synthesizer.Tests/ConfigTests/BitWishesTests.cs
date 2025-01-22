@@ -20,7 +20,7 @@ using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class BitWishesTests
     {
         [TestMethod]

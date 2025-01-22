@@ -25,7 +25,7 @@ using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class FrameCountWishesTests
     {
         private int _tolerance = -1;

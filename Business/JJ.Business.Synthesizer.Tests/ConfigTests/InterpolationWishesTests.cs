@@ -19,7 +19,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class InterpolationWishesTests
     {
         [TestMethod, DataRow(Line) ,DataRow(Block), DataRow(Undefined), DataRow((InterpolationTypeEnum)0), DataRow(null)]

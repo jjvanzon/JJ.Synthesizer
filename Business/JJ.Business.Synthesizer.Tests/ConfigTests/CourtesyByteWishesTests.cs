@@ -20,7 +20,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class CourtesyByteWishesTests
     {
         [TestMethod]

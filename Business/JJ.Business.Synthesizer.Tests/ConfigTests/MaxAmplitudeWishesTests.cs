@@ -20,7 +20,7 @@ using static JJ.Framework.Testing.AssertHelper;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
-    [TestCategory("Configuration")]
+    [TestCategory("Config")]
     public class MaxAmplitudeWishesTests
     {
         [TestMethod]
