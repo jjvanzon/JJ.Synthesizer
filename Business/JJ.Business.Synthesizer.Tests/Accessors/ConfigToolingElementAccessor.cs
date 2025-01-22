@@ -14,11 +14,18 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public object Obj { get; }
         
         private readonly Accessor _accessor;
-        
+                
+        public ConfigToolingElementAccessor()
+        {
+            Type type = GetUnderlyingType();
+            Obj       = Activator.CreateInstance(type);
+            _accessor = new Accessor(Obj, Obj.GetType());
+        }
+
         public ConfigToolingElementAccessor(object obj)
         {
-            _accessor = new Accessor(obj, GetUnderlyingType());
             Obj = obj;
+            _accessor = new Accessor(obj, GetUnderlyingType());
         }
         
         private Type GetUnderlyingType()

@@ -18,10 +18,19 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         private readonly Accessor _accessor;
         
+        // Add constructors to FrameworkWishes
+        
+        public ConfigSectionAccessor()
+        {
+            Type type = GetUnderlyingType();
+            Obj       = Activator.CreateInstance(type);
+            _accessor = new Accessor(Obj, Obj.GetType());
+        }
+        
         public ConfigSectionAccessor(object obj)
         {
-            _accessor = new Accessor(obj, GetUnderlyingType());
             Obj = obj;
+            _accessor = new Accessor(obj, GetUnderlyingType());
         }
         
         private Type GetUnderlyingType()
@@ -35,6 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public int? Bits
         {
+            // TODO: Add more terse accessor helper to FrameworkWishes.
             get => (int?)_accessor.GetPropertyValue(MemberName());
             set =>       _accessor.SetPropertyValue(MemberName(), value);            
         }
