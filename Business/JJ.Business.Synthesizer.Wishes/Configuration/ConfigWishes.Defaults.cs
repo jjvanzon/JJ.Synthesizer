@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Durations
         
         /// <inheritdoc cref="docs._notelength" />
-        public const double DefaultNoteLength      = 0.50;
+        public const double DefaultNoteLength      = 0.20;
         public const double DefaultBarLength       = 1.00;
         public const double DefaultBeatLength      = 0.25;
         public const double DefaultAudioLength     = 1.00;
@@ -44,9 +44,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public const  bool   DefaultToolingAudioPlayback                  = false;
         public static bool?  DefaultToolingImpersonationMode              = null;
-        public const  int    DefaultNCrunchSamplingRate                   = 150;
-        public const  int    DefaultNCrunchSamplingRateLongRunning        = 8;
-        public const  int    DefaultAzurePipelinesSamplingRate            = 1500;
+        public const  int    DefaultNCrunchSamplingRate                   = 10;
+        public const  int    DefaultNCrunchSamplingRateLongRunning        = 5;
+        public const  int    DefaultAzurePipelinesSamplingRate            = 1000;
         public const  int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
         public const  string DefaultLongTestCategory                      = "Long";
         

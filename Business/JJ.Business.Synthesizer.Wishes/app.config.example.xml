@@ -19,41 +19,41 @@
 
 	<jj.business.synthesizer.wishes 
 		bits="32"
-		channels="1"
-		samplingRate="48000"
+		channels="1" 
+		samplingRate="48000" 
 		audioFormat="Wav"
 		interpolation="Line"
-		
+		courtesyFrames="4"
+
 		noteLength="0.2"
 		barLength="1"
-		beatLength="0.25"
-		audioLength="1"
-		leadingSilence="0.25"
+		beatLength="0.25" 
+		audioLength="1" 
+		leadingSilence="0.25" 
 		trailingSilence="0.25"
 		
-		audioPlayback="true"
+		audioPlayback="true" 
 		diskCache="false"
-		mathBoost="true"
-		parallelProcessing="true"
+		mathBoost="true" 
+		parallelProcessing="true" 
 		playAllTapes="false"
 		
-		leafCheckTimeOut="30"
+		leafCheckTimeOut="120"
 		timeOutAction="Continue"
-		courtesyFrames="4"
-		fileExtensionMaxLength="4"
+		fileExtensionMaxLength="4" 
 		longTestCategory="Long">
-		
+
 		<nCrunch 
 			audioPlayback="false" 
-			samplingRate="150"
-			samplingRateLongRunning="8"
-			impersonationMode=""/>
-		
-		<azurePipelines
-			audioPlayback="false" 
-			samplingRate="1500"
-			samplingRateLongRunning="100"
-			impersonationMode=""/>
+			samplingRate="10" 
+			samplingRateLongRunning="5" 
+			impersonationMode="" />
+
+		<azurePipelines 
+			audioPlayback="false"
+			samplingRate="1000" 
+			samplingRateLongRunning="100" 
+			impersonationMode="" />
 
 	</jj.business.synthesizer.wishes>
 	
