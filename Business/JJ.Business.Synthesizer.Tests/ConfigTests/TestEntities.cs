@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
+using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
@@ -113,6 +114,50 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             initialize?.Invoke(SynthBound.SynthWishes);
             
             Record();
+        }
+        
+        private ConfigSectionAccessor CreateConfigSectionWithDefaults()
+        {
+            var configSection = new ConfigSectionAccessor
+            {
+                Bits                   = DefaultBits,
+                Channels               = DefaultChannels,
+                SamplingRate           = DefaultSamplingRate,
+                AudioFormat            = DefaultAudioFormat,
+                Interpolation          = DefaultInterpolation,
+                CourtesyFrames         = DefaultCourtesyFrames,
+                NoteLength             = DefaultNoteLength,
+                BarLength              = DefaultBarLength,
+                BeatLength             = DefaultBeatLength,
+                AudioLength            = DefaultAudioLength,
+                LeadingSilence         = DefaultLeadingSilence,
+                TrailingSilence        = DefaultTrailingSilence,
+                AudioPlayback          = DefaultAudioPlayback,
+                DiskCache              = DefaultDiskCache,
+                MathBoost              = DefaultMathBoost,
+                ParallelProcessing     = DefaultParallelProcessing,
+                PlayAllTapes           = DefaultPlayAllTapes,
+                LeafCheckTimeOut       = DefaultLeafCheckTimeOut,
+                TimeOutAction          = DefaultTimeOutAction,
+                FileExtensionMaxLength = DefaultFileExtensionMaxLength,
+                LongTestCategory       = DefaultLongTestCategory,
+                NCrunch                = new ConfigToolingElementAccessor
+                {
+                    AudioPlayback           = DefaultToolingAudioPlayback,
+                    ImpersonationMode       = DefaultToolingImpersonationMode,
+                    SamplingRate            = DefaultNCrunchSamplingRate,
+                    SamplingRateLongRunning = DefaultNCrunchSamplingRateLongRunning
+                },
+                AzurePipelines         = new ConfigToolingElementAccessor
+        {
+                    AudioPlayback           = DefaultToolingAudioPlayback,
+                    ImpersonationMode       = DefaultToolingImpersonationMode,
+                    SamplingRate            = DefaultAzurePipelinesSamplingRate,
+                    SamplingRateLongRunning = DefaultAzurePipelinesSamplingRateLongRunning
+                }
+            };
+            
+            return configSection;
         }
         
         public void Record()
