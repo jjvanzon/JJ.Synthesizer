@@ -432,11 +432,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             });
         }
         
-        private static int Coalesce(int? frameCount)
-        {
-            int defaultValue = 1 /*sec*/ * 10 /*Hz*/ + 2 /*CourtesyFrames*/;
-            return CoalesceFrameCount(frameCount, defaultValue);
-        }
+        //private static int Coalesce(int? frameCount)
+        //{
+        //    int defaultValue = 1 /*sec*/ * 10 /*Hz*/ + 2 /*CourtesyFrames*/;
+        //    return CoalesceFrameCount(frameCount, defaultValue);
+        //}
         
         // ncrunch: no coverage start
         
@@ -507,7 +507,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public Case(int? from, int to)
             {
                 From.Nully     = from;
-                From.Coalesced = Coalesce(from); 
+                //From.Coalesced = Coalesce(from); 
                 To            = to;
             }
             
@@ -515,15 +515,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 From         = from;
                 To.Nully     = to;
-                To.Coalesced = Coalesce(to);
+                //To.Coalesced = Coalesce(to);
             }
             
             public Case(int? from, int? to)
             { 
                 From.Nully     = from; 
-                From.Coalesced = Coalesce(from);
+                //From.Coalesced = Coalesce(from);
                 To.Nully       = to;
-                To.Coalesced   = Coalesce(to);
+                //To.Coalesced   = Coalesce(to);
             }
             
             public override string ToString() => Descriptor;
