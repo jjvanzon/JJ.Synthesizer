@@ -114,6 +114,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return 0;
         }
         
+        public static Buff FrameCount(this Buff obj, int value, int courtesyFrames)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            // Buff is too Buff to change his FrameCount,
+            // but he can still send the message to his buddy "Out", who does the books.
+            obj.UnderlyingAudioFileOutput.FrameCount(value, courtesyFrames);
+            return obj;
+        }
+        
         public static int FrameCount(this AudioFileOutput obj, int courtesyFrames)
             => ConfigWishes.FrameCount(obj.AudioLength(), obj.SamplingRate(), courtesyFrames);
         
