@@ -93,17 +93,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             //AreEqual(ChannelEnum.Undefined, () => ChannelEnum.Right.Channels(channelsMono));
         }
                 
-        private TestEntities CreateTestEntities(int channels) 
-            => new TestEntities(x => x.WithChannels(channels));
+        private ConfigTestEntities CreateTestEntities(int channels) 
+            => new ConfigTestEntities(x => x.WithChannels(channels));
         
-        private TestEntities CreateTestEntities(int channels, IContext context) 
-            => new TestEntities(x => x.WithChannels(channels), context);
+        private ConfigTestEntities CreateTestEntities(int channels, IContext context) 
+            => new ConfigTestEntities(x => x.WithChannels(channels), context);
         
-        private TestEntities CreateTestEntities(int channels, int? channel) 
-            => new TestEntities(x => x.WithChannels(channels).WithChannel(channel));
+        private ConfigTestEntities CreateTestEntities(int channels, int? channel) 
+            => new ConfigTestEntities(x => x.WithChannels(channels).WithChannel(channel));
         
-        private TestEntities CreateTestEntities(int channels, int? channel, IContext context) 
-            => new TestEntities(x => x.WithChannels(channels).WithChannel(channel), context);
+        private ConfigTestEntities CreateTestEntities(int channels, int? channel, IContext context) 
+            => new ConfigTestEntities(x => x.WithChannels(channels).WithChannel(channel), context);
 
         private void Assert_Channels_Getters(ChannelEnum channelEnum, int? channels)
         {

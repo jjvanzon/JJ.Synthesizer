@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
     }
     
-    internal class TestEntities : TapeEntities
+    internal class ConfigTestEntities : TapeEntities
     {   
         public SynthBoundEntities SynthBound { get; set; } = new SynthBoundEntities();
         
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Tape-Bound
         public IList<TapeEntities> ChannelEntities { get; private set; }
         
-        public TestEntities(Action<SynthWishes> initialize, IContext context = null) => Initialize(initialize, context);
+        public ConfigTestEntities(Action<SynthWishes> initialize, IContext context = null) => Initialize(initialize, context);
         
         public void Initialize(Action<SynthWishes> initialize, IContext context = null)
         {

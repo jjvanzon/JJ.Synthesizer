@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Values init = testCase.init;
             Values val  = testCase.val;
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init.nully);
                 Assert_All_Getters(x, init.coalesce);
@@ -145,7 +145,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = testCase.init.coalesce;
             var val  = testCase.val.coalesce;
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = testCase.init.coalesce;
             var val  = testCase.val.coalesce;
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -369,7 +369,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Getter Helpers
 
-        private void Assert_All_Getters(TestEntities x, (int, int?) values)
+        private void Assert_All_Getters(ConfigTestEntities x, (int, int?) values)
         {
             Assert_SynthBound_Getters(x, values);
             Assert_TapeBound_Getters_Complete(x, values);
@@ -377,7 +377,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x, values);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, (int channels, int? channel) c)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, (int channels, int? channel) c)
         {
             AreEqual(c.channel, () => x.SynthBound.SynthWishes.Channel());
             AreEqual(c.channel, () => x.SynthBound.SynthWishes.GetChannel);
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == StereoChannels, () => x.SynthBound.ConfigResolver.IsStereo);
         }
         
-        private void Assert_TapeBound_Getters_SingleTape(TestEntities x, (int channels, int? channel) c)
+        private void Assert_TapeBound_Getters_SingleTape(ConfigTestEntities x, (int channels, int? channel) c)
         {
             Assert_Tape_Getters_Base(x);
                     
@@ -476,7 +476,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c == (2,1), () => x.TapeBound.TapeAction.IsRight());
         }
         
-        private void Assert_TapeBound_Getters_Complete(TestEntities x, (int channels, int? channel) c)
+        private void Assert_TapeBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
             AreEqual(c.channels, () => x.ChannelEntities.Count);
@@ -693,7 +693,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             IsNotNull(() => x.TapeBound.TapeAction);
         }
 
-        private void Assert_BuffBound_Getters(TestEntities x, (int channels, int? channel) c)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, (int channels, int? channel) c)
         {
             // TODO: Handle Mono/Stereo gracefully.
 
@@ -735,7 +735,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, (int, int?) c)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, (int, int?) c)
         {
             Assert_Immutable_Getters(x.Immutable.ChannelEnum, c);
             Assert_Immutable_Getters(x.Immutable.ChannelEntity, c);
@@ -816,8 +816,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities((int? channels, int? channel) c)
-            => new TestEntities(x => x.WithChannels(c.channels)
+        private ConfigTestEntities CreateTestEntities((int? channels, int? channel) c)
+            => new ConfigTestEntities(x => x.WithChannels(c.channels)
                                       .WithChannel (c.channel));
         
         // ncrunch: no coverage start

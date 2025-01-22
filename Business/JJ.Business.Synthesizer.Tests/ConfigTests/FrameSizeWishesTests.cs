@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Testing.AssertHelper;
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
             var val = (frameSize, bits, channels);
             
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.frameSize);
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
             var val = (frameSize, bits, channels);
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.frameSize);
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (frameSize: initFrameSize, bits: initBits, channels: initChannels);
             var val = (frameSize, bits, channels);
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.frameSize);
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -260,21 +260,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(TestEntities x, int frameSize)
+        private void Assert_All_Getters(ConfigTestEntities x, int frameSize)
         {
             Assert_Bound_Getters(x, frameSize);
             Assert_Independent_Getters(x, frameSize);
             Assert_Immutable_Getters(x, frameSize);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int frameSize)
+        private void Assert_Bound_Getters(ConfigTestEntities x, int frameSize)
         {
             Assert_SynthBound_Getters(x, frameSize);
             Assert_TapeBound_Getters(x, frameSize);
             Assert_BuffBound_Getters(x, frameSize);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int frameSize)
+        private void Assert_Independent_Getters(ConfigTestEntities x, int frameSize)
         {
             // Independent after Taping
             Assert_Independent_Getter(x.Independent.Sample, frameSize);
@@ -282,21 +282,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getter(x.Independent.AudioFileInfo, frameSize);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int frameSize)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, int frameSize)
         {
             Assert_Immutable_Getter(x.Immutable.WavHeader, frameSize);
             Assert_Immutable_Getter((x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum), frameSize);
             Assert_Immutable_Getter((x.Immutable.SampleDataType, x.Immutable.SpeakerSetup), frameSize);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int frameSize)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int frameSize)
         {
             AreEqual(frameSize, () => x.SynthBound.SynthWishes.FrameSize());
             AreEqual(frameSize, () => x.SynthBound.FlowNode.FrameSize());
             AreEqual(frameSize, () => x.SynthBound.ConfigResolver.FrameSize());
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int frameSize)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int frameSize)
         {
             AreEqual(frameSize, () => x.TapeBound.Tape.FrameSize());
             AreEqual(frameSize, () => x.TapeBound.TapeConfig.FrameSize());
@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(frameSize, () => x.TapeBound.TapeAction.FrameSize());
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int frameSize)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int frameSize)
         {
             AreEqual(frameSize, () => x.BuffBound.Buff.FrameSize());
             AreEqual(frameSize, () => x.BuffBound.AudioFileOutput.FrameSize());
@@ -342,8 +342,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities((int frameSize, int? bits, int? channels) init) 
-            => new TestEntities(x => x.WithBits(init.bits).WithChannels(init.channels));
+        private ConfigTestEntities CreateTestEntities((int frameSize, int? bits, int? channels) init) 
+            => new ConfigTestEntities(x => x.WithBits(init.bits).WithChannels(init.channels));
                  
         private static readonly int [] _bitsValues = { 8, 16, 32 };
         private static readonly int?[] _bitsValuesWithEmpty = { null, 0, 8, 16, 32 };

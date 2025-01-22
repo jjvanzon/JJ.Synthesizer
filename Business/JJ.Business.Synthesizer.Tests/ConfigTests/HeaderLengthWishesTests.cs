@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (headerLength: initHeaderLength, audioFormat: (AudioFileFormatEnum?)initAudioFormatInt);
             var val  = (headerLength, audioFormat: (AudioFileFormatEnum?)audioFormatInt);
             
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.headerLength);
@@ -87,7 +87,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (headerLength: initHeaderLength, audioFormat: (AudioFileFormatEnum)initAudioFormatInt);
             var val  = (headerLength, audioFormat: (AudioFileFormatEnum)audioFormatInt);
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.headerLength);
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (headerLength: initHeaderLength, audioFormat: (AudioFileFormatEnum)initAudioFormatInt);
             var val  = (headerLength, audioFormat: (AudioFileFormatEnum)audioFormatInt);
             
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.headerLength);
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -273,34 +273,34 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(TestEntities x, int headerLength)
+        private void Assert_All_Getters(ConfigTestEntities x, int headerLength)
         {
             Assert_Bound_Getters(x, headerLength);
             Assert_Independent_Getters(x, headerLength);
             Assert_Immutable_Getters(x, headerLength);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int headerLength)
+        private void Assert_Bound_Getters(ConfigTestEntities x, int headerLength)
         {
             Assert_SynthBound_Getters(x, headerLength);
             Assert_TapeBound_Getters(x, headerLength);
             Assert_BuffBound_Getters(x, headerLength);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int headerLength)
+        private void Assert_Independent_Getters(ConfigTestEntities x, int headerLength)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample, headerLength);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int headerLength)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, int headerLength)
         {
             Assert_Immutable_Getters(x.Immutable.AudioFormat, headerLength);
             Assert_Immutable_Getters(x.Immutable.AudioFormatEntity, headerLength);
             Assert_Immutable_Getters(x.Immutable.WavHeader, headerLength);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int headerLength)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int headerLength)
         {
             AreEqual(headerLength, () => x.SynthBound.SynthWishes.HeaderLength());
             AreEqual(headerLength, () => x.SynthBound.FlowNode.HeaderLength());
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(headerLength == 44, () => x.SynthBound.ConfigResolver.IsWav);
         }
 
-        private void Assert_TapeBound_Getters(TestEntities x, int headerLength)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int headerLength)
         {
             AreEqual(headerLength, () => x.TapeBound.Tape.HeaderLength());
             AreEqual(headerLength, () => x.TapeBound.TapeConfig.HeaderLength());
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(headerLength == 44, () => x.TapeBound.TapeAction.IsWav());
         }
                         
-        private void Assert_BuffBound_Getters(TestEntities x, int headerLength)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int headerLength)
         {
             AreEqual(headerLength, () => x.BuffBound.Buff.HeaderLength());
             AreEqual(headerLength, () => x.BuffBound.AudioFileOutput.HeaderLength());
@@ -389,8 +389,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities((int headerLength, AudioFileFormatEnum? audioFormat) init) 
-            => new TestEntities(x => x.AudioFormat(init.audioFormat));
+        private ConfigTestEntities CreateTestEntities((int headerLength, AudioFileFormatEnum? audioFormat) init) 
+            => new ConfigTestEntities(x => x.AudioFormat(init.audioFormat));
         
         // ncrunch: no coverage start
         

@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         bits: initBits, channels: initChannels);
             var val  = (courtesyBytes, courtesyFrames, bits, channels);
             
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.courtesyBytes);
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (courtesyBytes: initCourtesyBytes, courtesyFrames: initCourtesyFrames, bits: initBits, channels: initChannels);
             var val  = (courtesyBytes, courtesyFrames, bits, channels);
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.courtesyBytes);
@@ -127,26 +127,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Getter Helpers
         
-        private void Assert_All_Getters(TestEntities x, int courtesyBytes)
+        private void Assert_All_Getters(ConfigTestEntities x, int courtesyBytes)
         {
             Assert_Bound_Getters(x, courtesyBytes);
             Assert_Immutable_Getters(x.Immutable.CourtesyFrames, x.Immutable.FrameSize, courtesyBytes);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int courtesyBytes)
+        private void Assert_Bound_Getters(ConfigTestEntities x, int courtesyBytes)
         {
             Assert_SynthBound_Getters(x, courtesyBytes);
             Assert_TapeBound_Getters(x, courtesyBytes);
         }
         
-        private void Assert_SynthBound_Getters(TestEntities x, int courtesyBytes)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int courtesyBytes)
         {
             AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes.CourtesyBytes());
             AreEqual(courtesyBytes, () => x.SynthBound.FlowNode.CourtesyBytes());
             AreEqual(courtesyBytes, () => x.SynthBound.ConfigResolver.CourtesyBytes());
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int courtesyBytes)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int courtesyBytes)
         {
             AreEqual(courtesyBytes, () => x.TapeBound.Tape.CourtesyBytes());
             AreEqual(courtesyBytes, () => x.TapeBound.TapeConfig.CourtesyBytes());
@@ -161,8 +161,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
 
-        private static TestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default) 
-            => new TestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels));
+        private static ConfigTestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default) 
+            => new ConfigTestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels));
 
         // ncrunch: no coverage start
         

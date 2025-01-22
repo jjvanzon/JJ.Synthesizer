@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParametersWithEmpty))]
         public void SynthBound_Channels(int? init, int? value)
         {            
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, CoalesceChannels(init));
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void TapeBound_Channels(int init, int value)
         {
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void BuffBound_Channels(int init, int value)
         {
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -187,7 +187,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -244,7 +244,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -275,7 +275,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void Immutable_Channels(int init, int value)
         {
-            TestEntities x = CreateTestEntities(init);
+            ConfigTestEntities x = CreateTestEntities(init);
 
             // WavHeader
             
@@ -364,21 +364,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
 
-        private void Assert_All_Getters(TestEntities x, int channels)
+        private void Assert_All_Getters(ConfigTestEntities x, int channels)
         {
             Assert_Bound_Getters(x, channels);
             Assert_Independent_Getters(x, channels);
             Assert_Immutable_Getters(x, channels);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int channels)
+        private void Assert_Bound_Getters(ConfigTestEntities x, int channels)
         {
             Assert_SynthBound_Getters(x, channels);
             Assert_TapeBound_Getters(x, channels);
             Assert_BuffBound_Getters(x, channels);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int channels)
+        private void Assert_Independent_Getters(ConfigTestEntities x, int channels)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample, channels);
@@ -386,14 +386,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, channels);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int channels)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, int channels)
         {
             Assert_Immutable_Getters(x.Immutable.WavHeader, channels);
             Assert_Immutable_Getters(x.Immutable.SpeakerSetupEnum, channels);
             Assert_Immutable_Getters(x.Immutable.SpeakerSetup, channels);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int channels)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int channels)
         {
             AreEqual(channels, () => x.SynthBound.SynthWishes.Channels());
             AreEqual(channels, () => x.SynthBound.SynthWishes.GetChannels);
@@ -417,7 +417,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(channels == 2, () => x.SynthBound.ConfigResolver.IsStereo);
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int channels)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int channels)
         {
             AreEqual(channels, () => x.TapeBound.Tape.Channels());
             AreEqual(channels, () => x.TapeBound.TapeConfig.Channels());
@@ -436,7 +436,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(channels == 2, () => x.TapeBound.TapeAction.IsStereo());
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int channels)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int channels)
         {
             AreEqual(channels, () => x.BuffBound.Buff.Channels());
             AreEqual(channels, () => x.BuffBound.AudioFileOutput.Channels());
@@ -497,7 +497,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(int? channels) => new TestEntities(x => x.WithChannels(channels));
+        private ConfigTestEntities CreateTestEntities(int? channels) => new ConfigTestEntities(x => x.WithChannels(channels));
 
         static object TestParameters => new[] // ncrunch: no coverage
         {

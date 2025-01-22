@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Math;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParametersWithEmpty))]
         public void SynthBound_AudioLength(double? init, double? value)
         {            
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 LogTolerance(x, Coalesce(init));
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void TapeBound_AudioLength(double init, double value)
         {
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 LogTolerance(x, init);
@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void BuffBound_AudioLength(double init, double value)
         {
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 LogTolerance(x, init);
@@ -131,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -209,7 +209,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void Immutable_AudioLength(double init, double value)
         {
-            TestEntities x = CreateTestEntities(init);
+            ConfigTestEntities x = CreateTestEntities(init);
 
             // WavHeader
             
@@ -257,21 +257,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(TestEntities x, double audioLength)
+        private void Assert_All_Getters(ConfigTestEntities x, double audioLength)
         {
             Assert_Bound_Getters(x, audioLength);
             Assert_Independent_Getters(x, audioLength);
             Assert_Immutable_Getters(x, audioLength);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, double audioLength)
+        private void Assert_Bound_Getters(ConfigTestEntities x, double audioLength)
         {
             Assert_SynthBound_Getters(x, audioLength);
             Assert_TapeBound_Getters(x, audioLength);
             Assert_BuffBound_Getters(x, audioLength);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, double audioLength)
+        private void Assert_Independent_Getters(ConfigTestEntities x, double audioLength)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample, audioLength);
@@ -279,19 +279,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, audioLength, x.Immutable.CourtesyFrames);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, double audioLength)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, double audioLength)
         {
             Assert_Immutable_Getters(x.Immutable.WavHeader, audioLength, x.Immutable.CourtesyFrames);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, double audioLength)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, double audioLength)
         {
             AreEqual(audioLength, () => x.SynthBound.SynthWishes.AudioLength());
             AreEqual(audioLength, () => x.SynthBound.FlowNode.AudioLength());
             AreEqual(audioLength, () => x.SynthBound.ConfigResolver.AudioLength(x.SynthBound.SynthWishes));
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, double audioLength)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, double audioLength)
         {
             AreEqual(audioLength, () => x.TapeBound.Tape.AudioLength());
             AreEqual(audioLength, () => x.TapeBound.Tape.Duration);
@@ -300,7 +300,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioLength, () => x.TapeBound.TapeAction.AudioLength());
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, double audioLength)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, double audioLength)
         {
             AreEqual(audioLength, () => x.BuffBound.Buff.AudioLength());
             AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.AudioLength());
@@ -333,7 +333,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private double ToleranceByPercent(double value, double percent) => percent / 100 * value;
 
-        private void LogTolerance(TestEntities x, double audioLength, string title = null)
+        private void LogTolerance(ConfigTestEntities x, double audioLength, string title = null)
         {
             if (Has(title)) LogTitleStrong(title);
             
@@ -371,8 +371,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private const int _samplingRate = 2000;
         
-        private TestEntities CreateTestEntities(double? audioLength = default) 
-            => new TestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
+        private ConfigTestEntities CreateTestEntities(double? audioLength = default) 
+            => new ConfigTestEntities(x => x.WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
         
         double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength);
 

@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParametersWithEmpty))]
         public void SynthBound_Bits(int? init, int? value)
         {
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, CoalesceBits(init));
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void TapeBound_Bits(int init, int value)
         {
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void BuffBound_Bits(int init, int value)
         {
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -230,7 +230,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -466,21 +466,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Getter Helpers
 
-        private void Assert_All_Getters(TestEntities x, int bits)
+        private void Assert_All_Getters(ConfigTestEntities x, int bits)
         {
             Assert_Bound_Getters(x, bits);
             Assert_Independent_Getters(x, bits);
             Assert_Immutable_Getters(x, bits);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int bits)
+        private void Assert_Bound_Getters(ConfigTestEntities x, int bits)
         {
             Assert_SynthBound_Getters(x, bits);
             Assert_TapeBound_Getters(x, bits);
             Assert_BuffBound_Getters(x, bits);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int bits)
+        private void Assert_Independent_Getters(ConfigTestEntities x, int bits)
         {
             // Independent after Taping
             IsNotNull(() => x);
@@ -490,7 +490,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, bits);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int bits)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, int bits)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
@@ -500,7 +500,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.Type, bits);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int bits)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int bits)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.SynthBound);
@@ -537,7 +537,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(bits == 32, () => x.SynthBound.ConfigResolver.Is32Bit);
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int bits)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int bits)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound);
@@ -568,7 +568,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(bits == 32, () => x.TapeBound.TapeAction.Is32Bit());
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int bits)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int bits)
         {
             IsNotNull(           () => x);
             IsNotNull(           () => x.BuffBound);
@@ -655,7 +655,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities(int? bits) => new TestEntities(x => x.Bits(bits));
+        private ConfigTestEntities CreateTestEntities(int? bits) => new ConfigTestEntities(x => x.Bits(bits));
                 
         static object TestParametersInit => new[] // ncrunch: no coverage
         { 

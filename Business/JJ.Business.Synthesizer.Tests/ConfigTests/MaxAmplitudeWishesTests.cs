@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
             var val = (maxAmplitude, bits);
             
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters        (x, init.maxAmplitude);
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
             var val = (maxAmplitude, bits);
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.maxAmplitude);
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (maxAmplitude: initMaxAmplitude, bits: initBits);
             var val = (maxAmplitude, bits);
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.maxAmplitude);
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -425,21 +425,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
 
-        private void Assert_All_Getters(TestEntities x, int maxAmplitude)
+        private void Assert_All_Getters(ConfigTestEntities x, int maxAmplitude)
         {
             Assert_Bound_Getters(x, maxAmplitude);
             Assert_Independent_Getters(x, maxAmplitude);
             Assert_Immutable_Getters(x, maxAmplitude);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int maxAmplitude)
+        private void Assert_Bound_Getters(ConfigTestEntities x, int maxAmplitude)
         {
             Assert_SynthBound_Getters(x, maxAmplitude);
             Assert_TapeBound_Getters(x, maxAmplitude);
             Assert_BuffBound_Getters(x, maxAmplitude);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int maxAmplitude)
+        private void Assert_Independent_Getters(ConfigTestEntities x, int maxAmplitude)
         {
             // Independent after Taping
             IsNotNull(() => x);
@@ -449,7 +449,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, maxAmplitude);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int maxAmplitude)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
@@ -459,7 +459,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.Type, maxAmplitude);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int maxAmplitude)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.SynthBound);
@@ -472,7 +472,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(maxAmplitude, () => x.SynthBound.ConfigResolver.MaxAmplitude());
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int maxAmplitude)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound);
@@ -487,7 +487,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(maxAmplitude, () => x.TapeBound.TapeAction.MaxAmplitude());
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int maxAmplitude)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int maxAmplitude)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
@@ -539,7 +539,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
          // Test Data Helpers
 
-        private TestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new TestEntities(x => x.Bits(init.bits));
+        private ConfigTestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new ConfigTestEntities(x => x.Bits(init.bits));
         
         // ncrunch: no coverage start
         

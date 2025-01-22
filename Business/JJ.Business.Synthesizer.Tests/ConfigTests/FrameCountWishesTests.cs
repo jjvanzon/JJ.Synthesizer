@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init  = testCase.From;
             var value = testCase.To;
             
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init.Coalesced);
@@ -146,7 +146,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int val  = testCase.To;
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int value = testCase.To;
             
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
@@ -211,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // AudioInfoWish
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -236,7 +236,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                TestEntities x = default;
+                ConfigTestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -268,7 +268,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int value = testCase.To;
             
-            TestEntities x = CreateTestEntities(testCase);
+            ConfigTestEntities x = CreateTestEntities(testCase);
 
             // WavHeader
             
@@ -334,21 +334,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(TestEntities x, int frameCount)
+        private void Assert_All_Getters(ConfigTestEntities x, int frameCount)
         {
             Assert_Bound_Getters      (x, frameCount);
             Assert_Independent_Getters(x, frameCount);
             Assert_Immutable_Getters  (x, frameCount);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int frameCount)
+        private void Assert_Bound_Getters(ConfigTestEntities x, int frameCount)
         {
             Assert_SynthBound_Getters(x, frameCount);
             Assert_TapeBound_Getters (x, frameCount);
             Assert_BuffBound_Getters (x, frameCount);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int frameCount)
+        private void Assert_Independent_Getters(ConfigTestEntities x, int frameCount)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample       , frameCount);
@@ -356,19 +356,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, frameCount);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int frameCount)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, int frameCount)
         {
             Assert_Immutable_Getters(x.Immutable.WavHeader, frameCount);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int frameCount)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.SynthBound.SynthWishes   .FrameCount(), _tolerance);
             AreEqual(frameCount, () => x.SynthBound.FlowNode      .FrameCount(), _tolerance);
             AreEqual(frameCount, () => x.SynthBound.ConfigResolver.FrameCount(x.SynthBound.SynthWishes), _tolerance);
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int frameCount)
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.TapeBound.Tape       .FrameCount(), _tolerance);
             AreEqual(frameCount, () => x.TapeBound.TapeConfig .FrameCount(), _tolerance);
@@ -376,18 +376,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(frameCount, () => x.TapeBound.TapeAction .FrameCount(), _tolerance);
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int frameCount)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int frameCount)
         {
             Assert_Buff_Getters           (x, frameCount);
             Assert_AudioFileOutput_Getters(x, frameCount);
         }
 
-        private void Assert_AudioFileOutput_Getters(TestEntities x, int frameCount)
+        private void Assert_AudioFileOutput_Getters(ConfigTestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
         }
         
-        private void Assert_Buff_Getters(TestEntities x, int frameCount)
+        private void Assert_Buff_Getters(ConfigTestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount(x.Immutable.CourtesyFrames), _tolerance);
         }
@@ -416,11 +416,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(Case testCase = default)
+        private ConfigTestEntities CreateTestEntities(Case testCase = default)
         {
             testCase = testCase ?? new Case();
             
-            return new TestEntities(x =>
+            return new ConfigTestEntities(x =>
             {
                 // Impersonate NCrunch for reliable default SamplingRate of 10 Hz.
                 x.IsUnderNCrunch = true;
