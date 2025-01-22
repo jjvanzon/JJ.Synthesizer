@@ -109,8 +109,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // ncrunch: no coverage end
          
         [TestMethod] 
-        [DynamicData(nameof(CaseKeys))]
-        //[DynamicData(nameof(CaseKeysWithEmpties))]
+        //[DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(CaseKeysWithNullies))]
         public void SynthBound_FrameCount(string caseKey)
         {            
             Case testCase = _caseDictionary[caseKey];
