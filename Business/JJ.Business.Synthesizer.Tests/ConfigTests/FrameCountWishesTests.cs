@@ -547,47 +547,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 get
                 {
-                    if (!Has(From.Nully) && !Has(From.Coalesced) && !Has(To.Nully) && !Has(To.Coalesced))
-                    {
-                        return default;
-                    }
+                    string from = From.Descriptor;
+                    string to = To.Descriptor;
                     
-                    if (Equals(From.Nully, From.Coalesced ) && 
-                        Equals(To.Nully, To.Coalesced) &&
-                        Equals(From.Nully, To.Nully) && 
-                        Equals(From.Coalesced, To.Coalesced))
-                    {
-                        return $"{From.Nully}";
-                    }
-                                        
-                    if (Equals(From.Nully, To.Nully) && 
-                        Equals(From.Coalesced, To.Coalesced))
+                    // None Filled In
+                    if (!Has(from) && !Has(to)) return default;
+                    
+                    // All Equal
+                    if (from.Is(to)) return from;
+                    
+                    // No Change
+                    if (Equals(From.Nully, To.Nully) && Equals(From.Coalesced, To.Coalesced))
                     {
                         return $"({Nully},{Coalesced})";
                     }
                     
-                    string formattedFrom;
-                    string formattedTo;
-                    
-                    if (Equals(From.Nully, From.Coalesced))
-                    {
-                        formattedFrom = $"{From.Nully}";
-                    }
-                    else
-                    {
-                        formattedFrom = $"({From.Nully},{From.Coalesced})";
-                    }
-                    
-                    if (Equals(To.Nully, To.Coalesced))
-                    {
-                        formattedTo = $"{To.Nully}";
-                    }
-                    else
-                    {
-                        formattedTo = $"({To.Nully},{To.Coalesced})";
-                    }
-                    
-                    return $"{formattedFrom} => {formattedTo}";
+                    // Change
+                    return $"{from} => {to}";
                 }
 
             }
@@ -608,12 +584,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public static implicit operator Values<T>(T? value) => new Values<T> { Nully = value };
             public static implicit operator Values<T>(T value) => new Values<T> { Nully = value, Coalesced = value };
             
-            public override string ToString()
+            public string Descriptor
             {
-                if (Equals(Nully, Coalesced)) return $"{Nully}";
-                if (Has(Nully) && !Has(Coalesced)) return $"{Nully}";
-                return $"({Nully},{Coalesced})";
+                get
+            {
+                    string nully     = Coalesce(Nully, "");
+                    string coalesced = Coalesce(Coalesced, "");
+                    
+                    if (!Has(nully) && !Has(coalesced)) return "_";
+                    
+                    if (nully.Is(coalesced)) return nully;
+                    
+                    if (Has(nully) && !Has(coalesced)) return nully;
+                    
+                    return $"({nully},{coalesced})";
+                }
             }
+
+            public override string ToString() => Descriptor;
         }
         
         
