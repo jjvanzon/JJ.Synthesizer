@@ -35,7 +35,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             return false;
         }
         
-        public ConfigSectionAccessor _section => new ConfigSectionAccessor(_accessor.GetFieldValue(MemberName()));
+        public ConfigSectionAccessor _section
+        {
+            get => new ConfigSectionAccessor(_accessor.GetFieldValue(MemberName()));
+            set => _accessor.SetFieldValue(MemberName(), value.Obj);
+        }
         
         public int _channel
         {
