@@ -52,9 +52,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(  12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
             new Case( 123456+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
+        static object[][] CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
         
-        private static object CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
-
         // ncrunch: no coverage end
         
         [DataTestMethod]
@@ -92,19 +91,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case( 4800+3,  1234+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
             new Case( 4800+3, 12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
+        static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
         
-        private static object CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
-
-        private static Case[] _casesWithEmpties = new[] // ncrunch: no coverage
+        static Case[] _nullyCases =  
         {
-            new Case( 4800, null ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( null, 4800 ) { SamplingRate = 48000, CourtesyFrames = 3 }
-        }
-        .Concat(_cases).ToArray();
+            new Case(       48000+3 , (null,48000+3) ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( (null,48000+3),       48000+3  ) { SamplingRate = 48000, CourtesyFrames = 3 }
+        };
+        static object[][] NullyCaseKeys => _nullyCases.Select(x => new object[] { x.Descriptor }).ToArray();
         
-        private static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
+        static object[][] CaseKeysWithNullies => CaseKeys.Concat(NullyCaseKeys).ToArray();
         
-        static Dictionary<string, Case> _caseDictionary = _casesWithEmpties.Concat(_casesInit)
+        Dictionary<string, Case> _caseDictionary = _cases.Concat(_nullyCases)
+                                                         .Concat(_casesInit)
                                                                            .Distinct(x => x.Descriptor)
                                                                            .ToDictionary(x => x.Descriptor);
         // ncrunch: no coverage end
