@@ -7,6 +7,8 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
+    // TODO: Move to FrameworkWishes
+    
     /// <inheritdoc cref="docs._copiedfromframework"/>
     internal static class CopiedFromFramework
     {
