@@ -570,20 +570,35 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     {
                         return $"{From.Nully}";
                     }
-                    
-                    if (Equals(From.Nully, From.Coalesced) &&
-                        Equals(To.Nully, To.Coalesced))
-                    {
-                        return $"{From.Nully} => {To.Nully}";
-                    }
-                    
+                                        
                     if (Equals(From.Nully, To.Nully) && 
                         Equals(From.Coalesced, To.Coalesced))
                     {
                         return $"({Nully},{Coalesced})";
                     }
                     
-                    return $"({From.Nully},{From.Coalesced}) => ({To.Nully},{To.Coalesced})";
+                    string formattedFrom;
+                    string formattedTo;
+                    
+                    if (Equals(From.Nully, From.Coalesced))
+                    {
+                        formattedFrom = $"{From.Nully}";
+                    }
+                    else
+                    {
+                        formattedFrom = $"({From.Nully},{From.Coalesced})";
+                    }
+                    
+                    if (Equals(To.Nully, To.Coalesced))
+                    {
+                        formattedTo = $"{To.Nully}";
+                    }
+                    else
+                    {
+                        formattedTo = $"({To.Nully},{To.Coalesced})";
+                    }
+                    
+                    return $"{formattedFrom} => {formattedTo}";
                 }
 
             }
