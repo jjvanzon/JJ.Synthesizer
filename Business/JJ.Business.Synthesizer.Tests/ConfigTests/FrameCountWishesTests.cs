@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case( 123456+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         static object[][] CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
-        
+
         // ncrunch: no coverage end
         
         [DataTestMethod]
@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case( 4800+3, 12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
-        
+
         static Case[] _nullyCases =  
         {
             new Case(       48000+3 , (null,48000+3) ) { SamplingRate = 48000, CourtesyFrames = 3 },
@@ -104,8 +104,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         Dictionary<string, Case> _caseDictionary = _cases.Concat(_nullyCases)
                                                          .Concat(_casesInit)
-                                                                           .Distinct(x => x.Descriptor)
-                                                                           .ToDictionary(x => x.Descriptor);
+                                                         .Distinct(x => x.Descriptor)
+                                                         .ToDictionary(x => x.Descriptor);
         // ncrunch: no coverage end
          
         [TestMethod] 
@@ -125,10 +125,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 setter(x);
                 
                 Assert_SynthBound_Getters (x, value.Coalesced);
-                Assert_TapeBound_Getters  (x, init.Coalesced);
-                Assert_BuffBound_Getters  (x, init.Coalesced);
-                Assert_Independent_Getters(x, init.Coalesced);
-                Assert_Immutable_Getters  (x, init.Coalesced);
+                Assert_TapeBound_Getters  (x, init .Coalesced);
+                Assert_BuffBound_Getters  (x, init .Coalesced);
+                Assert_Independent_Getters(x, init .Coalesced);
+                Assert_Immutable_Getters  (x, init .Coalesced);
                 
                 x.Record();
                 Assert_All_Getters(x, value.Coalesced);
@@ -432,19 +432,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             });
         }
         
-        //private static int Coalesce(int? frameCount)
-        //{
-        //    int defaultValue = 1 /*sec*/ * 10 /*Hz*/ + 2 /*CourtesyFrames*/;
-        //    return CoalesceFrameCount(frameCount, defaultValue);
-        //}
-        
         // ncrunch: no coverage start
         
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class Case : CaseProp<int>
         {
             string DebuggerDisplay => GetDebuggerDisplay(this);
-                        
+            
             // Test defaults not quite the same as the regular defaults.
             public const int    SamplingRateTestDefault   = 44100;
             public const double AudioLengthTestDefault    = 0.1;
@@ -532,9 +526,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             string DebuggerDisplay => GetDebuggerDisplay(this);
             
-            public static implicit operator T(CaseProp<T> prop) => prop.From;
+            public static implicit operator T (CaseProp<T> prop) => prop.From;
             public static implicit operator T?(CaseProp<T> prop) => prop.From;
-            public static implicit operator CaseProp<T>(T val) => new CaseProp<T> { From = val, To = val };
+            public static implicit operator CaseProp<T>(T  val) => new CaseProp<T> { From = val, To = val };
             public static implicit operator CaseProp<T>(T? val) => new CaseProp<T> { From = val, To = val };
 
             public Values<T> From { get; set; } = new Values<T>();
@@ -596,7 +590,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public string Descriptor
             {
                 get
-            {
+                {
                     string nully     = Coalesce(Nully, "");
                     string coalesced = Coalesce(Coalesced, "");
                     
