@@ -440,17 +440,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // ncrunch: no coverage start
         
-        static object CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
-        
-        static object CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
-        
-        static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
-
-        static readonly Dictionary<string, Case> _caseDictionary =
-            _casesWithEmpties.Concat(_casesInit)
-                             .Distinct(x => x.Descriptor)
-                             .ToDictionary(x => x.Descriptor);
-        
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class Case : CaseProp<int>
         {
