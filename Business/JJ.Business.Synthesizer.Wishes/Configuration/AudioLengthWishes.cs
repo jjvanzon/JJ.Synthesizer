@@ -221,7 +221,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public partial class ConfigWishes
     {
-        // TODO: Division by Channels might be incorrect, because that applies more to value count
         public static double? AudioLength(int? frameCount, int samplingRate, int courtesyFrames) 
             => (double?)AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames) / AssertSamplingRate(samplingRate);
         
