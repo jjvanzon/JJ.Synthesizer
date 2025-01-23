@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // ncrunch: no coverage start
         
-        private static Case[] _initCases = FromTemplate(new Case 
+        private static Case[] _initCases = FromTemplate(new Case
             {
                 Name = "Init",
                 PlusFrames = 3
@@ -120,23 +120,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 Name = "SamplingRate",
                 sec = 0.1,
-                PlusFrames = 3
+                PlusFrames = 3,
+                Hertz = { From = 48000 }
             },
-            new Case ( 4800+3,  4800+3 ) { Hertz = { From = 48000, To =  48000 } },
-            new Case ( 4800+3,  9600+3 ) { Hertz = { From = 48000, To =  96000 } },
-            new Case ( 4800+3,  8820+3 ) { Hertz = { From = 48000, To =  88200 } },
-            new Case ( 4800+3,  4410+3 ) { Hertz = { From = 48000, To =  44100 } },
-            new Case ( 4800+3,  2205+3 ) { Hertz = { From = 48000, To =  22050 } },
-            new Case ( 4800+3,  1102+3 ) { Hertz = { From = 48000, To =  11020 } },
-            new Case ( 4800+3,     8+3 ) { Hertz = { From = 48000, To =     80 } },
-            new Case ( 4800+3,    16+3 ) { Hertz = { From = 48000, To =    160 } },
-            new Case ( 4800+3,    19+3 ) { Hertz = { From = 48000, To =    190 } },
-            new Case ( 4800+3,    31+3 ) { Hertz = { From = 48000, To =    310 } },
-            new Case ( 4800+3,    61+3 ) { Hertz = { From = 48000, To =    610 } },
-            new Case ( 4800+3,   100+3 ) { Hertz = { From = 48000, To =   1000 } },
-            new Case ( 4800+3,  1000+3 ) { Hertz = { From = 48000, To =  10000 } },
-            new Case ( 4800+3,  1234+3 ) { Hertz = { From = 48000, To =  12340 } },
-            new Case ( 4800+3, 12345+3 ) { Hertz = { From = 48000, To = 123450 } },
+            new Case ( 4800+3,  4800+3 ) { Hertz = { To =  48000 } },
+            new Case ( 4800+3,  9600+3 ) { Hertz = { To =  96000 } },
+            new Case ( 4800+3,  8820+3 ) { Hertz = { To =  88200 } },
+            new Case ( 4800+3,  4410+3 ) { Hertz = { To =  44100 } },
+            new Case ( 4800+3,  2205+3 ) { Hertz = { To =  22050 } },
+            new Case ( 4800+3,  1102+3 ) { Hertz = { To =  11020 } },
+            new Case ( 4800+3,     8+3 ) { Hertz = { To =     80 } },
+            new Case ( 4800+3,    16+3 ) { Hertz = { To =    160 } },
+            new Case ( 4800+3,    19+3 ) { Hertz = { To =    190 } },
+            new Case ( 4800+3,    31+3 ) { Hertz = { To =    310 } },
+            new Case ( 4800+3,    61+3 ) { Hertz = { To =    610 } },
+            new Case ( 4800+3,   100+3 ) { Hertz = { To =   1000 } },
+            new Case ( 4800+3,  1000+3 ) { Hertz = { To =  10000 } },
+            new Case ( 4800+3,  1234+3 ) { Hertz = { To =  12340 } },
+            new Case ( 4800+3, 12345+3 ) { Hertz = { To = 123450 } },
             new Case (    8+3,  4800+3 ) { Hertz = { From =     8, To =   4800 } },
             new Case ( 1102+3,  4410+3 ) { Hertz = { From =  1102, To =   4410 } },
             new Case ( 2205+3,  4410+3 ) { Hertz = { From = 48000, To =  96000 } },
