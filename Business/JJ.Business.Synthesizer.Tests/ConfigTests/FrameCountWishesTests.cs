@@ -176,28 +176,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                                                                 .Concat(_initCases)
                                                                 //.Distinct(x => x.Descriptor)
                                                                 .ToDictionary(x => x.Descriptor);
-
-        static object[][] InitCaseKeys => _initCases.Select(x => new object[] { x.Descriptor }).ToArray();
         
-        static object[][] NormalCaseKeys => Empty<Case>().Concat(_basicCases)
-                                                         .Concat(_audioLengthCases)
-                                                         .Concat(_samplingRateCases)
-                                                         .Select(x => new object[] { x.Descriptor }).ToArray();
-        
-        static object[][] CaseKeysWithPlusFrames => Empty<Case>().Concat(_basicCases)
-                                                                 .Concat(_audioLengthCases)
-                                                                 .Concat(_samplingRateCases)
-                                                                 .Concat(_courtesyFramesCases)
-                                                                 .Select(x => new object[] { x.Descriptor }).ToArray();
-        
-        static object[][] NullyCaseKeys => _nullyCases.Select(x => new object[] { x.Descriptor }).ToArray();
-        
-        static object[][] CaseKeysWithNullies => Enumerable.Concat(CaseKeysWithPlusFrames, NullyCaseKeys).ToArray();
-
         // ncrunch: no coverage end
         
-        [DataTestMethod]
-        [DynamicData(nameof(InitCaseKeys))]
+        static object InitCases => _initCases.Select(x => x.DynamicData);
+        
+        [TestMethod]
+        [DynamicData(nameof(InitCases))]
         public void Init_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -205,8 +190,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_All_Getters(x, testCase);
         }
 
+        static object SynthBoundCases
+            => Empty<Case>().Concat(_basicCases)
+                            .Concat(_audioLengthCases)
+                            .Concat(_samplingRateCases)
+                            .Concat(_courtesyFramesCases)
+                            .Concat(_nullyCases)
+                            .Select(x => x.DynamicData);
         [TestMethod] 
-        [DynamicData(nameof(CaseKeysWithNullies))]
+        [DynamicData(nameof(SynthBoundCases))]
         public void SynthBound_FrameCount(string caseKey)
         {            
             Case testCase = _caseDictionary[caseKey];
@@ -268,8 +260,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
 
+        static object TapeBoundCases
+            => Empty<Case>().Concat(_basicCases)
+                            .Concat(_audioLengthCases)
+                            .Concat(_samplingRateCases)
+                            .Concat(_courtesyFramesCases)
+                            .Select(x => x.DynamicData);
         [TestMethod] 
-        [DynamicData(nameof(CaseKeysWithPlusFrames))]
+        [DynamicData(nameof(TapeBoundCases))]
         public void TapeBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -326,8 +324,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
 
+        static object BuffBoundCases
+            => Empty<Case>().Concat(_basicCases)
+                            .Concat(_audioLengthCases)
+                            .Concat(_samplingRateCases)
+                            .Select(x => x.DynamicData);
         [TestMethod] 
-        [DynamicData(nameof(NormalCaseKeys))]
+        [DynamicData(nameof(BuffBoundCases))]
         public void BuffBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -370,8 +373,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
         
+        static object IndependentCases
+            => Empty<Case>().Concat(_basicCases)
+                            .Concat(_audioLengthCases)
+                            .Concat(_samplingRateCases)
+                            .Select(x => x.DynamicData);
         [TestMethod] 
-        [DynamicData(nameof(NormalCaseKeys))]
+        [DynamicData(nameof(IndependentCases))]
         public void Independent_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -445,8 +453,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
         
+        static object ImmutableCases
+            => Empty<Case>().Concat(_basicCases)
+                            .Concat(_audioLengthCases)
+                            .Concat(_samplingRateCases)
+                            .Select(x => x.DynamicData);
         [TestMethod] 
-        [DynamicData(nameof(NormalCaseKeys))]
+        [DynamicData(nameof(ImmutableCases))]
         public void Immutable_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -722,6 +735,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
                 return cases;
             }
+            
+            public object[] DynamicData => new object[] { Descriptor };
         }
         
         [DebuggerDisplay("{DebuggerDisplay}")]
