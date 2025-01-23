@@ -437,28 +437,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class Case : CaseProp<int>
         {
-            string DebuggerDisplay => GetDebuggerDisplay(this);
-            
-            // Test defaults not quite the same as the regular defaults.
-            public const int    SamplingRateTestDefault   = 44100;
-            public const double AudioLengthTestDefault    = 0.1;
-            public const int    CourtesyFramesTestDefault = 3;
-            public const int    ChannelsTestDefault       = 2;
+            string DebuggerDisplay => DebuggerDisplay(this);
+            public override string ToString() => Descriptor;
 
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount => this;
 
             // SamplingRate: Scales FrameCount
-            public CaseProp<int> SamplingRate { get; set; } = SamplingRateTestDefault;
+            public CaseProp<int> SamplingRate { get; set; } = DefaultSamplingRate;
 
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
-            public CaseProp<double> AudioLength { get; set; } = AudioLengthTestDefault;
+            public CaseProp<double> AudioLength { get; set; } = DefaultAudioLength;
             
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
-            public CaseProp<int> CourtesyFrames { get; set; } = CourtesyFramesTestDefault;
+            public CaseProp<int> CourtesyFrames { get; set; } = DefaultCourtesyFrames;
 
             // Channels: AudioLength vs FrameCount is invariant under Channels, but accidentally involved in formulas.
-            public CaseProp<int> Channels { get; set; } = ChannelsTestDefault;
+            public CaseProp<int> Channels { get; set; } = DefaultChannels;
 
             public override string Descriptor
             {
