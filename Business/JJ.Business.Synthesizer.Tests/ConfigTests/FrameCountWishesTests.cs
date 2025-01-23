@@ -425,11 +425,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 // Impersonate NCrunch for reliable default SamplingRate of 10 Hz.
                 x.IsUnderNCrunch = true;
                 x.IsUnderAzurePipelines = false;
-                x.AudioLength(testCase.AudioLength);
-                x.SamplingRate(testCase.SamplingRate);
-                x.Channels(testCase.Channels);
-                x.CourtesyFrames(testCase.CourtesyFrames);
-                x.FrameCount(testCase);
+                x.SamplingRate(testCase.SamplingRate.Init);
+                x.Channels(testCase.Channels.Init);
+                x.CourtesyFrames(testCase.CourtesyFrames.Init);
+                x.FrameCount(testCase.Init);
             });
         }
         
@@ -518,32 +517,44 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 From.Nully = from; 
                 To.Nully   = to;
             }
-            
-            public override string ToString() => Descriptor;
         }
         
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class CaseProp<T> where T : struct
         {
-            string DebuggerDisplay => GetDebuggerDisplay(this);
+            string DebuggerDisplay => DebuggerDisplay(this);
+            public override string ToString() => Descriptor;
             
-            public static implicit operator T (CaseProp<T> prop) => prop.From;
-            public static implicit operator T?(CaseProp<T> prop) => prop.From;
-            public static implicit operator CaseProp<T>(T  val) => new CaseProp<T> { From = val, To = val };
-            public static implicit operator CaseProp<T>(T? val) => new CaseProp<T> { From = val, To = val };
+            public static implicit operator T (CaseProp<T> prop) => prop.To;
+            public static implicit operator T?(CaseProp<T> prop) => prop.To;
+            public static implicit operator CaseProp<T>(T  val) => new CaseProp<T> { To = val, From = val };
+            public static implicit operator CaseProp<T>(T? val) => new CaseProp<T> { To = val, From = val };
+            
+            /// <inheritdoc cref="docs._from" />
+            public NullyPair<T> From   { get; set; } = new NullyPair<T>();
+            /// <inheritdoc cref="docs._from" />
+            public NullyPair<T> Init   { get => From; set => From = value; }
+            ///// <inheritdoc cref="docs._from" />
+            //public NullyPair<T> Source { get => From; set => From = value; }
 
-            public Values<T> From { get; set; } = new Values<T>();
-            public Values<T> To   { get; set; } = new Values<T>();
+            /// <inheritdoc cref="docs._to" />
+            public NullyPair<T> To    { get; set; } = new NullyPair<T>();
+            /// <inheritdoc cref="docs._to" />
+            public NullyPair<T> Value { get => To; set => To = value; }
+            /// <inheritdoc cref="docs._to" />
+            public NullyPair<T> Val { get => To; set => To = value; }
+            ///// <inheritdoc cref="docs._to" />
+            //public NullyPair<T> Dest  { get => To; set => To = value; }
             
             public T? Nully
             {
-                get => From.Nully;
+                get => To.Nully;
                 set => From.Nully = To.Nully = value;
             }
             
             public T Coalesced
             {
-                get => From.Coalesced;
+                get => To.Coalesced;
                 set => From.Coalesced = To.Coalesced = value;
             }
 
@@ -571,22 +582,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
 
             }
-            
-            public override string ToString() => Descriptor;
         }
         
         [DebuggerDisplay("{DebuggerDisplay}")]
-        internal class Values<T> where T : struct
+        internal class NullyPair<T> where T : struct
         {
-            string DebuggerDisplay => GetDebuggerDisplay(this);
+            string DebuggerDisplay => DebuggerDisplay(this);
+            public override string ToString() => Descriptor;
 
             public T? Nully { get; set; }
             public T Coalesced { get; set; }
             
-            public static implicit operator T?(Values<T> values) => values.Nully;
-            public static implicit operator T(Values<T> values) => values.Coalesced;
-            public static implicit operator Values<T>(T? value) => new Values<T> { Nully = value };
-            public static implicit operator Values<T>(T value) => new Values<T> { Nully = value, Coalesced = value };
+            public static implicit operator T?(NullyPair<T> values) => values.Nully;
+            public static implicit operator T (NullyPair<T> values) => values.Coalesced;
+            public static implicit operator NullyPair<T>(T? value) => new NullyPair<T> { Nully = value };
+            public static implicit operator NullyPair<T>(T  value) => new NullyPair<T> { Nully = value, Coalesced = value };
             
             public string Descriptor
             {
@@ -605,7 +615,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
             }
 
-            public override string ToString() => Descriptor;
         }
         
         // ReSharper disable once UnusedMember.Local
