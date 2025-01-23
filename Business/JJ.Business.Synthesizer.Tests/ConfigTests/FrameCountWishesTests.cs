@@ -34,22 +34,22 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static Case[] _casesInit = 
         {
-            new Case(  96000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(  88200+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(  48000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(  44100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(  22050+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(  11025+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(      8+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(     16+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(     19+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(     31+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(     61+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(    100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(   1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(   1003+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }, 
-            new Case(  12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 123456+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
+            new Case(  9600+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  8820+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  2205+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  1102+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(     8+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(    16+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(    19+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(    31+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(    61+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(   100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case(  1003+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }, 
+            new Case(  1234+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
+            new Case( 12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         static object[][] CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
 
@@ -68,27 +68,27 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static Case[] _cases =
         {
-            new Case( 4800+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,  9600+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,  8820+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,  2205+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,  1102+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,     8+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 9600+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 8820+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4410+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 2205+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 1102+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case(    8+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,    16+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,    19+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,    31+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,    61+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,   100+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,  1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3,  1234+3 ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( 4800+3, 12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3 }
+            new Case( 4800+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
+            new Case( 4800+3,  9600+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  9600 / 48000.0 },
+            new Case( 4800+3,  8820+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  8820 / 48000.0 },
+            new Case( 4800+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
+            new Case( 4800+3,  2205+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  2205 / 48000.0 },
+            new Case( 4800+3,  1102+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  1102 / 48000.0 },
+            new Case( 4800+3,     8+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =     8 / 48000.0 },
+            new Case( 9600+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
+            new Case( 8820+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
+            new Case( 4410+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
+            new Case( 2205+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
+            new Case( 1102+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
+            new Case(    8+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
+            new Case( 4800+3,    16+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    16 / 48000.0 },
+            new Case( 4800+3,    19+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    19 / 48000.0 },
+            new Case( 4800+3,    31+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    31 / 48000.0 },
+            new Case( 4800+3,    61+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    61 / 48000.0 },
+            new Case( 4800+3,   100+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =   100 / 48000.0 },
+            new Case( 4800+3,  1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  1000 / 48000.0 },
+            new Case( 4800+3,  1234+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  1234 / 48000.0 },
+            new Case( 4800+3, 12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength = 12345 / 48000.0 }
         };
         static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
 
@@ -108,7 +108,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // ncrunch: no coverage end
          
         [TestMethod] 
-        //[DynamicData(nameof(CaseKeys))]
         [DynamicData(nameof(CaseKeysWithNullies))]
         public void SynthBound_FrameCount(string caseKey)
         {            
@@ -136,6 +135,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(value, x.SynthBound.SynthWishes)));
+        
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .AudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .AudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.AudioLength(testCase.AudioLength, x.SynthBound.SynthWishes)));
+        
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithAudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithAudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithAudioLength(testCase.AudioLength, x.SynthBound.SynthWishes)));
         }
 
         [TestMethod] 
@@ -143,8 +150,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public void TapeBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
-            int init = testCase.From;
-            int val  = testCase.To;
+            int init  = testCase.From;
+            int value = testCase.To;
 
             void AssertProp(Action<ConfigTestEntities> setter)
             {
@@ -153,20 +160,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters(x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
-                Assert_BuffBound_Getters(x, init);
+                Assert_SynthBound_Getters (x, init);
+                Assert_TapeBound_Getters  (x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
+                Assert_BuffBound_Getters  (x, init);
                 Assert_Independent_Getters(x, init);
-                Assert_Immutable_Getters(x, init);
+                Assert_Immutable_Getters  (x, init);
                 
                 x.Record();
                 Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .FrameCount(val)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .FrameCount(val)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FrameCount(val)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .FrameCount(val)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .FrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .FrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .FrameCount(value)));
+
+            AssertProp(x => AreEqual(x.TapeBound.Tape,              x.TapeBound.Tape       .AudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,        x.TapeBound.TapeConfig .AudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions,       x.TapeBound.TapeActions.AudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,        x.TapeBound.TapeAction .AudioLength(testCase.AudioLength)));
+            AssertProp(x =>                                         x.TapeBound.Tape       .Duration =  testCase.AudioLength);
         }
 
         [TestMethod] 
@@ -197,6 +210,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .FrameCount(value, testCase.CourtesyFrames)));
             AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.FrameCount(value, testCase.CourtesyFrames)));
+
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .AudioLength(testCase.AudioLength)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.AudioLength(testCase.AudioLength)));
+            AssertProp(x =>                                       x.BuffBound.AudioFileOutput.Duration =  testCase.AudioLength);
         }
         
         [TestMethod] 
@@ -286,7 +303,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     wavHeaders.Add(wavHeader2);
                 }
 
-                AssertProp(() => x.Immutable.WavHeader.FrameCount(value, x.Immutable.CourtesyFrames));
+                AssertProp(() => x.Immutable.WavHeader.FrameCount (value,                testCase.CourtesyFrames));
+                AssertProp(() => x.Immutable.WavHeader.AudioLength(testCase.AudioLength, testCase.CourtesyFrames));
             }
             
             // After-Record
@@ -439,7 +457,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             string DebuggerDisplay => DebuggerDisplay(this);
             public override string ToString() => Descriptor;
-
+            
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount => this;
 
@@ -524,14 +542,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public static implicit operator T?(CaseProp<T> prop) => prop.To;
             public static implicit operator CaseProp<T>(T  val) => new CaseProp<T> { To = val, From = val };
             public static implicit operator CaseProp<T>(T? val) => new CaseProp<T> { To = val, From = val };
-            
+
             /// <inheritdoc cref="docs._from" />
             public NullyPair<T> From   { get; set; } = new NullyPair<T>();
             /// <inheritdoc cref="docs._from" />
             public NullyPair<T> Init   { get => From; set => From = value; }
             ///// <inheritdoc cref="docs._from" />
             //public NullyPair<T> Source { get => From; set => From = value; }
-
+            
             /// <inheritdoc cref="docs._to" />
             public NullyPair<T> To    { get; set; } = new NullyPair<T>();
             /// <inheritdoc cref="docs._to" />
@@ -540,7 +558,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public NullyPair<T> Val { get => To; set => To = value; }
             ///// <inheritdoc cref="docs._to" />
             //public NullyPair<T> Dest  { get => To; set => To = value; }
-            
+
             public T? Nully
             {
                 get => To.Nully;

@@ -105,7 +105,12 @@ namespace JJ.Business.Synthesizer.Tests
         /// </para>
         /// </summary>
         public static object _fmtests;
-            
+       
+        /// <summary>
+        /// From, Init and Source are synonyms.
+        /// </summary>
+        public static object _from;
+        
         /// <summary>
         /// Sounds like Horn.
         /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
@@ -190,6 +195,11 @@ namespace JJ.Business.Synthesizer.Tests
         /// Aims to test rare exception for code coverage.
         /// </summary>
         public static object _throwtests;
+        
+        /// <summary>
+        /// To, Value, Val and Dest are synonyms.
+        /// </summary>
+        public static object _to;
         
         /// <summary>
         /// Sounds like Trombone at beginning.
