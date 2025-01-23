@@ -548,6 +548,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             string DebuggerDisplay => DebuggerDisplay(this);
             public override string ToString() => Descriptor;
             
+            public string Name { get; set; }
+            
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount => this;
 
@@ -565,7 +567,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
             public CaseProp<int> PlusFrames { get => CourtesyFrames; set => CourtesyFrames = value; }
 
-            public override string Descriptor => $"{base.Descriptor} ({SamplingRate}Hz+{CourtesyFrames})";
+            public override string Descriptor
+            {
+                get 
+                {
+                    string nameDescriptor = Has(Name) ? Name + " ~ " : "";
+                    return $"{nameDescriptor}{base.Descriptor} f ({SamplingRate} Hz + {CourtesyFrames} , {AudioLength} s)"; 
+                }
+            }
             
             public Case(
                 int?    frameCount     = null,
@@ -607,6 +616,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 {
                     if (cases[i] == null) throw new NullException(() => cases[i]);
                     var testCase = cases[i];
+                    testCase.Name = Coalesce(testCase.Name, Name);
                     testCase.FrameCount    .CloneFrom(FrameCount    );
                     testCase.SamplingRate  .CloneFrom(SamplingRate  );
                     testCase.AudioLength   .CloneFrom(AudioLength   );
