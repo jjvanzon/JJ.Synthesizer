@@ -621,8 +621,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 get 
                 {
-                    string nameDescriptor = Has(Name) ? Name + " ~ " : "";
-                    return $"{nameDescriptor}{base.Descriptor} f ({SamplingRate} Hz + {CourtesyFrames} , {AudioLength} s)"; 
+                    string name           = Has(Name)           ? $"{Name} ~ "          : "";
+                    string frameCount     = $"{base.Descriptor}";
+                    frameCount            = Has(frameCount)     ? $"{frameCount} f "    : "";
+                    string samplingRate   = $"{SamplingRate}";
+                    samplingRate          = Has(samplingRate)   ? $"{samplingRate} Hz " : "";
+                    string plusFrames     = $"{PlusFrames}";
+                    plusFrames            = Has(plusFrames)     ? $"+ {plusFrames} "    : "";
+                    string audioLength    = $"{AudioLength}";
+                    audioLength           = Has(audioLength)    ? $", {audioLength} s"  : "";
+                    string braced         = samplingRate + plusFrames + audioLength;
+                    braced                = Has(braced)         ? $"({braced.TrimStart(',').Trim()})"  : "";
+                    return                  $"{name}{frameCount}{braced}"; 
                 }
             }
             
@@ -780,7 +790,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 {
                     string nully     = Coalesce(Nully, "");
                     string coalesced = Coalesce(Coalesced, "");
-                    if (!Has(nully) && !Has(coalesced)) return "_";
+                    if (!Has(nully) && !Has(coalesced)) return "";
                     if (nully.Is(coalesced)) return nully;
                     if (Has(nully) && !Has(coalesced)) return nully;
                     return $"({nully},{coalesced})";
