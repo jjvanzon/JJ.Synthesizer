@@ -468,10 +468,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
 
             public Case(
-                int    samplingRate   = SamplingRateTestDefault,
-                double audioLength    = AudioLengthTestDefault,
-                int    courtesyFrames = CourtesyFramesTestDefault,
-                int    channels       = ChannelsTestDefault)
+                int    samplingRate   = DefaultSamplingRate,
+                double audioLength    = DefaultAudioLength,
+                int    courtesyFrames = DefaultCourtesyFrames,
+                int    channels       = DefaultChannels)
             {
                 SamplingRate   = samplingRate;
                 AudioLength    = audioLength;
