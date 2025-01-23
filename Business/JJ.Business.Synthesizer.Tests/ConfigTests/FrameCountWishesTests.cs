@@ -70,51 +70,52 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // ncrunch: no coverage start
         
         static Case[] _cases =
-        {
-            new Case(4800+3,  4800+3) { sec = { From = 0.1, To =  4800.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,  9600+3) { sec = { From = 0.1, To =  9600.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,  8820+3) { sec = { From = 0.1, To =  8820.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,  4410+3) { sec = { From = 0.1, To =  4410.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,  2205+3) { sec = { From = 0.1, To =  2205.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,  1102+3) { sec = { From = 0.1, To =  1102.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,     8+3) { sec = { From = 0.1, To =     8.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,    16+3) { sec = { From = 0.1, To =    16.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,    19+3) { sec = { From = 0.1, To =    19.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,    31+3) { sec = { From = 0.1, To =    31.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,    61+3) { sec = { From = 0.1, To =    61.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,   100+3) { sec = { From = 0.1, To =   100.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,  1000+3) { sec = { From = 0.1, To =  1000.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3,  1234+3) { sec = { From = 0.1, To =  1234.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4800+3, 12345+3) { sec = { From = 0.1, To = 12345.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(   8+3,  4800+3) { sec = { From = 0.1, To =  4800.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(1102+3,  4410+3) { sec = { From = 0.1, To =  4410.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(2205+3,  4410+3) { sec = { From = 0.1, To =  4410.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(4410+3,  4800+3) { sec = { From = 0.1, To =  4800.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(8820+3,  4410+3) { sec = { From = 0.1, To =  4410.0 / DefaultHz }, PlusFrames = 3 },
-            new Case(9600+3,  4800+3) { sec = { From = 0.1, To =  4800.0 / DefaultHz }, PlusFrames = 3 },
+            new Case { sec = { From = 0.1 }, PlusFrames = 3 }.Clone
+            (
+                new Case(4800+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
+                new Case(4800+3,  9600+3) { sec = { To =  9600.0 / DefaultHz } },
+                new Case(4800+3,  8820+3) { sec = { To =  8820.0 / DefaultHz } },
+                new Case(4800+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
+                new Case(4800+3,  2205+3) { sec = { To =  2205.0 / DefaultHz } },
+                new Case(4800+3,  1102+3) { sec = { To =  1102.0 / DefaultHz } },
+                new Case(4800+3,     8+3) { sec = { To =     8.0 / DefaultHz } },
+                new Case(4800+3,    16+3) { sec = { To =    16.0 / DefaultHz } },
+                new Case(4800+3,    19+3) { sec = { To =    19.0 / DefaultHz } },
+                new Case(4800+3,    31+3) { sec = { To =    31.0 / DefaultHz } },
+                new Case(4800+3,    61+3) { sec = { To =    61.0 / DefaultHz } },
+                new Case(4800+3,   100+3) { sec = { To =   100.0 / DefaultHz } },
+                new Case(4800+3,  1000+3) { sec = { To =  1000.0 / DefaultHz } },
+                new Case(4800+3,  1234+3) { sec = { To =  1234.0 / DefaultHz } },
+                new Case(4800+3, 12345+3) { sec = { To = 12345.0 / DefaultHz } },
+                new Case(   8+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
+                new Case(1102+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
+                new Case(2205+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
+                new Case(4410+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
+                new Case(8820+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
+                new Case(9600+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
             
-            new Case(4800+3,  4800+3) { Hertz = { From = 48000, To =  48000 }, PlusFrames = 3 },
-            new Case(4800+3,  9600+3) { Hertz = { From = 48000, To =  96000 }, PlusFrames = 3 },
-            new Case(4800+3,  8820+3) { Hertz = { From = 48000, To =  88200 }, PlusFrames = 3 },
-            new Case(4800+3,  4410+3) { Hertz = { From = 48000, To =  44100 }, PlusFrames = 3 },
-            new Case(4800+3,  2205+3) { Hertz = { From = 48000, To =  22050 }, PlusFrames = 3 },
-            new Case(4800+3,  1102+3) { Hertz = { From = 48000, To =  11020 }, PlusFrames = 3 },
-            new Case(4800+3,     8+3) { Hertz = { From = 48000, To =     80 }, PlusFrames = 3 },
-            new Case(4800+3,    16+3) { Hertz = { From = 48000, To =    160 }, PlusFrames = 3 },
-            new Case(4800+3,    19+3) { Hertz = { From = 48000, To =    190 }, PlusFrames = 3 },
-            new Case(4800+3,    31+3) { Hertz = { From = 48000, To =    310 }, PlusFrames = 3 },
-            new Case(4800+3,    61+3) { Hertz = { From = 48000, To =    610 }, PlusFrames = 3 },
-            new Case(4800+3,   100+3) { Hertz = { From = 48000, To =   1000 }, PlusFrames = 3 },
-            new Case(4800+3,  1000+3) { Hertz = { From = 48000, To =  10000 }, PlusFrames = 3 },
-            new Case(4800+3,  1234+3) { Hertz = { From = 48000, To =  12340 }, PlusFrames = 3 },
-            new Case(4800+3, 12345+3) { Hertz = { From = 48000, To = 123450 }, PlusFrames = 3 },
-            new Case(   8+3,  4800+3) { Hertz = { From =     8, To =   4800 }, PlusFrames = 3 },
-            new Case(1102+3,  4410+3) { Hertz = { From =  1102, To =   4410 }, PlusFrames = 3 },
-            new Case(2205+3,  4410+3) { Hertz = { From = 48000, To =  96000 }, PlusFrames = 3 },
-            new Case(4410+3,  4800+3) { Hertz = { From =  4410, To =   4800 }, PlusFrames = 3 },
-            new Case(8820+3,  4410+3) { Hertz = { From = 48000, To =  24000 }, PlusFrames = 3 },
-            new Case(9600+3,  4800+3) { Hertz = { From = 48000, To =  24000 }, PlusFrames = 3 },
-        };
+                new Case(4800+3,  4800+3) { Hertz = { From = 48000, To =  48000 } },
+                new Case(4800+3,  9600+3) { Hertz = { From = 48000, To =  96000 } },
+                new Case(4800+3,  8820+3) { Hertz = { From = 48000, To =  88200 } },
+                new Case(4800+3,  4410+3) { Hertz = { From = 48000, To =  44100 } },
+                new Case(4800+3,  2205+3) { Hertz = { From = 48000, To =  22050 } },
+                new Case(4800+3,  1102+3) { Hertz = { From = 48000, To =  11020 } },
+                new Case(4800+3,     8+3) { Hertz = { From = 48000, To =     80 } },
+                new Case(4800+3,    16+3) { Hertz = { From = 48000, To =    160 } },
+                new Case(4800+3,    19+3) { Hertz = { From = 48000, To =    190 } },
+                new Case(4800+3,    31+3) { Hertz = { From = 48000, To =    310 } },
+                new Case(4800+3,    61+3) { Hertz = { From = 48000, To =    610 } },
+                new Case(4800+3,   100+3) { Hertz = { From = 48000, To =   1000 } },
+                new Case(4800+3,  1000+3) { Hertz = { From = 48000, To =  10000 } },
+                new Case(4800+3,  1234+3) { Hertz = { From = 48000, To =  12340 } },
+                new Case(4800+3, 12345+3) { Hertz = { From = 48000, To = 123450 } },
+                new Case(   8+3,  4800+3) { Hertz = { From =     8, To =   4800 } },
+                new Case(1102+3,  4410+3) { Hertz = { From =  1102, To =   4410 } },
+                new Case(2205+3,  4410+3) { Hertz = { From = 48000, To =  96000 } },
+                new Case(4410+3,  4800+3) { Hertz = { From =  4410, To =   4800 } },
+                new Case(8820+3,  4410+3) { Hertz = { From = 48000, To =  24000 } },
+                new Case(9600+3,  4800+3) { Hertz = { From = 48000, To =  24000 } }
+            );
         
         static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
 
@@ -124,7 +125,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case( (null,48000+3),       48000+3  ) { SamplingRate = 48000, CourtesyFrames = 3 }
         };
         static object[][] NullyCaseKeys => _nullyCases.Select(x => new object[] { x.Descriptor }).ToArray();
-        
         static object[][] CaseKeysWithNullies => CaseKeys.Concat(NullyCaseKeys).ToArray();
         
         Dictionary<string, Case> _caseDictionary = _cases.Concat(_nullyCases)
@@ -591,6 +591,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public Case(int? from, int? to) : this() { From.Nully = from; To.Nully = to; }
             public Case(int? from, int  to) : this() { From.Nully = from; To       = to; }
             public Case(int  from, int? to) : this() { From       = from; To.Nully = to; }
+
+            public Case[] Clone(params Case[] cases)
+            {
+                if (cases == null) throw new NullException(() => cases);
+                
+                for (int i = 0; i < cases.Length; i++)
+                {
+                    if (cases[i] == null) throw new NullException(() => cases[i]);
+                    
+                    var testCase = cases[i];
+                    
+                    testCase.AudioLength.CloneFrom(AudioLength);
+                    testCase.CourtesyFrames.CloneFrom(CourtesyFrames);
+                }
+                
+                return cases;
+            }
         }
         
         [DebuggerDisplay("{DebuggerDisplay}")]
@@ -656,6 +673,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     return $"{from} => {to}";
                 }
 
+            }
+            
+            public void CloneFrom(CaseProp<T> template)
+            {
+                if (template == null) throw new NullException(() => template);
+                
+                From.Nully = Coalesce(template.From.Nully, From.Nully);
+                From.Coalesced = Coalesce(template.From.Coalesced, From.Coalesced);
+                To.Nully = Coalesce(template.To.Nully, To.Nully);
+                To.Coalesced = Coalesce(template.From.Coalesced, From.Coalesced);
             }
         }
         
