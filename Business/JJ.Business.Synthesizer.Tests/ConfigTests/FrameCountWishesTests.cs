@@ -690,12 +690,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public void CloneFrom(CaseProp<T> template)
             {
                 if (template == null) throw new NullException(() => template);
-                //if (Has(template.From.Nully) && template.From.Nully != Default
-                
-                From.Nully     = Coalesce(template.From.Nully,     From.Nully);
-                From.Coalesced = Coalesce(template.From.Coalesced, From.Coalesced);
-                To.Nully       = Coalesce(template.To.Nully,       To.Nully);
-                To.Coalesced   = Coalesce(template.To.Coalesced,   To.Coalesced);
+                From.Nully     = Coalesce(From.Nully,     template.From.Nully);
+                From.Coalesced = Coalesce(From.Coalesced, template.From.Coalesced);
+                To.Nully       = Coalesce(To.Nully,       template.To.Nully);
+                To.Coalesced   = Coalesce(To.Coalesced,   template.To.Coalesced);
             }
         }
         
