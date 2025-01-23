@@ -975,6 +975,12 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Operator), action, entity.Name, message));
         }
+        
+        public static void LogAction(object entity, string action, string name, string message = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            Log(ActionMessage(entity.GetType().Name, action, name, message));
+        }
 
         internal static void LogAction(string typeName, string message) 
             => Log(ActionMessage(typeName, null, null, message));
