@@ -146,7 +146,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case ( 8820+3,  4410+3 ) { Hertz = { From = 48000, To =  24000 } },
             new Case ( 9600+3,  4800+3 ) { Hertz = { From = 48000, To =  24000 } }
         );
-
+        
+        static Case[] _courtesyFramesCases = FromTemplate(new Case
+            {
+                Name = "PlusFrames"
+            },
+            new Case(1002, 1003) { PlusFrames = { From = 2, To = 3 } },
+            new Case(1003, 1004) { PlusFrames = { From = 3, To = 4 } },
+            new Case(1005, 1004) { PlusFrames = { From = 5, To = 4 } }
+        );
+        
         static Case[] _nullyCases = FromTemplate(
             template: new Case
             {
@@ -157,23 +166,33 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(       48000+3 , (null,48000+3) ),
             new Case( (null,48000+3),       48000+3  ) 
         );
+                
+        Dictionary<string, Case> _caseDictionary = Empty<Case>().Concat(_basicCases)
+                                                                .Concat(_audioLengthCases)
+                                                                .Concat(_samplingRateCases)
+                                                                .Concat(_courtesyFramesCases)
+                                                                .Concat(_nullyCases)
+                                                                .Concat(_initCases)
+                                                                //.Distinct(x => x.Descriptor)
+                                                                .ToDictionary(x => x.Descriptor);
 
         static object[][] InitCaseKeys => _initCases.Select(x => new object[] { x.Descriptor }).ToArray();
         
-        static object[][] CaseKeys => _basicCases.Concat(_audioLengthCases)
-                                                 .Concat(_samplingRateCases)
-                                                 .Select(x => new object[] { x.Descriptor }).ToArray();
+        static object[][] NormalCaseKeys => Empty<Case>().Concat(_basicCases)
+                                                         .Concat(_audioLengthCases)
+                                                         .Concat(_samplingRateCases)
+                                                         .Select(x => new object[] { x.Descriptor }).ToArray();
+        
+        static object[][] CaseKeysWithPlusFrames => Empty<Case>().Concat(_basicCases)
+                                                                 .Concat(_audioLengthCases)
+                                                                 .Concat(_samplingRateCases)
+                                                                 .Concat(_courtesyFramesCases)
+                                                                 .Select(x => new object[] { x.Descriptor }).ToArray();
         
         static object[][] NullyCaseKeys => _nullyCases.Select(x => new object[] { x.Descriptor }).ToArray();
         
-        static object[][] CaseKeysWithNullies => CaseKeys.Concat(NullyCaseKeys).ToArray();
-        
-        Dictionary<string, Case> _caseDictionary = _basicCases.Concat(_audioLengthCases)
-                                                              .Concat(_samplingRateCases)
-                                                              .Concat(_nullyCases)
-                                                              .Concat(_initCases)
-                                                              //.Distinct(x => x.Descriptor)
-                                                              .ToDictionary(x => x.Descriptor);
+        static object[][] CaseKeysWithNullies => Enumerable.Concat(CaseKeysWithPlusFrames, NullyCaseKeys).ToArray();
+
         // ncrunch: no coverage end
         
         [DataTestMethod]
@@ -235,10 +254,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithSamplingRate(testCase.SamplingRate)));
                 AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithSamplingRate(testCase.SamplingRate)));
             }
+            
+            if (testCase.CourtesyFrames.From != testCase.CourtesyFrames.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .CourtesyFrames(testCase.CourtesyFrames)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .CourtesyFrames(testCase.CourtesyFrames)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.CourtesyFrames(testCase.CourtesyFrames)));
+
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithCourtesyFrames(testCase.CourtesyFrames)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithCourtesyFrames(testCase.CourtesyFrames)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithCourtesyFrames(testCase.CourtesyFrames)));
+            }
         }
 
         [TestMethod] 
-        [DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(CaseKeysWithPlusFrames))]
         public void TapeBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -284,10 +314,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(x => AreEqual(x.TapeBound.TapeActions,       x.TapeBound.TapeActions.SamplingRate  (testCase.SamplingRate)));
                 AssertProp(x => AreEqual(x.TapeBound.TapeAction,        x.TapeBound.TapeAction .SamplingRate  (testCase.SamplingRate)));
             }
+            
+            if (testCase.CourtesyFrames.From != testCase.CourtesyFrames.To)
+            {
+                AssertProp(x => AreEqual(x.TapeBound.Tape,              x.TapeBound.Tape       .CourtesyFrames  (testCase.CourtesyFrames)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,        x.TapeBound.TapeConfig .CourtesyFrames  (testCase.CourtesyFrames)));
+                AssertProp(x =>                                         x.TapeBound.TapeConfig .CourtesyFrames = testCase.CourtesyFrames);
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions,       x.TapeBound.TapeActions.CourtesyFrames  (testCase.CourtesyFrames)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,        x.TapeBound.TapeAction .CourtesyFrames  (testCase.CourtesyFrames)));
+            }
         }
 
         [TestMethod] 
-        [DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(NormalCaseKeys))]
         public void BuffBound_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -331,7 +370,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         [TestMethod] 
-        [DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(NormalCaseKeys))]
         public void Independent_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -406,7 +445,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         [TestMethod] 
-        [DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(NormalCaseKeys))]
         public void Immutable_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
@@ -583,7 +622,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         // ncrunch: no coverage start
-        
+            
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class Case : CaseProp<int>
         {
@@ -660,7 +699,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public Case(int? from, int? to) : this() { From.Nully = from; To.Nully = to; }
             public Case(int? from, int  to) : this() { From.Nully = from; To       = to; }
             public Case(int  from, int? to) : this() { From       = from; To.Nully = to; }
-
+            
             public static Case[] FromTemplate(Case template, params Case[] cases)
             {
                 if (template == null) throw new NullException(() => template);
