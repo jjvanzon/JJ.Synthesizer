@@ -37,22 +37,22 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static Case[] _casesInit = 
         {
-            new Case(  9600+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(  8820+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(  4800+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(  4410+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(  2205+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(  1102+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(     8+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(    16+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(    19+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(    31+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(    61+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(   100+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(  1000+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case(  1003+3 ) { Hz = 48000, PlusFrames = 3 }, 
-            new Case(  1234+3 ) { Hz = 48000, PlusFrames = 3 },
-            new Case( 12345+3 ) { Hz = 48000, PlusFrames = 3 }
+            new Case(  9600+3 ) { PlusFrames = 3 },
+            new Case(  8820+3 ) { PlusFrames = 3 },
+            new Case(  4800+3 ) { PlusFrames = 3 },
+            new Case(  4410+3 ) { PlusFrames = 3 },
+            new Case(  2205+3 ) { PlusFrames = 3 },
+            new Case(  1102+3 ) { PlusFrames = 3 },
+            new Case(     8+3 ) { PlusFrames = 3 },
+            new Case(    16+3 ) { PlusFrames = 3 },
+            new Case(    19+3 ) { PlusFrames = 3 },
+            new Case(    31+3 ) { PlusFrames = 3 },
+            new Case(    61+3 ) { PlusFrames = 3 },
+            new Case(   100+3 ) { PlusFrames = 3 },
+            new Case(  1000+3 ) { PlusFrames = 3 },
+            new Case(  1003+3 ) { PlusFrames = 3 }, 
+            new Case(  1234+3 ) { PlusFrames = 3 },
+            new Case( 12345+3 ) { PlusFrames = 3 }
         };
         static object[][] CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
 
