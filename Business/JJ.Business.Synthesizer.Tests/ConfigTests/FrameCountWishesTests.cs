@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Framework.Reflection;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -541,21 +542,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<int> FrameCount => this;
 
             // SamplingRate: Scales FrameCount
-            public CaseProp<int> SamplingRate { get; set; } = DefaultSamplingRate;
+            public CaseProp<int> SamplingRate { get; set; }
             public CaseProp<int> Hertz { get => SamplingRate; set => SamplingRate = value; }
             public CaseProp<int> Hz    { get => SamplingRate; set => SamplingRate = value; }
 
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
-            public CaseProp<double> AudioLength { get; set; } = DefaultAudioLength;
+            public CaseProp<double> AudioLength { get; set; }
             public CaseProp<double> seconds { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> sec     { get => AudioLength; set => AudioLength = value; }
             
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
-            public CaseProp<int> CourtesyFrames { get; set; } = DefaultCourtesyFrames;
+            public CaseProp<int> CourtesyFrames { get; set; }
             public CaseProp<int> PlusFrames { get => CourtesyFrames; set => CourtesyFrames = value; }
 
             // Channels: AudioLength vs FrameCount is invariant under Channels, but accidentally involved in formulas.
-            public CaseProp<int> Channels { get; set; } = StereoChannels; // Sneaky default verifies formula is unaffected.
+            public CaseProp<int> Channels { get; set; }
 
             public override string Descriptor => $"{base.Descriptor} ({SamplingRate}Hz+{CourtesyFrames})";
             
@@ -571,25 +572,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Channels       = channels;
             }
             
-            public Case(int frameCount) => From = To = frameCount;
-            public Case(int from, int to) { From = from; To = to; }
+            public Case(int frameCount) : this() => From = To = frameCount;
+            public Case(int from, int to) : this() { From = from; To = to; }
              
-            public Case(int from, (int? nully, int coalesced) to)
+            public Case(int from, (int? nully, int coalesced) to) : this()
             {
                 From         = from;
                 To.Nully     = to.nully;
                 To.Coalesced = to.coalesced;
             }
-            public Case((int? nully, int coalesced) from, int to)
+            public Case((int? nully, int coalesced) from, int to) : this()
             {
                 From.Nully     = from.nully;
                 From.Coalesced = from.coalesced;
                 To             = to;
             }
              
-            public Case(int? from, int? to) { From.Nully = from; To.Nully = to; }
-            public Case(int? from, int  to) { From.Nully = from; To       = to; }
-            public Case(int  from, int? to) { From       = from; To.Nully = to; }
+            public Case(int? from, int? to) : this() { From.Nully = from; To.Nully = to; }
+            public Case(int? from, int  to) : this() { From.Nully = from; To       = to; }
+            public Case(int  from, int? to) : this() { From       = from; To.Nully = to; }
         }
         
         [DebuggerDisplay("{DebuggerDisplay}")]
