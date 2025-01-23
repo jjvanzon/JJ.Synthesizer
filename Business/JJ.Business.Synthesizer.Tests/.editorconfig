@@ -20,3 +20,6 @@ resharper_int_align_variables = true
 
 # CS0618: Type or member is obsolete
 dotnet_diagnostic.CS0618.severity = suggestion
+
+# CS0661: Type defines operator == or operator != but does not override Object.GetHashCode()
+dotnet_diagnostic.CS0661.severity = suggestion
