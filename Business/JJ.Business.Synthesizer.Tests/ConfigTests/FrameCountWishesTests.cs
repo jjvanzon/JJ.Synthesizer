@@ -151,9 +151,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 Name = "PlusFrames"
             },
-            new Case(1002, 1003) { PlusFrames = { From = 2, To = 3 } },
-            new Case(1003, 1004) { PlusFrames = { From = 3, To = 4 } },
-            new Case(1005, 1004) { PlusFrames = { From = 5, To = 4 } }
+            new Case(1002, 1003) { PlusFrames = { From = 2, To =  3 } },
+            new Case(2003, 2004) { PlusFrames = { From = 3, To =  4 } },
+            new Case(3005, 3004) { PlusFrames = { From = 5, To =  4 } },
+            new Case(4002, 4010) { PlusFrames = { From = 2, To = 10 } }
         );
         
         static Case[] _nullyCases = FromTemplate(
