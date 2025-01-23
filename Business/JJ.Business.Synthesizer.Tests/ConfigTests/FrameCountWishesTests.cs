@@ -11,7 +11,8 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.FrameCountWishesTests.Cases;
+using static System.Array;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.FrameCountWishesTests.Case;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -583,15 +584,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // ncrunch: no coverage start
         
-        internal static class Cases
-        {
-            public static Case[] FromTemplate(Case template, params Case[] cases)
-            {
-                if (template == null) throw new NullException(() => template);
-                return template.CloneTo(cases);
-            }
-        }
-            
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class Case : CaseProp<int>
         {
@@ -668,6 +660,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public Case(int? from, int? to) : this() { From.Nully = from; To.Nully = to; }
             public Case(int? from, int  to) : this() { From.Nully = from; To       = to; }
             public Case(int  from, int? to) : this() { From       = from; To.Nully = to; }
+
+            public static Case[] FromTemplate(Case template, params Case[] cases)
+            {
+                if (template == null) throw new NullException(() => template);
+                return template.CloneTo(cases);
+            }
 
             public Case[] CloneTo(params Case[] cases)
             {
