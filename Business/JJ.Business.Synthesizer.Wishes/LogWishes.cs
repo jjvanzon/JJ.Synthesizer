@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Config Log
                 
-        private static string ConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
+        public static string ConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
         {
             string titleElement = Has(title) ? PrettyTitle(title) + NewLine + NewLine : "";
             string[] groups = { group1, group2, group3 };
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return log;
         }
         
-        private static string DurationsDescriptor(
+        public static string DurationsDescriptor(
             double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
             double? barLength = null, double? beatLength = null, double? noteLength = null)
         {
@@ -268,9 +268,9 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         /// <summary> Example: <code> [Format] Sampling rate: 8192 Hz | 32-Bit | Mono | Wav | Linear Interpolation </code> </summary>
-        private static string AudioFormatDescriptor(
+        public static string AudioFormatDescriptor(
             int? samplingRate = null, int? bits = null,
-            int? channelCount = null, int? channel = null, 
+            int? channels = null, int? channel = null, 
             AudioFileFormatEnum? audioFormat = null, 
             InterpolationTypeEnum? interpolation = null)
         {
@@ -278,7 +278,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
             if (Has(samplingRate)) elements.Add($"{samplingRate} Hz");
             if (Has(bits)) elements.Add($"{bits}-Bit");
-            string channelDescriptor = ChannelDescriptor(channelCount, channel);
+            string channelDescriptor = ChannelDescriptor(channels, channel);
             if (Has(channelDescriptor)) elements.Add(channelDescriptor);
             if (Has(audioFormat)) elements.Add($"{audioFormat}".ToUpper());
             if (Has(interpolation))
@@ -331,7 +331,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return default;
         }
         
-        private static string FeaturesDescriptor(
+        public static string FeaturesDescriptor(
             bool? audioPlayback = null, 
             bool? diskCache = null, 
             bool? mathBoost = null, 
