@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.FrameCountWishesTests.Cases;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -35,104 +36,104 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // ncrunch: no coverage start
         
-        private static Case[] _casesInit = 
-        {
-            new Case(  9600+3 ) { PlusFrames = 3 },
-            new Case(  8820+3 ) { PlusFrames = 3 },
-            new Case(  4800+3 ) { PlusFrames = 3 },
-            new Case(  4410+3 ) { PlusFrames = 3 },
-            new Case(  2205+3 ) { PlusFrames = 3 },
-            new Case(  1102+3 ) { PlusFrames = 3 },
-            new Case(     8+3 ) { PlusFrames = 3 },
-            new Case(    16+3 ) { PlusFrames = 3 },
-            new Case(    19+3 ) { PlusFrames = 3 },
-            new Case(    31+3 ) { PlusFrames = 3 },
-            new Case(    61+3 ) { PlusFrames = 3 },
-            new Case(   100+3 ) { PlusFrames = 3 },
-            new Case(  1000+3 ) { PlusFrames = 3 },
-            new Case(  1003+3 ) { PlusFrames = 3 }, 
-            new Case(  1234+3 ) { PlusFrames = 3 },
-            new Case( 12345+3 ) { PlusFrames = 3 }
-        };
-        static object[][] CaseKeysInit => _casesInit.Select(x => new object[] { x.Descriptor }).ToArray();
+        private static Case[] _initCases = FromTemplate(new Case 
+            {
+                PlusFrames = 3 
+            },
+            new Case(  9600+3 ),
+            new Case(  8820+3 ),
+            new Case(  4800+3 ),
+            new Case(  4410+3 ),
+            new Case(  2205+3 ),
+            new Case(  1102+3 ),
+            new Case(     8+3 ),
+            new Case(    16+3 ),
+            new Case(    19+3 ),
+            new Case(    31+3 ),
+            new Case(    61+3 ),
+            new Case(   100+3 ),
+            new Case(  1000+3 ),
+            new Case(  1003+3 ), 
+            new Case(  1234+3 ),
+            new Case( 12345+3 ) 
+        );
 
+        static Case[] _cases = FromTemplate(new Case
+            {
+                sec = { From = 0.1 }, Hz = DefaultHz, PlusFrames = 3
+            },
+            new Case ( 4800+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } },
+            new Case ( 4800+3,  9600+3 ) { sec = { To =  9600.0 / DefaultHz } },
+            new Case ( 4800+3,  8820+3 ) { sec = { To =  8820.0 / DefaultHz } },
+            new Case ( 4800+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
+            new Case ( 4800+3,  2205+3 ) { sec = { To =  2205.0 / DefaultHz } },
+            new Case ( 4800+3,  1102+3 ) { sec = { To =  1102.0 / DefaultHz } },
+            new Case ( 4800+3,     8+3 ) { sec = { To =     8.0 / DefaultHz } },
+            new Case ( 4800+3,    16+3 ) { sec = { To =    16.0 / DefaultHz } },
+            new Case ( 4800+3,    19+3 ) { sec = { To =    19.0 / DefaultHz } },
+            new Case ( 4800+3,    31+3 ) { sec = { To =    31.0 / DefaultHz } },
+            new Case ( 4800+3,    61+3 ) { sec = { To =    61.0 / DefaultHz } },
+            new Case ( 4800+3,   100+3 ) { sec = { To =   100.0 / DefaultHz } },
+            new Case ( 4800+3,  1000+3 ) { sec = { To =  1000.0 / DefaultHz } },
+            new Case ( 4800+3,  1234+3 ) { sec = { To =  1234.0 / DefaultHz } },
+            new Case ( 4800+3, 12345+3 ) { sec = { To = 12345.0 / DefaultHz } },
+            new Case (    8+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } },
+            new Case ( 1102+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
+            new Case ( 2205+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
+            new Case ( 4410+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } },
+            new Case ( 8820+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
+            new Case ( 9600+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } },
+            new Case ( 4800+3,  4800+3 ) { Hertz = { To =  48000 } },
+            new Case ( 4800+3,  9600+3 ) { Hertz = { To =  96000 } },
+            new Case ( 4800+3,  8820+3 ) { Hertz = { To =  88200 } },
+            new Case ( 4800+3,  4410+3 ) { Hertz = { To =  44100 } },
+            new Case ( 4800+3,  2205+3 ) { Hertz = { To =  22050 } },
+            new Case ( 4800+3,  1102+3 ) { Hertz = { To =  11020 } },
+            new Case ( 4800+3,     8+3 ) { Hertz = { To =     80 } },
+            new Case ( 4800+3,    16+3 ) { Hertz = { To =    160 } },
+            new Case ( 4800+3,    19+3 ) { Hertz = { To =    190 } },
+            new Case ( 4800+3,    31+3 ) { Hertz = { To =    310 } },
+            new Case ( 4800+3,    61+3 ) { Hertz = { To =    610 } },
+            new Case ( 4800+3,   100+3 ) { Hertz = { To =   1000 } },
+            new Case ( 4800+3,  1000+3 ) { Hertz = { To =  10000 } },
+            new Case ( 4800+3,  1234+3 ) { Hertz = { To =  12340 } },
+            new Case ( 4800+3, 12345+3 ) { Hertz = { To = 123450 } },
+            new Case (    8+3,  4800+3 ) { Hertz = { From =     8, To =   4800 } },
+            new Case ( 1102+3,  4410+3 ) { Hertz = { From =  1102, To =   4410 } },
+            new Case ( 2205+3,  4410+3 ) { Hertz = { From = 48000, To =  96000 } },
+            new Case ( 4410+3,  4800+3 ) { Hertz = { From =  4410, To =   4800 } },
+            new Case ( 8820+3,  4410+3 ) { Hertz = { From = 48000, To =  24000 } },
+            new Case ( 9600+3,  4800+3 ) { Hertz = { From = 48000, To =  24000 } }
+        );
+
+        static Case[] _nullyCases = FromTemplate(new Case
+            {
+                SamplingRate = 48000, CourtesyFrames = 3
+            },
+            new Case(       48000+3 , (null,48000+3) ),
+            new Case( (null,48000+3),       48000+3  ) 
+        );
+
+        static object[][] InitCaseKeys => _initCases.Select(x => new object[] { x.Descriptor }).ToArray();
+        static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
+        static object[][] NullyCaseKeys => _nullyCases.Select(x => new object[] { x.Descriptor }).ToArray();
+        static object[][] CaseKeysWithNullies => CaseKeys.Concat(NullyCaseKeys).ToArray();
+        
+        Dictionary<string, Case> _caseDictionary = _cases.Concat(_nullyCases)
+                                                         .Concat(_initCases)
+                                                         .Distinct(x => x.Descriptor)
+                                                         .ToDictionary(x => x.Descriptor);
         // ncrunch: no coverage end
         
         [DataTestMethod]
-        [DynamicData(nameof(CaseKeysInit))]
+        [DynamicData(nameof(InitCaseKeys))]
         public void Init_FrameCount(string caseKey)
         {
             Case testCase = _caseDictionary[caseKey];
             var x = CreateTestEntities(testCase);
             Assert_All_Getters(x, testCase);
         }
-        
-        // ncrunch: no coverage start
-        
-        static Case[] _cases =
-            new Case { sec = { From = 0.1 }, PlusFrames = 3 }.Clone
-            (
-                new Case(4800+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
-                new Case(4800+3,  9600+3) { sec = { To =  9600.0 / DefaultHz } },
-                new Case(4800+3,  8820+3) { sec = { To =  8820.0 / DefaultHz } },
-                new Case(4800+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
-                new Case(4800+3,  2205+3) { sec = { To =  2205.0 / DefaultHz } },
-                new Case(4800+3,  1102+3) { sec = { To =  1102.0 / DefaultHz } },
-                new Case(4800+3,     8+3) { sec = { To =     8.0 / DefaultHz } },
-                new Case(4800+3,    16+3) { sec = { To =    16.0 / DefaultHz } },
-                new Case(4800+3,    19+3) { sec = { To =    19.0 / DefaultHz } },
-                new Case(4800+3,    31+3) { sec = { To =    31.0 / DefaultHz } },
-                new Case(4800+3,    61+3) { sec = { To =    61.0 / DefaultHz } },
-                new Case(4800+3,   100+3) { sec = { To =   100.0 / DefaultHz } },
-                new Case(4800+3,  1000+3) { sec = { To =  1000.0 / DefaultHz } },
-                new Case(4800+3,  1234+3) { sec = { To =  1234.0 / DefaultHz } },
-                new Case(4800+3, 12345+3) { sec = { To = 12345.0 / DefaultHz } },
-                new Case(   8+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
-                new Case(1102+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
-                new Case(2205+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
-                new Case(4410+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
-                new Case(8820+3,  4410+3) { sec = { To =  4410.0 / DefaultHz } },
-                new Case(9600+3,  4800+3) { sec = { To =  4800.0 / DefaultHz } },
-            
-                new Case(4800+3,  4800+3) { Hertz = { From = 48000, To =  48000 } },
-                new Case(4800+3,  9600+3) { Hertz = { From = 48000, To =  96000 } },
-                new Case(4800+3,  8820+3) { Hertz = { From = 48000, To =  88200 } },
-                new Case(4800+3,  4410+3) { Hertz = { From = 48000, To =  44100 } },
-                new Case(4800+3,  2205+3) { Hertz = { From = 48000, To =  22050 } },
-                new Case(4800+3,  1102+3) { Hertz = { From = 48000, To =  11020 } },
-                new Case(4800+3,     8+3) { Hertz = { From = 48000, To =     80 } },
-                new Case(4800+3,    16+3) { Hertz = { From = 48000, To =    160 } },
-                new Case(4800+3,    19+3) { Hertz = { From = 48000, To =    190 } },
-                new Case(4800+3,    31+3) { Hertz = { From = 48000, To =    310 } },
-                new Case(4800+3,    61+3) { Hertz = { From = 48000, To =    610 } },
-                new Case(4800+3,   100+3) { Hertz = { From = 48000, To =   1000 } },
-                new Case(4800+3,  1000+3) { Hertz = { From = 48000, To =  10000 } },
-                new Case(4800+3,  1234+3) { Hertz = { From = 48000, To =  12340 } },
-                new Case(4800+3, 12345+3) { Hertz = { From = 48000, To = 123450 } },
-                new Case(   8+3,  4800+3) { Hertz = { From =     8, To =   4800 } },
-                new Case(1102+3,  4410+3) { Hertz = { From =  1102, To =   4410 } },
-                new Case(2205+3,  4410+3) { Hertz = { From = 48000, To =  96000 } },
-                new Case(4410+3,  4800+3) { Hertz = { From =  4410, To =   4800 } },
-                new Case(8820+3,  4410+3) { Hertz = { From = 48000, To =  24000 } },
-                new Case(9600+3,  4800+3) { Hertz = { From = 48000, To =  24000 } }
-            );
-        
-        static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
 
-        static Case[] _nullyCases =  
-        {
-            new Case(       48000+3 , (null,48000+3) ) { SamplingRate = 48000, CourtesyFrames = 3 },
-            new Case( (null,48000+3),       48000+3  ) { SamplingRate = 48000, CourtesyFrames = 3 }
-        };
-        static object[][] NullyCaseKeys => _nullyCases.Select(x => new object[] { x.Descriptor }).ToArray();
-        static object[][] CaseKeysWithNullies => CaseKeys.Concat(NullyCaseKeys).ToArray();
-        
-        Dictionary<string, Case> _caseDictionary = _cases.Concat(_nullyCases)
-                                                         .Concat(_casesInit)
-                                                         .Distinct(x => x.Descriptor)
-                                                         .ToDictionary(x => x.Descriptor);
-        // ncrunch: no coverage end
-         
         [TestMethod] 
         [DynamicData(nameof(CaseKeysWithNullies))]
         public void SynthBound_FrameCount(string caseKey)
@@ -524,14 +525,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 x.AudioLength(testCase.AudioLength.Init);
                 x.SamplingRate(testCase.SamplingRate.Init);
-                x.Channels(testCase.Channels.Init);
                 x.CourtesyFrames(testCase.CourtesyFrames.Init);
+                x.Channels(2); // // Sneaky default verifies formula is unaffected.
                 x.FrameCount(testCase.FrameCount.Init);
             });
         }
         
         // ncrunch: no coverage start
         
+        internal static class Cases
+        {
+            public static Case[] FromTemplate(Case template, params Case[] cases)
+            {
+                if (template == null) throw new NullException(() => template);
+                return template.CloneTo(cases);
+            }
+        }
+            
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class Case : CaseProp<int>
         {
@@ -542,34 +552,31 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<int> FrameCount => this;
 
             // SamplingRate: Scales FrameCount
-            public CaseProp<int> SamplingRate { get; set; }
+            public CaseProp<int> SamplingRate { get; set; } = new CaseProp<int>();
             public CaseProp<int> Hertz { get => SamplingRate; set => SamplingRate = value; }
             public CaseProp<int> Hz    { get => SamplingRate; set => SamplingRate = value; }
 
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
-            public CaseProp<double> AudioLength { get; set; }
+            public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
             public CaseProp<double> seconds { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> sec     { get => AudioLength; set => AudioLength = value; }
             
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
-            public CaseProp<int> CourtesyFrames { get; set; }
+            public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
             public CaseProp<int> PlusFrames { get => CourtesyFrames; set => CourtesyFrames = value; }
-
-            // Channels: AudioLength vs FrameCount is invariant under Channels, but accidentally involved in formulas.
-            public CaseProp<int> Channels { get; set; }
 
             public override string Descriptor => $"{base.Descriptor} ({SamplingRate}Hz+{CourtesyFrames})";
             
             public Case(
-                int    samplingRate   = DefaultSamplingRate,
-                double audioLength    = DefaultAudioLength,
-                int    courtesyFrames = DefaultCourtesyFrames,
-                int    channels       = StereoChannels) // Sneaky default verifies formula is unaffected.
+                int?    frameCount     = null,
+                int?    samplingRate   = null,
+                double? audioLength    = null,
+                int?    courtesyFrames = null)
             {
-                SamplingRate   = samplingRate;
-                AudioLength    = audioLength;
-                CourtesyFrames = courtesyFrames;
-                Channels       = channels;
+                if (frameCount     != null) From = To      = frameCount.Value;
+                if (samplingRate   != null) SamplingRate   = samplingRate.Value;
+                if (audioLength    != null) AudioLength    = audioLength.Value;
+                if (courtesyFrames != null) CourtesyFrames = courtesyFrames.Value;
             }
             
             public Case(int frameCount) : this() => From = To = frameCount;
@@ -581,6 +588,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 To.Nully     = to.nully;
                 To.Coalesced = to.coalesced;
             }
+            
             public Case((int? nully, int coalesced) from, int to) : this()
             {
                 From.Nully     = from.nully;
@@ -592,20 +600,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public Case(int? from, int  to) : this() { From.Nully = from; To       = to; }
             public Case(int  from, int? to) : this() { From       = from; To.Nully = to; }
 
-            public Case[] Clone(params Case[] cases)
+            public Case[] CloneTo(params Case[] cases)
             {
                 if (cases == null) throw new NullException(() => cases);
-                
                 for (int i = 0; i < cases.Length; i++)
                 {
                     if (cases[i] == null) throw new NullException(() => cases[i]);
-                    
                     var testCase = cases[i];
-                    
-                    testCase.AudioLength.CloneFrom(AudioLength);
+                    testCase.FrameCount    .CloneFrom(FrameCount    );
+                    testCase.SamplingRate  .CloneFrom(SamplingRate  );
+                    testCase.AudioLength   .CloneFrom(AudioLength   );
                     testCase.CourtesyFrames.CloneFrom(CourtesyFrames);
                 }
-                
                 return cases;
             }
         }
@@ -618,10 +624,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             public static implicit operator T (CaseProp<T> prop) => prop.To;
             public static implicit operator T?(CaseProp<T> prop) => prop.To;
-            public static implicit operator CaseProp<T>(T  val) => new CaseProp<T> { To = val, From = val };
-            public static implicit operator CaseProp<T>(T? val) => new CaseProp<T> { To = val, From = val };
-            public static implicit operator CaseProp<T>((T from, T to) values) => new CaseProp<T> { From = values.from, To = values.to };
+            public static implicit operator CaseProp<T>(T  value) => new CaseProp<T>(value);
+            public static implicit operator CaseProp<T>(T? value) => new CaseProp<T>(value);
+            public static implicit operator CaseProp<T>((T from, T to) values) => new CaseProp<T> (values);
 
+            public CaseProp() { }
+            public CaseProp(T  value             ) { From = value      ; To = value    ; }
+            public CaseProp(T? value             ) { From = value      ; To = value    ; }
+            public CaseProp((T from, T to) values) { From = values.from; To = values.to; }
+            public CaseProp( T from, T to        ) { From =        from; To =        to; }
+                
             /// <inheritdoc cref="docs._from" />
             public NullyPair<T> From   { get; set; } = new NullyPair<T>();
             /// <inheritdoc cref="docs._from" />
@@ -674,15 +686,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
 
             }
-            
+        
             public void CloneFrom(CaseProp<T> template)
             {
                 if (template == null) throw new NullException(() => template);
+                //if (Has(template.From.Nully) && template.From.Nully != Default
                 
-                From.Nully = Coalesce(template.From.Nully, From.Nully);
+                From.Nully     = Coalesce(template.From.Nully,     From.Nully);
                 From.Coalesced = Coalesce(template.From.Coalesced, From.Coalesced);
-                To.Nully = Coalesce(template.To.Nully, To.Nully);
-                To.Coalesced = Coalesce(template.From.Coalesced, From.Coalesced);
+                To.Nully       = Coalesce(template.To.Nully,       To.Nully);
+                To.Coalesced   = Coalesce(template.To.Coalesced,   To.Coalesced);
             }
         }
         
@@ -715,7 +728,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     return $"({nully},{coalesced})";
                 }
             }
-
         }
         
         // ReSharper disable once UnusedMember.Local
@@ -728,7 +740,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 SamplingRate   = { From = { Nully =     22050, Coalesced =     22050 }, To = { Nully =     22050, Coalesced =     22050 }}, 
                 AudioLength    = { From = { Nully = 3        , Coalesced = 3         }, To = { Nully = 5        , Coalesced = 5         }}, 
                 CourtesyFrames = { From = { Nully = 4        , Coalesced = 4         }, To = { Nully = 4        , Coalesced = 4         }}, 
-                Channels       = { From = { Nully = 2        , Coalesced = 2         }, To = { Nully = 2        , Coalesced = 2         }}
             },
             
             // Example with same value for Nully and Coalesced
@@ -738,13 +749,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 SamplingRate   = { From = 22050     , To = 22050     },
                 AudioLength    = { From =         3 , To =         5 },
                 CourtesyFrames = { From = 4         , To = 4         },
-                Channels       = { From = 2         , To = 2         }
             },
             
             // Example with single mentioning of values that don't change.
             new Case
             { 
-                SamplingRate = 22050, Channels = 2, CourtesyFrames = 4, 
+                SamplingRate = 22050, CourtesyFrames = 4, 
                 AudioLength  = { From = 3         , To = 5         },
                 FrameCount   = { From = 3 * 22050 , To = 5 * 22050 }
             },
@@ -754,11 +764,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             { 
                 From = 3 * 22050 , To = 5 * 22050,
                 AudioLength = { From = 3, To = 5 },
-                SamplingRate = 22050, Channels = 2, CourtesyFrames = 4, 
+                SamplingRate = 22050, CourtesyFrames = 4, 
             },
             
             // Example using constructor parameters for side-issues
-            new Case(channels: 2, courtesyFrames: 4)
+            new Case(courtesyFrames: 4)
             { 
                 FrameCount   = { From = 3 * 22050, To = 5 * 22050 },
                 AudioLength  = { From = 3        , To = 5         },
