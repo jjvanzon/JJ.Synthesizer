@@ -21,10 +21,9 @@ using static JJ.Framework.Wishes.Text.StringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
     public partial class SynthWishes
     {
-        string DebuggerDisplay => GetDebuggerDisplay(this);
+        public override string ToString() => GetDebuggerDisplay(this);
 
         private readonly OperatorFactory _operatorFactory;
         private readonly CurveFactory _curveFactory;

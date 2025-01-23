@@ -15,10 +15,9 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Tape
     {
-        string DebuggerDisplay => GetDebuggerDisplay(this);
+        public override string ToString() => GetDebuggerDisplay(this);
 
         public Tape()
         {
@@ -213,15 +212,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #endregion
     }
         
-    [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeConfig
     {
+        public override string ToString() => GetDebuggerDisplay(this);
+        
         public SynthWishes SynthWishes => Tape.SynthWishes;
 
         public Tape Tape { get; }
-        
-        string DebuggerDisplay => GetDebuggerDisplay(this);
-        
+
         internal TapeConfig(Tape tape)
         {
             Tape = tape ?? throw new ArgumentNullException(nameof(tape));
@@ -307,10 +305,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     }
 
     /// <inheritdoc cref="docs._tapeaction" />
-    [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeAction
     {
-        string DebuggerDisplay => GetDebuggerDisplay(this);
+        public override string ToString() => GetDebuggerDisplay(this);
         
         internal TapeAction(Tape tape, ActionEnum actionType)
         {
@@ -395,10 +392,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     }
 
     /// <inheritdoc cref="docs._tapeaction" />
-    [DebuggerDisplay("{DebuggerDisplay}")]
     public class TapeActions
     {
-        string DebuggerDisplay => GetDebuggerDisplay(this);
+        public override string ToString() => GetDebuggerDisplay(this);
 
         internal TapeActions(Tape tape)
         {
