@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(4410+3,  4800+3) { sec = { From = 0.1, To =  4800.0 / DefaultHz }, PlusFrames = 3 },
             new Case(8820+3,  4410+3) { sec = { From = 0.1, To =  4410.0 / DefaultHz }, PlusFrames = 3 },
             new Case(9600+3,  4800+3) { sec = { From = 0.1, To =  4800.0 / DefaultHz }, PlusFrames = 3 },
-
+            
             new Case(4800+3,  4800+3) { Hertz = { From = 48000, To =  48000 }, PlusFrames = 3 },
             new Case(4800+3,  9600+3) { Hertz = { From = 48000, To =  96000 }, PlusFrames = 3 },
             new Case(4800+3,  8820+3) { Hertz = { From = 48000, To =  88200 }, PlusFrames = 3 },
@@ -107,12 +107,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(4800+3,  1000+3) { Hertz = { From = 48000, To =  10000 }, PlusFrames = 3 },
             new Case(4800+3,  1234+3) { Hertz = { From = 48000, To =  12340 }, PlusFrames = 3 },
             new Case(4800+3, 12345+3) { Hertz = { From = 48000, To = 123450 }, PlusFrames = 3 },
-            //new Case(   8+3,  4800+3) { Hertz = { From =     8, To =   4800 }, PlusFrames = 3 },
-            //new Case(1102+3,  4410+3) { Hertz = { From = 48000, To = (int)(48000*(4410/1102.0)) }, PlusFrames = 3 },
-            //new Case(2205+3,  4410+3) { Hertz = { From = 48000, To =  96000 }, PlusFrames = 3 },
-            //new Case(4410+3,  4800+3) { Hertz = { From = 48000, To = (int)(48000*(4800/4410.0)) }, PlusFrames = 3 },
-            //new Case(8820+3,  4410+3) { Hertz = { From = 48000, To =  24000 }, PlusFrames = 3 },
-            //new Case(9600+3,  4800+3) { Hertz = { From = 48000, To =  24000 }, PlusFrames = 3 },
+            new Case(   8+3,  4800+3) { Hertz = { From =     8, To =   4800 }, PlusFrames = 3 },
+            new Case(1102+3,  4410+3) { Hertz = { From =  1102, To =   4410 }, PlusFrames = 3 },
+            new Case(2205+3,  4410+3) { Hertz = { From = 48000, To =  96000 }, PlusFrames = 3 },
+            new Case(4410+3,  4800+3) { Hertz = { From =  4410, To =   4800 }, PlusFrames = 3 },
+            new Case(8820+3,  4410+3) { Hertz = { From = 48000, To =  24000 }, PlusFrames = 3 },
+            new Case(9600+3,  4800+3) { Hertz = { From = 48000, To =  24000 }, PlusFrames = 3 },
         };
         
         static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
