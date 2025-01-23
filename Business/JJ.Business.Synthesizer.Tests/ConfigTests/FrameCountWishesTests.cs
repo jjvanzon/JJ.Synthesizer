@@ -68,28 +68,30 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static Case[] _cases =
         {
-            new Case( 4800+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
-            new Case( 4800+3,  9600+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  9600 / 48000.0 },
-            new Case( 4800+3,  8820+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  8820 / 48000.0 },
-            new Case( 4800+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
-            new Case( 4800+3,  2205+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  2205 / 48000.0 },
-            new Case( 4800+3,  1102+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  1102 / 48000.0 },
-            new Case( 4800+3,     8+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =     8 / 48000.0 },
-            new Case( 9600+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
-            new Case( 8820+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
-            new Case( 4410+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
-            new Case( 2205+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
-            new Case( 1102+3,  4410+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4410 / 48000.0 },
-            new Case(    8+3,  4800+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  4800 / 48000.0 },
-            new Case( 4800+3,    16+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    16 / 48000.0 },
-            new Case( 4800+3,    19+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    19 / 48000.0 },
-            new Case( 4800+3,    31+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    31 / 48000.0 },
-            new Case( 4800+3,    61+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =    61 / 48000.0 },
-            new Case( 4800+3,   100+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =   100 / 48000.0 },
-            new Case( 4800+3,  1000+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  1000 / 48000.0 },
-            new Case( 4800+3,  1234+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength =  1234 / 48000.0 },
-            new Case( 4800+3, 12345+3 ) { SamplingRate = 48000, CourtesyFrames = 3, AudioLength = 12345 / 48000.0 }
+            new Case(4800+3,  4800+3) { Hz = { From = 48000, To =  48000 }, sec = { Val =  4800 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,  9600+3) { Hz = { From = 48000, To =  96000 }, sec = { Val =  9600 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,  8820+3) { Hz = { From = 48000, To =  88200 }, sec = { Val =  8820 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,  4410+3) { Hz = { From = 48000, To =  44100 }, sec = { Val =  4410 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,  2205+3) { Hz = { From = 48000, To =  22050 }, sec = { Val =  2205 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,  1102+3) { Hz = { From = 48000, To =  11020 }, sec = { Val =  1102 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,     8+3) { Hz = { From = 48000, To =     80 }, sec = { Val =     8 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,    16+3) { Hz = { From = 48000, To =    160 }, sec = { Val =    16 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,    19+3) { Hz = { From = 48000, To =    190 }, sec = { Val =    19 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,    31+3) { Hz = { From = 48000, To =    310 }, sec = { Val =    31 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,    61+3) { Hz = { From = 48000, To =    610 }, sec = { Val =    61 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,   100+3) { Hz = { From = 48000, To =   1000 }, sec = { Val =   100 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,  1000+3) { Hz = { From = 48000, To =  10000 }, sec = { Val =  1000 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3,  1234+3) { Hz = { From = 48000, To =  12340 }, sec = { Val =  1234 / 48000.0 }, PlusFrames = 3 },
+            new Case(4800+3, 12345+3) { Hz = { From = 48000, To = 123450 }, sec = { Val = 12345 / 48000.0 }, PlusFrames = 3 },
+            
+            new Case(   8+3,  4800+3) { Hz = { From = 48000, To = 48000*(4800/8)             }, sec = { Val = 4800 / 48000.0 }, PlusFrames = 3 },
+            new Case(1102+3,  4410+3) { Hz = { From = 48000, To = (int)(48000*(4410/1102.0)) }, sec = { Val = 4410 / 48000.0 }, PlusFrames = 3 },
+            new Case(2205+3,  4410+3) { Hz = { From = 48000, To =  96000 }, sec = { Val =  4410 / 48000.0 }, PlusFrames = 3 },
+            new Case(4410+3,  4800+3) { Hz = { From = 48000, To = (int)(48000*(4800/4410.0)) }, sec = { Val = 4800 / 48000.0 }, PlusFrames = 3 },
+            new Case(8820+3,  4410+3) { Hz = { From = 48000, To =  24000 }, sec = { Val =  4410 / 48000.0 }, PlusFrames = 3 },
+            new Case(9600+3,  4800+3) { Hz = { From = 48000, To =  24000 }, sec = { Val =  4800 / 48000.0 }, PlusFrames = 3 },
         };
+        
         static object[][] CaseKeys => _cases.Select(x => new object[] { x.Descriptor }).ToArray();
 
         static Case[] _nullyCases =  
@@ -143,6 +145,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithAudioLength(testCase.AudioLength)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithAudioLength(testCase.AudioLength)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithAudioLength(testCase.AudioLength, x.SynthBound.SynthWishes)));
+        
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SamplingRate(testCase.SamplingRate)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SamplingRate(testCase.SamplingRate)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SamplingRate(testCase.SamplingRate)));
         }
 
         [TestMethod] 
@@ -463,12 +469,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // SamplingRate: Scales FrameCount
             public CaseProp<int> SamplingRate { get; set; } = DefaultSamplingRate;
+            
+            public CaseProp<int> Hz { get => SamplingRate; set => SamplingRate = value; }
 
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
             public CaseProp<double> AudioLength { get; set; } = DefaultAudioLength;
             
+            public CaseProp<double> sec { get => AudioLength; set => AudioLength = value; }
+            
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
             public CaseProp<int> CourtesyFrames { get; set; } = DefaultCourtesyFrames;
+
+            public CaseProp<int> PlusFrames { get => CourtesyFrames; set => CourtesyFrames = value; }
 
             // Channels: AudioLength vs FrameCount is invariant under Channels, but accidentally involved in formulas.
             public CaseProp<int> Channels { get; set; } = DefaultChannels;
@@ -542,13 +554,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public static implicit operator T?(CaseProp<T> prop) => prop.To;
             public static implicit operator CaseProp<T>(T  val) => new CaseProp<T> { To = val, From = val };
             public static implicit operator CaseProp<T>(T? val) => new CaseProp<T> { To = val, From = val };
+            public static implicit operator CaseProp<T>((T from, T to) values) => new CaseProp<T> { From = values.from, To = values.to };
 
             /// <inheritdoc cref="docs._from" />
             public NullyPair<T> From   { get; set; } = new NullyPair<T>();
             /// <inheritdoc cref="docs._from" />
             public NullyPair<T> Init   { get => From; set => From = value; }
             ///// <inheritdoc cref="docs._from" />
-            //public NullyPair<T> Source { get => From; set => From = value; }
+            public NullyPair<T> Source { get => From; set => From = value; }
             
             /// <inheritdoc cref="docs._to" />
             public NullyPair<T> To    { get; set; } = new NullyPair<T>();
@@ -557,7 +570,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             /// <inheritdoc cref="docs._to" />
             public NullyPair<T> Val { get => To; set => To = value; }
             ///// <inheritdoc cref="docs._to" />
-            //public NullyPair<T> Dest  { get => To; set => To = value; }
+            public NullyPair<T> Dest  { get => To; set => To = value; }
 
             public T? Nully
             {
