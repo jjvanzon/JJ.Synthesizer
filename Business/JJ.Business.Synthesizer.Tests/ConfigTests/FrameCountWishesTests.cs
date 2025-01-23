@@ -608,7 +608,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public NullyPair<T> From   { get; set; } = new NullyPair<T>();
             /// <inheritdoc cref="docs._from" />
             public NullyPair<T> Init   { get => From; set => From = value; }
-            ///// <inheritdoc cref="docs._from" />
+            /// <inheritdoc cref="docs._from" />
             public NullyPair<T> Source { get => From; set => From = value; }
             
             /// <inheritdoc cref="docs._to" />
@@ -617,7 +617,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public NullyPair<T> Value { get => To; set => To = value; }
             /// <inheritdoc cref="docs._to" />
             public NullyPair<T> Val { get => To; set => To = value; }
-            ///// <inheritdoc cref="docs._to" />
+            /// <inheritdoc cref="docs._to" />
             public NullyPair<T> Dest  { get => To; set => To = value; }
 
             public T? Nully

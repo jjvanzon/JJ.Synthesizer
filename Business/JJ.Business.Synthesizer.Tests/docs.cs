@@ -107,9 +107,9 @@ namespace JJ.Business.Synthesizer.Tests
         public static object _fmtests;
        
         /// <summary>
-        /// From, Init and Source are synonyms.
+        /// <c>From</c>, <c>Init</c> and <c>Source</c> are synonyms.
         /// </summary>
-        public static object _from;
+        public struct _from { }
         
         /// <summary>
         /// Sounds like Horn.
@@ -197,9 +197,9 @@ namespace JJ.Business.Synthesizer.Tests
         public static object _throwtests;
         
         /// <summary>
-        /// To, Value, Val and Dest are synonyms.
+        /// <c>To</c>, <c>Value</c>, <c>Val</c> and <c>Dest</c> are synonyms.
         /// </summary>
-        public static object _to;
+        public struct _to { }
         
         /// <summary>
         /// Sounds like Trombone at beginning.
