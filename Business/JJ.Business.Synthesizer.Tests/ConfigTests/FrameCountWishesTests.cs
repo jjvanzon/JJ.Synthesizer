@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithAudioLength(testCase.AudioLength, x.SynthBound.SynthWishes)));
             }
         
-            if (testCase.SamplingRate != DefaultSamplingRate)
+            if (testCase.SamplingRate.From != testCase.SamplingRate.To)
             {
                 AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SamplingRate(testCase.SamplingRate)));
                 AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SamplingRate(testCase.SamplingRate)));
@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(x =>                                         x.TapeBound.Tape       .Duration =  testCase.AudioLength);
             }
                     
-            if (testCase.SamplingRate != DefaultSamplingRate)
+            if (testCase.SamplingRate.From != testCase.SamplingRate.To)
             {
                 AssertProp(x => AreEqual(x.TapeBound.Tape,              x.TapeBound.Tape       .SamplingRate  (testCase.SamplingRate)));
                 AssertProp(x => AreEqual(x.TapeBound.TapeConfig,        x.TapeBound.TapeConfig .SamplingRate  (testCase.SamplingRate)));
@@ -265,7 +265,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(x =>                                       x.BuffBound.AudioFileOutput.Duration =  testCase.AudioLength);
             }
 
-            if (testCase.SamplingRate != DefaultSamplingRate)
+            if (testCase.SamplingRate.From != testCase.SamplingRate.To)
             {
                 AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SamplingRate  (testCase.SamplingRate)));
                 AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SamplingRate  (testCase.SamplingRate)));
