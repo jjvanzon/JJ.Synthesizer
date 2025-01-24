@@ -179,6 +179,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // ncrunch: no coverage end
         
+        [TestMethod]
+        public void FrameCount_EdgeCases()
+        {
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount: -1)), 
+                    "FrameCount -1 below 0.");
+            
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount:  0) { CourtesyFrames = 2 }), 
+                    "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
+            
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount:  2) { CourtesyFrames = 2, AudioLength = 0 }), 
+                    "Duration is not above 0.");
+        }
+        
         static object InitCases => _initCases.Select(x => x.DynamicData);
         
         [TestMethod]
@@ -518,25 +537,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(DefaultAudioLength * DefaultSamplingRate + DefaultCourtesyFrames, () => DefaultFrameCount);
         }
         
-        [TestMethod]
-        public void FrameCount_EdgeCases()
-        {
-            ThrowsException_OrInnerException<Exception>(
-                () => CreateTestEntities(
-                    new Case(frameCount: -1)), 
-                    "FrameCount -1 below 0.");
-            
-            ThrowsException_OrInnerException<Exception>(
-                () => CreateTestEntities(
-                    new Case(frameCount:  0) { CourtesyFrames = 2 }), 
-                    "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
-            
-            ThrowsException_OrInnerException<Exception>(
-                () => CreateTestEntities(
-                    new Case(frameCount:  2) { CourtesyFrames = 2 }), 
-                    "Duration is not above 0.");
-        }
-
         // Getter Helpers
         
         private void Assert_All_Getters(ConfigTestEntities x, int frameCount)
