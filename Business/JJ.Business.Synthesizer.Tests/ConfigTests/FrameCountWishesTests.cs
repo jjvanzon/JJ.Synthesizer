@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Name = "SamplingRate",
                 sec = 0.1,
                 PlusFrames = 3,
-                Hertz = { From = 48000 }
+                Hertz = 48000
             },
             new Case ( 4800+3,  4800+3 ) { Hertz = { To =  48000 } },
             new Case ( 4800+3,  9600+3 ) { Hertz = { To =  96000 } },
@@ -144,12 +144,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case ( 4800+3,  1000+3 ) { Hertz = { To =  10000 } },
             new Case ( 4800+3,  1234+3 ) { Hertz = { To =  12340 } },
             new Case ( 4800+3, 12345+3 ) { Hertz = { To = 123450 } },
-            new Case (    8+3,  4800+3 ) { Hertz = { From =    80, To = 48000 } },
+            new Case (    8+3,  4800+3 ) { Hertz = { From =    80 } },
             new Case ( 1102+3,  4410+3 ) { Hertz = { From = 11020, To = 44100 } },
             new Case ( 2205+3,  4410+3 ) { Hertz = { From = 22050, To = 44100 } },
-            new Case ( 4410+3,  4800+3 ) { Hertz = { From = 44100, To = 48000 } },
+            new Case ( 4410+3,  4800+3 ) { Hertz = { From = 44100 } },
             new Case ( 8820+3,  4410+3 ) { Hertz = { From = 88200, To = 44100 } },
-            new Case ( 9600+3,  4800+3 ) { Hertz = { From = 96000, To = 48000 } }
+            new Case ( 9600+3,  4800+3 ) { Hertz = { From = 96000 } }
         );
         
         static Case[] _courtesyFramesCases = FromTemplate(new Case
