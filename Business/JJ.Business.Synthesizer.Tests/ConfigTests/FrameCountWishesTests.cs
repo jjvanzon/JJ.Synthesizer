@@ -161,11 +161,59 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             template: new Case
             {
                 Name = "Nully",
-                SamplingRate = 48000,
+                //AudioLength = 1, // TODO: Lead to duplicate case keys.
                 CourtesyFrames = 3
             },
-            new Case(       48000+3 , (null,48000+3) ),
-            new Case( (null,48000+3),       48000+3  ) 
+            
+            // FrameCount null → AudioLength defaults to 1 sec. Then FrameCount calculates to:
+            // 4803 = 1 sec (default) * 4800 Hz (specified sampling rate) + 3 courtesy frames
+            
+            // Without explicit AudioLength
+            new Case ( from: (null,4803), to: 4803 ) { Hz = 4800 },
+            new Case ( from: 4803, to: (null,4803) ) { Hz = 4800 },
+
+            // With explicit AudioLength (1s)
+            new Case ( from: (null,4803), to: 4803 ) { Hz = 4800, sec = 1 },
+            new Case ( from: 4803, to: (null,4803) ) { Hz = 4800, sec = 1 },
+            
+            // FrameCount adjusts AudioLength
+            new Case ( from: (null,4803), to: 48003 ) { Hz = 4800, sec = { From = 1.0, To = 10.0 } },
+            new Case ( from: 48003, to: (null,4803) ) { Hz = 4800, sec = { From = 10.0, To = 1.0 } },
+            
+            // Nully Hertz
+            new Case (48003)       { Hz = (from:(null,48000),to:48000       ), Name = "NullyHz", sec = 1 },
+            new Case (48003)       { Hz = (from:(0,48000)   ,to:48000       ), Name = "NullyHz", sec = 1 },
+            new Case (48003)       { Hz = (from:48000       ,to:(null,48000)), Name = "NullyHz", sec = 1 },
+            new Case (48003)       { Hz = (from:48000       ,to:(0,48000)   ), Name = "NullyHz", sec = 1 },
+            new Case (48003)       { Hz = (from:(null,48000),to:(0,48000)   ), Name = "NullyHz", sec = 1 },
+            new Case (48003,24003) { Hz = (from:(null,48000),to:24000       ), Name = "NullyHz", sec = 1 },
+            new Case (24003,48003) { Hz = (from:24000       ,to:(0,48000)   ), Name = "NullyHz", sec = 1 },
+
+            // Edge case: Conflicting null/default and explicit AudioLength
+            // Invalid: FrameCount cannot be null/default while AudioLength is explicitly set to non-default.
+            //new Case ( from: (null,4800+3), to: 4800+3 ) { Hz = 48000, sec = 0.1 },
+            //new Case ( from: 4800+3, to: (null,4800+3) ) { Hz = 48000, sec = 0.1 },
+            
+            // FrameCount 0 is not nully. It means 0 seconds. Sort of, but you can't test it:
+            
+            // You need 3 courtesy frames to make AudioLength 0.
+            // FrameCount 0 would make AudioLength -3 frames, resulting in an exception.
+            //new Case ( from: (0   ,4803), to: 4803 ) { Hz = 4800 },
+            //new Case ( from: 4803, to: (0   ,4803) ) { Hz = 4800 },
+
+            // FrameCount 3 (courtesy frames) = AudioLength 0 sec.
+            // But here the exception is thrown: "Duration is not above 0."
+            //new Case ( from: 4803, to: 3 ) { Hz = 4800, sec = { From = 1, To = 0 } },
+            //new Case ( from: 3, to: 4803 ) { Hz = 4800, sec = { From = 0, To = 1 } },
+            
+            // Attempt to stay just above 0. Nope, exception:
+            // "Attempt to initialize FrameCount to 4 is inconsistent with FrameCount 3
+            // based on initial values for AudioLength (default 1), SamplingRate (4800) and CourtesyFrames (3)."
+            //new Case ( from: 4803, to: 4 ) { Hz = 4800, sec = { From = 1, To = 0 } },
+            //new Case ( from: 4, to: 4803 ) { Hz = 4800, sec = { From = 0, To = 1 } },
+
+            // Reference case without nullies
+            new Case ( from: 4803, to: 4803 ) { Hz = 48000, sec = 0.1, Name = "NonNully" }
         );
                 
         Dictionary<string, Case> _caseDictionary = Empty<Case>().Concat(_basicCases)
