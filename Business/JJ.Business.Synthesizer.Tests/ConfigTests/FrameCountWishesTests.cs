@@ -681,6 +681,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
             }
             
+            public Case() { }
+            
             public Case(
                 int?    frameCount     = null,
                 int?    samplingRate   = null,
@@ -693,26 +695,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (courtesyFrames != null) CourtesyFrames = courtesyFrames.Value;
             }
             
-            public Case(int frameCount) : this() => From = To = frameCount;
-            public Case(int from, int to) : this() { From = from; To = to; }
-             
-            public Case(int from, (int? nully, int coalesced) to) : this()
-            {
-                From         = from;
-                To.Nully     = to.nully;
-                To.Coalesced = to.coalesced;
-            }
-            
-            public Case((int? nully, int coalesced) from, int to) : this()
-            {
-                From.Nully     = from.nully;
-                From.Coalesced = from.coalesced;
-                To             = to;
-            }
-             
-            public Case(int? from, int? to) : this() { From.Nully = from; To.Nully = to; }
-            public Case(int? from, int  to) : this() { From.Nully = from; To       = to; }
-            public Case(int  from, int? to) : this() { From       = from; To.Nully = to; }
+            public Case(int frameCount) : base(frameCount) { }
+            public Case(int  from, int  to) : base(from, to) { }
+            public Case(int  from, int? to) : base(from, to) { }
+            public Case(int? from, int  to) : base(from, to) { }
+            public Case(int? from, int? to) : base(from, to) { }
+            public Case(int from, (int? nully, int coalesced) to) : base(from, to) { }
+            public Case((int? nully, int coalesced) from, int to) : base(from, to) { }
+            public Case((int? nully, int coalesced) from, (int? nully, int coalesced) to) : base(from, to) { }
             
             public static Case[] FromTemplate(Case template, params Case[] cases)
             {
@@ -745,17 +735,38 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             string DebuggerDisplay => DebuggerDisplay(this);
             public override string ToString() => Descriptor;
             
+            // Conversion Operators
+            
             public static implicit operator T (CaseProp<T> prop) => prop.To;
             public static implicit operator T?(CaseProp<T> prop) => prop.To;
+            
             public static implicit operator CaseProp<T>(T  value) => new CaseProp<T>(value);
             public static implicit operator CaseProp<T>(T? value) => new CaseProp<T>(value);
-            public static implicit operator CaseProp<T>((T from, T to) values) => new CaseProp<T> (values);
+            public static implicit operator CaseProp<T>((T  from, T  to) values) => new CaseProp<T>(values);
+            public static implicit operator CaseProp<T>((T? from, T  to) values) => new CaseProp<T>(values);
+            public static implicit operator CaseProp<T>((T  from, T? to) values) => new CaseProp<T>(values);
+            public static implicit operator CaseProp<T>((T? from, T? to) values) => new CaseProp<T>(values);
+            public static implicit operator CaseProp<T>((T from, (T? nully, T coalesced) to) x) => new CaseProp<T>(x.from, x.to);
+            public static implicit operator CaseProp<T>(((T? nully, T coalesced) from, T to) x) =>  new CaseProp<T>(x.from, x.to);
+            public static implicit operator CaseProp<T>(((T? nully, T coalesced) from, (T? nully, T coalesced) to) x) => new CaseProp<T>(x.from, x.to);
+            
+            // Constructors
 
             public CaseProp() { }
-            public CaseProp(T  value             ) { From = value      ; To = value    ; }
-            public CaseProp(T? value             ) { From = value      ; To = value    ; }
-            public CaseProp((T from, T to) values) { From = values.from; To = values.to; }
-            public CaseProp( T from, T to        ) { From =        from; To =        to; }
+            
+            public CaseProp( T  value      ) { From = value     ; To = value   ; }
+            public CaseProp( T? value      ) { From = value     ; To = value   ; }
+            public CaseProp( T  from, T  to) { From       = from; To =       to; }
+            public CaseProp( T? from, T  to) { From.Nully = from; To       = to; }
+            public CaseProp( T  from, T? to) { From       = from; To.Nully = to; }
+            public CaseProp( T? from, T? to) { From.Nully = from; To.Nully = to; }
+            public CaseProp((T  from, T  to) values) { From = values.from; To = values.to; }
+            public CaseProp((T? from, T  to) values) { From = values.from; To = values.to; }
+            public CaseProp((T  from, T? to) values) { From = values.from; To = values.to; }
+            public CaseProp((T? from, T? to) values) { From = values.from; To = values.to; }
+            public CaseProp( T  from, (T? nully, T coalesced) to) { From = from; To = to; }
+            public CaseProp((T? nully, T coalesced) from, T to) { To = to; From = from; }
+            public CaseProp((T? nully, T coalesced) from, (T? nully, T coalesced) to) { To = to; From = from; }
                 
             /// <inheritdoc cref="docs._from" />
             public NullyPair<T> From   { get; set; } = new NullyPair<T>();
