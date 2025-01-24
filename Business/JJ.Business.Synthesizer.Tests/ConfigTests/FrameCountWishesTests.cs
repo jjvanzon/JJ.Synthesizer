@@ -661,6 +661,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
             public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
             public CaseProp<int> PlusFrames { get => CourtesyFrames; set => CourtesyFrames = value; }
+            public CaseProp<int> Plus       { get => CourtesyFrames; set => CourtesyFrames = value; }
 
             public override string Descriptor
             {
