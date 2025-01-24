@@ -36,180 +36,185 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private const int DefaultHertz = DefaultSamplingRate;
 
         // ncrunch: no coverage start
-        
+
+        /// <summary>
+        /// Tests the initialization of the FrameCount property, along with its dependencies
+        /// and whether the expected FrameCount value can be pulled from the entities.
+        /// </summary>
         private static Case[] _initCases = FromTemplate(new Case
             {
                 Name = "Init",
                 PlusFrames = 3,
                 Strict = false
             },
-            new Case(  9600+3 ),
-            new Case(  8820+3 ),
-            new Case(  4800+3 ),
-            new Case(  4410+3 ),
-            new Case(  2205+3 ),
-            new Case(  1102+3 ),
-            new Case(     8+3 ),
-            new Case(    16+3 ),
-            new Case(    19+3 ),
-            new Case(    31+3 ),
-            new Case(    61+3 ),
-            new Case(   100+3 ),
-            new Case(  1000+3 ),
-            new Case(  1003+3 ), 
-            new Case(  1234+3 ),
-            new Case( 12345+3 )
+            new Case(  960+3 ),
+            new Case(  882+3 ),
+            new Case(  480+3 ),
+            new Case(  441+3 ),
+            new Case(  220+3 ),
+            new Case(  110+3 ),
+            new Case(    8+3 ),
+            new Case(   16+3 ),
+            new Case(   19+3 ),
+            new Case(   31+3 ),
+            new Case(   61+3 ),
+            new Case(  100+3 ),
+            new Case(  103+3 ), 
+            new Case(  123+3 ),
+            new Case( 1234+3 )
         );
 
+        /// <summary>
+        /// Basic cases vary the FrameCount property, and check whether assigning it,
+        /// renders the same value upon getting it from the different entities.
+        /// </summary>
         static Case[] _basicCases = FromTemplate(new Case
             {
                 Name = "Basic",
                 PlusFrames = 3,
                 Strict = false
             },
-            new Case ( 4800+3,  4800+3 ),
-            new Case ( 4800+3,  9600+3 ),
-            new Case ( 4800+3,  8820+3 ),
-            new Case ( 4800+3,  4410+3 ),
-            new Case ( 4800+3,  2205+3 ),
-            new Case ( 4800+3,  1102+3 ),
-            new Case ( 4800+3,     8+3 ),
-            new Case ( 4800+3,    16+3 ),
-            new Case ( 4800+3,    19+3 ),
-            new Case ( 4800+3,    31+3 ),
-            new Case ( 4800+3,    61+3 ),
-            new Case ( 4800+3,   100+3 ),
-            new Case ( 4800+3,  1000+3 ),
-            new Case ( 4800+3,  1234+3 ),
-            new Case ( 4800+3, 12345+3 ),
-            new Case (    8+3,  4800+3 ),
-            new Case ( 1102+3,  4410+3 ),
-            new Case ( 2205+3,  4410+3 ),
-            new Case ( 4410+3,  4800+3 ),
-            new Case ( 8820+3,  4410+3 ),
-            new Case ( 9600+3,  4800+3 )
+            new Case ( 480+3,  960+3 ),
+            new Case ( 480+3,  882+3 ),
+            new Case ( 480+3,  441+3 ),
+            new Case ( 480+3,  220+3 ),
+            new Case ( 480+3,  110+3 ),
+            new Case ( 480+3,    1+3 ),
+            new Case ( 480+3,    3+3 ),
+            new Case ( 480+3,    6+3 ),
+            new Case ( 480+3,   10+3 ),
+            new Case ( 480+3,  100+3 ),
+            new Case ( 480+3,  123+3 ),
+            new Case (   8+3,  480+3 ),
+            new Case ( 110+3,  441+3 ),
+            new Case ( 220+3,  441+3 ),
+            new Case ( 441+3,  480+3 ),
+            new Case ( 882+3,  441+3 ),
+            new Case ( 960+3,  480+3 )
         );
 
+        /// <summary> Cases where AudioLength adjustments should change FrameCount accordingly. </summary>
         static Case[] _audioLengthCases = FromTemplate(new Case
                                                            
-            { Name = "AudioLength", Length = 0.1, Hz = DefaultHz, PlusFrames = 3 },
+            { Name = "AudioLength", Length = 0.01, Hz = DefaultHz, PlusFrames = 3 },
             
-            new Case ( 4800+3,  4800+3 ) { Length = { To =  4800.0 / Hz } },
-            new Case ( 4800+3,  9600+3 ) { Length = { To =  9600.0 / Hz } },
-            new Case ( 4800+3,  8820+3 ) { Length = { To =  8820.0 / Hz } },
-            new Case ( 4800+3,  4410+3 ) { Length = { To =  4410.0 / Hz } },
-            new Case ( 4800+3,  2205+3 ) { Length = { To =  2205.0 / Hz } },
-            new Case ( 4800+3,  1102+3 ) { Length = { To =  1102.0 / Hz } },
-            new Case ( 4800+3,     8+3 ) { Length = { To =     8.0 / Hz } },
-            new Case ( 4800+3,    16+3 ) { Length = { To =    16.0 / Hz } },
-            new Case ( 4800+3,    19+3 ) { Length = { To =    19.0 / Hz } },
-            new Case ( 4800+3,    31+3 ) { Length = { To =    31.0 / Hz } },
-            new Case ( 4800+3,    61+3 ) { Length = { To =    61.0 / Hz } },
-            new Case ( 4800+3,   100+3 ) { Length = { To =   100.0 / Hz } },
-            new Case ( 4800+3,  1000+3 ) { Length = { To =  1000.0 / Hz } },
-            new Case ( 4800+3,  1234+3 ) { Length = { To =  1234.0 / Hz } },
-            new Case ( 4800+3, 12345+3 ) { Length = { To = 12345.0 / Hz } },
+            new Case ( 480+3,  480+3 ) { Length = { To =  480.0 / Hz } },
+            new Case ( 480+3,  960+3 ) { Length = { To =  960.0 / Hz } },
+            new Case ( 480+3,  882+3 ) { Length = { To =  882.0 / Hz } },
+            new Case ( 480+3,  441+3 ) { Length = { To =  441.0 / Hz } },
+            new Case ( 480+3,  220+3 ) { Length = { To =  220.0 / Hz } },
+            new Case ( 480+3,  110+3 ) { Length = { To =  110.0 / Hz } },
+            new Case ( 480+3,    8+3 ) { Length = { To =    8.0 / Hz } },
+            new Case ( 480+3,   16+3 ) { Length = { To =   16.0 / Hz } },
+            new Case ( 480+3,   19+3 ) { Length = { To =   19.0 / Hz } },
+            new Case ( 480+3,   31+3 ) { Length = { To =   31.0 / Hz } },
+            new Case ( 480+3,   61+3 ) { Length = { To =   61.0 / Hz } },
+            new Case ( 480+3,  100+3 ) { Length = { To =  100.0 / Hz } },
             
-            new Case (    8+3,  4800+3 ) { Length = { From =    8.0 / Hz } },
-            new Case ( 4410+3,  4800+3 ) { Length = { From = 4410.0 / Hz } },
-            new Case ( 9600+3,  4800+3 ) { Length = { From = 9600.0 / Hz } },
+            new Case (   8+3,  480+3 ) { Length = { From =   8.0 / Hz } },
+            new Case ( 441+3,  480+3 ) { Length = { From = 441.0 / Hz } },
             
-            new Case ( 1102+3,  4410+3 ) { Length = { From = 1102.0 / Hz, To =  4410.0 / Hz } },
-            new Case ( 2205+3,  4410+3 ) { Length = { From = 2205.0 / Hz, To =  4410.0 / Hz } },
-            new Case ( 8820+3,  4410+3 ) { Length = { From = 8820.0 / Hz, To =  4410.0 / Hz } }
+            new Case ( 110+3,  441+3 ) { Length = { From = 110.0 / Hz, To =  441.0 / Hz } },
+            new Case ( 330+3,  441+3 ) { Length = { From = 330.0 / Hz, To =  441.0 / Hz } },
+            new Case ( 220+3,  441+3 ) { Length = { From = 220.0 / Hz, To =  441.0 / Hz } }
         );
 
+        /// <summary> SamplingRate varying tests; should adjust FrameCount accordingly. </summary>
         static Case[] _samplingRateCases = FromTemplate(new Case
         
-            { Name = "SamplingRate", sec = 0.1, PlusFrames = 3, Hertz = 48000 },
+            { Name = "SamplingRate", Hz = 48000, sec = 0.01, Plus = 3 },
             
-            new Case ( 4800+3,  4800+3 ) { Hertz = { To =  48000 } },
-            new Case ( 4800+3,  9600+3 ) { Hertz = { To =  96000 } },
-            new Case ( 4800+3,  8820+3 ) { Hertz = { To =  88200 } },
-            new Case ( 4800+3,  4410+3 ) { Hertz = { To =  44100 } },
-            new Case ( 4800+3,  2205+3 ) { Hertz = { To =  22050 } },
-            new Case ( 4800+3,  1102+3 ) { Hertz = { To =  11020 } },
-            new Case ( 4800+3,     8+3 ) { Hertz = { To =     80 } },
-            new Case ( 4800+3,    16+3 ) { Hertz = { To =    160 } },
-            new Case ( 4800+3,    19+3 ) { Hertz = { To =    190 } },
-            new Case ( 4800+3,    31+3 ) { Hertz = { To =    310 } },
-            new Case ( 4800+3,    61+3 ) { Hertz = { To =    610 } },
-            new Case ( 4800+3,   100+3 ) { Hertz = { To =   1000 } },
-            new Case ( 4800+3,  1000+3 ) { Hertz = { To =  10000 } },
-            new Case ( 4800+3,  1234+3 ) { Hertz = { To =  12340 } },
-            new Case ( 4800+3, 12345+3 ) { Hertz = { To = 123450 } },
-            new Case (    8+3,  4800+3 ) { Hertz = { From =   80 } },
-            new Case ( 1102+3,  4410+3 ) { Hertz = { From = 11020, To = 44100 } },
-            new Case ( 2205+3,  4410+3 ) { Hertz = { From = 22050, To = 44100 } },
-            new Case ( 4410+3,  4800+3 ) { Hertz = { From = 44100 } },
-            new Case ( 8820+3,  4410+3 ) { Hertz = { From = 88200, To = 44100 } },
-            new Case ( 9600+3,  4800+3 ) { Hertz = { From = 96000 } }
+            new Case ( 480+3,  960+3 ) { Hertz = { To =  96000 } },
+            new Case ( 480+3,  882+3 ) { Hertz = { To =  88200 } },
+            new Case ( 480+3,  441+3 ) { Hertz = { To =  44100 } },
+            new Case ( 480+3,  220+3 ) { Hertz = { To =  22000 } },
+            new Case ( 480+3,  110+3 ) { Hertz = { To =  11000 } },
+            new Case ( 480+3,    8+3 ) { Hertz = { To =    800 } },
+            new Case ( 480+3,   16+3 ) { Hertz = { To =   1600 } },
+            new Case ( 480+3,   19+3 ) { Hertz = { To =   1900 } },
+            new Case ( 480+3,   31+3 ) { Hertz = { To =   3100 } },
+            new Case ( 480+3,   61+3 ) { Hertz = { To =   6100 } },
+            new Case ( 480+3,   10+3 ) { Hertz = { To =   1000 } },
+            new Case ( 480+3,  100+3 ) { Hertz = { To =  10000 } },
+            new Case ( 480+3,  123+3 ) { Hertz = { To =  12300 } },
+            new Case ( 480+3, 1234+3 ) { Hertz = { To = 123400 } },
+            new Case (   8+3,  480+3 ) { Hertz = { From =  800 } },
+            new Case ( 110+3,  441+3 ) { Hertz = { From = 11000, To = 44100 } },
+            new Case ( 220+3,  441+3 ) { Hertz = { From = 22000, To = 44100 } },
+            new Case ( 441+3,  480+3 ) { Hertz = { From = 44100 } },
+            new Case ( 882+3,  441+3 ) { Hertz = { From = 88200, To = 44100 } },
+            new Case ( 960+3,  480+3 ) { Hertz = { From = 96000 } }
         );
-        
+
+        /// <summary> Testing courtesy frames' adjustments effect on FrameCount. </summary>
         static Case[] _courtesyFramesCases = FromTemplate(new Case
-            {
-                Name = "PlusFrames",
-                SamplingRate = 1000
-            },
-            new Case(1002, 1003) { PlusFrames = { From = 2, To =  3 }, sec = 1 },
-            new Case(2003, 2004) { PlusFrames = { From = 3, To =  4 }, sec = 2 },
-            new Case(3005, 3004) { PlusFrames = { From = 5, To =  4 }, sec = 3 },
-            new Case(4002, 4010) { PlusFrames = { From = 2, To = 10 }, sec = 4 }
+        
+            { Name = "PlusFrames", SamplingRate = 100 },
+            
+            new Case(102, 103) { PlusFrames = { From = 2, To =  3 }, sec = 1 },
+            new Case(203, 204) { PlusFrames = { From = 3, To =  4 }, sec = 2 },
+            new Case(305, 304) { PlusFrames = { From = 5, To =  4 }, sec = 3 },
+            new Case(402, 410) { PlusFrames = { From = 2, To = 10 }, sec = 4 }
         );
         
+        /// <summary> Nully tests check the behavior of coalescing to default. </summary>
         static Case[] _nullyCases = FromTemplate(new Case
             
-            { Name = "Nully", sec = 1, Hz = 4800, Plus = 3 },
+            { Name = "Nully", sec = 1, Hz = 480, Plus = 3 },
             
             // FrameCount null → AudioLength defaults to 1 sec. Then FrameCount calculates to:
             // 4803 = 1 sec (default) * 4800 Hz (specified sampling rate) + 3 courtesy frames
             
             // Basic case of coalescing FrameCounts
-            new Case { From = (null,4803), To= 4803  },
-            new Case { From = 4803, To = (null,4803) },
+            new Case { From = (null,483), To= 483  },
+            new Case { From = 483, To = (null,483) },
             
             // FrameCount adjusts AudioLength
-            new Case { From = 48003, To = (null,4803), sec = { From = 10.0 } },
-            new Case { From = (null,4803), To = 48003, sec = { To = 10.0 } },
+            new Case { From = 2403, To = (null,483), sec = { From = 5.0 } },
+            new Case { From = (null,483), To = 2403, sec = { To = 5.0 } },
 
             // Edge case: Conflicting null/default and explicit AudioLength
             // Invalid: FrameCount cannot be null/default while AudioLength is explicitly set to non-default.
-            //new Case ( from: (null,4800+3), to: 4800+3 ) { Hz = 48000, sec = 0.1 },
-            //new Case ( from: 4800+3, to: (null,4800+3) ) { Hz = 48000, sec = 0.1 },
+            //new Case ( from: (null,483), to: 483 ) { Hz = 48000, sec = 0.01 },
+            //new Case ( from: 483, to: (null,483) ) { Hz = 48000, sec = 0.01 },
             
             // FrameCount 0 is not nully. It means 0 seconds. Sort of, but you can't test it:
             
             // You need 3 courtesy frames to make AudioLength 0.
             // FrameCount 0 would make AudioLength -3 frames, resulting in an exception.
-            //new Case ( from: (0,4803), to: 4803 ),
-            //new Case ( from: 4803, to: (0,4803) ),
+            //new Case ( from: (0,483), to: 483 ),
+            //new Case ( from: 483, to: (0,483) ),
 
             // FrameCount 3 (courtesy frames) = AudioLength 0 sec.
             // But here the exception is thrown: "Duration is not above 0."
-            //new Case ( from: 4803, to: 3 ) { sec = { To = 0 } },
-            //new Case ( from: 3, to: 4803 ) { sec = { From = 0 } },
+            //new Case ( from: 483, to: 3 ) { sec = { To = 0 } },
+            //new Case ( from: 3, to: 483 ) { sec = { From = 0 } },
             
             // Attempt to stay just above 0. Nope, exception:
             // "Attempt to initialize FrameCount to 4 is inconsistent with FrameCount 3
             // based on initial values for AudioLength (default 1), SamplingRate (4800) and CourtesyFrames (3)."
-            //new Case ( from: 4, to: 4803 ) { sec = { From = 0 } },
-            //new Case ( from: 4803, to: 4 ) { sec = { To = 0 } },
+            //new Case ( from: 4, to: 483 ) { sec = { From = 0 } },
+            //new Case ( from: 483, to: 4 ) { sec = { To = 0 } },
 
             // Reference case without nullies
-            new Case { From = 4803, To = 4803, Hz = 48000, sec = 0.1, Name = "NonNully" }
+            new Case { From = 483, To = 483, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
         
+        /// <summary>
+        /// Nully Hertz tests check that Hertz nullification falls back to default of 48000 Hz,
+        /// and that FrameCounts matches accordingly.
+        /// </summary>
         static Case[] _nullyHertzCases = FromTemplate(new Case
             
-            { Name = "NullyHz", AudioLength = 0.1, CourtesyFrames = 3 },
+            { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
             
-            new Case (4803)      { Hz = { From = (null,48000), To = 48000        } },
-            new Case (4803)      { Hz = { From = (0,48000)   , To = 48000        } },
-            new Case (4803)      { Hz = { From = 48000       , To = (null,48000) } },
-            new Case (4803)      { Hz = { From = 48000       , To = (0,48000)    } },
-            new Case (4803)      { Hz = { From = (null,48000), To = (0,48000)    } },
-            new Case (4803,2403) { Hz = { From = (null,48000), To = 24000        } },
-            new Case (2403,4803) { Hz = { From = 24000       , To = (0,48000)    } }
+            new Case (483)     { Hz = { From = (null,48000), To = 48000        } },
+            new Case (483)     { Hz = { From = (0,48000)   , To = 48000        } },
+            new Case (483)     { Hz = { From = 48000       , To = (null,48000) } },
+            new Case (483)     { Hz = { From = 48000       , To = (0,48000)    } },
+            new Case (483)     { Hz = { From = (null,48000), To = (0,48000)    } },
+            new Case (483,243) { Hz = { From = (null,48000), To = 24000        } },
+            new Case (243,483) { Hz = { From = 24000       , To = (0,48000)    } }
         );        
 
         Dictionary<string, Case> _caseDictionary
