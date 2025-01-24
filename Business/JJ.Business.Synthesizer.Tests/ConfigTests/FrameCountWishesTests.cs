@@ -91,12 +91,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         static Case[] _audioLengthCases = FromTemplate(new Case
-            {
-                Name = "AudioLength",
-                Length = 0.1, 
-                Hz = DefaultHz, 
-                PlusFrames = 3
-            },
+                                                           
+            { Name = "AudioLength", Length = 0.1, Hz = DefaultHz, PlusFrames = 3 },
+            
             new Case ( 4800+3,  4800+3 ) { Length = { To =  4800.0 / Hz } },
             new Case ( 4800+3,  9600+3 ) { Length = { To =  9600.0 / Hz } },
             new Case ( 4800+3,  8820+3 ) { Length = { To =  8820.0 / Hz } },
@@ -123,12 +120,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         static Case[] _samplingRateCases = FromTemplate(new Case
-            {
-                Name = "SamplingRate",
-                sec = 0.1,
-                PlusFrames = 3,
-                Hertz = 48000
-            },
+        
+            { Name = "SamplingRate", sec = 0.1, PlusFrames = 3, Hertz = 48000 },
+            
             new Case ( 4800+3,  4800+3 ) { Hertz = { To =  48000 } },
             new Case ( 4800+3,  9600+3 ) { Hertz = { To =  96000 } },
             new Case ( 4800+3,  8820+3 ) { Hertz = { To =  88200 } },
@@ -163,13 +157,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(4002, 4010) { PlusFrames = { From = 2, To = 10 }, sec = 4 }
         );
         
-        static Case[] _nullyCases = FromTemplate(
-            template: new Case
-            {
-                Name = "Nully",
-                //AudioLength = 1, // TODO: Lead to duplicate case keys.
-                CourtesyFrames = 3
-            },
+        static Case[] _nullyCases = FromTemplate(new Case
+            
+            { Name = "Nully", AudioLength = 1, CourtesyFrames = 3 },
             
             // FrameCount null → AudioLength defaults to 1 sec. Then FrameCount calculates to:
             // 4803 = 1 sec (default) * 4800 Hz (specified sampling rate) + 3 courtesy frames
