@@ -666,18 +666,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 get 
                 {
-                    string name           = Has(Name)           ? $"{Name} ~ "          : "";
-                    string frameCount     = $"{base.Descriptor}";
-                    frameCount            = Has(frameCount)     ? $"{frameCount} f "    : "";
-                    string samplingRate   = $"{SamplingRate}";
-                    samplingRate          = Has(samplingRate)   ? $"{samplingRate} Hz " : "";
-                    string plusFrames     = $"{PlusFrames}";
-                    plusFrames            = Has(plusFrames)     ? $"+ {plusFrames} "    : "";
-                    string audioLength    = $"{AudioLength}";
-                    audioLength           = Has(audioLength)    ? $", {audioLength} s"  : "";
-                    string braced         = samplingRate + plusFrames + audioLength;
-                    braced                = Has(braced)         ? $"({braced.TrimStart(',').Trim()})"  : "";
-                    return                  $"{name}{frameCount}{braced}"; 
+                    string name = Has(Name) ? $"{Name} ~ " : "";
+                    
+                    string frameCount = $"{base.Descriptor}";
+                    frameCount = Has(frameCount) ? $"{frameCount} f " : "";
+                    
+                    string samplingRate = $"{SamplingRate}";
+                    samplingRate = Has(samplingRate) ? $"{samplingRate} Hz " : "";
+                    
+                    string plusFrames = $"{PlusFrames}";
+                    plusFrames = Has(plusFrames) ? $"+ {plusFrames} " : "";
+                    
+                    string audioLength = $"{AudioLength}";
+                    audioLength = Has(audioLength) ? $", {audioLength} s" : "";
+                    
+                    string braced = samplingRate + plusFrames + audioLength;
+                    braced = Has(braced) ? $"({braced.TrimStart(',').Trim()})" : "";
+                    
+                    return $"{name}{frameCount}{braced}"; 
                 }
             }
             
