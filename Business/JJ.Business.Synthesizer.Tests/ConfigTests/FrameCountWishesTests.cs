@@ -727,6 +727,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<int> PlusFrames { get => CourtesyFrames; set => CourtesyFrames = value; }
             public CaseProp<int> Plus       { get => CourtesyFrames; set => CourtesyFrames = value; }
 
+            // Quasi-Inherited Properties
+            
+            /// <inheritdoc cref="docs._from" />
+            public NullyPair<int> From { get => FrameCount.From; set => FrameCount.From = value; } 
+            /// <inheritdoc cref="docs._from" />
+            public NullyPair<int> Init { get => FrameCount.Init; set => FrameCount.Init = value; }
+            /// <inheritdoc cref="docs._from" />
+            public NullyPair<int> Source { get => FrameCount.Source; set => FrameCount.Source = value; }
+            /// <inheritdoc cref="docs._to" />
+            public NullyPair<int> To { get => FrameCount.To; set => FrameCount.To = value; }
+            /// <inheritdoc cref="docs._to" />
+            public NullyPair<int> Value { get => FrameCount.Value; set => FrameCount.Value = value; }
+            /// <inheritdoc cref="docs._to" />
+            public NullyPair<int> Val { get => FrameCount.Val; set => FrameCount.Val = value; }
+            /// <inheritdoc cref="docs._to" />
+            public NullyPair<int> Dest  { get => FrameCount.Dest; set => FrameCount.Dest = value; }
+            public int? Nully { get => FrameCount.Nully; set => FrameCount.Nully = value; }
+            public int Coalesced { get => FrameCount.Coalesced; set => FrameCount.Coalesced = value; }
+
             // Descriptions            
             
             string DebuggerDisplay => DebuggerDisplay(this);
@@ -759,25 +778,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
             }
             
-            // Quasi-Inherited Properties
-            
-            /// <inheritdoc cref="docs._from" />
-            public NullyPair<int> From { get => FrameCount.From; set => FrameCount.From = value; } 
-            /// <inheritdoc cref="docs._from" />
-            public NullyPair<int> Init { get => FrameCount.Init; set => FrameCount.Init = value; }
-            /// <inheritdoc cref="docs._from" />
-            public NullyPair<int> Source { get => FrameCount.Source; set => FrameCount.Source = value; }
-            /// <inheritdoc cref="docs._to" />
-            public NullyPair<int> To { get => FrameCount.To; set => FrameCount.To = value; }
-            /// <inheritdoc cref="docs._to" />
-            public NullyPair<int> Value { get => FrameCount.Value; set => FrameCount.Value = value; }
-            /// <inheritdoc cref="docs._to" />
-            public NullyPair<int> Val { get => FrameCount.Val; set => FrameCount.Val = value; }
-            /// <inheritdoc cref="docs._to" />
-            public NullyPair<int> Dest  { get => FrameCount.Dest; set => FrameCount.Dest = value; }
-            public int? Nully { get => FrameCount.Nully; set => FrameCount.Nully = value; }
-            public int Coalesced { get => FrameCount.Coalesced; set => FrameCount.Coalesced = value; }
-
             // Constructors
             
             public Case() { }
