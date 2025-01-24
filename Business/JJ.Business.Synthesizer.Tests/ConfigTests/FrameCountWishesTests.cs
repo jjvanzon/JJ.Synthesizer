@@ -627,11 +627,31 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             return new ConfigTestEntities(x =>
             {
-                x.AudioLength(testCase.AudioLength.Init);
-                x.SamplingRate(testCase.SamplingRate.Init);
-                x.CourtesyFrames(testCase.CourtesyFrames.Init);
+                // Stop tooling configurations for interfering.
+                x.IsUnderNCrunch = x.IsUnderAzurePipelines = false;
+                
+                x.AudioLength(testCase.AudioLength.Init.Nully);
+                x.SamplingRate(testCase.SamplingRate.Init.Nully);
+                x.CourtesyFrames(testCase.CourtesyFrames.Init.Nully);
                 x.Channels(2); // // Sneaky default verifies formula is unaffected.
-                x.FrameCount(testCase.FrameCount.Init);
+                
+                int frameCountBefore = x.FrameCount();
+                x.FrameCount(testCase.FrameCount.Init.Nully);
+                int frameCountAfter = x.FrameCount();
+                if (frameCountBefore != frameCountAfter)
+                {
+                    string formattedFrameCount     = Coalesce(testCase.FrameCount    .Init.Nully, "default " + DefaultFrameCount    );
+                    string formattedAudioLength    = Coalesce(testCase.AudioLength   .Init.Nully, "default " + DefaultAudioLength   );
+                    string formattedSamplingRate   = Coalesce(testCase.SamplingRate  .Init.Nully, "default " + DefaultSamplingRate  );
+                    string formattedCourtesyFrames = Coalesce(testCase.CourtesyFrames.Init.Nully, "default " + DefaultCourtesyFrames);
+                    
+                    throw new Exception(
+                        $"Attempt to initialize {nameof(FrameCount)} to {formattedFrameCount} " +
+                        $"is inconsistent with {nameof(FrameCount)} {frameCountBefore} " +
+                        $"based on initial values for {nameof(AudioLength)} ({formattedAudioLength}), " +
+                        $"SamplingRate ({formattedSamplingRate}) " +
+                        $"and {nameof(CourtesyFrames)} ({formattedCourtesyFrames}).");
+                }
             });
         }
         
