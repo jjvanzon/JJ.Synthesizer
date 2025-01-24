@@ -169,21 +169,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { From = 4803, To = (null,4803) , Hz = 4800 },
 
             // With explicit AudioLength (1s)
-            new Case { From = (null,4803), To = 4803 , Hz = 4800, sec = 1 },
-            new Case { From = 4803, To = (null,4803) , Hz = 4800, sec = 1 },
+            //new Case { From = (null,4803), To = 4803 , Hz = 4800, sec = 1 },
+            //new Case { From = 4803, To = (null,4803) , Hz = 4800, sec = 1 },
             
             // FrameCount adjusts AudioLength
-            new Case { From = (null,4803), To = 48003 , Hz = 4800 , sec = { From = 1.0, To = 10.0 } },
-            new Case { From = 48003, To = (null,4803) , Hz = 4800 , sec = { From = 10.0, To = 1.0 } },
-            
-            // Nully Hertz
-            new Case (48003)       { Hz = { From = (null,48000), To= 48000        }, sec = 1, Name = "NullyHz" },
-            new Case (48003)       { Hz = { From = (0,48000)   , To= 48000        }, sec = 1, Name = "NullyHz" },
-            new Case (48003)       { Hz = { From = 48000       , To= (null,48000) }, sec = 1, Name = "NullyHz" },
-            new Case (48003)       { Hz = { From = 48000       , To= (0,48000)    }, sec = 1, Name = "NullyHz" },
-            new Case (48003)       { Hz = { From = (null,48000), To= (0,48000)    }, sec = 1, Name = "NullyHz" },
-            new Case (48003,24003) { Hz = { From = (null,48000), To= 24000        }, sec = 1, Name = "NullyHz" },
-            new Case (24003,48003) { Hz = { From = 24000       , To= (0,48000)    }, sec = 1, Name = "NullyHz" },
+            new Case { From = (null,4803), To = 48003 , Hz = 4800 , sec = { To = 10.0 } },
+            new Case { From = 48003, To = (null,4803) , Hz = 4800 , sec = { From = 10.0 } },
 
             // Edge case: Conflicting null/default and explicit AudioLength
             // Invalid: FrameCount cannot be null/default while AudioLength is explicitly set to non-default.
@@ -212,12 +203,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { From = 4803, To = 4803, Hz = 48000, sec = 0.1, Name = "NonNully" }
         );
         
+        static Case[] _nullyHertzCases = FromTemplate(new Case
+            
+            { Name = "NullyHz", AudioLength = 0.1, CourtesyFrames = 3 },
+            
+            new Case (4803)      { Hz = { From = (null,48000), To = 48000        } },
+            new Case (4803)      { Hz = { From = (0,48000)   , To = 48000        } },
+            new Case (4803)      { Hz = { From = 48000       , To = (null,48000) } },
+            new Case (4803)      { Hz = { From = 48000       , To = (0,48000)    } },
+            new Case (4803)      { Hz = { From = (null,48000), To = (0,48000)    } },
+            new Case (4803,2403) { Hz = { From = (null,48000), To = 24000        } },
+            new Case (2403,4803) { Hz = { From = 24000       , To = (0,48000)    } }
+        );        
+
         Dictionary<string, Case> _caseDictionary
             = Empty<Case>().Concat(_basicCases)
                            .Concat(_audioLengthCases)
                            .Concat(_samplingRateCases)
                            .Concat(_courtesyFramesCases)
                            .Concat(_nullyCases)
+                           .Concat(_nullyHertzCases)
                            .Concat(_initCases)
                            //.Distinct(x => x.Descriptor)
                            .ToDictionary(x => x.Descriptor);
@@ -260,6 +265,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                             .Concat(_samplingRateCases)
                             .Concat(_courtesyFramesCases)
                             .Concat(_nullyCases)
+                            .Concat(_nullyHertzCases)
                             .Select(x => x.DynamicData);
         [TestMethod] 
         [DynamicData(nameof(SynthBoundCases))]
