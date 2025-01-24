@@ -854,12 +854,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 get
                 {
-                    string nully     = Coalesce(Nully, "");
-                    string coalesced = Coalesce(Coalesced, "");
-                    if (!Has(nully) && !Has(coalesced)) return "";
-                    if (nully.Is(coalesced)) return nully;
-                    if (Has(nully) && !Has(coalesced)) return nully;
-                    return $"({nully},{coalesced})";
+                    if (!Has(Nully) && !Has(Coalesced)) return "";
+                    if (Equals(Nully, Coalesced)) return $"{Nully}";
+                    if (Has(Nully) && !Has(Coalesced)) return $"{Nully}";
+                    return $"({Nully},{Coalesced})";
                 }
             }
         }
