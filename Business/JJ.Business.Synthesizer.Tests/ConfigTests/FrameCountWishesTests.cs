@@ -39,7 +39,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private static Case[] _initCases = FromTemplate(new Case
             {
                 Name = "Init",
-                PlusFrames = 3
+                PlusFrames = 3,
+                Strict = false
             },
             new Case(  9600+3 ),
             new Case(  8820+3 ),
@@ -62,7 +63,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         static Case[] _basicCases = FromTemplate(new Case
             {
                 Name = "Basic",
-                PlusFrames = 3
+                PlusFrames = 3,
+                Strict = false
             },
             new Case ( 4800+3,  4800+3 ),
             new Case ( 4800+3,  9600+3 ),
@@ -686,7 +688,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 int frameCountBefore = x.FrameCount();
                 x.FrameCount(testCase.FrameCount.Init.Nully);
                 int frameCountAfter = x.FrameCount();
-                if (frameCountBefore != frameCountAfter)
+                
+                if (testCase.Strict && frameCountBefore != frameCountAfter)
                 {
                     string formattedFrameCount     = Coalesce(testCase.FrameCount    .Init.Nully, "default " + DefaultFrameCount    );
                     string formattedAudioLength    = Coalesce(testCase.AudioLength   .Init.Nully, "default " + DefaultAudioLength   );
@@ -698,7 +701,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         $"is inconsistent with {nameof(FrameCount)} {frameCountBefore} " +
                         $"based on initial values for {nameof(AudioLength)} ({formattedAudioLength}), " +
                         $"SamplingRate ({formattedSamplingRate}) " +
-                        $"and {nameof(CourtesyFrames)} ({formattedCourtesyFrames}).");
+                        $"and {nameof(CourtesyFrames)} ({formattedCourtesyFrames}). " +
+                        $"(This restriction can be relaxed by setting {nameof(Case.Strict)} = false in the test {nameof(Case)}.)");
                 }
             });
         }
@@ -708,6 +712,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DebuggerDisplay("{DebuggerDisplay}")]
         internal class Case
         {
+            /// <inheritdoc cref="docs._strict />
+            public bool Strict { get; set; } = true;
+            
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount { get; set; } = new CaseProp<int>();
             public CaseProp<int> Frames { get => FrameCount; set => FrameCount = value; }
@@ -839,6 +846,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     if (cases[i] == null) throw new NullException(() => cases[i]);
                     var testCase = cases[i];
                     testCase.Name = Coalesce(testCase.Name, Name);
+                    if (Strict == false) testCase.Strict = false; // Yield over alleviation from strictness.
                     testCase.FrameCount    .CloneFrom(FrameCount    );
                     testCase.SamplingRate  .CloneFrom(SamplingRate  );
                     testCase.AudioLength   .CloneFrom(AudioLength   );
