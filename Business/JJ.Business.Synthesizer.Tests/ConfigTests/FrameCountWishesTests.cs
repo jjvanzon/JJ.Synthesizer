@@ -218,7 +218,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { From = 4803, To = 4803, Hz = 48000, sec = 0.1, Name = "NonNully" }
         );
                 
-        Dictionary<string, Case> _caseDictionary = Empty<Case>().Concat(_basicCases)
+        Dictionary<string, Case> _caseDictionary
+            = Empty<Case>().Concat(_basicCases)
                                                                 .Concat(_audioLengthCases)
                                                                 .Concat(_samplingRateCases)
                                                                 .Concat(_courtesyFramesCases)
@@ -954,6 +955,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public void CloneFrom(CaseProp<T> template)
             {
                 if (template == null) throw new NullException(() => template);
+                
+                // Favor specifically specified values over template values,
+                // even though that gives 2 competing meanings to Nully values:
+                // either not filled in in the test case or use default value in the API.
+                
                 From.Nully     = Coalesce(From.Nully,     template.From.Nully);
                 From.Coalesced = Coalesce(From.Coalesced, template.From.Coalesced);
                 To.Nully       = Coalesce(To.Nully,       template.To.Nully);
