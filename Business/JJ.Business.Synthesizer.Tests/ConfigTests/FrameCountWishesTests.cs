@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     public class FrameCountWishesTests
     {
         private const int Tolerance = -1;
+        private const int Hz = DefaultSamplingRate;
         private const int DefaultHz = DefaultSamplingRate;
         private const int DefaultHertz = DefaultSamplingRate;
 
@@ -57,7 +58,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(  1000+3 ),
             new Case(  1003+3 ), 
             new Case(  1234+3 ),
-            new Case( 12345+3 ) 
+            new Case( 12345+3 )
         );
 
         static Case[] _basicCases = FromTemplate(new Case
@@ -92,31 +93,33 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         static Case[] _audioLengthCases = FromTemplate(new Case
             {
                 Name = "AudioLength",
-                sec = { From = 0.1 }, 
+                Length = 0.1, 
                 Hz = DefaultHz, 
                 PlusFrames = 3
             },
-            new Case ( 4800+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } },
-            new Case ( 4800+3,  9600+3 ) { sec = { To =  9600.0 / DefaultHz } },
-            new Case ( 4800+3,  8820+3 ) { sec = { To =  8820.0 / DefaultHz } },
-            new Case ( 4800+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
-            new Case ( 4800+3,  2205+3 ) { sec = { To =  2205.0 / DefaultHz } },
-            new Case ( 4800+3,  1102+3 ) { sec = { To =  1102.0 / DefaultHz } },
-            new Case ( 4800+3,     8+3 ) { sec = { To =     8.0 / DefaultHz } },
-            new Case ( 4800+3,    16+3 ) { sec = { To =    16.0 / DefaultHz } },
-            new Case ( 4800+3,    19+3 ) { sec = { To =    19.0 / DefaultHz } },
-            new Case ( 4800+3,    31+3 ) { sec = { To =    31.0 / DefaultHz } },
-            new Case ( 4800+3,    61+3 ) { sec = { To =    61.0 / DefaultHz } },
-            new Case ( 4800+3,   100+3 ) { sec = { To =   100.0 / DefaultHz } },
-            new Case ( 4800+3,  1000+3 ) { sec = { To =  1000.0 / DefaultHz } },
-            new Case ( 4800+3,  1234+3 ) { sec = { To =  1234.0 / DefaultHz } },
-            new Case ( 4800+3, 12345+3 ) { sec = { To = 12345.0 / DefaultHz } },
-            new Case (    8+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } },
-            new Case ( 1102+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
-            new Case ( 2205+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
-            new Case ( 4410+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } },
-            new Case ( 8820+3,  4410+3 ) { sec = { To =  4410.0 / DefaultHz } },
-            new Case ( 9600+3,  4800+3 ) { sec = { To =  4800.0 / DefaultHz } }
+            new Case ( 4800+3,  4800+3 ) { Length = { To =  4800.0 / Hz } },
+            new Case ( 4800+3,  9600+3 ) { Length = { To =  9600.0 / Hz } },
+            new Case ( 4800+3,  8820+3 ) { Length = { To =  8820.0 / Hz } },
+            new Case ( 4800+3,  4410+3 ) { Length = { To =  4410.0 / Hz } },
+            new Case ( 4800+3,  2205+3 ) { Length = { To =  2205.0 / Hz } },
+            new Case ( 4800+3,  1102+3 ) { Length = { To =  1102.0 / Hz } },
+            new Case ( 4800+3,     8+3 ) { Length = { To =     8.0 / Hz } },
+            new Case ( 4800+3,    16+3 ) { Length = { To =    16.0 / Hz } },
+            new Case ( 4800+3,    19+3 ) { Length = { To =    19.0 / Hz } },
+            new Case ( 4800+3,    31+3 ) { Length = { To =    31.0 / Hz } },
+            new Case ( 4800+3,    61+3 ) { Length = { To =    61.0 / Hz } },
+            new Case ( 4800+3,   100+3 ) { Length = { To =   100.0 / Hz } },
+            new Case ( 4800+3,  1000+3 ) { Length = { To =  1000.0 / Hz } },
+            new Case ( 4800+3,  1234+3 ) { Length = { To =  1234.0 / Hz } },
+            new Case ( 4800+3, 12345+3 ) { Length = { To = 12345.0 / Hz } },
+            
+            new Case (    8+3,  4800+3 ) { Length = { From =    8.0 / Hz } },
+            new Case ( 4410+3,  4800+3 ) { Length = { From = 4410.0 / Hz } },
+            new Case ( 9600+3,  4800+3 ) { Length = { From = 9600.0 / Hz } },
+            
+            new Case ( 1102+3,  4410+3 ) { Length = { From = 1102.0 / Hz, To =  4410.0 / Hz } },
+            new Case ( 2205+3,  4410+3 ) { Length = { From = 2205.0 / Hz, To =  4410.0 / Hz } },
+            new Case ( 8820+3,  4410+3 ) { Length = { From = 8820.0 / Hz, To =  4410.0 / Hz } }
         );
 
         static Case[] _samplingRateCases = FromTemplate(new Case
@@ -141,12 +144,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case ( 4800+3,  1000+3 ) { Hertz = { To =  10000 } },
             new Case ( 4800+3,  1234+3 ) { Hertz = { To =  12340 } },
             new Case ( 4800+3, 12345+3 ) { Hertz = { To = 123450 } },
-            new Case (    8+3,  4800+3 ) { Hertz = { From =     8, To =   4800 } },
-            new Case ( 1102+3,  4410+3 ) { Hertz = { From =  1102, To =   4410 } },
-            new Case ( 2205+3,  4410+3 ) { Hertz = { From = 48000, To =  96000 } },
-            new Case ( 4410+3,  4800+3 ) { Hertz = { From =  4410, To =   4800 } },
-            new Case ( 8820+3,  4410+3 ) { Hertz = { From = 48000, To =  24000 } },
-            new Case ( 9600+3,  4800+3 ) { Hertz = { From = 48000, To =  24000 } }
+            new Case (    8+3,  4800+3 ) { Hertz = { From =    80, To = 48000 } },
+            new Case ( 1102+3,  4410+3 ) { Hertz = { From = 11020, To = 44100 } },
+            new Case ( 2205+3,  4410+3 ) { Hertz = { From = 22050, To = 44100 } },
+            new Case ( 4410+3,  4800+3 ) { Hertz = { From = 44100, To = 48000 } },
+            new Case ( 8820+3,  4410+3 ) { Hertz = { From = 88200, To = 44100 } },
+            new Case ( 9600+3,  4800+3 ) { Hertz = { From = 96000, To = 48000 } }
         );
         
         static Case[] _courtesyFramesCases = FromTemplate(new Case
@@ -217,16 +220,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Reference case without nullies
             new Case { From = 4803, To = 4803, Hz = 48000, sec = 0.1, Name = "NonNully" }
         );
-                
+        
         Dictionary<string, Case> _caseDictionary
             = Empty<Case>().Concat(_basicCases)
-                                                                .Concat(_audioLengthCases)
-                                                                .Concat(_samplingRateCases)
-                                                                .Concat(_courtesyFramesCases)
-                                                                .Concat(_nullyCases)
-                                                                .Concat(_initCases)
-                                                                //.Distinct(x => x.Descriptor)
-                                                                .ToDictionary(x => x.Descriptor);
+                           .Concat(_audioLengthCases)
+                           .Concat(_samplingRateCases)
+                           .Concat(_courtesyFramesCases)
+                           .Concat(_nullyCases)
+                           .Concat(_initCases)
+                           //.Distinct(x => x.Descriptor)
+                           .ToDictionary(x => x.Descriptor);
         
         // ncrunch: no coverage end
         
@@ -727,8 +730,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
             public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
-            public CaseProp<double> seconds { get => AudioLength; set => AudioLength = value; }
-            public CaseProp<double> sec     { get => AudioLength; set => AudioLength = value; }
+            public CaseProp<double> Length   { get => AudioLength; set => AudioLength = value; }
+            public CaseProp<double> Duration { get => AudioLength; set => AudioLength = value; }
+            public CaseProp<double> seconds  { get => AudioLength; set => AudioLength = value; }
+            public CaseProp<double> sec      { get => AudioLength; set => AudioLength = value; }
             
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
             public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
@@ -785,7 +790,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     return $"{name}{frameCount}{braced}"; 
                 }
             }
-            
+
             // Constructors
             
             public Case() { }
