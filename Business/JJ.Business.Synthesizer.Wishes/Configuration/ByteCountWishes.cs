@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Buff-Bound
         
-        public static int ByteCount(this Buff obj, int courtesyFrames = 0)
+        public static int ByteCount(this Buff obj, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
 
@@ -131,13 +131,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return ConfigWishes.ByteCountFromBuff(obj.Bytes, obj.Location);
         }
 
-        public static int ByteCount(this AudioFileOutput obj) 
-            => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames: 0), obj.FrameSize(), obj.HeaderLength());
-
-        public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames = 0) 
+        public static int ByteCount(this AudioFileOutput obj, int courtesyFrames) 
             => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
 
-        public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames = 0) 
+        public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames) 
+            => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
+
+        public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames) 
             => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
 
         // Immutable
@@ -145,11 +145,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int ByteCount(this WavHeaderStruct obj) 
             => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
 
-        public static WavHeaderStruct ByteCount(this WavHeaderStruct obj, int value, int courtesyFrames = 0)
+        public static WavHeaderStruct ByteCount(this WavHeaderStruct obj, int value)
         {
             var wish = obj.ToWish();
-            double audioLength = AudioLengthFromByteCount(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), courtesyFrames);
-            return wish.AudioLength(audioLength, courtesyFrames).ToWavHeader();
+            double audioLength = AudioLengthFromByteCount(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), DefaultCourtesyFrames);
+            return wish.AudioLength(audioLength, DefaultCourtesyFrames).ToWavHeader();
         }
         
         // Conversion Formula
