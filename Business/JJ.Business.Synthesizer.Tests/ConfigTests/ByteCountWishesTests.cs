@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     public class ByteCountWishesTests
     {
         [TestMethod]
-        public void ByteCount_Basics_ConversionFormula()
+        public void ByteCount_Basic_ConversionFormula()
         {
             const double audioLength    = 0.5;
             const int    samplingRate   = 24000;
@@ -33,16 +33,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCountExpected, () => frameCount.ByteCount(bits, channels, headerLength));
             AreEqual(byteCountExpected, () => frameCount.ByteCount(frameSize, headerLength));
         }
-        
+
         [TestMethod]
-        public void ByteCount_Basics_InitEntities()
+        public void ByteCount_Basic_Init()
         {
             int byteCount = 100;
-            
+            // ReSharper disable once UnusedVariable
             var entities = new ConfigTestEntities(x => x.ByteCount(byteCount));
-
+        }
+        
+        [TestMethod]
+        public void ByteCount_Basic_Getters()
+        {
             // Lambdas `() =>` improve assertion messages but can complicate debugging.
             // TODO: Remove `() =>` when complex tests ensure clear assertion messages.
+            
+            int byteCount = 100;
+            var entities = new ConfigTestEntities(x => x.ByteCount(byteCount));
             
             AreEqual(DefaultByteCount, () => entities.SynthBound.ConfigSection.ByteCount());
             
