@@ -185,6 +185,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
         );        
 
+        static Case[] _nullyCourtesyFramesCases = FromTemplate(new Case
+        
+            { Name = "PlusNullies", SamplingRate = 100 },
+            
+            new Case(104, 104) { sec = 1, CourtesyFrames = { From = (null,4), To = (null,4) } },
+            new Case(203, 204) { sec = 2, CourtesyFrames = { From = 3       , To = (null,4) } },
+            new Case(304, 305) { sec = 3, CourtesyFrames = { From = (null,4), To = 5        } }
+        );
+
         /// <summary> Nully FrameCount tests check the behavior of coalescing to default. </summary>
         static Case[] _nullyFrameCountCases = FromTemplate(new Case
             
@@ -234,9 +243,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                            .Concat(_audioLengthCases)
                            .Concat(_samplingRateCases)
                            .Concat(_courtesyFramesCases)
-                           .Concat(_nullyFrameCountCases)
-                           .Concat(_nullySamplingRateCases)
                            .Concat(_nullyAudioLengthCases)
+                           .Concat(_nullySamplingRateCases)
+                           .Concat(_nullyCourtesyFramesCases)
+                           .Concat(_nullyFrameCountCases)
                            .Concat(_initCases)
                            //.Distinct(x => x.Descriptor)
                            .ToDictionary(x => x.Descriptor);
@@ -278,9 +288,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                             .Concat(_audioLengthCases)
                             .Concat(_samplingRateCases)
                             .Concat(_courtesyFramesCases)
-                            .Concat(_nullyFrameCountCases)
-                            .Concat(_nullySamplingRateCases)
                             .Concat(_nullyAudioLengthCases)
+                            .Concat(_nullySamplingRateCases)
+                            .Concat(_nullyCourtesyFramesCases)
+                            .Concat(_nullyFrameCountCases)
                             .Select(x => x.DynamicData);
         [TestMethod] 
         [DynamicData(nameof(SynthBoundCases))]
