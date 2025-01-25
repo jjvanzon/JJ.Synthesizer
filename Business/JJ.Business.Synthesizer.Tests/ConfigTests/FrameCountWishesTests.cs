@@ -149,9 +149,42 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(305, 304) { PlusFrames = { From = 5, To =  4 }, sec = 3 },
             new Case(402, 410) { PlusFrames = { From = 2, To = 10 }, sec = 4 }
         );
-        
-        /// <summary> Nully tests check the behavior of coalescing to default. </summary>
-        static Case[] _nullyCases = FromTemplate(new Case
+                
+        /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
+        static Case[] _nullyHertzCases = FromTemplate(new Case
+            
+            { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
+            
+            new Case (480+3)       { Hz = { From = (null,48000), To = 48000        } },
+            new Case (480+3)       { Hz = { From = (0,48000)   , To = 48000        } },
+            new Case (480+3)       { Hz = { From = 48000       , To = (null,48000) } },
+            new Case (480+3)       { Hz = { From = 48000       , To = (0,48000)    } },
+            new Case (480+3)       { Hz = { From = (null,48000), To = (0,48000)    } },
+            new Case (480+3,240+3) { Hz = { From = (null,48000), To = 24000        } },
+            new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
+        );        
+                
+        /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
+        static Case[] _nullyLengthCases = FromTemplate(new Case
+            
+            { Name = "NullyLen", Hz = 480, Plus = 3 },
+            
+            new Case (480+3)       { Length = { From = (null, 1.0), To = 1.0         } },
+            new Case (480+3)       { Length = { From = 1.0        , To = (null, 1.0) } },
+            new Case (480+3,240+3) { Length = { From = (null, 1.0), To = 0.5         } },
+            new Case (240+3,480+3) { Length = { From = 0.5        , To = (null, 1.0) } },
+            
+            // TODO: This case should fail, but do not. 0 should not coalesce to 1 sec. 0 means 0 seconds.
+            new Case (480+3)       { Length = { From = 1.0        , To = (0, 1.0)    } },
+            new Case (480+3)       { Length = { From = (null, 1.0), To = (0, 1.0)    } }
+            
+            // These cases fail. 0 is not nully for AudioLength. 0 means 0 seconds, not to default to 1 second.
+            //new Case (480+3)       { Length = { From = (0, 1.0)   , To = 1.0         } }
+            //new Case (240+3,480+3) { Length = { From = 0.5        , To = (0, 1.0)    } },
+        );        
+
+        /// <summary> Nully FrameCount tests check the behavior of coalescing to default. </summary>
+        static Case[] _nullyFrameCountCases = FromTemplate(new Case
             
             { Name = "Nully", sec = 1, Hz = 480, Plus = 3 },
             
@@ -192,28 +225,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Reference case without nullies
             new Case { From = 480+3, To = 480+3, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
-        
-        /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
-        static Case[] _nullyHertzCases = FromTemplate(new Case
-            
-            { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
-            
-            new Case (480+3)       { Hz = { From = (null,48000), To = 48000        } },
-            new Case (480+3)       { Hz = { From = (0,48000)   , To = 48000        } },
-            new Case (480+3)       { Hz = { From = 48000       , To = (null,48000) } },
-            new Case (480+3)       { Hz = { From = 48000       , To = (0,48000)    } },
-            new Case (480+3)       { Hz = { From = (null,48000), To = (0,48000)    } },
-            new Case (480+3,240+3) { Hz = { From = (null,48000), To = 24000        } },
-            new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
-        );        
 
         Dictionary<string, Case> _caseDictionary
             = Empty<Case>().Concat(_basicCases)
                            .Concat(_audioLengthCases)
                            .Concat(_samplingRateCases)
                            .Concat(_courtesyFramesCases)
-                           .Concat(_nullyCases)
+                           .Concat(_nullyFrameCountCases)
                            .Concat(_nullyHertzCases)
+                           .Concat(_nullyLengthCases)
                            .Concat(_initCases)
                            //.Distinct(x => x.Descriptor)
                            .ToDictionary(x => x.Descriptor);
@@ -255,8 +275,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                             .Concat(_audioLengthCases)
                             .Concat(_samplingRateCases)
                             .Concat(_courtesyFramesCases)
-                            .Concat(_nullyCases)
+                            .Concat(_nullyFrameCountCases)
                             .Concat(_nullyHertzCases)
+                            .Concat(_nullyLengthCases)
                             .Select(x => x.DynamicData);
         [TestMethod] 
         [DynamicData(nameof(SynthBoundCases))]
@@ -719,6 +740,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
             public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
             public CaseProp<double> Length   { get => AudioLength; set => AudioLength = value; }
+            public CaseProp<double> Len      { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> Duration { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> seconds  { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> sec      { get => AudioLength; set => AudioLength = value; }

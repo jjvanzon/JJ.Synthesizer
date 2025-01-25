@@ -142,6 +142,7 @@ namespace JJ.Business.Synthesizer.Tests
         public static object _mysample;
 
         /// <summary>
+        /// <strong> "NullyLen Lullaby" </strong> <br/>
         /// Tests various note length fallbacks, including explicit values,
         /// defaults in config files or based on the beat length
         /// or explicit specification in the note commands.
