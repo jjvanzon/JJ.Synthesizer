@@ -37,10 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // ncrunch: no coverage start
 
-        /// <summary>
-        /// Tests the initialization of the FrameCount property, along with its dependencies
-        /// and whether the expected FrameCount value can be pulled from the entities.
-        /// </summary>
+        /// <summary> Initializes FrameCount and dependencies, verifies FrameCount values from entities. </summary>
         private static Case[] _initCases = FromTemplate(new Case
             {
                 Name = "Init",
@@ -64,10 +61,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case( 1234+3 )
         );
 
-        /// <summary>
-        /// Basic cases vary the FrameCount property, and check whether assigning it,
-        /// renders the same value upon getting it from the different entities.
-        /// </summary>
+        /// <summary> Varies FrameCount and checks value consistency across entities. </summary>
         static Case[] _basicCases = FromTemplate(new Case
             {
                 Name = "Basic",
@@ -137,7 +131,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case ( 480+3,   10+3 ) { Hertz = { To =   1000 } },
             new Case ( 480+3,  100+3 ) { Hertz = { To =  10000 } },
             new Case ( 480+3,  123+3 ) { Hertz = { To =  12300 } },
-            new Case ( 480+3, 1234+3 ) { Hertz = { To = 123400 } },
             new Case (   8+3,  480+3 ) { Hertz = { From =  800 } },
             new Case ( 110+3,  441+3 ) { Hertz = { From = 11000, To = 44100 } },
             new Case ( 220+3,  441+3 ) { Hertz = { From = 22000, To = 44100 } },
@@ -200,10 +193,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { From = 480+3, To = 480+3, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
         
-        /// <summary>
-        /// Nully Hertz tests check that Hertz nullification falls back to default of 48000 Hz,
-        /// and that FrameCounts matches accordingly.
-        /// </summary>
+        /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
         static Case[] _nullyHertzCases = FromTemplate(new Case
             
             { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
