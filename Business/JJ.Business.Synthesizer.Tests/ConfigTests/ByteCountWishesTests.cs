@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
@@ -68,8 +69,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => entities.Independent.Sample       .ByteCount());
             AreEqual(byteCount, () => entities.Immutable.WavHeader      .ByteCount());
             
-            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Bits.BitsToByteCount());
-            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Type.ByteCount());
+            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Bits              .ByteCount());
+            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Type              .ByteCount());
+            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.SampleDataType    .ByteCount());
+            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.SampleDataTypeEnum.ByteCount());
             
             foreach (TapeEntities channelEntities in entities.ChannelEntities)
             {
@@ -83,8 +86,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AreEqual(byteCount, () => channelEntities.Independent.Sample       .ByteCount());
                 AreEqual(byteCount, () => channelEntities.Immutable.WavHeader      .ByteCount());
 
-                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.Bits.BitsToByteCount());
-                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.Type.ByteCount());
+                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.Bits              .ByteCount());
+                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.Type              .ByteCount());
+                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.SampleDataType    .ByteCount());
+                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.SampleDataTypeEnum.ByteCount());
             }
         }
         
@@ -93,50 +98,40 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             int init = 100;
             int value = 200;
-            var entities = new ConfigTestEntities(x => x.ByteCount(init));
+            var x = CreateTestEntities(init);
             
-            // TODO: No setter yet
-            //entities.SynthBound.ConfigSection.ByteCount(value));
+            x.SynthBound.SynthWishes      .ByteCount(value);
+            x.SynthBound.FlowNode         .ByteCount(value);
+            x.SynthBound.FlowNode2        .ByteCount(value);
+            x.SynthBound.ConfigResolver   .ByteCount(value, x.SynthBound.SynthWishes);
+            x.TapeBound.Tape              .ByteCount(value);
+            x.TapeBound.TapeConfig        .ByteCount(value);
+            x.TapeBound.TapeActions       .ByteCount(value);
+            x.TapeBound.TapeAction        .ByteCount(value);
+            x.BuffBound.Buff              .ByteCount(value, DefaultCourtesyFrames);
+            x.BuffBound.AudioFileOutput   .ByteCount(value, DefaultCourtesyFrames);
+            x.Immutable.WavHeader         .ByteCount(value);
+            x.Immutable.SampleDataType    .ByteCount(2, x.SynthBound.Context);
+            x.Immutable.SampleDataTypeEnum.ByteCount(2);
+            x.Immutable.Bits              .ByteCount(2);
+            x.Immutable.Type              .ByteCount(2);
             
-            entities.SynthBound.SynthWishes   .ByteCount(value);
-            entities.SynthBound.FlowNode      .ByteCount(value);
-            entities.SynthBound.FlowNode2     .ByteCount(value);
-            entities.SynthBound.ConfigResolver.ByteCount(value, entities.SynthBound.SynthWishes);
-            
-            entities.TapeBound.Tape           .ByteCount(value);
-            entities.TapeBound.TapeConfig     .ByteCount(value);
-            entities.TapeBound.TapeActions    .ByteCount(value);
-            entities.TapeBound.TapeAction     .ByteCount(value);
-            
-            // TODO: No setter yet
-            //entities.BuffBound.Buff         .ByteCount(value, DefaultCourtesyFrames);
-            entities.BuffBound.AudioFileOutput.ByteCount(value, DefaultCourtesyFrames);
-            // TODO: Sample is too buff?
-            //entities.Independent.Sample     .ByteCount(value);
-            entities.Immutable.WavHeader      .ByteCount(value);
-            
-            // TODO: Add quasi-setters?
-            //entities.Immutable.Bits.BitsToByteCount(2);
-            //entities.Immutable.Type.ByteCount(2);
-            
-            foreach (TapeEntities channelEntities in entities.ChannelEntities)
+            foreach (TapeEntities channelEntities in x.ChannelEntities)
             {
-                channelEntities.TapeBound.Tape           .ByteCount(value);
-                channelEntities.TapeBound.TapeConfig     .ByteCount(value);
-                channelEntities.TapeBound.TapeActions    .ByteCount(value);
-                channelEntities.TapeBound.TapeAction     .ByteCount(value);
-                
-                // TODO: No setter yet
-                //channelEntities.BuffBound.Buff         .ByteCount(value, DefaultCourtesyFrames);
-                channelEntities.BuffBound.AudioFileOutput.ByteCount(value, DefaultCourtesyFrames);
-                // TODO: Sample is too buff?
-                //channelEntities.Independent.Sample     .ByteCount(value);
-                channelEntities.Immutable.WavHeader      .ByteCount(value);
-
-                // TODO: Add quasi-setters?
-                //ChannelEntities.Immutable.Bits.ByteCountToBits(2);
-                //channelEntities.Immutable.Type.ByteCount(2);
+                channelEntities.TapeBound.Tape              .ByteCount(value);
+                channelEntities.TapeBound.TapeConfig        .ByteCount(value);
+                channelEntities.TapeBound.TapeActions       .ByteCount(value);
+                channelEntities.TapeBound.TapeAction        .ByteCount(value);
+                channelEntities.BuffBound.Buff              .ByteCount(value, DefaultCourtesyFrames);
+                channelEntities.BuffBound.AudioFileOutput   .ByteCount(value, DefaultCourtesyFrames);
+                channelEntities.Immutable.WavHeader         .ByteCount(value);
+                channelEntities.Immutable.Bits              .ByteCount(2);
+                channelEntities.Immutable.Type              .ByteCount(2);
+                channelEntities.Immutable.SampleDataType    .ByteCount(2, x.SynthBound.Context);
+                channelEntities.Immutable.SampleDataTypeEnum.ByteCount(2);
             }
         }
+        
+        private static ConfigTestEntities CreateTestEntities(int init) => new ConfigTestEntities(x => x.ByteCount(init));
     }
 }
