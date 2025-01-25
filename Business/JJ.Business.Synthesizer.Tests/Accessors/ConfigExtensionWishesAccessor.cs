@@ -293,6 +293,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public static ConfigResolverAccessor ByteCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)  
             => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj, value, synthWishes));
+        
+        // With ConfigSection
+        
+        public static int? ByteCount(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
         
     internal static class FrameCountExtensionWishesAccessor
