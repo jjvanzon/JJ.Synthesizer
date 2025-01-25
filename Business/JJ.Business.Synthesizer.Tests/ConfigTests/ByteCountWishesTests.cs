@@ -41,6 +41,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             var entities = new ConfigTestEntities(x => x.ByteCount(byteCount));
 
+            // Lambdas `() =>` improve assertion messages but can complicate debugging.
+            // TODO: Remove `() =>` when complex tests ensure clear assertion messages.
+            
             AreEqual(DefaultByteCount, () => entities.SynthBound.ConfigSection.ByteCount());
             
             AreEqual(byteCount, () => entities.SynthBound.SynthWishes   .ByteCount());
