@@ -47,28 +47,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int byteCount = 100;
             
             var entities = new ConfigTestEntities(x => x.ByteCount(byteCount));
+
+            AreEqual(DefaultByteCount, () => entities.SynthBound.ConfigSection.ByteCount());
             
             AreEqual(byteCount, () => entities.SynthBound.SynthWishes   .ByteCount());
-            
             AreEqual(byteCount, () => entities.SynthBound.FlowNode      .ByteCount());
             AreEqual(byteCount, () => entities.SynthBound.FlowNode2     .ByteCount());
             AreEqual(byteCount, () => entities.SynthBound.ConfigResolver.ByteCount(entities.SynthBound.SynthWishes));
-            
-            // TODO: Add ByteCount to the ConfigSection extensions and Accessor
-            //entities.SynthBound.ConfigSection .ByteCount();
             
             AreEqual(byteCount, () => entities.TapeBound.Tape           .ByteCount());
             AreEqual(byteCount, () => entities.TapeBound.TapeConfig     .ByteCount());
             AreEqual(byteCount, () => entities.TapeBound.TapeActions    .ByteCount());
             AreEqual(byteCount, () => entities.TapeBound.TapeAction     .ByteCount());
+            
             AreEqual(byteCount, () => entities.BuffBound.Buff           .ByteCount(DefaultCourtesyFrames));
-            //AreEqual(byteCount, () => entities.BuffBound.AudioFileOutput.ByteCount()); // TODO: Assert Failed
+            AreEqual(byteCount, () => entities.BuffBound.AudioFileOutput.ByteCount(DefaultCourtesyFrames));
             AreEqual(byteCount, () => entities.Independent.Sample       .ByteCount());
             AreEqual(byteCount, () => entities.Immutable.WavHeader      .ByteCount());
             
-            // TODO: ByteCount might serve as an alias for SizeOfBitDepth here.
-            //entities.Immutable.Bits           .ByteCount();
-            //entities.Immutable.Type           .ByteCount();
+            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Bits.BitsToByteCount());
+            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Type.ByteCount());
             
             foreach (TapeEntities channelEntities in entities.ChannelEntities)
             {
@@ -76,14 +74,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AreEqual(byteCount, () => channelEntities.TapeBound.TapeConfig     .ByteCount());
                 AreEqual(byteCount, () => channelEntities.TapeBound.TapeActions    .ByteCount());
                 AreEqual(byteCount, () => channelEntities.TapeBound.TapeAction     .ByteCount());
+                
                 AreEqual(byteCount, () => channelEntities.BuffBound.Buff           .ByteCount(DefaultCourtesyFrames));
-                //AreEqual(byteCount, () => channelEntities.BuffBound.AudioFileOutput.ByteCount()); // TODO: Assert Failed
+                AreEqual(byteCount, () => channelEntities.BuffBound.AudioFileOutput.ByteCount(DefaultCourtesyFrames));
                 AreEqual(byteCount, () => channelEntities.Independent.Sample       .ByteCount());
                 AreEqual(byteCount, () => channelEntities.Immutable.WavHeader      .ByteCount());
 
-                // TODO: ByteCount might serve as an alias for SizeOfBitDepth here.
-                //channelEntities.Immutable.Bits           .ByteCount();
-                //channelEntities.Immutable.Type           .ByteCount();
+                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.Bits.BitsToByteCount());
+                AreEqual(DefaultSizeOfBitDepth, () => channelEntities.Immutable.Type.ByteCount());
             }
         }
     }
