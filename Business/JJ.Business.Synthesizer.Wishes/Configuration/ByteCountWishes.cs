@@ -9,6 +9,9 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Persistence;
+using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
@@ -124,21 +127,35 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
             return 0;
         }
-
-        public static int ByteCount(this Sample obj)
+        
+        public static Buff ByteCount(this Buff obj, int value, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
-            return ConfigWishes.ByteCountFromBuff(obj.Bytes, obj.Location);
+            // Buff is too Buff to change his ByteCount,
+            // but he can still send the message to his buddy "Out", who does the books.
+            obj.UnderlyingAudioFileOutput.ByteCount(value, courtesyFrames);
+            return obj;
         }
 
-        public static int ByteCount(this AudioFileOutput obj, int courtesyFrames) 
-            => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
-
+        public static int ByteCount(this AudioFileOutput obj, int courtesyFrames)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return Coalesce(AssertFileSize(obj.FilePath), obj.BytesNeeded(courtesyFrames));
+        }
+        
         public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames) 
             => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
 
         public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames) 
             => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
+
+        // Independent after Taping
+        
+        public static int ByteCount(this Sample obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return ConfigWishes.ByteCountFromBuff(obj.Bytes, obj.Location);
+        }
 
         // Immutable
         
@@ -152,9 +169,36 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return wish.AudioLength(audioLength, DefaultCourtesyFrames).ToWavHeader();
         }
         
-        public static int BitsToByteCount(this int bits) => BitsToSizeOfBitDepth(bits);
+        [Obsolete(ObsoleteMessage)] 
+        public static int ByteCount(this SampleDataTypeEnum obj) => obj.SizeOfBitDepth();
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum ByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount)
+            => oldEnumValue.SizeOfBitDepth(newByteCount);
+        
+        [Obsolete(ObsoleteMessage)] 
+        public static int ByteCount(this SampleDataType obj) => obj.SizeOfBitDepth();
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType ByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context) 
+            => oldSampleDataType.SizeOfBitDepth(newByteCount, context);
         
         public static int ByteCount(this Type type) => type.SizeOfBitDepth();
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type ByteCount(this Type oldType, int newByteCount) => oldType.SizeOfBitDepth(newByteCount);
+        
+        public static int BitsToByteCount(this int bits) => BitsToSizeOfBitDepth(bits);
+
+        public static int ByteCount(this int bits) => BitsToSizeOfBitDepth(bits);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int ByteCountToBits(this int oldBits, int newByteCount) => oldBits.SizeOfBitDepth(newByteCount);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int ByteCount(this int oldBits, int newByteCount) => oldBits.SizeOfBitDepth(newByteCount);
 
         // Conversion Formula
         
