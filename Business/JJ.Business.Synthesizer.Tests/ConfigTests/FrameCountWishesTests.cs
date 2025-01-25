@@ -151,24 +151,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
                 
         /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
-        static Case[] _nullyHertzCases = FromTemplate(new Case
-            
-            { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
-            
-            new Case (480+3)       { Hz = { From = (null,48000), To = 48000        } },
-            new Case (480+3)       { Hz = { From = (0,48000)   , To = 48000        } },
-            new Case (480+3)       { Hz = { From = 48000       , To = (null,48000) } },
-            new Case (480+3)       { Hz = { From = 48000       , To = (0,48000)    } },
-            new Case (480+3)       { Hz = { From = (null,48000), To = (0,48000)    } },
-            new Case (480+3,240+3) { Hz = { From = (null,48000), To = 24000        } },
-            new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
-        );        
-                
-        /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
-        static Case[] _nullyLengthCases = FromTemplate(new Case
+        static Case[] _nullyAudioLengthCases = FromTemplate(new Case
             
             { Name = "NullyLen", Hz = 480, Plus = 3 },
             
+            new Case (480+3)       { Length = { From = (null, 1.0), To = (null, 1.0) } },
             new Case (480+3)       { Length = { From = (null, 1.0), To = 1.0         } },
             new Case (480+3)       { Length = { From = 1.0        , To = (null, 1.0) } },
             new Case (480+3,240+3) { Length = { From = (null, 1.0), To = 0.5         } },
@@ -182,6 +169,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             //new Case (480+3)       { Length = { From = (0, 1.0)   , To = 1.0         } }
             //new Case (240+3,480+3) { Length = { From = 0.5        , To = (0, 1.0)    } },
         );        
+                
+        /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
+        static Case[] _nullySamplingRateCases = FromTemplate(new Case
+            
+            { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
+            
+            new Case (480+3)       { Hz = { From = (null,48000), To = (null,48000) } },
+            new Case (480+3)       { Hz = { From = (null,48000), To = 48000        } },
+            new Case (480+3)       { Hz = { From = (0,48000)   , To = 48000        } },
+            new Case (480+3)       { Hz = { From = 48000       , To = (null,48000) } },
+            new Case (480+3)       { Hz = { From = 48000       , To = (0,48000)    } },
+            new Case (480+3)       { Hz = { From = (null,48000), To = (0,48000)    } },
+            new Case (480+3,240+3) { Hz = { From = (null,48000), To = 24000        } },
+            new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
+        );        
 
         /// <summary> Nully FrameCount tests check the behavior of coalescing to default. </summary>
         static Case[] _nullyFrameCountCases = FromTemplate(new Case
@@ -192,6 +194,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // 4803 = 1 sec (default) * 4800 Hz (specified sampling rate) + 3 courtesy frames
             
             // Basic case of coalescing FrameCounts
+            new Case { From = (null,480+3), To= (null,480+3) },
             new Case { From = (null,480+3), To= 480+3  },
             new Case { From = 480+3, To = (null,480+3) },
             
@@ -232,8 +235,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                            .Concat(_samplingRateCases)
                            .Concat(_courtesyFramesCases)
                            .Concat(_nullyFrameCountCases)
-                           .Concat(_nullyHertzCases)
-                           .Concat(_nullyLengthCases)
+                           .Concat(_nullySamplingRateCases)
+                           .Concat(_nullyAudioLengthCases)
                            .Concat(_initCases)
                            //.Distinct(x => x.Descriptor)
                            .ToDictionary(x => x.Descriptor);
@@ -276,8 +279,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                             .Concat(_samplingRateCases)
                             .Concat(_courtesyFramesCases)
                             .Concat(_nullyFrameCountCases)
-                            .Concat(_nullyHertzCases)
-                            .Concat(_nullyLengthCases)
+                            .Concat(_nullySamplingRateCases)
+                            .Concat(_nullyAudioLengthCases)
                             .Select(x => x.DynamicData);
         [TestMethod] 
         [DynamicData(nameof(SynthBoundCases))]
