@@ -16,9 +16,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Synth-Bound
         
         public static int FrameCount(this SynthWishes obj) => ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(), obj.SamplingRate(), obj.CourtesyFrames());
+        
         public static SynthWishes FrameCount(this SynthWishes obj, int? value) => obj.AudioLength(AudioLengthFromFrameCount(value, obj.SamplingRate(), obj.CourtesyFrames()));
         
         public static int FrameCount(this FlowNode obj) => ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(), obj.SamplingRate(), obj.CourtesyFrames());
+        
         public static FlowNode FrameCount(this FlowNode obj, int? value) => obj.AudioLength(AudioLengthFromFrameCount(value, obj.SamplingRate(), obj.CourtesyFrames()));
         
         internal static int FrameCount(this ConfigResolver obj, SynthWishes synthWishes)
