@@ -152,6 +152,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return wish.AudioLength(audioLength, DefaultCourtesyFrames).ToWavHeader();
         }
         
+        public static int BitsToByteCount(this int bits) => BitsToSizeOfBitDepth(bits);
+        
+        public static int ByteCount(this Type type) => type.SizeOfBitDepth();
+
         // Conversion Formula
         
         // From Buff
