@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Configuration;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
