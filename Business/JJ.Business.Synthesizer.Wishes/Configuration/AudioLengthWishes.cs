@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double value, int courtesyFrames)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            infoWish.FrameCount = FrameCount(value, infoWish.SamplingRate, courtesyFrames);
+            infoWish.FrameCount = FrameCountFromAudioLength(value, infoWish.SamplingRate, courtesyFrames);
             return infoWish;
         }
         
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioFileInfo AudioLength(this AudioFileInfo info, double value, int courtesyFrames)
         {
             if (info == null) throw new NullException(() => info);
-            info.SampleCount = FrameCount(value, info.SamplingRate, courtesyFrames);
+            info.SampleCount = FrameCountFromAudioLength(value, info.SamplingRate, courtesyFrames);
             return info;
         }
 

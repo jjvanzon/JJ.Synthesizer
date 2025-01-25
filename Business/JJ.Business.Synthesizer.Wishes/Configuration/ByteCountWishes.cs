@@ -160,11 +160,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // From Buff
         
-        public static int ByteCountFromBuff(this (byte[] bytes, string filePath) tuple) 
-            => ConfigWishes.ByteCountFromBuff(tuple.bytes, tuple.filePath);
+        public static int ByteCountFromBuff(this (byte[] bytes, string filePath) buffTuple) 
+            => ConfigWishes.ByteCountFromBuff(buffTuple.bytes, buffTuple.filePath);
         
-        public static int ByteCount(this (byte[] bytes, string filePath) tuple)
-            => ConfigWishes.ByteCount(tuple.bytes, tuple.filePath);
+        public static int ByteCount(this (byte[] bytes, string filePath) buffTuple)
+            => ConfigWishes.ByteCount(buffTuple.bytes, buffTuple.filePath);
         
         // From AudioLength
             
@@ -203,7 +203,8 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     {
         // From Buff
         
-        public static int ByteCountFromBuff(byte[] bytes, string filePath) => Has(bytes) ? bytes.Length : AssertFileSize(filePath);
+        public static int ByteCountFromBuff(byte[] bytes, string filePath) 
+            => Has(bytes) ? bytes.Length : AssertFileSize(filePath);
 
         public static int ByteCount(byte[] bytes, string filePath) 
             => ByteCountFromBuff(bytes, filePath);
