@@ -166,38 +166,38 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // 4803 = 1 sec (default) * 4800 Hz (specified sampling rate) + 3 courtesy frames
             
             // Basic case of coalescing FrameCounts
-            new Case { From = (null,483), To= 483  },
-            new Case { From = 483, To = (null,483) },
+            new Case { From = (null,480+3), To= 480+3  },
+            new Case { From = 480+3, To = (null,480+3) },
             
             // FrameCount adjusts AudioLength
-            new Case { From = 2403, To = (null,483), sec = { From = 5.0 } },
-            new Case { From = (null,483), To = 2403, sec = { To = 5.0 } },
+            new Case { From = 2403, To = (null,480+3), sec = { From = 5.0 } },
+            new Case { From = (null,480+3), To = 2403, sec = { To = 5.0 } },
 
             // Edge case: Conflicting null/default and explicit AudioLength
             // Invalid: FrameCount cannot be null/default while AudioLength is explicitly set to non-default.
-            //new Case ( from: (null,483), to: 483 ) { Hz = 48000, sec = 0.01 },
-            //new Case ( from: 483, to: (null,483) ) { Hz = 48000, sec = 0.01 },
+            //new Case ( from: (null,480+3), to: 480+3 ) { Hz = 48000, sec = 0.01 },
+            //new Case ( from: 480+3, to: (null,480+3) ) { Hz = 48000, sec = 0.01 },
             
             // FrameCount 0 is not nully. It means 0 seconds. Sort of, but you can't test it:
             
             // You need 3 courtesy frames to make AudioLength 0.
             // FrameCount 0 would make AudioLength -3 frames, resulting in an exception.
-            //new Case ( from: (0,483), to: 483 ),
-            //new Case ( from: 483, to: (0,483) ),
+            //new Case ( from: (0,480+3), to: 480+3 ),
+            //new Case ( from: 480+3, to: (0,480+3) ),
 
             // FrameCount 3 (courtesy frames) = AudioLength 0 sec.
             // But here the exception is thrown: "Duration is not above 0."
-            //new Case ( from: 483, to: 3 ) { sec = { To = 0 } },
-            //new Case ( from: 3, to: 483 ) { sec = { From = 0 } },
+            //new Case ( from: 480+3, to: 3 ) { sec = { To = 0 } },
+            //new Case ( from: 3, to: 480+3 ) { sec = { From = 0 } },
             
             // Attempt to stay just above 0. Nope, exception:
             // "Attempt to initialize FrameCount to 4 is inconsistent with FrameCount 3
             // based on initial values for AudioLength (default 1), SamplingRate (4800) and CourtesyFrames (3)."
-            //new Case ( from: 4, to: 483 ) { sec = { From = 0 } },
-            //new Case ( from: 483, to: 4 ) { sec = { To = 0 } },
+            //new Case ( from: 4, to: 480+3 ) { sec = { From = 0 } },
+            //new Case ( from: 480+3, to: 4 ) { sec = { To = 0 } },
 
             // Reference case without nullies
-            new Case { From = 483, To = 483, Hz = 48000, sec = 0.01, Name = "NonNully" }
+            new Case { From = 480+3, To = 480+3, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
         
         /// <summary>
@@ -208,13 +208,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
             
-            new Case (483)     { Hz = { From = (null,48000), To = 48000        } },
-            new Case (483)     { Hz = { From = (0,48000)   , To = 48000        } },
-            new Case (483)     { Hz = { From = 48000       , To = (null,48000) } },
-            new Case (483)     { Hz = { From = 48000       , To = (0,48000)    } },
-            new Case (483)     { Hz = { From = (null,48000), To = (0,48000)    } },
-            new Case (483,243) { Hz = { From = (null,48000), To = 24000        } },
-            new Case (243,483) { Hz = { From = 24000       , To = (0,48000)    } }
+            new Case (480+3)       { Hz = { From = (null,48000), To = 48000        } },
+            new Case (480+3)       { Hz = { From = (0,48000)   , To = 48000        } },
+            new Case (480+3)       { Hz = { From = 48000       , To = (null,48000) } },
+            new Case (480+3)       { Hz = { From = 48000       , To = (0,48000)    } },
+            new Case (480+3)       { Hz = { From = (null,48000), To = (0,48000)    } },
+            new Case (480+3,240+3) { Hz = { From = (null,48000), To = 24000        } },
+            new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
         );        
 
         Dictionary<string, Case> _caseDictionary
