@@ -20,22 +20,22 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         // Synth-Bound
         
         public static int ByteCount(this SynthWishes obj) 
-            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+            => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
 
         public static SynthWishes ByteCount(this SynthWishes obj, int? value) 
-            => obj.AudioLength(value.AudioLength(obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
         
         public static int ByteCount(this FlowNode obj) 
-            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+            => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
         
         public static FlowNode ByteCount(this FlowNode obj, int? value) 
-            => obj.AudioLength(value.AudioLength(obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
         
         internal static int ByteCount(this ConfigResolver obj, SynthWishes synthWishes) 
-            => ConfigWishes.ByteCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength());
+            => ByteCountFromFrameCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength());
         
         internal static ConfigResolver ByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) 
-            => obj.AudioLength(value.AudioLength(obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
+            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
         
         // Global-Bound
         
@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             if (obj.FrameCount() == null) return null;
             if (obj.FrameSize() == null) return null;
-            return ConfigWishes.ByteCount(obj.FrameCount().Value, obj.FrameSize().Value, CoalesceHeaderLength(obj.HeaderLength()));
+            return ByteCountFromFrameCount(obj.FrameCount().Value, obj.FrameSize().Value, CoalesceHeaderLength(obj.HeaderLength()));
         }
         
         // Tape-Bound
@@ -54,16 +54,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             if (obj.IsBuff)
             {
-                return ConfigWishes.ByteCount(obj.Bytes, obj.FilePathResolved);
+                return ConfigWishes.ByteCountFromBuff(obj.Bytes, obj.FilePathResolved);
             }
             else
             {
-                return ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+                return ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
             }
         }
 
         public static Tape ByteCount(this Tape obj, int value) 
-            => obj.AudioLength(value.AudioLength(obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
         
         public static int ByteCount(this TapeConfig obj)
         {
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         {
             if (obj == null) throw new NullException(() => obj);
 
-            int byteCount = ConfigWishes.ByteCount(obj.Bytes, obj.FilePath);
+            int byteCount = ConfigWishes.ByteCountFromBuff(obj.Bytes, obj.FilePath);
 
             if (Has(byteCount))
             {
@@ -128,46 +128,136 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int ByteCount(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return ConfigWishes.ByteCount(obj.Bytes, obj.Location);
+            return ConfigWishes.ByteCountFromBuff(obj.Bytes, obj.Location);
         }
 
         public static int ByteCount(this AudioFileOutput obj) 
-            => ConfigWishes.ByteCount(obj.FrameCount(courtesyFrames: 0), obj.FrameSize(), obj.HeaderLength());
+            => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames: 0), obj.FrameSize(), obj.HeaderLength());
 
         public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames = 0) 
-            => ConfigWishes.ByteCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
+            => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
 
         public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames = 0) 
-            => obj.AudioLength(AudioLength(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
+            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
 
         // Immutable
         
         public static int ByteCount(this WavHeaderStruct obj) 
-            => ConfigWishes.ByteCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+            => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
 
         public static WavHeaderStruct ByteCount(this WavHeaderStruct obj, int value, int courtesyFrames = 0)
         {
             var wish = obj.ToWish();
-            double audioLength = AudioLength(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), courtesyFrames);
+            double audioLength = AudioLengthFromByteCount(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), courtesyFrames);
             return wish.AudioLength(audioLength, courtesyFrames).ToWavHeader();
         }
+        
+        // Conversion Formula
+        
+        // From Buff
+        
+        public static int ByteCountFromBuff(this (byte[] bytes, string filePath) tuple) 
+            => ConfigWishes.ByteCountFromBuff(tuple.bytes, tuple.filePath);
+        
+        public static int ByteCount(this (byte[] bytes, string filePath) tuple)
+            => ConfigWishes.ByteCount(tuple.bytes, tuple.filePath);
+        
+        // From AudioLength
+            
+        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        public static int ByteCountFromAudioLength(this double audioLength, int samplingRate, int bits, int channels, int headerLength, int courtesyFrames)
+            => ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength, courtesyFrames);
+                
+        public static int ByteCountFromAudioLength(this double audioLength, int samplingRate, int frameSize, int headerLength, int courtesyFrames)
+            => ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength, courtesyFrames);
+
+        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        public static int ByteCount(this double audioLength, int samplingRate, int bits, int channels, int headerLength, int courtesyFrames)
+            => ConfigWishes.ByteCount(audioLength, samplingRate, bits, channels, headerLength, courtesyFrames);
+
+        public static int ByteCount(this double audioLength, int samplingRate, int frameSize, int headerLength, int courtesyFrames)
+            => ConfigWishes.ByteCount(audioLength, samplingRate, frameSize, headerLength, courtesyFrames);
+
+        // From FrameCount
+
+        public static int ByteCountFromFrameCount(this int frameCount, int bits, int channels, int headerLength)
+            => ConfigWishes.ByteCountFromFrameCount(frameCount, bits, channels, headerLength);
+
+        public static int ByteCountFromFrameCount(this int frameCount, int frameSize, int headerLength)
+            => ConfigWishes.ByteCountFromFrameCount(frameCount, frameSize, headerLength);
+
+        public static int ByteCount(this int frameCount, int bits, int channels, int headerLength)
+            => ConfigWishes.ByteCount(frameCount, bits, channels, headerLength);
+
+        public static int ByteCount(this int frameCount, int frameSize, int headerLength)
+            => ConfigWishes.ByteCount(frameCount, frameSize, headerLength);
     }
     
     // Conversion Formula
     
     public partial class ConfigWishes
     {
-        public static int ByteCount(byte[] bytes, string filePath) => Has(bytes) ? bytes.Length : AssertFileSize(filePath);
+        // From Buff
         
-        public static int ByteCount(int frameCount, int frameSize, int headerLength)
+        public static int ByteCountFromBuff(byte[] bytes, string filePath) => Has(bytes) ? bytes.Length : AssertFileSize(filePath);
+
+        public static int ByteCount(byte[] bytes, string filePath) 
+            => ByteCountFromBuff(bytes, filePath);
+        
+        // From AudioLength
+            
+        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        public static int ByteCountFromAudioLength(double audioLength, int samplingRate, int bits, int channels, int headerLength, int courtesyFrames)
+        {
+            AssertAudioLength(audioLength);
+            AssertSamplingRate(samplingRate);
+            AssertBits(bits);   
+            AssertChannels(channels);
+            AssertHeaderLength(headerLength);
+            AssertCourtesyFrames(courtesyFrames);
+            return ((int)(audioLength * samplingRate) + courtesyFrames) * bits / 8 * channels + headerLength;
+        }
+                
+        public static int ByteCountFromAudioLength(double audioLength, int samplingRate, int frameSize, int headerLength, int courtesyFrames)
+        {
+            AssertAudioLength(audioLength);
+            AssertSamplingRate(samplingRate);
+            AssertFrameSize(frameSize);
+            AssertHeaderLength(headerLength);
+            AssertCourtesyFrames(courtesyFrames);
+            return ((int)(audioLength * samplingRate) + courtesyFrames) * frameSize + headerLength;
+        }
+
+        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        public static int ByteCount(double audioLength, int samplingRate, int bits, int channels, int headerLength, int courtesyFrames)
+            => ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength, courtesyFrames);
+
+        public static int ByteCount(double audioLength, int samplingRate, int frameSize, int headerLength, int courtesyFrames)
+            => ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength, courtesyFrames);
+
+        // From FrameCount
+
+        public static int ByteCountFromFrameCount(int frameCount, int bits, int channels, int headerLength)
+        {
+            AssertFrameCount(frameCount);
+            AssertBits(bits);
+            AssertChannels(channels);
+            AssertHeaderLength(headerLength);
+            return frameCount * bits / 8 * channels + headerLength;
+        }
+
+        public static int ByteCountFromFrameCount(int frameCount, int frameSize, int headerLength)
         {
             AssertFrameCount(frameCount);
             AssertFrameSize(frameSize);
             AssertHeaderLength(headerLength);
-            
             return frameCount * frameSize + headerLength;
         }
-        
 
+        public static int ByteCount(int frameCount, int bits, int channels, int headerLength)
+            => ByteCountFromFrameCount(frameCount, bits, channels, headerLength);
+
+        public static int ByteCount(int frameCount, int frameSize, int headerLength)
+            => ByteCountFromFrameCount(frameCount, frameSize, headerLength);
     }
 }

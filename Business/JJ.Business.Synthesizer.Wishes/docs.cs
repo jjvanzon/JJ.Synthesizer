@@ -116,6 +116,9 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="bytes"> Nullable. Not supplied when DiskCache. </param> 
         public static object _buffbytes;
 
+        /// <summary> Formula based on primary audio properties. </summary>
+        public struct _bytecountfromprimaries { }
+            
         /// <inheritdoc
         ///    cref="_tapesanddiskcache" /> 
         public static object _diskcache;

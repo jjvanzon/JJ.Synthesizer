@@ -59,11 +59,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         // Durations
         
-        public static double  AssertAudioLength    (double  audioLength                 ) => audioLength                         >= 0 ? audioLength    : throw new Exception($"{nameof(AudioLengthExtensionWishes.AudioLength)} {audioLength} below 0.");
+        public static double  AssertAudioLength    (double  audioLength                 ) => audioLength                         >= 0 ? audioLength    : throw new Exception($"{nameof(AudioLength)} {audioLength} below 0.");
         public static double? AssertAudioLength    (double? audioLength                 ) => !Has(audioLength)                        ? audioLength    : AssertAudioLength(audioLength.Value);
-        public static int     AssertFrameCount     (int     frameCount                  ) => frameCount                          >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCountExtensionWishes.FrameCount)} {frameCount} below 0.");
+        public static int     AssertFrameCount     (int     frameCount                  ) => frameCount                          >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCount)} {frameCount} below 0.");
         public static int?    AssertFrameCount     (int   ? frameCount                  ) => !Has(frameCount)                         ? frameCount     : AssertFrameCount(frameCount.Value);
-        public static int     AssertByteCount      (int     byteCount                   ) => byteCount                           >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCountExtensionWishes.ByteCount)} {byteCount} below 0.");
+        public static int     AssertByteCount      (int     byteCount                   ) => byteCount                           >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} below 0.");
         public static int?    AssertByteCount      (int   ? byteCount                   ) => byteCount                                ?.                 AssertByteCount();
     
         // Misc

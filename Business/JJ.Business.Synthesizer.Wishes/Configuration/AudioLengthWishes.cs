@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static double AudioLength(this AudioInfoWish infoWish, int courtesyFrames)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
-            return ConfigWishes.AudioLength(infoWish.FrameCount, infoWish.SamplingRate, courtesyFrames);
+            return AudioLengthFromFrameCount(infoWish.FrameCount, infoWish.SamplingRate, courtesyFrames);
         }
         
         public static AudioInfoWish AudioLength(this AudioInfoWish infoWish, double value, int courtesyFrames)
@@ -203,12 +203,28 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             => obj.ToWish().AudioLength(value, courtesyFrames).ToWavHeader();
 
         // Conversion Formula
-        
+
+        // From FrameCount
+
+        public static double? AudioLengthFromFrameCount(this int? frameCount, int samplingRate, int courtesyFrames)
+            => ConfigWishes.AudioLengthFromFrameCount(frameCount, samplingRate, courtesyFrames);
+
+        public static double AudioLengthFromFrameCount(this int frameCount, int samplingRate, int courtesyFrames)
+            => ConfigWishes.AudioLengthFromFrameCount(frameCount, samplingRate, courtesyFrames);
+
         public static double? AudioLength(this int? frameCount, int samplingRate, int courtesyFrames) 
             => ConfigWishes.AudioLength(frameCount, samplingRate, courtesyFrames);
 
         public static double AudioLength(this int frameCount, int samplingRate, int courtesyFrames) 
             => ConfigWishes.AudioLength(frameCount, samplingRate, courtesyFrames);
+
+        // From ByteCount
+
+        public static double? AudioLengthFromByteCount(this int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
+            => ConfigWishes.AudioLengthFromByteCount(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
+
+        public static double AudioLengthFromByteCount(this int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
+            => ConfigWishes.AudioLengthFromByteCount(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
 
         public static double? AudioLength(this int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
             => ConfigWishes.AudioLength(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
@@ -221,19 +237,29 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public partial class ConfigWishes
     {
-        public static double? AudioLength(int? frameCount, int samplingRate, int courtesyFrames) 
-            => (double?)AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames) / AssertSamplingRate(samplingRate);
+        // From FrameCount
         
-        public static double AudioLength(int frameCount, int samplingRate, int courtesyFrames) 
+        public static double? AudioLengthFromFrameCount(int? frameCount, int samplingRate, int courtesyFrames) 
+            => (double?)AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames) / AssertSamplingRate(samplingRate);
+
+        public static double AudioLengthFromFrameCount(int frameCount, int samplingRate, int courtesyFrames) 
             => (double)AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames) / AssertSamplingRate(samplingRate);
 
-        public static double? AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
+        public static double? AudioLength(int? frameCount, int samplingRate, int courtesyFrames) 
+            => AudioLengthFromFrameCount(frameCount, samplingRate, courtesyFrames);
+        
+        public static double AudioLength(int frameCount, int samplingRate, int courtesyFrames) 
+            => AudioLengthFromFrameCount(frameCount, samplingRate, courtesyFrames);
+
+        // From ByteCount
+        
+        public static double? AudioLengthFromByteCount(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
         {
             if (!Has(byteCount)) return byteCount;
-            return AudioLength(byteCount.Value, frameSize, samplingRate, headerLength, courtesyFrames);
+            return AudioLengthFromByteCount(byteCount.Value, frameSize, samplingRate, headerLength, courtesyFrames);
         }
 
-        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
+        public static double AudioLengthFromByteCount(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
         {
             AssertByteCount(byteCount);
             AssertHeaderLength(headerLength);
@@ -245,5 +271,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             double frameCount = (double)(byteCount - headerLength) / frameSize;
             return (frameCount - courtesyFrames) / samplingRate;
         }
+        
+        public static double? AudioLength(int? byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
+            => AudioLengthFromByteCount(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
+        
+        public static double AudioLength(int byteCount, int frameSize, int samplingRate, int headerLength, int courtesyFrames)
+            => AudioLengthFromByteCount(byteCount, frameSize, samplingRate, headerLength, courtesyFrames);
     }
 }
