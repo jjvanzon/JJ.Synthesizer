@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Math;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Testing.AssertWishes;

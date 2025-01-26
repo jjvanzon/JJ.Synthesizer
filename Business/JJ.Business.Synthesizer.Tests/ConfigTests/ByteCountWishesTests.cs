@@ -5,6 +5,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.FrameCountWishesTests;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -131,6 +132,54 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 channelEntities.Immutable.SampleDataTypeEnum.ByteCount(2);
             }
         }
+        
+        [TestMethod] 
+        public void SynthBound_ByteCount()
+        {            
+            int init  = 100;
+            var value = 200;
+            
+            void AssertProp(Action<ConfigTestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters(x, init);
+                
+                setter(x);
+                
+                Assert_SynthBound_Getters   (x, value);
+                //Assert_TapeBound_Getters  (x, init);
+                //Assert_BuffBound_Getters  (x, init);
+                //Assert_Independent_Getters(x, init);
+                //Assert_Immutable_Getters  (x, init);
+                
+                x.Record();
+                Assert_All_Getters(x, value);
+            }
+
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .ByteCount(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .ByteCount(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.ByteCount(value, x.SynthBound.SynthWishes)));
+        }
+
+        // Getter Helpers
+        
+        private void Assert_All_Getters(ConfigTestEntities x, int byteCount)
+        {
+            Assert_SynthBound_Getters   (x, byteCount);
+            //Assert_TapeBound_Getters  (x, byteCount);
+            //Assert_BuffBound_Getters  (x, byteCount);
+            //Assert_Independent_Getters(x, byteCount);
+            //Assert_Immutable_Getters  (x, byteCount);
+        }
+        
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, int byteCount)
+        {
+            AreEqual(byteCount, () => x.SynthBound.SynthWishes   .ByteCount());
+            AreEqual(byteCount, () => x.SynthBound.FlowNode      .ByteCount());
+            AreEqual(byteCount, () => x.SynthBound.ConfigResolver.ByteCount(x.SynthBound.SynthWishes));
+        }
+        
+        // Test Data Helpers
         
         private static ConfigTestEntities CreateTestEntities(int init) => new ConfigTestEntities(x => x.ByteCount(init));
     }
