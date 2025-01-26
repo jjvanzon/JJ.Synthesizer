@@ -1,37 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Tests.ConfigTests;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
-using static System.Environment;
-using static System.String;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class DebuggerDisplayFormatter
     {
-        internal static string DebuggerDisplay(FrameCountWishesTests.Case testCase)
+        internal static string DebuggerDisplay(Case testCase)
         {
             return "{Case} " + testCase;
         }
         
-        internal static string DebuggerDisplay<T>(
-            FrameCountWishesTests.CaseProp<T> caseProp) where T : struct
-        {
-            return "{CaseProp} " + caseProp;
-        }
-
-        internal static string DebuggerDisplay<T>(
-            FrameCountWishesTests.NullyPair<T> values) where T : struct
-        {
-            return "{Values} " + values;
-        }
-
+        internal static string DebuggerDisplay<T>(CaseProp<T> caseProp) where T : struct 
+            => "{CaseProp} " + caseProp;
+        
+        internal static string DebuggerDisplay<T>(NullyPair<T> values) where T : struct 
+            => "{Values} " + values;
+        
         internal static string DebuggerDisplay(SynthBoundEntities obj) 
             => nameof(SynthBoundEntities) + ": " + obj?.SynthWishes.Coalesce("<null>");
 
