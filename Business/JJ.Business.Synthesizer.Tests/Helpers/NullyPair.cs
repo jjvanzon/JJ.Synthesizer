@@ -19,19 +19,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         // Conversion Operators
         
-        public static implicit operator T?(NullyPair<T>                      pair)  => pair.Nully;
-        public static implicit operator T (NullyPair<T>                      pair)  => pair.Coalesced;
-        public static implicit operator NullyPair<T>(T?                      value) => new NullyPair<T> { Nully = value };
-        public static implicit operator NullyPair<T>(T                       value) => new NullyPair<T> { Nully = value, Coalesced   = value };
+        public static implicit operator T?(NullyPair<T> pair)  => pair.Nully;
+        public static implicit operator T (NullyPair<T> pair)  => pair.Coalesced;
+        public static implicit operator NullyPair<T>(T? value) => new NullyPair<T> { Nully = value };
+        public static implicit operator NullyPair<T>(T  value) => new NullyPair<T> { Nully = value, Coalesced   = value };
         public static implicit operator NullyPair<T>((T? nully, T coalesced) x)     => new NullyPair<T> { Nully = x.nully, Coalesced = x.coalesced };
         
         public static   bool operator ==(NullyPair<T> a, NullyPair<T> b) => Equals(a?.Coalesced, b?.Coalesced);
         public static   bool operator !=(NullyPair<T> a, NullyPair<T> b) => !Equals(a?.Coalesced, b?.Coalesced);
-        public override bool Equals(object            obj) => obj is NullyPair<T> other && Equals(Coalesced, other.Coalesced);
+        public override bool Equals(object obj) => obj is NullyPair<T> other && Equals(Coalesced, other.Coalesced);
         
         // Descriptions
         
-        string                 DebuggerDisplay => DebuggerDisplay(this);
+        string DebuggerDisplay => DebuggerDisplay(this);
         public override string ToString()      => Descriptor;
         
         public string Descriptor

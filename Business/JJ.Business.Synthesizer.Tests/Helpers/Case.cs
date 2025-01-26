@@ -84,19 +84,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         }
         
         public Case() : base() { }
-        public Case(int frameCount) : base(frameCount) { }
-        public Case(int? frameCount) : base(frameCount) { }
-        public Case(int  from, int  to) : base(from, to) { }
-        public Case(int  from, int? to) : base(from, to) { }
-        public Case(int? from, int  to) : base(from, to) { }
-        public Case(int? from, int? to) : base(from, to) { }
-        public Case((int  from, int  to) values) : base(values) { }
-        public Case((int? from, int  to) values) : base(values) { }
-        public Case((int  from, int? to) values) : base(values) { }
-        public Case((int? from, int? to) values) : base(values) { }
-        public Case(int from, (int? nully, int coalesced) to) : base(from, to) { }
-        public Case((int? nully, int coalesced) from, int to) : base(from, to) { }
-        public Case((int? nully, int coalesced) from, (int? nully, int coalesced) to) : base(from, to) { }
+        public Case( int  frameCount) : base(frameCount) { }
+        public Case( int? frameCount) : base(frameCount) { }
+        public Case( int  from ,  int  to) : base(from, to) { }
+        public Case( int  from ,  int? to) : base(from, to) { }
+        public Case( int? from ,  int  to) : base(from, to) { }
+        public Case( int? from ,  int? to) : base(from, to) { }
+        public Case((int  from ,  int  to) values) : base(values) { }
+        public Case((int? from ,  int  to) values) : base(values) { }
+        public Case((int  from ,  int? to) values) : base(values) { }
+        public Case((int? from ,  int? to) values) : base(values) { }
+        public Case( int  from , (int? nully, int coalesced) to) : base(from, to) { }
+        public Case((int? nully,  int coalesced) from,  int to) : base(from, to) { }
+        public Case((int? nully,  int coalesced) from, (int? nully, int coalesced) to) : base(from, to) { }
 
         // Conversion Operators
         
