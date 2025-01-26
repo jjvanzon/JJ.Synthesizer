@@ -161,12 +161,41 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.ByteCount(value, x.SynthBound.SynthWishes)));
         }
 
+        [TestMethod] 
+        public void TapeBound_FrameCount(string caseKey)
+        {
+            int init  = 100;
+            int value = 200;
+
+            void AssertProp(Action<ConfigTestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters      (x, init);
+                
+                setter(x);
+                
+                //Assert_SynthBound_Getters (x, init);
+                Assert_TapeBound_Getters    (x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
+                //Assert_BuffBound_Getters  (x, init);
+                //Assert_Independent_Getters(x, init);
+                //Assert_Immutable_Getters  (x, init);
+                
+                x.Record();
+                Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+            }
+
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .ByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .ByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.ByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .ByteCount(value)));
+        }
+
         // Getter Helpers
         
         private void Assert_All_Getters(ConfigTestEntities x, int byteCount)
         {
-            Assert_SynthBound_Getters   (x, byteCount);
-            //Assert_TapeBound_Getters  (x, byteCount);
+            Assert_SynthBound_Getters (x, byteCount);
+            Assert_TapeBound_Getters  (x, byteCount);
             //Assert_BuffBound_Getters  (x, byteCount);
             //Assert_Independent_Getters(x, byteCount);
             //Assert_Immutable_Getters  (x, byteCount);
@@ -177,6 +206,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => x.SynthBound.SynthWishes   .ByteCount());
             AreEqual(byteCount, () => x.SynthBound.FlowNode      .ByteCount());
             AreEqual(byteCount, () => x.SynthBound.ConfigResolver.ByteCount(x.SynthBound.SynthWishes));
+        }
+        
+        private void Assert_TapeBound_Getters(ConfigTestEntities x, int byteCount)
+        {
+            AreEqual(byteCount, () => x.TapeBound.Tape       .ByteCount());
+            AreEqual(byteCount, () => x.TapeBound.TapeConfig .ByteCount());
+            AreEqual(byteCount, () => x.TapeBound.TapeActions.ByteCount());
+            AreEqual(byteCount, () => x.TapeBound.TapeAction .ByteCount());
         }
         
         // Test Data Helpers
