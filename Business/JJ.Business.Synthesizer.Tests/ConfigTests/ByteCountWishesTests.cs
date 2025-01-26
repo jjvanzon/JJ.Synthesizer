@@ -148,12 +148,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters   (x, value);
-                //Assert_TapeBound_Getters  (x, init );
-                //Assert_BuffBound_Getters  (x, init );
-                //Assert_Independent_Getters(x, init );
-                //Assert_Immutable_Getters  (x, init );
-                //Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
+                Assert_SynthBound_Getters (x, value);
+                Assert_TapeBound_Getters  (x, init );
+                Assert_BuffBound_Getters  (x, init );
+                Assert_Independent_Getters(x, init );
+                Assert_Immutable_Getters  (x, init );
+                Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
                 
                 x.Record();
                 Assert_All_Getters(x, value, sizeOfBitDepthInit); // By Design: Properties that express bit-ness don't change their ByteCount the same way.
@@ -174,15 +174,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 setter(x);
                 
-                //Assert_SynthBound_Getters (x, init);
-                Assert_TapeBound_Getters    (x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
-                //Assert_BuffBound_Getters  (x, init);
-                //Assert_Independent_Getters(x, init);
-                //Assert_Immutable_Getters  (x, init);
-                //Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
+                Assert_SynthBound_Getters (x, init);
+                Assert_TapeBound_Getters  (x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
+                Assert_BuffBound_Getters  (x, init);
+                Assert_Independent_Getters(x, init);
+                Assert_Immutable_Getters  (x, init);
+                Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
 
                 x.Record();
-                Assert_All_Getters          (x, init, sizeOfBitDepthInit); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+                Assert_All_Getters(x, init, sizeOfBitDepthInit); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
             AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .ByteCount(value)));
@@ -201,16 +201,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 setter(x);
                 
-                //Assert_SynthBound_Getters   (x, init );
-                //Assert_TapeBound_Getters    (x, init );
+                Assert_SynthBound_Getters     (x, init );
+                Assert_TapeBound_Getters      (x, init );
                 Assert_Buff_Getters           (x, init ); // By Design: Buff's "too buff" to change! FrameCount will be based on bytes!
                 Assert_AudioFileOutput_Getters(x, value); // By Design: "Out" will take on new properties when asked.
-                //Assert_Independent_Getters  (x, init );
-                //Assert_Immutable_Getters    (x, init );
-                //Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
+                Assert_Independent_Getters    (x, init );
+                Assert_Immutable_Getters      (x, init );
+                Assert_Bitness_Getters        (x, sizeOfBitDepthInit);
 
                 x.Record();
-                Assert_All_Getters            (x, init, sizeOfBitDepthInit);
+                Assert_All_Getters(x, init, sizeOfBitDepthInit);
             }
 
             // TODO: Why the dependency on CourtesyFrames?
@@ -322,12 +322,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             x.Record();
             
             // All is reset
-            Assert_SynthBound_Getters    (x, init);
-            Assert_TapeBound_Getters     (x, init);
-            Assert_BuffBound_Getters     (x, init);
-            Assert_Independent_Getters   (x, init);
-            Assert_Immutable_Getters     (x, init);
-            Assert_Bitness_Getters(x, sizeOfBitDepthInit);
+            Assert_SynthBound_Getters (x, init);
+            Assert_TapeBound_Getters  (x, init);
+            Assert_BuffBound_Getters  (x, init);
+            Assert_Independent_Getters(x, init);
+            Assert_Immutable_Getters  (x, init);
+            Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
             
             // Except for our variables
             wavHeaders         .ForEach(w => Assert_Immutable_Getters(w, value));
