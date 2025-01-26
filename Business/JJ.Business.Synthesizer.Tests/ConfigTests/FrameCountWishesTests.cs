@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.ConfigTests.FrameCountWishesTests.Case;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.EntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -26,6 +27,14 @@ using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
+    internal enum EntityEnum
+    {
+        Undefined,
+        ForAudioInfoWish,
+        ForAudioFileInfo,
+        ForSample
+    }
+
     [TestClass]
     [TestCategory("Config")]
     public class FrameCountWishesTests
@@ -474,79 +483,47 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                             .Concat(_audioLengthCases)
                             .Concat(_samplingRateCases)
                             .Select(x => x.DynamicData);
+        
         [TestMethod] 
         [DynamicData(nameof(IndependentCases))]
         public void Independent_FrameCount(string caseKey)
         {
+            // Independent after Taping
             Case testCase = _caseDictionary[caseKey];
             int init = testCase.From;
             int value = testCase.To;
          
-            // Independent after Taping
-
-            // AudioInfoWish
+            void AssertProp(EntityEnum change, Action<ConfigTestEntities> setter)
             {
-                ConfigTestEntities x = default;
+                var x = CreateTestEntities(testCase);
+                Assert_All_Getters(x, init);
+                
+                setter(x);
+                
+                Assert_Bound_Getters(x, init);
+                
+                Assert_Independent_Getters(x.Independent.AudioFileInfo, change == ForAudioFileInfo ? value : init);
+                Assert_Independent_Getters(x.Independent.AudioInfoWish, change == ForAudioInfoWish ? value : init);
+                Assert_Independent_Getters(x.Independent.Sample,        change == ForSample        ? value : init);
+                
+                Assert_Immutable_Getters(x, init);
 
-                void AssertProp(Action setter)
-                {
-                    x = CreateTestEntities(testCase);
-                    Assert_All_Getters(x, init);
-                    
-                    setter();
-                    
-                    Assert_Bound_Getters(x, init);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, value);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, init);
-                    Assert_Independent_Getters(x.Independent.Sample, init);
-                    Assert_Immutable_Getters(x, init);
-
-                    x.Record();
-                    Assert_All_Getters(x, init);
-                }
-
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.FrameCount(value)));
-                AssertProp(() =>                                             x.Independent.AudioInfoWish.FrameCount = value);
+                x.Record();
+                Assert_All_Getters(x, init);
+            }
             
-                if (testCase.AudioLength.From != testCase.AudioLength.To)
-                {
-                    AssertProp(() => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.AudioLength(testCase.AudioLength, testCase.CourtesyFrames)));
-                }
-                
-                // SamplingRate does not affect FrameCount in this case.
-            }
-                        
-            // AudioFileInfo
+            AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.FrameCount(value)));
+            AssertProp(ForAudioInfoWish, x =>                                             x.Independent.AudioInfoWish.FrameCount = value);
+            AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.FrameCount(value)));
+            AssertProp(ForAudioFileInfo, x =>                                             x.Independent.AudioFileInfo.SampleCount = value);
+
+            if (testCase.AudioLength.From != testCase.AudioLength.To)
             {
-                ConfigTestEntities x = default;
-                
-                void AssertProp(Action setter)
-                {
-                    x = CreateTestEntities(testCase);
-                    Assert_All_Getters(x, init);
-                    
-                    setter();
-                    
-                    Assert_Bound_Getters(x, init);
-                    Assert_Independent_Getters(x.Independent.AudioFileInfo, value);
-                    Assert_Independent_Getters(x.Independent.AudioInfoWish, init);
-                    Assert_Independent_Getters(x.Independent.Sample, init);
-                    Assert_Immutable_Getters(x, init);
-
-                    x.Record();
-                    Assert_All_Getters(x, init);
-                }
-
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.FrameCount(value)));
-                AssertProp(() =>                                             x.Independent.AudioFileInfo.SampleCount = value);
-
-                if (testCase.AudioLength.From != testCase.AudioLength.To)
-                {
-                    AssertProp(() => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.AudioLength(testCase.AudioLength, testCase.CourtesyFrames)));
-                }
-                
-                // SamplingRate does not affect FrameCount in this case.
+                AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.AudioLength(testCase.AudioLength, testCase.CourtesyFrames)));
+                AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.AudioLength(testCase.AudioLength, testCase.CourtesyFrames)));
             }
+            
+            // SamplingRate does not affect FrameCount in this case.
         }
         
         static object ImmutableCases
