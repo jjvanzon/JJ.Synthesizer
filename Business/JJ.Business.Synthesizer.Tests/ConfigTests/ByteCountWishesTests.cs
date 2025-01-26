@@ -142,18 +142,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters(x, init);
+                Assert_All_Getters          (x, init );
                 
                 setter(x);
                 
                 Assert_SynthBound_Getters   (x, value);
-                //Assert_TapeBound_Getters  (x, init);
-                //Assert_BuffBound_Getters  (x, init);
-                //Assert_Independent_Getters(x, init);
-                //Assert_Immutable_Getters  (x, init);
+                //Assert_TapeBound_Getters  (x, init );
+                //Assert_BuffBound_Getters  (x, init );
+                //Assert_Independent_Getters(x, init );
+                //Assert_Immutable_Getters  (x, init );
                 
                 x.Record();
-                Assert_All_Getters(x, value);
+                Assert_All_Getters          (x, value);
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .ByteCount(value)));
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod] 
-        public void TapeBound_FrameCount(string caseKey)
+        public void TapeBound_ByteCount()
         {
             int init  = 100;
             int value = 200;
@@ -170,7 +170,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(init);
-                Assert_All_Getters      (x, init);
+                Assert_All_Getters          (x, init);
                 
                 setter(x);
                 
@@ -181,7 +181,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 //Assert_Immutable_Getters  (x, init);
                 
                 x.Record();
-                Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+                Assert_All_Getters          (x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
             AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .ByteCount(value)));
@@ -190,13 +190,42 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .ByteCount(value)));
         }
 
+        [TestMethod] 
+        public void BuffBound_ByteCount()
+        {
+            int init = 100;
+            int value = 200;
+            
+            void AssertProp(Action<ConfigTestEntities> setter)
+            {
+                var x = CreateTestEntities(init);
+                Assert_All_Getters            (x, init );
+                
+                setter(x);
+                
+                //Assert_SynthBound_Getters   (x, init );
+                //Assert_TapeBound_Getters    (x, init );
+                Assert_Buff_Getters           (x, init ); // By Design: Buff's "too buff" to change! FrameCount will be based on bytes!
+                Assert_AudioFileOutput_Getters(x, value); // By Design: "Out" will take on new properties when asked.
+                //Assert_Independent_Getters  (x, init );
+                //Assert_Immutable_Getters    (x, init );
+                
+                x.Record();
+                Assert_All_Getters            (x, init );
+            }
+
+            // TODO: Why the dependency on CourtesyFrames?
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount(value, DefaultCourtesyFrames)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount(value, DefaultCourtesyFrames)));
+        }
+
         // Getter Helpers
         
         private void Assert_All_Getters(ConfigTestEntities x, int byteCount)
         {
             Assert_SynthBound_Getters (x, byteCount);
             Assert_TapeBound_Getters  (x, byteCount);
-            //Assert_BuffBound_Getters  (x, byteCount);
+            Assert_BuffBound_Getters  (x, byteCount);
             //Assert_Independent_Getters(x, byteCount);
             //Assert_Immutable_Getters  (x, byteCount);
         }
@@ -215,7 +244,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => x.TapeBound.TapeActions.ByteCount());
             AreEqual(byteCount, () => x.TapeBound.TapeAction .ByteCount());
         }
+                
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int byteCount)
+        {
+            Assert_Buff_Getters           (x, byteCount);
+            Assert_AudioFileOutput_Getters(x, byteCount);
+        }
+
+        private void Assert_AudioFileOutput_Getters(ConfigTestEntities x, int byteCount)
+        {
+            AreEqual(byteCount, () => x.BuffBound.AudioFileOutput.ByteCount(x.Immutable.CourtesyFrames));
+        }
         
+        private void Assert_Buff_Getters(ConfigTestEntities x, int byteCount)
+        {
+            AreEqual(byteCount, () => x.BuffBound.Buff.ByteCount(x.Immutable.CourtesyFrames));
+        }
+
         // Test Data Helpers
         
         private static ConfigTestEntities CreateTestEntities(int init) => new ConfigTestEntities(x => x.ByteCount(init));
