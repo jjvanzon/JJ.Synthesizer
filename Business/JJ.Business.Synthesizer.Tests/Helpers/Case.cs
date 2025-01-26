@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         // Descriptions            
         
-        string DebuggerDisplay => DebuggerDisplay(this);
+        //string DebuggerDisplay => DebuggerDisplay(this);
 
         public override string Descriptor
         {
@@ -79,55 +79,58 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         }
         
         public Case() : base() { }
-        public Case( int  frameCount) : base(frameCount) { }
-        public Case( int? frameCount) : base(frameCount) { }
-        public Case( int  from ,  int  to) : base(from, to) { }
-        public Case( int  from ,  int? to) : base(from, to) { }
-        public Case( int? from ,  int  to) : base(from, to) { }
-        public Case( int? from ,  int? to) : base(from, to) { }
-        public Case((int  from ,  int  to) values) : base(values) { }
-        public Case((int? from ,  int  to) values) : base(values) { }
-        public Case((int  from ,  int? to) values) : base(values) { }
-        public Case((int? from ,  int? to) values) : base(values) { }
-        public Case( int  from , (int? nully, int coalesced) to) : base(from, to) { }
-        public Case((int? nully,  int coalesced) from,  int to) : base(from, to) { }
-        public Case((int? nully,  int coalesced) from, (int? nully, int coalesced) to) : base(from, to) { }
+        public Case(int  frameCount) => Value = frameCount;
+        //public Case( int? frameCount) : base(frameCount) { }
+        public Case(int  from ,  int  to) { From = from; To = to; }
+
+        //public Case( int  from ,  int? to) : base(from, to) { }
+        //public Case( int? from ,  int  to) : base(from, to) { }
+        //public Case( int? from ,  int? to) : base(from, to) { }
+        //public Case((int  from ,  int  to) values) : base(values) { }
+        //public Case((int? from ,  int  to) values) : base(values) { }
+        //public Case((int  from ,  int? to) values) : base(values) { }
+        //public Case((int? from ,  int? to) values) : base(values) { }
+        //public Case( int  from , (int? nully, int coalesced) to) : base(from, to) { }
+        //public Case((int? nully,  int coalesced) from,  int to) : base(from, to) { }
+        //public Case((int? nully,  int coalesced) from, (int? nully, int coalesced) to) : base(from, to) { }
 
         // Conversion Operators
-        
-        public static implicit operator Case(int  value) => new Case(value);
-        public static implicit operator Case(int? value) => new Case(value);
-        public static implicit operator Case((int  from, int  to) values) => new Case(values);
-        public static implicit operator Case((int? from, int  to) values) => new Case(values);
-        public static implicit operator Case((int  from, int? to) values) => new Case(values);
-        public static implicit operator Case((int? from, int? to) values) => new Case(values);
-        public static implicit operator Case((int from, (int? nully, int coalesced) to) x) => new Case(x.from, x.to);
-        public static implicit operator Case(((int? nully, int coalesced) from, int to) x) =>  new Case(x.from, x.to);
-        public static implicit operator Case(((int? nully, int coalesced) from, (int? nully, int coalesced) to) x) => new Case(x.from, x.to);
+
+        //public static implicit operator Case(int  value) => new Case(value);
+        //public static implicit operator Case(int? value) => new Case(value);
+        //public static implicit operator Case((int  from, int  to) values) => new Case(values);
+        //public static implicit operator Case((int? from, int  to) values) => new Case(values);
+        //public static implicit operator Case((int  from, int? to) values) => new Case(values);
+        //public static implicit operator Case((int? from, int? to) values) => new Case(values);
+        //public static implicit operator Case((int from, (int? nully, int coalesced) to) x) => new Case(x.from, x.to);
+        //public static implicit operator Case(((int? nully, int coalesced) from, int to) x) =>  new Case(x.from, x.to);
+        //public static implicit operator Case(((int? nully, int coalesced) from, (int? nully, int coalesced) to) x) => new Case(x.from, x.to);
 
         // Templating
-        
+
         public static Case[] FromTemplate(Case template, params Case[] cases)
         {
+            //return CaseBase<int>.FromTemplate(template, cases);
             if (template == null) throw new NullException(() => template);
-            return template.CloneTo(cases);
+            return template.CloneTo(cases).Cast<Case>().ToArray();
         }
 
-        public Case[] CloneTo(params Case[] cases)
-        {
-            if (cases == null) throw new NullException(() => cases);
-            for (int i = 0; i < cases.Length; i++)
-            {
-                if (cases[i] == null) throw new NullException(() => cases[i]);
-                var testCase = cases[i];
-                testCase.Name = Coalesce(testCase.Name, Name);
-                if (Strict == false) testCase.Strict = false; // Yield over alleviation from strictness.
-                testCase.FrameCount    .CloneFrom(FrameCount    );
-                testCase.SamplingRate  .CloneFrom(SamplingRate  );
-                testCase.AudioLength   .CloneFrom(AudioLength   );
-                testCase.CourtesyFrames.CloneFrom(CourtesyFrames);
-            }
-            return cases;
-        }
+        //public Case[] CloneTo(params Case[] cases)
+        //{
+        //    if (cases == null) throw new NullException(() => cases);
+        //    for (int i = 0; i < cases.Length; i++)
+        //    {
+        //        if (cases[i] == null) throw new NullException(() => cases[i]);
+        //        var testCase = cases[i];
+        //        testCase.Name = Coalesce(testCase.Name, Name);
+        //        if (Strict == false) testCase.Strict = false; // Yield over alleviation from strictness.
+                
+        //        testCase.FrameCount    .CloneFrom(FrameCount    );
+        //        testCase.SamplingRate  .CloneFrom(SamplingRate  );
+        //        testCase.AudioLength   .CloneFrom(AudioLength   );
+        //        testCase.CourtesyFrames.CloneFrom(CourtesyFrames);
+        //    }
+        //    return cases;
+        //}
     }
 }

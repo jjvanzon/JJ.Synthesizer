@@ -24,10 +24,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         /// <inheritdoc cref="docs._to" />
         public NullyPair<T> To    { get; set; } = new NullyPair<T>();
-        /// <inheritdoc cref="docs._to" />
-        public NullyPair<T> Value { get => To; set => To = value; }
-        /// <inheritdoc cref="docs._to" />
-        public NullyPair<T> Val   { get => To; set => To = value; }
+        ///// <inheritdoc cref="docs._to" />
+        //public NullyPair<T> Val   { get => To; set => To = value; }
         /// <inheritdoc cref="docs._to" />
         public NullyPair<T> Dest  { get => To; set => To = value; }
 
@@ -43,6 +41,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             set => From.Coalesced = To.Coalesced = value;
         }
 
+        /// <inheritdoc cref="docs._to" />
+        public NullyPair<T> Value { get => To; set => From = To = value; }
+
+        //public void Set(T value) => From = To = value;
+        
         // Constructors
         
         public CaseProp() { }
@@ -105,8 +108,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         // Templating
     
-        public void CloneFrom(CaseProp<T> template)
+        public void CloneFrom(object obj)
         {
+            var template = (CaseProp<T>)obj;
+
             if (template == null) throw new NullException(() => template);
             
             // Favor specifically specified values over template values,

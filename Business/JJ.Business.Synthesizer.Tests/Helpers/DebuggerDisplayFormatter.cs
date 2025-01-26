@@ -9,7 +9,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class DebuggerDisplayFormatter
     {
-        internal static string DebuggerDisplay(Case testCase)
+        internal static string DebuggerDisplay<T>(CaseBase<T> testCase)
+            where T : struct
         {
             return "{Case} " + testCase;
         }
