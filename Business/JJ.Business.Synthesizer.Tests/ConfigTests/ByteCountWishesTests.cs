@@ -337,6 +337,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             bitsList           .ForEach(b => Assert_Bitness_Getters(b, sizeOfBitDepthValue));
         }
 
+        [TestMethod]
+        public void ConfigSection_ByteCount()
+        {
+            // Get-only
+            var configSection = new ConfigTestEntities().SynthBound.ConfigSection;
+            AreEqual(DefaultByteCount, () => configSection.ByteCount());
+        }
+
+        [TestMethod]
+        public void Default_ByteCount()
+        {
+            // ReSharper disable once PossibleLossOfFraction
+            double fromPrimitives = 
+                (DefaultAudioLength * DefaultSamplingRate + DefaultCourtesyFrames) *
+                (DefaultBits / 8 * DefaultChannels) + 
+                DefaultHeaderLength;
+            
+            AreEqual(fromPrimitives, () => DefaultByteCount);
+        }
+
         // Getter Helpers
         
         private void Assert_All_Getters(ConfigTestEntities x, int byteCount, int sizeOfBitDepth)
@@ -455,9 +475,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         int value = 200;
         int sizeOfBitDepthInit = 4;
         int sizeOfBitDepthValue = 2;
-
-        //private static ConfigTestEntities CreateTestEntities(int init) 
-        //    => new ConfigTestEntities(x => x.ByteCount(init));
         
         private static ConfigTestEntities CreateTestEntities(int init, int initSizeOfBitDepth) 
             => new ConfigTestEntities(x => x.SizeOfBitDepth(initSizeOfBitDepth).ByteCount(init));

@@ -98,6 +98,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public override string     ToString() => DebuggerDisplay(this);
         public SynthBoundEntities  SynthBound { get; set; } = new SynthBoundEntities();
         public IList<TapeEntities> ChannelEntities { get; private set; } // Tape-Bound
+
+        public ConfigTestEntities(IContext context = null) => Initialize(null, context);
         
         public ConfigTestEntities(Action<SynthWishes> initialize, IContext context = null) => Initialize(initialize, context);
         
