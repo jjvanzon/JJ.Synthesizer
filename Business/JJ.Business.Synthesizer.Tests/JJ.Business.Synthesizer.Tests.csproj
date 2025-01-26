@@ -139,6 +139,7 @@
     <Compile Include="Helpers\CaseProp.cs" />
     <Compile Include="Helpers\CaseExamples.cs" />
     <Compile Include="ConfigTests\ConfigEntityEnum.cs" />
+    <Compile Include="Helpers\ICaseProp.cs" />
     <Compile Include="Helpers\NullyPair.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
