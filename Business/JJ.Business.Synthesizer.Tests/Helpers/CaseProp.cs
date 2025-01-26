@@ -11,7 +11,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal class CaseProp<T> where T : struct
+    internal class CaseProp<T> : ICaseProp where T : struct
     {
         // Properties
         
