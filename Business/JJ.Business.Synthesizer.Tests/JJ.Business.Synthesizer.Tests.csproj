@@ -134,6 +134,7 @@
     <Compile Include="Accessors\TapeCollectionAccessor.cs" />
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="ConfigTests\ByteCountWishesTests.cs" />
+    <Compile Include="ConfigTests\ConfigEntityEnum.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
     <Compile Include="Helpers\MySynthWishes.cs" />

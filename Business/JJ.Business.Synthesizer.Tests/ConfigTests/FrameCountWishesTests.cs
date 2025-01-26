@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.ConfigTests.FrameCountWishesTests.Case;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.EntityEnum;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigEntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -27,14 +27,6 @@ using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
-    internal enum EntityEnum
-    {
-        Undefined,
-        ForAudioInfoWish,
-        ForAudioFileInfo,
-        ForSample
-    }
-
     [TestClass]
     [TestCategory("Config")]
     public class FrameCountWishesTests
@@ -493,7 +485,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int value = testCase.To;
          
-            void AssertProp(EntityEnum change, Action<ConfigTestEntities> setter)
+            void AssertProp(ConfigEntityEnum change, Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
