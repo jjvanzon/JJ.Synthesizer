@@ -24,8 +24,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         /// <inheritdoc cref="docs._to" />
         public NullyPair<T> To    { get; set; } = new NullyPair<T>();
-        ///// <inheritdoc cref="docs._to" />
-        //public NullyPair<T> Val   { get => To; set => To = value; }
         /// <inheritdoc cref="docs._to" />
         public NullyPair<T> Dest  { get => To; set => To = value; }
 
@@ -43,8 +41,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         /// <inheritdoc cref="docs._to" />
         public NullyPair<T> Value { get => To; set => From = To = value; }
-
-        //public void Set(T value) => From = To = value;
         
         // Constructors
         
