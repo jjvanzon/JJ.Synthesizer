@@ -18,9 +18,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <inheritdoc cref="docs._strict />
         public bool Strict { get; set; } = true;
         
-        protected virtual ICaseProp[] Properties { get; }
+        public CaseProp<TMainProp> MainProp => this;
+
+        internal virtual IList<ICaseProp> Props { get; }
         
-        private readonly List<ICaseProp> _props = new List<ICaseProp>();
+        private readonly IList<ICaseProp> _props = new List<ICaseProp>();
         
         protected ICaseProp GetProp(Type type, int index) 
         {
@@ -47,8 +49,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public override string ToString() => Descriptor;
         public object[] DynamicData => new object[] { Descriptor };
         string DebuggerDisplay => DebuggerDisplay(this);
-        public virtual string Descriptor { get; }
-        protected virtual object[] DescriptorElements { get; }
+        internal virtual IList<object> DescriptorElements { get; }
+        public virtual string Descriptor => new CaseDescriptorBuilder<TMainProp>(this).BuildDescriptor();
 
         // Templating
 

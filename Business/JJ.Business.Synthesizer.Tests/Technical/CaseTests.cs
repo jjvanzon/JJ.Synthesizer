@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

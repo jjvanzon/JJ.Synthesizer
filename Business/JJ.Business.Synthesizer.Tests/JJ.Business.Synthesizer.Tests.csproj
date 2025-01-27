@@ -136,6 +136,7 @@
     <Compile Include="ConfigTests\ByteCountWishesTests.cs" />
     <Compile Include="Helpers\Case.cs" />
     <Compile Include="Helpers\CaseBase.cs" />
+    <Compile Include="Helpers\CaseDescriptorBuilder.cs" />
     <Compile Include="Helpers\CaseProp.cs" />
     <Compile Include="Helpers\CaseExamples.cs" />
     <Compile Include="ConfigTests\ConfigEntityEnum.cs" />
