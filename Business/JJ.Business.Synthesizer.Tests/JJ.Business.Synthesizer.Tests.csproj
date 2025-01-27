@@ -164,6 +164,7 @@
     <Compile Include="Accessors\SampleManagerAccessor.cs" />
     <Compile Include="Accessors\SynthWishesAccessor.cs" />
     <Compile Include="Accessors\WavHeaderStructToAudioFileInfoConverterAccessor.cs" />
+    <Compile Include="Technical\CaseTests.cs" />
     <Compile Include="Technical\FuncFreeNotationTests.cs" />
     <Compile Include="Technical\MidChainStreamingTests.cs" />
     <Compile Include="Technical\NameWishesTests.cs" />
