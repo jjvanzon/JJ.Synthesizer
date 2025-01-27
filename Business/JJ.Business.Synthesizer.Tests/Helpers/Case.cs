@@ -40,10 +40,83 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         //protected object[] DescriptorElements => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, "", ",", AudioLength, "s", ")" };
         //protected object[] DescriptorElements => new object[] { ("", Name, "~"), ("", PropDescriptor, "f"), "(", ("", SamplingRate, "Hz"), ("+", CourtesyFrames, ""), (",", AudioLength, "s"), ")" };
-        //protected override object[] DescriptorElements => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
+        protected override object[] DescriptorElements => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
         
-        public override string Descriptor => Descriptor12_ComboSolution;
+        public override string Descriptor 
+        {
+            get
+            {
+                object[] descriptorElements = DescriptorElements;
+                if (!Has(descriptorElements))
+                {
+                    return DescriptorFromProperties;
+                }
+                
+                var destList = new List<object>();
+                bool mustAddNextUnit = false;
+                
+                foreach (object item in descriptorElements)
+                {
+                    Type type = item.GetType();
 
+                    if (item is ICaseProp prop)
+                    {
+                        var propText = $"{prop.PropDescriptor}";
+                        if (Has(propText))
+                        {
+                            destList.Add(propText);
+                        }
+                        mustAddNextUnit = Has(propText);
+                    }
+                    else if (item is string unit && unit.Length <= 3)
+                    {
+                        if (mustAddNextUnit) 
+                        { 
+                            destList.Add(unit);
+                        }
+                        else
+                        {
+                            mustAddNextUnit = true;
+                        }
+                    }
+                    else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTuple<,,>))
+                    {
+                        object prefix = type.GetField("Item1").GetValue(item);
+                        object value  = type.GetField("Item2").GetValue(item);
+                        object suffix = type.GetField("Item3").GetValue(item);
+                        
+                        if (Has(value))
+                        {
+                            destList.Add(prefix);
+                            destList.Add(value);
+                            destList.Add(suffix);
+                        }
+                    }
+                    else
+                    {
+                        destList.Add(item);
+                    }
+                }
+                
+                string descriptor = Join(" ", destList.Select(x => x.ToString()).Where(FilledIn));
+                return descriptor;
+            }
+        }
+        
+        private string TryGetCasePropDescriptor(object item)
+        {
+            if (item is ICaseProp prop)
+            {
+                var propText = $"{prop.PropDescriptor}";
+                if (Has(propText))
+                {
+                    return propText;
+                }
+            }
+            
+            return null;
+        }
+        
         private string DescriptorFromProperties
         {
             get 
@@ -70,70 +143,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
 
-        private string Descriptor12_ComboSolution
-        {
-            get
-            {
-                if (!Has(DescriptorElements))
-                {
-                    return DescriptorFromProperties;
-                }
-                
-                var destList = new List<object>();
-                var sourceList = DescriptorElements;
-                bool mustAddNextUnit = false;
-                
-                foreach (object sourceItem in sourceList)
-                {
-                    Type type = sourceItem.GetType();
-
-                    if (sourceItem is ICaseProp prop)
-                    {
-                        var propText = $"{prop.PropDescriptor}";
-                        if (Has(propText))
-                        {
-                            destList.Add(propText);
-                            mustAddNextUnit = true;
-                        }
-                        else
-                        {
-                            mustAddNextUnit = false;
-                        }
-                    }
-                    else if (sourceItem is string unit && unit.Length <= 3)
-                    {
-                        if (mustAddNextUnit)
-                        {
-                            destList.Add(unit);
-                        }
-                        mustAddNextUnit = true;
-                    }
-                    
-                    else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTuple<,,>))
-                    {
-                        object prefix = type.GetField("Item1").GetValue(sourceItem);
-                        object value  = type.GetField("Item2").GetValue(sourceItem);
-                        object suffix = type.GetField("Item3").GetValue(sourceItem);
-                        
-                        if (Has(value))
-                        {
-                            destList.Add(prefix);
-                            destList.Add(value);
-                            destList.Add(suffix);
-                        }
-                    }
-                    else
-                    {
-                        destList.Add(sourceItem);
-                    }
-                }
-                
-                string descriptor = Join(" ", destList.Select(x => x.ToString()).Where(FilledIn));
-                return descriptor;
-            }
-        }
-
-        private string Descriptor11_Works
+        private string Descriptor_FromTuples
         {
             get
             {
@@ -164,10 +174,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 return Join(" ", textElements.Where(FilledIn));
             }
         }
-        
-        private string Descriptor9_ForDebugging => Join(" ", DescriptorElements.Select(x => $"{x}{{{x?.GetType().FullName}}}"));
 
-        private string Descriptor6_AlmostRight
+        private string Descriptor_LoneUnitOmission
         {
             get
             {
@@ -200,24 +208,21 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                             mustAddNextUnit = true;
                             break;
                             
-                        //case string str:
-                        //   elements.Add($"{str}");
-                        //   break;
-                            
                         default:
                            elements.Add($"{descriptorElement}");
                            break;
-                            
                     }
                 }
                 
                 return Join(" ", elements.Where(FilledIn));
             }
         }
-
-        private string Descriptor2 => Join(" ", DescriptorElements);
         
-        private string Descriptor1
+        private string Descriptor_RawDescriptorElements => Join(" ", DescriptorElements);
+        
+        private string Descriptor_RawDescriptorElements_WithTypeStrings => Join(" ", DescriptorElements.Select(x => $"{x}{{{x?.GetType().FullName}}}"));
+
+        private string Descriptor_Custom
         {
             get 
             {

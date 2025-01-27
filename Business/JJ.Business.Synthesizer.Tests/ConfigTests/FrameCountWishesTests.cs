@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Collections;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Helpers.Case;
 using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigEntityEnum;
