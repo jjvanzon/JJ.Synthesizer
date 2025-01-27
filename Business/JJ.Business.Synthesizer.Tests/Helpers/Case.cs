@@ -12,8 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class Case : CaseBase<int>
     {
-        protected override ICaseProp[] Properties => new ICaseProp[] { FrameCount, SamplingRate, AudioLength, CourtesyFrames };
-        //protected override string[] Units() => new [] { "f", "Hz", "s", "+" };
+        protected override ICaseProp[] Properties => new ICaseProp[] { FrameCount, SamplingRate, CourtesyFrames, AudioLength };
 
         // FrameCount: The main property being tested, adjusted directly or via dependencies.
         public CaseProp<int> FrameCount => this;
@@ -41,25 +40,56 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         //protected object[] DescriptorElements => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, "", ",", AudioLength, "s", ")" };
         //protected object[] DescriptorElements => new object[] { ("", Name, "~"), ("", PropDescriptor, "f"), "(", ("", SamplingRate, "Hz"), ("+", CourtesyFrames, ""), (",", AudioLength, "s"), ")" };
-        protected object[] DescriptorElements => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
+        //protected override object[] DescriptorElements => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
         
         public override string Descriptor => Descriptor12_ComboSolution;
+
+        private string DescriptorFromProperties
+        {
+            get 
+            {
+                // Name
+                string name = GetElementDescriptor(Name, "~");
+                
+                // Main Prop
+                string mainProp = PropDescriptor;
+                
+                // Other Props
+                string propString = "";
+                if (Has(Properties))
+                {
+                    propString = Join(", ", Properties.Select(x => x.PropDescriptor).Where(FilledIn));
+                }
+                if (Has(propString))
+                {
+                    propString = "(" + propString + ")";
+                }
+
+                // Return
+                return Join(" ", name, mainProp, propString); 
+            }
+        }
 
         private string Descriptor12_ComboSolution
         {
             get
             {
-                var destList = new List<object>();
+                if (!Has(DescriptorElements))
+                {
+                    return DescriptorFromProperties;
+                }
                 
+                var destList = new List<object>();
+                var sourceList = DescriptorElements;
                 bool mustAddNextUnit = false;
-
-                foreach (object sourceItem in DescriptorElements)
+                
+                foreach (object sourceItem in sourceList)
                 {
                     Type type = sourceItem.GetType();
 
                     if (sourceItem is ICaseProp prop)
                     {
-                        var propText = $"{prop}";
+                        var propText = $"{prop.PropDescriptor}";
                         if (Has(propText))
                         {
                             destList.Add(propText);
@@ -81,15 +111,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     
                     else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTuple<,,>))
                     {
-                        object item1 = type.GetField("Item1").GetValue(sourceItem);
-                        object item2 = type.GetField("Item2").GetValue(sourceItem);
-                        object item3 = type.GetField("Item3").GetValue(sourceItem);
+                        object prefix = type.GetField("Item1").GetValue(sourceItem);
+                        object value  = type.GetField("Item2").GetValue(sourceItem);
+                        object suffix = type.GetField("Item3").GetValue(sourceItem);
                         
-                        if (Has(item2))
+                        if (Has(value))
                         {
-                            destList.Add(item1);
-                            destList.Add(item2);
-                            destList.Add(item3);
+                            destList.Add(prefix);
+                            destList.Add(value);
+                            destList.Add(suffix);
                         }
                     }
                     else
@@ -220,7 +250,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             string[] elements = { prefixUnit, valueText, suffixUnit };
             return Join(" ", elements.Where(FilledIn));
         }
-
 
         // Constructors
         

@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <inheritdoc cref="docs._strict />
         public bool Strict { get; set; } = true;
         
-        protected abstract ICaseProp[] Properties { get; }
+        protected virtual ICaseProp[] Properties { get; }
         
         private readonly List<ICaseProp> _props = new List<ICaseProp>();
         
@@ -47,7 +47,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public override string ToString() => Descriptor;
         public object[] DynamicData => new object[] { Descriptor };
         string DebuggerDisplay => DebuggerDisplay(this);
-        public abstract string Descriptor { get; }
+        public virtual string Descriptor { get; }
+        protected virtual object[] DescriptorElements { get; }
 
         // Templating
 
