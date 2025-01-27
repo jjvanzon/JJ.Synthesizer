@@ -10,13 +10,15 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal class CaseBase<TMainProp> : CaseProp<TMainProp>
+    internal abstract class CaseBase<TMainProp> : CaseProp<TMainProp>
         where TMainProp : struct
     {
         // Properties
 
         /// <inheritdoc cref="docs._strict />
         public bool Strict { get; set; } = true;
+        
+        protected abstract ICaseProp[] Properties { get; }
         
         private readonly List<ICaseProp> _props = new List<ICaseProp>();
         
@@ -45,9 +47,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public override string ToString() => Descriptor;
         public object[] DynamicData => new object[] { Descriptor };
         string DebuggerDisplay => DebuggerDisplay(this);
+        public abstract string Descriptor { get; }
 
         // Templating
-        
+
         public static CaseBase<TMainProp>[] FromTemplate(CaseBase<TMainProp> template, params CaseBase<TMainProp>[] cases) 
         {
             if (template == null) throw new NullException(() => template);

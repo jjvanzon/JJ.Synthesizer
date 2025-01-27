@@ -76,9 +76,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         // Descriptions
         
         string DebuggerDisplay => DebuggerDisplay(this);
-        public override string ToString() => Descriptor;
+        public override string ToString() => PropDescriptor;
 
-        public virtual string Descriptor
+        public string PropDescriptor
         {
             get
             {
