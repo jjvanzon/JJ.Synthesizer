@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Common;
+using static System.Net.Mime.MediaTypeNames;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
@@ -42,7 +44,54 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         //protected object[] DescriptorElements => new object[] { ("", Name, "~"), ("", PropDescriptor, "f"), "(", ("", SamplingRate, "Hz"), ("+", CourtesyFrames, ""), (",", AudioLength, "s"), ")" };
         protected override object[] DescriptorElements => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
         
-        public override string Descriptor 
+        public override string Descriptor => DescriptorWip;
+        
+        private string DescriptorWip
+        {
+            get
+            {
+                object[] descriptorElements = DescriptorElements;
+                if (!Has(descriptorElements))
+                {
+                    return DescriptorFromProperties;
+                }
+                
+                var destList = new List<string>();
+                bool mustAddUnit = false;
+                
+                foreach (object item in descriptorElements)
+                {
+                    if (IsCaseProp(item))
+                    {
+                        string text = GetCasePropText(item, ref mustAddUnit);
+                        destList.Add(text);
+                    }
+                    else if (IsUnit(item))
+                    {
+                        string text = GetUnit(item, ref mustAddUnit);
+                        destList.Add(text);
+                    }
+                    else if (IsDescriptorTuple(item))
+                    {
+                        var texts = GetTupleText(item);
+                        destList.AddRange(texts);
+                    }
+                    else if (!Has(item))
+                    {
+                        mustAddUnit = false;
+                    }
+                    else
+                    {
+                        destList.Add($"{item}");
+                    }
+                }
+                
+                string descriptor = Join(" ", destList.Where(FilledIn));
+                return descriptor;
+            }
+        }
+        
+        private string DescriptorWorks
         {
             get
             {
@@ -81,9 +130,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     }
                     else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ValueTuple<,,>))
                     {
-                        object prefix = type.GetField("Item1").GetValue(item);
-                        object value  = type.GetField("Item2").GetValue(item);
-                        object suffix = type.GetField("Item3").GetValue(item);
+                        string prefix = type.GetField("Item1").GetValue(item).ToString();
+                        string value  = type.GetField("Item2").GetValue(item).ToString();
+                        string suffix = type.GetField("Item3").GetValue(item).ToString();
                         
                         if (Has(value))
                         {
@@ -103,20 +152,201 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
         
-        private string TryGetCasePropDescriptor(object item)
-        {
-            if (item is ICaseProp prop)
+        private bool IsDescriptorTuple(object item)
+        { 
+            if (item == null)
             {
-                var propText = $"{prop.PropDescriptor}";
-                if (Has(propText))
-                {
-                    return propText;
-                }
+                return false;
+            }
+
+            Type type = item.GetType();
+
+            if (!type.IsGenericType)
+            {
+                return false;
             }
             
-            return null;
+            if (type.GetGenericTypeDefinition() != typeof(ValueTuple<,,>))
+            {
+                return false;
+            }
+
+            return true;
+        }
+                        
+        private IList<string> GetTupleText(object tuple)
+        {
+            var texts = new List<string>();
+            
+            if (tuple == null) return texts;
+            
+            Type type = tuple.GetType();
+
+            string prefix = type.GetField("Item1").GetValue(tuple).ToString();
+            string value  = type.GetField("Item2").GetValue(tuple).ToString();
+            string suffix = type.GetField("Item3").GetValue(tuple).ToString();
+            
+            if (Has(value))
+            {
+                texts.Add(prefix);
+                texts.Add(value);
+                texts.Add(suffix);
+            }
+
+            return texts;
         }
         
+        private bool UseTextsFromTuple(object item, out IList<string> texts)
+        {
+            texts = new List<string>();
+            
+            if (item == null)
+            {
+                return false;
+            }
+            
+            Type type = item.GetType();
+
+            if (!type.IsGenericType)
+            {
+                return false;
+            }
+            
+            if (type.GetGenericTypeDefinition() != typeof(ValueTuple<,,>))
+            {
+                return false;
+            }
+            
+            string prefix = type.GetField("Item1").GetValue(item).ToString();
+            string value  = type.GetField("Item2").GetValue(item).ToString();
+            string suffix = type.GetField("Item3").GetValue(item).ToString();
+            
+            if (Has(value))
+            {
+                texts.Add(prefix);
+                texts.Add(value);
+                texts.Add(suffix);
+            }
+
+            return true;
+        }
+        
+        private bool IsCaseProp(object item) => item is ICaseProp;
+        
+        private string GetCasePropText(object item, ref bool mustAddUnit)
+        {
+            var prop = item as ICaseProp;
+            if (prop.IsNully())
+            {
+                return default;
+            }
+            
+            string text = prop.PropDescriptor;
+            if (text.IsNully())
+            {
+                mustAddUnit = false;
+                return default;
+            }
+         
+            mustAddUnit = true;
+            return text;
+        }
+        
+        private bool UseCasePropText(object item, out string text, ref bool mustAddUnit)
+        {
+            text = "";
+            
+            var prop = item as ICaseProp;
+            if (prop.IsNully())
+            {
+                return false;
+            }
+            
+            string propText = prop.PropDescriptor;
+            if (propText.IsNully())
+            {
+                return false;
+            }
+         
+            text = propText;
+            mustAddUnit = true;
+            return true;
+        }
+
+        private bool IsUnit(object item)
+        {
+            var str = item as string;
+            
+            if (!Has(str))
+            {
+                return false;
+            }
+            
+            return str.Length <= 3;
+        }
+        
+        private string GetUnit(object item, ref bool mustAddUnit)
+        {
+            string unit = item as string;
+            
+            if (unit.IsNully())
+            {
+                return default;
+            }
+            
+            if (unit.Length > 3)
+            {
+                return default;
+            }
+
+            if (!mustAddUnit)
+            {
+                mustAddUnit = true; // Skip at most successive 1 unit.
+                return default;
+            }
+         
+            return unit;
+        }
+        
+        private bool UseUnitFromString(object item, out string unit, ref bool mustAddUnit)
+        {
+            unit = item as string;
+            
+            if (!Has(unit))
+            {
+                return false;
+            }
+            
+            if (unit.Length > 3)
+            {
+                return false;
+            }
+
+            if (mustAddUnit)
+            {
+                return true;
+            }
+            else
+            {
+                mustAddUnit = false; // Skip at most 1 unit.
+                return false;
+            }
+        }
+                
+        private string UnitFromStringOld(object item, ref bool mustAddUnit)
+        {
+            if (item is string unit && unit.Length <= 3)
+            {
+                if (mustAddUnit)
+                {
+                    return unit;
+                }
+                mustAddUnit = false;
+            }
+            
+            return default;
+        }
+
         private string DescriptorFromProperties
         {
             get 
