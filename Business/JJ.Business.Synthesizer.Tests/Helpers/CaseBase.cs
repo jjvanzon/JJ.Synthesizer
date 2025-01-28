@@ -13,7 +13,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal abstract class CaseBase<TMainProp> : CaseProp<TMainProp>
+    internal abstract class CaseBase<TMainProp> : CaseProp<TMainProp>, ICase
         where TMainProp : struct
     {
         // Properties
@@ -24,13 +24,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         internal virtual IList<ICaseProp> Props 
         {
             get
-        {
+            {
                 // ReSharper disable once UnusedVariable
                 PropertyInfo[] properties = GetType().GetProperties(BINDING_FLAGS_ALL)
                                                      .Where(x => x.PropertyType.GetBaseClasses().Contains(typeof(ICaseProp)))
                                                      .ToArray();
                 return default;
-        }
+            }
         }
         
         // Descriptions
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public object[] DynamicData => new object[] { Descriptor };
         string DebuggerDisplay => DebuggerDisplay(this);
         internal virtual IList<object> DescriptorElements { get; }
-        public virtual string Descriptor => new CaseDescriptorBuilder<TMainProp>(this).BuildDescriptor();
+        public string Descriptor => new CaseDescriptorBuilder<TMainProp>(this).BuildDescriptor();
 
         // Templating
 

@@ -5,6 +5,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,12 +13,41 @@ using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
+#pragma warning disable MSTEST0018
+
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
     [TestCategory("Config")]
     public class ByteCountWishesTests
     {
+        // Test Data Helpers
+        
+        int init = 100;
+        int value = 200;
+        int sizeOfBitDepthInit = 4;
+        int sizeOfBitDepthValue = 2;
+        
+        class Case : CaseBase<int>
+        {
+            public CaseProp<int> ByteCount => MainProp;
+            public CaseProp<int> SizeOfBitDepth { get; } = new CaseProp<int>();
+
+            internal override IList<ICaseProp> Props => new ICaseProp[] { ByteCount, SizeOfBitDepth };
+        }
+
+        static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
+        static CaseCollection<Case> SimpleCases { get; } = Cases.Add
+        (
+            new Case { From = 100, To = 200, SizeOfBitDepth = { From = 4, To = 2 }  },
+            new Case { From = 200, To = 100, SizeOfBitDepth = { From = 2, To = 4 }  }
+        );
+
+        static ConfigTestEntities CreateTestEntities(int init, int initSizeOfBitDepth) 
+            => new ConfigTestEntities(x => x.SizeOfBitDepth(initSizeOfBitDepth).ByteCount(init));
+        
+        // Tests
+        
         [TestMethod]
         public void ByteCount_Basic_ConversionFormula()
         {
@@ -136,13 +166,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
         
-        [TestMethod] 
-        public void SynthBound_ByteCount()
-        {            
+
+        [TestMethod]
+        [DynamicData(nameof(SimpleCases))]
+        public void SynthBound_ByteCount(string caseKey)
+        {   
+            var testCase = SimpleCases[caseKey];
+            int init = testCase.Init;
+            int value = testCase.Value;
+            var sizeOfBitDepth = testCase.SizeOfBitDepth;
+            
             void AssertProp(Action<ConfigTestEntities> setter)
             {
-                var x = CreateTestEntities(init, sizeOfBitDepthInit);
-                Assert_All_Getters     (x, init, sizeOfBitDepthInit);
+                var x = CreateTestEntities(init, sizeOfBitDepth.Init);
+                Assert_All_Getters     (x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
@@ -151,10 +188,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_BuffBound_Getters  (x, init );
                 Assert_Independent_Getters(x, init );
                 Assert_Immutable_Getters  (x, init );
-                Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
+                Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
                 
                 x.Record();
-                Assert_All_Getters(x, value, sizeOfBitDepthInit); // By Design: Properties that express bit-ness don't change their ByteCount the same way.
+                Assert_All_Getters(x, value, sizeOfBitDepth.Init); // By Design: Properties that express bit-ness don't change their ByteCount the same way.
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .ByteCount(value)));
@@ -163,12 +200,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod] 
-        public void TapeBound_ByteCount()
+        [DynamicData(nameof(SimpleCases))]
+        public void TapeBound_ByteCount(string caseKey)
         {
+            var testCase = Cases[caseKey];
+            int init = testCase.Init;
+            int value = testCase.Value;
+            var sizeOfBitDepth = testCase.SizeOfBitDepth;
+
             void AssertProp(Action<ConfigTestEntities> setter)
             {
-                var x = CreateTestEntities(init, sizeOfBitDepthInit);
-                Assert_All_Getters     (x, init, sizeOfBitDepthInit);
+                var x = CreateTestEntities(init, sizeOfBitDepth.Init);
+                Assert_All_Getters     (x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
@@ -177,10 +220,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_BuffBound_Getters  (x, init);
                 Assert_Independent_Getters(x, init);
                 Assert_Immutable_Getters  (x, init);
-                Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
+                Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
 
                 x.Record();
-                Assert_All_Getters(x, init, sizeOfBitDepthInit); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
             AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .ByteCount(value)));
@@ -466,15 +509,5 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             AreEqual(sizeOfBitDepth, () => bits.ByteCount());
         }
-        
-        // Test Data Helpers
-        
-        int init = 100;
-        int value = 200;
-        int sizeOfBitDepthInit = 4;
-        int sizeOfBitDepthValue = 2;
-        
-        private static ConfigTestEntities CreateTestEntities(int init, int initSizeOfBitDepth) 
-            => new ConfigTestEntities(x => x.SizeOfBitDepth(initSizeOfBitDepth).ByteCount(init));
     }
 }
