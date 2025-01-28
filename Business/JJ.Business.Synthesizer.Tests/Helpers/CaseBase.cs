@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
+using static JJ.Framework.Reflection.ReflectionHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
@@ -41,35 +44,36 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         // Templating
 
-        public static CaseBase<TMainProp>[] FromTemplate(CaseBase<TMainProp> template, params CaseBase<TMainProp>[] cases) 
+        public CaseBase<TMainProp>[] FromTemplate(params CaseBase<TMainProp>[] destCases) 
+            => FromTemplate(this, destCases);
+
+        public static CaseBase<TMainProp>[] FromTemplate(CaseBase<TMainProp> template, params CaseBase<TMainProp>[] destCases) 
         {
             if (template == null) throw new NullException(() => template);
-            return template.CloneTo(cases).ToArray();
-        }
-
-        public CaseBase<TMainProp>[] CloneTo(params CaseBase<TMainProp>[] destCases)
-        {
             if (destCases == null) throw new NullException(() => destCases);
             if (destCases.Contains(null)) throw new Exception($"{nameof(destCases)} contains nulls.");
             
-            var sourceCase = this;
+            var sourceCase = template;
             
             foreach (var destCase in destCases)
             {
-                destCase.Name = Coalesce(destCase.Name, Name);
-                if (Strict == false)
+                // Basic
+                destCase.Name = Coalesce(destCase.Name, template.Name);
+                if (template.Strict == false)
                 {
                     destCase.Strict = false; // Yield over alleviation from strictness.
                 }
                 
+                // Main Prop
                 destCase.CloneFrom(sourceCase);
                 
-                for (int j = 0; j < sourceCase._props.Count; j++)
+                // Props
+                for (int j = 0; j < template.Props.Count; j++)
                 {
-                    var sourceProp = _props[j];
+                    var sourceProp = template.Props[j];
                     if (sourceProp != null)
                     {
-                        ICaseProp destProp = destCase.GetProp(sourceProp.GetType(), j);
+                        ICaseProp destProp = destCase.Props[j];
                         destProp.CloneFrom(sourceProp);
                     }
                 }
