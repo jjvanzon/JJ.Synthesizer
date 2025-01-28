@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             
             foreach (TCase testCase in cases)
             {
-                string key = testCase.Descriptor;
+                string key = testCase.Key;
                 
                 if (_dictionary.ContainsKey(key))
                 {

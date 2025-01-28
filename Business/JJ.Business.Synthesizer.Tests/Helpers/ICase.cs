@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     internal interface ICase : ICaseProp
     {
         string             Name        { get; set; }
-        string             Descriptor  { get; }
+        string             Key  { get; }
         object[]           DynamicData { get; }
         bool               Strict      { get; set; }
         IList<ICaseProp>   Props       { get; }

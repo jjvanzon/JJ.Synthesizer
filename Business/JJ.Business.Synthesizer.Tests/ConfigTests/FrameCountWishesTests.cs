@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -92,22 +91,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                                                            
             { Name = "AudioLength", Length = 0.01, Hz = DefaultHz, PlusFrames = 3 },
             
-            new Case ( 480+3,  480+3 ) { Length = { To =  480.0 / Hz } },
-            new Case ( 480+3,  960+3 ) { Length = { To =  960.0 / Hz } },
-            new Case ( 480+3,  882+3 ) { Length = { To =  882.0 / Hz } },
-            new Case ( 480+3,  441+3 ) { Length = { To =  441.0 / Hz } },
-            new Case ( 480+3,  220+3 ) { Length = { To =  220.0 / Hz } },
-            new Case ( 480+3,  110+3 ) { Length = { To =  110.0 / Hz } },
-            new Case ( 480+3,    8+3 ) { Length = { To =    8.0 / Hz } },
-            new Case ( 480+3,   16+3 ) { Length = { To =   16.0 / Hz } },
-            new Case ( 480+3,   19+3 ) { Length = { To =   19.0 / Hz } },
-            new Case ( 480+3,   31+3 ) { Length = { To =   31.0 / Hz } },
-            new Case ( 480+3,   61+3 ) { Length = { To =   61.0 / Hz } },
-            new Case ( 480+3,  100+3 ) { Length = { To =  100.0 / Hz } },
-            
+            new Case ( 480+3,  480+3 ) { Length = { To   = 480.0 / Hz } },
+            new Case ( 480+3,  960+3 ) { Length = { To   = 960.0 / Hz } },
+            new Case ( 480+3,  882+3 ) { Length = { To   = 882.0 / Hz } },
+            new Case ( 480+3,  441+3 ) { Length = { To   = 441.0 / Hz } },
+            new Case ( 480+3,  220+3 ) { Length = { To   = 220.0 / Hz } },
+            new Case ( 480+3,  110+3 ) { Length = { To   = 110.0 / Hz } },
+            new Case ( 480+3,    8+3 ) { Length = { To   =   8.0 / Hz } },
+            new Case ( 480+3,   16+3 ) { Length = { To   =  16.0 / Hz } },
+            new Case ( 480+3,   19+3 ) { Length = { To   =  19.0 / Hz } },
+            new Case ( 480+3,   31+3 ) { Length = { To   =  31.0 / Hz } },
+            new Case ( 480+3,   61+3 ) { Length = { To   =  61.0 / Hz } },
+            new Case ( 480+3,  100+3 ) { Length = { To   = 100.0 / Hz } },
             new Case (   8+3,  480+3 ) { Length = { From =   8.0 / Hz } },
             new Case ( 441+3,  480+3 ) { Length = { From = 441.0 / Hz } },
-            
             new Case ( 110+3,  441+3 ) { Length = { From = 110.0 / Hz, To =  441.0 / Hz } },
             new Case ( 330+3,  441+3 ) { Length = { From = 330.0 / Hz, To =  441.0 / Hz } },
             new Case ( 220+3,  441+3 ) { Length = { From = 220.0 / Hz, To =  441.0 / Hz } }

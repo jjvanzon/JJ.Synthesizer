@@ -13,12 +13,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class CaseTests
     {
         [TestMethod]
-        public void Test_Case_Descriptor()
+        public void Test_Case_Key()
         { 
             var testCase = new Case();
-            string descriptor = testCase.Descriptor;
-            LogWishes.Log(descriptor);
-            NotNullOrEmpty(() => descriptor);
+            string key = testCase.Key;
+            LogWishes.Log(key);
+            NotNullOrEmpty(() => key);
         }
     }
 }

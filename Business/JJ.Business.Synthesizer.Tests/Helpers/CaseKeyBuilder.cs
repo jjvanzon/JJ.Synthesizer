@@ -10,12 +10,12 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    class CaseDescriptorBuilder<T>
+    class CaseKeyBuilder<T>
         where T : struct
     {
         readonly CaseBase<T> _testCase;
         
-        public CaseDescriptorBuilder(CaseBase<T> testCase)
+        public CaseKeyBuilder(CaseBase<T> testCase)
         {
             _testCase = testCase ?? throw new NullException(() => testCase);
             
@@ -23,18 +23,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             if (testCase.Props == null) throw new NullException(() => testCase.Props);
         }
         
-        public string BuildDescriptor()
+        public string BuildKey()
         {
-            var descriptorElements = _testCase.DescriptorElements;
-            if (!Has(descriptorElements))
+            var keyElements = _testCase.KeyElements;
+            if (!Has(keyElements))
             {
-                return DescriptorFromProps;
+                return KeyFromProps;
             }
             
             var texts = new List<string>();
             bool mustAddUnit = false;
             
-            foreach (object element in descriptorElements)
+            foreach (object element in keyElements)
             {
                 if (IsCaseProp(element))
                 {
@@ -46,9 +46,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     string text = GetUnit(element, ref mustAddUnit);
                     texts.Add(text);
                 }
-                else if (IsDescriptorTuple(element))
+                else if (IsKeyTuple(element))
                 {
-                    var texts2 = GetDescriptorTupleTexts(element);
+                    var texts2 = GetKeyTupleTexts(element);
                     texts.AddRange(texts2);
                 }
                 else if (!Has(element))
@@ -62,11 +62,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 }
             }
             
-            string descriptor = Join(" ", texts.Where(FilledIn));
-            return descriptor;
+            string key = Join(" ", texts.Where(FilledIn));
+            return key;
         }
         
-        bool IsDescriptorTuple(object item)
+        bool IsKeyTuple(object item)
         {
             if (item == null)
             {
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return true;
         }
         
-        private IList<string> GetDescriptorTupleTexts(object tuple)
+        private IList<string> GetKeyTupleTexts(object tuple)
         {
             var texts = new List<string>();
             
@@ -166,7 +166,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return unit;
         }
         
-        private string DescriptorFromProps
+        private string KeyFromProps
         {
             get
             {

@@ -33,11 +33,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         // Descriptions
         
         public string Name { get; set; }
-        public override string ToString() => Descriptor;
-        public object[] DynamicData => new object[] { Descriptor };
+        public override string ToString() => Key;
+        public object[] DynamicData => new object[] { Key };
         string DebuggerDisplay => DebuggerDisplay(this);
-        internal virtual IList<object> DescriptorElements { get; }
-        public string Descriptor => new CaseDescriptorBuilder<TMainProp>(this).BuildDescriptor();
+        internal virtual IList<object> KeyElements { get; }
+        public string Key => new CaseKeyBuilder<TMainProp>(this).BuildKey();
 
         // Templating
 

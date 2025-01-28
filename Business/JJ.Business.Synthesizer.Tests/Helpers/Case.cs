@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class Case : CaseBase<int>
     {
-        internal override IList<object> DescriptorElements 
+        internal override IList<object> KeyElements 
             => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
 
         // FrameCount: The main property being tested, adjusted directly or via dependencies.
