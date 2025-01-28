@@ -32,8 +32,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             public CaseProp<int> ByteCount => MainProp;
             public CaseProp<int> SizeOfBitDepth { get; } = new CaseProp<int>();
-
-            internal override IList<ICaseProp> Props => new ICaseProp[] { ByteCount, SizeOfBitDepth };
         }
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();

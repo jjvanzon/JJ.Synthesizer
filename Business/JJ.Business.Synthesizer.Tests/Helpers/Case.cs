@@ -10,9 +10,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class Case : CaseBase<int>
     {
-        internal override IList<ICaseProp> Props 
-            => new ICaseProp[] { FrameCount, SamplingRate, CourtesyFrames, AudioLength };
-        
         internal override IList<object> DescriptorElements 
             => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
 

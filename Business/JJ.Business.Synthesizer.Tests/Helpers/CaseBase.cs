@@ -21,17 +21,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <inheritdoc cref="docs._strict />
         public bool Strict { get; set; } = true;
         public CaseProp<TMainProp> MainProp => this;
-        internal virtual IList<ICaseProp> Props 
-        {
-            get
-            {
-                // ReSharper disable once UnusedVariable
-                PropertyInfo[] properties = GetType().GetProperties(BINDING_FLAGS_ALL)
-                                                     .Where(x => x.PropertyType.GetBaseClasses().Contains(typeof(ICaseProp)))
-                                                     .ToArray();
-                return default;
-            }
-        }
+        
+        public virtual IList<ICaseProp> Props
+            => GetType().GetProperties(BINDING_FLAGS_ALL)
+                        .Where(x => x.PropertyType.HasInterfaceRecursive<ICaseProp>())
+                        .Select(x => x.GetValue(this))
+                        .Cast<ICaseProp>()
+                        .Distinct()
+                        .ToArray();
         
         // Descriptions
         
