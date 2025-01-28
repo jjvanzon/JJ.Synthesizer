@@ -42,17 +42,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<int> Frames => this;
             
             // SamplingRate: Scales FrameCount
-            public CaseProp<int> SamplingRate { get; set; } = new CaseProp<int>();
+            public CaseProp<int> SamplingRate { get; set; }
             public CaseProp<int> Hertz        { get => SamplingRate; set => SamplingRate = value; }
             public CaseProp<int> Hz           { get => SamplingRate; set => SamplingRate = value; }
             
             // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
-            public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
+            public CaseProp<int> CourtesyFrames { get; set; }
             public CaseProp<int> PlusFrames     { get => CourtesyFrames; set => CourtesyFrames = value; }
             public CaseProp<int> Plus           { get => CourtesyFrames; set => CourtesyFrames = value; }
 
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
-            public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
+            public CaseProp<double> AudioLength { get; set; }
             public CaseProp<double> Length      { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> Len         { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> Duration    { get => AudioLength; set => AudioLength = value; }
