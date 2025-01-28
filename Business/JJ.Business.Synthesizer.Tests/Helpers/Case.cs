@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Framework.Reflection;
 
 // ReSharper disable CoVariantArrayConversion
 
@@ -21,6 +20,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public CaseProp<int> SamplingRate { get; set; } = new CaseProp<int>();
         public CaseProp<int> Hertz        { get => SamplingRate; set => SamplingRate = value; }
         public CaseProp<int> Hz           { get => SamplingRate; set => SamplingRate = value; }
+        
+        // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
+        public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
+        public CaseProp<int> PlusFrames     { get => CourtesyFrames; set => CourtesyFrames = value; }
+        public CaseProp<int> Plus           { get => CourtesyFrames; set => CourtesyFrames = value; }
 
         // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
         public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
@@ -29,11 +33,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public CaseProp<double> Duration    { get => AudioLength; set => AudioLength = value; }
         public CaseProp<double> seconds     { get => AudioLength; set => AudioLength = value; }
         public CaseProp<double> sec         { get => AudioLength; set => AudioLength = value; }
-        
-        // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
-        public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
-        public CaseProp<int> PlusFrames     { get => CourtesyFrames; set => CourtesyFrames = value; }
-        public CaseProp<int> Plus           { get => CourtesyFrames; set => CourtesyFrames = value; }
 
         // Constructors
         

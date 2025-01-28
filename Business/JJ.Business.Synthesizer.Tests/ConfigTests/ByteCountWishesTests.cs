@@ -23,11 +23,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     {
         // Test Data Helpers
         
-        int init = 100;
-        int value = 200;
-        int sizeOfBitDepthInit = 4;
-        int sizeOfBitDepthValue = 2;
-        
         class Case : CaseBase<int>
         {
             public CaseProp<int> ByteCount => MainProp;
@@ -164,7 +159,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
         
-
         [TestMethod]
         [DynamicData(nameof(SimpleCases))]
         public void SynthBound_ByteCount(string caseKey)
@@ -231,12 +225,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod] 
-        public void BuffBound_ByteCount()
+        [DynamicData(nameof(SimpleCases))]
+        public void BuffBound_ByteCount(string caseKey)
         {
+            var testCase = Cases[caseKey];
+            int init = testCase.Init;
+            int value = testCase.Value;
+            var sizeOfBitDepth = testCase.SizeOfBitDepth;
+
             void AssertProp(Action<ConfigTestEntities> setter)
             {
-                var x = CreateTestEntities(init, sizeOfBitDepthInit);
-                Assert_All_Getters     (x, init, sizeOfBitDepthInit);
+                var x = CreateTestEntities(init, sizeOfBitDepth.Init);
+                Assert_All_Getters     (x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
@@ -246,10 +246,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_AudioFileOutput_Getters(x, value); // By Design: "Out" will take on new properties when asked.
                 Assert_Independent_Getters    (x, init );
                 Assert_Immutable_Getters      (x, init );
-                Assert_Bitness_Getters        (x, sizeOfBitDepthInit);
+                Assert_Bitness_Getters        (x, sizeOfBitDepth.Init);
 
                 x.Record();
-                Assert_All_Getters(x, init, sizeOfBitDepthInit);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
             }
 
             // TODO: Why the dependency on CourtesyFrames?
@@ -258,9 +258,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         [TestMethod]
-        public void Immutable_SizeOfBitDepth()
+        [DynamicData(nameof(SimpleCases))]
+        public void Immutable_SizeOfBitDepth(string caseKey)
         {
-            var x = CreateTestEntities(init, sizeOfBitDepthInit);
+            var testCase = Cases[caseKey];
+            int init = testCase.Init;
+            int value = testCase.Value;
+            var sizeOfBitDepth = testCase.SizeOfBitDepth;
+
+            var x = CreateTestEntities(init, sizeOfBitDepth.Init);
 
             // WavHeader
             
@@ -287,17 +293,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 void AssertProp(Func<SampleDataTypeEnum> setter)
                 {
-                    Assert_Bitness_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepthInit);
+                    Assert_Bitness_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepth.Init);
                     
                     SampleDataTypeEnum sampleDataTypeEnum2 = setter();
                     
-                    Assert_Bitness_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepthInit);
-                    Assert_Bitness_Getters(sampleDataTypeEnum2, sizeOfBitDepthValue);
+                    Assert_Bitness_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepth.Init);
+                    Assert_Bitness_Getters(sampleDataTypeEnum2, sizeOfBitDepth.Value);
                     
                     sampleDataTypeEnums.Add(sampleDataTypeEnum2);
                 }
                 
-                AssertProp(() => x.Immutable.SampleDataTypeEnum.ByteCount(sizeOfBitDepthValue));
+                AssertProp(() => x.Immutable.SampleDataTypeEnum.ByteCount(sizeOfBitDepth.Value));
             }
 
             // SampleDataType
@@ -306,17 +312,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 void AssertProp(Func<SampleDataType> setter)
                 {
-                    Assert_Bitness_Getters(x.Immutable.SampleDataType, sizeOfBitDepthInit);
+                    Assert_Bitness_Getters(x.Immutable.SampleDataType, sizeOfBitDepth.Init);
 
                     SampleDataType sampleDataType2 = setter();
                     
-                    Assert_Bitness_Getters(x.Immutable.SampleDataType, sizeOfBitDepthInit);
-                    Assert_Bitness_Getters(sampleDataType2, sizeOfBitDepthValue);
+                    Assert_Bitness_Getters(x.Immutable.SampleDataType, sizeOfBitDepth.Init);
+                    Assert_Bitness_Getters(sampleDataType2, sizeOfBitDepth.Value);
                     
                     sampleDataTypes.Add(sampleDataType2);
                 }
             
-                AssertProp(() => x.Immutable.SampleDataType.ByteCount(sizeOfBitDepthValue, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.SampleDataType.ByteCount(sizeOfBitDepth.Value, x.SynthBound.Context));
             }
             
             // Type
@@ -325,17 +331,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 void AssertProp(Func<Type> setter)
                 {
-                    Assert_Bitness_Getters(x.Immutable.Type, sizeOfBitDepthInit);
+                    Assert_Bitness_Getters(x.Immutable.Type, sizeOfBitDepth.Init);
                     
                     var type2 = setter();
                     
-                    Assert_Bitness_Getters(x.Immutable.Type, sizeOfBitDepthInit);
-                    Assert_Bitness_Getters(type2, sizeOfBitDepthValue);
+                    Assert_Bitness_Getters(x.Immutable.Type, sizeOfBitDepth.Init);
+                    Assert_Bitness_Getters(type2, sizeOfBitDepth.Value);
                     
                     types.Add(type2);
                 }
 
-                AssertProp(() => x.Immutable.Type.ByteCount(sizeOfBitDepthValue));
+                AssertProp(() => x.Immutable.Type.ByteCount(sizeOfBitDepth.Value));
             }
                 
             // Bits
@@ -344,17 +350,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 void AssertProp(Func<int> setter)
                 {
-                    Assert_Bitness_Getters(x.Immutable.Bits, sizeOfBitDepthInit);
+                    Assert_Bitness_Getters(x.Immutable.Bits, sizeOfBitDepth.Init);
 
                     int bits2 = setter();
                     
-                    Assert_Bitness_Getters(x.Immutable.Bits, sizeOfBitDepthInit);
-                    Assert_Bitness_Getters(bits2, sizeOfBitDepthValue);
+                    Assert_Bitness_Getters(x.Immutable.Bits, sizeOfBitDepth.Init);
+                    Assert_Bitness_Getters(bits2, sizeOfBitDepth.Value);
                     
                     bitsList.Add(bits2);
                 }
             
-                AssertProp(() => x.Immutable.Bits.ByteCount(sizeOfBitDepthValue));
+                AssertProp(() => x.Immutable.Bits.ByteCount(sizeOfBitDepth.Value));
             }
 
             // After-Record
@@ -366,14 +372,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_BuffBound_Getters  (x, init);
             Assert_Independent_Getters(x, init);
             Assert_Immutable_Getters  (x, init);
-            Assert_Bitness_Getters    (x, sizeOfBitDepthInit);
+            Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
             
             // Except for our variables
             wavHeaders         .ForEach(w => Assert_Immutable_Getters(w, value));
-            sampleDataTypeEnums.ForEach(e => Assert_Bitness_Getters(e, sizeOfBitDepthValue));
-            sampleDataTypes    .ForEach(s => Assert_Bitness_Getters(s, sizeOfBitDepthValue));
-            types              .ForEach(t => Assert_Bitness_Getters(t, sizeOfBitDepthValue));
-            bitsList           .ForEach(b => Assert_Bitness_Getters(b, sizeOfBitDepthValue));
+            sampleDataTypeEnums.ForEach(e => Assert_Bitness_Getters(e, sizeOfBitDepth.Value));
+            sampleDataTypes    .ForEach(s => Assert_Bitness_Getters(s, sizeOfBitDepth.Value));
+            types              .ForEach(t => Assert_Bitness_Getters(t, sizeOfBitDepth.Value));
+            bitsList           .ForEach(b => Assert_Bitness_Getters(b, sizeOfBitDepth.Value));
         }
 
         [TestMethod]

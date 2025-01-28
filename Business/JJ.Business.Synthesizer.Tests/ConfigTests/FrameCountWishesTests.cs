@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using static System.Array;
-using static JJ.Business.Synthesizer.Tests.Helpers.Case;
 using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigEntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
@@ -36,8 +35,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // ncrunch: no coverage start
 
+        static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
+        
         /// <summary> Initializes FrameCount and dependencies, verifies FrameCount values from entities. </summary>
-        private static Case[] _initCases = FromTemplate(new Case
+        private static CaseCollection<Case> InitCases { get; } = Cases.FromTemplate(new Case
             {
                 Name = "Init",
                 PlusFrames = 3,
@@ -61,7 +62,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         /// <summary> Varies FrameCount and checks value consistency across entities. </summary>
-        static Case[] _basicCases = FromTemplate(new Case
+        static CaseCollection<Case> BasicCases { get; } = Cases.FromTemplate(new Case
             {
                 Name = "Basic",
                 PlusFrames = 3,
@@ -87,7 +88,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         /// <summary> Cases where AudioLength adjustments should change FrameCount accordingly. </summary>
-        static Case[] _audioLengthCases = FromTemplate(new Case
+        static CaseCollection<Case> AudioLengthCases { get; } = Cases.FromTemplate(new Case
                                                            
             { Name = "AudioLength", Length = 0.01, Hz = DefaultHz, PlusFrames = 3 },
             
@@ -113,7 +114,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         /// <summary> SamplingRate varying tests; should adjust FrameCount accordingly. </summary>
-        static Case[] _samplingRateCases = FromTemplate(new Case
+        static CaseCollection<Case> SamplingRateCases { get; } = Cases.FromTemplate(new Case
         
             { Name = "SamplingRate", Hz = 48000, sec = 0.01, Plus = 3 },
             
@@ -139,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         /// <summary> Testing courtesy frames' adjustments effect on FrameCount. </summary>
-        static Case[] _courtesyFramesCases = FromTemplate(new Case
+        static CaseCollection<Case> CourtesyFramesCases { get; } = Cases.FromTemplate(new Case
         
             { Name = "PlusFrames", SamplingRate = 100 },
             
@@ -150,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
                 
         /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
-        static Case[] _nullyAudioLengthCases = FromTemplate(new Case
+        static CaseCollection<Case> NullyAudioLengthCases { get; }= Cases.FromTemplate(new Case
             
             { Name = "NullyLen", Hz = 480, Plus = 3 },
             
@@ -170,7 +171,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );        
                 
         /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
-        static Case[] _nullySamplingRateCases = FromTemplate(new Case
+        static CaseCollection<Case> NullySamplingRateCases { get; } = Cases.FromTemplate(new Case
             
             { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
             
@@ -184,7 +185,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
         );        
 
-        static Case[] _nullyCourtesyFramesCases = FromTemplate(new Case
+        static CaseCollection<Case> NullyCourtesyFramesCases = Cases.FromTemplate(new Case
         
             { Name = "PlusNullies", SamplingRate = 100 },
             
@@ -194,7 +195,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         /// <summary> Nully FrameCount tests check the behavior of coalescing to default. </summary>
-        static Case[] _nullyFrameCountCases = FromTemplate(new Case
+        static CaseCollection<Case> NullyFrameCountCases { get; } = Cases.FromTemplate(new Case
             
             { Name = "Nully", sec = 1, Hz = 480, Plus = 3 },
             
@@ -237,21 +238,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { From = 480+3, To = 480+3, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
 
-        Dictionary<string, Case> _caseDictionary
-            = Empty<Case>().Concat(_basicCases)
-                           .Concat(_audioLengthCases)
-                           .Concat(_samplingRateCases)
-                           .Concat(_courtesyFramesCases)
-                           .Concat(_nullyAudioLengthCases)
-                           .Concat(_nullySamplingRateCases)
-                           .Concat(_nullyCourtesyFramesCases)
-                           .Concat(_nullyFrameCountCases)
-                           .Concat(_initCases)
-                           //.Distinct(x => x.Descriptor)
-                           .ToDictionary(x => x.Descriptor);
-        
         // ncrunch: no coverage end
-        
+
         [TestMethod]
         public void FrameCount_EdgeCases()
         {
@@ -271,32 +259,30 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     "Duration is not above 0.");
         }
         
-        static object InitCases => _initCases.Select(x => x.DynamicData);
-        
         [TestMethod]
         [DynamicData(nameof(InitCases))]
         public void Init_FrameCount(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
+            Case testCase = Cases[caseKey];
             var x = CreateTestEntities(testCase);
             Assert_All_Getters(x, testCase);
         }
 
-        static object SynthBoundCases
-            => Empty<Case>().Concat(_basicCases)
-                            .Concat(_audioLengthCases)
-                            .Concat(_samplingRateCases)
-                            .Concat(_courtesyFramesCases)
-                            .Concat(_nullyAudioLengthCases)
-                            .Concat(_nullySamplingRateCases)
-                            .Concat(_nullyCourtesyFramesCases)
-                            .Concat(_nullyFrameCountCases)
-                            .Select(x => x.DynamicData);
+        static object SynthBoundCases => Empty<object[]>() // ncrunch: no coverage
+            .Concat(BasicCases)
+            .Concat(AudioLengthCases)
+            .Concat(SamplingRateCases)
+            .Concat(CourtesyFramesCases)
+            .Concat(NullyAudioLengthCases)
+            .Concat(NullySamplingRateCases)
+            .Concat(NullyCourtesyFramesCases)
+            .Concat(NullyFrameCountCases);
+        
         [TestMethod] 
         [DynamicData(nameof(SynthBoundCases))]
         public void SynthBound_FrameCount(string caseKey)
         {            
-            Case testCase = _caseDictionary[caseKey];
+            Case testCase = Cases[caseKey];
             var init  = testCase.From;
             var value = testCase.To;
             
@@ -355,17 +341,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
 
-        static object TapeBoundCases
-            => Empty<Case>().Concat(_basicCases)
-                            .Concat(_audioLengthCases)
-                            .Concat(_samplingRateCases)
-                            .Concat(_courtesyFramesCases)
-                            .Select(x => x.DynamicData);
+        static object TapeBoundCases => Empty<object[]>() // ncrunch: no coverage
+            .Concat(BasicCases)
+            .Concat(AudioLengthCases)
+            .Concat(SamplingRateCases)
+            .Concat(CourtesyFramesCases);
+        
         [TestMethod] 
         [DynamicData(nameof(TapeBoundCases))]
         public void TapeBound_FrameCount(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
+            Case testCase = Cases[caseKey];
             int init  = testCase.From;
             int value = testCase.To;
 
@@ -419,16 +405,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
 
-        static object BuffBoundCases
-            => Empty<Case>().Concat(_basicCases)
-                            .Concat(_audioLengthCases)
-                            .Concat(_samplingRateCases)
-                            .Select(x => x.DynamicData);
+        static object BuffBoundCases => Empty<object[]>() // ncrunch: no coverage
+            .Concat(BasicCases)
+            .Concat(AudioLengthCases)
+            .Concat(SamplingRateCases);
+        
         [TestMethod] 
         [DynamicData(nameof(BuffBoundCases))]
         public void BuffBound_FrameCount(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
+            Case testCase = Cases[caseKey];
             int init = testCase.From;
             int value = testCase.To;
             
@@ -468,18 +454,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
         
-        static object IndependentCases
-            => Empty<Case>().Concat(_basicCases)
-                            .Concat(_audioLengthCases)
-                            .Concat(_samplingRateCases)
-                            .Select(x => x.DynamicData);
+        static object IndependentCases => Empty<object[]>() // ncrunch: no coverage
+            .Concat(BasicCases)
+            .Concat(AudioLengthCases)
+            .Concat(SamplingRateCases);
         
         [TestMethod] 
         [DynamicData(nameof(IndependentCases))]
         public void Independent_FrameCount(string caseKey)
         {
             // Independent after Taping
-            Case testCase = _caseDictionary[caseKey];
+            Case testCase = Cases[caseKey];
             int init = testCase.From;
             int value = testCase.To;
          
@@ -516,16 +501,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // SamplingRate does not affect FrameCount in this case.
         }
         
-        static object ImmutableCases
-            => Empty<Case>().Concat(_basicCases)
-                            .Concat(_audioLengthCases)
-                            .Concat(_samplingRateCases)
-                            .Select(x => x.DynamicData);
+        static object ImmutableCases => Empty<object[]>() // ncrunch: no coverage
+            .Concat(BasicCases)
+            .Concat(AudioLengthCases)
+            .Concat(SamplingRateCases);
+        
         [TestMethod] 
         [DynamicData(nameof(ImmutableCases))]
         public void Immutable_FrameCount(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
+            Case testCase = Cases[caseKey];
             int init = testCase.From;
             int value = testCase.To;
             
@@ -684,7 +669,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 int frameCountAfter = x.FrameCount();
                 
                 if (testCase.Strict && frameCountBefore != frameCountAfter)
-                {
+                {   // ncrunch: no coverage start
                     string formattedFrameCount     = Coalesce(testCase.FrameCount    .Init.Nully, "default " + DefaultFrameCount    );
                     string formattedAudioLength    = Coalesce(testCase.AudioLength   .Init.Nully, "default " + DefaultAudioLength   );
                     string formattedSamplingRate   = Coalesce(testCase.SamplingRate  .Init.Nully, "default " + DefaultSamplingRate  );
@@ -697,6 +682,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         $"SamplingRate ({formattedSamplingRate}) " +
                         $"and {nameof(CourtesyFrames)} ({formattedCourtesyFrames}). " +
                         $"(This restriction can be relaxed by setting {nameof(Case.Strict)} = false in the test {nameof(Case)}.)");
+                    // ncrunch: no coverage end
                 }
             });
         }
