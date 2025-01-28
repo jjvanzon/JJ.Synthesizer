@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JJ.Business.Synthesizer.Tests.ConfigTests;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,8 +16,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void Test_Case_Key()
         { 
-            var testCase = new Case();
-            string key = testCase.Key;
+            var    testCase = new FrameCountWishesTests.Case();
+            string key      = testCase.Key;
             LogWishes.Log(key);
             NotNullOrEmpty(() => key);
         }

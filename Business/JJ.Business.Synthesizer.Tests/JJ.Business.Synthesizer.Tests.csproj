@@ -134,7 +134,6 @@
     <Compile Include="Accessors\TapeCollectionAccessor.cs" />
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="ConfigTests\ByteCountWishesTests.cs" />
-    <Compile Include="Helpers\Case.cs" />
     <Compile Include="Helpers\CaseBase.cs" />
     <Compile Include="Helpers\CaseCollection.cs" />
     <Compile Include="Helpers\CaseKeyBuilder.cs" />
