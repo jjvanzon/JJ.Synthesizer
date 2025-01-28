@@ -25,12 +25,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public CaseProp<TMainProp> MainProp => this;
         
         public virtual IList<ICaseProp> Props
-            => GetPropInfos().Select(x => x.GetValue(this))
+            => GetCasePropInfos().Select(x => x.GetValue(this))
                              .Cast<ICaseProp>()
                              .Distinct()
                              .ToArray();
         
-        private IList<PropertyInfo> GetPropInfos()
+        private IList<PropertyInfo> GetCasePropInfos()
             => GetType().GetProperties(BINDING_FLAGS_ALL)
                         .Where(x => x.PropertyType.HasInterfaceRecursive<ICaseProp>())
                         .ToArray();
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         .Where(x => x.FieldType.HasInterfaceRecursive<ICaseProp>())
                         .ToArray();
         
-        void AutoCreateProps() => GetCasePropFields().Where(x => x.GetValue(this) == null)
+        private void AutoCreateProps() => GetCasePropFields().Where(x => x.GetValue(this) == null)
                                                      .ForEach(x => x.SetValue(this, CreateInstance(x.FieldType)));
 
         // Descriptions

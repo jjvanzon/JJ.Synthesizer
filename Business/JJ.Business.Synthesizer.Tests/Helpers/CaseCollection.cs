@@ -31,16 +31,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         public CaseCollection<TCase> Add(params TCase[] cases) => Add((IList<TCase>)cases);
         public CaseCollection<TCase> Add(ICollection<TCase> cases) => Add(new CaseCollection<TCase>(cases));
-        public CaseCollection<TCase> Add(CaseCollection<TCase> collection)
+        public CaseCollection<TCase> Add(CaseCollection<TCase> coll)
         {
-            if (collection == null) throw new NullException(() => collection);
-            _collections.Add(collection);
-            
-            ICollection<TCase> cases = collection.GetAll();
-            
+            if (coll == null) throw new NullException(() => coll);
+            _collections.Add(coll);
+            var cases = coll.GetAll();
             Initialize(cases);
-            
-            return collection;
+            return coll;
         }
         
         private void Initialize(ICollection<TCase> cases)

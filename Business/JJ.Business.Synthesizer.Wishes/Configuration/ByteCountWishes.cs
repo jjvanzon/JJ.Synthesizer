@@ -221,10 +221,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         /// <inheritdoc cref="docs._bytecountfromprimaries" />
         public static int ByteCount(this double audioLength, int samplingRate, int bits, int channels, int headerLength, int courtesyFrames)
-            => ConfigWishes.ByteCount(audioLength, samplingRate, bits, channels, headerLength, courtesyFrames);
+            => ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength, courtesyFrames);
 
         public static int ByteCount(this double audioLength, int samplingRate, int frameSize, int headerLength, int courtesyFrames)
-            => ConfigWishes.ByteCount(audioLength, samplingRate, frameSize, headerLength, courtesyFrames);
+            => ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength, courtesyFrames);
 
         // From FrameCount
 
@@ -235,10 +235,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             => ConfigWishes.ByteCountFromFrameCount(frameCount, frameSize, headerLength);
 
         public static int ByteCount(this int frameCount, int bits, int channels, int headerLength)
-            => ConfigWishes.ByteCount(frameCount, bits, channels, headerLength);
+            => ConfigWishes.ByteCountFromFrameCount(frameCount, bits, channels, headerLength);
 
         public static int ByteCount(this int frameCount, int frameSize, int headerLength)
-            => ConfigWishes.ByteCount(frameCount, frameSize, headerLength);
+            => ConfigWishes.ByteCountFromFrameCount(frameCount, frameSize, headerLength);
     }
     
     // Conversion Formula
