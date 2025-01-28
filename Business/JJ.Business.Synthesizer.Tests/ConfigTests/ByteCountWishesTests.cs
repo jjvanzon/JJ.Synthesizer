@@ -7,10 +7,12 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Framework.Wishes.Common;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable MSTEST0018
@@ -25,16 +27,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         class Case : CaseBase<int>
         {
-            public CaseProp<int>    ByteCount => MainProp;
-            public CaseProp<int>    SizeOfBitDepth { get; }
-            public CaseProp<int>    SamplingRate   { get; }
-            public CaseProp<int>    Bits           { get; }
-            public CaseProp<int>    Channels       { get; }
-            public CaseProp<int>    CourtesyFrames { get; }
-            public CaseProp<int>    HeaderLength   { get; }
-            public CaseProp<double> AudioLength    { get; }
-            public CaseProp<int>    FrameSize      { get; }
-            public CaseProp<int>    FrameCount     { get; }
+            public CaseProp<int>                 ByteCount      => MainProp;
+            public CaseProp<int>                 SizeOfBitDepth { get; set; }
+            public CaseProp<double>              AudioLength    { get; set; }
+            public CaseProp<int>                 SamplingRate   { get; set; }
+            public CaseProp<int>                 Bits           { get; set; }
+            public CaseProp<int>                 Channels       { get; set; }
+            public CaseProp<int>                 FrameSize      { get; set; }
+            public CaseProp<int>                 FrameCount     { get; set; }
+            public CaseProp<AudioFileFormatEnum> AudioFormat    { get; set; }
+            public CaseProp<int>                 HeaderLength   { get; set; }
+            public CaseProp<int>                 CourtesyFrames { get; set; }
         }
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
@@ -43,10 +46,59 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { From = 100, To = 200, SizeOfBitDepth = { From = 4, To = 2 }  },
             new Case { From = 200, To = 100, SizeOfBitDepth = { From = 2, To = 4 }  }
         );
+        
+        static CaseCollection<Case> DependencyCases { get; } = Cases.FromTemplate(new Case
+        
+            { From = 100, To = 200, HeaderLength = 0, CourtesyFrames = 0 },
+            
+            new Case { AudioLength  = { From = 0.25, To = 0.5 } },
+            new Case { SamplingRate = { From =  250, To = 500 } },
+            new Case { Bits         = { From =   16, To =  32 } },
+            new Case { Channels     = { From =    1, To =   2 } },
+            new Case { FrameSize    = { From =    2, To =   4 } },
+            new Case { FrameCount   = { From =   25, To =  50 } }
+        );
 
-        static ConfigTestEntities CreateTestEntities(int init, int initSizeOfBitDepth) 
+        static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
             // Change bit depth first, or it'll change the byte count.
-            => new ConfigTestEntities(x => x.SizeOfBitDepth(initSizeOfBitDepth).ByteCount(init));
+            => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init));
+
+
+        static ConfigTestEntities CreateTestEntities(Case val) 
+            => new ConfigTestEntities(synth => 
+            {
+                // Change primary properties before ByteCount, or they will change the byte count.
+                
+                // Bits and SizeOfBitDepth can be inconsistently initialized depending on our Case definitions.
+                // Carefully apply one or the other with if's.
+                
+                if (CoalesceBits(val.Bits.Init.Nully) != DefaultBits)
+                    synth.Bits(val.Bits.Init.Nully);
+                
+                if (CoalesceSizeOfBitDepth(val.SizeOfBitDepth.Init.Nully) != DefaultSizeOfBitDepth)
+                    synth.SizeOfBitDepth(val.SizeOfBitDepth.Init.Nully);
+
+                if (CoalesceCourtesyFrames(val.CourtesyFrames.Init.Nully) != DefaultCourtesyFrames)
+                    synth.CourtesyFrames(val.CourtesyFrames.Init.Nully);
+                
+                if (CoalesceAudioFormat(val.AudioFormat.Init.Nully) != DefaultAudioFormat)
+                    synth.AudioFormat(val.AudioFormat.Init.Nully);
+
+                if (CoalesceChannels(val.Channels.Init.Nully) != DefaultChannels)
+                    synth.Channels(val.Channels.Init.Nully);
+
+                if (CoalesceSamplingRate(val.SamplingRate.Init.Nully) != DefaultSamplingRate)
+                    synth.SamplingRate(val.SamplingRate.Init.Nully);
+                
+                if (CoalesceFrameCount(val.FrameCount.Init.Nully) != DefaultFrameCount)
+                    synth.FrameCount(val.FrameCount.Init.Nully);
+                    
+                if (CoalesceByteCount(val.ByteCount.Init.Nully) != DefaultByteCount)
+                    synth.ByteCount(val.ByteCount.Init.Nully);
+                
+                if (CoalesceAudioLength(val.AudioLength.Init.Nully) != DefaultAudioLength)
+                    synth.AudioLength(val.AudioLength.Init.Nully);
+            });
         
         // Tests
         
@@ -167,20 +219,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 channelEntities.Immutable.SampleDataTypeEnum.ByteCount(sizeOfBitDepthValue);
             }
         }
+
+        static object SynthBoundCases => SimpleCases.Concat(DependencyCases);
         
         [TestMethod]
-        [DynamicData(nameof(SimpleCases))]
+        [DynamicData(nameof(SynthBoundCases))]
         public void SynthBound_ByteCount(string caseKey)
         {   
-            var testCase = SimpleCases[caseKey];
+            var testCase = Cases[caseKey];
             int init = testCase.Init;
             int value = testCase.Value;
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
             
             void AssertProp(Action<ConfigTestEntities> setter)
             {
-                var x = CreateTestEntities(init, sizeOfBitDepth.Init);
-                Assert_All_Getters     (x, init, sizeOfBitDepth.Init);
+                var x = CreateTestEntities(testCase);
+                //var x = CreateTestEntities(init, sizeOfBitDepth.Init);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
@@ -198,6 +253,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .ByteCount(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .ByteCount(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.ByteCount(value, x.SynthBound.SynthWishes)));
+            
+            if (testCase.AudioLength.From != testCase.AudioLength.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes, x.SynthBound.SynthWishes.AudioLength(testCase.AudioLength.To)));
+            }
         }
 
         [TestMethod] 
@@ -211,8 +271,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             void AssertProp(Action<ConfigTestEntities> setter)
             {
+                //var x = CreateTestEntities(testCase);
                 var x = CreateTestEntities(init, sizeOfBitDepth.Init);
-                Assert_All_Getters     (x, init, sizeOfBitDepth.Init);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
@@ -244,8 +305,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             void AssertProp(Action<ConfigTestEntities> setter)
             {
+                //var x = CreateTestEntities(testCase);
                 var x = CreateTestEntities(init, sizeOfBitDepth.Init);
-                Assert_All_Getters     (x, init, sizeOfBitDepth.Init);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
@@ -275,6 +337,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int value = testCase.Value;
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
 
+            //var x = CreateTestEntities(testCase);
             var x = CreateTestEntities(init, sizeOfBitDepth.Init);
 
             // WavHeader
@@ -495,6 +558,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
+            
             Assert_Bitness_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepth);
             Assert_Bitness_Getters(x.Immutable.SampleDataType    , sizeOfBitDepth);
             Assert_Bitness_Getters(x.Immutable.Type              , sizeOfBitDepth);
@@ -503,23 +567,31 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_Bitness_Getters(SampleDataTypeEnum sampleDataTypeEnum, int sizeOfBitDepth)
         {
+            if (sizeOfBitDepth.IsNully()) return;
+            
             AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.ByteCount());
         }
         
         private void Assert_Bitness_Getters(SampleDataType sampleDataType, int sizeOfBitDepth)
         {
+            if (sizeOfBitDepth.IsNully()) return;
+            
             IsNotNull(() => sampleDataType);
             AreEqual(sizeOfBitDepth, () => sampleDataType.ByteCount());
         }
         
         private void Assert_Bitness_Getters(Type type, int sizeOfBitDepth)
         {
+            if (sizeOfBitDepth.IsNully()) return;
+
             IsNotNull(() => type);
             AreEqual(sizeOfBitDepth, () => type.ByteCount());
         }
         
         private void Assert_Bitness_Getters(int bits, int sizeOfBitDepth)
         {
+            if (sizeOfBitDepth.IsNully()) return;
+
             AreEqual(sizeOfBitDepth, () => bits.ByteCount());
         }
     }
