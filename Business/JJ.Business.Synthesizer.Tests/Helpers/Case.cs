@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+
+// ReSharper disable CoVariantArrayConversion
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -21,12 +21,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public CaseProp<int> Frames => this;
         
         // SamplingRate: Scales FrameCount
-        public CaseProp<int> SamplingRate { get => GetProp<int>(0); set => SetProp(0, value); }
+        public CaseProp<int> SamplingRate { get; set; } = new CaseProp<int>();
         public CaseProp<int> Hertz        { get => SamplingRate; set => SamplingRate = value; }
         public CaseProp<int> Hz           { get => SamplingRate; set => SamplingRate = value; }
 
         // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
-        public CaseProp<double> AudioLength { get => GetProp<double>(1); set => SetProp(1, value); }
+        public CaseProp<double> AudioLength { get; set; } = new CaseProp<double>();
         public CaseProp<double> Length      { get => AudioLength; set => AudioLength = value; }
         public CaseProp<double> Len         { get => AudioLength; set => AudioLength = value; }
         public CaseProp<double> Duration    { get => AudioLength; set => AudioLength = value; }
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public CaseProp<double> sec         { get => AudioLength; set => AudioLength = value; }
         
         // CourtesyFrames: AudioLength does not incorporate CourtesyFrames, but FrameCount does.
-        public CaseProp<int> CourtesyFrames { get => GetProp<int>(2); set => SetProp(2, value); }
+        public CaseProp<int> CourtesyFrames { get; set; } = new CaseProp<int>();
         public CaseProp<int> PlusFrames     { get => CourtesyFrames; set => CourtesyFrames = value; }
         public CaseProp<int> Plus           { get => CourtesyFrames; set => CourtesyFrames = value; }
 

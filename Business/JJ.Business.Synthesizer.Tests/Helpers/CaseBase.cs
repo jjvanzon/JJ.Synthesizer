@@ -17,30 +17,17 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         /// <inheritdoc cref="docs._strict />
         public bool Strict { get; set; } = true;
-        
         public CaseProp<TMainProp> MainProp => this;
-
-        internal virtual IList<ICaseProp> Props { get; }
-        
-        private readonly IList<ICaseProp> _props = new List<ICaseProp>();
-        
-        protected ICaseProp GetProp(Type type, int index) 
+        internal virtual IList<ICaseProp> Props 
         {
-            if (type == null) throw new NullException(() => type);
-            while (_props.Count <= index) _props.Add(null); // Auto-size collection
-            return _props[index] = _props[index] ?? (ICaseProp)Activator.CreateInstance(type); // Get or Create
+            get
+        {
+                // ReSharper disable once UnusedVariable
+                PropertyInfo[] properties = GetType().GetProperties(BINDING_FLAGS_ALL)
+                                                     .Where(x => x.PropertyType.GetBaseClasses().Contains(typeof(ICaseProp)))
+                                                     .ToArray();
+                return default;
         }
-
-        protected CaseProp<TProp> GetProp<TProp>(int index) where TProp: struct
-        {
-            return (CaseProp<TProp>)GetProp(typeof(CaseProp<TProp>), index); // Cast
-        }
-
-        protected void SetProp<T>(int index, CaseProp<T> prop) where T: struct
-        {
-            if (prop == null) throw new NullException(() => prop);
-            while (_props.Count <= index) _props.Add(null); // Auto-size collection
-            _props[index] = prop;
         }
         
         // Descriptions
