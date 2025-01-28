@@ -41,10 +41,24 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         // Templating
 
-        public CaseBase<TMainProp>[] FromTemplate(params CaseBase<TMainProp>[] destCases) 
+        // Instance
+        
+        /// <inheritdoc cref="docs._casetemplate" />
+        public ICase[] FromTemplate(params ICase[] destCases) 
+            => FromTemplate(this, destCases);
+        
+        /// <inheritdoc cref="docs._casetemplate" />
+        public ICollection<ICase> FromTemplate(ICollection<ICase> destCases) 
             => FromTemplate(this, destCases);
 
-        public static CaseBase<TMainProp>[] FromTemplate(CaseBase<TMainProp> template, params CaseBase<TMainProp>[] destCases) 
+        // Static
+        
+        /// <inheritdoc cref="docs._casetemplate" />
+        public static ICase[] FromTemplate(ICase template, params ICase[] destCases) 
+            => FromTemplate(template, (ICollection<ICase>)destCases).ToArray();
+
+        /// <inheritdoc cref="docs._casetemplate" />
+        public static ICollection<ICase> FromTemplate(ICase template, ICollection<ICase> destCases) 
         {
             if (template == null) throw new NullException(() => template);
             if (destCases == null) throw new NullException(() => destCases);

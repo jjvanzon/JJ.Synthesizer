@@ -52,13 +52,5 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public Case() { }
         public Case(int frameCount) : base(frameCount) { }
         public Case(int from, int to) : base(from, to) { }
-
-        // Templating
-
-        public static Case[] FromTemplate(Case template, params Case[] cases)
-        {
-            if (template == null) throw new NullException(() => template);
-            return template.FromTemplate(cases).Cast<Case>().ToArray();
-        }
     }
 }

@@ -57,7 +57,20 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             if (_dictionary.TryGetValue(descriptor, out TCase testCase)) return testCase;
             throw new Exception($"Case not found: {descriptor}");
         }
+        // Templating
         
+        /// <inheritdoc cref="docs._casetemplate" />
+        public CaseCollection<TCase> FromTemplate(TCase template, params TCase[] cases)
+            => FromTemplate(template, (ICollection<TCase>)cases);
+        
+        /// <inheritdoc cref="docs._casetemplate" />
+        public CaseCollection<TCase> FromTemplate(TCase template, ICollection<TCase> cases)
+        {
+            if (template == null) throw new NullException(() => template);
+            if (cases == null) throw new NullException(() => cases);
+            cases = template.FromTemplate(cases.Cast<ICase>().ToArray()).Cast<TCase>().ToArray();
+            return Add(cases);
+        }
         public static implicit operator object[][](CaseCollection<TCase> caseCollection)
         {
             if (caseCollection == null) throw new NullException(() => caseCollection);
