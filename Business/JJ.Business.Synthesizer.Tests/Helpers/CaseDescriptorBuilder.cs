@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
+using JJ.Framework.Wishes.Reflection;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
@@ -30,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 return DescriptorFromProps;
             }
             
-            var  texts = new List<string>();
+            var texts = new List<string>();
             bool mustAddUnit = false;
             
             foreach (object element in descriptorElements)
@@ -87,7 +88,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return true;
         }
         
-        IList<string> GetDescriptorTupleTexts(object tuple)
+        private IList<string> GetDescriptorTupleTexts(object tuple)
         {
             var texts = new List<string>();
             
@@ -109,9 +110,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return texts;
         }
         
-        bool IsCaseProp(object item) => item is ICaseProp;
+        private bool IsCaseProp(object item) => item is ICaseProp;
         
-        string GetCasePropText(object item, ref bool mustAddUnit)
+        private string GetCasePropText(object item, ref bool mustAddUnit)
         {
             var prop = item as ICaseProp;
             if (prop.IsNully())
@@ -130,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return text;
         }
         
-        bool IsUnit(object item)
+        private bool IsUnit(object item)
         {
             var str = item as string;
             
@@ -142,7 +143,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return str.Length <= 3;
         }
         
-        string GetUnit(object item, ref bool mustAddUnit)
+        private string GetUnit(object item, ref bool mustAddUnit)
         {
             string unit = item as string;
             
@@ -165,7 +166,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return unit;
         }
         
-        string DescriptorFromProps
+        private string DescriptorFromProps
         {
             get
             {
@@ -196,11 +197,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
         
-        string GetElementDescriptor(string prop, string unit) => GetElementDescriptor(null, prop, unit);
-        string GetElementDescriptor(object prop, string unit) => GetElementDescriptor(null, prop, unit);
-        string GetElementDescriptor(string unit, object prop) => GetElementDescriptor(unit, prop, null);
+        private string GetElementDescriptor(string prop, string unit) => GetElementDescriptor(null, prop, unit);
+        private string GetElementDescriptor(object prop, string unit) => GetElementDescriptor(null, prop, unit);
+        private string GetElementDescriptor(string unit, object prop) => GetElementDescriptor(unit, prop, null);
         
-        string GetElementDescriptor(string prefixUnit, object value, string suffixUnit)
+        private string GetElementDescriptor(string prefixUnit, object value, string suffixUnit)
         {
             string valueText = $"{value}";
             if (!Has(valueText)) return "";
