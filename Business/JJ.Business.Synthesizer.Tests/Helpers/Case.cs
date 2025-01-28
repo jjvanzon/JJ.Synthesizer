@@ -60,9 +60,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static Case[] FromTemplate(Case template, params Case[] cases)
         {
-            //return CaseBase<int>.FromTemplate(template, cases);
             if (template == null) throw new NullException(() => template);
-            return template.CloneTo(cases).Cast<Case>().ToArray();
+            return template.FromTemplate(cases).Cast<Case>().ToArray();
         }
     }
 }
