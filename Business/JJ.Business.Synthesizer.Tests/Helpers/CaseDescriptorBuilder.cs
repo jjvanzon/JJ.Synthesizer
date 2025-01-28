@@ -96,9 +96,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             
             Type type = tuple.GetType();
             
-            string prefix = type.GetField("Item1").GetValue(tuple).ToString();
-            string value  = type.GetField("Item2").GetValue(tuple).ToString();
-            string suffix = type.GetField("Item3").GetValue(tuple).ToString();
+            string prefix = type.GetFieldOrException("Item1").GetValue(tuple).ToString();
+            string value  = type.GetFieldOrException("Item2").GetValue(tuple).ToString();
+            string suffix = type.GetFieldOrException("Item3").GetValue(tuple).ToString();
             
             if (Has(value))
             {
