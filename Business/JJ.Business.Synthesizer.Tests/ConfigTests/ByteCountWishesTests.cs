@@ -25,8 +25,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         class Case : CaseBase<int>
         {
-            public CaseProp<int> ByteCount => MainProp;
-            public CaseProp<int> SizeOfBitDepth { get; } = new CaseProp<int>();
+            public CaseProp<int>    ByteCount => MainProp;
+            public CaseProp<int>    SizeOfBitDepth { get; }
+            public CaseProp<int>    SamplingRate   { get; }
+            public CaseProp<int>    Bits           { get; }
+            public CaseProp<int>    Channels       { get; }
+            public CaseProp<int>    CourtesyFrames { get; }
+            public CaseProp<int>    HeaderLength   { get; }
+            public CaseProp<double> AudioLength    { get; }
+            public CaseProp<int>    FrameSize      { get; }
+            public CaseProp<int>    FrameCount     { get; }
         }
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
@@ -37,6 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         static ConfigTestEntities CreateTestEntities(int init, int initSizeOfBitDepth) 
+            // Change bit depth first, or it'll change the byte count.
             => new ConfigTestEntities(x => x.SizeOfBitDepth(initSizeOfBitDepth).ByteCount(init));
         
         // Tests
