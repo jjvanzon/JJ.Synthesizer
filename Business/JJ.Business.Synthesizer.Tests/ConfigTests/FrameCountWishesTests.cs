@@ -4,15 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Framework.Wishes.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Configuration;
-using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Collections;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Helpers.Case;
 using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigEntityEnum;
@@ -22,7 +19,6 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
-using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
