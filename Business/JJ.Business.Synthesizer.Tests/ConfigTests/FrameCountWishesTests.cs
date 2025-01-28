@@ -282,7 +282,44 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
 
         // ncrunch: no coverage end
-
+        
+        private ConfigTestEntities CreateTestEntities(Case testCase = default)
+        {
+            testCase = testCase ?? new Case();
+            
+            return new ConfigTestEntities(x =>
+            {
+                // Stop tooling configurations for interfering.
+                x.IsUnderNCrunch = x.IsUnderAzurePipelines = false;
+                
+                x.AudioLength(testCase.AudioLength.Init.Nully);
+                x.SamplingRate(testCase.SamplingRate.Init.Nully);
+                x.CourtesyFrames(testCase.CourtesyFrames.Init.Nully);
+                x.Channels(2); // // Sneaky default verifies formula is unaffected.
+                
+                int frameCountBefore = x.FrameCount();
+                x.FrameCount(testCase.FrameCount.Init.Nully);
+                int frameCountAfter = x.FrameCount();
+                
+                if (testCase.Strict && frameCountBefore != frameCountAfter)
+                {   // ncrunch: no coverage start
+                    string formattedFrameCount     = Coalesce(testCase.FrameCount    .Init.Nully, "default " + DefaultFrameCount    );
+                    string formattedAudioLength    = Coalesce(testCase.AudioLength   .Init.Nully, "default " + DefaultAudioLength   );
+                    string formattedSamplingRate   = Coalesce(testCase.SamplingRate  .Init.Nully, "default " + DefaultSamplingRate  );
+                    string formattedCourtesyFrames = Coalesce(testCase.CourtesyFrames.Init.Nully, "default " + DefaultCourtesyFrames);
+                    
+                    throw new Exception(
+                        $"Attempt to initialize {nameof(FrameCount)} to {formattedFrameCount} " +
+                        $"is inconsistent with {nameof(FrameCount)} {frameCountBefore} " +
+                        $"based on initial values for {nameof(AudioLength)} ({formattedAudioLength}), " +
+                        $"SamplingRate ({formattedSamplingRate}) " +
+                        $"and {nameof(CourtesyFrames)} ({formattedCourtesyFrames}). " +
+                        $"(This restriction can be relaxed by setting {nameof(Case.Strict)} = false in the test {nameof(Case)}.)");
+                    // ncrunch: no coverage end
+                }
+            });
+        }
+ 
         [TestMethod]
         public void FrameCount_EdgeCases()
         {
@@ -689,45 +726,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int frameCount)
         {
             AreEqual(frameCount, () => wavHeader.FrameCount(), Tolerance);
-        }
- 
-        // Test Data Helpers
-        
-        private ConfigTestEntities CreateTestEntities(Case testCase = default)
-        {
-            testCase = testCase ?? new Case();
-            
-            return new ConfigTestEntities(x =>
-            {
-                // Stop tooling configurations for interfering.
-                x.IsUnderNCrunch = x.IsUnderAzurePipelines = false;
-                
-                x.AudioLength(testCase.AudioLength.Init.Nully);
-                x.SamplingRate(testCase.SamplingRate.Init.Nully);
-                x.CourtesyFrames(testCase.CourtesyFrames.Init.Nully);
-                x.Channels(2); // // Sneaky default verifies formula is unaffected.
-                
-                int frameCountBefore = x.FrameCount();
-                x.FrameCount(testCase.FrameCount.Init.Nully);
-                int frameCountAfter = x.FrameCount();
-                
-                if (testCase.Strict && frameCountBefore != frameCountAfter)
-                {   // ncrunch: no coverage start
-                    string formattedFrameCount     = Coalesce(testCase.FrameCount    .Init.Nully, "default " + DefaultFrameCount    );
-                    string formattedAudioLength    = Coalesce(testCase.AudioLength   .Init.Nully, "default " + DefaultAudioLength   );
-                    string formattedSamplingRate   = Coalesce(testCase.SamplingRate  .Init.Nully, "default " + DefaultSamplingRate  );
-                    string formattedCourtesyFrames = Coalesce(testCase.CourtesyFrames.Init.Nully, "default " + DefaultCourtesyFrames);
-                    
-                    throw new Exception(
-                        $"Attempt to initialize {nameof(FrameCount)} to {formattedFrameCount} " +
-                        $"is inconsistent with {nameof(FrameCount)} {frameCountBefore} " +
-                        $"based on initial values for {nameof(AudioLength)} ({formattedAudioLength}), " +
-                        $"SamplingRate ({formattedSamplingRate}) " +
-                        $"and {nameof(CourtesyFrames)} ({formattedCourtesyFrames}). " +
-                        $"(This restriction can be relaxed by setting {nameof(Case.Strict)} = false in the test {nameof(Case)}.)");
-                    // ncrunch: no coverage end
-                }
-            });
         }
     }        
 }
