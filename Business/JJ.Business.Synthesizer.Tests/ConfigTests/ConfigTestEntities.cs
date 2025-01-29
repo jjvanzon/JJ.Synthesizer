@@ -151,14 +151,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 TimeOutAction          = DefaultTimeOutAction,
                 FileExtensionMaxLength = DefaultFileExtensionMaxLength,
                 LongTestCategory       = DefaultLongTestCategory,
-                NCrunch                = new ConfigToolingElementAccessor
+                NCrunch = new ConfigToolingElementAccessor
                 {
                     AudioPlayback           = DefaultToolingAudioPlayback,
                     ImpersonationMode       = DefaultToolingImpersonationMode,
                     SamplingRate            = DefaultNCrunchSamplingRate,
                     SamplingRateLongRunning = DefaultNCrunchSamplingRateLongRunning
                 },
-                AzurePipelines         = new ConfigToolingElementAccessor
+                AzurePipelines = new ConfigToolingElementAccessor
                 {
                     AudioPlayback           = DefaultToolingAudioPlayback,
                     ImpersonationMode       = DefaultToolingImpersonationMode,

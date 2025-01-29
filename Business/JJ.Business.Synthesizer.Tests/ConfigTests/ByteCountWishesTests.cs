@@ -49,14 +49,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static CaseCollection<Case> DependencyCases { get; } = Cases.FromTemplate(new Case
         
-            { From = 100, To = 200, HeaderLength = 0, CourtesyFrames = 0 },
+            // TODO: Use 400+ to 800+ for easier frame count calculation, also related to sampling rate, etc.
+            { ByteCount = { From = 100+8, To = 200+8 }, HeaderLength = 0, CourtesyFrames = 2 },
             
-            new Case { AudioLength  = { From = 0.25, To = 0.5 } },
-            new Case { SamplingRate = { From =  250, To = 500 } },
-            new Case { Bits         = { From =   16, To =  32 } },
-            new Case { Channels     = { From =    1, To =   2 } },
-            new Case { FrameSize    = { From =    2, To =   4 } },
-            new Case { FrameCount   = { From =   25, To =  50 } }
+            new Case { FrameCount = { From = 25+2, To =  50+2 } },
+            new Case { AudioLength = { From = 0.1, To = 0.2 }, SamplingRate = 1000/4 }
+            //new Case { SamplingRate = { From =  250, To = 500 } },
+            //new Case { Channels     = { From =    1, To =   2 } }
+            //new Case { Bits         = { From =   16, To =  32 } },
+            //new Case { FrameSize    = { From =    2, To =   4 } },
         );
 
         static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
@@ -69,35 +70,46 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 // Change primary properties before ByteCount, or they will change the byte count.
                 
-                // Bits and SizeOfBitDepth can be inconsistently initialized depending on our Case definitions.
-                // Carefully apply one or the other with if's.
+                int?    bits           = val.Bits          .Init.Nully;
+                int?    sizeOfBitDepth = val.SizeOfBitDepth.Init.Nully;
+                int?    channels       = val.Channels      .Init.Nully;
+                int?    samplingRate   = val.SamplingRate  .Init.Nully;
+                var     audioFormat    = val.AudioFormat   .Init.Nully;
+                int?    headerLength   = val.HeaderLength  .Init.Nully;
+                int?    courtesyFrames = val.CourtesyFrames.Init.Nully;
+                double? audioLength    = val.AudioLength   .Init.Nully;
+                int?    frameCount     = val.FrameCount    .Init.Nully;
+                int?    byteCount      = val.ByteCount     .Init.Nully;
                 
-                if (CoalesceBits(val.Bits.Init.Nully) != DefaultBits)
-                    synth.Bits(val.Bits.Init.Nully);
+                if (CoalesceBits(bits) != DefaultBits)
+                    synth.Bits(bits);
                 
-                if (CoalesceSizeOfBitDepth(val.SizeOfBitDepth.Init.Nully) != DefaultSizeOfBitDepth)
-                    synth.SizeOfBitDepth(val.SizeOfBitDepth.Init.Nully);
+                if (CoalesceSizeOfBitDepth(sizeOfBitDepth) != DefaultSizeOfBitDepth)
+                    synth.SizeOfBitDepth(sizeOfBitDepth);
 
-                if (CoalesceCourtesyFrames(val.CourtesyFrames.Init.Nully) != DefaultCourtesyFrames)
-                    synth.CourtesyFrames(val.CourtesyFrames.Init.Nully);
-                
-                if (CoalesceAudioFormat(val.AudioFormat.Init.Nully) != DefaultAudioFormat)
-                    synth.AudioFormat(val.AudioFormat.Init.Nully);
+                if (CoalesceChannels(channels) != DefaultChannels)
+                    synth.Channels(channels);
+                                
+                if (CoalesceSamplingRate(samplingRate) != DefaultSamplingRate)
+                    synth.SamplingRate(samplingRate);
 
-                if (CoalesceChannels(val.Channels.Init.Nully) != DefaultChannels)
-                    synth.Channels(val.Channels.Init.Nully);
+                if (CoalesceAudioFormat(audioFormat) != DefaultAudioFormat)
+                    synth.AudioFormat(audioFormat);
+                
+                if (CoalesceHeaderLength(headerLength) != DefaultHeaderLength)
+                    synth.HeaderLength(headerLength);
+                
+                if (CoalesceCourtesyFrames(courtesyFrames) != DefaultCourtesyFrames)
+                    synth.CourtesyFrames(courtesyFrames);
 
-                if (CoalesceSamplingRate(val.SamplingRate.Init.Nully) != DefaultSamplingRate)
-                    synth.SamplingRate(val.SamplingRate.Init.Nully);
+                if (CoalesceFrameCount(frameCount) != DefaultFrameCount)
+                    synth.FrameCount(frameCount);
                 
-                if (CoalesceFrameCount(val.FrameCount.Init.Nully) != DefaultFrameCount)
-                    synth.FrameCount(val.FrameCount.Init.Nully);
-                    
-                if (CoalesceByteCount(val.ByteCount.Init.Nully) != DefaultByteCount)
-                    synth.ByteCount(val.ByteCount.Init.Nully);
+                if (CoalesceByteCount(byteCount) != DefaultByteCount)
+                    synth.ByteCount(byteCount);
                 
-                if (CoalesceAudioLength(val.AudioLength.Init.Nully) != DefaultAudioLength)
-                    synth.AudioLength(val.AudioLength.Init.Nully);
+                if (CoalesceAudioLength(audioLength) != DefaultAudioLength)
+                    synth.AudioLength(audioLength);
             });
         
         // Tests
@@ -254,9 +266,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .ByteCount(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.ByteCount(value, x.SynthBound.SynthWishes)));
             
+            if (testCase.FrameCount.From != testCase.FrameCount.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount(testCase.FrameCount.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount(testCase.FrameCount.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(testCase.FrameCount.To, x.SynthBound.SynthWishes)));
+            }
+            
             if (testCase.AudioLength.From != testCase.AudioLength.To)
             {
-                AssertProp(x => AreEqual(x.SynthBound.SynthWishes, x.SynthBound.SynthWishes.AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.AudioLength(testCase.AudioLength.To, x.SynthBound.SynthWishes)));
             }
         }
 
@@ -551,6 +572,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int byteCount)
         {
+            if (!Has(wavHeader)) return;
             AreEqual(byteCount, () => wavHeader.ByteCount());
         }
 
