@@ -27,17 +27,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         class Case : CaseBase<int>
         {
-            public CaseProp<int>                 ByteCount      => MainProp;
-            public CaseProp<int>                 SizeOfBitDepth { get; set; }
-            public CaseProp<double>              AudioLength    { get; set; }
-            public CaseProp<int>                 SamplingRate   { get; set; }
-            public CaseProp<int>                 Bits           { get; set; }
-            public CaseProp<int>                 Channels       { get; set; }
-            public CaseProp<int>                 FrameSize      { get; set; }
-            public CaseProp<int>                 FrameCount     { get; set; }
-            public CaseProp<AudioFileFormatEnum> AudioFormat    { get; set; }
-            public CaseProp<int>                 HeaderLength   { get; set; }
-            public CaseProp<int>                 CourtesyFrames { get; set; }
+            public CaseProp<int>    ByteCount      => MainProp;
+            public CaseProp<double> AudioLength    { get; set; }
+            public CaseProp<int>    FrameCount     { get; set; }
+            public CaseProp<int>    SamplingRate   { get; set; }
+            public CaseProp<int>    Bits           { get; set; }
+            public CaseProp<int>    SizeOfBitDepth { get; set; }
+            public CaseProp<int>    Channels       { get; set; }
+            public CaseProp<int>    HeaderLength   { get; set; }
+            public CaseProp<int>    CourtesyFrames { get; set; }
         }
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
@@ -74,7 +72,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 int?    sizeOfBitDepth = val.SizeOfBitDepth.Init.Nully;
                 int?    channels       = val.Channels      .Init.Nully;
                 int?    samplingRate   = val.SamplingRate  .Init.Nully;
-                var     audioFormat    = val.AudioFormat   .Init.Nully;
                 int?    headerLength   = val.HeaderLength  .Init.Nully;
                 int?    courtesyFrames = val.CourtesyFrames.Init.Nully;
                 double? audioLength    = val.AudioLength   .Init.Nully;
@@ -93,8 +90,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (CoalesceSamplingRate(samplingRate) != DefaultSamplingRate)
                     synth.SamplingRate(samplingRate);
 
-                if (CoalesceAudioFormat(audioFormat) != DefaultAudioFormat)
-                    synth.AudioFormat(audioFormat);
                 
                 if (CoalesceHeaderLength(headerLength) != DefaultHeaderLength)
                     synth.HeaderLength(headerLength);
@@ -266,18 +261,46 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .ByteCount(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.ByteCount(value, x.SynthBound.SynthWishes)));
             
+            if (testCase.AudioLength.From != testCase.AudioLength.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.AudioLength(testCase.AudioLength.To, x.SynthBound.SynthWishes)));
+            }
+                        
             if (testCase.FrameCount.From != testCase.FrameCount.To)
             {
                 AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount(testCase.FrameCount.To)));
                 AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount(testCase.FrameCount.To)));
                 AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount(testCase.FrameCount.To, x.SynthBound.SynthWishes)));
             }
-            
-            if (testCase.AudioLength.From != testCase.AudioLength.To)
+
+            if (testCase.SamplingRate.From != testCase.SamplingRate.To)
             {
-                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .AudioLength(testCase.AudioLength.To)));
-                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .AudioLength(testCase.AudioLength.To)));
-                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.AudioLength(testCase.AudioLength.To, x.SynthBound.SynthWishes)));
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SamplingRate(testCase.SamplingRate.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SamplingRate(testCase.SamplingRate.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SamplingRate(testCase.SamplingRate.To)));
+            }
+            
+            if (testCase.Bits.From != testCase.Bits.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(testCase.Bits.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits(testCase.Bits.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(testCase.Bits.To)));
+            }
+            
+            if (testCase.Channels.From != testCase.Channels.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Channels(testCase.Channels.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Channels(testCase.Channels.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Channels(testCase.Channels.To)));
+            }
+            
+            if (testCase.HeaderLength.From != testCase.HeaderLength.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .HeaderLength(testCase.HeaderLength.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .HeaderLength(testCase.HeaderLength.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.HeaderLength(testCase.HeaderLength.To)));
             }
         }
 

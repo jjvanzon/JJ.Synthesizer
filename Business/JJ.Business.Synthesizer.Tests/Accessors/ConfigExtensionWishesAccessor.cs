@@ -237,7 +237,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
         
         internal static string FileExtension(this ConfigResolverAccessor obj) => (string)_accessor.InvokeMethod(MemberName(), obj.Obj);
-        internal static ConfigResolverAccessor FileExtension(this ConfigResolverAccessor obj, string value) => obj.AudioFormat(value.AudioFormat());
+        internal static ConfigResolverAccessor FileExtension(this ConfigResolverAccessor obj, string value)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new[] { obj.Obj, value }, new [] { null, typeof(string) }));
         
         // With ConfigSection
         
@@ -248,7 +249,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(HeaderLengthExtensionWishes));
         
+        // With ConfigResolver
+        
         public static int? HeaderLength(this ConfigResolverAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
+        public static ConfigResolverAccessor HeaderLength(this ConfigResolverAccessor obj, int? value) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj, value));
+        
+        // With ConfigSection
+        
         public static int? HeaderLength(this ConfigSectionAccessor  obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);
     }
 
