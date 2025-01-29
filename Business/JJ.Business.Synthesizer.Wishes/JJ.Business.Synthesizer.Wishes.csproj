@@ -78,6 +78,7 @@
     <Compile Include="Configuration\ChannelsWishes.cs" />
     <Compile Include="Configuration\BitWishes.cs" />
     <Compile Include="Configuration\ByteCountWishes.cs" />
+    <Compile Include="Helpers\FilledInExtensions.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
     <Compile Include="Helpers\PropertyNameWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
