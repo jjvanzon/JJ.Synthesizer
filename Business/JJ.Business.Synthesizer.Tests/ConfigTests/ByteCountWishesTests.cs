@@ -61,7 +61,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { SamplingRate = { To = 2000 } },
             new Case { Channels = { To = 2 }, ByteCount = { To = 800+16 } },
             new Case { Bits = { From = 16, To = 32 }, ByteCount = { From = 200+4, To = 400+8 } },
-            new Case { HeaderLength = { To = 44 }, ByteCount = { To = 400+8+44 } }
+            new Case { HeaderLength = { To = 44 }, ByteCount = { To = 400+8+44 } },
+            new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400+12 } }
         );
 
         static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
@@ -316,6 +317,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .HeaderLength(testCase.HeaderLength.To)));
                 AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .HeaderLength(testCase.HeaderLength.To)));
                 AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.HeaderLength(testCase.HeaderLength.To)));
+            }
+
+            if (testCase.CourtesyFrames.From != testCase.CourtesyFrames.To)
+            {
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .CourtesyFrames(testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .CourtesyFrames(testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.CourtesyFrames(testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithCourtesyFrames(testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithCourtesyFrames(testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithCourtesyFrames(testCase.CourtesyFrames.To)));
             }
         }
 
