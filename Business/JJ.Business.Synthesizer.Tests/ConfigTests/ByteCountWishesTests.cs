@@ -46,15 +46,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         );
         
         static CaseCollection<Case> DependencyCases { get; } = Cases.FromTemplate(new Case
-        
-            { ByteCount = { From = 400+8, To = 800+8 }, CourtesyFrames = 2, SamplingRate = 1000, AudioLength = 0.1, HeaderLength = 0 },
-            
+            {
+                Bits = 32,
+                Channels = MonoChannels,
+                SamplingRate = 1000, 
+                AudioLength = 0.1, 
+                HeaderLength = 0,
+                CourtesyFrames = 2,
+                ByteCount = { From = 400+8, To = 800+8 }
+            },
             new Case { FrameCount = { From = 100+2, To = 200+2 } },
             new Case { AudioLength = { From = 0.1, To = 0.2 } },
             new Case { SamplingRate = { From = 1000, To = 2000 } },
             new Case { Channels = { From = 1, To = 2 }, ByteCount = { From = 400+8, To = 800+16 } },
             new Case { Bits = { From = 16, To = 32 }, ByteCount = { From = 200+4, To = 400+8 } }
-            //new Case { FrameSize    = { From =    2, To =   4 } },
+            // TODO: Vary HeaderLength
         );
 
         static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
@@ -240,7 +246,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             void AssertProp(Action<ConfigTestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
-                //var x = CreateTestEntities(init, sizeOfBitDepth.Init);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
@@ -314,8 +319,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             void AssertProp(Action<ConfigTestEntities> setter)
             {
-                //var x = CreateTestEntities(testCase);
-                var x = CreateTestEntities(init, sizeOfBitDepth.Init);
+                var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
@@ -348,8 +352,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             void AssertProp(Action<ConfigTestEntities> setter)
             {
-                //var x = CreateTestEntities(testCase);
-                var x = CreateTestEntities(init, sizeOfBitDepth.Init);
+                var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
@@ -380,8 +383,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int value = testCase.Value;
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
 
-            //var x = CreateTestEntities(testCase);
-            var x = CreateTestEntities(init, sizeOfBitDepth.Init);
+            var x = CreateTestEntities(testCase);
 
             // WavHeader
             
