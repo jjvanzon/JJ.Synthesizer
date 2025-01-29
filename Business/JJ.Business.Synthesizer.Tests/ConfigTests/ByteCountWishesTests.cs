@@ -226,11 +226,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 channelEntities.Immutable.SampleDataTypeEnum.ByteCount(sizeOfBitDepthValue);
             }
         }
-
-        static object SynthBoundCases => SimpleCases.Concat(DependencyCases);
         
         [TestMethod]
-        [DynamicData(nameof(SynthBoundCases))]
+        [DynamicData(nameof(Cases))]
         public void SynthBound_ByteCount(string caseKey)
         {   
             var testCase = Cases[caseKey];
@@ -326,7 +324,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod] 
-        [DynamicData(nameof(SimpleCases))]
+        [DynamicData(nameof(Cases))]
         public void TapeBound_ByteCount(string caseKey)
         {
             var testCase = Cases[caseKey];
