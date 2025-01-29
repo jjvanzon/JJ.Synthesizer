@@ -39,6 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
+        
         static CaseCollection<Case> SimpleCases { get; } = Cases.Add
         (
             new Case { From = 100, To = 200, SizeOfBitDepth = { From = 4, To = 2 }  },
@@ -48,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         static CaseCollection<Case> DependencyCases { get; } = Cases.FromTemplate(new Case
             {
                 Bits = 32,
-                Channels = MonoChannels,
+                Channels = 1,
                 SamplingRate = 1000, 
                 AudioLength = 0.1, 
                 HeaderLength = 0,
@@ -56,17 +57,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 ByteCount = { From = 400+8, To = 800+8 }
             },
             new Case { FrameCount = { From = 100+2, To = 200+2 } },
-            new Case { AudioLength = { From = 0.1, To = 0.2 } },
-            new Case { SamplingRate = { From = 1000, To = 2000 } },
-            new Case { Channels = { From = 1, To = 2 }, ByteCount = { From = 400+8, To = 800+16 } },
-            new Case { Bits = { From = 16, To = 32 }, ByteCount = { From = 200+4, To = 400+8 } }
-            // TODO: Vary HeaderLength
+            new Case { AudioLength = { To = 0.2 } },
+            new Case { SamplingRate = { To = 2000 } },
+            new Case { Channels = { To = 2 }, ByteCount = { To = 800+16 } },
+            new Case { Bits = { From = 16, To = 32 }, ByteCount = { From = 200+4, To = 400+8 } },
+            new Case { HeaderLength = { To = 44 }, ByteCount = { To = 400+8+44 } }
         );
 
         static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
             // Change bit depth first, or it'll change the byte count.
             => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init));
-
 
         static ConfigTestEntities CreateTestEntities(Case val) 
             => new ConfigTestEntities(synth => 
@@ -94,7 +94,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                                 
                 if (CoalesceSamplingRate(samplingRate) != DefaultSamplingRate)
                     synth.SamplingRate(samplingRate);
-
                 
                 if (CoalesceHeaderLength(headerLength) != DefaultHeaderLength)
                     synth.HeaderLength(headerLength);
