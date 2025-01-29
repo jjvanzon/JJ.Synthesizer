@@ -354,6 +354,66 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .ByteCount(value)));
             AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.ByteCount(value)));
             AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .ByteCount(value)));
+
+            if (testCase.AudioLength.From != testCase.AudioLength.To)
+            {
+                AssertProp(x =>                                   x.TapeBound.Tape       .Duration  = testCase.AudioLength.To);
+                AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.AudioLength(testCase.AudioLength.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .AudioLength(testCase.AudioLength.To)));
+            }
+                        
+            if (testCase.FrameCount.From != testCase.FrameCount.To)
+            {
+                AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .FrameCount(testCase.FrameCount.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .FrameCount(testCase.FrameCount.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.FrameCount(testCase.FrameCount.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .FrameCount(testCase.FrameCount.To)));
+            }
+
+            if (testCase.SamplingRate.From != testCase.SamplingRate.To)
+            {
+                AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .SamplingRate  (testCase.SamplingRate.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .SamplingRate  (testCase.SamplingRate.To)));
+                AssertProp(x =>                                   x.TapeBound.TapeConfig .SamplingRate = testCase.SamplingRate.To);
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.SamplingRate  (testCase.SamplingRate.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .SamplingRate  (testCase.SamplingRate.To)));
+            }
+            
+            if (testCase.Bits.From != testCase.Bits.To)
+            {
+                AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .Bits  (testCase.Bits.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .Bits  (testCase.Bits.To)));
+                AssertProp(x =>                                   x.TapeBound.TapeConfig .Bits = testCase.Bits.To);
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.Bits  (testCase.Bits.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .Bits  (testCase.Bits.To)));
+            }
+            
+            if (testCase.Channels.From != testCase.Channels.To)
+            {
+                AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .Channels  (testCase.Channels.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .Channels  (testCase.Channels.To)));
+                AssertProp(x =>                                   x.TapeBound.TapeConfig .Channels = testCase.Channels.To);
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.Channels  (testCase.Channels.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .Channels  (testCase.Channels.To)));
+            }
+            
+            if (testCase.HeaderLength.From != testCase.HeaderLength.To)
+            {
+                AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .HeaderLength  (testCase.HeaderLength.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .HeaderLength  (testCase.HeaderLength.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.HeaderLength  (testCase.HeaderLength.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .HeaderLength  (testCase.HeaderLength.To)));
+            }
+
+            if (testCase.CourtesyFrames.From != testCase.CourtesyFrames.To)
+            {
+                AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .CourtesyFrames  (testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .CourtesyFrames  (testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.CourtesyFrames  (testCase.CourtesyFrames.To)));
+                AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .CourtesyFrames  (testCase.CourtesyFrames.To)));
+            }
         }
 
         [TestMethod] 
@@ -619,7 +679,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
-            
             Assert_Bitness_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepth);
             Assert_Bitness_Getters(x.Immutable.SampleDataType    , sizeOfBitDepth);
             Assert_Bitness_Getters(x.Immutable.Type              , sizeOfBitDepth);
