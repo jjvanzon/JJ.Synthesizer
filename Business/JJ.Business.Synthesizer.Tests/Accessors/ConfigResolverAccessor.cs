@@ -10,13 +10,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class ConfigResolverAccessor
     {
-        private readonly Accessor_AdaptedFromFramework _accessor;
+        private readonly Accessor_Adapted _accessor;
         
         public object Obj { get; }
         
         public ConfigResolverAccessor(object obj)
         {
-            _accessor = new Accessor_AdaptedFromFramework(obj, GetUnderlyingType());
+            _accessor = new Accessor_Adapted(obj, GetUnderlyingType());
             Obj = obj;
         }
         

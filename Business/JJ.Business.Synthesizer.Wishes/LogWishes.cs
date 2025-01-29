@@ -653,12 +653,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            var sb = new StringBuilderWithIndentation_AdaptedFromFramework("   ", NewLine);
+            var sb = new StringBuilderWithIndentation_Adapted("   ", NewLine);
             PlotTapeTree(tapes, sb, includeCalculationGraphs);
             return sb.ToString();
         }
         
-        private static void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentation_AdaptedFromFramework sb, bool includeCalculationGraphs)
+        private static void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentation_Adapted sb, bool includeCalculationGraphs)
         {
             sb.AppendLine();
             sb.AppendLine(PrettyTitle("Tape Tree"));
@@ -734,7 +734,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         private static void PlotTapeHierarchyRecursive(
-            Tape tape, StringBuilderWithIndentation_AdaptedFromFramework sb, bool includeCalculationGraphs, bool skipMultiUse = true)
+            Tape tape, StringBuilderWithIndentation_Adapted sb, bool includeCalculationGraphs, bool skipMultiUse = true)
         {
             // Handle edge-cases
             if (tape == null) { sb.AppendLine("<Tape=null>"); return; }
