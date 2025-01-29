@@ -613,7 +613,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int byteCount)
         {
-            if (!Has(wavHeader)) return;
+            if (wavHeader.IsNully()) return;
             AreEqual(byteCount, () => wavHeader.ByteCount());
         }
 
