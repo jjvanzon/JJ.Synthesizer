@@ -35,10 +35,9 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Buff
     {
-        string DebuggerDisplay => GetDebuggerDisplay(this);
+        public override string ToString() => GetDebuggerDisplay(this);
         
         /// <inheritdoc cref="docs._buffbytes"/>
         public byte[] Bytes { get; set; }
