@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { AudioLength = { To = 0.2 } },
             new Case { SamplingRate = { To = 2000 } },
             new Case { Channels = { To = 2 }, ByteCount = { To = 800+16 } },
-            new Case { Bits = { From = 16, To = 32 }, ByteCount = { From = 200+4, To = 400+8 } },
+            new Case { Bits = { To = 16 }, ByteCount = { To = 200+4 } },
             new Case { HeaderLength = { To = 44 }, ByteCount = { To = 400+8+44 } },
             new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400+12 } }
         );
