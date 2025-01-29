@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 return default;
             }
             
-            string text = prop.PropDescriptor;
+            string text = prop.Descriptor;
             if (text.IsNully())
             {
                 mustAddUnit = false;
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 string name = GetElementDescriptor(_testCase.Name, "~");
                 
                 // Main Prop
-                string mainProp = _testCase.PropDescriptor;
+                string mainProp = _testCase.Descriptor;
                 
                 // Other Props
                 string propString = "";
@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     propString = Join(", ", _testCase.Props
                                                      .Except(new [] { _testCase })
                                                      .Where(FilledIn)
-                                                     .Select(x => x.PropDescriptor)
+                                                     .Select(x => x.Descriptor)
                                                      .Where(FilledIn));
                 }
                 

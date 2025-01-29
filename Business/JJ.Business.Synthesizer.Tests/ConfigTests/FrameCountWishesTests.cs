@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         internal class Case : CaseBase<int>
         {
             internal override IList<object> KeyElements 
-                => new object[] { Name, "~", PropDescriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
+                => new object[] { Name, "~", Descriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
 
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount => this;

@@ -24,16 +24,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public bool Strict { get; set; } = true;
         public CaseProp<TMainProp> MainProp => this;
         
-        public virtual IList<ICaseProp> Props
-            => GetCasePropInfos().Select(x => x.GetValue(this))
-                             .Cast<ICaseProp>()
-                             .Distinct()
-                             .ToArray();
-        
-        private IList<PropertyInfo> GetCasePropInfos()
-            => GetType().GetProperties(BINDING_FLAGS_ALL)
-                        .Where(x => x.PropertyType.HasInterfaceRecursive<ICaseProp>())
-                        .ToArray();
+        public IList<ICaseProp> Props
+            => GetCasePropFields().Select(x => x.GetValue(this))
+                                  .Cast<ICaseProp>()
+                                  .Distinct()
+                                  .ToArray();
         
         private IList<FieldInfo> GetCasePropFields()
             => GetType().GetFields(BINDING_FLAGS_ALL)
@@ -41,16 +36,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                         .ToArray();
         
         private void AutoCreateProps() => GetCasePropFields().Where(x => x.GetValue(this) == null)
-                                                     .ForEach(x => x.SetValue(this, CreateInstance(x.FieldType)));
-
+                                                             .ForEach(x => x.SetValue(this, CreateInstance(x.FieldType)));
         // Descriptions
         
         public string Name { get; set; }
+        public string Key => new CaseKeyBuilder<TMainProp>(this).BuildKey();
         public override string ToString() => Key;
         public object[] DynamicData => new object[] { Key };
-        string DebuggerDisplay => DebuggerDisplay(this);
         internal virtual IList<object> KeyElements { get; }
-        public string Key => new CaseKeyBuilder<TMainProp>(this).BuildKey();
+        string DebuggerDisplay => DebuggerDisplay(this);
 
         // Templating
 

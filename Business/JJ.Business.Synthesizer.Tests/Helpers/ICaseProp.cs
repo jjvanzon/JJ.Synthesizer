@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal interface ICaseProp
     {
-        void CloneFrom(object obj);
-        string PropDescriptor { get; }
+        void CloneFrom(ICaseProp obj);
+        string Descriptor { get; }
     }
 }

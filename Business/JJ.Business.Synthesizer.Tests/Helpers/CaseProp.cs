@@ -77,9 +77,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         // Descriptions
         
         string DebuggerDisplay => DebuggerDisplay(this);
-        public override string ToString() => PropDescriptor;
+        public override string ToString() => Descriptor;
 
-        public string PropDescriptor
+        public string Descriptor
         {
             get
             {
@@ -105,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         // Templating
     
-        public void CloneFrom(object obj)
+        public void CloneFrom(ICaseProp obj)
         {
             var template = (CaseProp<T>)obj;
 
