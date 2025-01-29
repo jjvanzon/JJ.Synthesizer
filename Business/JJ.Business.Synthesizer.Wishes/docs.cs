@@ -6,6 +6,8 @@
 
 #pragma warning disable CS0649
 #pragma warning disable CS0169 // Field is never used
+#pragma warning disable IDE1006 // Naming Styles
+// ReSharper disable UnusedType.Global
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -14,25 +16,25 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> 
         /// Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible.
         /// </summary> 
-        public static object _add;
+        public struct _add { }
             
         /// <summary> 
         /// Additional entity entry-points for enum-related extension.
         /// </summary> 
-        public static object _alternativeentrypointenumextensionwishes;
+        public struct _alternativeentrypointenumextensionwishes { }
 
         /// <summary> 
         /// Tries getting a constant value from an operator or outlet.
         /// If it is dynamic, so no constant value, null is returned.
         /// </summary> 
-        public static object _asconst;
+        public struct _asconst { }
 
         /// <summary>
         /// A simplified "Wish" replacement for AudioFileInfo, featuring more intuitive member names.
         /// Designed as a lightweight object to mediate between different object types, 
         /// primarily for constructing WAV headers.
         /// </summary>
-        public static object _audioinfowish;
+        public struct _audioinfowish { }
 
         /// <summary> 
         /// Configures the audio length for rendering tapes and other audio output, 
@@ -70,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// WithAudioLength(_[10]);  // Sets audio length to 10 seconds.
         /// </code> 
         /// </summary> 
-        public static object _audiolength;
+        public struct _audiolength { }
 
         /// <summary>
         /// Standardizes audio properties among objects in the form of extension methods.
@@ -79,49 +81,49 @@ namespace JJ.Business.Synthesizer.Wishes
         /// as properties or through sub-objects, or Get methods.
         /// They might be repeated here just to standardize everything for fluency.
         /// </summary>
-        public static object _configextensionwishes;
+        public struct _configextensionwishes { }
         
         /// <summary> 
         /// Using a lower abstraction layer, to circumvent error-prone syncing code in back-end.
         /// </summary> 
-        public static object _avoidspeakersetupsbackend;
+        public struct _avoidspeakersetupsbackend { }
 
         /// <summary> 
         /// Returns the time in seconds of the start of a bar.
         /// The bars start counting at 1.
         /// Bar one's start time is at 0 seconds.
         /// </summary> 
-        public static object _barindexer;
+        public struct _barindexer { }
 
         /// <summary> 
         /// Returns duration of a number of bars in seconds.
         /// 0 bars = a duration of 0 seconds.
         /// </summary> 
-        public static object _barsindexer;
+        public struct _barsindexer { }
 
         /// <summary> 
         /// Returns the start time of a beat in seconds.
         /// The beats start counting at 1.
         /// Beat one's start time is at 0 seconds.
         /// </summary> 
-        public static object _beatindexer;
+        public struct _beatindexer { }
 
         /// <summary> 
         /// Returns duration of a number of beats in seconds.
         /// 0 beats = a duration of 0 seconds.
         /// </summary> 
-        public static object _beatsindexer;
+        public struct _beatsindexer { }
 
         /// <summary> Nullable. Not supplied when DiskCache. </summary> 
         /// <param name="bytes"> Nullable. Not supplied when DiskCache. </param> 
-        public static object _buffbytes;
+        public struct _buffbytes { }
 
         /// <summary> Formula based on primary audio properties. </summary>
         public struct _bytecountfromprimaries { }
             
         /// <inheritdoc
         ///    cref="_tapesanddiskcache" /> 
-        public static object _diskcache;
+        public struct _diskcache { }
 
         /// <summary> 
         /// The "capture operator" or "capture indexer"
@@ -140,7 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <see cref="FlowNode"/> also usable as an <see cref="Outlet"/>.
         /// or as a fluent notation starter <see cref="FlowNode"/>.
         /// </returns> 
-        public static object _captureindexer;
+        public struct _captureindexer { }
 
         /// <summary>
         /// When AudioFileOutput has 1 channel, it will set the channel index of that channel to the supplied value.
@@ -149,7 +151,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// and it will reset the channel indexes to the order in which the channels occur in the list.
         /// That way you can revert an AudioFileOutput back to normal Mono or Stereo mode.
         /// </summary>
-        public static object _channeltoaudiofileoutput;
+        public struct _channeltoaudiofileoutput { }
 
         /// <summary>
         /// <strong>Command Indexers</strong><br/>
@@ -166,13 +168,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// This can be any method that takes and returns FlowNode up to 10 parameters.
         /// </param>
         /// <returns>A new <see cref="FlowNode"/> with the command applied.</returns>
-        public static object _commandindexer;
+        public struct _commandindexer { }
         
         ///// <summary> 
         ///// This ConfigurationHelper internally handles null-tolerance for the data missing from the app.config file.
         ///// It returns defaults if config items are missing, to make it easier to use SynthWishes.
         ///// </summary> 
-        //public static object _confighelper;
+        //public struct _confighelper { }
 
         /// <param name="curveFactory"> 
         /// The factory used to create the <see cref="Curve" /> 
@@ -185,7 +187,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// When a value is null, a node will not be created at that point in time.
         /// </param> 
         /// <returns> A curve populated with the specified data. </returns> 
-        public static object _createcurve;
+        public struct _createcurve { }
 
         /// <summary> 
         /// Create a Curve from a list of strings, that 'ASCII-encode' the curve. Putting the strings under each other, they create
@@ -197,27 +199,27 @@ namespace JJ.Business.Synthesizer.Wishes
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
         /// </summary> 
         /// <inheritdoc cref="_createcurve" /> 
-        public static object _createcurvefromstring;
+        public struct _createcurvefromstring { }
 
         /// <summary> 
         /// Create a curve from a list of tuples like (0, 0), (0.1, 0.2), (0.2, 1.0). <br /> 
         /// NOTE: If you get the wrong curve back, see <paramref name="key" /> parameter for info about caching.
         /// </summary> 
         /// <inheritdoc cref="_createcurve" /> 
-        public static object _createcurvewithtuples;
+        public struct _createcurvewithtuples { }
 
         /// <summary> 
         /// Creates a new repository, of the given interface type TInterface.
         /// If the context isn't provided, a brand new one is created, based on the settings from the config file.
         /// Depending on the use-case, creating a new context like that each time can be problematic.
         /// </summary> 
-        public static object _createrepository;
+        public struct _createrepository { }
 
         /// <summary> 
         /// Paired with an operator, this method creates a curve serving as a volume envelope,
         /// which makes the operator gets multiplied by the curve for it to serve as the volume.
         /// </summary> 
-        public static object _curvewithoperator;
+        public struct _curvewithoperator { }
 
         /// <param name="freq"> The base frequency of the sound in Hz (default is A4/440Hz). </param> 
         /// <param name="frequency"> The base frequency of the sound in Hz (default is A4/440Hz). </param> 
@@ -263,7 +265,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Default depth is 1 = full volume going up and down.
         /// </param> 
         /// <returns> A FlowNode representing the output sound. </returns> 
-        public static object _default;
+        public struct _default { }
 
         /// <summary> 
         /// Applies an echo effect using a feedback loop.
@@ -273,14 +275,14 @@ namespace JJ.Business.Synthesizer.Wishes
         /// this optimization is currently ineffective. Future versions may improve on this.
         /// Keeping it in here just to have an optimization option for later.
         /// </summary> 
-        public static object _echofeedback;
+        public struct _echofeedback { }
 
         /// <summary> 
         /// Gets the name chose by the user with the SetName method and then resets it to null
         /// after it retrieves it. If nothing was in it, it uses the fallback name supplied.
         /// Also, if an explicitName is passed, it will override all the other options.
         /// </summary> 
-        public static object _resolvename;
+        public struct _resolvename { }
 
         /// <summary> 
         /// Retrieves the file extension associated with the specified audio file.
@@ -290,12 +292,18 @@ namespace JJ.Business.Synthesizer.Wishes
         /// The file extension corresponding to the provided audio file format.
         /// A period (.) is included.
         /// </returns> 
-        public static object _fileextension;
+        public struct _fileextension { }
 
+        /// <summary>
+        /// Extensions to the FrameworkWishes' FilledIn methods,
+        /// specific to Synth objects.
+        /// </summary>
+        public struct _filledinhelper { }
+            
         /// <summary> 
         /// Alternative entry point (Operator) Outlet (used in tests).
         /// </summary> 
-        public static object _flattenfactorswithmultiplyoutlet;
+        public struct _flattenfactorswithmultiplyoutlet { }
 
         /// <summary> 
         /// Wraps any <see cref="FlowNode"/> or outlet into a chaining-compatible syntax,
@@ -312,53 +320,59 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Note: This utility is still experimental and may not support all chaining scenarios. 
         /// It is designed to simplify the inclusion of non-chaining methods in fluent interfaces.
         /// </summary> 
-        public static object _fluent;
+        public struct _fluent { }
         
         /// <summary> 
         /// Alternative entry point (Operator) Outlet (used in tests).
         /// </summary> 
-        public static object _flattentermswithsumoradd;
+        public struct _flattentermswithsumoradd { }
 
         /// <summary> 
         /// A.k.a. SampleCount
         /// </summary> 
-        public static object _framecount;
+        public struct _framecount { }
 
         /// <summary> 
         /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
         /// If the collection is empty, returns 1 (the null-operation for a multiplication).
         /// </summary> 
-        public static object _frameworkwishproduct;
+        public struct _frameworkwishproduct { }
 
         /// <summary> 
         /// If this is a sample operator, this will return a curve operator wrapper,
         /// which serves as a helper for retrieving specifics from the underlying Operator
         /// and Curve entities.
         /// </summary> 
-        public static object _getcurvewrapper;
+        public struct _getcurvewrapper { }
 
         /// <summary> 
         /// If this is a sample operator, this will return a sample operator wrapper,
         /// which serves as a helper for retrieving specifics from the underlying Operator
         /// and Sample entities.
         /// </summary> 
-        public static object _getsamplewrapper;
+        public struct _getsamplewrapper { }
 
         /// <summary> 
         /// Overrides the default sampling rate from the config file (for testing purposes).
         /// If you set it back to default it will use the config again, e.g. WithSamplingRate(default).
         /// </summary> 
-        public static object _getsamplingrate;
+        public struct _getsamplingrate { }
 
         /// <returns> 
         /// Length of a file header in bytes.
         /// </returns> 
-        public static object _headerLength;
+        public struct _headerlength { }
+
+        /// <returns> 
+        /// Length of a file header in bytes.
+        /// </returns>
+        /// <inheritdoc cref="_quasisetter" />
+        public struct _headerlengthquasisetter { }
         
         /// <summary> 
         /// Indicates that the tape was a result of a direct Tape() call.
         /// </summary> 
-        public static object _istape;
+        public struct _istape { }
         
         /// <summary> 
         /// Outputs audio in an audio file format and plays it if needed. <br /> 
@@ -419,17 +433,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// A <see cref="Buff"> Buff </see> object with the <see cref="AudioFileOutput"/> entity in it,
         /// and resultant data, like the file path or the bytes array.
         /// </returns> 
-        public static object _makebuff;
+        public struct _makebuff { }
 
         /// <summary> 
         /// Returns the current method name or current property name.
         /// </summary> 
-        public static object _membername;
+        public struct _membername { }
 
         /// <summary> 
         /// Multiplies two <see cref="Outlet"/> operands, optimizing for constant values if possible.
         /// </summary> 
-        public static object _multiply;
+        public struct _multiply { }
 
         /// <summary> 
         /// <c> SetName() </c> is applied to the object before it. <br/> 
@@ -443,11 +457,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Calling SetName explicitly there helps.
         /// The names are mostly optional, but they can be useful as a diagnostic tool.
         /// </summary> 
-        public static object _names;
+        public struct _names { }
 
         /// <inheritdoc
         ///    cref="docs._default" /> 
-        public static object _noteindexer;
+        public struct _noteindexer { }
         
         /// <summary> 
         /// Manages note length configuration and fallback logic in audio synthesis. <br/>
@@ -484,23 +498,23 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <returns> 
         /// A <see cref="FlowNode"> FlowNode </see> with the resolved note length.
         /// </returns> 
-        public static object _notelength;
+        public struct _notelength { }
         
         /// <summary> 
         /// Allow specifying 1 value: make it the start and end node values.
         /// </summary> 
-        public static object _onebecomestwo;
+        public struct _onebecomestwo { }
 
         /// <summary> 
         /// Returns what's input into an operand of the operator.
         /// </summary> 
-        public static object _operand;
+        public struct _operand { }
 
         /// <summary>
         /// Returns the operator name, except when it is the same as the operator type name.
         /// Then it returns a default string.
         /// </summary>
-        public static object _operatorgetname;
+        public struct _operatorgetname { }
         
         /// <summary>
         /// Audio padding is only relevant in case of Save and Play actions. <br/>
@@ -508,7 +522,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// The Padding settings is shorthand for setting both LeadingSilence and TrailingSilence at the same time. <br/>
         /// Padding setting returns null of LeadingSilence and TrailingSilence are not the same.
         /// </summary> 
-        public static object _padding;
+        public struct _padding { }
         
         /// <summary> 
         /// Applies a panbrello effect to a stereo signal by modulating the panning
@@ -517,7 +531,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Default depth is 1 = full volume going up and down.
         /// </summary> 
         /// <inheritdoc cref="_default" /> 
-        public static object _panbrello;
+        public struct _panbrello { }
 
         /// <summary> 
         /// Applies panning to a stereo signal by adjusting
@@ -531,7 +545,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// which indicates the current channel.
         /// </param> 
         /// <inheritdoc cref="_default" /> 
-        public static object _panning;
+        public struct _panning { }
 
         /// <summary> 
         /// Performs an addition in parallel to improve performance. <br/> 
@@ -551,11 +565,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// A normal <see cref="Add"> Add </see> <see cref="Operator"> Operator's </see> 
         /// <see cref="Outlet"> Outlet </see> (as <see cref="FlowNode"> FlowNode </see> ).
         /// </returns> 
-        public static object _paralleladd;
+        public struct _paralleladd { }
 
         /// <inheritdoc 
         ///    cref="_tapesanddiskcache" /> 
-        public static object _parallelprocessing;
+        public struct _parallelprocessing { }
 
         /// <summary> 
         /// The parallel processing, processes a tree of tasks, "leaf" tasks first.
@@ -570,13 +584,13 @@ namespace JJ.Business.Synthesizer.Wishes
         /// A value of -1 disables any time-out solely relying on the
         /// end of a leaf's processing signaling the check.
         /// </summary> 
-        public static object _leafchecktimeout;
+        public struct _leafchecktimeout { }
 
         /// <summary> 
         /// Can get persistence configuration from config, or otherwise falls back
         /// to default in-memory persistence.
         /// </summary> 
-        public static object _persistencehelper;
+        public struct _persistencehelper { }
 
         /// <summary> 
         /// Returns a panning based on the pitch,
@@ -602,11 +616,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </param> 
         /// <returns> The adjusted panning value based on the pitch. </returns> 
         /// <inheritdoc cref="_default" /> 
-        public static object _pitchpan;
+        public struct _pitchpan { }
 
         /// <inheritdoc
         ///    cref="_tapesanddiskcache" /> 
-        public static object _playalltapes;
+        public struct _playalltapes { }
 
         /// <summary> 
         /// Setting might not work in all contexts 
@@ -625,19 +639,19 @@ namespace JJ.Business.Synthesizer.Wishes
         /// command could make you lose the SynthWishes context.
         /// Omitting a this. qualifier could do that too. </para> 
         /// </summary> 
-        public static object _audioplayback;
+        public struct _audioplayback { }
 
         /// <summary> 
         /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
         /// </summary> 
-        public static object _underlyingextensions;
+        public struct _underlyingextensions { }
 
         /// <summary> 
         /// Creates a Sample by reading the file at the given <paramref name="filePath" /> or Stream or Byte array.
         /// </summary> 
         /// <param name="filePath"> The file path of the audio sample to load. </param> 
         /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns> 
-        public static object _sample;
+        public struct _sample { }
 
         /// <summary> 
         /// Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
@@ -646,18 +660,18 @@ namespace JJ.Business.Synthesizer.Wishes
         /// The WavHeaderWishes to solve both are currently lacking.
         /// Revisit later.
         /// </summary> 
-        public static object _samplefromfluentconfig;
+        public struct _samplefromfluentconfig { }
 
         /// <summary> 
         /// With optional Context.
         /// </summary> 
-        public static object _setenumwishes;
+        public struct _setenumwishes { }
 
         /// <summary> 
         /// Sets the node type (the type of interpolation) for a curve as a whole.
         /// This sets the node type of all the curve nodes at once.
         /// </summary> 
-        public static object _setnodetype;
+        public struct _setnodetype { }
 
         /// <summary> 
         /// Sets the speaker setup for the specified <see cref="AudioFileOutput"/>.
@@ -672,7 +686,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// If one isn't provided, a brand new one will be created,
         /// which depending on the situation, could cause problems or not.
         /// </param> 
-        public static object _setspeakersetup_withsideeffects;
+        public struct _setspeakersetup_withsideeffects { }
 
         /// <summary> 
         /// Generates a sine wave signal with the specified pitch. <br /> 
@@ -682,11 +696,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="pitch"> The frequency in Hz of the sine wave. Defaults to 1 Hz. </param> 
         /// <returns> An <see cref="Outlet" /> representing the sine wave signal. </returns> 
         /// <inheritdoc cref="_default" /> 
-        public static object _sine;
+        public struct _sine { }
 
         /// <inheritdoc
         ///    cref="_default" /> 
-        public static object _note;
+        public struct _note { }
 
         /// <summary>
         /// Unsettling setters for the unsettable.<br/><br/>
@@ -706,7 +720,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// they return a different object, that has that different property. It makes these immutable types have setters with fluent syntax, <br/>
         /// just like types that are mutable, allowing for consistent fluent syntax throughout.
         /// </summary>
-        public static object _quasisetter;
+        public struct _quasisetter { }
         
         /// <summary> 
         /// Turns an <see cref="Operator"/> graph into a string,
@@ -715,19 +729,19 @@ namespace JJ.Business.Synthesizer.Wishes
         /// the complexity can be expressed as the number of lines.
         /// Optionally, it can be output in a single line.
         /// </summary> 
-        public static object _stringify;
+        public struct _stringify { }
 
         /// <summary> 
         /// Uses the channel specified by the <see cref="SynthWishes.GetChannel"/> property.
         /// Or you can call e.g. <c> Outlet.Calculate(time, ChannelEnum.Right) </c> 
         /// </summary> 
-        public static object _synthwishescalculate;
+        public struct _synthwishescalculate { }
 
         /// <summary>
         /// A deferred Tape action, like Play or Save that can go off later.
         /// (Object is non-nullable and non-exchangeable.)
         /// </summary>
-        public static object _tapeaction;
+        public struct _tapeaction { }
 
         /// <summary>
         /// Determines if the action is effectively active. This isn't just whether it's On.
@@ -738,30 +752,30 @@ namespace JJ.Business.Synthesizer.Wishes
         /// (It's a little much, but flags are abundant, e.g.,
         /// non-Channel flags can be registered on Channel tapes for later use with the combined stereo tape.)
         /// </summary>
-        public static object _tapeactionactive;
+        public struct _tapeactionactive { }
             
         /// <summary>
         /// You can assign it, but it only returns it when the action is On and not Done.
         /// </summary>
-        public static object _tapeactionfilepathsuggested;
+        public struct _tapeactionfilepathsuggested { }
         
         /// <summary> 
         /// Not so much used for taping, as much as when reusing a tape as a Sample.
         /// </summary>
-        public static object _tapeinterpolation;
+        public struct _tapeinterpolation { }
         
         /// <summary> 
         /// Returns the <c> Tape </c> 's <c> Signal.Name </c> , <c> FallBackName </c> 
         /// or else <c> FilePath </c> in prettified form.
         /// </summary> 
-        public static object _tapename;
+        public struct _tapename { }
        
         /// <summary> 
         /// Adds padding to Play and Save tapes,
         /// without affecting the original tape.
         /// </summary>
         /// <returns>Returns only new Tapes that were padded.</returns>
-        public static object _tapepadder;
+        public struct _tapepadder { }
 
         /// <summary> 
         /// When PlayAllTapes is set, Tape and ParallelAdd play the sounds generated in the parallel loop or
@@ -771,7 +785,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// But could be used in low-memory high-disk-space scenarios. <br/> 
         /// With the Parallels setting you can turn off parallel processing completely.
         /// </summary> 
-        public static object _tapesanddiskcache;
+        public struct _tapesanddiskcache { }
 
         /// <summary> 
         /// This TimeIndexer provides shorthand for specifying bar and beat in a musical sense.
@@ -779,46 +793,46 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Example usage: t[bar: 2, beat: 1.5] will return the number of seconds.
         /// The numbers are 1-based, so the first bar is bar 1, the first beat is beat 1.
         /// </summary> 
-        public static object _timeindexer;
+        public struct _timeindexer { }
 
         /// <summary> 
         /// Apply _tremolo by modulating amplitude over time using an oscillator.
         /// </summary> 
         /// <inheritdoc cref="_default" /> 
-        public static object _tremolo;
+        public struct _tremolo { }
 
         /// <summary> 
         /// Prep Data: Split into unique lines and determine the window where there are characters.
         /// White space is trimmed off of the top, bottom, left and right,
         /// leaving only the block of characters that contains data.
         /// </summary> 
-        public static object _trimasciicurves;
+        public struct _trimasciicurves { }
 
         /// <summary> 
         /// Gets the node type (the type of interpolation) for a curve as a whole.
         /// This only works if all (but the last) node are set to the same node type.
         /// Otherwise, NodeTypeEnum.Undefined is returned.
         /// </summary> 
-        public static object _trygetnodetype;
+        public struct _trygetnodetype { }
 
         /// <summary> 
         /// This null-tolerant version is missing in JJ.Framework.Configuration for now.
         /// </summary> 
-        public static object _trygetsection;
+        public struct _trygetsection { }
 
         /// <summary> 
         /// If this is a curve operator, this will return the underlying Curve entity,
         /// that contains specifics about the nodes and how they are connected.
         /// If it's called on something that isn't a Curve, an exception will be thrown.
         /// </summary> 
-        public static object _underlyingcurve;
+        public struct _underlyingcurve { }
 
         /// <summary> 
         /// If this is a sample operator, this will return the underlying Sample entity,
         /// with configuration, byte array, etc. If it's not a sample operator,
         /// it will throw an exception.
         /// </summary> 
-        public static object _underlyingsample;
+        public struct _underlyingsample { }
 
         /// <summary> 
         /// Applies vibrato modulation to a given frequency by modulating it with a sine wave. <br /> 
@@ -827,7 +841,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <param name="freq"> The base frequency to which vibrato will be applied. </param> 
         /// <returns> An <see cref="Outlet" /> object representing the frequency modulated with vibrato. </returns> 
         /// <inheritdoc cref="_default" /> 
-        public static object _vibrato;
+        public struct _vibrato { }
 
         /// <summary> 
         /// Determines the configured sampling rate.
@@ -843,6 +857,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// This is usually for testing purposes.
         /// Prefer using the <c>.config </c> file instead. <br/> 
         /// </summary> 
-        public static object _withsamplingrate;
+        public struct _withsamplingrate { }
     }
 }
