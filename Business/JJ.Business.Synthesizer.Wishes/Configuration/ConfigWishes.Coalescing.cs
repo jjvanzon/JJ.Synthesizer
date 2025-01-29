@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             => (Has(frameSize) ? frameSize.Value : Has(bits) && Has(channels) ? FrameSize(bits, channels) : DefaultFrameSize).AssertFrameSize();
 
         public static int CoalesceHeaderLength(int? headerLength, int? defaultValue = default)
-            => Coalesce(headerLength, defaultValue, DefaultHeaderLength).AssertHeaderLength();
+            => (headerLength ?? defaultValue ?? DefaultHeaderLength).AssertHeaderLength();
         
         public static string CoalesceFileExtension(string fileExtension, string defaultValue = default)
             => AssertFileExtension(Has(fileExtension) ? fileExtension : Has(defaultValue) ? defaultValue : DefaultFileExtension);
