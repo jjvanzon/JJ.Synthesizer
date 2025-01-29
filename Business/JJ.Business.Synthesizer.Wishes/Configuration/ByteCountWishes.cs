@@ -109,6 +109,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Buff-Bound
         
+        public static int ByteCount(this Buff obj, int? courtesyFrames)
+            => ByteCount(obj, CoalesceCourtesyFrames(courtesyFrames));
+
         public static int ByteCount(this Buff obj, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -128,6 +131,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return 0;
         }
         
+        public static Buff ByteCount(this Buff obj, int value, int? courtesyFrames)
+            => ByteCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
+
         public static Buff ByteCount(this Buff obj, int value, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -137,14 +143,23 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             return obj;
         }
 
+        public static int ByteCount(this AudioFileOutput obj, int? courtesyFrames)
+            => ByteCount(obj, CoalesceCourtesyFrames(courtesyFrames));
+            
         public static int ByteCount(this AudioFileOutput obj, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
             return Coalesce(AssertFileSize(obj.FilePath), obj.BytesNeeded(courtesyFrames));
         }
         
+        public static int BytesNeeded(this AudioFileOutput obj, int? courtesyFrames) 
+            => BytesNeeded(obj, CoalesceCourtesyFrames(courtesyFrames));
+        
         public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames) 
             => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
+
+        public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int? courtesyFrames) 
+            => ByteCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
 
         public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames) 
             => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));

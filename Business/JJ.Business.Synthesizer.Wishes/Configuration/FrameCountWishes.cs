@@ -115,6 +115,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             return 0;
         }
+
+        public static Buff FrameCount(this Buff obj, int value, int? courtesyFrames)
+            => FrameCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
         
         public static Buff FrameCount(this Buff obj, int value, int courtesyFrames)
         {
@@ -128,6 +131,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int FrameCount(this AudioFileOutput obj, int courtesyFrames)
             => ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(), obj.SamplingRate(), courtesyFrames);
         
+        public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value, int? courtesyFrames)
+            => FrameCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
+
         public static AudioFileOutput FrameCount(this AudioFileOutput obj, int value, int courtesyFrames)
             => obj.AudioLength(AudioLengthFromFrameCount(value, obj.SamplingRate(), courtesyFrames));
         
