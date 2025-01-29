@@ -136,12 +136,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod]
-        public void ByteCount_Basic_Init()
-        {
-            int byteCount = 100;
-            // ReSharper disable once UnusedVariable
-            var entities = new ConfigTestEntities(x => x.ByteCount(byteCount));
-        }
+        public void ByteCount_Basic_Init() => new ConfigTestEntities(x => x.ByteCount(100));
         
         [TestMethod]
         public void ByteCount_Basic_Getters()
