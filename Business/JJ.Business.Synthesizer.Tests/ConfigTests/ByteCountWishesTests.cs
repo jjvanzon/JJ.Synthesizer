@@ -47,12 +47,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static CaseCollection<Case> DependencyCases { get; } = Cases.FromTemplate(new Case
         
-            // TODO: Use 400+ to 800+ for easier frame count calculation, also related to sampling rate, etc.
-            { ByteCount = { From = 100+8, To = 200+8 }, HeaderLength = 0, CourtesyFrames = 2 },
+            { ByteCount = { From = 400+8, To = 800+8 }, CourtesyFrames = 2, SamplingRate = 1000, AudioLength = 0.1, HeaderLength = 0 },
             
-            new Case { FrameCount = { From = 25+2, To =  50+2 } },
-            new Case { AudioLength = { From = 0.1, To = 0.2 }, SamplingRate = 1000/4 }
-            //new Case { SamplingRate = { From =  250, To = 500 } },
+            new Case { FrameCount = { From = 100+2, To = 200+2 } },
+            new Case { AudioLength = { From = 0.1, To = 0.2 } },
+            new Case { SamplingRate = { From = 1000, To = 2000 } }
             //new Case { Channels     = { From =    1, To =   2 } }
             //new Case { Bits         = { From =   16, To =  32 } },
             //new Case { FrameSize    = { From =    2, To =   4 } },
