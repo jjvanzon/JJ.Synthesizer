@@ -171,6 +171,11 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         /// <inheritdoc cref="docs._quasisetter" />
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => newAudioFormat;
         
+        public static AudioFileFormatEnum? AudioFormat(this AudioFileFormatEnum? obj) => obj;
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static AudioFileFormatEnum? AudioFormat(this AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => newAudioFormat;
+        
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormat obj) => ToEnum(obj);
         
