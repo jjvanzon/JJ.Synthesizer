@@ -51,8 +51,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             new Case { FrameCount = { From = 100+2, To = 200+2 } },
             new Case { AudioLength = { From = 0.1, To = 0.2 } },
-            new Case { SamplingRate = { From = 1000, To = 2000 } }
-            //new Case { Channels     = { From =    1, To =   2 } }
+            new Case { SamplingRate = { From = 1000, To = 2000 } },
+            new Case { Channels = { From = 1, To = 2 }, ByteCount = { From = 400+8, To = 800+16 } }
             //new Case { Bits         = { From =   16, To =  32 } },
             //new Case { FrameSize    = { From =    2, To =   4 } },
         );
