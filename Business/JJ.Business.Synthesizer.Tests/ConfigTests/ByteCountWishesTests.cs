@@ -31,9 +31,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<double> AudioLength    { get; set; }
             public CaseProp<int>    FrameCount     { get; set; }
             public CaseProp<int>    SamplingRate   { get; set; }
+            public CaseProp<int>    Channels       { get; set; }
             public CaseProp<int>    Bits           { get; set; }
             public CaseProp<int>    SizeOfBitDepth { get; set; }
-            public CaseProp<int>    Channels       { get; set; }
             public CaseProp<int>    HeaderLength   { get; set; }
             public CaseProp<int>    CourtesyFrames { get; set; }
         }
