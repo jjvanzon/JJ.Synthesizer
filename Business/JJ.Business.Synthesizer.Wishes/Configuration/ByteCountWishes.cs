@@ -177,9 +177,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int ByteCount(this WavHeaderStruct obj) 
             => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
 
-        public static WavHeaderStruct ByteCount(this WavHeaderStruct obj, int value)
+        public static WavHeaderStruct ByteCount(this WavHeaderStruct wavHeader, int value)
         {
-            var wish = obj.ToWish();
+            if (!Has(wavHeader)) throw new Exception("No WAV header.");
+            var wish = wavHeader.ToWish();
             double audioLength = AudioLengthFromByteCount(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), DefaultCourtesyFrames);
             return wish.AudioLength(audioLength, DefaultCourtesyFrames).ToWavHeader();
         }
