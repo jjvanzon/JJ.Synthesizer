@@ -28,6 +28,19 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Piloting Strict Flags
         
+        private static int? AssertValue(int? value, ICollection<int> validValues, string name, bool strict)
+        {
+            if (value.In(validValues)) return value;
+            
+            if (!Has(value) && !strict)
+            {
+                return value;
+            }
+            
+            throw new Exception($"{name} = {value} not supported. Supported values: " + Join(", ", validValues));
+        }
+
+        
         public static int AssertSizeOfBitDepth(int sizeOfBitDepth, bool strict = true)
             => AssertSizeOfBitDepth((int?)sizeOfBitDepth, strict) ?? default;
             
