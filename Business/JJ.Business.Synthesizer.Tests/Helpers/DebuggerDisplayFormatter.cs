@@ -15,11 +15,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return "{Case} " + testCase;
         }
         
-        internal static string DebuggerDisplay<T>(CaseProp<T> caseProp) where T : struct 
-            => "{CaseProp} " + caseProp;
+        internal static string DebuggerDisplay<T>(CaseProp<T> caseProp) where T : struct
+            => "{" + nameof(CaseProp<T>) + "} " + caseProp;
         
         internal static string DebuggerDisplay<T>(NullyPair<T> values) where T : struct 
-            => "{Values} " + values;
+            => "{" + nameof(NullyPair<T>) + "} " + values;
         
         internal static string DebuggerDisplay(SynthBoundEntities obj) 
             => nameof(SynthBoundEntities) + ": " + obj?.SynthWishes.Coalesce("<null>");
