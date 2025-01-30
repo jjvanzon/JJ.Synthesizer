@@ -42,6 +42,22 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             get => To.Coalesced;
             set => From.Coalesced = To.Coalesced = value;
         }
+                    
+        public bool Changed => From != To;
+
+        // Conversion Operators
+
+        public static implicit operator T (CaseProp<T> prop) => prop.To;
+        public static implicit operator T?(CaseProp<T> prop) => prop.To;
+        public static implicit operator CaseProp<T>(T  value) => new CaseProp<T>(value);
+        public static implicit operator CaseProp<T>(T? value) => new CaseProp<T>(value);
+        public static implicit operator CaseProp<T>((T  from, T  to) values) => new CaseProp<T>(values);
+        public static implicit operator CaseProp<T>((T? from, T  to) values) => new CaseProp<T>(values);
+        public static implicit operator CaseProp<T>((T  from, T? to) values) => new CaseProp<T>(values);
+        public static implicit operator CaseProp<T>((T? from, T? to) values) => new CaseProp<T>(values);
+        public static implicit operator CaseProp<T>((T from, (T? nully, T coalesced) to) x) => new CaseProp<T>(x.from, x.to);
+        public static implicit operator CaseProp<T>(((T? nully, T coalesced) from, T to) x) =>  new CaseProp<T>(x.from, x.to);
+        public static implicit operator CaseProp<T>(((T? nully, T coalesced) from, (T? nully, T coalesced) to) x) => new CaseProp<T>(x.from, x.to);
         
         // Constructors
         
@@ -59,20 +75,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public CaseProp( T  from, (T? nully, T coalesced) to) { From = from; To = to; }
         public CaseProp((T? nully, T coalesced) from, T to) { To = to; From = from; }
         public CaseProp((T? nully, T coalesced) from, (T? nully, T coalesced) to) { To = to; From = from; }
-                    
-        // Conversion Operators
-        
-        public static implicit operator T (CaseProp<T> prop) => prop.To;
-        public static implicit operator T?(CaseProp<T> prop) => prop.To;
-        public static implicit operator CaseProp<T>(T  value) => new CaseProp<T>(value);
-        public static implicit operator CaseProp<T>(T? value) => new CaseProp<T>(value);
-        public static implicit operator CaseProp<T>((T  from, T  to) values) => new CaseProp<T>(values);
-        public static implicit operator CaseProp<T>((T? from, T  to) values) => new CaseProp<T>(values);
-        public static implicit operator CaseProp<T>((T  from, T? to) values) => new CaseProp<T>(values);
-        public static implicit operator CaseProp<T>((T? from, T? to) values) => new CaseProp<T>(values);
-        public static implicit operator CaseProp<T>((T from, (T? nully, T coalesced) to) x) => new CaseProp<T>(x.from, x.to);
-        public static implicit operator CaseProp<T>(((T? nully, T coalesced) from, T to) x) =>  new CaseProp<T>(x.from, x.to);
-        public static implicit operator CaseProp<T>(((T? nully, T coalesced) from, (T? nully, T coalesced) to) x) => new CaseProp<T>(x.from, x.to);
 
         // Descriptions
         
