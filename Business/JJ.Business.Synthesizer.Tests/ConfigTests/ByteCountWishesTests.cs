@@ -61,8 +61,27 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { SamplingRate = { To = 2000 } },
             new Case { Channels = { To = 2 }, ByteCount = { To = 800+16 } },
             new Case { Bits = { To = 16 }, ByteCount = { To = 200+4 } },
-            new Case { HeaderLength = { To = 44 }, ByteCount = { To = 400+8+44 } },
+            new Case { HeaderLength = { To = WavHeaderLength }, ByteCount = { To = 400+8 + WavHeaderLength } },
             new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400+12 } }
+        );
+        
+        static CaseCollection<Case> WavDependencyCases { get; } = Cases.FromTemplate(new Case
+            {
+                Bits = 32,
+                Channels = 1,
+                SamplingRate = 1000, 
+                AudioLength = 0.1, 
+                HeaderLength = WavHeaderLength,
+                CourtesyFrames = 2,
+                ByteCount = { From = 400+8 + WavHeaderLength, To = 800+8 + WavHeaderLength }
+            },
+            new Case { FrameCount = { From = 100+2, To = 200+2 } },
+            new Case { AudioLength = { To = 0.2 } },
+            new Case { SamplingRate = { To = 2000 } },
+            new Case { Channels = { To = 2 }, ByteCount = { To = 800 + 16 + WavHeaderLength } },
+            new Case { Bits = { To = 16 }, ByteCount = { To = 200 + 4 + WavHeaderLength } },
+            new Case { HeaderLength = { To = 0 }, ByteCount = { To = 400 + 8 } },
+            new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400 + 12 + WavHeaderLength } }
         );
 
         static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
