@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 #pragma warning disable MSTEST0018
@@ -367,7 +368,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 Assert_SynthBound_Getters (x, init);
                 Assert_TapeBound_Getters  (x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
-                Assert_BuffBound_Getters  (x, init, courtesyFrames.Init.Nully);
+                Assert_BuffBound_Getters  (x, init, courtesyFrames.Init);
                 Assert_Independent_Getters(x, init);
                 Assert_Immutable_Getters  (x, init);
                 Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
@@ -376,6 +377,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
+            // In theory I'd need set CourtesyFrames too. (See SynthBound_ByteCount comments.)
+            // But because everything stays init, it doesn't matter.
             AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .ByteCount(value)));
             AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .ByteCount(value)));
             AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.ByteCount(value)));
@@ -459,12 +462,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 setter(x);
                 
-                Assert_SynthBound_Getters     (x, init );
-                Assert_TapeBound_Getters      (x, init );
+                Assert_SynthBound_Getters     (x, init);
+                Assert_TapeBound_Getters      (x, init);
                 Assert_Buff_Getters           (x, init, courtesyFrames.Init); // By Design: Buff's "too buff" to change! FrameCount will be based on bytes!
                 Assert_AudioFileOutput_Getters(x, value, courtesyFrames.Val); // By Design: "Out" will take on new properties when asked.
-                Assert_Independent_Getters    (x, init );
-                Assert_Immutable_Getters      (x, init );
+                Assert_Independent_Getters    (x, init);
+                Assert_Immutable_Getters      (x, init);
                 Assert_Bitness_Getters        (x, sizeOfBitDepth.Init);
 
                 x.Record();
