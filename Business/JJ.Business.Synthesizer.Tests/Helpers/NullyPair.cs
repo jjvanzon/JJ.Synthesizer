@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     #pragma warning disable CS0611
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal class NullyPair<T> where T : struct
+    internal class NullyPair<T> : IEquatable<NullyPair<T>> where T : struct 
     {
         // Properties
         
