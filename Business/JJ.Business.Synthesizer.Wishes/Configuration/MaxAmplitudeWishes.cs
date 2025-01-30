@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 // ReSharper disable PossibleLossOfFraction
 
@@ -61,6 +62,12 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     public partial class ConfigWishes
     {
         // Conversion Formula
+
+        public static double? MaxAmplitude(int? bits) 
+        {
+            if (!Has(bits)) return bits;
+            return MaxAmplitude(bits.Value);
+        }
         
         public static double MaxAmplitude(int bits) 
         {

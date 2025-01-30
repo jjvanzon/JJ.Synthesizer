@@ -16,13 +16,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 {
     public partial class ConfigWishes
     {
-        public static int                  [] ValidBits            { get; } = { 8, 16, 32                                          };
+        public static int?                 [] ValidBits            { get; } = { 8, 16, 32                                          };
         public static int                  [] ValidChannels        { get; } = { 1, 2                                               };
         public static int                  [] ValidChannel         { get; } = { 0, 1                                               };
         public static AudioFileFormatEnum  [] ValidAudioFormats    { get; } = { Raw, Wav                                           };
         public static InterpolationTypeEnum[] ValidInterpolations  { get; } = { Line, Block                                        };
-        public static int                  [] ValidSizesOfBitDepth { get; } =   ValidBits        .Select(SizeOfBitDepth).ToArray()  ;
-        public static double               [] ValidMaxAmplitudes   { get; } =   ValidBits        .Select(MaxAmplitude  ).ToArray()  ;
+        public static int?                 [] ValidSizesOfBitDepth { get; } =   ValidBits        .Select(SizeOfBitDepth).ToArray()  ;
+        public static double?              [] ValidMaxAmplitudes   { get; } =   ValidBits        .Select(MaxAmplitude  ).ToArray()  ;
         public static int                  [] ValidHeaderLengths   { get; } =   ValidAudioFormats.Select(HeaderLength  ).ToArray()  ;
         public static string               [] ValidFileExtensions  { get; } =   ValidAudioFormats.Select(FileExtension ).ToArray()  ;
 
