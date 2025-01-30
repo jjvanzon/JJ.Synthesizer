@@ -25,9 +25,31 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static implicit operator NullyPair<T>(T  value) => new NullyPair<T> { Nully = value, Coalesced   = value };
         public static implicit operator NullyPair<T>((T? nully, T coalesced) x)     => new NullyPair<T> { Nully = x.nully, Coalesced = x.coalesced };
         
-        public static   bool operator ==(NullyPair<T> a, NullyPair<T> b) => Equals(a?.Coalesced, b?.Coalesced);
-        public static   bool operator !=(NullyPair<T> a, NullyPair<T> b) => !Equals(a?.Coalesced, b?.Coalesced);
-        public override bool Equals(object obj) => obj is NullyPair<T> other && Equals(Coalesced, other.Coalesced);
+        // Equals
+        
+        public static bool operator ==(NullyPair<T> a, NullyPair<T> b) => Equalish(a, b);
+        public static bool operator !=(NullyPair<T> a, NullyPair<T> b) => !Equalish(a, b);
+        public override bool Equals(object other) => Equalish(other, this);
+        public bool Equals(NullyPair<T> other) => Equalish(other, this);
+        
+        private static bool Equalish(object inputA, object inputB)
+        {
+            if (inputA == null && inputB == null) return true;
+            if (ReferenceEquals(inputA, inputB)) return true;
+
+            // Treat null and zeroed as equal.
+            var autoA = inputA ?? new NullyPair<T>();
+            var autoB = inputB ?? new NullyPair<T>();
+
+            if (autoA is NullyPair<T> castedA && 
+                autoB is NullyPair<T> castedB)
+            {
+                return EqualityComparer<T>.Default.Equals(castedA.Coalesced, castedB.Coalesced) && 
+                       Nullable.Equals(castedA.Nully, castedB.Nully); 
+            }
+            
+            return false;
+        }
         
         // Descriptions
         
