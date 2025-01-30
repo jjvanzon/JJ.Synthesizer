@@ -521,8 +521,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         [TestMethod]
-        [DynamicData(nameof(SimpleCases))]
-        public void Immutable_SizeOfBitDepth(string caseKey)
+        [DynamicData(nameof(Cases))]
+        public void Immutable_ByteCount(string caseKey)
         {
             var testCase = Cases[caseKey];
             int init = testCase.Init;
@@ -535,6 +535,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // WavHeader
             
             var wavHeaders = new List<WavHeaderStruct>();
+            bool caseHasHeader = testCase.HeaderLength.From.FilledIn() && testCase.HeaderLength.To.FilledIn();
+            if (caseHasHeader)
             {
                 void AssertProp(Func<WavHeaderStruct> setter)
                 {
@@ -549,6 +551,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
                 
                 AssertProp(() => x.Immutable.WavHeader.ByteCount(value));
+                
+                if (testCase.FrameCount.Changed) 
+                    AssertProp(() => x.Immutable.WavHeader.FrameCount(testCase.FrameCount.To, testCase.CourtesyFrames.To));
+                
+                if (testCase.AudioLength.Changed) 
+                    AssertProp(() => x.Immutable.WavHeader.AudioLength(testCase.AudioLength.To, testCase.CourtesyFrames.To));
+                
+                if (testCase.SamplingRate.Changed) 
+                    AssertProp(() => x.Immutable.WavHeader.SamplingRate(testCase.SamplingRate.To));
+                
+                if (testCase.Channels.Changed) 
+                    AssertProp(() => x.Immutable.WavHeader.Channels(testCase.Channels.To));
+                
+                if (testCase.Bits.Changed) 
+                    AssertProp(() => x.Immutable.WavHeader.Bits(testCase.Bits.To));
+                
+                if (testCase.SizeOfBitDepth.Changed) 
+                    AssertProp(() => x.Immutable.WavHeader.SizeOfBitDepth(testCase.SizeOfBitDepth.To));
             }
 
             // SampleDataTypeEnum
