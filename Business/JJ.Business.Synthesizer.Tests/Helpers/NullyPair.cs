@@ -13,7 +13,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     internal class NullyPair<T> : IEquatable<NullyPair<T>> where T : struct 
     {
         // Properties
-        
         public T? Nully     { get; set; }
         public T  Coalesced { get; set; }
         
@@ -23,7 +22,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static implicit operator T (NullyPair<T> pair)  => pair.Coalesced;
         public static implicit operator NullyPair<T>(T? value) => new NullyPair<T> { Nully = value };
         public static implicit operator NullyPair<T>(T  value) => new NullyPair<T> { Nully = value, Coalesced   = value };
-        public static implicit operator NullyPair<T>((T? nully, T coalesced) x)     => new NullyPair<T> { Nully = x.nully, Coalesced = x.coalesced };
+        public static implicit operator NullyPair<T>((T? nully, T coalesced) x) => new NullyPair<T> { Nully = x.nully, Coalesced = x.coalesced };
         
         // Equals
         
@@ -54,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         // Descriptions
         
         string DebuggerDisplay => DebuggerDisplay(this);
-        public override string ToString()      => Descriptor;
+        public override string ToString() => Descriptor;
         
         public string Descriptor
         {
