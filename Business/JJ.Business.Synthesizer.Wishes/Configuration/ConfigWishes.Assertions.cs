@@ -26,48 +26,87 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int                  [] ValidHeaderLengths   { get; } =   ValidAudioFormats.Select(HeaderLength  ).ToArray()  ;
         public static string               [] ValidFileExtensions  { get; } =   ValidAudioFormats.Select(FileExtension ).ToArray()  ;
 
+        // Piloting Strict Flags
+        
+        public static int AssertSizeOfBitDepth(int sizeOfBitDepth, bool strict = true)
+            => AssertSizeOfBitDepth((int?)sizeOfBitDepth, strict) ?? default;
+            
+        public static int? AssertSizeOfBitDepth(int? sizeOfBitDepth, bool strict = false)
+        {
+            if (sizeOfBitDepth.In(ValidSizesOfBitDepth)) return sizeOfBitDepth;
+            
+            if (!Has(sizeOfBitDepth) && !strict)
+            {
+                return sizeOfBitDepth;
+            }
+            
+            throw new Exception($"{nameof(SizeOfBitDepth)} = {sizeOfBitDepth} not supported. Supported values: " + Join(", ", ValidSizesOfBitDepth));
+        }
+        
+        public static int AssertBits(int bits, bool strict = true)
+            => AssertBits((int?)bits, strict) ?? default;
+        
+        public static int? AssertBits(int? bits, bool strict = false)
+        {
+            if (bits.In(ValidBits)) return bits;
+            
+            if (!Has(bits) && !strict)
+            {
+                return bits;
+            }
+            
+            throw new Exception($"{nameof(Bits)} = {bits} not valid. Supported values: " + Join(", ", ValidBits));
+        }
+
+        public static int AssertChannels(int channels, bool strict = true)
+        {
+            return channels.In(ValidChannels) ? channels : throw new Exception($"{nameof(ChannelsExtensionWishes.Channels)} = {channels} not valid. Supported values: " + Join(", ", ValidChannels));
+        }
+        
+        public static int? AssertChannels(int? channels, bool strict = false)
+        {
+            return !Has(channels) ? channels : AssertChannels(channels.Value);
+        }
+        
+                
         // Primary Audio Properties
 
-        public static int      AssertBits          (int     bits                        ) => bits          .In(ValidBits           ) ? bits           : throw new Exception($"{nameof(Bits)} = {bits} not valid. Supported values: " + Join(", ", ValidBits));
-        public static int    ? AssertBits          (int   ? bits                        ) => !Has(bits)                              ? bits           : AssertBits(bits.Value);
-        public static int      AssertChannels      (int     channels                    ) => channels      .In(ValidChannels       ) ? channels       : throw new Exception($"{nameof(ChannelsExtensionWishes.Channels)} = {channels} not valid. Supported values: "  + Join(", ", ValidChannels));
-        public static int    ? AssertChannels      (int   ? channels                    ) => !Has(channels)                          ? channels       : AssertChannels(channels.Value);
-        public static int      AssertChannel       (int     channel                     ) => channel       .In(ValidChannel        ) ? channel        : throw new Exception($"{nameof(ChannelExtensionWishes.Channel)} = {channel} not valid. Supported values: " + Join(", ", ValidChannel));
-        public static int    ? AssertChannel       (int   ? channel                     ) => channel                                 ?.                 AssertChannel();
-        public static int      AssertSamplingRate  (int     samplingRate                ) => samplingRate                        > 0 ? samplingRate   : throw new Exception($"{nameof(SamplingRateExtensionWishes.SamplingRate)} {samplingRate} below 0.");
-        public static int    ? AssertSamplingRate  (int   ? samplingRate                ) => !Has(samplingRate)                      ? samplingRate   : AssertSamplingRate(samplingRate.Value);
-        public static AudioFileFormatEnum    AssertAudioFormat  (AudioFileFormatEnum    audioFormat  ) => audioFormat   .In(ValidAudioFormats   ) ? audioFormat    : throw new Exception($"{nameof(AudioFormatExtensionWishes.AudioFormat)} = {audioFormat} not valid. Supported values: " + Join(", ", ValidAudioFormats));
-        public static AudioFileFormatEnum  ? AssertAudioFormat  (AudioFileFormatEnum  ? audioFormat  ) => !Has(audioFormat)                       ? audioFormat    : AssertAudioFormat(audioFormat.Value);
-        public static InterpolationTypeEnum  AssertInterpolation(InterpolationTypeEnum  interpolation) => interpolation .In(ValidInterpolations ) ? interpolation  : throw new Exception($"{nameof(InterpolationExtensionWishes.Interpolation)} = {interpolation} not valid. Supported values: " + Join(", ", ValidInterpolations));
-        public static InterpolationTypeEnum? AssertInterpolation(InterpolationTypeEnum? interpolation) => !Has(interpolation)                     ? interpolation  : AssertInterpolation(interpolation.Value);
-        public static int      AssertCourtesyFrames(int     courtesyFrames              ) => courtesyFrames                     >= 0 ? courtesyFrames : throw new Exception($"{nameof(CourtesyFrames)} {courtesyFrames} below 0.");
-        public static int    ? AssertCourtesyFrames(int   ? courtesyFrames              ) => courtesyFrames                          ?.                 AssertCourtesyFrames();
-        
+        public static int      AssertChannel       (int     channel                     , bool strict = true ) => channel       .In(ValidChannel        ) ? channel        : throw new Exception($"{nameof(ChannelExtensionWishes.Channel)} = {channel} not valid. Supported values: " + Join(", ", ValidChannel));
+        public static int    ? AssertChannel       (int   ? channel                     , bool strict = false) => channel                                 ?.                 AssertChannel();
+        public static int      AssertSamplingRate  (int     samplingRate                , bool strict = true ) => samplingRate                        > 0 ? samplingRate   : throw new Exception($"{nameof(SamplingRateExtensionWishes.SamplingRate)} {samplingRate} below 0.");
+        public static int    ? AssertSamplingRate  (int   ? samplingRate                , bool strict = false) => !Has(samplingRate)                      ? samplingRate   : AssertSamplingRate(samplingRate.Value);
+        public static int      AssertCourtesyFrames(int     courtesyFrames              , bool strict = true ) => courtesyFrames                     >= 0 ? courtesyFrames : throw new Exception($"{nameof(CourtesyFrames)} {courtesyFrames} below 0.");
+        public static int    ? AssertCourtesyFrames(int   ? courtesyFrames              , bool strict = false) => courtesyFrames                          ?.                 AssertCourtesyFrames();
+        public static AudioFileFormatEnum    AssertAudioFormat  (AudioFileFormatEnum    audioFormat  , bool strict = true ) => audioFormat   .In(ValidAudioFormats   ) ? audioFormat    : throw new Exception($"{nameof(AudioFormatExtensionWishes.AudioFormat)} = {audioFormat} not valid. Supported values: " + Join(", ", ValidAudioFormats));
+        public static AudioFileFormatEnum  ? AssertAudioFormat  (AudioFileFormatEnum  ? audioFormat  , bool strict = false) => !Has(audioFormat)                       ? audioFormat    : AssertAudioFormat(audioFormat.Value);
+        public static InterpolationTypeEnum  AssertInterpolation(InterpolationTypeEnum  interpolation, bool strict = true ) => interpolation .In(ValidInterpolations ) ? interpolation  : throw new Exception($"{nameof(InterpolationExtensionWishes.Interpolation)} = {interpolation} not valid. Supported values: " + Join(", ", ValidInterpolations));
+        public static InterpolationTypeEnum? AssertInterpolation(InterpolationTypeEnum? interpolation, bool strict = false) => !Has(interpolation)                     ? interpolation  : AssertInterpolation(interpolation.Value);
+
         // Derived Audio Properties
         
-        public static int      AssertSizeOfBitDepth(int     sizeOfBitDepth              ) => sizeOfBitDepth.In(ValidSizesOfBitDepth) ? sizeOfBitDepth : throw new Exception($"{nameof(SizeOfBitDepth)} = {sizeOfBitDepth} not supported. Supported values: " + Join(", ", ValidSizesOfBitDepth));
-        public static int    ? AssertSizeOfBitDepth(int   ? sizeOfBitDepth              ) => !Has(sizeOfBitDepth)                    ? sizeOfBitDepth : AssertSizeOfBitDepth(sizeOfBitDepth.Value);
-        public static double   AssertMaxAmplitude  (double  maxAmplitude                ) => maxAmplitude  .In(ValidMaxAmplitudes  ) ? maxAmplitude   : throw new Exception($"{nameof(MaxAmplitude)} = {maxAmplitude} not supported. Supported values: " + Join(", ", ValidMaxAmplitudes));
-        public static double ? AssertMaxAmplitude  (double? maxAmplitude                ) => !Has(maxAmplitude)                      ? maxAmplitude   : AssertMaxAmplitude(maxAmplitude.Value);
-        public static int      AssertFrameSize     (int     frameSize                   ) => frameSize                          >= 1 ? frameSize      : throw new Exception($"{nameof(FrameSize)} {frameSize} below minimum value of 1.");
-        public static int    ? AssertFrameSize     (int   ? frameSize                   ) => !Has(frameSize)                         ? frameSize      : AssertHeaderLength(frameSize.Value);
-        public static int      AssertHeaderLength  (int     headerLength                ) => headerLength  .In(ValidHeaderLengths  ) ? headerLength   : throw new Exception($"{nameof(HeaderLength)} {headerLength} not supported. Supported values: " + Join(", ", ValidHeaderLengths));
-        public static int    ? AssertHeaderLength  (int   ? headerLength                ) => headerLength                            ?.                 AssertHeaderLength();
-        public static string   AssertFileExtension (string  fileExtension               ) => fileExtension .In(ValidFileExtensions ) || !Has(fileExtension) ? fileExtension : throw new Exception($"{nameof(FileExtension)} = {fileExtension} not valid. Supported values:" + Join(", ", ValidFileExtensions));
-        public static int      AssertCourtesyBytes (int     courtesyBytes               ) => courtesyBytes                      >= 0 ? courtesyBytes  : throw new Exception($"{nameof(CourtesyBytes)} {courtesyBytes} below 0.");
-        public static int    ? AssertCourtesyBytes (int   ? courtesyBytes               ) => courtesyBytes                           ?.                 AssertCourtesyBytes();
+        public static double   AssertMaxAmplitude  (double  maxAmplitude                , bool strict = true ) => maxAmplitude  .In(ValidMaxAmplitudes  ) ? maxAmplitude   : throw new Exception($"{nameof(MaxAmplitude)} = {maxAmplitude} not supported. Supported values: " + Join(", ", ValidMaxAmplitudes));
+        public static double ? AssertMaxAmplitude  (double? maxAmplitude                , bool strict = false) => !Has(maxAmplitude)                      ? maxAmplitude   : AssertMaxAmplitude(maxAmplitude.Value);
+        public static int      AssertFrameSize     (int     frameSize                   , bool strict = true ) => frameSize                          >= 1 ? frameSize      : throw new Exception($"{nameof(FrameSize)} {frameSize} below minimum value of 1.");
+        public static int    ? AssertFrameSize     (int   ? frameSize                   , bool strict = false) => !Has(frameSize)                         ? frameSize      : AssertHeaderLength(frameSize.Value);
+        public static int      AssertHeaderLength  (int     headerLength                , bool strict = true ) => headerLength  .In(ValidHeaderLengths  ) ? headerLength   : throw new Exception($"{nameof(HeaderLength)} {headerLength} not supported. Supported values: " + Join(", ", ValidHeaderLengths));
+        public static int    ? AssertHeaderLength  (int   ? headerLength                , bool strict = false) => headerLength                            ?.                 AssertHeaderLength();
+        public static string   AssertFileExtension (string  fileExtension               , bool strict = true ) => fileExtension .In(ValidFileExtensions ) || !Has(fileExtension) ? fileExtension : throw new Exception($"{nameof(FileExtension)} = {fileExtension} not valid. Supported values:" + Join(", ", ValidFileExtensions));
+        public static int      AssertCourtesyBytes (int     courtesyBytes               , bool strict = false) => courtesyBytes                      >= 0 ? courtesyBytes  : throw new Exception($"{nameof(CourtesyBytes)} {courtesyBytes} below 0.");
+        public static int    ? AssertCourtesyBytes (int   ? courtesyBytes               , bool strict = true ) => courtesyBytes                           ?.                 AssertCourtesyBytes();
         
         // Durations
         
-        public static double  AssertAudioLength    (double  audioLength                 ) => audioLength                         >= 0 ? audioLength    : throw new Exception($"{nameof(AudioLength)} {audioLength} below 0.");
-        public static double? AssertAudioLength    (double? audioLength                 ) => !Has(audioLength)                        ? audioLength    : AssertAudioLength(audioLength.Value);
-        public static int     AssertFrameCount     (int     frameCount                  ) => frameCount                          >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCount)} {frameCount} below 0.");
-        public static int?    AssertFrameCount     (int   ? frameCount                  ) => !Has(frameCount)                         ? frameCount     : AssertFrameCount(frameCount.Value);
-        public static int     AssertByteCount      (int     byteCount                   ) => byteCount                           >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} below 0.");
-        public static int?    AssertByteCount      (int   ? byteCount                   ) => byteCount                                ?.                 AssertByteCount();
+        public static double  AssertAudioLength    (double  audioLength                 , bool strict = true ) => audioLength                         >= 0 ? audioLength    : throw new Exception($"{nameof(AudioLength)} {audioLength} below 0.");
+        public static double? AssertAudioLength    (double? audioLength                 , bool strict = false) => !Has(audioLength)                        ? audioLength    : AssertAudioLength(audioLength.Value);
+        public static int     AssertFrameCount     (int     frameCount                  , bool strict = true ) => frameCount                          >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCount)} {frameCount} below 0.");
+        public static int?    AssertFrameCount     (int   ? frameCount                  , bool strict = false) => !Has(frameCount)                         ? frameCount     : AssertFrameCount(frameCount.Value);
+        public static int     AssertByteCount      (int     byteCount                   , bool strict = true ) => byteCount                           >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} below 0.");
+        public static int?    AssertByteCount      (int   ? byteCount                   , bool strict = false) => byteCount                                ?.                 AssertByteCount();
     
         // Misc
 
+        // TODO: Consider what to do about the strict flags here.
+        
         public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int courtesyFrames)
         {
             AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames);

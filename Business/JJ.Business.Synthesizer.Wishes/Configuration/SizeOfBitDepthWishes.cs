@@ -135,13 +135,13 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 case 2: return typeof(short);
                 case 4: return typeof(float);
             }
-            AssertSizeOfBitDepth(value); return default;
+            AssertSizeOfBitDepth(value, strict: false); return default;
         }
         
-        public static int  BitsToSizeOfBitDepth(int  bits) => AssertBits(bits) / 8;
-        public static int? BitsToSizeOfBitDepth(int? bits) => AssertBits(bits) / 8;
-        public static int  SizeOfBitDepthToBits(int  sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth) * 8;
-        public static int? SizeOfBitDepthToBits(int? sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth) * 8;
+        public static int  BitsToSizeOfBitDepth(int  bits) => AssertBits(bits, strict: false) / 8;
+        public static int? BitsToSizeOfBitDepth(int? bits) => AssertBits(bits, strict: false) / 8;
+        public static int  SizeOfBitDepthToBits(int  sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth, strict: false) * 8;
+        public static int? SizeOfBitDepthToBits(int? sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth, strict: false) * 8;
         
         // Synonyms
         

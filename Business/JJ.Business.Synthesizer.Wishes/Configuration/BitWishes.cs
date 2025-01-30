@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static AudioInfoWish Bits(this AudioInfoWish obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.Bits = AssertBits(value);
+            obj.Bits = AssertBits(value, strict: false);
             return obj;
         }
         
@@ -410,7 +410,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static Type BitsToType(int value)
         {
-            switch (AssertBits(value))
+            switch (AssertBits(value, strict: false))
             {
                 case 8 : return typeof(byte);
                 case 16: return typeof(Int16);
@@ -441,7 +441,7 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                 case 8: return SampleDataTypeEnum.Byte;
             }
             
-            AssertBits(bits); return default;
+            AssertBits(bits, strict: false); return default;
         }
         
         [Obsolete(ObsoleteMessage)]
