@@ -117,11 +117,39 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         public static double  AssertAudioLength    (double  audioLength   , bool strict = true ) => audioLength        >= 0 ? audioLength    : throw new Exception($"{nameof(AudioLength)} {audioLength} below 0.");
         public static double? AssertAudioLength    (double? audioLength   , bool strict = false) => !Has(audioLength)       ? audioLength    : AssertAudioLength(audioLength.Value);
-        public static int     AssertFrameCount     (int     frameCount    , bool strict = true ) => frameCount         >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCount)} {frameCount} below 0.");
-        public static int?    AssertFrameCount     (int   ? frameCount    , bool strict = false) => !Has(frameCount)        ? frameCount     : AssertFrameCount(frameCount.Value);
-        public static int     AssertByteCount      (int     byteCount     , bool strict = true ) => byteCount          >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} below 0.");
-        public static int?    AssertByteCount      (int   ? byteCount     , bool strict = false) => byteCount               ?.                 AssertByteCount();
-    
+        //public static int     AssertFrameCount     (int     frameCount    , bool strict = true ) => frameCount         >= 0 ? frameCount     : throw new Exception($"{nameof(FrameCount)} {frameCount} below 0.");
+        //public static int?    AssertFrameCount     (int   ? frameCount    , bool strict = false) => !Has(frameCount)        ? frameCount     : AssertFrameCount(frameCount.Value);
+        //public static int     AssertByteCount      (int     byteCount     , bool strict = true ) => byteCount          >= 0 ? byteCount      : throw new Exception($"{nameof(ByteCount)} {byteCount} below 0.");
+        //public static int?    AssertByteCount      (int   ? byteCount     , bool strict = false) => byteCount               ?.                 AssertByteCount();
+        
+        //public static double AssertAudioLength(double audioLength, bool strict = true) => AssertNullMin(nameof(AudioLength), audioLength, 0, strict);
+        //public static double? AssertAudioLength(double? audioLength, bool strict = false) => AssertNullMin(nameof(AudioLength), audioLength, 0, strict);
+        
+        public static int  AssertFrameCount(int  frameCount, bool strict = true ) => AssertNullMin(nameof(FrameCount), frameCount, 0, strict);
+        public static int? AssertFrameCount(int? frameCount, bool strict = false) => AssertNullMin(nameof(FrameCount), frameCount, 0, strict);
+        public static int  AssertByteCount (int  byteCount , bool strict = true ) => AssertNullMin(nameof(ByteCount ), byteCount , 0, strict);
+        public static int? AssertByteCount (int? byteCount , bool strict = false) => AssertNullMin(nameof(ByteCount ), byteCount , 0, strict);
+
+        public static int AssertNullMin(string name, int value, int min, bool strict = true)
+            => AssertNullMin(name, (int?)value, min, strict) ?? default;
+
+        public static int? AssertNullMin(string name, int? value, int min, bool strict = true)
+        {
+            if (!strict && value == null) return value;
+            if (value < min) throw new Exception($"{name} {value} below {min}.");
+            return value;
+        }
+        
+        public static int AssertNullyMin(string name, int value, int min, bool strict = true)
+            => AssertNullyMin(name, (int?)value, min, strict) ?? default;
+
+        public static int? AssertNullyMin(string name, int? value, int min, bool strict = true)
+        {
+            if (!strict && !Has(value)) return value;
+            if (value < min) throw new Exception($"{name} {value} below {min}.");
+            return value;
+        }
+        
         // Misc
 
         // TODO: Consider what to do about the strict flags here.
