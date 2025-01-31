@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static implicit operator T?(NullyPair<T> pair)  => pair.Nully;
         public static implicit operator T (NullyPair<T> pair)  => pair.Coalesced;
         public static implicit operator NullyPair<T>(T? value) => new NullyPair<T> { Nully = value };
-        public static implicit operator NullyPair<T>(T  value) => new NullyPair<T> { Nully = value, Coalesced   = value };
+        public static implicit operator NullyPair<T>(T  value) => new NullyPair<T> { Nully = value, Coalesced = value };
         public static implicit operator NullyPair<T>((T? nully, T coalesced) x) => new NullyPair<T> { Nully = x.nully, Coalesced = x.coalesced };
         
         // Equals
