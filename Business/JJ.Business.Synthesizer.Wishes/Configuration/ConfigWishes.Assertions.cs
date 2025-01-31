@@ -118,54 +118,15 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // FrameCount and CourtesyFrames
 
-        // Old
+        public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true)
+            => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
 
-        public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int courtesyFrames)
+        public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = false)
         {
-            AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames);
+            AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
             return frameCount - courtesyFrames;
         }
 
-        public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames)
-        {
-            AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames);
-            return frameCount - courtesyFrames;
-        }
-
-        // New
-
-        //public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
-        //public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int courtesyFrames, bool strict = false) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
-        //public static int? AssertFrameCountMinusCourtesyFrames(int frameCount, int? courtesyFrames, bool strict = true) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
-        //private static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = true)
-        //{
-        //    AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
-        //    return frameCount - courtesyFrames;
-        //}
-
-        // Old 
-        
-        //public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int courtesyFrames)
-        //{
-        //    if (frameCount == null) return;
-        //    AssertFrameCountWithCourtesyFrames(frameCount.Value, courtesyFrames);
-        //}        
-
-        //public static void AssertFrameCountWithCourtesyFrames(int frameCount, int courtesyFrames)
-        //{
-        //    AssertFrameCount(frameCount);
-        //    AssertCourtesyFrames(courtesyFrames);
-
-        //    if (frameCount < courtesyFrames)
-        //    {
-        //        throw new Exception(
-        //            $"{nameof(FrameCountExtensionWishes.FrameCount)} = {frameCount} " +
-        //            $"but should be a minimum of {courtesyFrames} {nameof(CourtesyFrames)}.");
-        //    }
-        //}
-
-        // New
-        
         public static void AssertFrameCountWithCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
         public static void AssertFrameCountWithCourtesyFrames(int frameCount, int? courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
         public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
@@ -181,7 +142,6 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                     $"but should be a minimum of {courtesyFrames} {nameof(CourtesyFrames)}.");
             }
         }
-
         
         // CourtesyBytes with FrameSize
         
