@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -10,7 +13,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
@@ -18,7 +21,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 #pragma warning disable CS0618
 
-namespace JJ.Business.Synthesizer.Wishes.Configuration
+namespace JJ.Business.Synthesizer.Wishes.Config
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class BitExtensionWishes

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
@@ -8,13 +10,13 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 // ReSharper disable UnusedParameter.Global
 
-namespace JJ.Business.Synthesizer.Wishes.Configuration
+namespace JJ.Business.Synthesizer.Wishes.Config
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class ChannelExtensionWishes

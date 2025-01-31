@@ -8,7 +8,7 @@ using System.Linq;
 using System;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Business.Synthesizer.Wishes.Config;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;

@@ -7,10 +7,10 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
-namespace JJ.Business.Synthesizer.Wishes.Configuration
+namespace JJ.Business.Synthesizer.Wishes.Config
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class ChannelChannelsComboExtensionWishes

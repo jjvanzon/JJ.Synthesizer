@@ -6,7 +6,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Wishes.Text;

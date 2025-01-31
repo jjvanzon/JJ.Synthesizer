@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Structs;
@@ -13,7 +16,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
 
-namespace JJ.Business.Synthesizer.Wishes.Configuration
+namespace JJ.Business.Synthesizer.Wishes.Config
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class AudioFormatExtensionWishes

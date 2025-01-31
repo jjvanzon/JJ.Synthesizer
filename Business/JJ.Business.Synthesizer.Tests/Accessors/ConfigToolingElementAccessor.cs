@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private Type GetUnderlyingType()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Configuration.ConfigToolingElement";
+            string   typeName = "JJ.Business.Synthesizer.Wishes.Config.ConfigToolingElement";
             return   assembly.GetType(typeName, true);
         }
         

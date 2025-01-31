@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using JJ.Framework.Common;
-using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
+using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 // ReSharper disable UnusedParameter.Global
 
 #pragma warning disable CS0618
 
-namespace JJ.Business.Synthesizer.Wishes.Configuration
+namespace JJ.Business.Synthesizer.Wishes.Config
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class ChannelsExtensionWishes

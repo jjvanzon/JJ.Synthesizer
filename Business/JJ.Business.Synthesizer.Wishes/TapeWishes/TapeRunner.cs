@@ -4,13 +4,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.TimeOutActionEnum;
+using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 

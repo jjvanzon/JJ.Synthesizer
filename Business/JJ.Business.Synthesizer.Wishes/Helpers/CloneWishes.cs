@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Wishes.Collections;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;

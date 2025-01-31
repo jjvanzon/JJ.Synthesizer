@@ -5,7 +5,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
-namespace JJ.Business.Synthesizer.Wishes.Configuration
+namespace JJ.Business.Synthesizer.Wishes.Config
 {
     public static class ConfigCoalesceExtensionWishes
     {

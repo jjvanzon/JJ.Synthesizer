@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Wishes.Testing;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigEntityEnum;
@@ -17,7 +17,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
-using static JJ.Business.Synthesizer.Wishes.Configuration.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018

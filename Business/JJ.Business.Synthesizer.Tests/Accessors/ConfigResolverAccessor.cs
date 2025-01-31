@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static Type GetUnderlyingType()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Configuration.ConfigResolver";
+            string   typeName = "JJ.Business.Synthesizer.Wishes.Config.ConfigResolver";
             Type     type     = assembly.GetType(typeName, true);
             return   type;
         }

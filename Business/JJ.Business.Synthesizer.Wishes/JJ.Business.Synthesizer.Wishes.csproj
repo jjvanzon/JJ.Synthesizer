@@ -53,31 +53,31 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Configuration\ChannelChannelsComboWishes.cs" />
-    <Compile Include="Configuration\ConfigResolver.cs" />
-    <Compile Include="Configuration\ConfigSection.cs" />
-    <Compile Include="Configuration\ConfigToolingElement.cs" />
-    <Compile Include="Configuration\ConfigWishes.Assertions.cs" />
-    <Compile Include="Configuration\ConfigWishes.Coalescing.cs" />
-    <Compile Include="Configuration\ConfigWishes.FlowNode.cs" />
-    <Compile Include="Configuration\ConfigWishes.SynthWishes.cs" />
-    <Compile Include="Configuration\FrameCountWishes.cs" />
-    <Compile Include="Configuration\AudioLengthWishes.cs" />
-    <Compile Include="Configuration\CourtesyByteWishes.cs" />
-    <Compile Include="Configuration\HeaderLengthWishes.cs" />
-    <Compile Include="Configuration\FileExtensionWishes.cs" />
-    <Compile Include="Configuration\MaxAmplitudeWishes.cs" />
-    <Compile Include="Configuration\FrameSizeWishes.cs" />
-    <Compile Include="Configuration\SizeOfBitDepthWishes.cs" />
-    <Compile Include="Configuration\CourtesyFrameWishes.cs" />
-    <Compile Include="Configuration\InterpolationWishes.cs" />
-    <Compile Include="Configuration\AudioFormatWishes.cs" />
-    <Compile Include="Configuration\SamplingRateWishes.cs" />
-    <Compile Include="Configuration\AudioInfoWish.cs" />
-    <Compile Include="Configuration\ChannelWishes.cs" />
-    <Compile Include="Configuration\ChannelsWishes.cs" />
-    <Compile Include="Configuration\BitWishes.cs" />
-    <Compile Include="Configuration\ByteCountWishes.cs" />
+    <Compile Include="Config\ChannelChannelsComboWishes.cs" />
+    <Compile Include="Config\ConfigResolver.cs" />
+    <Compile Include="Config\ConfigSection.cs" />
+    <Compile Include="Config\ConfigToolingElement.cs" />
+    <Compile Include="Config\ConfigWishes.Assertions.cs" />
+    <Compile Include="Config\ConfigWishes.Coalescing.cs" />
+    <Compile Include="Config\ConfigWishes.FlowNode.cs" />
+    <Compile Include="Config\ConfigWishes.SynthWishes.cs" />
+    <Compile Include="Config\FrameCountWishes.cs" />
+    <Compile Include="Config\AudioLengthWishes.cs" />
+    <Compile Include="Config\CourtesyByteWishes.cs" />
+    <Compile Include="Config\HeaderLengthWishes.cs" />
+    <Compile Include="Config\FileExtensionWishes.cs" />
+    <Compile Include="Config\MaxAmplitudeWishes.cs" />
+    <Compile Include="Config\FrameSizeWishes.cs" />
+    <Compile Include="Config\SizeOfBitDepthWishes.cs" />
+    <Compile Include="Config\CourtesyFrameWishes.cs" />
+    <Compile Include="Config\InterpolationWishes.cs" />
+    <Compile Include="Config\AudioFormatWishes.cs" />
+    <Compile Include="Config\SamplingRateWishes.cs" />
+    <Compile Include="Config\AudioInfoWish.cs" />
+    <Compile Include="Config\ChannelWishes.cs" />
+    <Compile Include="Config\ChannelsWishes.cs" />
+    <Compile Include="Config\BitWishes.cs" />
+    <Compile Include="Config\ByteCountWishes.cs" />
     <Compile Include="Helpers\FilledInExtensions.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
     <Compile Include="Helpers\PropertyNameWishes.cs" />
@@ -194,7 +194,7 @@
     <Compile Include="OperatorWishes.cs" />
     <Compile Include="ArithmeticWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
-    <Compile Include="Configuration\ConfigWishes.Defaults.cs" />
+    <Compile Include="Config\ConfigWishes.Defaults.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

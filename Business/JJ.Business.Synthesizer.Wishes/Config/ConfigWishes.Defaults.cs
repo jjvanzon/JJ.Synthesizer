@@ -5,9 +5,9 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.Configuration.TimeOutActionEnum;
+using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
 
-namespace JJ.Business.Synthesizer.Wishes.Configuration
+namespace JJ.Business.Synthesizer.Wishes.Config
 {
     public partial class ConfigWishes
     {

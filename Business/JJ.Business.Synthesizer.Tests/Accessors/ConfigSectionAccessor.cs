@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private Type GetUnderlyingType()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Configuration.ConfigSection";
+            string   typeName = "JJ.Business.Synthesizer.Wishes.Config.ConfigSection";
             return   assembly.GetType(typeName, true);
         }
         
