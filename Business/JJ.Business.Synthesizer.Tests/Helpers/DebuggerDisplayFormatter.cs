@@ -9,18 +9,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal static class DebuggerDisplayFormatter
     {
-        internal static string DebuggerDisplay<T>(CaseBase<T> testCase)
-            where T : struct
-        {
-            return "{Case} " + testCase;
-        }
-        
-        internal static string DebuggerDisplay<T>(CaseProp<T> caseProp) where T : struct
-            => "{" + nameof(CaseProp<T>) + "} " + caseProp;
-        
-        internal static string DebuggerDisplay<T>(NullyPair<T> values) where T : struct 
-            => "{" + nameof(NullyPair<T>) + "} " + values;
-        
         internal static string DebuggerDisplay(SynthBoundEntities obj) 
             => nameof(SynthBoundEntities) + ": " + obj?.SynthWishes.Coalesce("<null>");
 

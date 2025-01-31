@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Configuration;
+using JJ.Framework.Wishes.Testing;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigEntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -34,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         internal class Case : CaseBase<int>
         {
-            internal override IList<object> KeyElements 
+            protected override IList<object> KeyElements 
                 => new object[] { Name, "~", Descriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
 
             // FrameCount: The main property being tested, adjusted directly or via dependencies.

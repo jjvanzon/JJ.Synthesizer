@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Configuration;
 using JJ.Framework.Wishes.Common;
+using JJ.Framework.Wishes.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.docs;
@@ -561,18 +562,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (testCase.AudioLength.Changed) 
                     AssertProp(() => x.Immutable.WavHeader.AudioLength(testCase.AudioLength.To, testCase.CourtesyFrames.To));
                 
-                // SampleCount an explicit variable, therefor SamplingRate does not affect ByteCount.
-                //if (testCase.SamplingRate.Changed)
-                //    AssertProp(() => x.Immutable.WavHeader.SamplingRate(testCase.SamplingRate.To));
-                
                 if (testCase.Channels.Changed) 
                     AssertProp(() => x.Immutable.WavHeader.Channels(testCase.Channels.To));
                 
                 if (testCase.Bits.Changed) 
                     AssertProp(() => x.Immutable.WavHeader.Bits(testCase.Bits.To));
                 
-                if (testCase.SizeOfBitDepth.Changed) 
-                    AssertProp(() => x.Immutable.WavHeader.SizeOfBitDepth(testCase.SizeOfBitDepth.To));
+                // Invariant under other property changes.
             }
 
             // SampleDataTypeEnum
