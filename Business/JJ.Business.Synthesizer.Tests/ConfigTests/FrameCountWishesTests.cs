@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case (480+3,240+3) { Length = { From = (null, 1.0), To = 0.5         } },
             new Case (240+3,480+3) { Length = { From = 0.5        , To = (null, 1.0) } }
             
-            // TODO: This case fail. 0 should not coalesce to 1 sec. 0 means 0 seconds.
+            // These cases fail. 0 should not coalesce to 1 sec. 0 means 0 seconds.
             //new Case (480+3)       { Length = { From = 1.0        , To = (0, 1.0)    } },
             //new Case (480+3)       { Length = { From = (null, 1.0), To = (0, 1.0)    } },
             
