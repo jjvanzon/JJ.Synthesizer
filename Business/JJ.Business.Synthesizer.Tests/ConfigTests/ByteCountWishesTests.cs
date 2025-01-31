@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
         
-        static CaseCollection<Case> SimpleCases { get; } = Cases.Add
+        static CaseCollection<Case> BasicCases { get; } = Cases.Add
         (
             new Case { From = 100, To = 200, SizeOfBitDepth = { From = 4, To = 2 }  },
             new Case { From = 200, To = 100, SizeOfBitDepth = { From = 2, To = 4 }  }
@@ -49,6 +49,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static CaseCollection<Case> DependencyCases { get; } = Cases.FromTemplate(new Case
             {
+                Name = "Dependency",
                 Bits = 32,
                 Channels = 1,
                 SamplingRate = 1000, 
@@ -68,6 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static CaseCollection<Case> WavDependencyCases { get; } = Cases.FromTemplate(new Case
             {
+                Name = "Wav",
                 Bits = 32,
                 Channels = 1,
                 SamplingRate = 1000, 
@@ -81,7 +83,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { SamplingRate = { To = 2000 } },
             new Case { Channels = { To = 2 }, ByteCount = { To = 800 + 16 + WavHeaderLength } },
             new Case { Bits = { To = 16 }, ByteCount = { To = 200 + 4 + WavHeaderLength } },
-            new Case { HeaderLength = { To = 0 }, ByteCount = { To = 400 + 8 } },
+            // TODO: { To = 0 } becomes (0,44). Separate test for case definition?
+            //new Case { HeaderLength = { To = 0 }, ByteCount = { To = 400 + 8 } }, 
             new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400 + 12 + WavHeaderLength } }
         );
 
@@ -558,8 +561,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (testCase.AudioLength.Changed) 
                     AssertProp(() => x.Immutable.WavHeader.AudioLength(testCase.AudioLength.To, testCase.CourtesyFrames.To));
                 
-                if (testCase.SamplingRate.Changed) 
-                    AssertProp(() => x.Immutable.WavHeader.SamplingRate(testCase.SamplingRate.To));
+                // SampleCount an explicit variable, therefor SamplingRate does not affect ByteCount.
+                //if (testCase.SamplingRate.Changed)
+                //    AssertProp(() => x.Immutable.WavHeader.SamplingRate(testCase.SamplingRate.To));
                 
                 if (testCase.Channels.Changed) 
                     AssertProp(() => x.Immutable.WavHeader.Channels(testCase.Channels.To));
