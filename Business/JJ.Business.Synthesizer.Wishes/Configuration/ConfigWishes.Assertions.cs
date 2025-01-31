@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,43 +32,31 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static string               [] ValidFileExtensions  { get; } = ValidAudioFormats.Select(FileExtension ).ToArray();
 
         // Generic Assertion Methods
-        
-        private static T? AssertFixedValueRange<T>(string name, T? value, ICollection<T> validValues, bool strict) where T : struct 
+
+        private static T? AssertFixedValueRange<T>(string name, T? value, ICollection<T> validValues, bool strict) where T : struct
         {
             if (value.In(validValues)) return value;
-            
-            if (!Has(value) && !strict)
-            {
-                return value;
-            }
-            
-            throw new Exception($"{name} = {value} not valid. Supported values: " + Join(", ", validValues));
+            if (!Has(value) && !strict) return value;
+            throw NotSupportedException(name, value, validValues);
         }
         
         private static T AssertFixedValueRange<T>(string name, T value, ICollection<T> validValues, bool strict)
         {
             if (value.In(validValues)) return value;
-            
-            if (!Has(value) && !strict)
-            {
-                return value;
-            }
-            
-            throw new Exception($"{name} = {value} not valid. Supported values: " + Join(", ", validValues));
+            if (!Has(value) && !strict) return value;
+            throw NotSupportedException(name, value, validValues);
         }
         
         private static string AssertFixedValueRange(string name, string value, ICollection<string> validValues, bool strict)
         {
             if (value.In(validValues)) return value;
-            
-            if (!Has(value) && !strict)
-            {
-                return value;
-            }
-            
-            throw new Exception($"{name} = {value} not valid. Supported values: " + Join(", ", validValues));
+            if (!Has(value) && !strict) return value;
+            throw NotSupportedException(name, value, validValues);
         }
-                        
+        
+        private static Exception NotSupportedException<T>(string name, object value, IEnumerable<T> validValues) 
+            => new Exception($"{name} = {value} not valid. Supported values: " + Join(", ", validValues));
+        
         // Primary Audio Properties
         
         public static int                    AssertSizeOfBitDepth(int                   sizeOfBitDepth, bool strict = true)  => AssertFixedValueRange(nameof(SizeOfBitDepth), sizeOfBitDepth, ValidSizesOfBitDepth, strict);
