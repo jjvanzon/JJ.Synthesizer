@@ -30,6 +30,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static bool Is16Bit(this ConfigResolverAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static bool Is32Bit(this ConfigResolverAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
 
+        public static ConfigResolverAccessor With8Bit(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
+        public static ConfigResolverAccessor With16Bit(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
+        public static ConfigResolverAccessor With32Bit(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
+
         // With ConfigSection
         
         public static int? Bits(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(MemberName(), obj.Obj);

@@ -222,7 +222,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Bits(this SampleDataType oldSampleDataType, int newBits, IContext context) 
             => newBits.BitsToEntity(context);
-
+        
         // Shorthand
         
         public   static bool Is8Bit (this SynthWishes        obj) => obj.Bits()     == 8;
@@ -291,6 +291,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public   static bool Is32Bit(this SampleDataType     obj) => obj.Bits()     == 32;
         public   static bool Is32Bit(this Type               obj) => obj.Bits()     == 32;
         
+        public   static SynthWishes     With8Bit (this SynthWishes     obj)                   => obj.Bits(8);
+        public   static FlowNode        With8Bit (this FlowNode        obj)                   => obj.Bits(8);
+        [UsedImplicitly]
+        internal static ConfigResolver  With8Bit (this ConfigResolver  obj)                   => obj.Bits(8);
         public   static Tape            With8Bit (this Tape            obj)                   => obj.Bits(8);
         public   static TapeConfig      With8Bit (this TapeConfig      obj)                   => obj.Bits(8);
         public   static TapeActions     With8Bit (this TapeActions     obj)                   => obj.Bits(8);
@@ -311,6 +315,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With8Bit(this SampleDataType oldSampleDataType, IContext context) => oldSampleDataType.Bits(8, context);
         
+        public   static SynthWishes     With16Bit(this SynthWishes     obj)                   => obj.Bits(16);
+        public   static FlowNode        With16Bit(this FlowNode        obj)                   => obj.Bits(16);
+        [UsedImplicitly]
+        internal static ConfigResolver  With16Bit(this ConfigResolver  obj)                   => obj.Bits(16);
         public   static Tape            With16Bit(this Tape            obj)                   => obj.Bits(16);
         public   static TapeConfig      With16Bit(this TapeConfig      obj)                   => obj.Bits(16);
         public   static TapeActions     With16Bit(this TapeActions     obj)                   => obj.Bits(16);
@@ -331,6 +339,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With16Bit(this SampleDataType oldSampleDataType, IContext context) => oldSampleDataType.Bits(16, context);
         
+        public   static SynthWishes     With32Bit(this SynthWishes     obj)                   => obj.Bits(32);
+        public   static FlowNode        With32Bit(this FlowNode        obj)                   => obj.Bits(32);
+        [UsedImplicitly]
+        internal static ConfigResolver  With32Bit(this ConfigResolver  obj)                   => obj.Bits(32);
         public   static Tape            With32Bit(this Tape            obj)                   => obj.Bits(32);
         public   static TapeConfig      With32Bit(this TapeConfig      obj)                   => obj.Bits(32);
         public   static TapeActions     With32Bit(this TapeActions     obj)                   => obj.Bits(32);
@@ -377,7 +389,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         [Obsolete(ObsoleteMessage)]
         public static int ToBits(this SampleDataType obj) => ConfigWishes.ToBits(obj);
-
     }
 
     public partial class ConfigWishes

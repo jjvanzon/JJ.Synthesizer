@@ -51,12 +51,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public int GetBits => (int)_accessor.GetPropertyValue(MemberName());
         public ConfigResolverAccessor WithBits(int? value) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new object[] { value }, new [] { typeof(int?) }));
-        public bool Is32Bit => (bool)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor With32Bit() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
-        public bool Is16Bit => (bool)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor With16Bit() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
         public bool Is8Bit => (bool)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor With8Bit() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
+        public bool Is16Bit => (bool)_accessor.GetPropertyValue(MemberName());
+        public bool Is32Bit => (bool)_accessor.GetPropertyValue(MemberName());
         
         // Channels
 

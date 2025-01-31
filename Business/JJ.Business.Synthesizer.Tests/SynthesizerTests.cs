@@ -25,6 +25,7 @@ using JJ.Business.Synthesizer.Managers;
 using System.IO;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Wishes;
+using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests

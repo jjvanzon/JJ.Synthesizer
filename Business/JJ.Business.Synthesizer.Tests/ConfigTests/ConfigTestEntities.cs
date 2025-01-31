@@ -26,13 +26,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     internal class SynthBoundEntities
     {
         public override string        ToString() => DebuggerDisplay(this);
-        public SynthWishes            SynthWishes         { get; set; }
-        public SynthWishesAccessor    SynthWishesAccessor { get; set; }
-        public IContext               Context             { get; set; }
-        public FlowNode               FlowNode            { get; set; }
-        public FlowNode               FlowNode2           { get; set; }
-        public ConfigResolverAccessor ConfigResolver      { get; set; }
-        public ConfigSectionAccessor  ConfigSection       { get; set; }
+        public SynthWishes            SynthWishes          { get; set; }
+        public SynthWishesDerived   Derived { get; set; }
+        public SynthWishesAccessor    SynthWishesAccessor  { get; set; }
+        public IContext               Context              { get; set; }
+        public FlowNode               FlowNode             { get; set; }
+        public FlowNode               FlowNode2            { get; set; }
+        public ConfigResolverAccessor ConfigResolver       { get; set; }
+        public ConfigSectionAccessor  ConfigSection        { get; set; }
     }
 
     internal class TapeBoundEntities
@@ -106,18 +107,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public void Initialize(Action<SynthWishes> initialize, IContext context = null)
         {
             var synthWishes = new SynthWishes(context);
+            var synthWishesInherited = new SynthWishesDerived(synthWishes);
             var synthWishesAccessor = new SynthWishesAccessor(synthWishes);
             synthWishesAccessor.Config._section = CreateConfigSectionWithDefaults();
-                
+
             SynthBound = new SynthBoundEntities
             {
-                SynthWishes         = synthWishes,
-                SynthWishesAccessor = synthWishesAccessor,
-                Context             = synthWishes.Context,
-                ConfigResolver      = synthWishesAccessor.Config,
-                ConfigSection       = synthWishesAccessor.Config._section,
-                FlowNode            = synthWishes.Sine(),
-                FlowNode2           = synthWishes.Sine() / 2
+                SynthWishes          = synthWishes,
+                SynthWishesAccessor  = synthWishesAccessor,
+                Derived = synthWishesInherited,
+                Context              = synthWishes.Context,
+                ConfigResolver       = synthWishesAccessor.Config,
+                ConfigSection        = synthWishesAccessor.Config._section,
+                FlowNode             = synthWishes.Sine(),
+                FlowNode2            = synthWishes.Sine() / 2
             };
             
             // Initialize
@@ -329,6 +332,59 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Immutable.FileExtension       = ResolveFileExtension(SynthBound.SynthWishes.GetAudioFormat);
             Immutable.CourtesyFrames      = SynthBound.SynthWishes.GetCourtesyFrames;
             Immutable.FrameSize           = SynthBound.SynthWishes.FrameSize();
+        }
+    }
+            
+    internal class SynthWishesDerived : SynthWishes
+    {
+        readonly SynthWishes _nonInherited;
+        
+        public SynthWishesDerived(SynthWishes nonInherited)
+        {
+            _nonInherited = nonInherited;
+        }
+        
+        // Proves members can be called without a `this.` qualifier.
+        // But keeps things in tangent with the other non-inherited SynthWishes,
+        // to be able to assert all Synth-Bound getters in one blow.
+
+        public SynthWishes WithBitsCall(int? bits)
+        {
+            _nonInherited.WithBits(bits);
+            return WithBits(bits);
+        }
+        
+        public SynthWishes With8BitCall()
+        {
+            _nonInherited.With8Bit();
+            return With8Bit();
+        }
+        
+        public SynthWishes With16BitCall()
+        {
+            _nonInherited.With16Bit();
+            return With16Bit();
+        }
+        
+        public SynthWishes With32BitCall()
+        {
+            _nonInherited.With32Bit();
+            return With32Bit();
+        }
+
+        // These are boilerplate to make the derived class
+        // change in tangent with other SynthBound entities.
+
+        public SynthWishes Bits(int? bits)
+        {
+            _nonInherited.WithBits(bits);
+            return base.WithBits(bits);
+        }
+
+        public new SynthWishes WithBits(int? bits)
+        {
+            _nonInherited.WithBits(bits);
+            return base.WithBits(bits);
         }
     }
 }

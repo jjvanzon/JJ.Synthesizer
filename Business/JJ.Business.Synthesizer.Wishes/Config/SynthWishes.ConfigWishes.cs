@@ -14,23 +14,23 @@ namespace JJ.Business.Synthesizer.Wishes
         // Audio Quality
         
         public int GetBits => Config.GetBits;
-        public SynthWishes WithBits(int? bits) { Config.WithBits(bits); return this; }
-        public bool Is32Bit => Config.Is32Bit;
-        public SynthWishes With32Bit() { Config.With32Bit(); return this; }
-        public bool Is16Bit => Config.Is16Bit;
-        public SynthWishes With16Bit() { Config.With16Bit(); return this; }
         public bool Is8Bit => Config.Is8Bit;
-        public SynthWishes With8Bit() { Config.With8Bit(); return this; }
+        public bool Is16Bit => Config.Is16Bit;
+        public bool Is32Bit => Config.Is32Bit;
+        public SynthWishes WithBits(int? bits) { Config.WithBits(bits); return this; }
+        protected SynthWishes With8Bit() { Config.With8Bit(); return this; }
+        protected SynthWishes With16Bit() { Config.With16Bit(); return this; }
+        protected SynthWishes With32Bit() { Config.With32Bit(); return this; }
         
-        public int NoChannels  => ConfigWishes.NoChannels;
+        public int NoChannels     => ConfigWishes.NoChannels;
         public int MonoChannels   => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => Config.GetChannels;
         public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
         public bool IsMono => Config.IsMono;
-        public SynthWishes WithMono() { Config.WithMono(); return this; }
         public bool IsStereo => Config.IsStereo;
-        public SynthWishes WithStereo() { Config.WithStereo(); return this; }
+        protected SynthWishes WithMono() { Config.WithMono(); return this; }
+        protected SynthWishes WithStereo() { Config.WithStereo(); return this; }
         
         public int  CenterChannel => ConfigWishes.CenterChannel;
         public int  LeftChannel   => ConfigWishes.LeftChannel;

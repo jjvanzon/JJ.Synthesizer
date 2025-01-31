@@ -35,13 +35,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         private int? _bits;
         public int GetBits => CoalesceBits(_bits, _section.Bits);
-        public ConfigResolver WithBits(int? bits) { _bits = bits.AssertBits(); return this; }
-        public bool Is32Bit => GetBits == 32;
-        public ConfigResolver With32Bit() => WithBits(32);
-        public bool Is16Bit => GetBits == 16;
-        public ConfigResolver With16Bit() => WithBits(16);
         public bool Is8Bit => GetBits == 8;
-        public ConfigResolver With8Bit() => WithBits(8);
+        public bool Is16Bit => GetBits == 16;
+        public bool Is32Bit => GetBits == 32;
+        public ConfigResolver WithBits(int? bits) { _bits = bits.AssertBits(); return this; }
         
         // Channels
         

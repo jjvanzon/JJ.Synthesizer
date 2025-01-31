@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -53,10 +54,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.Derived,        x.SynthBound.Derived       .Bits(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(value)));
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithBits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.Derived,        x.SynthBound.Derived       .WithBits(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithBits(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithBits(value)));
             
@@ -64,7 +67,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (value == 8 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With8Bit());
                 if (value == 16) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With16Bit());
                 if (value == 32) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.With32Bit()); 
-                if (!Has(value)) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.Bits(value)); });
+                if (!Has(value)) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithBits(value)); });
+            
+            AssertProp(x => {
+                if (value == 8 ) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With8BitCall());
+                if (value == 16) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With16BitCall());
+                if (value == 32) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With32BitCall()); 
+                if (!Has(value)) AreEqual(x.SynthBound.Derived,       x.SynthBound.Derived.WithBitsCall(value)); });
                                                                      
             AssertProp(x => {                                        
                 if (value == 8 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With8Bit());
@@ -627,6 +636,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Immutable_Getters(SampleDataTypeEnum sampleDataTypeEnum, int bits)
         {
             AreEqual(bits,       () => sampleDataTypeEnum.Bits());
+            AreEqual(bits,       () => sampleDataTypeEnum.ToBits());
             AreEqual(bits,       () => sampleDataTypeEnum.EnumToBits());
             AreEqual(bits == 8,  () => sampleDataTypeEnum.Is8Bit());
             AreEqual(bits == 16, () => sampleDataTypeEnum.Is16Bit());
@@ -637,6 +647,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             IsNotNull(           () => sampleDataType);
             AreEqual(bits,       () => sampleDataType.Bits());
+            AreEqual(bits,       () => sampleDataType.ToBits());
             AreEqual(bits,       () => sampleDataType.EntityToBits());
             AreEqual(bits == 8,  () => sampleDataType.Is8Bit());
             AreEqual(bits == 16, () => sampleDataType.Is16Bit());
@@ -647,6 +658,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             IsNotNull(           () => type);
             AreEqual(bits,       () => type.Bits());
+            AreEqual(bits,       () => type.ToBits());
             AreEqual(bits,       () => type.TypeToBits());
             AreEqual(bits == 8,  () => type.Is8Bit());
             AreEqual(bits == 16, () => type.Is16Bit());

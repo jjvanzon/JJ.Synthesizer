@@ -18,11 +18,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public int GetBits => _synthWishes.GetBits;
         public FlowNode WithBits(int? bits) { _synthWishes.WithBits(bits); return this; }
         public bool Is32Bit => _synthWishes.Is32Bit;
-        public FlowNode With32Bit() { _synthWishes.With32Bit(); return this; }
         public bool Is16Bit => _synthWishes.Is16Bit;
-        public FlowNode With16Bit() { _synthWishes.With16Bit(); return this; }
         public bool Is8Bit => _synthWishes.Is8Bit;
-        public FlowNode With8Bit() { _synthWishes.With8Bit(); return this; }
 
         public int NoChannels => ConfigWishes.NoChannels;
         public int MonoChannels => ConfigWishes.MonoChannels;
