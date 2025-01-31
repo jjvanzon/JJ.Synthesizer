@@ -56,21 +56,44 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         
         private static Exception NotSupportedException<T>(string name, object value, IEnumerable<T> validValues) 
             => new Exception($"{name} = {value} not valid. Supported values: " + Join(", ", validValues));
-        
+
         // Primary Audio Properties
+
+        public static int  AssertSizeOfBitDepth(int  sizeOfBitDepth, bool strict = true)  
+            => AssertFixedValueRange(nameof(SizeOfBitDepth), sizeOfBitDepth, ValidSizesOfBitDepth, strict);
         
-        public static int                    AssertSizeOfBitDepth(int                   sizeOfBitDepth, bool strict = true)  => AssertFixedValueRange(nameof(SizeOfBitDepth), sizeOfBitDepth, ValidSizesOfBitDepth, strict);
-        public static int?                   AssertSizeOfBitDepth(int?                  sizeOfBitDepth, bool strict = false) => AssertFixedValueRange(nameof(SizeOfBitDepth), sizeOfBitDepth, ValidSizesOfBitDepth, strict);
-        public static int                    AssertBits(int                             bits,           bool strict = true)  => AssertFixedValueRange(nameof(Bits), bits, ValidBits, strict);
-        public static int?                   AssertBits(int?                            bits,           bool strict = false) => AssertFixedValueRange(nameof(Bits), bits, ValidBits, strict);
-        public static int                    AssertChannels(int                         channels,       bool strict = true)  => AssertFixedValueRange(nameof(Channels), channels, ValidChannels, strict);
-        public static int?                   AssertChannels(int?                        channels,       bool strict = false) => AssertFixedValueRange(nameof(Channels), channels, ValidChannels, strict);
-        public static int                    AssertChannel(int                          Channel,        bool strict = true)  => AssertFixedValueRange(nameof(Channel), Channel, ValidChannel, strict);
-        public static int?                   AssertChannel(int?                         Channel,        bool strict = false) => AssertFixedValueRange(nameof(Channel), Channel, ValidChannel, strict);
-        public static AudioFileFormatEnum    AssertAudioFormat(AudioFileFormatEnum      audioFormat,    bool strict = true)  => AssertFixedValueRange(nameof(AudioFormat), audioFormat, ValidAudioFormats, strict);
-        public static AudioFileFormatEnum?   AssertAudioFormat(AudioFileFormatEnum?     audioFormat,    bool strict = false) => AssertFixedValueRange(nameof(AudioFormat), audioFormat, ValidAudioFormats, strict);
-        public static InterpolationTypeEnum  AssertInterpolation(InterpolationTypeEnum  interpolation,  bool strict = true)  => AssertFixedValueRange(nameof(Interpolation), interpolation, ValidInterpolations, strict);
-        public static InterpolationTypeEnum? AssertInterpolation(InterpolationTypeEnum? interpolation,  bool strict = false) => AssertFixedValueRange(nameof(Interpolation), interpolation, ValidInterpolations, strict);
+        public static int? AssertSizeOfBitDepth(int? sizeOfBitDepth, bool strict = false) 
+            => AssertFixedValueRange(nameof(SizeOfBitDepth), sizeOfBitDepth, ValidSizesOfBitDepth, strict);
+        
+        public static int  AssertBits(          int  bits,           bool strict = true)  
+            => AssertFixedValueRange(nameof(Bits), bits, ValidBits, strict);
+        
+        public static int? AssertBits(int? bits, bool strict = false) 
+            => AssertFixedValueRange(nameof(Bits), bits, ValidBits, strict);
+        
+        public static int AssertChannels(int channels, bool strict = true) 
+            => AssertFixedValueRange(nameof(Channels), channels, ValidChannels, strict);
+        
+        public static int? AssertChannels(int? channels, bool strict = false) 
+            => AssertFixedValueRange(nameof(Channels), channels, ValidChannels, strict);
+        
+        public static int AssertChannel(int Channel, bool strict = true) 
+            => AssertFixedValueRange(nameof(Channel), Channel, ValidChannel, strict);
+        
+        public static int? AssertChannel(int? Channel, bool strict = false)
+            => AssertFixedValueRange(nameof(Channel), Channel, ValidChannel, strict);
+        
+        public static AudioFileFormatEnum AssertAudioFormat(AudioFileFormatEnum audioFormat, bool strict = true) 
+            => AssertFixedValueRange(nameof(AudioFormat), audioFormat, ValidAudioFormats, strict);
+        
+        public static AudioFileFormatEnum? AssertAudioFormat(AudioFileFormatEnum? audioFormat, bool strict = false) 
+            => AssertFixedValueRange(nameof(AudioFormat), audioFormat, ValidAudioFormats, strict);
+        
+        public static InterpolationTypeEnum AssertInterpolation(InterpolationTypeEnum interpolation, bool strict = true) 
+            => AssertFixedValueRange(nameof(Interpolation), interpolation, ValidInterpolations, strict);
+        
+        public static InterpolationTypeEnum? AssertInterpolation(InterpolationTypeEnum? interpolation, bool strict = false) 
+            => AssertFixedValueRange(nameof(Interpolation), interpolation, ValidInterpolations, strict);
 
         public static int      AssertSamplingRate  (int     samplingRate  , bool strict = true ) => samplingRate        > 0 ? samplingRate   : throw new Exception($"{nameof(SamplingRateExtensionWishes.SamplingRate)} {samplingRate} below 0.");
         public static int    ? AssertSamplingRate  (int   ? samplingRate  , bool strict = false) => !Has(samplingRate)      ? samplingRate   : AssertSamplingRate(samplingRate.Value);
