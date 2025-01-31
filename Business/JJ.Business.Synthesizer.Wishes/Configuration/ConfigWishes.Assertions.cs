@@ -116,33 +116,64 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         public static int? AssertByteCount(int? byteCount, bool strict = false)
             => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict);
 
-        // Misc
+        // FrameCount and CourtesyFrames
 
-        // TODO: Consider what to do about the strict flags here.
+        // Old
 
         public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int courtesyFrames)
         {
             AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames);
             return frameCount - courtesyFrames;
         }
-        
-        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int courtesyFrames)
-        {
-            if (frameCount == null) return;
-            AssertFrameCountWithCourtesyFrames(frameCount.Value, courtesyFrames);
-        }        
 
         public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames)
         {
             AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames);
             return frameCount - courtesyFrames;
         }
+
+        // New
+
+        //public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
+        //public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int courtesyFrames, bool strict = false) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
+        //public static int? AssertFrameCountMinusCourtesyFrames(int frameCount, int? courtesyFrames, bool strict = true) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
+        //private static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = true)
+        //{
+        //    AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
+        //    return frameCount - courtesyFrames;
+        //}
+
+        // Old 
         
-        public static void AssertFrameCountWithCourtesyFrames(int frameCount, int courtesyFrames)
+        //public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int courtesyFrames)
+        //{
+        //    if (frameCount == null) return;
+        //    AssertFrameCountWithCourtesyFrames(frameCount.Value, courtesyFrames);
+        //}        
+
+        //public static void AssertFrameCountWithCourtesyFrames(int frameCount, int courtesyFrames)
+        //{
+        //    AssertFrameCount(frameCount);
+        //    AssertCourtesyFrames(courtesyFrames);
+
+        //    if (frameCount < courtesyFrames)
+        //    {
+        //        throw new Exception(
+        //            $"{nameof(FrameCountExtensionWishes.FrameCount)} = {frameCount} " +
+        //            $"but should be a minimum of {courtesyFrames} {nameof(CourtesyFrames)}.");
+        //    }
+        //}
+
+        // New
+        
+        public static void AssertFrameCountWithCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
+        public static void AssertFrameCountWithCourtesyFrames(int frameCount, int? courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
+        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
+        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = false)
         {
-            AssertFrameCount(frameCount);
-            AssertCourtesyFrames(courtesyFrames);
-            
+            AssertFrameCount(frameCount, strict);
+            AssertCourtesyFrames(courtesyFrames, strict);
+
             if (frameCount < courtesyFrames)
             {
                 throw new Exception(
@@ -150,6 +181,9 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
                     $"but should be a minimum of {courtesyFrames} {nameof(CourtesyFrames)}.");
             }
         }
+
+        
+        // CourtesyBytes with FrameSize
         
         public static int AssertCourtesyBytes(int courtesyBytes, int frameSize, bool strict = true)
         {
@@ -164,12 +198,17 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             
             return courtesyBytes;
         }
+        
+        // File
 
         /// <summary> Max file size is 2GB. Returns 0 if file not exists. </summary>
         public static int AssertFileSize(string filePath, bool strict = false)
         {
-            if (!Has(filePath) && !strict) return default;
-            if (!Exists(filePath) && !strict) return default;
+            if (!strict)
+            {
+                if (!Has(filePath)) return default;
+                if (!Exists(filePath)) return default;
+            }
             
             long fileSize = new FileInfo(filePath).Length;
             int maxSize = int.MaxValue;
