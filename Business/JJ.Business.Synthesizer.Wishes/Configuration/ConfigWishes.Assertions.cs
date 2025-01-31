@@ -10,6 +10,7 @@ using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
+using static JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 
@@ -118,18 +119,16 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // FrameCount and CourtesyFrames
 
-        public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true)
-            => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
-
+        public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
         public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = false)
         {
             AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
             return frameCount - courtesyFrames;
         }
-
-        public static void AssertFrameCountWithCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
-        public static void AssertFrameCountWithCourtesyFrames(int frameCount, int? courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
-        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
+        
+        public static void AssertFrameCountWithCourtesyFrames(int  frameCount, int  courtesyFrames, bool strict = true)  => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
+        public static void AssertFrameCountWithCourtesyFrames(int  frameCount, int? courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, courtesyFrames,       strict);
+        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int  courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames(frameCount,       (int?)courtesyFrames, strict);
         public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = false)
         {
             AssertFrameCount(frameCount, strict);
@@ -224,112 +223,161 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
     
     public static class ConfigAssertionExtensionWishes
     {
+        public static int[] ValidBits(this int bits)
+            => ConfigWishes.ValidBits;
+        
+        public static int[] ValidChannels(this int channels)
+            => ConfigWishes.ValidChannels;
+        
+        public static int[] ValidChannel(this int channel)
+            => ConfigWishes.ValidChannel;
+        
+        public static AudioFileFormatEnum[] ValidAudioFormats(this AudioFileFormatEnum audioFormat)
+            => ConfigWishes.ValidAudioFormats;
+        
+        public static InterpolationTypeEnum[] ValidInterpolations(this InterpolationTypeEnum interpolationType)
+            => ConfigWishes.ValidInterpolations;
+        
+        public static int[] ValidSizesOfBitDepth(this int sizeOfBitDepth)
+            => ConfigWishes.ValidSizesOfBitDepth;
+        
+        public static double[] ValidMaxAmplitudes(this double[] maxAmplitude)
+            => ConfigWishes.ValidMaxAmplitudes;
+        
+        public static int[] ValidHeaderLengths(this int headerLength)
+            => ConfigWishes.ValidHeaderLengths;
+        
+        public static string[] ValidFileExtensions(this string fileExtension)
+            => ConfigWishes.ValidFileExtensions;
+
         // Primary Audio Properties
+        
+        public static int AssertBits(this int bits, bool strict = true)
+            => ConfigWishes.AssertBits(bits, strict);
+        
+        public static int? AssertBits(this int? bits, bool strict = false)
+            => ConfigWishes.AssertBits(bits, strict);
+        
+        public static int AssertChannels(this int channels, bool strict = true)
+            => ConfigWishes.AssertChannels(channels, strict);
+        
+        public static int? AssertChannels(this int? channels, bool strict = false)
+            => ConfigWishes.AssertChannels(channels, strict);
+        
+        public static int AssertChannel(this int Channel, bool strict = true)
+            => ConfigWishes.AssertChannel(Channel, strict);
+        
+        public static int? AssertChannel(this int? Channel, bool strict = false)
+            => ConfigWishes.AssertChannel(Channel, strict);
+        
+        public static int AssertSamplingRate(this int samplingRate, bool strict = true)
+            => ConfigWishes.AssertSamplingRate(samplingRate, strict);
+        
+        public static int? AssertSamplingRate(this int? samplingRate, bool strict = false)
+            => ConfigWishes.AssertSamplingRate(samplingRate, strict);
+        
+        public static int AssertCourtesyFrames(this int courtesyFrames, bool strict = true)
+            => ConfigWishes.AssertCourtesyFrames(courtesyFrames, strict);
+        
+        public static int? AssertCourtesyFrames(this int? courtesyFrames, bool strict = false)
+            => ConfigWishes.AssertCourtesyFrames(courtesyFrames, strict);
+        
+        public static AudioFileFormatEnum AssertAudioFormat(this AudioFileFormatEnum audioFormat, bool strict = true)
+            => ConfigWishes.AssertAudioFormat(audioFormat, strict);
+        
+        public static AudioFileFormatEnum? AssertAudioFormat(this AudioFileFormatEnum? audioFormat, bool strict = false)
+            => ConfigWishes.AssertAudioFormat(audioFormat, strict);
 
-        public static int AssertBits(this int bits)
-            => ConfigWishes.AssertBits(bits);
+        public static InterpolationTypeEnum AssertInterpolation(this InterpolationTypeEnum interpolation, bool strict = true)
+            => ConfigWishes.AssertInterpolation(interpolation, strict);
+        
+        public static InterpolationTypeEnum? AssertInterpolation(this InterpolationTypeEnum? interpolation, bool strict = false)
+            => ConfigWishes.AssertInterpolation(interpolation, strict);
+        
+        // Derived Audio Properties
 
-        public static int? AssertBits(this int? bits)
-            => ConfigWishes.AssertBits(bits);
+        public static int AssertSizeOfBitDepth(this int sizeOfBitDepth, bool strict = true)
+            => ConfigWishes.AssertSizeOfBitDepth(sizeOfBitDepth, strict);
+        
+        public static int? AssertSizeOfBitDepth(this int? sizeOfBitDepth, bool strict = false)
+            => ConfigWishes.AssertSizeOfBitDepth(sizeOfBitDepth, strict);
+        
+        public static double AssertMaxAmplitude(this double maxAmplitude, bool strict = true)
+            => ConfigWishes.AssertMaxAmplitude(maxAmplitude, strict);
+        
+        public static double? AssertMaxAmplitude(this double? maxAmplitude, bool strict = false)
+            => ConfigWishes.AssertMaxAmplitude(maxAmplitude, strict);
+        
+        public static int AssertHeaderLength(this int headerLength, bool strict = true)
+            => ConfigWishes.AssertHeaderLength(headerLength, strict);
+        
+        public static int AssertFrameSize(this int frameSize, bool strict = true)
+            => ConfigWishes.AssertFrameSize(frameSize, strict);
 
-        public static int AssertChannels(this int channels)
-            => ConfigWishes.AssertChannels(channels);
-
-        public static int? AssertChannels(this int? channels)
-            => ConfigWishes.AssertChannels(channels);
-
-        public static int AssertChannel(this int channel)
-            => ConfigWishes.AssertChannel(channel);
-
-        public static int? AssertChannel(this int? channel)
-            => ConfigWishes.AssertChannel(channel);
-
-        public static int AssertSamplingRate(this int samplingRate)
-            => ConfigWishes.AssertSamplingRate(samplingRate);
-
-        public static int? AssertSamplingRate(this int? samplingRate)
-            => ConfigWishes.AssertSamplingRate(samplingRate);
-
-        public static AudioFileFormatEnum AssertAudioFormat(this AudioFileFormatEnum audioFormat)
-            => ConfigWishes.AssertAudioFormat(audioFormat);
-
-        public static AudioFileFormatEnum? AssertAudioFormat(this AudioFileFormatEnum? audioFormat)
-            => ConfigWishes.AssertAudioFormat(audioFormat);
-
-        public static InterpolationTypeEnum AssertInterpolation(this InterpolationTypeEnum interpolation)
-            => ConfigWishes.AssertInterpolation(interpolation);
-
-        public static InterpolationTypeEnum? AssertInterpolation(this InterpolationTypeEnum? interpolation)
-            => ConfigWishes.AssertInterpolation(interpolation);
-
-        public static int AssertCourtesyFrames(this int courtesyFrames)
-            => ConfigWishes.AssertCourtesyFrames(courtesyFrames);
-
-        public static int? AssertCourtesyFrames(this int? courtesyFrames)
-            => ConfigWishes.AssertCourtesyFrames(courtesyFrames);
-
-
-        // Derived
-
-        public static int AssertSizeOfBitDepth(this int sizeOfBitDepth)
-            => ConfigWishes.AssertSizeOfBitDepth(sizeOfBitDepth);
-
-        public static int? AssertSizeOfBitDepth(this int? sizeOfBitDepth)
-            => ConfigWishes.AssertSizeOfBitDepth(sizeOfBitDepth);
-
-        public static double AssertMaxAmplitude(this double maxAmplitude)
-            => ConfigWishes.AssertMaxAmplitude(maxAmplitude);
-
-        public static double? AssertMaxAmplitude(this double? maxAmplitude)
-            => ConfigWishes.AssertMaxAmplitude(maxAmplitude);
-
-        public static int AssertFrameSize(this int frameSize)
-            => ConfigWishes.AssertFrameSize(frameSize);
-
-        public static int? AssertFrameSize(this int? frameSize)
-            => ConfigWishes.AssertFrameSize(frameSize);
-
-        public static int AssertHeaderLength(this int headerLength)
-            => ConfigWishes.AssertHeaderLength(headerLength);
-
-        public static int? AssertHeaderLength(this int? headerLength)
-            => ConfigWishes.AssertHeaderLength(headerLength);
-
-        public static string AssertFileExtension(this string fileExtension)
-            => ConfigWishes.AssertFileExtension(fileExtension);
-
-        public static int AssertCourtesyBytes(this int courtesyBytes)
-            => ConfigWishes.AssertCourtesyBytes(courtesyBytes);
-
-        public static int? AssertCourtesyBytes(this int? courtesyBytes)
-            => ConfigWishes.AssertCourtesyBytes(courtesyBytes);
+        public static int? AssertFrameSize(this int? frameSize, bool strict = false)
+            => ConfigWishes.AssertFrameSize(frameSize, strict);
+        
+        public static int AssertCourtesyBytes(this int courtesyBytes, bool strict = true)
+            => ConfigWishes.AssertCourtesyBytes(courtesyBytes, strict);
+        
+        public static int? AssertCourtesyBytes(this int? courtesyBytes, bool strict = false)
+            => ConfigWishes.AssertCourtesyBytes(courtesyBytes, strict);
+        
+        public static int? AssertHeaderLength(this int? headerLength, bool strict = false)
+            => ConfigWishes.AssertHeaderLength(headerLength, strict);
+        
+        public static string AssertFileExtension(this string fileExtension, bool strict = true)
+            => ConfigWishes.AssertFileExtension(fileExtension, strict);
 
         // Durations
-        
-        public static double AssertAudioLength(this double audioLength)
-            => ConfigWishes.AssertAudioLength(audioLength);
-        
-        public static double? AssertAudioLength(this double? audioLength)
-            => ConfigWishes.AssertAudioLength(audioLength);
-        
-        public static int AssertFrameCount(this int frameCount)
-            => ConfigWishes.AssertFrameCount(frameCount);
-        
-        public static int? AssertFrameCount(this int? frameCount)
-            => ConfigWishes.AssertFrameCount(frameCount);
-        
-        public static int AssertByteCount(this int byteCount)
-            => ConfigWishes.AssertByteCount(byteCount);
-        
-        public static int? AssertByteCount(this int? byteCount)
-            => ConfigWishes.AssertByteCount(byteCount);
 
-        // Misc
+        public static double AssertAudioLength(this double audioLength, bool strict = true)
+            => ConfigWishes.AssertAudioLength(audioLength, strict);
+
+        public static double? AssertAudioLength(this double? audioLength, bool strict = false)
+            => ConfigWishes.AssertAudioLength(audioLength, strict);
+
+        public static int AssertFrameCount(this int frameCount, bool strict = true)
+            => ConfigWishes.AssertFrameCount(frameCount, strict);
+
+        public static int? AssertFrameCount(this int? frameCount, bool strict = false)
+            => ConfigWishes.AssertFrameCount(frameCount, strict);
+
+        public static int AssertByteCount(this int byteCount, bool strict = true)
+            => ConfigWishes.AssertByteCount(byteCount, strict);
+
+        public static int? AssertByteCount(this int? byteCount, bool strict = false)
+            => ConfigWishes.AssertByteCount(byteCount, strict);
         
-        public static int AssertCourtesyBytes(this int courtesyBytes, int frameSize) 
-            => ConfigWishes.AssertCourtesyBytes(courtesyBytes, frameSize);
+        // FrameCount and CourtesyFrames
+
+        public static int AssertFrameCountMinusCourtesyFrames(this int frameCount, int courtesyFrames, bool strict = true)
+            => ConfigWishes.AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames, strict);
         
-        public static int AssertFileSize(this string filePath) 
-            => ConfigWishes.AssertFileSize(filePath);
+        public static int? AssertFrameCountMinusCourtesyFrames(this int? frameCount, int? courtesyFrames, bool strict = false)
+            => ConfigWishes.AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames, strict);
+        
+        public static void AssertFrameCountWithCourtesyFrames(this int  frameCount, int  courtesyFrames, bool strict = true)
+            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
+        
+        public static void AssertFrameCountWithCourtesyFrames(this int  frameCount, int? courtesyFrames, bool strict = false)
+            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
+        
+        public static void AssertFrameCountWithCourtesyFrames(this int? frameCount, int  courtesyFrames, bool strict = false)
+            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
+        
+        public static void AssertFrameCountWithCourtesyFrames(this int? frameCount, int? courtesyFrames, bool strict = false)
+            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
+
+        // CourtesyBytes with FrameSize
+
+        public static int AssertCourtesyBytes(this int courtesyBytes, int frameSize, bool strict = true)
+            => ConfigWishes.AssertCourtesyBytes(courtesyBytes, frameSize, strict);
+
+        // File
+
+        /// <summary> Max file size is 2GB. Returns 0 if file not exists. </summary>
+        public static int AssertFileSize(this string filePath, bool strict = false)
+            => ConfigWishes.AssertFileSize(filePath, strict);
     }
 }
