@@ -98,12 +98,23 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
 
         // Durations
 
-        public static double  AssertAudioLength(double  audioLength, bool strict = true)  => AssertNullOrBottom(nameof(AudioLength), audioLength, 0.0, strict) ?? default;
-        public static double? AssertAudioLength(double? audioLength, bool strict = false) => AssertNullOrBottom(nameof(AudioLength), audioLength, 0.0, strict);
-        public static int     AssertFrameCount(int      frameCount,  bool strict = true)  => AssertNullOrBottom(nameof(FrameCount), frameCount, 0, strict) ?? default;
-        public static int?    AssertFrameCount(int?     frameCount,  bool strict = false) => AssertNullOrBottom(nameof(FrameCount), frameCount, 0, strict);
-        public static int     AssertByteCount(int       byteCount,   bool strict = true)  => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict) ?? default;
-        public static int?    AssertByteCount(int?      byteCount,   bool strict = false) => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict);
+        public static double AssertAudioLength(double audioLength, bool strict = true)
+            => AssertNullOrBottom(nameof(AudioLength), audioLength, 0.0, strict) ?? default;
+
+        public static double? AssertAudioLength(double? audioLength, bool strict = false)
+            => AssertNullOrBottom(nameof(AudioLength), audioLength, 0.0, strict);
+
+        public static int AssertFrameCount(int frameCount, bool strict = true)
+            => AssertNullOrBottom(nameof(FrameCount), frameCount, 0, strict) ?? default;
+
+        public static int? AssertFrameCount(int? frameCount, bool strict = false)
+            => AssertNullOrBottom(nameof(FrameCount), frameCount, 0, strict);
+
+        public static int AssertByteCount(int byteCount, bool strict = true)
+            => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict) ?? default;
+
+        public static int? AssertByteCount(int? byteCount, bool strict = false)
+            => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict);
 
         // Misc
 
@@ -140,10 +151,10 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
             }
         }
         
-        public static int AssertCourtesyBytes(int courtesyBytes, int frameSize)
+        public static int AssertCourtesyBytes(int courtesyBytes, int frameSize, bool strict = true)
         {
-            AssertCourtesyBytes(courtesyBytes);
-            AssertFrameSize(frameSize);
+            AssertCourtesyBytes(courtesyBytes, strict);
+            AssertFrameSize(frameSize, strict);
 
             if (courtesyBytes % frameSize != 0)
             {
@@ -155,17 +166,17 @@ namespace JJ.Business.Synthesizer.Wishes.Configuration
         }
 
         /// <summary> Max file size is 2GB. Returns 0 if file not exists. </summary>
-        public static int AssertFileSize(string filePath)
+        public static int AssertFileSize(string filePath, bool strict = false)
         {
-            if (Exists(filePath))
-            {
-                long fileSize = new FileInfo(filePath).Length;
-                int maxSize = int.MaxValue;
-                if (fileSize > maxSize) throw new Exception($"File too large. Max size = {PrettyByteCount(maxSize)}");
-                return (int)fileSize;
-            }
+            if (!Has(filePath) && !strict) return default;
+            if (!Exists(filePath) && !strict) return default;
             
-            return 0;
+            long fileSize = new FileInfo(filePath).Length;
+            int maxSize = int.MaxValue;
+            
+            if (fileSize > maxSize) throw new Exception($"File too large. Max size = {PrettyByteCount(maxSize)}");
+            
+            return (int)fileSize;
         }
         
         // Generic Assertion Methods
