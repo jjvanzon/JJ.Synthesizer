@@ -284,7 +284,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var stereo = new SpeakerSetup
             {
-                ID = (int)Stereo,
+                ID = (int)SpeakerSetupEnum.Stereo,
                 Name = nameof(Stereo),
             };
             
@@ -336,8 +336,8 @@ namespace JJ.Business.Synthesizer.Wishes
             
             var mono = new SpeakerSetup
             {
-                ID = (int)Mono,
-                Name = nameof(Mono),
+                ID = (int)SpeakerSetupEnum.Mono,
+                Name = nameof(SpeakerSetupEnum.Mono),
             };
             
             var center = new SpeakerSetupChannel

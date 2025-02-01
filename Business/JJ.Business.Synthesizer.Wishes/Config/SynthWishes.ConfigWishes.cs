@@ -17,6 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Is8Bit => Config.Is8Bit;
         public bool Is16Bit => Config.Is16Bit;
         public bool Is32Bit => Config.Is32Bit;
+        public SynthWishes Bits(int? bits) { Config.WithBits(bits); return this; }
         public SynthWishes WithBits(int? bits) { Config.WithBits(bits); return this; }
         protected SynthWishes With8Bit() { Config.With8Bit(); return this; }
         protected SynthWishes With16Bit() { Config.With16Bit(); return this; }
@@ -28,8 +29,14 @@ namespace JJ.Business.Synthesizer.Wishes
         public int GetChannels => Config.GetChannels;
         public bool IsMono => Config.IsMono;
         public bool IsStereo => Config.IsStereo;
+        protected SynthWishes Channels(int? channels) { Config.Channels(channels); return this; }
         public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
+        protected SynthWishes SetChannels(int? channels) { Config.SetChannels(channels); return this; }
+        protected SynthWishes Mono() { Config.Mono(); return this; }
+        protected SynthWishes SetMono() { Config.SetMono(); return this; }
         protected SynthWishes WithMono() { Config.WithMono(); return this; }
+        protected SynthWishes Stereo() { Config.Stereo(); return this; }
+        protected SynthWishes SetStereo() { Config.SetStereo(); return this; }
         protected SynthWishes WithStereo() { Config.WithStereo(); return this; }
         
         public int  CenterChannel => ConfigWishes.CenterChannel;

@@ -73,9 +73,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (!Has(value)) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.Channels(value)); });
             
             AssertProp(x => {
-                if (value == 1 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithMono());
-                if (value == 2 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithStereo()); 
-                if (!Has(value)) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithChannels(value)); });
+                if (value == 1 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.SetMono());
+                if (value == 2 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.SetStereo()); 
+                if (!Has(value)) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.SetChannels(value)); });
             
             AssertProp(x => {
                 if (value == 1 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithMono());
@@ -88,6 +88,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (!Has(value)) AreEqual(x.SynthBound.Derived    ,       x.SynthBound.Derived.Channels_Call(value)); });
             
             AssertProp(x => {
+                if (value == 1 ) AreEqual(x.SynthBound.Derived    , () => x.SynthBound.Derived.SetMono_Call());
+                if (value == 2 ) AreEqual(x.SynthBound.Derived    , () => x.SynthBound.Derived.SetStereo_Call()); 
+                if (!Has(value)) AreEqual(x.SynthBound.Derived    ,       x.SynthBound.Derived.SetChannels_Call(value)); });
+            
+            AssertProp(x => {
                 if (value == 1 ) AreEqual(x.SynthBound.Derived    , () => x.SynthBound.Derived.WithMono_Call());
                 if (value == 2 ) AreEqual(x.SynthBound.Derived    , () => x.SynthBound.Derived.WithStereo_Call()); 
                 if (!Has(value)) AreEqual(x.SynthBound.Derived    ,       x.SynthBound.Derived.WithChannels_Call(value)); });
@@ -98,6 +103,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (!Has(value)) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.Channels(value)); });
             
             AssertProp(x => {
+                if (value == 1 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.SetMono());
+                if (value == 2 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.SetStereo()); 
+                if (!Has(value)) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.SetChannels(value)); });
+            
+            AssertProp(x => {
                 if (value == 1 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithMono());
                 if (value == 2 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithStereo()); 
                 if (!Has(value)) AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode.WithChannels(value)); });
@@ -106,6 +116,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (value == 1 ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Mono());
                 if (value == 2 ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Stereo()); 
                 if (!Has(value)) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.Channels(value)); });
+            
+            AssertProp(x => {
+                if (value == 1 ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.SetMono());
+                if (value == 2 ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.SetStereo()); 
+                if (!Has(value)) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.SetChannels(value)); });
             
             AssertProp(x => {
                 if (value == 1 ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithMono());
@@ -155,12 +170,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (value == 2) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.Stereo()); });
             
             AssertProp(x => {
+                if (value == 1) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.SetMono());
+                if (value == 2) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.SetStereo()); });
+            
+            AssertProp(x => {
                 if (value == 1) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.WithMono());
                 if (value == 2) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.WithStereo()); });
             
             AssertProp(x => {
                 if (value == 1) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.Mono());
                 if (value == 2) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.Stereo()); });
+            
+            AssertProp(x => {
+                if (value == 1) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.SetMono());
+                if (value == 2) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.SetStereo()); });
             
             AssertProp(x => {
                 if (value == 1) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.WithMono());
@@ -171,12 +194,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (value == 2) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Stereo()); });
             
             AssertProp(x => {
+                if (value == 1) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetMono());
+                if (value == 2) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetStereo()); });
+            
+            AssertProp(x => {
                 if (value == 1) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithMono());
                 if (value == 2) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithStereo()); });
             
             AssertProp(x => {
                 if (value == 1) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.Mono());
                 if (value == 2) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.Stereo()); });
+            
+            AssertProp(x => {
+                if (value == 1) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.SetMono());
+                if (value == 2) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.SetStereo()); });
             
             AssertProp(x => {
                 if (value == 1) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.WithMono());
@@ -218,12 +249,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (value == 2) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.Stereo(x.SynthBound.Context)); });
             
             AssertProp(x => {
+                if (value == 1) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.SetMono(x.SynthBound.Context));
+                if (value == 2) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.SetStereo(x.SynthBound.Context)); });
+            
+            AssertProp(x => {
                 if (value == 1) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.WithMono(x.SynthBound.Context));
                 if (value == 2) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.WithStereo(x.SynthBound.Context)); });
             
             AssertProp(x => {
                 if (value == 1) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Mono(x.SynthBound.Context));
                 if (value == 2) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.Stereo(x.SynthBound.Context)); });
+            
+            AssertProp(x => {
+                if (value == 1) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetMono(x.SynthBound.Context));
+                if (value == 2) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetStereo(x.SynthBound.Context)); });
             
             AssertProp(x => {
                 if (value == 1) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithMono(x.SynthBound.Context));
@@ -266,6 +305,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     if (value == 2) AreEqual(x.Independent.Sample, () => x.Independent.Sample.Stereo(x.SynthBound.Context)); });
                 
                 AssertProp(() => {
+                    if (value == 1) AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetMono(x.SynthBound.Context));
+                    if (value == 2) AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetStereo(x.SynthBound.Context)); });
+                
+                AssertProp(() => {
                     if (value == 1) AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithMono(x.SynthBound.Context));
                     if (value == 2) AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithStereo(x.SynthBound.Context)); });
             }
@@ -299,6 +342,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => {
                     if (value == 1) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.Mono());
                     if (value == 2) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.Stereo()); });
+                
+                AssertProp(() => {
+                    if (value == 1) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SetMono());
+                    if (value == 2) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SetStereo()); });
                 
                 AssertProp(() => {
                     if (value == 1) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.WithMono());
@@ -336,6 +383,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     if (value == 2) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.Stereo()); });
                 
                 AssertProp(() => {
+                    if (value == 1) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SetMono());
+                    if (value == 2) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SetStereo()); });
+                
+                AssertProp(() => {
                     if (value == 1) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.WithMono());
                     if (value == 2) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.WithStereo()); });
             }
@@ -367,6 +418,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => x.Immutable.WavHeader.SetChannels(value));
                 AssertProp(() => x.Immutable.WavHeader.WithChannels(value));
                 AssertProp(() => value == 1 ? x.Immutable.WavHeader.Mono() : x.Immutable.WavHeader.Stereo());
+                AssertProp(() => value == 1 ? x.Immutable.WavHeader.SetMono() : x.Immutable.WavHeader.SetStereo());
                 AssertProp(() => value == 1 ? x.Immutable.WavHeader.WithMono() : x.Immutable.WavHeader.WithStereo());
             }
 
@@ -391,6 +443,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => x.Immutable.SpeakerSetupEnum.WithChannels(value));
                 AssertProp(() => value.ChannelsToEnum());
                 AssertProp(() => value == 1 ? x.Immutable.SpeakerSetupEnum.Mono() : x.Immutable.SpeakerSetupEnum.Stereo());
+                AssertProp(() => value == 1 ? x.Immutable.SpeakerSetupEnum.SetMono() : x.Immutable.SpeakerSetupEnum.SetStereo());
                 AssertProp(() => value == 1 ? x.Immutable.SpeakerSetupEnum.WithMono() : x.Immutable.SpeakerSetupEnum.WithStereo());
             }
 
@@ -415,6 +468,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => x.Immutable.SpeakerSetup.WithChannels(value, x.SynthBound.Context));
                 AssertProp(() => value.ChannelsToEntity(x.SynthBound.Context));
                 AssertProp(() => value == 1 ? x.Immutable.SpeakerSetup.Mono(x.SynthBound.Context) : x.Immutable.SpeakerSetup.Stereo(x.SynthBound.Context));
+                AssertProp(() => value == 1 ? x.Immutable.SpeakerSetup.SetMono(x.SynthBound.Context) : x.Immutable.SpeakerSetup.SetStereo(x.SynthBound.Context));
                 AssertProp(() => value == 1 ? x.Immutable.SpeakerSetup.WithMono(x.SynthBound.Context) : x.Immutable.SpeakerSetup.WithStereo(x.SynthBound.Context));
             }
             

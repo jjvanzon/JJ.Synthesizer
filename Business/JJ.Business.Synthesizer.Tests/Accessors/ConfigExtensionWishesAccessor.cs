@@ -64,6 +64,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static ConfigResolverAccessor Stereo(this ConfigResolverAccessor obj) 
             => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
 
+        public static ConfigResolverAccessor SetMono(this ConfigResolverAccessor obj) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
+        
+        public static ConfigResolverAccessor SetStereo(this ConfigResolverAccessor obj) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
+
         public static ConfigResolverAccessor WithMono(this ConfigResolverAccessor obj) 
             => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
         

@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public SynthWishes Bits_Call(int? bits)
         {
             _other.Bits(bits);
-            return this.Bits(bits); // TODO
+            return Bits(bits);
         }
 
         public SynthWishes WithBits_Call(int? bits)
@@ -381,13 +381,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public SynthWishes Channels_Call(int? channels)
         {
             _other.Channels(channels);
-            return this.Channels(channels); // TODO
+            return Channels(channels);
         }
         
         public SynthWishes SetChannels_Call(int? channels)
         {
-            _other.Channels(channels);
-            return this.SetChannels(channels); // TODO
+            _other.SetChannels(channels);
+            return SetChannels(channels);
         }
                 
         public SynthWishes WithChannels_Call(int? channels)
@@ -399,13 +399,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public SynthWishes Mono_Call()
         {
             _other.Mono();
-            return this.Mono(); // TODO
+            return Mono();
         }
                 
         public SynthWishes Stereo_Call()
         {
             _other.Stereo();
-            return this.Stereo(); // TODO
+            return Stereo();
+        }
+        
+        public SynthWishes SetMono_Call()
+        {
+            _other.SetMono();
+            return SetMono();
+        }
+                
+        public SynthWishes SetStereo_Call()
+        {
+            _other.SetStereo();
+            return SetStereo();
         }
         
         public SynthWishes WithMono_Call()
@@ -413,7 +425,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             _other.WithMono();
             return WithMono();
         }
-        
+
         public SynthWishes WithStereo_Call()
         {
             _other.WithStereo();
