@@ -30,37 +30,43 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Synth-Bound
         
-        public static int Channels(this SynthWishes obj)
+        public static int Channels(this SynthWishes obj) => obj.GetChannels();
+        public static int GetChannels(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannels;
         }
         
-        public static SynthWishes Channels(this SynthWishes obj, int? value)
+        public static SynthWishes Channels(this SynthWishes obj, int? value) => obj.SetChannels(value);
+        public static SynthWishes SetChannels(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
         }
         
-        public static int Channels(this FlowNode obj)
+        public static int Channels(this FlowNode obj) => obj.GetChannels();
+        public static int GetChannels(this FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannels;
         }
         
-        public static FlowNode Channels(this FlowNode obj, int? value)
+        public static FlowNode Channels(this FlowNode obj, int? value) => obj.SetChannels(value);
+        public static FlowNode SetChannels(this FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
         }
         
-        internal static int Channels(this ConfigResolver obj)
+        internal static int Channels(this ConfigResolver obj) => obj.GetChannels();
+        internal static int GetChannels(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannels;
         }
         
-        internal static ConfigResolver Channels(this ConfigResolver obj, int? value)
+        internal static ConfigResolver Channels(this ConfigResolver obj, int? value) => obj.SetChannels(value);
+        internal static ConfigResolver SetChannels(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
@@ -68,7 +74,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Global-Bound
         
-        internal static int? Channels(this ConfigSection obj)
+        internal static int? Channels(this ConfigSection obj) => obj.GetChannels();
+        internal static int? GetChannels(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
@@ -76,52 +83,65 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tape Bound
         
-        public static int Channels(this Tape obj)
+        public static int Channels(this Tape obj) => obj.GetChannels();
+        public static int GetChannels(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Config.Channels;
         }
         
-        public static Tape Channels(this Tape obj, int value)
+        public static Tape Channels(this Tape obj, int value) => obj.SetChannels(value);
+        public static Tape WithChannels(this Tape obj, int value) => obj.SetChannels(value);
+        public static Tape SetChannels(this Tape obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Config.Channels = value;
             return obj;
         }
         
-        public static int Channels(this TapeConfig obj)
+        public static int Channels(this TapeConfig obj) => obj.GetChannels();
+        public static int GetChannels(this TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
         }
         
-        public static TapeConfig Channels(this TapeConfig obj, int value)
+        public static TapeConfig Channels(this TapeConfig obj, int value) => obj.SetChannels(value);
+        public static TapeConfig WithChannels(this TapeConfig obj, int value) => obj.SetChannels(value);
+        public static TapeConfig SetChannels(this TapeConfig obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Channels = value;
             return obj;
         }
         
-        public static int Channels(this TapeActions obj)
+        public static int Channels(this TapeActions obj) => obj.GetChannels();
+        public static int GetChannels(this TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Channels;
         }
         
-        public static TapeActions Channels(this TapeActions obj, int value)
+        
+        public static TapeActions Channels(this TapeActions obj, int value) => obj.SetChannels(value);
+        public static TapeActions WithChannels(this TapeActions obj, int value) => obj.SetChannels(value);
+        public static TapeActions SetChannels(this TapeActions obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Channels = value;
             return obj;
         }
         
-        public static int Channels(this TapeAction obj)
+        public static int Channels(this TapeAction obj) => obj.GetChannels();
+        public static int GetChannels(this TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Channels;
         }
         
-        public static TapeAction Channels(this TapeAction obj, int value)
+        public static TapeAction Channels(this TapeAction obj, int value) => obj.SetChannels(value);
+        public static TapeAction WithChannels(this TapeAction obj, int value) => obj.SetChannels(value);
+        public static TapeAction SetChannels(this TapeAction obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Channels = value;
@@ -130,14 +150,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Buff-Bound
         
-        public static int Channels(this Buff obj)
+        public static int Channels(this Buff obj) => obj.GetChannels();
+        public static int GetChannels(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
             if (obj.UnderlyingAudioFileOutput == null) return NoChannels;
             return obj.UnderlyingAudioFileOutput.Channels();
         }
         
-        public static Buff Channels(this Buff obj, int value, IContext context)
+        public static Buff Channels(this Buff obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static Buff WithChannels(this Buff obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static Buff SetChannels(this Buff obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             if (obj.UnderlyingAudioFileOutput == null) throw new NullException(() => obj);
@@ -145,13 +168,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static int Channels(this AudioFileOutput obj)
+        public static int Channels(this AudioFileOutput obj) => obj.GetChannels();
+        public static int GetChannels(this AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannelCount();
         }
         
-        public static AudioFileOutput Channels(this AudioFileOutput obj, int value, IContext context)
+        public static AudioFileOutput Channels(this AudioFileOutput obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static AudioFileOutput WithChannels(this AudioFileOutput obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static AudioFileOutput SetChannels(this AudioFileOutput obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.SpeakerSetup = GetSubstituteSpeakerSetup(value, context);
@@ -161,35 +187,45 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         // Independent after Taping
-                
-        public static int Channels(this Sample obj) => obj.GetChannelCount();
         
-        public static Sample Channels(this Sample obj, int value, IContext context)
+        public static int Channels(this Sample obj) => obj.GetChannels();
+        public static int GetChannels(this Sample obj) 
+            => obj.GetChannelCount();
+        
+        public static Sample Channels(this Sample obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static Sample WithChannels(this Sample obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static Sample SetChannels(this Sample obj, int value, IContext context)
         {
             obj.SetSpeakerSetupEnum(value.ChannelsToEnum(), context);
             return obj;
         }
                          
-        public static int Channels(this AudioInfoWish obj)
+        public static int Channels(this AudioInfoWish obj) => obj.GetChannels();
+        public static int GetChannels(this AudioInfoWish obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
         }
        
-        public static AudioInfoWish Channels(this AudioInfoWish obj, int value)
+        public static AudioInfoWish Channels(this AudioInfoWish obj, int value) => obj.SetChannels(value);
+        public static AudioInfoWish WithChannels(this AudioInfoWish obj, int value) => obj.SetChannels(value);
+        public static AudioInfoWish SetChannels(this AudioInfoWish obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Channels = AssertChannels(value);
             return obj;
         }
         
-        public static int Channels(this AudioFileInfo obj)
+        public static int Channels(this AudioFileInfo obj) => obj.GetChannels();
+        public static int GetChannels(this AudioFileInfo obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.ChannelCount;
         }
         
-        public static AudioFileInfo Channels(this AudioFileInfo obj, int value)
+        public static AudioFileInfo Channels(this AudioFileInfo obj, int value) => obj.SetChannels(value);
+        public static AudioFileInfo WithChannels(this AudioFileInfo obj, int value) => obj.SetChannels(value);
+        public static AudioFileInfo SetChannels(this AudioFileInfo obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.ChannelCount = AssertChannels(value);
@@ -198,24 +234,56 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Immutable
         
-        public static int Channels(this WavHeaderStruct obj) => obj.ChannelCount;
+        public static int Channels(this WavHeaderStruct obj) => obj.GetChannels();
+        public static int GetChannels(this WavHeaderStruct obj) 
+            => obj.ChannelCount;
         
-        public static WavHeaderStruct Channels(this WavHeaderStruct obj, int value) => obj.ToWish().Channels(value).ToWavHeader();
+        public static WavHeaderStruct Channels(this WavHeaderStruct obj, int value) => obj.SetChannels(value);
+        public static WavHeaderStruct WithChannels(this WavHeaderStruct obj, int value) => obj.SetChannels(value);
+        public static WavHeaderStruct SetChannels(this WavHeaderStruct obj, int value) 
+            => obj.ToWish().Channels(value).ToWavHeader();
         
         [Obsolete(ObsoleteMessage)]
-        public static int Channels(this SpeakerSetupEnum obj) => obj.EnumToChannels();
-        
+        public static int EnumToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.EnumToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)]
+        public static int Channels(this SpeakerSetupEnum obj) => ConfigWishes.Channels(obj);
+        [Obsolete(ObsoleteMessage)]
+        public static int GetChannels(this SpeakerSetupEnum obj) => ConfigWishes.GetChannels(obj);
+        [Obsolete(ObsoleteMessage)]
+        public static int ToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.ToChannels(enumValue);
+
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum ChannelsToEnum(this int channels) => ConfigWishes.ChannelsToEnum(channels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) => newChannels.ChannelsToEnum();
+        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.Channels(oldEnumValue, newChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum SetChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.SetChannels(oldEnumValue, newChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum WithChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.WithChannels(oldEnumValue, newChannels);
         
         [Obsolete(ObsoleteMessage)] 
-        public static int Channels(this SpeakerSetup obj) => obj.EntityToChannels();
+        public static int EntityToChannels(this SpeakerSetup entity) => ConfigWishes.EntityToChannels(entity);
+        [Obsolete(ObsoleteMessage)] 
+        public static int Channels(this SpeakerSetup obj) => ConfigWishes.Channels(obj);
+        [Obsolete(ObsoleteMessage)] 
+        public static int GetChannels(this SpeakerSetup obj) => ConfigWishes.GetChannels(obj);
+        [Obsolete(ObsoleteMessage)] 
+        public static int ToChannels(this SpeakerSetup obj) => ConfigWishes.ToChannels(obj);
         
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup Channels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
-            => newChannels.ChannelsToEntity(context);
+        public static SpeakerSetup Channels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.Channels(oldSpeakerSetup, newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetup SetChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.SetChannels(oldSpeakerSetup, newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetup WithChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.WithChannels(oldSpeakerSetup, newChannels, context);
         
         // Channels Shorthand
         
@@ -281,6 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public   static SynthWishes     WithMono  (this SynthWishes     obj                  ) => obj.Channels(MonoChannels         );
         public   static FlowNode        WithMono  (this FlowNode        obj                  ) => obj.Channels(MonoChannels         );
+        [UsedImplicitly]
         internal static ConfigResolver  WithMono  (this ConfigResolver  obj                  ) => obj.Channels(MonoChannels         );
         public   static Tape            WithMono  (this Tape            obj                  ) => obj.Channels(MonoChannels         );
         public   static TapeConfig      WithMono  (this TapeConfig      obj                  ) => obj.Channels(MonoChannels         );
@@ -321,6 +390,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public   static SynthWishes     WithStereo(this SynthWishes     obj                  ) => obj.Channels(StereoChannels         );
         public   static FlowNode        WithStereo(this FlowNode        obj                  ) => obj.Channels(StereoChannels         );
+        [UsedImplicitly]
         internal static ConfigResolver  WithStereo(this ConfigResolver  obj                  ) => obj.Channels(StereoChannels         );
         public   static Tape            WithStereo(this Tape            obj                  ) => obj.Channels(StereoChannels         );
         public   static TapeConfig      WithStereo(this TapeConfig      obj                  ) => obj.Channels(StereoChannels         );
@@ -338,17 +408,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static SpeakerSetup WithStereo(this SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
-        
-        // Conversion-Style
-
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum ChannelsToEnum(this int channels) => ConfigWishes.ChannelsToEnum(channels);
-        [Obsolete(ObsoleteMessage)]
-        public static int EnumToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.EnumToChannels(enumValue);
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
-        [Obsolete(ObsoleteMessage)] 
-        public static int EntityToChannels(this SpeakerSetup entity) => ConfigWishes.EntityToChannels(entity);
     }
     
     public partial class ConfigWishes
@@ -358,8 +417,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public const int NoChannels = 0;
         public const int MonoChannels = 1;
         public const int StereoChannels = 2;
-
-        // Conversion-Style
 
         [Obsolete(ObsoleteMessage)]
         public static SpeakerSetupEnum ChannelsToEnum(int channels)
@@ -372,7 +429,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 default: return default; // ncrunch: no coverage
             }
         }
-        
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum Channels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum SetChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static SpeakerSetupEnum WithChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
+
         [Obsolete(ObsoleteMessage)]
         public static int EnumToChannels(SpeakerSetupEnum enumValue)
         {
@@ -384,13 +450,32 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 default: throw new ValueNotSupportedException(enumValue);
             }
         }
+        [Obsolete(ObsoleteMessage)]
+        public static int Channels(SpeakerSetupEnum obj) => EnumToChannels(obj);
+        [Obsolete(ObsoleteMessage)]
+        public static int GetChannels(SpeakerSetupEnum obj) => EnumToChannels(obj);
+        [Obsolete(ObsoleteMessage)]
+        public static int ToChannels(SpeakerSetupEnum enumValue) => EnumToChannels(enumValue);
         
         [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetup ChannelsToEntity(int channels, IContext context)
-            => channels.ChannelsToEnum().ToEntity(context);
-        
+        public static SpeakerSetup ChannelsToEntity(int channels, IContext context) => channels.ChannelsToEnum().ToEntity(context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetup Channels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetup SetChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SpeakerSetup WithChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+
         [Obsolete(ObsoleteMessage)] 
-        public static int EntityToChannels(SpeakerSetup entity) 
-            => entity.ToEnum().EnumToChannels();
+        public static int EntityToChannels(SpeakerSetup entity) => entity.ToEnum().EnumToChannels();
+        [Obsolete(ObsoleteMessage)] 
+        public static int Channels(SpeakerSetup obj) => EntityToChannels(obj);
+        [Obsolete(ObsoleteMessage)] 
+        public static int GetChannels(SpeakerSetup obj) => EntityToChannels(obj);
+        [Obsolete(ObsoleteMessage)] 
+        public static int ToChannels(SpeakerSetup obj) => EntityToChannels(obj);
     }
 }

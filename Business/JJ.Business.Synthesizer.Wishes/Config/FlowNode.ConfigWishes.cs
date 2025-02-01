@@ -16,20 +16,18 @@ namespace JJ.Business.Synthesizer.Wishes
         // Audio Quality
         
         public int GetBits => _synthWishes.GetBits;
-        public FlowNode WithBits(int? bits) { _synthWishes.WithBits(bits); return this; }
         public bool Is32Bit => _synthWishes.Is32Bit;
         public bool Is16Bit => _synthWishes.Is16Bit;
         public bool Is8Bit => _synthWishes.Is8Bit;
+        public FlowNode WithBits(int? bits) { _synthWishes.WithBits(bits); return this; }
 
         public int NoChannels => ConfigWishes.NoChannels;
         public int MonoChannels => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => _synthWishes.GetChannels;
-        public FlowNode WithChannels(int? channels) { _synthWishes.WithChannels(channels); return this; }
         public bool IsMono => _synthWishes.IsMono;
-        public FlowNode WithMono() { _synthWishes.WithMono(); return this; }
         public bool IsStereo => _synthWishes.IsStereo;
-        public FlowNode WithStereo() { _synthWishes.WithStereo(); return this; }
+        public FlowNode WithChannels(int? channels) { _synthWishes.WithChannels(channels); return this; }
 
         public int CenterChannel => ConfigWishes.CenterChannel;
         public int LeftChannel => ConfigWishes.LeftChannel;

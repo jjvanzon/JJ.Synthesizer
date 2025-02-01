@@ -26,9 +26,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public int MonoChannels   => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
         public int GetChannels => Config.GetChannels;
-        public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
         public bool IsMono => Config.IsMono;
         public bool IsStereo => Config.IsStereo;
+        public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
         protected SynthWishes WithMono() { Config.WithMono(); return this; }
         protected SynthWishes WithStereo() { Config.WithStereo(); return this; }
         

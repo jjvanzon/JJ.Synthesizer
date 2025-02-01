@@ -16,7 +16,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 {
     public partial class ConfigWishes
     {
-        private const string Channels = "Channels";
         private const string Interpolation = "Interpolation";
         private const string SamplingRate = "SamplingRate";
         

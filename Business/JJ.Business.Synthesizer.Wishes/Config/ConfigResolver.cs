@@ -44,11 +44,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         private int? _channels;
         public int GetChannels => CoalesceChannels(_channels, _section.Channels);
-        public ConfigResolver WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
         public bool IsMono => GetChannels == 1;
-        public ConfigResolver WithMono() => WithChannels(1);
         public bool IsStereo => GetChannels == 2;
-        public ConfigResolver WithStereo() => WithChannels(2);
+        public ConfigResolver WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
         
         // Channel
         
@@ -56,11 +54,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public int? GetChannel => CoalesceChannelsChannelCombo(GetChannels, _channel).channel;
         public ConfigResolver WithChannel(int? channel) { _channel = AssertChannel(channel); return this; }
         public bool           IsCenter  =>       IsMono  ? GetChannel == CenterChannel : default;
-        public ConfigResolver WithCenter() {   WithMono(); WithChannel  (CenterChannel); return this; }
+        public ConfigResolver WithCenter() {   this.WithMono(); WithChannel  (CenterChannel); return this; }
         public bool           IsLeft    =>     IsStereo  ? GetChannel == LeftChannel   : default;
-        public ConfigResolver WithLeft  () { WithStereo(); WithChannel  (LeftChannel)  ; return this; }
+        public ConfigResolver WithLeft  () { this.WithStereo(); WithChannel  (LeftChannel)  ; return this; }
         public bool           IsRight   =>     IsStereo  ? GetChannel == RightChannel  : default;
-        public ConfigResolver WithRight () { WithStereo(); WithChannel  (RightChannel) ; return this; }
+        public ConfigResolver WithRight () { this.WithStereo(); WithChannel  (RightChannel) ; return this; }
         
         // SamplingRate
         
