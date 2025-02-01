@@ -54,12 +54,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(value)));
-            AssertProp(x => AreEqual(x.SynthBound.Derived,        x.SynthBound.Derived       .Bits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.Derived,        x.SynthBound.Derived       .Bits_Call(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(value)));
 
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithBits(value)));
-            AssertProp(x => AreEqual(x.SynthBound.Derived,        x.SynthBound.Derived       .WithBits(value)));
+            AssertProp(x => AreEqual(x.SynthBound.Derived,        x.SynthBound.Derived       .WithBits_Call(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithBits(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithBits(value)));
             
@@ -70,10 +70,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (!Has(value)) AreEqual(x.SynthBound.SynthWishes,       x.SynthBound.SynthWishes.WithBits(value)); });
             
             AssertProp(x => {
-                if (value == 8 ) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With8BitCall());
-                if (value == 16) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With16BitCall());
-                if (value == 32) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With32BitCall()); 
-                if (!Has(value)) AreEqual(x.SynthBound.Derived,       x.SynthBound.Derived.WithBitsCall(value)); });
+                if (value == 8 ) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With8Bit_Call());
+                if (value == 16) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With16Bit_Call());
+                if (value == 32) AreEqual(x.SynthBound.Derived, () => x.SynthBound.Derived.With32Bit_Call()); 
+                if (!Has(value)) AreEqual(x.SynthBound.Derived,       x.SynthBound.Derived.WithBits_Call(value)); });
                                                                      
             AssertProp(x => {                                        
                 if (value == 8 ) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.With8Bit());

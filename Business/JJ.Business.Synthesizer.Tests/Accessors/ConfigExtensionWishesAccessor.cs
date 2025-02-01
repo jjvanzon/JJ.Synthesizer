@@ -52,7 +52,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public static ConfigResolverAccessor Channels(this ConfigResolverAccessor obj, int? value) 
             => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new[]{ obj.Obj, value }, new[]{ null, typeof(int?) }));
-        
+        public static ConfigResolverAccessor SetChannels(this ConfigResolverAccessor obj, int? channels) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new[]{ obj.Obj, channels }, new[]{ null, typeof(int?) }));
+
         public static bool IsMono(this ConfigResolverAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
         public static bool IsStereo(this ConfigResolverAccessor obj) => (bool)_accessor.InvokeMethod(MemberName(), obj.Obj);
         
@@ -60,6 +62,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
         
         public static ConfigResolverAccessor Stereo(this ConfigResolverAccessor obj) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
+
+        public static ConfigResolverAccessor WithMono(this ConfigResolverAccessor obj) 
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
+        
+        public static ConfigResolverAccessor WithStereo(this ConfigResolverAccessor obj) 
             => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), obj.Obj));
 
         // With ConfigSection

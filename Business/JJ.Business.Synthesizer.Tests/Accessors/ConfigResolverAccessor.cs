@@ -58,11 +58,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // Channels
 
         public int GetChannels => (int)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor WithChannels(int? channels) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new object[] { channels }, new[] { typeof(int?) }));
         public bool IsMono => (bool)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor WithMono() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
         public bool IsStereo => (bool)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor WithStereo() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
+        public ConfigResolverAccessor WithChannels(int? channels) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new object[] { channels }, new[] { typeof(int?) }));
                 
         // Channel
 

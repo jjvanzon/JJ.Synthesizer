@@ -27,7 +27,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     {
         public override string        ToString() => DebuggerDisplay(this);
         public SynthWishes            SynthWishes          { get; set; }
-        public SynthWishesDerived   Derived { get; set; }
+        /// <inheritdoc cref="docs._synthwishesderived" />
+        public SynthWishesDerived     Derived { get; set; }
         public SynthWishesAccessor    SynthWishesAccessor  { get; set; }
         public IContext               Context              { get; set; }
         public FlowNode               FlowNode             { get; set; }
@@ -334,57 +335,89 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Immutable.FrameSize           = SynthBound.SynthWishes.FrameSize();
         }
     }
-            
+    
+    /// <inheritdoc cref="docs._synthwishesderived" />
     internal class SynthWishesDerived : SynthWishes
     {
-        readonly SynthWishes _nonInherited;
+        readonly SynthWishes _other;
         
-        public SynthWishesDerived(SynthWishes nonInherited)
+        /// <inheritdoc cref="docs._synthwishesderived" />
+        public SynthWishesDerived(SynthWishes other) => _other = other;
+        
+        // Bits
+        
+        public SynthWishes Bits_Call(int? bits)
         {
-            _nonInherited = nonInherited;
+            _other.Bits(bits);
+            return this.Bits(bits); // TODO
         }
-        
-        // Proves members can be called without a `this.` qualifier.
-        // But keeps things in tangent with the other non-inherited SynthWishes,
-        // to be able to assert all Synth-Bound getters in one blow.
 
-        public SynthWishes WithBitsCall(int? bits)
+        public SynthWishes WithBits_Call(int? bits)
         {
-            _nonInherited.WithBits(bits);
+            _other.WithBits(bits);
             return WithBits(bits);
         }
         
-        public SynthWishes With8BitCall()
+        public SynthWishes With8Bit_Call()
         {
-            _nonInherited.With8Bit();
+            _other.With8Bit();
             return With8Bit();
         }
         
-        public SynthWishes With16BitCall()
+        public SynthWishes With16Bit_Call()
         {
-            _nonInherited.With16Bit();
+            _other.With16Bit();
             return With16Bit();
         }
         
-        public SynthWishes With32BitCall()
+        public SynthWishes With32Bit_Call()
         {
-            _nonInherited.With32Bit();
+            _other.With32Bit();
             return With32Bit();
         }
-
-        // These are boilerplate to make the derived class
-        // change in tangent with other SynthBound entities.
-
-        public SynthWishes Bits(int? bits)
+        
+        // Channels
+        
+        public SynthWishes Channels_Call(int? channels)
         {
-            _nonInherited.WithBits(bits);
-            return base.WithBits(bits);
+            _other.Channels(channels);
+            return this.Channels(channels); // TODO
+        }
+        
+        public SynthWishes SetChannels_Call(int? channels)
+        {
+            _other.Channels(channels);
+            return this.SetChannels(channels); // TODO
+        }
+                
+        public SynthWishes WithChannels_Call(int? channels)
+        {
+            _other.WithChannels(channels);
+            return WithChannels(channels);
         }
 
-        public new SynthWishes WithBits(int? bits)
+        public SynthWishes Mono_Call()
         {
-            _nonInherited.WithBits(bits);
-            return base.WithBits(bits);
+            _other.Mono();
+            return this.Mono(); // TODO
+        }
+                
+        public SynthWishes Stereo_Call()
+        {
+            _other.Stereo();
+            return this.Stereo(); // TODO
+        }
+        
+        public SynthWishes WithMono_Call()
+        {
+            _other.WithMono();
+            return WithMono();
+        }
+        
+        public SynthWishes WithStereo_Call()
+        {
+            _other.WithStereo();
+            return WithStereo();
         }
     }
 }
