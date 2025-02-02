@@ -30,12 +30,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Synth-Bound
 
-        public static int Bits(this SynthWishes obj)
+        public static int Bits(this SynthWishes obj) => GetBits(obj);
+        public static int GetBits(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetBits;
         }
-        
+        public static SynthWishes SetBits(this SynthWishes obj, int? value)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return obj.WithBits(value);
+        }
+
         public static SynthWishes Bits(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
