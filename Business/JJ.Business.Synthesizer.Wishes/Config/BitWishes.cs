@@ -986,10 +986,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
 
-        // TODO: Add Synonyms
-        
         // With Type Arguments
-        
         
         public static bool Is8Bit <TValue> () => TypeToBits<TValue>() == 8;
         public static bool Is16Bit<TValue> () => TypeToBits<TValue>() == 16;
