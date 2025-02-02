@@ -35,20 +35,36 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.GetChannel;
         }
         
-        public static SynthWishes Center(this SynthWishes obj) => obj.Mono().Channel(CenterChannel);
-        public static SynthWishes Left(this SynthWishes obj) => obj.Stereo().Channel(LeftChannel);
-        public static SynthWishes Right(this SynthWishes obj) => obj.Stereo().Channel(RightChannel);
-        public static SynthWishes NoChannel(this SynthWishes obj) => obj.Stereo().Channel(EveryChannel);
-        public static SynthWishes Channel(this SynthWishes obj, int? value)
+        public static SynthWishes Center(this        SynthWishes obj) => SetCenter(obj);
+        public static SynthWishes WithCenter(this    SynthWishes obj) => SetCenter(obj);
+        public static SynthWishes AsCenter(this      SynthWishes obj) => SetCenter(obj);
+        public static SynthWishes Left(this          SynthWishes obj) => SetLeft(obj);
+        public static SynthWishes WithLeft(this      SynthWishes obj) => SetLeft(obj);
+        public static SynthWishes AsLeft(this        SynthWishes obj) => SetLeft(obj);
+        public static SynthWishes WithRight(this     SynthWishes obj) => SetRight(obj);
+        public static SynthWishes Right(this         SynthWishes obj) => SetRight(obj);
+        public static SynthWishes AsRight(this       SynthWishes obj) => SetRight(obj);
+        public static SynthWishes NoChannel(this     SynthWishes obj) => SetNoChannel(obj);
+        public static SynthWishes WithNoChannel(this SynthWishes obj) => SetNoChannel(obj);
+        public static SynthWishes AsNoChannel(this   SynthWishes obj) => SetNoChannel(obj);
+        public static SynthWishes Channel(this       SynthWishes obj, int? value) => SetChannel(obj, value);
+        public static SynthWishes WithChannel(this   SynthWishes obj, int? value) => SetChannel(obj, value);
+        public static SynthWishes AsChannel(this     SynthWishes obj, int? value) => SetChannel(obj, value);
+        public static SynthWishes SetCenter(this     SynthWishes obj) => obj.SetMono().SetChannel(CenterChannel);
+        public static SynthWishes SetLeft(this       SynthWishes obj) => obj.SetStereo().SetChannel(LeftChannel);
+        public static SynthWishes SetRight(this      SynthWishes obj) => obj.SetStereo().SetChannel(RightChannel);
+        public static SynthWishes SetNoChannel(this  SynthWishes obj) => obj.SetStereo().SetChannel(EveryChannel);
+        public static SynthWishes SetChannel(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannel(value);
         }
-        
+
         public static bool IsCenter(this FlowNode obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         public static bool IsLeft(this FlowNode obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsRight(this FlowNode obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static int? Channel(this FlowNode obj)
+        public static int? Channel(this FlowNode obj) => GetChannel(obj);
+        public static int? GetChannel(this FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannel;
@@ -58,7 +74,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode Left(this FlowNode obj) => obj.Stereo().Channel(LeftChannel);
         public static FlowNode Right(this FlowNode obj) => obj.Stereo().Channel(RightChannel);
         public static FlowNode NoChannel(this FlowNode obj) => obj.Stereo().Channel(EveryChannel);
-        public static FlowNode Channel(this FlowNode obj, int? value)
+        public static FlowNode Channel(this FlowNode obj, int? value) => SetChannel(obj, value);
+        public static FlowNode SetChannel(this FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannel(value);
@@ -69,7 +86,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [UsedImplicitly]
         internal static bool IsLeft(this ConfigResolver obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         internal static bool IsRight(this ConfigResolver obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        internal static int? Channel(this ConfigResolver obj)
+        internal static int? Channel(this ConfigResolver obj) => GetChannel(obj);
+        internal static int? GetChannel(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannel;
@@ -79,7 +97,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         internal static ConfigResolver Left(this ConfigResolver obj) => obj.Stereo().Channel(LeftChannel);
         internal static ConfigResolver Right(this ConfigResolver obj) => obj.Stereo().Channel(RightChannel);
         internal static ConfigResolver NoChannel(this ConfigResolver obj) => obj.Stereo().Channel(EveryChannel);
-        internal static ConfigResolver Channel(this ConfigResolver obj, int? value)
+        internal static ConfigResolver Channel(this ConfigResolver obj, int? value) => obj.SetChannel(value);
+        internal static ConfigResolver SetChannel(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannel(value);
@@ -90,7 +109,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsCenter(this Tape obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         public static bool IsLeft(this Tape obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsRight(this Tape obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static int? Channel(this Tape obj)
+        public static int? Channel(this Tape obj) => GetChannel(obj);
+        public static int? GetChannel(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Config.Channel;
@@ -100,7 +120,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Tape Left(this Tape obj) => obj.Stereo().Channel(LeftChannel);
         public static Tape Right(this Tape obj) => obj.Stereo().Channel(RightChannel);
         public static Tape NoChannel(this Tape obj) => obj.Stereo().Channel(EveryChannel);
-        public static Tape Channel(this Tape obj, int? value)
+        public static Tape Channel(this Tape obj, int? value) => SetChannel(obj, value);
+        public static Tape SetChannel(this Tape obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Config.Channel = value;
@@ -110,7 +131,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsCenter(this TapeConfig obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         public static bool IsLeft(this TapeConfig obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsRight(this TapeConfig obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static int? Channel(this TapeConfig obj)
+        public static int? Channel(this TapeConfig obj) => GetChannel(obj);
+        public static int? GetChannel(this TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channel;
@@ -120,7 +142,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeConfig Left(this TapeConfig obj) => obj.Stereo().Channel(LeftChannel);
         public static TapeConfig Right(this TapeConfig obj) => obj.Stereo().Channel(RightChannel);
         public static TapeConfig NoChannel(this TapeConfig obj) => obj.Stereo().Channel(EveryChannel);
-        public static TapeConfig Channel(this TapeConfig obj, int? value)
+        public static TapeConfig Channel(this TapeConfig obj, int? value) => SetChannel(obj, value);
+        public static TapeConfig SetChannel(this TapeConfig obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Channel = value;
@@ -130,7 +153,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsCenter(this TapeActions obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         public static bool IsLeft(this TapeActions obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsRight(this TapeActions obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static int? Channel(this TapeActions obj)
+        public static int? Channel(this TapeActions obj) => GetChannel(obj);
+        public static int? GetChannel(this TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Channel;
@@ -140,7 +164,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeActions Left(this TapeActions obj) => obj.Stereo().Channel(LeftChannel);
         public static TapeActions Right(this TapeActions obj) => obj.Stereo().Channel(RightChannel);
         public static TapeActions NoChannel(this TapeActions obj) => obj.Stereo().Channel(EveryChannel);
-        public static TapeActions Channel(this TapeActions obj, int? value)
+        public static TapeActions Channel(this TapeActions obj, int? value) => SetChannel(obj, value);
+        public static TapeActions SetChannel(this TapeActions obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Channel = value;
@@ -150,7 +175,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsCenter(this TapeAction obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         public static bool IsLeft(this TapeAction obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsRight(this TapeAction obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static int? Channel(this TapeAction obj)
+        public static int? Channel(this TapeAction obj) => GetChannel(obj);
+        public static int? GetChannel(this TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Channel;
@@ -160,7 +186,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeAction Left(this TapeAction obj) => obj.Stereo().Channel(LeftChannel);
         public static TapeAction Right(this TapeAction obj) => obj.Stereo().Channel(RightChannel);
         public static TapeAction NoChannel(this TapeAction obj) => obj.Stereo().Channel(EveryChannel);
-        public static TapeAction Channel(this TapeAction obj, int? value)
+        public static TapeAction Channel(this TapeAction obj, int? value) => SetChannel(obj, value);
+        public static TapeAction SetChannel(this TapeAction obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Channel = value;
@@ -172,7 +199,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsCenter(this Buff obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         public static bool IsLeft(this Buff obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsRight(this Buff obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static int? Channel(this Buff obj)
+        public static int? Channel(this Buff obj) => GetChannel(obj);
+        public static int? GetChannel(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.UnderlyingAudioFileOutput?.Channel();
@@ -182,7 +210,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Buff Left(this Buff obj, IContext context) => obj.Stereo(context).Channel(LeftChannel, context);
         public static Buff Right(this Buff obj, IContext context) => obj.Stereo(context).Channel(RightChannel, context);
         public static Buff NoChannel(this Buff obj, IContext context) => obj.Stereo(context).Channel(EveryChannel, context);
-        public static Buff Channel(this Buff obj, int? value, IContext context)
+        public static Buff Channel(this Buff obj, int? value, IContext context) => SetChannel(obj, value, context);
+        public static Buff SetChannel(this Buff obj, int? value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             
@@ -201,7 +230,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsCenter(this AudioFileOutput obj) => obj.IsMono() && obj.Channel() == CenterChannel;
         public static bool IsLeft(this AudioFileOutput obj) => obj.IsStereo() && obj.Channel() == LeftChannel;
         public static bool IsRight(this AudioFileOutput obj) => obj.IsStereo() && obj.Channel() == RightChannel;
-        public static int? Channel(this AudioFileOutput obj)
+        public static int? Channel(this AudioFileOutput obj) => GetChannel(obj);
+        public static int? GetChannel(this AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
             if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
@@ -246,7 +276,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput NoChannel(this AudioFileOutput obj, IContext context) => obj.Stereo(context).Channel(EveryChannel, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput Channel(this AudioFileOutput obj, int? channel, IContext context)
+        public static AudioFileOutput Channel(this AudioFileOutput obj, int? channel, IContext context) => SetChannel(obj, channel, context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetChannel(this AudioFileOutput obj, int? channel, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
@@ -300,12 +332,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Immutable
 
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this ChannelEnum obj) => obj == ChannelEnum.Single;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this ChannelEnum obj) => obj == ChannelEnum.Left;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(this ChannelEnum obj) => obj == ChannelEnum.Right;
-        [Obsolete(ObsoleteMessage)] public static int? Channel(this ChannelEnum obj) => obj.EnumToChannel();
-        [Obsolete(ObsoleteMessage)] 
-        public static int? EnumToChannel(this ChannelEnum obj) => ConfigWishes.EnumToChannel(obj);
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this      ChannelEnum enumValue) => enumValue == ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this        ChannelEnum enumValue) => enumValue == ChannelEnum.Left;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this       ChannelEnum enumValue) => enumValue == ChannelEnum.Right;
+        [Obsolete(ObsoleteMessage)] public static int? Channel(this       ChannelEnum enumValue) => ConfigWishes.EnumToChannel(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? GetChannel(this    ChannelEnum enumValue) => ConfigWishes.EnumToChannel(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel(this ChannelEnum enumValue) => ConfigWishes.EnumToChannel(enumValue);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Center(this ChannelEnum oldChannelEnum) => ChannelEnum.Single;
@@ -315,14 +347,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(this ChannelEnum oldChannelEnum) => ChannelEnum.Right;
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum oldChannelEnum) => ChannelEnum.Undefined;
-        [Obsolete(ObsoleteMessage)]
-        public static int? Channel(this Channel obj) => obj?.Index;
 
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this Channel obj) => obj.ToEnum() == ChannelEnum.Single;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this Channel obj) => obj.ToEnum() == ChannelEnum.Left;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(this Channel obj) => obj.ToEnum() == ChannelEnum.Right;
-        [Obsolete(ObsoleteMessage)] 
-        public static int? EntityToChannel(this Channel entity) => ConfigWishes.EntityToChannel(entity);
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter(this        Channel entity) => entity.ToEnum() == ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft(this          Channel entity) => entity.ToEnum() == ChannelEnum.Left;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight(this         Channel entity) => entity.ToEnum() == ChannelEnum.Right; 
+        [Obsolete(ObsoleteMessage)] public static int? Channel(this         Channel entity) => ConfigWishes.EntityToChannel(entity);
+        [Obsolete(ObsoleteMessage)] public static int? GetChannel(this      Channel entity) => ConfigWishes.EntityToChannel(entity);
+        [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(this Channel entity) => ConfigWishes.EntityToChannel(entity);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Center(this Channel oldChannelEntity, IContext context) => ChannelEnum.Single.ToEntity(context);
