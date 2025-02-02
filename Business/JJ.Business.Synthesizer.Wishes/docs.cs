@@ -74,6 +74,25 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary> 
         public struct _audiolength { }
 
+        /// <summary> 
+        /// Setting might not work in all contexts 
+        /// where the system is unaware of the SynthWishes object.
+        /// This is because of a design decision in the software, that might be corrected later.
+        ///
+        /// <para> For instance with an extension method on Buff, e.g. buff.Play(), there is no
+        /// SynthWishes or FlowNode involved, that can provide the custom set value.
+        /// Things which would then default back to the config setting or hard-coded default. </para> 
+        ///
+        /// <para> The system correction that might solve it could be a change called
+        /// Func-Free Stereo Tapes, which would make it rare you would operate
+        /// directly on Buff or AudioOutput. </para> 
+        /// 
+        /// <para> Currently, just chaining .Play onto some previous
+        /// command could make you lose the SynthWishes context.
+        /// Omitting a this. qualifier could do that too. </para> 
+        /// </summary> 
+        public struct _audioplayback { }
+
         /// <summary>
         /// Standardizes audio properties among objects in the form of extension methods.
         /// In some cases they were missing in the back-end objects.
@@ -623,25 +642,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public struct _playalltapes { }
 
         /// <summary> 
-        /// Setting might not work in all contexts 
-        /// where the system is unaware of the SynthWishes object.
-        /// This is because of a design decision in the software, that might be corrected later.
-        ///
-        /// <para> For instance with an extension method on Buff, e.g. buff.Play(), there is no
-        /// SynthWishes or FlowNode involved, that can provide the custom set value.
-        /// Things which would then default back to the config setting or hard-coded default. </para> 
-        ///
-        /// <para> The system correction that might solve it could be a change called
-        /// Func-Free Stereo Tapes, which would make it rare you would operate
-        /// directly on Buff or AudioOutput. </para> 
-        /// 
-        /// <para> Currently, just chaining .Play onto some previous
-        /// command could make you lose the SynthWishes context.
-        /// Omitting a this. qualifier could do that too. </para> 
-        /// </summary> 
-        public struct _audioplayback { }
-
-        /// <summary> 
         /// Extensions that are wishes for the back-end related that retrieve related objects like the Operator, Curve or Sample entities.
         /// </summary> 
         public struct _underlyingextensions { }
@@ -653,6 +653,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <returns> <see cref="SampleOperatorWrapper" />  that can be used as an <see cref="Outlet" /> too. </returns> 
         public struct _sample { }
 
+        /// <summary>
+        /// Adjusts sampling rate to match the new audio length.
+        /// </summary>
+        public struct _sampleaudiolength { }
+            
         /// <summary> 
         /// Back-end will need bytes wrapped in a Stream and will read it back into a byte[] again.
         /// This code would prevent that, but won't kick off the wav header parsing,
