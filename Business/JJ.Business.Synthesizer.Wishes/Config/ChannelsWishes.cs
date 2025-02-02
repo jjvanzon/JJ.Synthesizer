@@ -357,78 +357,78 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Synth-Bound
 
-        public static bool IsMono(SynthWishes obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(SynthWishes obj) => obj.Channels() == StereoChannels;
-        public static int Channels(SynthWishes obj) => obj.GetChannels();
+        public static bool IsMono(SynthWishes obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(SynthWishes obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(SynthWishes obj) => GetChannels(obj);
         public static int GetChannels(SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannels;
         }
 
-        public static SynthWishes Mono(SynthWishes obj) => obj.Channels(MonoChannels);
-        public static SynthWishes Stereo(SynthWishes obj) => obj.Channels(StereoChannels);
-        public static SynthWishes Channels(SynthWishes obj, int? value) => obj.SetChannels(value);
-        public static SynthWishes WithMono(SynthWishes obj) => obj.Channels(MonoChannels);
-        public static SynthWishes WithStereo(SynthWishes obj) => obj.Channels(StereoChannels);
-        public static SynthWishes WithChannels(SynthWishes obj, int? value) => obj.SetChannels(value);
-        public static SynthWishes AsMono(SynthWishes obj) => obj.Channels(MonoChannels);
-        public static SynthWishes AsStereo(SynthWishes obj) => obj.Channels(StereoChannels);
-        public static SynthWishes AsChannels(SynthWishes obj, int? value) => obj.SetChannels(value);
-        public static SynthWishes SetMono(SynthWishes obj) => obj.Channels(MonoChannels);
-        public static SynthWishes SetStereo(SynthWishes obj) => obj.Channels(StereoChannels);
+        public static SynthWishes Mono(SynthWishes obj) => SetChannels(obj, MonoChannels);
+        public static SynthWishes Stereo(SynthWishes obj) => SetChannels(obj, StereoChannels);
+        public static SynthWishes Channels(SynthWishes obj, int? value) => SetChannels(obj, value);
+        public static SynthWishes WithMono(SynthWishes obj) => SetChannels(obj, MonoChannels);
+        public static SynthWishes WithStereo(SynthWishes obj) => SetChannels(obj, StereoChannels);
+        public static SynthWishes WithChannels(SynthWishes obj, int? value) => SetChannels(obj, value);
+        public static SynthWishes AsMono(SynthWishes obj) => SetChannels(obj, MonoChannels);
+        public static SynthWishes AsStereo(SynthWishes obj) => SetChannels(obj, StereoChannels);
+        public static SynthWishes AsChannels(SynthWishes obj, int? value) => SetChannels(obj, value);
+        public static SynthWishes SetMono(SynthWishes obj) => SetChannels(obj, MonoChannels);
+        public static SynthWishes SetStereo(SynthWishes obj) => SetChannels(obj, StereoChannels);
         public static SynthWishes SetChannels(SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
         }
 
-        public static bool IsMono(FlowNode obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(FlowNode obj) => obj.Channels() == StereoChannels;
-        public static int Channels(FlowNode obj) => obj.GetChannels();
+        public static bool IsMono(FlowNode obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(FlowNode obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(FlowNode obj) => GetChannels(obj);
         public static int GetChannels(FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannels;
         }
         
-        public static FlowNode Mono(FlowNode obj) => obj.Channels(MonoChannels);
-        public static FlowNode Stereo(FlowNode obj) => obj.Channels(StereoChannels);
-        public static FlowNode Channels(FlowNode obj, int? value) => obj.SetChannels(value);
-        public static FlowNode WithMono(FlowNode obj) => obj.Channels(MonoChannels);
-        public static FlowNode WithStereo(FlowNode obj) => obj.Channels(StereoChannels);
-        public static FlowNode WithChannels(FlowNode obj, int? value) => obj.SetChannels(value);
-        public static FlowNode AsMono(FlowNode obj) => obj.Channels(MonoChannels);
-        public static FlowNode AsStereo(FlowNode obj) => obj.Channels(StereoChannels);
-        public static FlowNode AsChannels(FlowNode obj, int? value) => obj.SetChannels(value);
-        public static FlowNode SetMono(FlowNode obj) => obj.Channels(MonoChannels);
-        public static FlowNode SetStereo(FlowNode obj) => obj.Channels(StereoChannels);
+        public static FlowNode Mono(FlowNode obj) => SetChannels(obj, MonoChannels);
+        public static FlowNode Stereo(FlowNode obj) => SetChannels(obj, StereoChannels);
+        public static FlowNode Channels(FlowNode obj, int? value) => SetChannels(obj, value);
+        public static FlowNode WithMono(FlowNode obj) => SetChannels(obj, MonoChannels);
+        public static FlowNode WithStereo(FlowNode obj) => SetChannels(obj, StereoChannels);
+        public static FlowNode WithChannels(FlowNode obj, int? value) => SetChannels(obj, value);
+        public static FlowNode AsMono(FlowNode obj) => SetChannels(obj, MonoChannels);
+        public static FlowNode AsStereo(FlowNode obj) => SetChannels(obj, StereoChannels);
+        public static FlowNode AsChannels(FlowNode obj, int? value) => SetChannels(obj, value);
+        public static FlowNode SetMono(FlowNode obj) => SetChannels(obj, MonoChannels);
+        public static FlowNode SetStereo(FlowNode obj) => SetChannels(obj, StereoChannels);
         public static FlowNode SetChannels(FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
         }
         
-        internal static bool IsMono(ConfigResolver obj) => obj.Channels() == MonoChannels;
-        internal static bool IsStereo(ConfigResolver obj) => obj.Channels() == StereoChannels;
-        internal static int Channels(ConfigResolver obj) => obj.GetChannels();
+        internal static bool IsMono(ConfigResolver obj) => GetChannels(obj) == MonoChannels;
+        internal static bool IsStereo(ConfigResolver obj) => GetChannels(obj) == StereoChannels;
+        internal static int Channels(ConfigResolver obj) => GetChannels(obj);
         internal static int GetChannels(ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannels;
         }
 
-        [UsedImplicitly] internal static ConfigResolver Mono(ConfigResolver obj) => obj.Channels(MonoChannels);
-        [UsedImplicitly] internal static ConfigResolver Stereo(ConfigResolver obj) => obj.Channels(StereoChannels);
-        [UsedImplicitly] internal static ConfigResolver Channels(ConfigResolver obj, int? value) => obj.SetChannels(value);
-        [UsedImplicitly] internal static ConfigResolver WithMono(ConfigResolver obj) => obj.Channels(MonoChannels);
-        [UsedImplicitly] internal static ConfigResolver WithStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
-        [UsedImplicitly] internal static ConfigResolver WithChannels(ConfigResolver obj, int? value) => obj.SetChannels(value);
-        [UsedImplicitly] internal static ConfigResolver AsMono(ConfigResolver obj) => obj.Channels(MonoChannels);
-        [UsedImplicitly] internal static ConfigResolver AsStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
-        [UsedImplicitly] internal static ConfigResolver AsChannels(ConfigResolver obj, int? value) => obj.SetChannels(value);
-        [UsedImplicitly] internal static ConfigResolver SetMono(ConfigResolver obj) => obj.Channels(MonoChannels);
-        [UsedImplicitly] internal static ConfigResolver SetStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver Mono(ConfigResolver obj) => SetChannels(obj, MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver Stereo(ConfigResolver obj) => SetChannels(obj, StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver Channels(ConfigResolver obj, int? value) => SetChannels(obj, value);
+        [UsedImplicitly] internal static ConfigResolver WithMono(ConfigResolver obj) => SetChannels(obj, MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver WithStereo(ConfigResolver obj) => SetChannels(obj, StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver WithChannels(ConfigResolver obj, int? value) => SetChannels(obj, value);
+        [UsedImplicitly] internal static ConfigResolver AsMono(ConfigResolver obj) => SetChannels(obj, MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver AsStereo(ConfigResolver obj) => SetChannels(obj, StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver AsChannels(ConfigResolver obj, int? value) => SetChannels(obj, value);
+        [UsedImplicitly] internal static ConfigResolver SetMono(ConfigResolver obj) => SetChannels(obj, MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver SetStereo(ConfigResolver obj) => SetChannels(obj, StereoChannels);
         [UsedImplicitly] internal static ConfigResolver SetChannels(ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -437,9 +437,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Global-Bound
 
-        [UsedImplicitly] internal static bool IsMono(ConfigSection obj) => obj.Channels() == MonoChannels;
-        [UsedImplicitly] internal static bool IsStereo(ConfigSection obj) => obj.Channels() == StereoChannels;
-        [UsedImplicitly] internal static int? Channels(ConfigSection obj) => obj.GetChannels();
+        [UsedImplicitly] internal static bool IsMono(ConfigSection obj) => GetChannels(obj) == MonoChannels;
+        [UsedImplicitly] internal static bool IsStereo(ConfigSection obj) => GetChannels(obj) == StereoChannels;
+        [UsedImplicitly] internal static int? Channels(ConfigSection obj) => GetChannels(obj);
         [UsedImplicitly] internal static int? GetChannels(ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -448,26 +448,26 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tape Bound
         
-        public static bool IsMono(Tape obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(Tape obj) => obj.Channels() == StereoChannels;
-        public static int Channels(Tape obj) => obj.GetChannels();
+        public static bool IsMono(Tape obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(Tape obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(Tape obj) => GetChannels(obj);
         public static int GetChannels(Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Config.Channels;
         }
         
-        public static Tape Mono(Tape obj) => obj.Channels(MonoChannels);
-        public static Tape Stereo(Tape obj) => obj.Channels(StereoChannels);
-        public static Tape Channels(Tape obj, int value) => obj.SetChannels(value);
-        public static Tape WithMono(Tape obj) => obj.Channels(MonoChannels);
-        public static Tape WithStereo(Tape obj) => obj.Channels(StereoChannels);
-        public static Tape WithChannels(Tape obj, int value) => obj.SetChannels(value);
-        public static Tape AsMono(Tape obj) => obj.Channels(MonoChannels);
-        public static Tape AsStereo(Tape obj) => obj.Channels(StereoChannels);
-        public static Tape AsChannels(Tape obj, int value) => obj.SetChannels(value);
-        public static Tape SetMono(Tape obj) => obj.Channels(MonoChannels);
-        public static Tape SetStereo(Tape obj) => obj.Channels(StereoChannels);
+        public static Tape Mono(Tape obj) => SetChannels(obj, MonoChannels);
+        public static Tape Stereo(Tape obj) => SetChannels(obj, StereoChannels);
+        public static Tape Channels(Tape obj, int value) => SetChannels(obj, value);
+        public static Tape WithMono(Tape obj) => SetChannels(obj, MonoChannels);
+        public static Tape WithStereo(Tape obj) => SetChannels(obj, StereoChannels);
+        public static Tape WithChannels(Tape obj, int value) => SetChannels(obj, value);
+        public static Tape AsMono(Tape obj) => SetChannels(obj, MonoChannels);
+        public static Tape AsStereo(Tape obj) => SetChannels(obj, StereoChannels);
+        public static Tape AsChannels(Tape obj, int value) => SetChannels(obj, value);
+        public static Tape SetMono(Tape obj) => SetChannels(obj, MonoChannels);
+        public static Tape SetStereo(Tape obj) => SetChannels(obj, StereoChannels);
         public static Tape SetChannels(Tape obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -475,26 +475,26 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsMono(TapeConfig obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(TapeConfig obj) => obj.Channels() == StereoChannels;
-        public static int Channels(TapeConfig obj) => obj.GetChannels();
+        public static bool IsMono(TapeConfig obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(TapeConfig obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(TapeConfig obj) => GetChannels(obj);
         public static int GetChannels(TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
         }
         
-        public static TapeConfig Mono(TapeConfig obj) => obj.Channels(MonoChannels);
-        public static TapeConfig Stereo(TapeConfig obj) => obj.Channels(StereoChannels);
-        public static TapeConfig Channels(TapeConfig obj, int value) => obj.SetChannels(value);
-        public static TapeConfig WithMono(TapeConfig obj) => obj.Channels(MonoChannels);
-        public static TapeConfig WithStereo(TapeConfig obj) => obj.Channels(StereoChannels);
-        public static TapeConfig WithChannels(TapeConfig obj, int value) => obj.SetChannels(value);
-        public static TapeConfig AsMono(TapeConfig obj) => obj.Channels(MonoChannels);
-        public static TapeConfig AsStereo(TapeConfig obj) => obj.Channels(StereoChannels);
-        public static TapeConfig AsChannels(TapeConfig obj, int value) => obj.SetChannels(value);
-        public static TapeConfig SetMono(TapeConfig obj) => obj.Channels(MonoChannels);
-        public static TapeConfig SetStereo(TapeConfig obj) => obj.Channels(StereoChannels);
+        public static TapeConfig Mono(TapeConfig obj) => SetChannels(obj, MonoChannels);
+        public static TapeConfig Stereo(TapeConfig obj) => SetChannels(obj, StereoChannels);
+        public static TapeConfig Channels(TapeConfig obj, int value) => SetChannels(obj, value);
+        public static TapeConfig WithMono(TapeConfig obj) => SetChannels(obj, MonoChannels);
+        public static TapeConfig WithStereo(TapeConfig obj) => SetChannels(obj, StereoChannels);
+        public static TapeConfig WithChannels(TapeConfig obj, int value) => SetChannels(obj, value);
+        public static TapeConfig AsMono(TapeConfig obj) => SetChannels(obj, MonoChannels);
+        public static TapeConfig AsStereo(TapeConfig obj) => SetChannels(obj, StereoChannels);
+        public static TapeConfig AsChannels(TapeConfig obj, int value) => SetChannels(obj, value);
+        public static TapeConfig SetMono(TapeConfig obj) => SetChannels(obj, MonoChannels);
+        public static TapeConfig SetStereo(TapeConfig obj) => SetChannels(obj, StereoChannels);
         public static TapeConfig SetChannels(TapeConfig obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -502,9 +502,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsMono(TapeActions obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(TapeActions obj) => obj.Channels() == StereoChannels;
-        public static int Channels(TapeActions obj) => obj.GetChannels();
+        public static bool IsMono(TapeActions obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(TapeActions obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(TapeActions obj) => GetChannels(obj);
         public static int GetChannels(TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -512,17 +512,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         
-        public static TapeActions Mono(TapeActions obj) => obj.Channels(MonoChannels);
-        public static TapeActions Stereo(TapeActions obj) => obj.Channels(StereoChannels);
-        public static TapeActions Channels(TapeActions obj, int value) => obj.SetChannels(value);
-        public static TapeActions WithMono(TapeActions obj) => obj.Channels(MonoChannels);
-        public static TapeActions WithStereo(TapeActions obj) => obj.Channels(StereoChannels);
-        public static TapeActions WithChannels(TapeActions obj, int value) => obj.SetChannels(value);
-        public static TapeActions AsMono(TapeActions obj) => obj.Channels(MonoChannels);
-        public static TapeActions AsStereo(TapeActions obj) => obj.Channels(StereoChannels);
-        public static TapeActions AsChannels(TapeActions obj, int value) => obj.SetChannels(value);
-        public static TapeActions SetMono(TapeActions obj) => obj.Channels(MonoChannels);
-        public static TapeActions SetStereo(TapeActions obj) => obj.Channels(StereoChannels);
+        public static TapeActions Mono(TapeActions obj) => SetChannels(obj, MonoChannels);
+        public static TapeActions Stereo(TapeActions obj) => SetChannels(obj, StereoChannels);
+        public static TapeActions Channels(TapeActions obj, int value) => SetChannels(obj, value);
+        public static TapeActions WithMono(TapeActions obj) => SetChannels(obj, MonoChannels);
+        public static TapeActions WithStereo(TapeActions obj) => SetChannels(obj, StereoChannels);
+        public static TapeActions WithChannels(TapeActions obj, int value) => SetChannels(obj, value);
+        public static TapeActions AsMono(TapeActions obj) => SetChannels(obj, MonoChannels);
+        public static TapeActions AsStereo(TapeActions obj) => SetChannels(obj, StereoChannels);
+        public static TapeActions AsChannels(TapeActions obj, int value) => SetChannels(obj, value);
+        public static TapeActions SetMono(TapeActions obj) => SetChannels(obj, MonoChannels);
+        public static TapeActions SetStereo(TapeActions obj) => SetChannels(obj, StereoChannels);
         public static TapeActions SetChannels(TapeActions obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -530,26 +530,26 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsMono(TapeAction obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(TapeAction obj) => obj.Channels() == StereoChannels;
-        public static int Channels(TapeAction obj) => obj.GetChannels();
+        public static bool IsMono(TapeAction obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(TapeAction obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(TapeAction obj) => GetChannels(obj);
         public static int GetChannels(TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Channels;
         }
         
-        public static TapeAction Mono(TapeAction obj) => obj.Channels(MonoChannels);
-        public static TapeAction Stereo(TapeAction obj) => obj.Channels(StereoChannels);
-        public static TapeAction Channels(TapeAction obj, int value) => obj.SetChannels(value);
-        public static TapeAction WithMono(TapeAction obj) => obj.Channels(MonoChannels);
-        public static TapeAction WithStereo(TapeAction obj) => obj.Channels(StereoChannels);
-        public static TapeAction WithChannels(TapeAction obj, int value) => obj.SetChannels(value);
-        public static TapeAction AsMono(TapeAction obj) => obj.Channels(MonoChannels);
-        public static TapeAction AsStereo(TapeAction obj) => obj.Channels(StereoChannels);
-        public static TapeAction AsChannels(TapeAction obj, int value) => obj.SetChannels(value);
-        public static TapeAction SetMono(TapeAction obj) => obj.Channels(MonoChannels);
-        public static TapeAction SetStereo(TapeAction obj) => obj.Channels(StereoChannels);
+        public static TapeAction Mono(TapeAction obj) => SetChannels(obj, MonoChannels);
+        public static TapeAction Stereo(TapeAction obj) => SetChannels(obj, StereoChannels);
+        public static TapeAction Channels(TapeAction obj, int value) => SetChannels(obj, value);
+        public static TapeAction WithMono(TapeAction obj) => SetChannels(obj, MonoChannels);
+        public static TapeAction WithStereo(TapeAction obj) => SetChannels(obj, StereoChannels);
+        public static TapeAction WithChannels(TapeAction obj, int value) => SetChannels(obj, value);
+        public static TapeAction AsMono(TapeAction obj) => SetChannels(obj, MonoChannels);
+        public static TapeAction AsStereo(TapeAction obj) => SetChannels(obj, StereoChannels);
+        public static TapeAction AsChannels(TapeAction obj, int value) => SetChannels(obj, value);
+        public static TapeAction SetMono(TapeAction obj) => SetChannels(obj, MonoChannels);
+        public static TapeAction SetStereo(TapeAction obj) => SetChannels(obj, StereoChannels);
         public static TapeAction SetChannels(TapeAction obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -559,9 +559,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Buff-Bound
         
-        public static bool IsMono(Buff obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(Buff obj) => obj.Channels() == StereoChannels;
-        public static int Channels(Buff obj) => obj.GetChannels();
+        public static bool IsMono(Buff obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(Buff obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(Buff obj) => GetChannels(obj);
         public static int GetChannels(Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -569,17 +569,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.UnderlyingAudioFileOutput.Channels();
         }
         
-        public static Buff Mono(Buff obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Buff Stereo(Buff obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static Buff Channels(Buff obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static Buff WithMono(Buff obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Buff WithStereo(Buff obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static Buff WithChannels(Buff obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static Buff AsMono(Buff obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Buff AsStereo(Buff obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static Buff AsChannels(Buff obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static Buff SetMono(Buff obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Buff SetStereo(Buff obj, IContext context) => obj.Channels(StereoChannels, context);
+        public static Buff Mono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Buff Stereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static Buff Channels(Buff obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static Buff WithMono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Buff WithStereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static Buff WithChannels(Buff obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static Buff AsMono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Buff AsStereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static Buff AsChannels(Buff obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static Buff SetMono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Buff SetStereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
         public static Buff SetChannels(Buff obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -588,26 +588,26 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsMono(AudioFileOutput obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(AudioFileOutput obj) => obj.Channels() == StereoChannels;
-        public static int Channels(AudioFileOutput obj) => obj.GetChannels();
+        public static bool IsMono(AudioFileOutput obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(AudioFileOutput obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(AudioFileOutput obj) => GetChannels(obj);
         public static int GetChannels(AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannelCount();
         }
         
-        public static AudioFileOutput Mono(AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static AudioFileOutput Stereo(AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static AudioFileOutput Channels(AudioFileOutput obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static AudioFileOutput WithMono(AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static AudioFileOutput WithStereo(AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static AudioFileOutput WithChannels(AudioFileOutput obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static AudioFileOutput AsMono(AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static AudioFileOutput AsStereo(AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static AudioFileOutput AsChannels(AudioFileOutput obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static AudioFileOutput SetMono(AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static AudioFileOutput SetStereo(AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
+        public static AudioFileOutput Mono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static AudioFileOutput Stereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static AudioFileOutput Channels(AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static AudioFileOutput WithMono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static AudioFileOutput WithStereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static AudioFileOutput WithChannels(AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static AudioFileOutput AsMono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static AudioFileOutput AsStereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static AudioFileOutput AsChannels(AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static AudioFileOutput SetMono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static AudioFileOutput SetStereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
         public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -619,49 +619,49 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Independent after Taping
         
-        public static bool IsMono(Sample obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(Sample obj) => obj.Channels() == StereoChannels;
-        public static int Channels(Sample obj) => obj.GetChannels();
+        public static bool IsMono(Sample obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(Sample obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(Sample obj) => GetChannels(obj);
         public static int GetChannels(Sample obj) 
             => obj.GetChannelCount();
         
-        public static Sample Mono(Sample obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Sample Stereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static Sample Channels(Sample obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static Sample WithMono(Sample obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Sample WithStereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static Sample WithChannels(Sample obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static Sample AsMono(Sample obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Sample AsStereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
-        public static Sample AsChannels(Sample obj, int value, IContext context) => obj.SetChannels(value, context);
-        public static Sample SetMono(Sample obj, IContext context) => obj.Channels(MonoChannels, context);
-        public static Sample SetStereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
+        public static Sample Mono(Sample obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Sample Stereo(Sample obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static Sample Channels(Sample obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static Sample WithMono(Sample obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Sample WithStereo(Sample obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static Sample WithChannels(Sample obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static Sample AsMono(Sample obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Sample AsStereo(Sample obj, IContext context) => SetChannels(obj, StereoChannels, context);
+        public static Sample AsChannels(Sample obj, int value, IContext context) => SetChannels(obj, value, context);
+        public static Sample SetMono(Sample obj, IContext context) => SetChannels(obj, MonoChannels, context);
+        public static Sample SetStereo(Sample obj, IContext context) => SetChannels(obj, StereoChannels, context);
         public static Sample SetChannels(Sample obj, int value, IContext context)
         {
             obj.SetSpeakerSetupEnum(value.ChannelsToEnum(), context);
             return obj;
         }
                          
-        public static bool IsMono(AudioInfoWish obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(AudioInfoWish obj) => obj.Channels() == StereoChannels;
-        public static int Channels(AudioInfoWish obj) => obj.GetChannels();
+        public static bool IsMono(AudioInfoWish obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(AudioInfoWish obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(AudioInfoWish obj) => GetChannels(obj);
         public static int GetChannels(AudioInfoWish obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
         }
        
-        public static AudioInfoWish Mono(AudioInfoWish obj) => obj.Channels(MonoChannels);
-        public static AudioInfoWish Stereo(AudioInfoWish obj) => obj.Channels(StereoChannels);
-        public static AudioInfoWish Channels(AudioInfoWish obj, int value) => obj.SetChannels(value);
-        public static AudioInfoWish WithMono(AudioInfoWish obj) => obj.Channels(MonoChannels);
-        public static AudioInfoWish WithStereo(AudioInfoWish obj) => obj.Channels(StereoChannels);
-        public static AudioInfoWish WithChannels(AudioInfoWish obj, int value) => obj.SetChannels(value);
-        public static AudioInfoWish AsMono(AudioInfoWish obj) => obj.Channels(MonoChannels);
-        public static AudioInfoWish AsStereo(AudioInfoWish obj) => obj.Channels(StereoChannels);
-        public static AudioInfoWish AsChannels(AudioInfoWish obj, int value) => obj.SetChannels(value);
-        public static AudioInfoWish SetMono(AudioInfoWish obj) => obj.Channels(MonoChannels);
-        public static AudioInfoWish SetStereo(AudioInfoWish obj) => obj.Channels(StereoChannels);
+        public static AudioInfoWish Mono(AudioInfoWish obj) => SetChannels(obj, MonoChannels);
+        public static AudioInfoWish Stereo(AudioInfoWish obj) => SetChannels(obj, StereoChannels);
+        public static AudioInfoWish Channels(AudioInfoWish obj, int value) => SetChannels(obj, value);
+        public static AudioInfoWish WithMono(AudioInfoWish obj) => SetChannels(obj, MonoChannels);
+        public static AudioInfoWish WithStereo(AudioInfoWish obj) => SetChannels(obj, StereoChannels);
+        public static AudioInfoWish WithChannels(AudioInfoWish obj, int value) => SetChannels(obj, value);
+        public static AudioInfoWish AsMono(AudioInfoWish obj) => SetChannels(obj, MonoChannels);
+        public static AudioInfoWish AsStereo(AudioInfoWish obj) => SetChannels(obj, StereoChannels);
+        public static AudioInfoWish AsChannels(AudioInfoWish obj, int value) => SetChannels(obj, value);
+        public static AudioInfoWish SetMono(AudioInfoWish obj) => SetChannels(obj, MonoChannels);
+        public static AudioInfoWish SetStereo(AudioInfoWish obj) => SetChannels(obj, StereoChannels);
         public static AudioInfoWish SetChannels(AudioInfoWish obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -669,26 +669,26 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsMono(AudioFileInfo obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(AudioFileInfo obj) => obj.Channels() == StereoChannels;
-        public static int Channels(AudioFileInfo obj) => obj.GetChannels();
+        public static bool IsMono(AudioFileInfo obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(AudioFileInfo obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(AudioFileInfo obj) => GetChannels(obj);
         public static int GetChannels(AudioFileInfo obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.ChannelCount;
         }
         
-        public static AudioFileInfo Mono(AudioFileInfo obj) => obj.Channels(MonoChannels);
-        public static AudioFileInfo Stereo(AudioFileInfo obj) => obj.Channels(StereoChannels);
-        public static AudioFileInfo Channels(AudioFileInfo obj, int value) => obj.SetChannels(value);
-        public static AudioFileInfo WithMono(AudioFileInfo obj) => obj.Channels(MonoChannels);
-        public static AudioFileInfo WithStereo(AudioFileInfo obj) => obj.Channels(StereoChannels);
-        public static AudioFileInfo WithChannels(AudioFileInfo obj, int value) => obj.SetChannels(value);
-        public static AudioFileInfo AsMono(AudioFileInfo obj) => obj.Channels(MonoChannels);
-        public static AudioFileInfo AsStereo(AudioFileInfo obj) => obj.Channels(StereoChannels);
-        public static AudioFileInfo AsChannels(AudioFileInfo obj, int value) => obj.SetChannels(value);
-        public static AudioFileInfo SetMono(AudioFileInfo obj) => obj.Channels(MonoChannels);
-        public static AudioFileInfo SetStereo(AudioFileInfo obj) => obj.Channels(StereoChannels);
+        public static AudioFileInfo Mono(AudioFileInfo obj) => SetChannels(obj, MonoChannels);
+        public static AudioFileInfo Stereo(AudioFileInfo obj) => SetChannels(obj, StereoChannels);
+        public static AudioFileInfo Channels(AudioFileInfo obj, int value) => SetChannels(obj, value);
+        public static AudioFileInfo WithMono(AudioFileInfo obj) => SetChannels(obj, MonoChannels);
+        public static AudioFileInfo WithStereo(AudioFileInfo obj) => SetChannels(obj, StereoChannels);
+        public static AudioFileInfo WithChannels(AudioFileInfo obj, int value) => SetChannels(obj, value);
+        public static AudioFileInfo AsMono(AudioFileInfo obj) => SetChannels(obj, MonoChannels);
+        public static AudioFileInfo AsStereo(AudioFileInfo obj) => SetChannels(obj, StereoChannels);
+        public static AudioFileInfo AsChannels(AudioFileInfo obj, int value) => SetChannels(obj, value);
+        public static AudioFileInfo SetMono(AudioFileInfo obj) => SetChannels(obj, MonoChannels);
+        public static AudioFileInfo SetStereo(AudioFileInfo obj) => SetChannels(obj, StereoChannels);
         public static AudioFileInfo SetChannels(AudioFileInfo obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -698,32 +698,32 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Immutable
         
-        public static bool IsMono(WavHeaderStruct obj) => obj.Channels() == MonoChannels;
-        public static bool IsStereo(WavHeaderStruct obj) => obj.Channels() == StereoChannels;
-        public static int Channels(WavHeaderStruct obj) => obj.GetChannels();
+        public static bool IsMono(WavHeaderStruct obj) => GetChannels(obj) == MonoChannels;
+        public static bool IsStereo(WavHeaderStruct obj) => GetChannels(obj) == StereoChannels;
+        public static int Channels(WavHeaderStruct obj) => GetChannels(obj);
         public static int GetChannels(WavHeaderStruct obj) 
             => obj.ChannelCount;
         
-        public static WavHeaderStruct Mono(WavHeaderStruct obj) => obj.Channels(MonoChannels);
-        public static WavHeaderStruct Stereo(WavHeaderStruct obj) => obj.Channels(StereoChannels);
-        public static WavHeaderStruct Channels(WavHeaderStruct obj, int value) => obj.SetChannels(value);
-        public static WavHeaderStruct WithMono(WavHeaderStruct obj) => obj.Channels(MonoChannels);
-        public static WavHeaderStruct WithStereo(WavHeaderStruct obj) => obj.Channels(StereoChannels);
-        public static WavHeaderStruct WithChannels(WavHeaderStruct obj, int value) => obj.SetChannels(value);
-        public static WavHeaderStruct AsMono(WavHeaderStruct obj) => obj.Channels(MonoChannels);
-        public static WavHeaderStruct AsStereo(WavHeaderStruct obj) => obj.Channels(StereoChannels);
-        public static WavHeaderStruct AsChannels(WavHeaderStruct obj, int value) => obj.SetChannels(value);
-        public static WavHeaderStruct SetMono(WavHeaderStruct obj) => obj.Channels(MonoChannels);
-        public static WavHeaderStruct SetStereo(WavHeaderStruct obj) => obj.Channels(StereoChannels);
+        public static WavHeaderStruct Mono(WavHeaderStruct obj) => SetChannels(obj, MonoChannels);
+        public static WavHeaderStruct Stereo(WavHeaderStruct obj) => SetChannels(obj, StereoChannels);
+        public static WavHeaderStruct Channels(WavHeaderStruct obj, int value) => SetChannels(obj, value);
+        public static WavHeaderStruct WithMono(WavHeaderStruct obj) => SetChannels(obj, MonoChannels);
+        public static WavHeaderStruct WithStereo(WavHeaderStruct obj) => SetChannels(obj, StereoChannels);
+        public static WavHeaderStruct WithChannels(WavHeaderStruct obj, int value) => SetChannels(obj, value);
+        public static WavHeaderStruct AsMono(WavHeaderStruct obj) => SetChannels(obj, MonoChannels);
+        public static WavHeaderStruct AsStereo(WavHeaderStruct obj) => SetChannels(obj, StereoChannels);
+        public static WavHeaderStruct AsChannels(WavHeaderStruct obj, int value) => SetChannels(obj, value);
+        public static WavHeaderStruct SetMono(WavHeaderStruct obj) => SetChannels(obj, MonoChannels);
+        public static WavHeaderStruct SetStereo(WavHeaderStruct obj) => SetChannels(obj, StereoChannels);
         public static WavHeaderStruct SetChannels(WavHeaderStruct obj, int value) 
             => obj.ToWish().Channels(value).ToWavHeader();
-        
+
         [Obsolete(ObsoleteMessage)] public static bool IsMono(SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Mono;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Stereo;
-        [Obsolete(ObsoleteMessage)] public static int Channels(SpeakerSetupEnum    obj)       => EnumToChannels(obj);
-        [Obsolete(ObsoleteMessage)] public static int GetChannels(SpeakerSetupEnum obj)       => EnumToChannels(obj);
-        [Obsolete(ObsoleteMessage)] public static int ToChannels(SpeakerSetupEnum  enumValue) => EnumToChannels(enumValue);
-        [Obsolete(ObsoleteMessage)] public static int AsChannels(SpeakerSetupEnum  enumValue) => EnumToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int Channels(SpeakerSetupEnum obj) => EnumToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int GetChannels(SpeakerSetupEnum obj) => EnumToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToChannels(SpeakerSetupEnum enumValue) => EnumToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int AsChannels(SpeakerSetupEnum enumValue) => EnumToChannels(enumValue);
         [Obsolete(ObsoleteMessage)] public static int EnumToChannels(SpeakerSetupEnum enumValue)
         {
             switch (enumValue)
@@ -736,27 +736,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Mono(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Mono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Stereo(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Stereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Channels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithMono(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithMono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithStereo(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithStereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsMono(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsMono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsStereo(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsStereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetMono(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetMono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetStereo(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetStereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(int channels)
@@ -779,27 +779,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int EntityToChannels(SpeakerSetup entity) => entity.ToEnum().EnumToChannels();
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Mono(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Mono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Stereo(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Stereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup Channels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithMono(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithMono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithStereo(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithStereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsMono(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsMono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsStereo(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsStereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetMono(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetMono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetStereo(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetStereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(int channels, IContext context)
