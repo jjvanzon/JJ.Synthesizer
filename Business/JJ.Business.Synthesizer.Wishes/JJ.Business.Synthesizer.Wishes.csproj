@@ -59,8 +59,8 @@
     <Compile Include="Config\ConfigToolingElement.cs" />
     <Compile Include="Config\ConfigWishes.Assertions.cs" />
     <Compile Include="Config\ConfigWishes.Coalescing.cs" />
-    <Compile Include="Config\FlowNode.ConfigWishes.cs" />
-    <Compile Include="Config\SynthWishes.ConfigWishes.cs" />
+    <Compile Include="Config\ConfigWishes.FlowNode.cs" />
+    <Compile Include="Config\ConfigWishes.SynthWishes.cs" />
     <Compile Include="Config\FrameCountWishes.cs" />
     <Compile Include="Config\AudioLengthWishes.cs" />
     <Compile Include="Config\CourtesyByteWishes.cs" />
