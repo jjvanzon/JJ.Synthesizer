@@ -40,6 +40,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static SynthWishes WithMono(this SynthWishes obj) => ConfigWishes.WithMono(obj);
         public static SynthWishes WithStereo(this SynthWishes obj) => ConfigWishes.WithStereo(obj);
         public static SynthWishes WithChannels(this SynthWishes obj, int? value) => ConfigWishes.WithChannels(obj, value);
+        public static SynthWishes AsMono(this SynthWishes obj) => ConfigWishes.AsMono(obj);
+        public static SynthWishes AsStereo(this SynthWishes obj) => ConfigWishes.AsStereo(obj);
+        public static SynthWishes AsChannels(this SynthWishes obj, int? value) => ConfigWishes.AsChannels(obj, value);
         public static SynthWishes SetMono(this SynthWishes obj) => ConfigWishes.SetMono(obj);
         public static SynthWishes SetStereo(this SynthWishes obj) => ConfigWishes.SetStereo(obj);
         public static SynthWishes SetChannels(this SynthWishes obj, int? value) => ConfigWishes.SetChannels(obj, value);
@@ -55,12 +58,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode WithMono(this FlowNode obj) => ConfigWishes.WithMono(obj);
         public static FlowNode WithStereo(this FlowNode obj) => ConfigWishes.WithStereo(obj);
         public static FlowNode WithChannels(this FlowNode obj, int? value) => ConfigWishes.WithChannels(obj, value);
+        public static FlowNode AsMono(this FlowNode obj) => ConfigWishes.AsMono(obj);
+        public static FlowNode AsStereo(this FlowNode obj) => ConfigWishes.AsStereo(obj);
+        public static FlowNode AsChannels(this FlowNode obj, int? value) => ConfigWishes.AsChannels(obj, value);
         public static FlowNode SetMono(this FlowNode obj) => ConfigWishes.SetMono(obj);
         public static FlowNode SetStereo(this FlowNode obj) => ConfigWishes.SetStereo(obj);
         public static FlowNode SetChannels(this FlowNode obj, int? value) => ConfigWishes.SetChannels(obj, value);
 
-        internal static bool IsMono  (this ConfigResolver  obj) => ConfigWishes.IsMono(obj);
-        internal static bool IsStereo(this ConfigResolver  obj) => ConfigWishes.IsStereo(obj);
+        internal static bool IsMono(this ConfigResolver obj) => ConfigWishes.IsMono(obj);
+        internal static bool IsStereo(this ConfigResolver obj) => ConfigWishes.IsStereo(obj);
         internal static int Channels(this ConfigResolver obj) => ConfigWishes.Channels(obj);
         internal static int GetChannels(this ConfigResolver obj) => ConfigWishes.GetChannels(obj);
 
@@ -70,6 +76,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [UsedImplicitly] internal static ConfigResolver WithMono(this ConfigResolver obj) => ConfigWishes.WithMono(obj);
         [UsedImplicitly] internal static ConfigResolver WithStereo(this ConfigResolver obj) => ConfigWishes.WithStereo(obj);
         [UsedImplicitly] internal static ConfigResolver WithChannels(this ConfigResolver obj, int? value) => ConfigWishes.WithChannels(obj, value);
+        [UsedImplicitly] internal static ConfigResolver AsMono(this ConfigResolver obj) => ConfigWishes.AsMono(obj);
+        [UsedImplicitly] internal static ConfigResolver AsStereo(this ConfigResolver obj) => ConfigWishes.AsStereo(obj);
+        [UsedImplicitly] internal static ConfigResolver AsChannels(this ConfigResolver obj, int? value) => ConfigWishes.AsChannels(obj, value);
         [UsedImplicitly] internal static ConfigResolver SetMono(this ConfigResolver obj) => ConfigWishes.SetMono(obj);
         [UsedImplicitly] internal static ConfigResolver SetStereo(this ConfigResolver obj) => ConfigWishes.SetStereo(obj);
         [UsedImplicitly] internal static ConfigResolver SetChannels(this ConfigResolver obj, int? value) => ConfigWishes.SetChannels(obj, value);
@@ -94,6 +103,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Tape WithMono(this Tape obj) => ConfigWishes.WithMono(obj);
         public static Tape WithStereo(this Tape obj) => ConfigWishes.WithStereo(obj);
         public static Tape WithChannels(this Tape obj, int value) => ConfigWishes.WithChannels(obj, value);
+        public static Tape AsMono(this Tape obj) => ConfigWishes.AsMono(obj);
+        public static Tape AsStereo(this Tape obj) => ConfigWishes.AsStereo(obj);
+        public static Tape AsChannels(this Tape obj, int value) => ConfigWishes.AsChannels(obj, value);
         public static Tape SetMono(this Tape obj) => ConfigWishes.SetMono(obj);
         public static Tape SetStereo(this Tape obj) => ConfigWishes.SetStereo(obj);
         public static Tape SetChannels(this Tape obj, int value) => ConfigWishes.SetChannels(obj, value);
@@ -109,6 +121,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeConfig WithMono(this TapeConfig obj) => ConfigWishes.WithMono(obj);
         public static TapeConfig WithStereo(this TapeConfig obj) => ConfigWishes.WithStereo(obj);
         public static TapeConfig WithChannels(this TapeConfig obj, int value) => ConfigWishes.WithChannels(obj, value);
+        public static TapeConfig AsMono(this TapeConfig obj) => ConfigWishes.AsMono(obj);
+        public static TapeConfig AsStereo(this TapeConfig obj) => ConfigWishes.AsStereo(obj);
+        public static TapeConfig AsChannels(this TapeConfig obj, int value) => ConfigWishes.AsChannels(obj, value);
         public static TapeConfig SetMono(this TapeConfig obj) => ConfigWishes.SetMono(obj);
         public static TapeConfig SetStereo(this TapeConfig obj) => ConfigWishes.SetStereo(obj);
         public static TapeConfig SetChannels(this TapeConfig obj, int value) => ConfigWishes.SetChannels(obj, value);
@@ -124,6 +139,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeActions WithMono(this TapeActions obj) => ConfigWishes.WithMono(obj);
         public static TapeActions WithStereo(this TapeActions obj) => ConfigWishes.WithStereo(obj);
         public static TapeActions WithChannels(this TapeActions obj, int value) => ConfigWishes.WithChannels(obj, value);
+        public static TapeActions AsMono(this TapeActions obj) => ConfigWishes.AsMono(obj);
+        public static TapeActions AsStereo(this TapeActions obj) => ConfigWishes.AsStereo(obj);
+        public static TapeActions AsChannels(this TapeActions obj, int value) => ConfigWishes.AsChannels(obj, value);
         public static TapeActions SetMono(this TapeActions obj) => ConfigWishes.SetMono(obj);
         public static TapeActions SetStereo(this TapeActions obj) => ConfigWishes.SetStereo(obj);
         public static TapeActions SetChannels(this TapeActions obj, int value) => ConfigWishes.SetChannels(obj, value);
@@ -136,12 +154,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeAction Mono(this TapeAction obj) => ConfigWishes.Mono(obj);
         public static TapeAction Stereo(this TapeAction obj) => ConfigWishes.Stereo(obj);
         public static TapeAction Channels(this TapeAction obj, int value) => ConfigWishes.Channels(obj, value);
-        public static TapeAction SetMono(this TapeAction obj) => ConfigWishes.SetMono(obj);
-        public static TapeAction SetStereo(this TapeAction obj) => ConfigWishes.SetStereo(obj);
-        public static TapeAction SetChannels(this TapeAction obj, int value) => ConfigWishes.SetChannels(obj, value);
         public static TapeAction WithMono(this TapeAction obj) => ConfigWishes.WithMono(obj);
         public static TapeAction WithStereo(this TapeAction obj) => ConfigWishes.WithStereo(obj);
         public static TapeAction WithChannels(this TapeAction obj, int value) => ConfigWishes.WithChannels(obj, value);
+        public static TapeAction AsMono(this TapeAction obj) => ConfigWishes.AsMono(obj);
+        public static TapeAction AsStereo(this TapeAction obj) => ConfigWishes.AsStereo(obj);
+        public static TapeAction AsChannels(this TapeAction obj, int value) => ConfigWishes.AsChannels(obj, value);
+        public static TapeAction SetMono(this TapeAction obj) => ConfigWishes.SetMono(obj);
+        public static TapeAction SetStereo(this TapeAction obj) => ConfigWishes.SetStereo(obj);
+        public static TapeAction SetChannels(this TapeAction obj, int value) => ConfigWishes.SetChannels(obj, value);
 
         // Buff-Bound
 
@@ -156,6 +177,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Buff WithMono(this Buff obj, IContext context) => ConfigWishes.WithMono(obj, context);
         public static Buff WithStereo(this Buff obj, IContext context) => ConfigWishes.WithStereo(obj, context);
         public static Buff WithChannels(this Buff obj, int value, IContext context) => ConfigWishes.WithChannels(obj, value, context);
+        public static Buff AsMono(this Buff obj, IContext context) => ConfigWishes.AsMono(obj, context);
+        public static Buff AsStereo(this Buff obj, IContext context) => ConfigWishes.AsStereo(obj, context);
+        public static Buff AsChannels(this Buff obj, int value, IContext context) => ConfigWishes.AsChannels(obj, value, context);
         public static Buff SetMono(this Buff obj, IContext context) => ConfigWishes.SetMono(obj, context);
         public static Buff SetStereo(this Buff obj, IContext context) => ConfigWishes.SetStereo(obj, context);
         public static Buff SetChannels(this Buff obj, int value, IContext context) => ConfigWishes.SetChannels(obj, value, context);
@@ -171,6 +195,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileOutput WithMono(this AudioFileOutput obj, IContext context) => ConfigWishes.WithMono(obj, context);
         public static AudioFileOutput WithStereo(this AudioFileOutput obj, IContext context) => ConfigWishes.WithStereo(obj, context);
         public static AudioFileOutput WithChannels(this AudioFileOutput obj, int value, IContext context) => ConfigWishes.WithChannels(obj, value, context);
+        public static AudioFileOutput AsMono(this AudioFileOutput obj, IContext context) => ConfigWishes.AsMono(obj, context);
+        public static AudioFileOutput AsStereo(this AudioFileOutput obj, IContext context) => ConfigWishes.AsStereo(obj, context);
+        public static AudioFileOutput AsChannels(this AudioFileOutput obj, int value, IContext context) => ConfigWishes.AsChannels(obj, value, context);
         public static AudioFileOutput SetMono(this AudioFileOutput obj, IContext context) => ConfigWishes.SetMono(obj, context);
         public static AudioFileOutput SetStereo(this AudioFileOutput obj, IContext context) => ConfigWishes.SetStereo(obj, context);
         public static AudioFileOutput SetChannels(this AudioFileOutput obj, int value, IContext context) => ConfigWishes.SetChannels(obj, value, context);
@@ -188,6 +215,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Sample WithMono(this Sample obj, IContext context) => ConfigWishes.WithMono(obj, context);
         public static Sample WithStereo(this Sample obj, IContext context) => ConfigWishes.WithStereo(obj, context);
         public static Sample WithChannels(this Sample obj, int value, IContext context) => ConfigWishes.WithChannels(obj, value, context);
+        public static Sample AsMono(this Sample obj, IContext context) => ConfigWishes.AsMono(obj, context);
+        public static Sample AsStereo(this Sample obj, IContext context) => ConfigWishes.AsStereo(obj, context);
+        public static Sample AsChannels(this Sample obj, int value, IContext context) => ConfigWishes.AsChannels(obj, value, context);
         public static Sample SetMono(this Sample obj, IContext context) => ConfigWishes.SetMono(obj, context);
         public static Sample SetStereo(this Sample obj, IContext context) => ConfigWishes.SetStereo(obj, context);
         public static Sample SetChannels(this Sample obj, int value, IContext context) => ConfigWishes.SetChannels(obj, value, context);
@@ -203,6 +233,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioInfoWish WithMono(this AudioInfoWish obj) => ConfigWishes.WithMono(obj);
         public static AudioInfoWish WithStereo(this AudioInfoWish obj) => ConfigWishes.WithStereo(obj);
         public static AudioInfoWish WithChannels(this AudioInfoWish obj, int value) => ConfigWishes.WithChannels(obj, value);
+        public static AudioInfoWish AsMono(this AudioInfoWish obj) => ConfigWishes.AsMono(obj);
+        public static AudioInfoWish AsStereo(this AudioInfoWish obj) => ConfigWishes.AsStereo(obj);
+        public static AudioInfoWish AsChannels(this AudioInfoWish obj, int value) => ConfigWishes.AsChannels(obj, value);
         public static AudioInfoWish SetMono(this AudioInfoWish obj) => ConfigWishes.SetMono(obj);
         public static AudioInfoWish SetStereo(this AudioInfoWish obj) => ConfigWishes.SetStereo(obj);
         public static AudioInfoWish SetChannels(this AudioInfoWish obj, int value) => ConfigWishes.SetChannels(obj, value);
@@ -218,6 +251,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileInfo WithMono(this AudioFileInfo obj) => ConfigWishes.WithMono(obj);
         public static AudioFileInfo WithStereo(this AudioFileInfo obj) => ConfigWishes.WithStereo(obj);
         public static AudioFileInfo WithChannels(this AudioFileInfo obj, int value) => ConfigWishes.WithChannels(obj, value);
+        public static AudioFileInfo AsMono(this AudioFileInfo obj) => ConfigWishes.AsMono(obj);
+        public static AudioFileInfo AsStereo(this AudioFileInfo obj) => ConfigWishes.AsStereo(obj);
+        public static AudioFileInfo AsChannels(this AudioFileInfo obj, int value) => ConfigWishes.AsChannels(obj, value);
         public static AudioFileInfo SetMono(this AudioFileInfo obj) => ConfigWishes.SetMono(obj);
         public static AudioFileInfo SetStereo(this AudioFileInfo obj) => ConfigWishes.SetStereo(obj);
         public static AudioFileInfo SetChannels(this AudioFileInfo obj, int value) => ConfigWishes.SetChannels(obj, value);
@@ -235,6 +271,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct WithMono(this WavHeaderStruct obj) => ConfigWishes.WithMono(obj);
         public static WavHeaderStruct WithStereo(this WavHeaderStruct obj) => ConfigWishes.WithStereo(obj);
         public static WavHeaderStruct WithChannels(this WavHeaderStruct obj, int value) => ConfigWishes.WithChannels(obj, value);
+        public static WavHeaderStruct AsMono(this WavHeaderStruct obj) => ConfigWishes.AsMono(obj);
+        public static WavHeaderStruct AsStereo(this WavHeaderStruct obj) => ConfigWishes.AsStereo(obj);
+        public static WavHeaderStruct AsChannels(this WavHeaderStruct obj, int value) => ConfigWishes.AsChannels(obj, value);
         public static WavHeaderStruct SetMono(this WavHeaderStruct obj) => ConfigWishes.SetMono(obj);
         public static WavHeaderStruct SetStereo(this WavHeaderStruct obj) => ConfigWishes.SetStereo(obj);
         public static WavHeaderStruct SetChannels(this WavHeaderStruct obj, int value) => ConfigWishes.SetChannels(obj, value);
@@ -259,6 +298,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithStereo(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.WithStereo(oldEnumValue);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.WithChannels(oldEnumValue, newChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsMono(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.AsMono(oldEnumValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsStereo(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.AsStereo(oldEnumValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.AsChannels(oldEnumValue, newChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetMono(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.SetMono(oldEnumValue);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -288,6 +333,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithStereo(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.WithStereo(oldSpeakerSetup, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.WithChannels(oldSpeakerSetup, newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsMono(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.AsMono(oldSpeakerSetup, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsStereo(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.AsStereo(oldSpeakerSetup, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.AsChannels(oldSpeakerSetup, newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetMono(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.SetMono(oldSpeakerSetup, context);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -330,6 +381,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static SynthWishes WithMono(SynthWishes obj) => obj.Channels(MonoChannels);
         public static SynthWishes WithStereo(SynthWishes obj) => obj.Channels(StereoChannels);
         public static SynthWishes WithChannels(SynthWishes obj, int? value) => obj.SetChannels(value);
+        public static SynthWishes AsMono(SynthWishes obj) => obj.Channels(MonoChannels);
+        public static SynthWishes AsStereo(SynthWishes obj) => obj.Channels(StereoChannels);
+        public static SynthWishes AsChannels(SynthWishes obj, int? value) => obj.SetChannels(value);
         public static SynthWishes SetMono(SynthWishes obj) => obj.Channels(MonoChannels);
         public static SynthWishes SetStereo(SynthWishes obj) => obj.Channels(StereoChannels);
         public static SynthWishes SetChannels(SynthWishes obj, int? value)
@@ -353,6 +407,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode WithMono(FlowNode obj) => obj.Channels(MonoChannels);
         public static FlowNode WithStereo(FlowNode obj) => obj.Channels(StereoChannels);
         public static FlowNode WithChannels(FlowNode obj, int? value) => obj.SetChannels(value);
+        public static FlowNode AsMono(FlowNode obj) => obj.Channels(MonoChannels);
+        public static FlowNode AsStereo(FlowNode obj) => obj.Channels(StereoChannels);
+        public static FlowNode AsChannels(FlowNode obj, int? value) => obj.SetChannels(value);
         public static FlowNode SetMono(FlowNode obj) => obj.Channels(MonoChannels);
         public static FlowNode SetStereo(FlowNode obj) => obj.Channels(StereoChannels);
         public static FlowNode SetChannels(FlowNode obj, int? value)
@@ -369,33 +426,30 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannels;
         }
-        
-        internal static ConfigResolver Mono(ConfigResolver obj) => obj.Channels(MonoChannels);
-        internal static ConfigResolver Stereo(ConfigResolver obj) => obj.Channels(StereoChannels);
-        internal static ConfigResolver Channels(ConfigResolver obj, int? value) => obj.SetChannels(value);
-        [UsedImplicitly]
-        internal static ConfigResolver WithMono(ConfigResolver obj) => obj.Channels(MonoChannels);
-        [UsedImplicitly]
-        internal static ConfigResolver WithStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
-        internal static ConfigResolver WithChannels(ConfigResolver obj, int? value) => obj.SetChannels(value);
-        [UsedImplicitly]
-        internal static ConfigResolver SetMono(ConfigResolver obj) => obj.Channels(MonoChannels);
-        [UsedImplicitly]
-        internal static ConfigResolver SetStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
-        internal static ConfigResolver SetChannels(ConfigResolver obj, int? value)
+
+        [UsedImplicitly] internal static ConfigResolver Mono(ConfigResolver obj) => obj.Channels(MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver Stereo(ConfigResolver obj) => obj.Channels(StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver Channels(ConfigResolver obj, int? value) => obj.SetChannels(value);
+        [UsedImplicitly] internal static ConfigResolver WithMono(ConfigResolver obj) => obj.Channels(MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver WithStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver WithChannels(ConfigResolver obj, int? value) => obj.SetChannels(value);
+        [UsedImplicitly] internal static ConfigResolver AsMono(ConfigResolver obj) => obj.Channels(MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver AsStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver AsChannels(ConfigResolver obj, int? value) => obj.SetChannels(value);
+        [UsedImplicitly] internal static ConfigResolver SetMono(ConfigResolver obj) => obj.Channels(MonoChannels);
+        [UsedImplicitly] internal static ConfigResolver SetStereo(ConfigResolver obj) => obj.Channels(StereoChannels);
+        [UsedImplicitly] internal static ConfigResolver SetChannels(ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannels(value);
         }
-        
+
         // Global-Bound
-        
-        [UsedImplicitly]
-        internal static bool IsMono(ConfigSection obj) => obj.Channels() == MonoChannels;
-        [UsedImplicitly]
-        internal static bool IsStereo(ConfigSection obj) => obj.Channels() == StereoChannels;
-        internal static int? Channels(ConfigSection obj) => obj.GetChannels();
-        internal static int? GetChannels(ConfigSection obj)
+
+        [UsedImplicitly] internal static bool IsMono(ConfigSection obj) => obj.Channels() == MonoChannels;
+        [UsedImplicitly] internal static bool IsStereo(ConfigSection obj) => obj.Channels() == StereoChannels;
+        [UsedImplicitly] internal static int? Channels(ConfigSection obj) => obj.GetChannels();
+        [UsedImplicitly] internal static int? GetChannels(ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channels;
@@ -418,6 +472,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Tape WithMono(Tape obj) => obj.Channels(MonoChannels);
         public static Tape WithStereo(Tape obj) => obj.Channels(StereoChannels);
         public static Tape WithChannels(Tape obj, int value) => obj.SetChannels(value);
+        public static Tape AsMono(Tape obj) => obj.Channels(MonoChannels);
+        public static Tape AsStereo(Tape obj) => obj.Channels(StereoChannels);
+        public static Tape AsChannels(Tape obj, int value) => obj.SetChannels(value);
         public static Tape SetMono(Tape obj) => obj.Channels(MonoChannels);
         public static Tape SetStereo(Tape obj) => obj.Channels(StereoChannels);
         public static Tape SetChannels(Tape obj, int value)
@@ -442,6 +499,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeConfig WithMono(TapeConfig obj) => obj.Channels(MonoChannels);
         public static TapeConfig WithStereo(TapeConfig obj) => obj.Channels(StereoChannels);
         public static TapeConfig WithChannels(TapeConfig obj, int value) => obj.SetChannels(value);
+        public static TapeConfig AsMono(TapeConfig obj) => obj.Channels(MonoChannels);
+        public static TapeConfig AsStereo(TapeConfig obj) => obj.Channels(StereoChannels);
+        public static TapeConfig AsChannels(TapeConfig obj, int value) => obj.SetChannels(value);
         public static TapeConfig SetMono(TapeConfig obj) => obj.Channels(MonoChannels);
         public static TapeConfig SetStereo(TapeConfig obj) => obj.Channels(StereoChannels);
         public static TapeConfig SetChannels(TapeConfig obj, int value)
@@ -467,6 +527,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeActions WithMono(TapeActions obj) => obj.Channels(MonoChannels);
         public static TapeActions WithStereo(TapeActions obj) => obj.Channels(StereoChannels);
         public static TapeActions WithChannels(TapeActions obj, int value) => obj.SetChannels(value);
+        public static TapeActions AsMono(TapeActions obj) => obj.Channels(MonoChannels);
+        public static TapeActions AsStereo(TapeActions obj) => obj.Channels(StereoChannels);
+        public static TapeActions AsChannels(TapeActions obj, int value) => obj.SetChannels(value);
         public static TapeActions SetMono(TapeActions obj) => obj.Channels(MonoChannels);
         public static TapeActions SetStereo(TapeActions obj) => obj.Channels(StereoChannels);
         public static TapeActions SetChannels(TapeActions obj, int value)
@@ -491,6 +554,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeAction WithMono(TapeAction obj) => obj.Channels(MonoChannels);
         public static TapeAction WithStereo(TapeAction obj) => obj.Channels(StereoChannels);
         public static TapeAction WithChannels(TapeAction obj, int value) => obj.SetChannels(value);
+        public static TapeAction AsMono(TapeAction obj) => obj.Channels(MonoChannels);
+        public static TapeAction AsStereo(TapeAction obj) => obj.Channels(StereoChannels);
+        public static TapeAction AsChannels(TapeAction obj, int value) => obj.SetChannels(value);
         public static TapeAction SetMono(TapeAction obj) => obj.Channels(MonoChannels);
         public static TapeAction SetStereo(TapeAction obj) => obj.Channels(StereoChannels);
         public static TapeAction SetChannels(TapeAction obj, int value)
@@ -518,6 +584,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Buff WithMono(Buff obj, IContext context) => obj.Channels(MonoChannels, context);
         public static Buff WithStereo(Buff obj, IContext context) => obj.Channels(StereoChannels, context);
         public static Buff WithChannels(Buff obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static Buff AsMono(Buff obj, IContext context) => obj.Channels(MonoChannels, context);
+        public static Buff AsStereo(Buff obj, IContext context) => obj.Channels(StereoChannels, context);
+        public static Buff AsChannels(Buff obj, int value, IContext context) => obj.SetChannels(value, context);
         public static Buff SetMono(Buff obj, IContext context) => obj.Channels(MonoChannels, context);
         public static Buff SetStereo(Buff obj, IContext context) => obj.Channels(StereoChannels, context);
         public static Buff SetChannels(Buff obj, int value, IContext context)
@@ -543,6 +612,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileOutput WithMono(AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
         public static AudioFileOutput WithStereo(AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
         public static AudioFileOutput WithChannels(AudioFileOutput obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static AudioFileOutput AsMono(AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
+        public static AudioFileOutput AsStereo(AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
+        public static AudioFileOutput AsChannels(AudioFileOutput obj, int value, IContext context) => obj.SetChannels(value, context);
         public static AudioFileOutput SetMono(AudioFileOutput obj, IContext context) => obj.Channels(MonoChannels, context);
         public static AudioFileOutput SetStereo(AudioFileOutput obj, IContext context) => obj.Channels(StereoChannels, context);
         public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
@@ -566,7 +638,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Sample Stereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
         public static Sample Channels(Sample obj, int value, IContext context) => obj.SetChannels(value, context);
         public static Sample WithMono(Sample obj, IContext context) => obj.Channels(MonoChannels, context);
+        public static Sample WithStereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
         public static Sample WithChannels(Sample obj, int value, IContext context) => obj.SetChannels(value, context);
+        public static Sample AsMono(Sample obj, IContext context) => obj.Channels(MonoChannels, context);
+        public static Sample AsStereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
+        public static Sample AsChannels(Sample obj, int value, IContext context) => obj.SetChannels(value, context);
         public static Sample SetMono(Sample obj, IContext context) => obj.Channels(MonoChannels, context);
         public static Sample SetStereo(Sample obj, IContext context) => obj.Channels(StereoChannels, context);
         public static Sample SetChannels(Sample obj, int value, IContext context)
@@ -590,6 +666,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioInfoWish WithMono(AudioInfoWish obj) => obj.Channels(MonoChannels);
         public static AudioInfoWish WithStereo(AudioInfoWish obj) => obj.Channels(StereoChannels);
         public static AudioInfoWish WithChannels(AudioInfoWish obj, int value) => obj.SetChannels(value);
+        public static AudioInfoWish AsMono(AudioInfoWish obj) => obj.Channels(MonoChannels);
+        public static AudioInfoWish AsStereo(AudioInfoWish obj) => obj.Channels(StereoChannels);
+        public static AudioInfoWish AsChannels(AudioInfoWish obj, int value) => obj.SetChannels(value);
         public static AudioInfoWish SetMono(AudioInfoWish obj) => obj.Channels(MonoChannels);
         public static AudioInfoWish SetStereo(AudioInfoWish obj) => obj.Channels(StereoChannels);
         public static AudioInfoWish SetChannels(AudioInfoWish obj, int value)
@@ -614,6 +693,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileInfo WithMono(AudioFileInfo obj) => obj.Channels(MonoChannels);
         public static AudioFileInfo WithStereo(AudioFileInfo obj) => obj.Channels(StereoChannels);
         public static AudioFileInfo WithChannels(AudioFileInfo obj, int value) => obj.SetChannels(value);
+        public static AudioFileInfo AsMono(AudioFileInfo obj) => obj.Channels(MonoChannels);
+        public static AudioFileInfo AsStereo(AudioFileInfo obj) => obj.Channels(StereoChannels);
+        public static AudioFileInfo AsChannels(AudioFileInfo obj, int value) => obj.SetChannels(value);
         public static AudioFileInfo SetMono(AudioFileInfo obj) => obj.Channels(MonoChannels);
         public static AudioFileInfo SetStereo(AudioFileInfo obj) => obj.Channels(StereoChannels);
         public static AudioFileInfo SetChannels(AudioFileInfo obj, int value)
@@ -637,6 +719,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct WithMono(WavHeaderStruct obj) => obj.Channels(MonoChannels);
         public static WavHeaderStruct WithStereo(WavHeaderStruct obj) => obj.Channels(StereoChannels);
         public static WavHeaderStruct WithChannels(WavHeaderStruct obj, int value) => obj.SetChannels(value);
+        public static WavHeaderStruct AsMono(WavHeaderStruct obj) => obj.Channels(MonoChannels);
+        public static WavHeaderStruct AsStereo(WavHeaderStruct obj) => obj.Channels(StereoChannels);
+        public static WavHeaderStruct AsChannels(WavHeaderStruct obj, int value) => obj.SetChannels(value);
         public static WavHeaderStruct SetMono(WavHeaderStruct obj) => obj.Channels(MonoChannels);
         public static WavHeaderStruct SetStereo(WavHeaderStruct obj) => obj.Channels(StereoChannels);
         public static WavHeaderStruct SetChannels(WavHeaderStruct obj, int value) 
@@ -671,6 +756,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithStereo(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsMono(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsStereo(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetMono(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(MonoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -709,6 +800,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithStereo(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsMono(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsStereo(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(StereoChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetMono(SpeakerSetup oldSpeakerSetup, IContext context) => oldSpeakerSetup.Channels(MonoChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
