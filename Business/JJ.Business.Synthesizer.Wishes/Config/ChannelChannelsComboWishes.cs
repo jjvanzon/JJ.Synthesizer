@@ -17,8 +17,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         // Channels (Mono/Stereo)
         
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this ChannelEnum channelEnum) => channelEnum == ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum channelEnum) => channelEnum == ChannelEnum.Left || channelEnum == ChannelEnum.Right || channelEnum == ChannelEnum.Undefined; // Undefined = stereo signal with 2 channels = not a specific channel
+        
         [Obsolete(ObsoleteMessage)]
-        public static int Channels(this ChannelEnum obj) => obj.ChannelEnumToChannels();
+        public static int Channels(this ChannelEnum channelEnum) => channelEnum.ChannelEnumToChannels();
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
@@ -36,6 +39,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             throw new Exception($"Unsupported value: {new { newChannelsValue }}");
         }
         
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(this Channel channelEntity) => channelEntity.ToEnum().IsMono();
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel channelEntity) => channelEntity.ToEnum().IsStereo();
         [Obsolete(ObsoleteMessage)] 
         public static int Channels(this Channel obj) => obj.ToEnum().ChannelEnumToChannels();
 

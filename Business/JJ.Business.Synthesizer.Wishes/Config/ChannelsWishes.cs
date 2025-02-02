@@ -310,7 +310,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetStereo(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.SetStereo(oldEnumValue);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.SetChannels(oldEnumValue, newChannels);
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ToEnum(this int channels) => ConfigWishes.ToEnum(channels);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(this int channels) => ConfigWishes.ChannelsToEnum(channels);
 
         [Obsolete(ObsoleteMessage)] public static bool IsMono(this SpeakerSetup obj) => ConfigWishes.IsMono(obj);
@@ -346,14 +345,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.SetChannels(oldSpeakerSetup, newChannels, context);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
-
-        // TODO: More Channel(Enum) extensions
-
-        [Obsolete(ObsoleteMessage)] public static bool IsMono(this ChannelEnum obj) => ConfigWishes.IsMono(obj);
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this ChannelEnum obj) => ConfigWishes.IsStereo(obj);
-
-        [Obsolete(ObsoleteMessage)] public static bool IsMono(this Channel obj) => ConfigWishes.IsMono(obj);
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel obj) => ConfigWishes.IsStereo(obj);
     }
 
     public partial class ConfigWishes
@@ -768,7 +759,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetStereo(SpeakerSetupEnum oldEnumValue) => oldEnumValue.Channels(StereoChannels);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
-        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ToEnum(int channels) => ChannelsToEnum(channels);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(int channels)
         {
             switch (AssertChannels((int?)channels))
@@ -816,18 +806,5 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             return channels.ChannelsToEnum().ToEntity(context);
         }
-        
-        // TODO: More Channel(Enum) helpers
-
-        [Obsolete(ObsoleteMessage)] public static bool IsMono(ChannelEnum obj) => obj == ChannelEnum.Single;
-        [Obsolete(ObsoleteMessage)] public static bool IsMono(Channel obj) => obj.ToEnum().IsMono();
-
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(ChannelEnum obj) => obj == ChannelEnum.Left || obj == ChannelEnum.Right || obj == ChannelEnum.Undefined; // Undefined = stereo signal with 2 channels = not a specific channel
-        [Obsolete(ObsoleteMessage)] public static bool IsStereo(Channel obj) => obj.ToEnum().IsStereo();
-
-
-
-
-
     }
 }
