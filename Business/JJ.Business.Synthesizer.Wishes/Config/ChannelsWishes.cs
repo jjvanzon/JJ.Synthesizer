@@ -33,18 +33,21 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int GetChannels(this SynthWishes obj) => ConfigWishes.GetChannels(obj);
 
         public static SynthWishes Channels(this SynthWishes obj, int? value) => ConfigWishes.Channels(obj, value);
+        public static SynthWishes WithChannels(this SynthWishes obj, int? value) => ConfigWishes.WithChannels(obj, value);
         public static SynthWishes SetChannels(this SynthWishes obj, int? value) => ConfigWishes.SetChannels(obj, value);
 
         public static int Channels(this FlowNode obj) => ConfigWishes.Channels(obj);
         public static int GetChannels(this FlowNode obj) => ConfigWishes.GetChannels(obj);
         
         public static FlowNode Channels(this FlowNode obj, int? value) => ConfigWishes.Channels(obj, value);
+        public static FlowNode WithChannels(this FlowNode obj, int? value) => ConfigWishes.WithChannels(obj, value);
         public static FlowNode SetChannels(this FlowNode obj, int? value) => ConfigWishes.SetChannels(obj, value);
         
         internal static int Channels(this ConfigResolver obj) => ConfigWishes.Channels(obj);
         internal static int GetChannels(this ConfigResolver obj) => ConfigWishes.GetChannels(obj);
         
         internal static ConfigResolver Channels(this ConfigResolver obj, int? value) => ConfigWishes.Channels(obj, value);
+        internal static ConfigResolver WithChannels(this ConfigResolver obj, int? value) => ConfigWishes.WithChannels(obj, value);
         internal static ConfigResolver SetChannels(this ConfigResolver obj, int? value) => ConfigWishes.SetChannels(obj, value);
         
         // Global-Bound
@@ -130,52 +133,39 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct WithChannels(this WavHeaderStruct obj, int value) => ConfigWishes.WithChannels(obj, value);
         public static WavHeaderStruct SetChannels(this WavHeaderStruct obj, int value) => ConfigWishes.SetChannels(obj, value);
 
-        [Obsolete(ObsoleteMessage)]
-        public static int EnumToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.EnumToChannels(enumValue);
-        [Obsolete(ObsoleteMessage)]
-        public static int Channels(this SpeakerSetupEnum obj) => ConfigWishes.Channels(obj);
-        [Obsolete(ObsoleteMessage)]
-        public static int GetChannels(this SpeakerSetupEnum obj) => ConfigWishes.GetChannels(obj);
-        [Obsolete(ObsoleteMessage)]
-        public static int ToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.ToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int Channels(this SpeakerSetupEnum obj) => ConfigWishes.Channels(obj);
+        [Obsolete(ObsoleteMessage)] public static int GetChannels(this SpeakerSetupEnum obj) => ConfigWishes.GetChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.ToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int AsChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.AsChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int EnumToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.EnumToChannels(enumValue);
 
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum ChannelsToEnum(this int channels) => ConfigWishes.ChannelsToEnum(channels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.Channels(oldEnumValue, newChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.Channels(oldEnumValue, newChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum SetChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.SetChannels(oldEnumValue, newChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.SetChannels(oldEnumValue, newChannels);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetupEnum WithChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.WithChannels(oldEnumValue, newChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.WithChannels(oldEnumValue, newChannels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ToEnum(this int channels) => ConfigWishes.ToEnum(channels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(this int channels) => ConfigWishes.ChannelsToEnum(channels);
         
-        [Obsolete(ObsoleteMessage)] 
-        public static int EntityToChannels(this SpeakerSetup entity) => ConfigWishes.EntityToChannels(entity);
-        [Obsolete(ObsoleteMessage)] 
-        public static int Channels(this SpeakerSetup obj) => ConfigWishes.Channels(obj);
-        [Obsolete(ObsoleteMessage)] 
-        public static int GetChannels(this SpeakerSetup obj) => ConfigWishes.GetChannels(obj);
-        [Obsolete(ObsoleteMessage)] 
-        public static int ToChannels(this SpeakerSetup obj) => ConfigWishes.ToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int Channels(this         SpeakerSetup obj)    => ConfigWishes.Channels(obj);
+        [Obsolete(ObsoleteMessage)] public static int GetChannels(this      SpeakerSetup obj)    => ConfigWishes.GetChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToChannels(this       SpeakerSetup obj)    => ConfigWishes.ToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int AsChannels(this       SpeakerSetup obj)    => ConfigWishes.AsChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int EntityToChannels(this SpeakerSetup entity) => ConfigWishes.EntityToChannels(entity);
 
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup Channels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Channels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
             => ConfigWishes.Channels(oldSpeakerSetup, newChannels, context);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup SetChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
             => ConfigWishes.SetChannels(oldSpeakerSetup, newChannels, context);
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup WithChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) 
             => ConfigWishes.WithChannels(oldSpeakerSetup, newChannels, context);
         
         // Channels Shorthand
@@ -573,8 +563,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct SetChannels(WavHeaderStruct obj, int value) 
             => obj.ToWish().Channels(value).ToWavHeader();
 
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetupEnum ChannelsToEnum(int channels)
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ToEnum(int channels) => ChannelsToEnum(channels);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(int channels)
         {
             switch (AssertChannels((int?)channels))
             {
@@ -605,36 +595,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 default: throw new ValueNotSupportedException(enumValue);
             }
         }
-        [Obsolete(ObsoleteMessage)]
-        public static int Channels(SpeakerSetupEnum obj) => EnumToChannels(obj);
-        [Obsolete(ObsoleteMessage)]
-        public static int GetChannels(SpeakerSetupEnum obj) => EnumToChannels(obj);
-        [Obsolete(ObsoleteMessage)]
-        public static int ToChannels(SpeakerSetupEnum enumValue) => EnumToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int Channels(SpeakerSetupEnum    obj)       => EnumToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int GetChannels(SpeakerSetupEnum obj)       => EnumToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToChannels(SpeakerSetupEnum  enumValue) => EnumToChannels(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int AsChannels(SpeakerSetupEnum  enumValue) => EnumToChannels(enumValue);
         
-        [Obsolete(ObsoleteMessage)] 
-        public static SpeakerSetup ChannelsToEntity(int channels, IContext context) => channels.ChannelsToEnum().ToEntity(context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup Channels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup Channels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup SetChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SpeakerSetup WithChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
+        [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(int channels, IContext context) => channels.ChannelsToEnum().ToEntity(context);
 
-        [Obsolete(ObsoleteMessage)] 
-        public static int EntityToChannels(SpeakerSetup entity) => entity.ToEnum().EnumToChannels();
-        [Obsolete(ObsoleteMessage)] 
-        public static int Channels(SpeakerSetup obj) => EntityToChannels(obj);
-        [Obsolete(ObsoleteMessage)] 
-        public static int GetChannels(SpeakerSetup obj) => EntityToChannels(obj);
-        [Obsolete(ObsoleteMessage)] 
-        public static int ToChannels(SpeakerSetup obj) => EntityToChannels(obj);
-        
+        [Obsolete(ObsoleteMessage)] public static int Channels(SpeakerSetup obj) => EntityToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int GetChannels(SpeakerSetup obj) => EntityToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToChannels(SpeakerSetup obj) => EntityToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int AsChannels(SpeakerSetup obj) => EntityToChannels(obj);
+        [Obsolete(ObsoleteMessage)] public static int EntityToChannels(SpeakerSetup entity) => entity.ToEnum().EnumToChannels();
+
         // Channels Shorthand
-        
+
         public   static bool IsMono  (SynthWishes     obj) => obj.Channels() == MonoChannels;
         public   static bool IsMono  (FlowNode        obj) => obj.Channels() == MonoChannels;
         internal static bool IsMono  (ConfigResolver  obj) => obj.Channels() == MonoChannels;
