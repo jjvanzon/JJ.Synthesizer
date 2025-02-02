@@ -36,37 +36,40 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (obj == null) throw new NullException(() => obj);
             return obj.GetBits;
         }
+        
+        public static SynthWishes Bits(this SynthWishes obj, int? value) => SetBits(obj, value);
+        public static SynthWishes WithBits(this SynthWishes obj, int? value) => SetBits(obj, value);
         public static SynthWishes SetBits(this SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithBits(value);
         }
-
-        public static SynthWishes Bits(this SynthWishes obj, int? value)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.WithBits(value);
-        }
         
-        public static int Bits(this FlowNode obj)
+        public static int Bits(this FlowNode obj) => GetBits(obj);
+        public static int GetBits(this FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetBits;
         }
         
-        public static FlowNode Bits(this FlowNode obj, int? value)
+        public static FlowNode Bits(this FlowNode obj, int? value) => SetBits(obj, value);
+        public static FlowNode WithBits(this FlowNode obj, int? value) => SetBits(obj, value);
+        public static FlowNode SetBits(this FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithBits(value);
         }
         
-        internal static int Bits(this ConfigResolver obj)
+        internal static int Bits(this ConfigResolver obj) => GetBits(obj);
+        internal static int GetBits(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetBits;
         }
         
-        internal static ConfigResolver Bits(this ConfigResolver obj, int? value)
+        internal static ConfigResolver Bits(this ConfigResolver obj, int? value) => SetBits(obj, value);
+        internal static ConfigResolver WithBits(this ConfigResolver obj, int? value) => SetBits(obj, value);
+        internal static ConfigResolver SetBits(this ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithBits(value);
@@ -74,7 +77,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Global-Bound
         
-        internal static int? Bits(this ConfigSection obj)
+        internal static int? Bits(this ConfigSection obj) => GetBits(obj);
+        internal static int? GetBits(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Bits;
@@ -82,52 +86,63 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tape-Bound
         
-        public static int Bits(this Tape obj)
+        public static int Bits(this Tape obj) => GetBits(obj);
+        public static int GetBits(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Config.Bits;
         }
         
-        public static Tape Bits(this Tape obj, int value)
+        public static Tape Bits(this Tape obj, int value) => SetBits(obj, value);
+        public static Tape WithBits(this Tape obj, int value) => SetBits(obj, value);
+        public static Tape SetBits(this Tape obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Config.Bits = value;
             return obj;
         }
         
-        public static int Bits(this TapeConfig obj)
+        public static int Bits(this TapeConfig obj) => GetBits(obj);
+        public static int GetBits(this TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Bits;
         }
         
-        public static TapeConfig Bits(this TapeConfig obj, int value)
+        public static TapeConfig Bits(this TapeConfig obj, int value) => SetBits(obj, value);
+        public static TapeConfig SetBits(this TapeConfig obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Bits = value;
             return obj;
         }
         
-        public static int Bits(this TapeActions obj)
+        public static int Bits(this TapeActions obj) => GetBits(obj);
+        public static int GetBits(this TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Bits;
         }
         
-        public static TapeActions Bits(this TapeActions obj, int value)
+        public static TapeActions Bits(this TapeActions obj, int value) => SetBits(obj, value);
+        public static TapeActions WithBits(this TapeActions obj, int value) => SetBits(obj, value);
+        public static TapeActions SetBits(this TapeActions obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Bits = value;
             return obj;
         }
         
-        public static int Bits(this TapeAction obj)
+        public static int Bits(this TapeAction obj) => GetBits(obj);
+        public static int GetBits(this TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Bits;
         }
         
-        public static TapeAction Bits(this TapeAction obj, int value)
+        public static TapeAction Bits(this TapeAction obj, int value) => SetBits(obj, value);
+        public static TapeAction WithBits(this TapeAction obj, int value) => SetBits(obj, value);
+        public static TapeAction SetBits(this TapeAction obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Bits = value;
@@ -136,26 +151,32 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Buff-Bound
         
-        public static int Bits(this Buff obj)
+        public static int Bits(this Buff obj) => GetBits(obj);
+        public static int GetBits(this Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.UnderlyingAudioFileOutput.Bits();
         }
         
-        public static Buff Bits(this Buff obj, int value, IContext context)
+        public static Buff Bits(this Buff obj, int value, IContext context) => SetBits(obj, value, context);
+        public static Buff WithBits(this Buff obj, int value, IContext context) => SetBits(obj, value, context);
+        public static Buff SetBits(this Buff obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.UnderlyingAudioFileOutput.Bits(value, context);
             return obj;
         }
         
-        public static int Bits(this AudioFileOutput obj)
+        public static int Bits(this AudioFileOutput obj) => GetBits(obj);
+        public static int GetBits(this AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetSampleDataTypeEnum().EnumToBits();
         }
         
-        public static AudioFileOutput Bits(this AudioFileOutput obj, int value, IContext context)
+        public static AudioFileOutput Bits(this AudioFileOutput obj, int value, IContext context) => SetBits(obj, value, context);
+        public static AudioFileOutput WithBits(this AudioFileOutput obj, int value, IContext context) => SetBits(obj, value, context);
+        public static AudioFileOutput SetBits(this AudioFileOutput obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.SetSampleDataTypeEnum(value.BitsToEnum(), context);
@@ -164,39 +185,48 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Independent after Taping
         
-        public static int Bits(this Sample obj)
+        public static int Bits(this Sample obj) => GetBits(obj);
+        public static int GetBits(this Sample obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetSampleDataTypeEnum().EnumToBits();
         }
         
-        public static Sample Bits(this Sample obj, int value, IContext context)
+        public static Sample Bits(this Sample obj, int value, IContext context) => SetBits(obj, value, context);
+        public static Sample WithBits(this Sample obj, int value, IContext context) => SetBits(obj, value, context);
+        public static Sample SetBits(this Sample obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.SetSampleDataTypeEnum(value.BitsToEnum(), context);
             return obj;
         }
         
-        public static int Bits(this AudioInfoWish obj)
+        public static int Bits(this AudioInfoWish obj) => GetBits(obj);
+        public static int GetBits(this AudioInfoWish obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Bits;
         }
         
-        public static AudioInfoWish Bits(this AudioInfoWish obj, int value)
+        public static AudioInfoWish Bits(this AudioInfoWish obj, int value) => SetBits(obj, value);
+        public static AudioInfoWish WithBits(this AudioInfoWish obj, int value) => SetBits(obj, value);
+        public static AudioInfoWish SetBits(this AudioInfoWish obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Bits = AssertBits(value, strict: false);
             return obj;
         }
         
-        public static int Bits(this AudioFileInfo obj)
+        public static int Bits(this AudioFileInfo obj) => GetBits(obj);
+        public static int GetBits(this AudioFileInfo obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.BytesPerValue.Bits();
         }
         
-        public static AudioFileInfo Bits(this AudioFileInfo obj, int bits)
+        public static AudioFileInfo Bits(this AudioFileInfo obj, int bits) => SetBits(obj, bits);
+        public static AudioFileInfo WithBits(this AudioFileInfo obj, int bits) => SetBits(obj, bits);
+        public static AudioFileInfo SetBits(this AudioFileInfo obj, int bits)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.BytesPerValue = bits.SizeOfBitDepth();
@@ -205,29 +235,76 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Immutable        
         
-        public static int Bits(this WavHeaderStruct obj) => obj.BitsPerValue;
+        public static int Bits(this WavHeaderStruct obj) => GetBits(obj);
+        public static int GetBits(this WavHeaderStruct obj)
+        {
+            return obj.BitsPerValue;
+        }
         
-        public static WavHeaderStruct Bits(this WavHeaderStruct obj, int value) => obj.ToWish().Bits(value).ToWavHeader();
-
-        public static int Bits(this Type valueType) => valueType.TypeToBits();
+        public static WavHeaderStruct Bits(this WavHeaderStruct obj, int value) => SetBits(obj, value);
+        public static WavHeaderStruct WithBits(this WavHeaderStruct obj, int value) => SetBits(obj, value);
+        public static WavHeaderStruct SetBits(this WavHeaderStruct obj, int value)
+        {
+            return obj.ToWish().Bits(value).ToWavHeader();
+        }
+        
+        public static int Bits(this Type valueType) => GetBits(valueType);
+        public static int GetBits(this Type valueType)
+        {
+            return TypeToBits(valueType);
+        }
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type Bits(this Type oldValueType, int newBits) => newBits.BitsToType();
+        public static Type Bits(this Type oldValueType, int newBits) => SetBits(oldValueType, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type WithBits(this Type oldValueType, int newBits) => SetBits(oldValueType, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type SetBits(this Type oldValueType, int newBits)
+        {
+            return newBits.BitsToType();
+        }
         
         [Obsolete(ObsoleteMessage)]
-        public static int Bits(this SampleDataTypeEnum obj) => obj.EnumToBits();
+        public static int Bits(this SampleDataTypeEnum obj) => GetBits(obj);
+        [Obsolete(ObsoleteMessage)]
+        public static int GetBits(this SampleDataTypeEnum obj)
+        {
+            return EnumToBits(obj);
+        }
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum Bits(this SampleDataTypeEnum oldEnumValue, int newBits) => newBits.BitsToEnum();
+        public static SampleDataTypeEnum Bits(this SampleDataTypeEnum oldEnumValue, int newBits) => SetBits(oldEnumValue, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum WithBits(this SampleDataTypeEnum oldEnumValue, int newBits) => SetBits(oldEnumValue, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataTypeEnum SetBits(this SampleDataTypeEnum oldEnumValue, int newBits)
+        {
+            return newBits.BitsToEnum();
+        }
         
         [Obsolete(ObsoleteMessage)]
-        public static int Bits(this SampleDataType obj) => obj.EntityToBits();
+        public static int Bits(this SampleDataType obj) => GetBits(obj);
+        [Obsolete(ObsoleteMessage)]
+        public static int GetBits(this SampleDataType obj)
+        {
+            return obj.EntityToBits();
+        }
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static SampleDataType Bits(this SampleDataType oldSampleDataType, int newBits, IContext context) 
-            => newBits.BitsToEntity(context);
+        public static SampleDataType Bits(this SampleDataType oldSampleDataType, int newBits, IContext context) => SetBits(oldSampleDataType, newBits, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType WithBits(this SampleDataType oldSampleDataType, int newBits, IContext context) => SetBits(oldSampleDataType, newBits, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static SampleDataType SetBits(this SampleDataType oldSampleDataType, int newBits, IContext context)
+        {
+            return newBits.BitsToEntity(context);
+        }
         
         // Shorthand
         
