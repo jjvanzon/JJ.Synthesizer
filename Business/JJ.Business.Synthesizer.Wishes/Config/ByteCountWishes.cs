@@ -12,6 +12,7 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+// ReSharper disable UnusedParameter.Global
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -22,27 +23,49 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Synth-Bound
         
-        public static int ByteCount(this SynthWishes obj) 
-            => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
-
-        public static SynthWishes ByteCount(this SynthWishes obj, int? value) 
-            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+        public static int ByteCount(this SynthWishes obj) => GetByteCount(obj);
+        public static int GetByteCount(this SynthWishes obj)
+        {
+            return ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+        }
         
-        public static int ByteCount(this FlowNode obj) 
-            => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+        public static SynthWishes ByteCount(this SynthWishes obj, int? value) => SetByteCount(obj, value);
+        public static SynthWishes WithByteCount(this SynthWishes obj, int? value) => SetByteCount(obj, value);
+        public static SynthWishes SetByteCount(this SynthWishes obj, int? value)
+        {
+            return obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+        }
         
-        public static FlowNode ByteCount(this FlowNode obj, int? value) 
-            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+        public static int ByteCount(this FlowNode obj) => GetByteCount(obj);
+        public static int GetByteCount(this FlowNode obj)
+        {
+            return ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+        }
         
-        internal static int ByteCount(this ConfigResolver obj, SynthWishes synthWishes) 
-            => ByteCountFromFrameCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength());
+        public static FlowNode ByteCount(this FlowNode obj, int? value) => SetByteCount(obj, value);
+        public static FlowNode WithByteCount(this FlowNode obj, int? value) => SetByteCount(obj, value);
+        public static FlowNode SetByteCount(this FlowNode obj, int? value)
+        {
+            return obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+        }
         
-        internal static ConfigResolver ByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) 
-            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
+        internal static int ByteCount(this ConfigResolver obj, SynthWishes synthWishes) => GetByteCount(obj, synthWishes);
+        internal static int GetByteCount(this ConfigResolver obj, SynthWishes synthWishes)
+        {
+            return ByteCountFromFrameCount(obj.FrameCount(synthWishes), obj.FrameSize(), obj.HeaderLength());
+        }
+        
+        internal static ConfigResolver WithByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => SetByteCount(obj, value, synthWishes);
+        internal static ConfigResolver ByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => SetByteCount(obj, value, synthWishes);
+        internal static ConfigResolver SetByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes)
+        {
+            return obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()), synthWishes);
+        }
         
         // Global-Bound
         
-        internal static int? ByteCount(this ConfigSection obj)
+        internal static int? ByteCount(this ConfigSection obj) => GetByteCount(obj);
+        internal static int? GetByteCount(this ConfigSection obj)
         {
             if (obj.FrameCount() == null) return null;
             if (obj.FrameSize() == null) return null;
@@ -51,7 +74,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tape-Bound
         
-        public static int ByteCount(this Tape obj)
+        public static int ByteCount(this Tape obj) => GetByteCount(obj);
+        public static int GetByteCount(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
             
@@ -65,42 +89,55 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
 
-        public static Tape ByteCount(this Tape obj, int value) 
-            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+        public static Tape ByteCount(this Tape obj, int value) => SetByteCount(obj, value);
+        public static Tape WithByteCount(this Tape obj, int value) => SetByteCount(obj, value);
+        public static Tape SetByteCount(this Tape obj, int value)
+        {
+            return obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), obj.CourtesyFrames()));
+        }
         
-        public static int ByteCount(this TapeConfig obj)
+        public static int ByteCount(this TapeConfig obj) => GetByteCount(obj);
+        public static int GetByteCount(this TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.ByteCount();
         }
 
-        public static TapeConfig ByteCount(this TapeConfig obj, int value)
+        public static TapeConfig ByteCount(this TapeConfig obj, int value) => SetByteCount(obj, value);
+        public static TapeConfig WithByteCount(this TapeConfig obj, int value) => SetByteCount(obj, value);
+        public static TapeConfig SetByteCount(this TapeConfig obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.ByteCount(value);
             return obj;
         }
         
-        public static int ByteCount(this TapeActions obj)
+        public static int ByteCount(this TapeActions obj) => GetByteCount(obj);
+        public static int GetByteCount(this TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.ByteCount();
         }
 
-        public static TapeActions ByteCount(this TapeActions obj, int value)
+        public static TapeActions ByteCount(this TapeActions obj, int value) => SetByteCount(obj, value);
+        public static TapeActions WithByteCount(this TapeActions obj, int value) => SetByteCount(obj, value);
+        public static TapeActions SetByteCount(this TapeActions obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.ByteCount(value);
             return obj;
         }
 
-        public static int ByteCount(this TapeAction obj)
+        public static int ByteCount(this TapeAction obj) => GetByteCount(obj);
+        public static int GetByteCount(this TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.ByteCount();
         }
 
-        public static TapeAction ByteCount(this TapeAction obj, int value)
+        public static TapeAction ByteCount(this TapeAction obj, int value) => SetByteCount(obj, value);
+        public static TapeAction WithByteCount(this TapeAction obj, int value) => SetByteCount(obj, value);
+        public static TapeAction SetByteCount(this TapeAction obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.ByteCount(value);
@@ -109,10 +146,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Buff-Bound
         
-        public static int ByteCount(this Buff obj, int? courtesyFrames)
-            => ByteCount(obj, CoalesceCourtesyFrames(courtesyFrames));
-
-        public static int ByteCount(this Buff obj, int courtesyFrames)
+        public static int ByteCount(this    Buff obj, int? courtesyFrames) => GetByteCount(obj, courtesyFrames);
+        public static int ByteCount(this    Buff obj, int  courtesyFrames) => GetByteCount(obj, courtesyFrames);
+        public static int GetByteCount(this Buff obj, int? courtesyFrames) => GetByteCount(obj, CoalesceCourtesyFrames(courtesyFrames));
+        public static int GetByteCount(this Buff obj, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
 
@@ -130,11 +167,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
             return 0;
         }
-        
-        public static Buff ByteCount(this Buff obj, int value, int? courtesyFrames)
-            => ByteCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
 
-        public static Buff ByteCount(this Buff obj, int value, int courtesyFrames)
+        public static Buff ByteCount(this Buff obj, int value, int? courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static Buff ByteCount(this Buff obj, int value, int courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static Buff WithByteCount(this Buff obj, int value, int? courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static Buff WithByteCount(this Buff obj, int value, int courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static Buff SetByteCount(this Buff obj, int value, int? courtesyFrames) => SetByteCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
+        public static Buff SetByteCount(this Buff obj, int value, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
             // Buff is too Buff to change his ByteCount,
@@ -143,27 +182,33 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
 
-        public static int ByteCount(this AudioFileOutput obj, int? courtesyFrames)
-            => ByteCount(obj, CoalesceCourtesyFrames(courtesyFrames));
-            
-        public static int ByteCount(this AudioFileOutput obj, int courtesyFrames)
+        public static int ByteCount(this AudioFileOutput obj, int? courtesyFrames) => GetByteCount(obj, courtesyFrames);
+        public static int ByteCount(this AudioFileOutput obj, int courtesyFrames) => GetByteCount(obj, courtesyFrames);
+        public static int GetByteCount(this AudioFileOutput obj, int? courtesyFrames) => GetByteCount(obj, CoalesceCourtesyFrames(courtesyFrames));
+        public static int GetByteCount(this AudioFileOutput obj, int courtesyFrames)
         {
             if (obj == null) throw new NullException(() => obj);
-            return Coalesce(AssertFileSize(obj.FilePath), obj.BytesNeeded(courtesyFrames));
+            return Coalesce(AssertFileSize(obj.FilePath), GetBytesNeeded(obj, courtesyFrames));
+        }
+
+        public static int BytesNeeded(this AudioFileOutput obj, int? courtesyFrames) => GetBytesNeeded(obj, courtesyFrames);
+        public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames) => GetBytesNeeded(obj, courtesyFrames);
+        public static int GetBytesNeeded(this AudioFileOutput obj, int? courtesyFrames) => GetBytesNeeded(obj, CoalesceCourtesyFrames(courtesyFrames));
+        public static int GetBytesNeeded(this AudioFileOutput obj, int courtesyFrames)
+        {
+            return ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
         }
         
-        public static int BytesNeeded(this AudioFileOutput obj, int? courtesyFrames) 
-            => BytesNeeded(obj, CoalesceCourtesyFrames(courtesyFrames));
+        public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int? courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static AudioFileOutput WithByteCount(this AudioFileOutput obj, int value, int? courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static AudioFileOutput WithByteCount(this AudioFileOutput obj, int value, int courtesyFrames) => SetByteCount(obj, value, courtesyFrames);
+        public static AudioFileOutput SetByteCount(this AudioFileOutput obj, int value, int? courtesyFrames) => SetByteCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
+        public static AudioFileOutput SetByteCount(this AudioFileOutput obj, int value, int courtesyFrames)
+        {
+            return obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
+        }
         
-        public static int BytesNeeded(this AudioFileOutput obj, int courtesyFrames) 
-            => ByteCountFromFrameCount(obj.FrameCount(courtesyFrames), obj.FrameSize(), obj.HeaderLength());
-
-        public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int? courtesyFrames) 
-            => ByteCount(obj, value, CoalesceCourtesyFrames(courtesyFrames));
-
-        public static AudioFileOutput ByteCount(this AudioFileOutput obj, int value, int courtesyFrames) 
-            => obj.AudioLength(AudioLengthFromByteCount(value, obj.FrameSize(), obj.SamplingRate(), obj.HeaderLength(), courtesyFrames));
-
         // Independent after Taping
         
         public static int ByteCount(this Sample obj)
@@ -174,10 +219,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Immutable
         
-        public static int ByteCount(this WavHeaderStruct obj) 
-            => ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
-
-        public static WavHeaderStruct ByteCount(this WavHeaderStruct wavHeader, int value)
+        public static int ByteCount(this WavHeaderStruct obj) => GetByteCount(obj);
+        public static int GetByteCount(this WavHeaderStruct obj)
+        {
+            return ByteCountFromFrameCount(obj.FrameCount(), obj.FrameSize(), obj.HeaderLength());
+        }
+        
+        public static WavHeaderStruct ByteCount(this WavHeaderStruct wavHeader, int value) => SetByteCount(wavHeader, value);
+        public static WavHeaderStruct WithByteCount(this WavHeaderStruct wavHeader, int value) => SetByteCount(wavHeader, value);
+        public static WavHeaderStruct SetByteCount(this WavHeaderStruct wavHeader, int value)
         {
             if (!Has(wavHeader)) throw new Exception("No WAV header.");
             var wish = wavHeader.ToWish();
@@ -185,37 +235,85 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return wish.AudioLength(audioLength, DefaultCourtesyFrames).ToWavHeader();
         }
         
-        [Obsolete(ObsoleteMessage)] 
-        public static int ByteCount(this SampleDataTypeEnum obj) => obj.SizeOfBitDepth();
+        
+        [Obsolete(ObsoleteMessage)] public static int ByteCount(this SampleDataTypeEnum obj) => GetByteCount(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToByteCount(this SampleDataTypeEnum obj) => GetByteCount(obj);
+        [Obsolete(ObsoleteMessage)] public static int AsByteCount(this SampleDataTypeEnum obj) => GetByteCount(obj);
+        [Obsolete(ObsoleteMessage)] public static int GetByteCount(this SampleDataTypeEnum obj)
+        {
+            return obj.SizeOfBitDepth();
+        }
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SampleDataTypeEnum ByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount)
-            => oldEnumValue.SizeOfBitDepth(newByteCount);
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum ByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount) => SetByteCount(oldEnumValue, newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum WithByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount) => SetByteCount(oldEnumValue, newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SetByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount)
+        {
+            return oldEnumValue.SizeOfBitDepth(newByteCount);
+        }
         
-        [Obsolete(ObsoleteMessage)] 
-        public static int ByteCount(this SampleDataType obj) => obj.SizeOfBitDepth();
+        [Obsolete(ObsoleteMessage)] public static int ByteCount(this SampleDataType obj) => GetByteCount(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToByteCount(this SampleDataType obj) => GetByteCount(obj);
+        [Obsolete(ObsoleteMessage)] public static int AsByteCount(this SampleDataType obj) => GetByteCount(obj);
+        [Obsolete(ObsoleteMessage)] public static int GetByteCount(this SampleDataType obj)
+        {
+            return obj.SizeOfBitDepth();
+        }
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public static SampleDataType ByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context) 
-            => oldSampleDataType.SizeOfBitDepth(newByteCount, context);
-        
-        public static int ByteCount(this Type type) => type.SizeOfBitDepth();
-
+        [Obsolete(ObsoleteMessage)] public static SampleDataType ByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context) => SetByteCount(oldSampleDataType, newByteCount, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        public static Type ByteCount(this Type oldType, int newByteCount) => oldType.SizeOfBitDepth(newByteCount);
-        
-        public static int BitsToByteCount(this int bits) => BitsToSizeOfBitDepth(bits);
-
-        public static int ByteCount(this int bits) => BitsToSizeOfBitDepth(bits);
-
+        [Obsolete(ObsoleteMessage)] public static SampleDataType WithByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context) => SetByteCount(oldSampleDataType, newByteCount, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        public static int ByteCountToBits(this int oldBits, int newByteCount) => oldBits.SizeOfBitDepth(newByteCount);
+        [Obsolete(ObsoleteMessage)] public static SampleDataType SetByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context)
+        {
+            return oldSampleDataType.SizeOfBitDepth(newByteCount, context);
+        }
+        
+        public static int ByteCount(this Type type) => TypeToByteCount(type);
+        public static int GetByteCount(this Type type) => TypeToByteCount(type);
+        public static int AsByteCount(this Type type) => TypeToByteCount(type);
+        public static int ToByteCount(this Type type) => TypeToByteCount(type);
+        public static int TypeToByteCount(this Type type)
+        {
+            return type.SizeOfBitDepth();
+        }
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static int ByteCount(this int oldBits, int newByteCount) => oldBits.SizeOfBitDepth(newByteCount);
-
+        public static Type ByteCount(this Type oldType, int newByteCount) => SetByteCount(oldType, newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type WithByteCount(this Type oldType, int newByteCount) => SetByteCount(oldType, newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type SetByteCount(this Type oldType, int newByteCount)
+        {
+            return oldType.SizeOfBitDepth(newByteCount);
+        }
+        
+        public static int ByteCount(this int bits)=> BitsToByteCount(bits);
+        public static int GetByteCount(this int bits) => BitsToByteCount(bits);
+        public static int AsByteCount(this int bits) => BitsToByteCount(bits);
+        public static int ToByteCount(this int bits) => BitsToByteCount(bits);
+        public static int BitsToByteCount(this int bits)
+        {
+            return BitsToSizeOfBitDepth(bits);
+        }
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int ByteCount(this int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int SetByteCount(this int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int WithByteCount(this int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int ByteCountToBits(this int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int ByteCountToBits(this int byteCount)
+        {
+            return SizeOfBitDepthToBits(byteCount);
+        }
+        
         // Conversion Formula
         
         // From Buff
