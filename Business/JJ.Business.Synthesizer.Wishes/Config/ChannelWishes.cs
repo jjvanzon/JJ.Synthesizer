@@ -60,10 +60,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.WithChannel(value);
         }
 
-        public static bool IsCenter(this FlowNode obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
-        public static bool IsLeft(this FlowNode obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        public static bool IsRight(this FlowNode obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
-        public static int? Channel(this FlowNode obj) => GetChannel(obj);
+        public static bool IsCenter(this FlowNode obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
+        public static bool IsLeft(this   FlowNode obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight(this  FlowNode obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel(this  FlowNode obj) => GetChannel(obj);
         public static int? GetChannel(this FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -82,10 +82,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         [UsedImplicitly]
-        internal static bool IsCenter(this ConfigResolver obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
+        internal static bool IsCenter(this ConfigResolver obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
         [UsedImplicitly]
-        internal static bool IsLeft(this ConfigResolver obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        internal static bool IsRight(this ConfigResolver obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
+        internal static bool IsLeft(this ConfigResolver obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
+        internal static bool IsRight(this ConfigResolver obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         internal static int? Channel(this ConfigResolver obj) => GetChannel(obj);
         internal static int? GetChannel(this ConfigResolver obj)
         {
@@ -106,9 +106,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tape-Bound
         
-        public static bool IsCenter(this Tape obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
-        public static bool IsLeft(this Tape obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        public static bool IsRight(this Tape obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
+        public static bool IsCenter(this Tape obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
+        public static bool IsLeft(this Tape obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
+        public static bool IsRight(this Tape obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel(this Tape obj) => GetChannel(obj);
         public static int? GetChannel(this Tape obj)
         {
@@ -128,9 +128,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsCenter(this TapeConfig obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
-        public static bool IsLeft(this TapeConfig obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        public static bool IsRight(this TapeConfig obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
+        public static bool IsCenter(this TapeConfig obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
+        public static bool IsLeft(this TapeConfig obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
+        public static bool IsRight(this TapeConfig obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel(this TapeConfig obj) => GetChannel(obj);
         public static int? GetChannel(this TapeConfig obj)
         {
@@ -150,9 +150,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsCenter(this TapeActions obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
-        public static bool IsLeft(this TapeActions obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        public static bool IsRight(this TapeActions obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
+        public static bool IsCenter(this TapeActions obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
+        public static bool IsLeft(this TapeActions obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
+        public static bool IsRight(this TapeActions obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel(this TapeActions obj) => GetChannel(obj);
         public static int? GetChannel(this TapeActions obj)
         {
@@ -172,9 +172,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsCenter(this TapeAction obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
-        public static bool IsLeft(this TapeAction obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        public static bool IsRight(this TapeAction obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
+        public static bool IsCenter(this TapeAction obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
+        public static bool IsLeft(this TapeAction obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
+        public static bool IsRight(this TapeAction obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel(this TapeAction obj) => GetChannel(obj);
         public static int? GetChannel(this TapeAction obj)
         {
@@ -196,9 +196,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Buff-Bound
         
-        public static bool IsCenter(this Buff obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
-        public static bool IsLeft(this Buff obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        public static bool IsRight(this Buff obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
+        public static bool IsCenter(this Buff obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
+        public static bool IsLeft(this Buff obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
+        public static bool IsRight(this Buff obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel(this Buff obj) => GetChannel(obj);
         public static int? GetChannel(this Buff obj)
         {
@@ -227,9 +227,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsCenter(this AudioFileOutput obj) => IsMono(obj) && GetChannel(obj) == CenterChannel;
-        public static bool IsLeft(this AudioFileOutput obj) => IsStereo(obj) && GetChannel(obj) == LeftChannel;
-        public static bool IsRight(this AudioFileOutput obj) => IsStereo(obj) && GetChannel(obj) == RightChannel;
+        public static bool IsCenter(this AudioFileOutput obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
+        public static bool IsLeft(this AudioFileOutput obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
+        public static bool IsRight(this AudioFileOutput obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel(this AudioFileOutput obj) => GetChannel(obj);
         public static int? GetChannel(this AudioFileOutput obj)
         {
