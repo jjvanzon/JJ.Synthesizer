@@ -42,6 +42,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Channels
         
+        public int NoChannels     => ConfigWishes.NoChannels;
+        public int MonoChannels   => ConfigWishes.MonoChannels;
+        public int StereoChannels => ConfigWishes.StereoChannels;
+
         private int? _channels;
         public int GetChannels => CoalesceChannels(_channels, _section.Channels);
         public bool IsMono => GetChannels == 1;
@@ -50,9 +54,20 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Channel
         
+        public int  CenterChannel => ConfigWishes.CenterChannel;
+        public int  LeftChannel   => ConfigWishes.LeftChannel;
+        public int  RightChannel  => ConfigWishes.RightChannel;
+        public int? AnyChannel    => ConfigWishes.AnyChannel;
+        public int? EveryChannel  => ConfigWishes.EveryChannel;
+        public int? ChannelEmpty  => ConfigWishes.ChannelEmpty;
+        
         private int? _channel;
         public int? GetChannel => CoalesceChannelsChannelCombo(GetChannels, _channel).channel;
-        public ConfigResolver WithChannel(int? channel) { _channel = AssertChannel(channel); return this; }
+        public ConfigResolver WithChannel(int? channel)
+        {
+            //if (channel == EveryChannel || channel == RightChannel) this.WithStereo(); // Sneaky switch breaks tests.
+            _channel = AssertChannel(channel); return this; 
+        }
         public bool           IsCenter  =>       IsMono  ? GetChannel == CenterChannel : default;
         public ConfigResolver WithCenter() {   this.WithMono(); WithChannel  (CenterChannel); return this; }
         public bool           IsLeft    =>     IsStereo  ? GetChannel == LeftChannel   : default;
