@@ -687,6 +687,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsRaw(this string fileExtension) => ConfigWishes.IsRaw(fileExtension);
         public static AudioFileFormatEnum AudioFormat(this string fileExtension) => ConfigWishes.AudioFormat(fileExtension);
         public static AudioFileFormatEnum ToAudioFormat(this string fileExtension) => ConfigWishes.GetAudioFormat(fileExtension);
+        public static AudioFileFormatEnum AsAudioFormat(this string fileExtension) => ConfigWishes.GetAudioFormat(fileExtension);
         public static AudioFileFormatEnum GetAudioFormat(this string fileExtension) => ConfigWishes.GetAudioFormat(fileExtension);
 
         /// <inheritdoc cref="docs._quasisetter" />
@@ -714,6 +715,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsRaw(this AudioFileFormatEnum obj) => ConfigWishes.IsRaw(obj);
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum obj) => ConfigWishes.AudioFormat(obj);
         public static AudioFileFormatEnum ToAudioFormat(this AudioFileFormatEnum obj) => ConfigWishes.GetAudioFormat(obj);
+        public static AudioFileFormatEnum AsAudioFormat(this AudioFileFormatEnum obj) => ConfigWishes.GetAudioFormat(obj);
         public static AudioFileFormatEnum GetAudioFormat(this AudioFileFormatEnum obj) => ConfigWishes.GetAudioFormat(obj);
 
         /// <inheritdoc cref="docs._quasisetter" />
@@ -741,6 +743,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsRaw(this AudioFileFormatEnum? obj) => ConfigWishes.IsRaw(obj);
         public static AudioFileFormatEnum? AudioFormat(this AudioFileFormatEnum? obj) => ConfigWishes.AudioFormat(obj);
         public static AudioFileFormatEnum? ToAudioFormat(this AudioFileFormatEnum? obj) => ConfigWishes.ToAudioFormat(obj);
+        public static AudioFileFormatEnum? AsAudioFormat(this AudioFileFormatEnum? obj) => ConfigWishes.ToAudioFormat(obj);
         public static AudioFileFormatEnum? GetAudioFormat(this AudioFileFormatEnum? obj) => ConfigWishes.GetAudioFormat(obj);
 
         /// <inheritdoc cref="docs._quasisetter" />
