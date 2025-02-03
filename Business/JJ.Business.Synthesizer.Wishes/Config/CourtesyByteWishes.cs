@@ -8,141 +8,269 @@ using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
+    // Derived from CourtesyFrames
+
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class CourtesyByteExtensionWishes
     {
-        // Derived from CourtesyFrames
-        
         // Synth-Bound
         
-        public static int CourtesyBytes(this SynthWishes obj)
-            => ConfigWishes.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+        public static int CourtesyBytes(this SynthWishes obj) => ConfigWishes.CourtesyBytes(obj);
+        public static int GetCourtesyBytes(this SynthWishes obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        public static SynthWishes CourtesyBytes(this SynthWishes obj, int? value) => ConfigWishes.CourtesyBytes(obj, value);
+        public static SynthWishes WithCourtesyBytes(this SynthWishes obj, int? value) => ConfigWishes.WithCourtesyBytes(obj, value);
+        public static SynthWishes SetCourtesyBytes(this SynthWishes obj, int? value) => ConfigWishes.SetCourtesyBytes(obj, value);
+
+        public static int CourtesyBytes(this FlowNode obj) => ConfigWishes.CourtesyBytes(obj);
+        public static int GetCourtesyBytes(this FlowNode obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        public static FlowNode CourtesyBytes(this FlowNode obj, int? value) => ConfigWishes.CourtesyBytes(obj, value);
+        public static FlowNode WithCourtesyBytes(this FlowNode obj, int? value) => ConfigWishes.WithCourtesyBytes(obj, value);
+        public static FlowNode SetCourtesyBytes(this FlowNode obj, int? value) => ConfigWishes.SetCourtesyBytes(obj, value);
+
+        [UsedImplicitly] internal static int CourtesyBytes(this ConfigResolver obj) => ConfigWishes.CourtesyBytes(obj);
+        [UsedImplicitly] internal static int WithCourtesyBytes(this ConfigResolver obj) => ConfigWishes.WithCourtesyBytes(obj);
+        [UsedImplicitly] internal static int GetCourtesyBytes(this ConfigResolver obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        [UsedImplicitly] internal static ConfigResolver CourtesyBytes(this ConfigResolver obj, int? value) => ConfigWishes.CourtesyBytes(obj, value);
+        [UsedImplicitly] internal static ConfigResolver WithCourtesyBytes(this ConfigResolver obj, int? value) => ConfigWishes.WithCourtesyBytes(obj, value);
+        [UsedImplicitly] internal static ConfigResolver SetCourtesyBytes(this ConfigResolver obj, int? value) => ConfigWishes.SetCourtesyBytes(obj, value);
+
+        // Global-Bound
+
+        internal static int? CourtesyBytes(this ConfigSection obj) => ConfigWishes.CourtesyBytes(obj);
+        internal static int? GetCourtesyBytes(this ConfigSection obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        // Tape-Bound
+
+        public static int CourtesyBytes(this Tape obj) => ConfigWishes.CourtesyBytes(obj);
+        public static int GetCourtesyBytes(this Tape obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        public static Tape CourtesyBytes(this Tape obj, int value) => ConfigWishes.CourtesyBytes(obj, value);
+        public static Tape WithCourtesyBytes(this Tape obj, int value) => ConfigWishes.WithCourtesyBytes(obj, value);
+        public static Tape SetCourtesyBytes(this Tape obj, int value) => ConfigWishes.SetCourtesyBytes(obj, value);
+
+        public static int CourtesyBytes(this TapeConfig obj) => ConfigWishes.CourtesyBytes(obj);
+        public static int GetCourtesyBytes(this TapeConfig obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        public static TapeConfig CourtesyBytes(this TapeConfig obj, int value) => ConfigWishes.CourtesyBytes(obj, value);
+        public static TapeConfig WithCourtesyBytes(this TapeConfig obj, int value) => ConfigWishes.WithCourtesyBytes(obj, value);
+        public static TapeConfig SetCourtesyBytes(this TapeConfig obj, int value) => ConfigWishes.SetCourtesyBytes(obj, value);
+
+        public static int CourtesyBytes(this TapeActions obj) => ConfigWishes.CourtesyBytes(obj);
+        public static int GetCourtesyBytes(this TapeActions obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        public static TapeActions CourtesyBytes(this TapeActions obj, int value) => ConfigWishes.CourtesyBytes(obj, value);
+        public static TapeActions WithCourtesyBytes(this TapeActions obj, int value) => ConfigWishes.WithCourtesyBytes(obj, value);
+        public static TapeActions SetCourtesyBytes(this TapeActions obj, int value) => ConfigWishes.SetCourtesyBytes(obj, value);
+
+        public static int CourtesyBytes(this TapeAction obj) => ConfigWishes.CourtesyBytes(obj);
+        public static int GetCourtesyBytes(this TapeAction obj) => ConfigWishes.GetCourtesyBytes(obj);
+
+        public static TapeAction CourtesyBytes(this TapeAction obj, int value) => ConfigWishes.CourtesyBytes(obj, value);
+        public static TapeAction SetCourtesyBytes(this TapeAction obj, int value) => ConfigWishes.SetCourtesyBytes(obj, value);
         
-        public static SynthWishes CourtesyBytes(this SynthWishes obj, int? value)
-            => obj.CourtesyFrames(ConfigWishes.CourtesyFrames(value, obj.FrameSize()));
+        // Conversion Formulas
         
-        public static int CourtesyBytes(this FlowNode obj)
-            => ConfigWishes.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+        // Courtesy Frames to Bytes
         
-        public static FlowNode CourtesyBytes(this FlowNode obj, int? value)
-            => obj.CourtesyFrames(ConfigWishes.CourtesyFrames(value, obj.FrameSize()));
+        public static int CourtesyBytes(this int courtesyFrames, int bits, int channels) => ConfigWishes.CourtesyBytes(courtesyFrames, bits, channels);
+        public static int GetCourtesyBytes(this int courtesyFrames, int bits, int channels) => ConfigWishes.GetCourtesyBytes(courtesyFrames, bits, channels);
+        public static int ToCourtesyBytes(this int courtesyFrames, int bits, int channels) => ConfigWishes.ToCourtesyBytes(courtesyFrames, bits, channels);
+        public static int CourtesyFramesToBytes(int courtesyFrames, int bits, int channels) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels);
+
+        public static int CourtesyBytes(this int? courtesyFrames, int? bits, int? channels) => ConfigWishes.CourtesyBytes(courtesyFrames, bits, channels);
+        public static int GetCourtesyBytes(this int? courtesyFrames, int? bits, int? channels) => ConfigWishes.GetCourtesyBytes(courtesyFrames, bits, channels);
+        public static int ToCourtesyBytes(this int? courtesyFrames, int? bits, int? channels) => ConfigWishes.ToCourtesyBytes(courtesyFrames, bits, channels);
+        public static int CourtesyFramesToBytes(int? courtesyFrames, int? bits, int? channels) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels);
+
+
+        public static int CourtesyBytes(this int courtesyFrames, int frameSize) => ConfigWishes.CourtesyBytes(courtesyFrames, frameSize);
+        public static int GetCourtesyBytes(this int courtesyFrames, int frameSize) => ConfigWishes.GetCourtesyBytes(courtesyFrames, frameSize);
+        public static int ToCourtesyBytes(this int courtesyFrames, int frameSize) => ConfigWishes.ToCourtesyBytes(courtesyFrames, frameSize);
+        public static int CourtesyFramesToBytes(int courtesyFrames, int frameSize) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize);
+
+
+        public static int CourtesyBytes(this int? courtesyFrames, int? frameSize) => ConfigWishes.CourtesyBytes(courtesyFrames, frameSize);
+        public static int GetCourtesyBytes(this int? courtesyFrames, int? frameSize) => ConfigWishes.GetCourtesyBytes(courtesyFrames, frameSize);
+        public static int ToCourtesyBytes(this int? courtesyFrames, int? frameSize) => ConfigWishes.ToCourtesyBytes(courtesyFrames, frameSize);
+        public static int CourtesyFramesToBytes(int? courtesyFrames, int? frameSize) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize);
+
+
+        // Courtesy Bytes to Frames
+
+        public static int? CourtesyFrames(this int? courtesyBytes, int frameSize) => ConfigWishes.CourtesyFrames(courtesyBytes, frameSize);
+        public static int? GetCourtesyFrames(this int? courtesyBytes, int frameSize) => ConfigWishes.GetCourtesyFrames(courtesyBytes, frameSize);
+        public static int? ToCourtesyFrames(this int? courtesyBytes, int frameSize) => ConfigWishes.ToCourtesyFrames(courtesyBytes, frameSize);
+        public static int? CourtesyBytesToFrames(this int? courtesyBytes, int? frameSize) => ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize);
+
+
+        public static int CourtesyFrames(this int courtesyBytes, int frameSize) => ConfigWishes.CourtesyFrames(courtesyBytes, frameSize);
+        public static int GetCourtesyFrames(this int courtesyBytes, int frameSize) => ConfigWishes.GetCourtesyFrames(courtesyBytes, frameSize);
+        public static int ToCourtesyFrames(this int courtesyBytes, int frameSize) => ConfigWishes.ToCourtesyFrames(courtesyBytes, frameSize);
+        public static int CourtesyBytesToFrames(this int courtesyBytes, int frameSize) => ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize);
+    }
+    
+    public partial class ConfigWishes
+    {
+        // Synth-Bound
         
-        [UsedImplicitly]
-        internal static int CourtesyBytes(this ConfigResolver obj)
-            => ConfigWishes.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+        public static int CourtesyBytes(SynthWishes obj) => GetCourtesyBytes(obj);
+        public static int GetCourtesyBytes(SynthWishes obj)
+        {
+            return GetCourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+        }
         
-        [UsedImplicitly]
-        internal static ConfigResolver CourtesyBytes(this ConfigResolver obj, int? value)
-            => obj.CourtesyFrames(ConfigWishes.CourtesyFrames(value, obj.FrameSize()));
+        public static SynthWishes CourtesyBytes(SynthWishes obj, int? value) => SetCourtesyBytes(obj, value);
+        public static SynthWishes WithCourtesyBytes(SynthWishes obj, int? value) => SetCourtesyBytes(obj, value);
+        public static SynthWishes SetCourtesyBytes(SynthWishes obj, int? value)
+        {
+            return obj.SetCourtesyFrames(GetCourtesyFrames(value, obj.FrameSize()));
+        }
+        
+        public static int CourtesyBytes(FlowNode obj) => GetCourtesyBytes(obj);
+        public static int GetCourtesyBytes(FlowNode obj)
+        {
+            return GetCourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+        }
+        
+        public static FlowNode CourtesyBytes(FlowNode obj, int? value) => SetCourtesyBytes(obj, value);
+        public static FlowNode WithCourtesyBytes(FlowNode obj, int? value) => SetCourtesyBytes(obj, value);
+        public static FlowNode SetCourtesyBytes(FlowNode obj, int? value)
+        {
+            return obj.WithCourtesyFrames(GetCourtesyFrames(value, obj.FrameSize()));
+        }
+        
+        [UsedImplicitly] internal static int CourtesyBytes(ConfigResolver obj) => GetCourtesyBytes(obj);
+        [UsedImplicitly] internal static int WithCourtesyBytes(ConfigResolver obj) => GetCourtesyBytes(obj);
+        [UsedImplicitly] internal static int GetCourtesyBytes(ConfigResolver obj)
+        {
+            return GetCourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
+        }
+        
+        [UsedImplicitly] internal static ConfigResolver CourtesyBytes(ConfigResolver obj, int? value) => SetCourtesyBytes(obj, value);
+        [UsedImplicitly] internal static ConfigResolver WithCourtesyBytes(ConfigResolver obj, int? value) => SetCourtesyBytes(obj, value);
+        [UsedImplicitly] internal static ConfigResolver SetCourtesyBytes(ConfigResolver obj, int? value)
+        {
+            return obj.WithCourtesyFrames(GetCourtesyFrames(value, obj.FrameSize()));
+        }
         
         // Global-Bound
         
-        internal static int? CourtesyBytes(this ConfigSection obj)
+        internal static int? CourtesyBytes(ConfigSection obj) => GetCourtesyBytes(obj);
+        internal static int? GetCourtesyBytes(ConfigSection obj)
         {
             if (obj.CourtesyFrames() == null) return null;
             if (obj.FrameSize() == null) return null;
-            return ConfigWishes.CourtesyBytes(obj.CourtesyFrames().Value, obj.FrameSize().Value);
+            return CourtesyFramesToBytes(obj.CourtesyFrames().Value, obj.FrameSize().Value);
         }
         
         // Tape-Bound
         
-        public static int CourtesyBytes(this Tape obj)
-            => ConfigWishes.CourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
-        
-        public static Tape CourtesyBytes(this Tape obj, int value)
-            => obj.CourtesyFrames(ConfigWishes.CourtesyFrames(value, obj.FrameSize()));
-        
-        public static int CourtesyBytes(this TapeConfig obj)
+        public static int CourtesyBytes(Tape obj) => GetCourtesyBytes(obj);
+        public static int GetCourtesyBytes(Tape obj)
         {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.Tape.CourtesyBytes();
+            return CourtesyFramesToBytes(obj.CourtesyFrames(), obj.FrameSize());
         }
         
-        public static TapeConfig CourtesyBytes(this TapeConfig obj, int value)
+        public static Tape CourtesyBytes(Tape obj, int value) => SetCourtesyBytes(obj, value);
+        public static Tape WithCourtesyBytes(Tape obj, int value) => SetCourtesyBytes(obj, value);
+        public static Tape SetCourtesyBytes(Tape obj, int value)
+        {
+            return obj.CourtesyFrames(GetCourtesyFrames(value, obj.FrameSize()));
+        }
+        
+        public static int CourtesyBytes(TapeConfig obj) => GetCourtesyBytes(obj);
+        public static int GetCourtesyBytes(TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.Tape.CourtesyBytes(value);
+            return obj.Tape.GetCourtesyBytes();
+        }
+        
+        public static TapeConfig CourtesyBytes(TapeConfig obj, int value) => SetCourtesyBytes(obj, value);
+        public static TapeConfig WithCourtesyBytes(TapeConfig obj, int value) => SetCourtesyBytes(obj, value);
+        public static TapeConfig SetCourtesyBytes(TapeConfig obj, int value)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            obj.Tape.SetCourtesyBytes(value);
             return obj;
         }
         
-        public static int CourtesyBytes(this TapeActions obj)
+        public static int CourtesyBytes(TapeActions obj) => GetCourtesyBytes(obj);
+        public static int GetCourtesyBytes(TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.Tape.CourtesyBytes();
+            return obj.Tape.GetCourtesyBytes();
         }
         
-        public static TapeActions CourtesyBytes(this TapeActions obj, int value)
+        public static TapeActions CourtesyBytes(TapeActions obj, int value) => SetCourtesyBytes(obj, value);
+        public static TapeActions WithCourtesyBytes(TapeActions obj, int value) => SetCourtesyBytes(obj, value);
+        public static TapeActions SetCourtesyBytes(TapeActions obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.Tape.CourtesyBytes(value);
+            obj.Tape.SetCourtesyBytes(value);
             return obj;
         }
         
-        public static int CourtesyBytes(this TapeAction obj)
+        public static int CourtesyBytes(TapeAction obj) => GetCourtesyBytes(obj);
+        public static int GetCourtesyBytes(TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.Tape.CourtesyBytes();
+            return obj.Tape.GetCourtesyBytes();
         }
         
-        public static TapeAction CourtesyBytes(this TapeAction obj, int value)
+        public static TapeAction CourtesyBytes(TapeAction obj, int value) => SetCourtesyBytes(obj, value);
+        public static TapeAction SetCourtesyBytes(TapeAction obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.Tape.CourtesyBytes(value);
+            obj.Tape.SetCourtesyBytes(value);
             return obj;
         }
-    }
 
-    public partial class ConfigWishes
-    {
-        // Conversion-Style
+        // Conversion Formulas
         
         // Courtesy Frames to Bytes
         
+        public static int CourtesyBytes(int courtesyFrames, int bits, int channels) => CourtesyFramesToBytes(courtesyFrames, bits, channels);
+        public static int GetCourtesyBytes(int courtesyFrames, int bits, int channels) => CourtesyFramesToBytes(courtesyFrames, bits, channels);
+        public static int ToCourtesyBytes(int courtesyFrames, int bits, int channels) => CourtesyFramesToBytes(courtesyFrames, bits, channels);
         public static int CourtesyFramesToBytes(int courtesyFrames, int bits, int channels) 
             => AssertCourtesyFrames(courtesyFrames) * FrameSize(bits, channels);
 
+        public static int CourtesyBytes(int? courtesyFrames, int? bits, int? channels) => CourtesyFramesToBytes(courtesyFrames, bits, channels);
+        public static int GetCourtesyBytes(int? courtesyFrames, int? bits, int? channels) => CourtesyFramesToBytes(courtesyFrames, bits, channels);
+        public static int ToCourtesyBytes(int? courtesyFrames, int? bits, int? channels) => CourtesyFramesToBytes(courtesyFrames, bits, channels);
         public static int CourtesyFramesToBytes(int? courtesyFrames, int? bits, int? channels) 
             => CoalesceCourtesyFrames(courtesyFrames) * FrameSize(bits, channels);
         
+        public static int CourtesyBytes(int courtesyFrames, int frameSize) => CourtesyFramesToBytes(courtesyFrames, frameSize);
+        public static int GetCourtesyBytes(int courtesyFrames, int frameSize) => CourtesyFramesToBytes(courtesyFrames, frameSize);
+        public static int ToCourtesyBytes(int courtesyFrames, int frameSize) => CourtesyFramesToBytes(courtesyFrames, frameSize);
         public static int CourtesyFramesToBytes(int courtesyFrames, int frameSize) 
             => AssertCourtesyFrames(courtesyFrames) * AssertFrameSize(frameSize);
         
+        public static int CourtesyBytes(int? courtesyFrames, int? frameSize) => CourtesyFramesToBytes(courtesyFrames, frameSize);
+        public static int GetCourtesyBytes(int? courtesyFrames, int? frameSize) => CourtesyFramesToBytes(courtesyFrames, frameSize);
+        public static int ToCourtesyBytes(int? courtesyFrames, int? frameSize) => CourtesyFramesToBytes(courtesyFrames, frameSize);
         public static int CourtesyFramesToBytes(int? courtesyFrames, int? frameSize) 
             => CoalesceCourtesyFrames(courtesyFrames) * CoalesceFrameSize(frameSize);
 
         // Courtesy Bytes to Frames
         
+        public static int? CourtesyFrames(int? courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int? GetCourtesyFrames(int? courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int? ToCourtesyFrames(int? courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
         public static int? CourtesyBytesToFrames(int? courtesyBytes, int? frameSize) 
             => CourtesyBytesToFrames(courtesyBytes.CoalesceCourtesyBytes(), frameSize.CoalesceFrameSize());
         
+        public static int CourtesyFrames(int courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int GetCourtesyFrames(int courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int ToCourtesyFrames(int courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
         public static int CourtesyBytesToFrames(int courtesyBytes, int frameSize)
         {
             courtesyBytes.AssertCourtesyBytes(frameSize);
             return courtesyBytes / frameSize;
         }
-        
-        // Synonyms
-        
-        // CourtesyBytes
-        
-        public static int CourtesyBytes(int courtesyFrames, int bits, int channels) 
-            => CourtesyFramesToBytes(courtesyFrames, bits, channels);
-        
-        public static int CourtesyBytes(int? courtesyFrames, int? bits, int? channels) 
-            => CourtesyFramesToBytes(courtesyFrames, bits, channels);
-
-        public static int CourtesyBytes(int courtesyFrames, int frameSize) 
-            => CourtesyFramesToBytes(courtesyFrames, frameSize);
-
-        public static int CourtesyBytes(int? courtesyFrames, int? frameSize) 
-            => CourtesyFramesToBytes(courtesyFrames, frameSize);
-        
-        // CourtesyFrames
-        
-        public static int? CourtesyFrames(int? courtesyBytes, int frameSize)
-            => CourtesyBytesToFrames(courtesyBytes, frameSize);
-        
-        public static int CourtesyFrames(int courtesyBytes, int frameSize)
-            => CourtesyBytesToFrames(courtesyBytes, frameSize);
     }
 }
