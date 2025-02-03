@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// In some cases they were missing in the back-end objects.
         /// In other cases they are for API objects, even if they were already otherwise available
         /// as properties or through sub-objects, or Get methods.
-        /// They might be repeated here just to standardize everything for fluency.
+        /// They are repeated here just to standardize everything for fluency.
         /// </summary>
         public struct _configextensionwishes { }
         
