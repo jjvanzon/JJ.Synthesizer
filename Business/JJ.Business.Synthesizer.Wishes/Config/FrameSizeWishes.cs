@@ -26,7 +26,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         internal static int FrameSize(this ConfigResolver obj) => ConfigWishes.FrameSize(obj);
         internal static int GetFrameSize(this ConfigResolver obj) => ConfigWishes.GetFrameSize(obj);
-        
 
         // Global-Bound
 
@@ -102,19 +101,19 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameSize(SynthWishes obj) => GetFrameSize(obj);
         public static int GetFrameSize(SynthWishes obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         public static int FrameSize(FlowNode obj) => GetFrameSize(obj);
         public static int GetFrameSize(FlowNode obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         internal static int FrameSize(ConfigResolver obj) => GetFrameSize(obj);
         internal static int GetFrameSize(ConfigResolver obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         // Global-Bound
@@ -122,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         internal static int? FrameSize(ConfigSection obj) => GetFrameSize(obj);
         internal static int? GetFrameSize(ConfigSection obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         // Tape-Bound
@@ -130,25 +129,25 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameSize(Tape obj) => GetFrameSize(obj);
         public static int GetFrameSize(Tape obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         public static int FrameSize(TapeConfig obj) => GetFrameSize(obj);
         public static int GetFrameSize(TapeConfig obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         public static int FrameSize(TapeAction obj) => GetFrameSize(obj);
         public static int GetFrameSize(TapeAction obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         public static int FrameSize(TapeActions obj) => GetFrameSize(obj);
         public static int GetFrameSize(TapeActions obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         // Buff-Bound
@@ -156,13 +155,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameSize(Buff obj) => GetFrameSize(obj);
         public static int GetFrameSize(Buff obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         public static int FrameSize(AudioFileOutput obj) => GetFrameSize(obj);
         public static int GetFrameSize(AudioFileOutput obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         // Independent after Taping
@@ -170,19 +169,19 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameSize(Sample obj) => GetFrameSize(obj);
         public static int GetFrameSize(Sample obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         public static int FrameSize(AudioInfoWish obj) => GetFrameSize(obj);
         public static int GetFrameSize(AudioInfoWish obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         public static int FrameSize(AudioFileInfo obj) => GetFrameSize(obj);
         public static int GetFrameSize(AudioFileInfo obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         // Immutable
@@ -190,7 +189,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameSize(WavHeaderStruct obj) => GetFrameSize(obj);
         public static int GetFrameSize(WavHeaderStruct obj)
         {
-            return obj.SizeOfBitDepth() * obj.Channels();
+            return GetFrameSize(obj.Bits(), obj.Channels());
         }
         
         [Obsolete(ObsoleteMessage)]
@@ -200,7 +199,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static int GetFrameSize((SampleDataType sampleDataType, SpeakerSetup speakerSetup) entities)
         {
-            return entities.sampleDataType.SizeOfBitDepth() * entities.speakerSetup.Channels();
+            return GetFrameSize(entities.sampleDataType.Bits(), entities.speakerSetup.Channels());
         }
         
         [Obsolete(ObsoleteMessage)]
@@ -210,7 +209,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static int GetFrameSize((SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
         {
-            return enums.sampleDataTypeEnum.SizeOfBitDepth() * enums.speakerSetupEnum.Channels();
+            return GetFrameSize(enums.sampleDataTypeEnum.Bits(), enums.speakerSetupEnum.Channels());
         }
         
         // Conversion Formula
@@ -219,14 +218,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int ToFrameSize((int bits, int channels) tuple) => GetFrameSize(tuple);
         public static int GetFrameSize((int bits, int channels) tuple)
         {
-            return FrameSize(tuple.bits, tuple.channels);
+            return GetFrameSize(tuple.bits, tuple.channels);
         }
         
         public static int FrameSize((int? bits, int? channels) tuple) => GetFrameSize(tuple);
         public static int ToFrameSize((int? bits, int? channels) tuple) => GetFrameSize(tuple);
         public static int GetFrameSize((int? bits, int? channels) tuple)
         {
-            return FrameSize(tuple.bits, tuple.channels);
+            return GetFrameSize(tuple.bits, tuple.channels);
         }
         
         public static int FrameSize(int bits, int channels) => GetFrameSize(bits, channels);
