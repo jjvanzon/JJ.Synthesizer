@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileFormatEnum  [] ValidAudioFormats    { get; } = { Raw, Wav    };
         public static InterpolationTypeEnum[] ValidInterpolations  { get; } = { Line, Block };
         
-        public static int                  [] ValidSizesOfBitDepth { get; } = ValidBits        .Select(SizeOfBitDepth).ToArray();
+        public static int                  [] ValidSizesOfBitDepth { get; } = ValidBits        .Select(x => x.SizeOfBitDepth()).ToArray();
         public static double               [] ValidMaxAmplitudes   { get; } = ValidBits        .Select(MaxAmplitude  ).ToArray();
         public static int                  [] ValidHeaderLengths   { get; } = ValidAudioFormats.Select(x => x.HeaderLength()).ToArray();
         public static string               [] ValidFileExtensions  { get; } = ValidAudioFormats.Select(FileExtension ).ToArray();
