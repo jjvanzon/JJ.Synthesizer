@@ -75,6 +75,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._headerlength"/>
         public static Tape HeaderLength(this Tape obj, int headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
+        public static Tape WithHeaderLength(this Tape obj, int headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
         public static Tape SetHeaderLength(this Tape obj, int headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
 
         /// <inheritdoc cref="docs._headerlength"/>
@@ -84,6 +86,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         /// <inheritdoc cref="docs._headerlength"/>
         public static TapeConfig HeaderLength(this TapeConfig obj, int headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeConfig WithHeaderLength(this TapeConfig obj, int headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
         public static TapeConfig SetHeaderLength(this TapeConfig obj, int headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
 
@@ -195,26 +199,21 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileFormatEnum HeaderLengthToAudioFormat(this int headerLength) => ConfigWishes.HeaderLengthToAudioFormat(headerLength);
 
         /// <inheritdoc cref="docs._headerlength"/>
-        [Obsolete(ObsoleteMessage)] public static int HeaderLength(this AudioFileFormat obj) => GetHeaderLength(obj);
+        [Obsolete(ObsoleteMessage)] public static int HeaderLength(this AudioFileFormat obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        [Obsolete(ObsoleteMessage)] public static int ToHeaderLength(this AudioFileFormat obj) => GetHeaderLength(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToHeaderLength(this AudioFileFormat obj) => ConfigWishes.ToHeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        [Obsolete(ObsoleteMessage)] public static int GetHeaderLength(this AudioFileFormat obj)
-        {
-            return obj.ToEnum().AudioFormatToHeaderLength();
-        }
-        
+        [Obsolete(ObsoleteMessage)] public static int GetHeaderLength(this AudioFileFormat obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlengthquasisetter"/>
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat HeaderLength(this AudioFileFormat obj, int headerLength, IContext context)
-            => SetHeaderLength(obj, headerLength, context);
+            => ConfigWishes.HeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlengthquasisetter"/>
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat WithHeaderLength(this AudioFileFormat obj, int headerLength, IContext context)
-            => SetHeaderLength(obj, headerLength, context);
+            => ConfigWishes.WithHeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlengthquasisetter"/>
         [Obsolete(ObsoleteMessage)] public static AudioFileFormat SetHeaderLength(this AudioFileFormat obj, int headerLength, IContext context)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength), context);
-        }
+            => ConfigWishes.SetHeaderLength(obj, headerLength, context);
     }
 
     public partial class ConfigWishes
@@ -303,6 +302,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._headerlength"/>
         public static Tape HeaderLength(Tape obj, int headerLength) => SetHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
+        public static Tape WithHeaderLength(Tape obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
         public static Tape SetHeaderLength(Tape obj, int headerLength)
         {
             return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
@@ -318,6 +319,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         /// <inheritdoc cref="docs._headerlength"/>
         public static TapeConfig HeaderLength(TapeConfig obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeConfig WithHeaderLength(TapeConfig obj, int headerLength) => SetHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
         public static TapeConfig SetHeaderLength(TapeConfig obj, int headerLength)
         {
@@ -473,5 +476,28 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (headerLength == RawHeaderLength) return Raw;
             AssertHeaderLength(headerLength); return default;
         }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        [Obsolete(ObsoleteMessage)] public static int HeaderLength(AudioFileFormat obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        [Obsolete(ObsoleteMessage)] public static int ToHeaderLength(AudioFileFormat obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        [Obsolete(ObsoleteMessage)] public static int GetHeaderLength(AudioFileFormat obj)
+        {
+            return obj.ToEnum().AudioFormatToHeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlengthquasisetter"/>
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormat HeaderLength(AudioFileFormat obj, int headerLength, IContext context)
+            => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlengthquasisetter"/>
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormat WithHeaderLength(AudioFileFormat obj, int headerLength, IContext context)
+            => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlengthquasisetter"/>
+        [Obsolete(ObsoleteMessage)] public static AudioFileFormat SetHeaderLength(AudioFileFormat obj, int headerLength, IContext context)
+        {
+            return obj.WithAudioFormat(HeaderLengthToAudioFormat(headerLength), context);
+        }
+
     }
 }
