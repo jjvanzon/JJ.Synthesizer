@@ -14,217 +14,150 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
+
+    // HeaderLength: Derived from AudioFormat
+
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class HeaderLengthExtensionWishes
     {
-        // Derived from AudioFormat
-     
         // Synth-Bound
         
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this SynthWishes obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this SynthWishes obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this SynthWishes obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this SynthWishes obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static SynthWishes HeaderLength(this SynthWishes obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        public static SynthWishes HeaderLength(this SynthWishes obj, int? headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static SynthWishes WithHeaderLength(this SynthWishes obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        public static SynthWishes WithHeaderLength(this SynthWishes obj, int? headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static SynthWishes SetHeaderLength(this SynthWishes obj, int? headerLength)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
-        }
-        
+        public static SynthWishes SetHeaderLength(this SynthWishes obj, int? headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this FlowNode obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this FlowNode obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this FlowNode obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this FlowNode obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static FlowNode HeaderLength(this FlowNode obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        public static FlowNode HeaderLength(this FlowNode obj, int? headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static FlowNode WithHeaderLength(this FlowNode obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        public static FlowNode WithHeaderLength(this FlowNode obj, int? headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static FlowNode SetHeaderLength(this FlowNode obj, int? headerLength)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
-        }
-        
+        public static FlowNode SetHeaderLength(this FlowNode obj, int? headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static int HeaderLength(this ConfigResolver obj) => GetHeaderLength(obj);
+        internal static int HeaderLength(this ConfigResolver obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static int GetHeaderLength(this ConfigResolver obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        internal static int GetHeaderLength(this ConfigResolver obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static ConfigResolver HeaderLength(this ConfigResolver obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        internal static ConfigResolver HeaderLength(this ConfigResolver obj, int? headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static ConfigResolver WithHeaderLength(this ConfigResolver obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        internal static ConfigResolver WithHeaderLength(this ConfigResolver obj, int? headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static ConfigResolver SetHeaderLength(this ConfigResolver obj, int? headerLength)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
-        }
-        
+        internal static ConfigResolver SetHeaderLength(this ConfigResolver obj, int? headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
+
         // Global-Bound
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static int? HeaderLength(this ConfigSection obj) => GetHeaderLength(obj);
+        internal static int? HeaderLength(this ConfigSection obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        internal static int? GetHeaderLength(this ConfigSection obj)
-        {
-            return obj.AudioFormat()?.HeaderLength();
-        }
-        
+        internal static int? GetHeaderLength(this ConfigSection obj) => ConfigWishes.GetHeaderLength(obj);
+
         // Tape-Bound
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Tape obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this Tape obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this Tape obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this Tape obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Tape HeaderLength(this Tape obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        public static Tape HeaderLength(this Tape obj, int headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Tape SetHeaderLength(this Tape obj, int headerLength)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
-        }
-        
+        public static Tape SetHeaderLength(this Tape obj, int headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeConfig obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this TapeConfig obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this TapeConfig obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this TapeConfig obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeConfig HeaderLength(this TapeConfig obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        public static TapeConfig HeaderLength(this TapeConfig obj, int headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeConfig SetHeaderLength(this TapeConfig obj, int headerLength)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
-        }
-        
+        public static TapeConfig SetHeaderLength(this TapeConfig obj, int headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeAction obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this TapeAction obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this TapeAction obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this TapeAction obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeAction HeaderLength(this TapeAction obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        public static TapeAction HeaderLength(this TapeAction obj, int headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeAction WithHeaderLength(this TapeAction obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        public static TapeAction WithHeaderLength(this TapeAction obj, int headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeAction SetHeaderLength(this TapeAction obj, int headerLength)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
-        }
-        
+        public static TapeAction SetHeaderLength(this TapeAction obj, int headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this TapeActions obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this TapeActions obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this TapeActions obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this TapeActions obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeActions HeaderLength(this TapeActions obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        public static TapeActions HeaderLength(this TapeActions obj, int headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeActions WithHeaderLength(this TapeActions obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        public static TapeActions WithHeaderLength(this TapeActions obj, int headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static TapeActions SetHeaderLength(this TapeActions obj, int headerLength)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
-        }
-        
+        public static TapeActions SetHeaderLength(this TapeActions obj, int headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
+
         // Buff-Bound
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Buff obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this Buff obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this Buff obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this Buff obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Buff HeaderLength(this Buff obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        public static Buff HeaderLength(this Buff obj, int headerLength, IContext context) => ConfigWishes.HeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Buff WithHeaderLength(this Buff obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        public static Buff WithHeaderLength(this Buff obj, int headerLength, IContext context) => ConfigWishes.WithHeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Buff SetHeaderLength(this Buff obj, int headerLength, IContext context)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength), context);
-        }
-        
+        public static Buff SetHeaderLength(this Buff obj, int headerLength, IContext context) => ConfigWishes.SetHeaderLength(obj, headerLength, context);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this AudioFileOutput obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this AudioFileOutput obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int WithHeaderLength(this AudioFileOutput obj) => GetHeaderLength(obj);
+        public static int GetHeaderLength(this AudioFileOutput obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this AudioFileOutput obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static AudioFileOutput HeaderLength(this AudioFileOutput obj, int headerLength, IContext context) => ConfigWishes.HeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static AudioFileOutput HeaderLength(this AudioFileOutput obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        public static AudioFileOutput WithHeaderLength(this AudioFileOutput obj, int headerLength, IContext context) => ConfigWishes.WithHeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static AudioFileOutput WithHeaderLength(this AudioFileOutput obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
-        /// <inheritdoc cref="docs._headerlength"/>
-        public static AudioFileOutput SetHeaderLength(this AudioFileOutput obj, int headerLength, IContext context)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength), context);
-        }
-        
+        public static AudioFileOutput SetHeaderLength(this AudioFileOutput obj, int headerLength, IContext context) => ConfigWishes.SetHeaderLength(obj, headerLength, context);
+
         // Independent after Taping
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this Sample obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this Sample obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this Sample obj)
-        {
-            return obj.AudioFormat().HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this Sample obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Sample HeaderLength(this Sample obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        public static Sample HeaderLength(this Sample obj, int headerLength, IContext context) => ConfigWishes.HeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Sample WithHeaderLength(this Sample obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        public static Sample WithHeaderLength(this Sample obj, int headerLength, IContext context) => ConfigWishes.WithHeaderLength(obj, headerLength, context);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static Sample SetHeaderLength(this Sample obj, int headerLength, IContext context)
-        {
-            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength), context);
-        }
-        
+        public static Sample SetHeaderLength(this Sample obj, int headerLength, IContext context) => ConfigWishes.SetHeaderLength(obj, headerLength, context);
+
         // Immutable
-        
+
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int HeaderLength(this WavHeaderStruct obj) => GetHeaderLength(obj);
+        public static int HeaderLength(this WavHeaderStruct obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
-        public static int GetHeaderLength(this WavHeaderStruct obj)
-        {
-            return Wav.HeaderLength();
-        }
-        
+        public static int GetHeaderLength(this WavHeaderStruct obj) => ConfigWishes.GetHeaderLength(obj);
+
         /// <inheritdoc cref="docs._headerlength"/>
         public static int? HeaderLength(this AudioFileFormatEnum? obj) => ConfigWishes.HeaderLength(obj);
         /// <inheritdoc cref="docs._headerlength"/>
@@ -260,8 +193,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileFormatEnum ToAudioFormat(this int headerLength) => ConfigWishes.ToAudioFormat(headerLength);
         public static AudioFileFormatEnum? HeaderLengthToAudioFormat(this int? headerLength) => ConfigWishes.HeaderLengthToAudioFormat(headerLength);
         public static AudioFileFormatEnum HeaderLengthToAudioFormat(this int headerLength) => ConfigWishes.HeaderLengthToAudioFormat(headerLength);
-        
-        // With AudioFileFormat
 
         /// <inheritdoc cref="docs._headerlength"/>
         [Obsolete(ObsoleteMessage)] public static int HeaderLength(this AudioFileFormat obj) => GetHeaderLength(obj);
@@ -292,8 +223,210 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         public const int WavHeaderLength = 44;
         public const int RawHeaderLength = 0;
+     
+        // Synth-Bound
         
-        // Conversion-Style
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(SynthWishes obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(SynthWishes obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static SynthWishes HeaderLength(SynthWishes obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static SynthWishes WithHeaderLength(SynthWishes obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static SynthWishes SetHeaderLength(SynthWishes obj, int? headerLength)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(FlowNode obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(FlowNode obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static FlowNode HeaderLength(FlowNode obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static FlowNode WithHeaderLength(FlowNode obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static FlowNode SetHeaderLength(FlowNode obj, int? headerLength)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static int HeaderLength(ConfigResolver obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static int GetHeaderLength(ConfigResolver obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static ConfigResolver HeaderLength(ConfigResolver obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static ConfigResolver WithHeaderLength(ConfigResolver obj, int? headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static ConfigResolver SetHeaderLength(ConfigResolver obj, int? headerLength)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
+        }
+        
+        // Global-Bound
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static int? HeaderLength(ConfigSection obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        internal static int? GetHeaderLength(ConfigSection obj)
+        {
+            return obj.AudioFormat()?.HeaderLength();
+        }
+        
+        // Tape-Bound
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(Tape obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(Tape obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Tape HeaderLength(Tape obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Tape SetHeaderLength(Tape obj, int headerLength)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(TapeConfig obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(TapeConfig obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeConfig HeaderLength(TapeConfig obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeConfig SetHeaderLength(TapeConfig obj, int headerLength)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(TapeAction obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(TapeAction obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeAction HeaderLength(TapeAction obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeAction WithHeaderLength(TapeAction obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeAction SetHeaderLength(TapeAction obj, int headerLength)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(TapeActions obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(TapeActions obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeActions HeaderLength(TapeActions obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeActions WithHeaderLength(TapeActions obj, int headerLength) => SetHeaderLength(obj, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static TapeActions SetHeaderLength(TapeActions obj, int headerLength)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength));
+        }
+        
+        // Buff-Bound
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(Buff obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(Buff obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Buff HeaderLength(Buff obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Buff WithHeaderLength(Buff obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Buff SetHeaderLength(Buff obj, int headerLength, IContext context)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength), context);
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(AudioFileOutput obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(AudioFileOutput obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static AudioFileOutput HeaderLength(AudioFileOutput obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static AudioFileOutput WithHeaderLength(AudioFileOutput obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static AudioFileOutput SetHeaderLength(AudioFileOutput obj, int headerLength, IContext context)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength), context);
+        }
+        
+        // Independent after Taping
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(Sample obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(Sample obj)
+        {
+            return obj.AudioFormat().HeaderLength();
+        }
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Sample HeaderLength(Sample obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Sample WithHeaderLength(Sample obj, int headerLength, IContext context) => SetHeaderLength(obj, headerLength, context);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static Sample SetHeaderLength(Sample obj, int headerLength, IContext context)
+        {
+            return obj.AudioFormat(HeaderLengthToAudioFormat(headerLength), context);
+        }
+        
+        // Immutable
+        
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int HeaderLength(WavHeaderStruct obj) => GetHeaderLength(obj);
+        /// <inheritdoc cref="docs._headerlength"/>
+        public static int GetHeaderLength(WavHeaderStruct obj)
+        {
+            return Wav.HeaderLength();
+        }
         
         /// <inheritdoc cref="docs._headerlength"/>
         public static int? HeaderLength(AudioFileFormatEnum? obj) => AudioFormatToHeaderLength(obj);
@@ -316,7 +449,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (audioFormat == Raw) return RawHeaderLength;
             AssertAudioFormat(audioFormat); return default;
         }
-
 
         /// <inheritdoc cref="docs._headerlengthquasisetter"/>
         public static AudioFileFormatEnum? HeaderLength(AudioFileFormatEnum? oldAudioFormat, int? newHeaderLength) => HeaderLengthToAudioFormat(newHeaderLength);
