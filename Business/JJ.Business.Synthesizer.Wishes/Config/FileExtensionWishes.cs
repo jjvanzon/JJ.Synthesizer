@@ -199,20 +199,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static string AudioFormatToFileExtension(this AudioFileFormatEnum obj) => ConfigWishes.AudioFormatToFileExtension(obj);
         
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) 
-            => ConfigWishes.FileExtension(oldAudioFormat, newExtension);
+        public static AudioFileFormatEnum FileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) => ConfigWishes.FileExtension(oldAudioFormat, newExtension);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum SetFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) 
-            => ConfigWishes.SetFileExtension(oldAudioFormat, newExtension);
+        public static AudioFileFormatEnum SetFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) => ConfigWishes.SetFileExtension(oldAudioFormat, newExtension);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum WithFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension)
-            => ConfigWishes.WithFileExtension(oldAudioFormat, newExtension);
+        public static AudioFileFormatEnum WithFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) => ConfigWishes.WithFileExtension(oldAudioFormat, newExtension);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum AsFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension)
-            => ConfigWishes.AsFileExtension(oldAudioFormat, newExtension);
+        public static AudioFileFormatEnum AsFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) => ConfigWishes.AsFileExtension(oldAudioFormat, newExtension);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension)
-            => ConfigWishes.FileExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension) => ConfigWishes.FileExtensionToAudioFormat(fileExtension);
         
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
@@ -523,16 +518,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
-        public static AudioFileFormat FileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context) 
-            => SetFileExtension(oldAudioFormat, newExtension, context);
+        public static AudioFileFormat FileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context) => SetFileExtension(oldAudioFormat, newExtension, context);
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
-        public static AudioFileFormat WithFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context)
-            => SetFileExtension(oldAudioFormat, newExtension, context);
+        public static AudioFileFormat WithFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context) => SetFileExtension(oldAudioFormat, newExtension, context);
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
-        public static AudioFileFormat AsFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context)
-            => SetFileExtension(oldAudioFormat, newExtension, context);
+        public static AudioFileFormat AsFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context) => SetFileExtension(oldAudioFormat, newExtension, context);
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat SetFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context)

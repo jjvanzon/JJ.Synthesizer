@@ -220,6 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     
     public static class ConfigAssertionExtensionWishes
     {
+        // ReSharper disable UnusedParameter.Global
         public static int[] ValidBits(this int bits)
             => ConfigWishes.ValidBits;
         
@@ -246,6 +247,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         public static string[] ValidFileExtensions(this string fileExtension)
             => ConfigWishes.ValidFileExtensions;
+        // ReSharper restore UnusedParameter.Global
 
         // Primary Audio Properties
         
