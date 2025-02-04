@@ -19,53 +19,76 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
+    // Interpolation: A Primary Audio Attribute
+        
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public static class InterpolationExtensionWishes
     {
-        // A Primary Audio Attribute
-        
-        
         // Synth-Bound
         
-        public static InterpolationTypeEnum Interpolation(this SynthWishes obj)
+        public static bool IsLinear(this SynthWishes obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this SynthWishes obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this SynthWishes obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetInterpolation;
         }
         
-        public static SynthWishes Interpolation(this SynthWishes obj, InterpolationTypeEnum? value)
+        public static SynthWishes Linear(this SynthWishes obj) => SetInterpolation(obj, Line);
+        public static SynthWishes Blocky(this SynthWishes obj) => SetInterpolation(obj, Block);
+        public static SynthWishes Interpolation(this SynthWishes obj, InterpolationTypeEnum? value) => SetInterpolation(obj, value);
+        public static SynthWishes WithInterpolation(this SynthWishes obj, InterpolationTypeEnum? value) => SetInterpolation(obj, value);
+        public static SynthWishes SetInterpolation(this SynthWishes obj, InterpolationTypeEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithInterpolation(value);
         }
         
-        public static InterpolationTypeEnum Interpolation(this FlowNode obj)
+        public static bool IsLinear(this FlowNode obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this FlowNode obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this FlowNode obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetInterpolation;
         }
         
-        public static FlowNode Interpolation(this FlowNode obj, InterpolationTypeEnum? value)
+        public static FlowNode Linear(this FlowNode obj) => SetInterpolation(obj, Line);
+        public static FlowNode Blocky(this FlowNode obj) => SetInterpolation(obj, Block);
+        public static FlowNode Interpolation(this FlowNode obj, InterpolationTypeEnum? value) => SetInterpolation(obj, value);
+        public static FlowNode WithInterpolation(this FlowNode obj, InterpolationTypeEnum? value) => SetInterpolation(obj, value);
+        public static FlowNode SetInterpolation(this FlowNode obj, InterpolationTypeEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithInterpolation(value);
         }
-        
-        internal static InterpolationTypeEnum Interpolation(this ConfigResolver obj)
+
+        [UsedImplicitly] internal static bool IsLinear(this ConfigResolver obj) => GetInterpolation(obj) == Line;
+        [UsedImplicitly] internal static bool IsBlocky(this ConfigResolver obj) => GetInterpolation(obj) == Block;
+        [UsedImplicitly] internal static InterpolationTypeEnum Interpolation(this ConfigResolver obj) => GetInterpolation(obj);
+        [UsedImplicitly] internal static InterpolationTypeEnum GetInterpolation(this ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetInterpolation;
         }
         
-        internal static ConfigResolver Interpolation(this ConfigResolver obj, InterpolationTypeEnum? value)
+        [UsedImplicitly] internal static ConfigResolver Linear(this ConfigResolver obj) => SetInterpolation(obj, Line);
+        [UsedImplicitly] internal static ConfigResolver Blocky(this ConfigResolver obj) => SetInterpolation(obj, Block);
+        [UsedImplicitly] internal static ConfigResolver Interpolation(this ConfigResolver obj, InterpolationTypeEnum? value) => SetInterpolation(obj, value);
+        [UsedImplicitly] internal static ConfigResolver WithInterpolation(this ConfigResolver obj, InterpolationTypeEnum? value) => SetInterpolation(obj, value);
+        [UsedImplicitly] internal static ConfigResolver SetInterpolation(this ConfigResolver obj, InterpolationTypeEnum? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithInterpolation(value);
         }
-        
+
         // Global-Bound
-        
-        internal static InterpolationTypeEnum? Interpolation(this ConfigSection obj)
+
+        [UsedImplicitly] internal static bool IsLinear(this ConfigSection obj) => GetInterpolation(obj) == Line;
+        [UsedImplicitly] internal static bool IsBlocky(this ConfigSection obj) => GetInterpolation(obj) == Block;
+        [UsedImplicitly] internal static InterpolationTypeEnum? Interpolation(this ConfigSection obj) => GetInterpolation(obj);
+        [UsedImplicitly] internal static InterpolationTypeEnum? GetInterpolation(this ConfigSection obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Interpolation;
@@ -73,52 +96,80 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tape-Bound
         
-        public static InterpolationTypeEnum Interpolation(this Tape obj)
+        public static bool IsLinear(this Tape obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this Tape obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this Tape obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Config.Interpolation;
         }
         
-        public static Tape Interpolation(this Tape obj, InterpolationTypeEnum value)
+        public static Tape Linear(this Tape obj) => SetInterpolation(obj, Line);
+        public static Tape Blocky(this Tape obj) => SetInterpolation(obj, Block);
+        public static Tape Interpolation(this Tape obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static Tape WithInterpolation(this Tape obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static Tape SetInterpolation(this Tape obj, InterpolationTypeEnum value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Config.Interpolation = value;
             return obj;
         }
         
-        public static InterpolationTypeEnum Interpolation(this TapeConfig obj)
+        public static bool IsLinear(this TapeConfig obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this TapeConfig obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this TapeConfig obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Interpolation;
         }
         
-        public static TapeConfig Interpolation(this TapeConfig obj, InterpolationTypeEnum value)
+        public static TapeConfig Linear(this TapeConfig obj) => SetInterpolation(obj, Line);
+        public static TapeConfig Blocky(this TapeConfig obj) => SetInterpolation(obj, Block);
+        public static TapeConfig Interpolation(this TapeConfig obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static TapeConfig WithInterpolation(this TapeConfig obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static TapeConfig SetInterpolation(this TapeConfig obj, InterpolationTypeEnum value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Interpolation = value;
             return obj;
         }
         
-        public static InterpolationTypeEnum Interpolation(this TapeAction obj)
+        public static bool IsLinear(this TapeAction obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this TapeAction obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this TapeAction obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Interpolation;
         }
         
-        public static TapeAction Interpolation(this TapeAction obj, InterpolationTypeEnum value)
+        public static TapeAction Linear(this TapeAction obj) => SetInterpolation(obj, Line);
+        public static TapeAction Blocky(this TapeAction obj) => SetInterpolation(obj, Block);
+        public static TapeAction Interpolation(this TapeAction obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static TapeAction WithInterpolation(this TapeAction obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static TapeAction SetInterpolation(this TapeAction obj, InterpolationTypeEnum value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Interpolation = value;
             return obj;
         }
         
-        public static InterpolationTypeEnum Interpolation(this TapeActions obj)
+        public static bool IsLinear(this TapeActions obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this TapeActions obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this TapeActions obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Interpolation;
         }
         
-        public static TapeActions Interpolation(this TapeActions obj, InterpolationTypeEnum value)
+        public static TapeActions Linear(this TapeActions obj) => SetInterpolation(obj, Line);
+        public static TapeActions Blocky(this TapeActions obj) => SetInterpolation(obj, Block);
+        public static TapeActions Interpolation(this TapeActions obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static TapeActions WithInterpolation(this TapeActions obj, InterpolationTypeEnum value) => SetInterpolation(obj, value);
+        public static TapeActions SetInterpolation(this TapeActions obj, InterpolationTypeEnum value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Interpolation = value;
@@ -127,10 +178,19 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Independent after Taping
         
-        public static InterpolationTypeEnum Interpolation(this Sample obj) 
-            => obj.GetInterpolationTypeEnum();
+        public static bool IsLinear(this Sample obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this Sample obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this Sample obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this Sample obj)
+        {
+            return obj.GetInterpolationTypeEnum();
+        }
         
-        public static Sample Interpolation(this Sample obj, InterpolationTypeEnum value, IContext context)
+        public static Sample Linear(this Sample obj, IContext context) => SetInterpolation(obj, Line, context);
+        public static Sample Blocky(this Sample obj, IContext context) => SetInterpolation(obj, Block, context);
+        public static Sample Interpolation(this Sample obj, InterpolationTypeEnum value, IContext context) => SetInterpolation(obj, value, context);
+        public static Sample WithInterpolation(this Sample obj, InterpolationTypeEnum value, IContext context) => SetInterpolation(obj, value, context);
+        public static Sample SetInterpolation(this Sample obj, InterpolationTypeEnum value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.SetInterpolationTypeEnum(value, context);
@@ -139,92 +199,77 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Immutable
         
-        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => AssertInterpolation(obj);
+        public static bool IsLinear(this InterpolationTypeEnum obj) => GetInterpolation(obj) == Line;
+        public static bool IsBlocky(this InterpolationTypeEnum obj) => GetInterpolation(obj) == Block;
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => GetInterpolation(obj);
+        public static InterpolationTypeEnum GetInterpolation(this InterpolationTypeEnum obj)
+        {
+            return AssertInterpolation(obj);
+        }
         
         /// <inheritdoc cref="docs._quasisetter" />
-        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) 
-            => AssertInterpolation(newEnumValue);
+        public static InterpolationTypeEnum Linear(this InterpolationTypeEnum oldInterpolation)
+            => SetInterpolation(oldInterpolation, Line);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum Blocky(this InterpolationTypeEnum oldInterpolation)
+            => SetInterpolation(oldInterpolation, Block);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
+            => SetInterpolation(oldEnumValue, newEnumValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum WithInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
+            => SetInterpolation(oldEnumValue, newEnumValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum AsInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
+            => SetInterpolation(oldEnumValue, newEnumValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum ToInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
+            => SetInterpolation(oldEnumValue, newEnumValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum SetInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
+        {
+            return AssertInterpolation(newEnumValue);
+        }
+
+        [Obsolete(ObsoleteMessage)] public static bool IsLinear(this InterpolationType obj) => GetInterpolation(obj) == Line;
+        [Obsolete(ObsoleteMessage)] public static bool IsBlocky(this InterpolationType obj) => GetInterpolation(obj) == Block;
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => GetInterpolation(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum GetInterpolation(this InterpolationType obj)
+        {
+            return obj.ToEnum();
+        }
         
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static InterpolationType Linear(this InterpolationType oldEnumEntity, IContext context)
+            => SetInterpolation(oldEnumEntity, Line, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)]
+        public static InterpolationType Blocky(this InterpolationType oldEnumEntity, IContext context)
+            => SetInterpolation(oldEnumEntity, Block, context);
+        /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
-        public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => obj.ToEnum();
-        
+        public static InterpolationType Interpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
+            => SetInterpolation(oldEntity, newEnumValue, context);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] // ReSharper disable once UnusedParameter.Global
-        public static InterpolationType Interpolation(this InterpolationType oldInterpolationEntity, InterpolationTypeEnum newEnumValue, IContext context)
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationType WithInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
+            => SetInterpolation(oldEntity, newEnumValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationType AsInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
+            => SetInterpolation(oldEntity, newEnumValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationType ToInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
+            => SetInterpolation(oldEntity, newEnumValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] 
+        public static InterpolationType SetInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
             => newEnumValue.ToEntity(context);
-        
-        // Shorthand
-        
-        public   static bool IsLinear(this SynthWishes           obj) => obj.Interpolation() == Line;
-        public   static bool IsLinear(this FlowNode              obj) => obj.Interpolation() == Line;
-        [UsedImplicitly]
-        internal static bool IsLinear(this ConfigResolver        obj) => obj.Interpolation() == Line;
-        [UsedImplicitly]
-        internal static bool IsLinear(this ConfigSection         obj) => obj.Interpolation() == Line;
-        public   static bool IsLinear(this Tape                  obj) => obj.Interpolation() == Line;
-        public   static bool IsLinear(this TapeConfig            obj) => obj.Interpolation() == Line;
-        public   static bool IsLinear(this TapeAction            obj) => obj.Interpolation() == Line;
-        public   static bool IsLinear(this TapeActions           obj) => obj.Interpolation() == Line;
-        public   static bool IsLinear(this Sample                obj) => obj.Interpolation() == Line;
-        public   static bool IsLinear(this InterpolationTypeEnum obj) => obj.Interpolation() == Line;
-        [Obsolete(ObsoleteMessage)]
-        public   static bool IsLinear(this InterpolationType     obj) => obj.Interpolation() == Line;
-        
-        public   static bool IsBlocky(this SynthWishes           obj) => obj.Interpolation() == Block;
-        public   static bool IsBlocky(this FlowNode              obj) => obj.Interpolation() == Block;
-        [UsedImplicitly]
-        internal static bool IsBlocky(this ConfigResolver        obj) => obj.Interpolation() == Block;
-        [UsedImplicitly]
-        internal static bool IsBlocky(this ConfigSection         obj) => obj.Interpolation() == Block;
-        public   static bool IsBlocky(this Tape                  obj) => obj.Interpolation() == Block;
-        public   static bool IsBlocky(this TapeConfig            obj) => obj.Interpolation() == Block;
-        public   static bool IsBlocky(this TapeAction            obj) => obj.Interpolation() == Block;
-        public   static bool IsBlocky(this TapeActions           obj) => obj.Interpolation() == Block;
-        public   static bool IsBlocky(this Sample                obj) => obj.Interpolation() == Block;
-        public   static bool IsBlocky(this InterpolationTypeEnum obj) => obj.Interpolation() == Block;
-        [Obsolete(ObsoleteMessage)]
-        public   static bool IsBlocky(this InterpolationType     obj) => obj.Interpolation() == Block;
-        
-        public   static SynthWishes    Linear(this SynthWishes    obj) => obj.Interpolation(Line);
-        public   static FlowNode       Linear(this FlowNode       obj) => obj.Interpolation(Line);
-        [UsedImplicitly]
-        internal static ConfigResolver Linear(this ConfigResolver obj) => obj.Interpolation(Line);
-        public   static Tape           Linear(this Tape           obj) => obj.Interpolation(Line);
-        public   static TapeConfig     Linear(this TapeConfig     obj) => obj.Interpolation(Line);
-        public   static TapeAction     Linear(this TapeAction     obj) => obj.Interpolation(Line);
-        public   static TapeActions    Linear(this TapeActions    obj) => obj.Interpolation(Line);
-        public   static Sample         Linear(this Sample         obj, IContext context) => obj.Interpolation(Line, context);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        public   static InterpolationTypeEnum Linear(this InterpolationTypeEnum oldInterpolation) 
-            => oldInterpolation.Interpolation(Line);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public   static InterpolationType Linear(this InterpolationType oldEnumEntity, IContext context) 
-            => oldEnumEntity.Interpolation(Line, context);
-        
-        public   static SynthWishes    Blocky(this SynthWishes    obj) => obj.Interpolation(Block);
-        public   static FlowNode       Blocky(this FlowNode       obj) => obj.Interpolation(Block);
-        [UsedImplicitly]
-        internal static ConfigResolver Blocky(this ConfigResolver obj) => obj.Interpolation(Block);
-        public   static Tape           Blocky(this Tape           obj) => obj.Interpolation(Block);
-        public   static TapeConfig     Blocky(this TapeConfig     obj) => obj.Interpolation(Block);
-        public   static TapeAction     Blocky(this TapeAction     obj) => obj.Interpolation(Block);
-        public   static TapeActions    Blocky(this TapeActions    obj) => obj.Interpolation(Block);
-        public   static Sample         Blocky(this Sample         obj, IContext context) => obj.Interpolation(Block, context);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        public   static InterpolationTypeEnum Blocky(this InterpolationTypeEnum oldInterpolation) 
-            => Interpolation(oldInterpolation, Block);
-        
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)]
-        public   static InterpolationType Blocky(this InterpolationType oldEnumEntity, IContext context) 
-            => oldEnumEntity.Interpolation(Block, context);
-         
-        // Conversion-Style
-        
+
+         // Conversion-Style
+
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
             => ConfigWishes.ToEnum(enumEntity);
