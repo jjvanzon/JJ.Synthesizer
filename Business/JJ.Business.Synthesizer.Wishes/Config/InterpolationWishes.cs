@@ -231,67 +231,56 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return AssertInterpolation(newEnumValue);
         }
 
-        [Obsolete(ObsoleteMessage)] public static bool IsLinear(this InterpolationType obj) => GetInterpolation(obj) == Line;
-        [Obsolete(ObsoleteMessage)] public static bool IsBlocky(this InterpolationType obj) => GetInterpolation(obj) == Block;
-        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => GetInterpolation(obj);
-        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum GetInterpolation(this InterpolationType obj)
+        [Obsolete(ObsoleteMessage)] public static bool IsLinear(this InterpolationType obj) => EntityToEnum(obj) == Line;
+        [Obsolete(ObsoleteMessage)] public static bool IsBlocky(this InterpolationType obj) => EntityToEnum(obj) == Block;
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum Interpolation(this InterpolationType obj) => EntityToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum GetInterpolation(this InterpolationType obj) => EntityToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum AsInterpolation(this InterpolationType obj) => EntityToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum ToInterpolation(this InterpolationType obj) => EntityToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum InterpolationEntityToEnum(this InterpolationType obj) => EntityToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum ToEnum(this InterpolationType obj) => EntityToEnum(obj);
+        [Obsolete(ObsoleteMessage)] public static InterpolationTypeEnum EntityToEnum(this InterpolationType obj)
         {
-            return obj.ToEnum();
+            if (obj == null) throw new NullException(() => obj);
+            return (InterpolationTypeEnum)obj.ID;
         }
-        
+
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static InterpolationType Linear(this InterpolationType oldEnumEntity, IContext context)
-            => SetInterpolation(oldEnumEntity, Line, context);
+        public static InterpolationType Linear(this InterpolationType oldEntity, IContext context)
+            => EnumToEntity(Line, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)]
-        public static InterpolationType Blocky(this InterpolationType oldEnumEntity, IContext context)
-            => SetInterpolation(oldEnumEntity, Block, context);
+        public static InterpolationType Blocky(this InterpolationType oldEntity, IContext context)
+            => EnumToEntity(Block, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType Interpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
-            => SetInterpolation(oldEntity, newEnumValue, context);
+            => EnumToEntity(newEnumValue, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType WithInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
-            => SetInterpolation(oldEntity, newEnumValue, context);
+            => EnumToEntity(newEnumValue, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType AsInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
-            => SetInterpolation(oldEntity, newEnumValue, context);
+            => EnumToEntity(newEnumValue, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType ToInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
-            => SetInterpolation(oldEntity, newEnumValue, context);
+            => EnumToEntity(newEnumValue, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType SetInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context)
-            => newEnumValue.ToEntity(context);
-
-         // Conversion-Style
-
+            => EnumToEntity(newEnumValue, context);
         [Obsolete(ObsoleteMessage)] 
-        public static InterpolationTypeEnum ToEnum(this InterpolationType enumEntity)
-            => ConfigWishes.ToEnum(enumEntity);
-
+        public static InterpolationType InterpolationEnumToEntity(this InterpolationTypeEnum enumValue, IContext context)
+            => EnumToEntity(enumValue, context);
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType ToEntity(this InterpolationTypeEnum enumValue, IContext context)
-            => ConfigWishes.ToEntity(enumValue, context);
-    }
-    
-    public partial class ConfigWishes
-    {
-        // Conversion-Style
-        
+            => EnumToEntity(enumValue, context);
         [Obsolete(ObsoleteMessage)] 
-        public static InterpolationTypeEnum ToEnum(InterpolationType enumEntity)
-        {
-            if (enumEntity == null) throw new NullException(() => enumEntity);
-            return (InterpolationTypeEnum)enumEntity.ID;
-        }
-        
-        [Obsolete(ObsoleteMessage)] 
-        public static InterpolationType ToEntity(InterpolationTypeEnum enumValue, IContext context)
+        public static InterpolationType EnumToEntity(this InterpolationTypeEnum enumValue, IContext context)
         {
             if (enumValue == default) return default;
             AssertInterpolation(enumValue);
