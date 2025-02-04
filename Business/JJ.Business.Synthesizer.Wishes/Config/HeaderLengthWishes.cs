@@ -498,6 +498,5 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             return obj.WithAudioFormat(HeaderLengthToAudioFormat(headerLength), context);
         }
-
     }
 }
