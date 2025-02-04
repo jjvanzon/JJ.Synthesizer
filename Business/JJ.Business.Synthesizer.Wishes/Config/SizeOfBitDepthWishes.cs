@@ -518,14 +518,24 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
             AssertSizeOfBitDepth(value, strict: false); return default;
         }
-
-        // TODO: Extend
         
-        /// <inheritdoc cref="docs._quasisetter" />
-        public static Type SizeOfBitDepthToType<TValueType>(int value) => SizeOfBitDepthToType(value);
+        public static int SizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
+        public static int GetSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
+        public static int AsSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
+        public static int ToSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
+        public static int TypeToSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth(typeof(TValueType));
+
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type SizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
-        public static int SizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
-        public static int TypeToSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth(typeof(TValueType));
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type SetSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type WithSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type AsSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type ToSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static Type SizeOfBitDepthToType<TValueType>(int value) => SizeOfBitDepthToType(value);
     }
 }
