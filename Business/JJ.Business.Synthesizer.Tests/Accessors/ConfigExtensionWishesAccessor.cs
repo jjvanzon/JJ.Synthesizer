@@ -169,6 +169,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public static bool IsRaw(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
         public static bool IsWav(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+
+        public static ConfigResolverAccessor AsRaw(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+        public static ConfigResolverAccessor AsWav(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
     }
     
     internal static class InterpolationExtensionWishesAccessor

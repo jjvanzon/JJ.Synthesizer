@@ -15,10 +15,10 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Audio Quality
         
-        public int GetBits => _synthWishes.GetBits;
-        public bool Is32Bit => _synthWishes.Is32Bit;
-        public bool Is16Bit => _synthWishes.Is16Bit;
         public bool Is8Bit => _synthWishes.Is8Bit;
+        public bool Is16Bit => _synthWishes.Is16Bit;
+        public bool Is32Bit => _synthWishes.Is32Bit;
+        public int GetBits => _synthWishes.GetBits;
         public FlowNode WithBits(int? bits) { _synthWishes.WithBits(bits); return this; }
 
         public int NoChannels => ConfigWishes.NoChannels;
@@ -52,9 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public AudioFileFormatEnum GetAudioFormat => _synthWishes.GetAudioFormat;
         public FlowNode WithAudioFormat(AudioFileFormatEnum? audioFormat) { _synthWishes.WithAudioFormat(audioFormat); return this; }
         public bool IsWav => _synthWishes.IsWav;
-        public FlowNode AsWav() { _synthWishes.AsWav(); return this; }
         public bool IsRaw => _synthWishes.IsRaw;
-        public FlowNode AsRaw() { _synthWishes.AsRaw(); return this; }
 
         public InterpolationTypeEnum GetInterpolation => _synthWishes.GetInterpolation;
         public FlowNode WithInterpolation(InterpolationTypeEnum? interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }

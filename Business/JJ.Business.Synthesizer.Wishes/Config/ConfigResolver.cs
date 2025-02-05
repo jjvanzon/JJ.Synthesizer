@@ -129,9 +129,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public AudioFileFormatEnum GetAudioFormat => CoalesceAudioFormat(_audioFormat, _section.AudioFormat);
         public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = AssertAudioFormat(audioFormat); return this; }
         public bool IsWav => GetAudioFormat == Wav;
-        public ConfigResolver AsWav() => WithAudioFormat(Wav);
         public bool IsRaw => GetAudioFormat == Raw;
-        public ConfigResolver AsRaw() => WithAudioFormat(Raw);
         
         // Interpolation
         

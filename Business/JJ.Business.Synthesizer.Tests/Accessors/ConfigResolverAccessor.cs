@@ -83,9 +83,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public AudioFileFormatEnum GetAudioFormat => (AudioFileFormatEnum)_accessor.GetPropertyValue(MemberName());
         public ConfigResolverAccessor WithAudioFormat(AudioFileFormatEnum? value) => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName(), new object[] { value }, new[] { typeof(AudioFileFormatEnum?) }));
         public bool IsRaw => (bool)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor AsRaw() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
         public bool IsWav => (bool)_accessor.GetPropertyValue(MemberName());
-        public ConfigResolverAccessor AsWav() => new ConfigResolverAccessor(_accessor.InvokeMethod(MemberName()));
 
         // Interpolation
         

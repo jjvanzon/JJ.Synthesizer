@@ -15,24 +15,25 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Audio Quality
 
-        public int Bits() => Config.GetBits;
-        public int GetBits => Config.GetBits;
         public bool Is8Bit => Config.Is8Bit;
         public bool Is16Bit => Config.Is16Bit;
         public bool Is32Bit => Config.Is32Bit;
+        protected int Bits() => ConfigWishes.Bits(this);
+        public int GetBits => Config.GetBits;
+
+        protected SynthWishes With8Bit() => ConfigWishes.With8Bit(this);
+        protected SynthWishes With16Bit() => ConfigWishes.With16Bit(this);
+        protected SynthWishes With32Bit() => ConfigWishes.With32Bit(this);
+        protected SynthWishes As8Bit() => ConfigWishes.As8Bit(this);
+        protected SynthWishes As16Bit() => ConfigWishes.As16Bit(this);
+        protected SynthWishes As32Bit() => ConfigWishes.As32Bit(this);
+        protected SynthWishes Set8Bit() => ConfigWishes.Set8Bit(this);
+        protected SynthWishes Set16Bit() => ConfigWishes.Set16Bit(this);
+        protected SynthWishes Set32Bit() => ConfigWishes.Set32Bit(this);
+        protected SynthWishes Bits(int? bits) => ConfigWishes.Bits(this, bits);
         public SynthWishes WithBits(int? bits) { Config.WithBits(bits); return this; }
-        protected SynthWishes SetBits(int? bits) => WithBits(bits);
-        protected SynthWishes AsBits(int? bits) => WithBits(bits);
-        protected SynthWishes Bits(int? bits) => WithBits(bits);
-        protected SynthWishes With8Bit() => WithBits(8);
-        protected SynthWishes Set8Bit() => WithBits(8);
-        protected SynthWishes As8Bit() => WithBits(8);
-        protected SynthWishes With16Bit() => WithBits(16);
-        protected SynthWishes Set16Bit() => WithBits(16);
-        protected SynthWishes As16Bit() => WithBits(16);
-        protected SynthWishes With32Bit() => WithBits(32);
-        protected SynthWishes Set32Bit() => WithBits(32);
-        protected SynthWishes As32Bit() => WithBits(32);
+        protected SynthWishes AsBits(int? bits) => ConfigWishes.AsBits(this, bits);
+        protected SynthWishes SetBits(int? bits) => ConfigWishes.SetBits(this, bits);
 
         public int Channels() => Config.GetChannels;
         public int GetChannels => Config.GetChannels;
@@ -92,21 +93,22 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._withsamplingrate"/>
         public SynthWishes SamplingRate(int? value) => WithSamplingRate(value);
         
-        public AudioFileFormatEnum AudioFormat() => Config.GetAudioFormat;
-        public AudioFileFormatEnum GetAudioFormat => Config.GetAudioFormat;
         public bool IsWav => Config.IsWav;
         public bool IsRaw => Config.IsRaw;
+        protected AudioFileFormatEnum AudioFormat() => ConfigWishes.AudioFormat(this);
+        public AudioFileFormatEnum GetAudioFormat => Config.GetAudioFormat;
+
+        protected SynthWishes WithWav() => ConfigWishes.WithWav(this);
+        protected SynthWishes AsWav() => ConfigWishes.AsWav(this);
+        protected SynthWishes SetWav() => ConfigWishes.SetWav(this);
+        protected SynthWishes WithRaw() => ConfigWishes.WithRaw(this);
+        protected SynthWishes AsRaw() => ConfigWishes.AsRaw(this);
+        protected SynthWishes SetRaw() => ConfigWishes.SetRaw(this);
+        protected SynthWishes AudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.AudioFormat(this, audioFormat);
         public SynthWishes WithAudioFormat(AudioFileFormatEnum? audioFormat) { Config.WithAudioFormat(audioFormat); return this; }
-        public SynthWishes SetAudioFormat(AudioFileFormatEnum? audioFormat) => WithAudioFormat(audioFormat);
-        public SynthWishes AsAudioFormat(AudioFileFormatEnum? audioFormat) => WithAudioFormat(audioFormat);
-        public SynthWishes AudioFormat(AudioFileFormatEnum? audioFormat) => WithAudioFormat(audioFormat);
-        public SynthWishes WithWav() => WithAudioFormat(Wav);
-        public SynthWishes SetWav() => WithAudioFormat(Wav);
-        public SynthWishes AsWav() => WithAudioFormat(Wav);
-        public SynthWishes WithRaw() => WithAudioFormat(Raw);
-        public SynthWishes SetRaw() => WithAudioFormat(Raw);
-        public SynthWishes AsRaw() => WithAudioFormat(Raw);
-        
+        protected SynthWishes AsAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.AsAudioFormat(this, audioFormat);
+        protected SynthWishes SetAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.SetAudioFormat(this, audioFormat);
+
         public InterpolationTypeEnum Interpolation() => Config.GetInterpolation;
         public InterpolationTypeEnum GetInterpolation => Config.GetInterpolation;
         public bool IsLinear => Config.IsLinear;
