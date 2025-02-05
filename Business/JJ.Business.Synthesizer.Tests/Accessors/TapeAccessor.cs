@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Reflection;
 using System;
 using System.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
@@ -8,14 +9,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class TapeAccessor
     {
-        private readonly Accessor _accessor;
+        private readonly AccessorEx _accessor;
         
         public TapeAccessor(object obj)
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
             string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.Tape";
             Type type = assembly.GetType(typeName, true);
-            _accessor = new Accessor(obj, type);
+            _accessor = new AccessorEx(obj, type);
         }
         
         public FlowNode Signal

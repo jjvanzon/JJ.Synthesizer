@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 
@@ -16,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         public object Obj { get; }
         
-        private readonly Accessor _accessor;
+        private readonly AccessorEx _accessor;
         
         // Add constructors to FrameworkWishes
         
@@ -24,13 +25,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             Type type = GetUnderlyingType();
             Obj       = Activator.CreateInstance(type);
-            _accessor = new Accessor(Obj, Obj.GetType());
+            _accessor = new AccessorEx(Obj, Obj.GetType());
         }
         
         public ConfigSectionAccessor(object obj)
         {
             Obj = obj;
-            _accessor = new Accessor(obj, GetUnderlyingType());
+            _accessor = new AccessorEx(obj, GetUnderlyingType());
         }
         
         private Type GetUnderlyingType()

@@ -2,18 +2,19 @@
 using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class FMTestsAccessor
     {
-        private readonly Accessor _accessor;
+        private readonly AccessorEx _accessor;
         private readonly SynthWishesAccessor _baseAccessor;
             
         public FMTestsAccessor(FMTests obj)
         {
-            _accessor     = new Accessor(obj);
+            _accessor     = new AccessorEx(obj);
             _baseAccessor = new SynthWishesAccessor(obj);
         }
 

@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +14,19 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         public object Obj { get; }
         
-        private readonly Accessor _accessor;
+        private readonly AccessorEx _accessor;
                 
         public ConfigToolingElementAccessor()
         {
             Type type = GetUnderlyingType();
             Obj       = Activator.CreateInstance(type);
-            _accessor = new Accessor(Obj, Obj.GetType());
+            _accessor = new AccessorEx(Obj, Obj.GetType());
         }
 
         public ConfigToolingElementAccessor(object obj)
         {
             Obj = obj;
-            _accessor = new Accessor(obj, GetUnderlyingType());
+            _accessor = new AccessorEx(obj, GetUnderlyingType());
         }
         
         private Type GetUnderlyingType()

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class SynthWishesAccessor
     {
-        private readonly Accessor _accessor;
+        private readonly AccessorEx _accessor;
 
         public SynthWishesAccessor(SynthWishes obj)
         {
-            _accessor = new Accessor(obj, typeof(SynthWishes));
+            _accessor = new AccessorEx(obj, typeof(SynthWishes));
         }
         
         /// <inheritdoc cref="docs._captureindexer" />
