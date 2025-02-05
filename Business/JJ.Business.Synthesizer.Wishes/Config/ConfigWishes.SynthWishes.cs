@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes Padding(FlowNode seconds) => WithPadding(seconds);
         /// <inheritdoc cref="docs._padding"/>
         public SynthWishes ResetPadding() { Config.ResetPadding(); return this; }
-
+        
         // Feature Toggles
         
         /// <inheritdoc cref="docs._audioplayback" />
@@ -322,6 +322,63 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes SetPlayAllTapes(bool? enabled = true) => WithPlayAllTapes(enabled);
         /// <inheritdoc cref="docs._playalltapes" />
         public SynthWishes PlayAllTapes(bool? enabled) => WithPlayAllTapes(enabled);
+        
+        // Derived Audio Properties
+        
+        protected int ByteCount() => ConfigWishes.ByteCount(this);
+        protected int GetByteCount() => ConfigWishes.GetByteCount(this);
+        protected SynthWishes ByteCount(int? value) => ConfigWishes.ByteCount(this, value);
+        protected SynthWishes WithByteCount(int? value) => ConfigWishes.WithByteCount(this, value);
+        protected SynthWishes SetByteCount(int? value) => ConfigWishes.SetByteCount(this, value);
+        
+        protected int CourtesyBytes() => ConfigWishes.CourtesyBytes(this);
+        protected int GetCourtesyBytes() => ConfigWishes.GetCourtesyBytes(this);
+        protected SynthWishes CourtesyBytes(int? value) => ConfigWishes.CourtesyBytes(this, value);
+        protected SynthWishes WithCourtesyBytes(int? value) => ConfigWishes.WithCourtesyBytes(this, value);
+        protected SynthWishes SetCourtesyBytes(int? value) => ConfigWishes.SetCourtesyBytes(this, value);
+        
+        /// <inheritdoc cref="docs._fileextension" />
+        protected string FileExtension() => ConfigWishes.FileExtension(this);
+        /// <inheritdoc cref="docs._fileextension" />
+        protected string GetFileExtension() => ConfigWishes.GetFileExtension(this);
+        /// <inheritdoc cref="docs._fileextension" />
+        protected SynthWishes FileExtension(string value) => ConfigWishes.FileExtension(this, value);
+        /// <inheritdoc cref="docs._fileextension" />
+        protected SynthWishes WithFileExtension(string value) => ConfigWishes.WithFileExtension(this, value);
+        /// <inheritdoc cref="docs._fileextension" />
+        protected SynthWishes AsFileExtension(string value) => ConfigWishes.AsFileExtension(this, value);
+        /// <inheritdoc cref="docs._fileextension" />
+        protected SynthWishes SetFileExtension(string value) => ConfigWishes.SetFileExtension(this, value);
+                
+        protected int FrameCount() => ConfigWishes.FrameCount(this);
+        protected int GetFrameCount() => ConfigWishes.GetFrameCount(this);
+        protected SynthWishes FrameCount(int? value) => ConfigWishes.FrameCount(this, value);
+        protected SynthWishes WithFrameCount(int? value) => ConfigWishes.WithFrameCount(this, value);
+        protected SynthWishes SetFrameCount(int? value) => ConfigWishes.SetFrameCount(this, value);
+        
+        protected int FrameSize() => ConfigWishes.FrameSize(this);
+        protected int GetFrameSize() => ConfigWishes.GetFrameSize(this);
+
+        /// <inheritdoc cref="docs._headerlength"/>
+        protected int HeaderLength() => ConfigWishes.HeaderLength(this);
+        /// <inheritdoc cref="docs._headerlength"/>
+        protected int GetHeaderLength() => ConfigWishes.GetHeaderLength(this);
+
+        /// <inheritdoc cref="docs._headerlength"/>
+        protected SynthWishes HeaderLength(int? headerLength) => ConfigWishes.HeaderLength(this, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        protected SynthWishes WithHeaderLength(int? headerLength) => ConfigWishes.WithHeaderLength(this, headerLength);
+        /// <inheritdoc cref="docs._headerlength"/>
+        protected SynthWishes SetHeaderLength(int? headerLength) => ConfigWishes.SetHeaderLength(this, headerLength);
+
+        protected double MaxAmplitude() => ConfigWishes.MaxAmplitude(this);
+        protected double GetMaxAmplitude() => ConfigWishes.GetMaxAmplitude(this);
+        
+        protected int SizeOfBitDepth() => ConfigWishes.SizeOfBitDepth(this);
+        protected int GetSizeOfBitDepth() => ConfigWishes.GetSizeOfBitDepth(this);
+        protected SynthWishes SizeOfBitDepth(int? sizeOfBitDepth) => ConfigWishes.SizeOfBitDepth(this, sizeOfBitDepth);
+        protected SynthWishes WithSizeOfBitDepth(int? sizeOfBitDepth) => ConfigWishes.WithSizeOfBitDepth(this, sizeOfBitDepth);
+        protected SynthWishes SetSizeOfBitDepth(int? sizeOfBitDepth) => ConfigWishes.SetSizeOfBitDepth(this, sizeOfBitDepth);
 
         // Misc Settings
 
