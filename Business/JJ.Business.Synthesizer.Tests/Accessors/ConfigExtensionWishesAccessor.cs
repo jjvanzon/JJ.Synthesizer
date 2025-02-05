@@ -321,8 +321,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // With ConfigResolver
         
-        public static double AudioLength(this ConfigResolverAccessor obj, SynthWishes synthWishes) 
-            => _accessor.InvokeMethod<double>(obj.Obj, synthWishes);
+        public static FlowNode AudioLength(this ConfigResolverAccessor obj, SynthWishes synthWishes) 
+            => _accessor.InvokeMethod<FlowNode>(obj.Obj, synthWishes);
 
         public static ConfigResolverAccessor AudioLength(this ConfigResolverAccessor obj, double? value, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(

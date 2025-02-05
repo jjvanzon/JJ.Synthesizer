@@ -182,21 +182,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes ResetBeatLength() { Config.ResetBeatLength(); return this; }
 
         /// <inheritdoc cref="docs._audiolength" />
-        //public FlowNode AudioLength() => GetAudioLength; // TODO: Ambiguous with double-returning extension method.
+        protected FlowNode AudioLength() => ConfigWishes.AudioLength(this);
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode GetAudioLength => Config.GetAudioLength(this);
         /// <inheritdoc cref="docs._audiolength" />
+        protected SynthWishes AudioLength(double? newLength) => ConfigWishes.AudioLength(this, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        protected SynthWishes AudioLength(FlowNode newLength) => ConfigWishes.AudioLength(this, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes WithAudioLength(double? newLength) { Config.WithAudioLength(newLength, this); return this; }
-        /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes SetAudioLength(double? newLength) => WithAudioLength(newLength);
-        /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes AudioLength(double? newLength) => WithAudioLength(newLength);
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes WithAudioLength(FlowNode newLength) { Config.WithAudioLength(newLength); return this; }
         /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes SetAudioLength(FlowNode newLength) => WithAudioLength(newLength);
+        protected SynthWishes SetAudioLength(double? newLength) => ConfigWishes.WithAudioLength(this, newLength);
         /// <inheritdoc cref="docs._audiolength" />
-        public SynthWishes AudioLength(FlowNode newLength) => WithAudioLength(newLength);
+        protected SynthWishes SetAudioLength(FlowNode newLength) => ConfigWishes.WithAudioLength(this, newLength);
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes AddAudioLength(double additionalLength) { Config.AddAudioLength(additionalLength, this); return this; }
         /// <inheritdoc cref="docs._audiolength" />

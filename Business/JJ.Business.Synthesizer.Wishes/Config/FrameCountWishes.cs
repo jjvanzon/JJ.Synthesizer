@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameCount(SynthWishes obj) => GetFrameCount(obj);
         public static int GetFrameCount(SynthWishes obj)
         {
-            return ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(), obj.SamplingRate(), obj.CourtesyFrames());
+            return ConfigWishes.FrameCountFromAudioLength(obj.AudioLength().Value, obj.SamplingRate(), obj.CourtesyFrames());
         }
         
         public static SynthWishes FrameCount(SynthWishes obj, int? value) => SetFrameCount(obj, value);
@@ -185,7 +185,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameCount(FlowNode obj) => GetFrameCount(obj);
         public static int GetFrameCount(FlowNode obj)
         {
-            return ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(), obj.SamplingRate(), obj.CourtesyFrames());
+            return ConfigWishes.FrameCountFromAudioLength(obj.AudioLength().Value, obj.SamplingRate(), obj.CourtesyFrames());
         }
         
         public static FlowNode FrameCount(FlowNode obj, int? value) => SetFrameCount(obj, value);
@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         internal static int FrameCount(ConfigResolver obj, SynthWishes synthWishes) => GetFrameCount(obj, synthWishes);
         internal static int GetFrameCount(ConfigResolver obj, SynthWishes synthWishes)
         {
-            return ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(synthWishes), obj.SamplingRate(), obj.CourtesyFrames());
+            return ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(synthWishes).Value, obj.SamplingRate(), obj.CourtesyFrames());
         }
         
         internal static ConfigResolver FrameCount(ConfigResolver obj, int? value, SynthWishes synthWishes)

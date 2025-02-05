@@ -19,26 +19,59 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Synth-Bound
         
-        public static double AudioLength(this SynthWishes obj) => ConfigWishes.AudioLength(obj);
-        public static double GetAudioLength(this SynthWishes obj) => ConfigWishes.GetAudioLength(obj);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(this SynthWishes obj) => ConfigWishes.AudioLength(obj);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode GetAudioLength(this SynthWishes obj) => ConfigWishes.GetAudioLength(obj);
 
-        public static SynthWishes AudioLength(this SynthWishes obj, double? value) => ConfigWishes.AudioLength(obj, value);
-        public static SynthWishes WithAudioLength(this SynthWishes obj, double? value) => ConfigWishes.WithAudioLength(obj, value);
-        public static SynthWishes SetAudioLength(this SynthWishes obj, double? value) => ConfigWishes.SetAudioLength(obj, value);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes AudioLength(this SynthWishes obj, double? newLength) => ConfigWishes.AudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes AudioLength(this SynthWishes obj, FlowNode newLength) => ConfigWishes.AudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes WithAudioLength(this SynthWishes obj, double? newLength) => ConfigWishes.WithAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes WithAudioLength(this SynthWishes obj, FlowNode newLength) => ConfigWishes.WithAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes SetAudioLength(this SynthWishes obj, double? newLength) => ConfigWishes.SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes SetAudioLength(this SynthWishes obj, FlowNode newLength) => ConfigWishes.SetAudioLength(obj, newLength);
 
-        public static double AudioLength(this FlowNode obj) => ConfigWishes.AudioLength(obj);
-        public static double GetAudioLength(this FlowNode obj) => ConfigWishes.GetAudioLength(obj);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(this FlowNode obj) => ConfigWishes.AudioLength(obj);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode GetAudioLength(this FlowNode obj) => ConfigWishes.GetAudioLength(obj);
 
-        public static FlowNode AudioLength(this FlowNode obj, double? value) => ConfigWishes.AudioLength(obj, value);
-        public static FlowNode WithAudioLength(this FlowNode obj, double? value) => ConfigWishes.WithAudioLength(obj, value);
-        public static FlowNode SetAudioLength(this FlowNode obj, double? value) => ConfigWishes.SetAudioLength(obj, value);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(this FlowNode obj, double? newLength) => ConfigWishes.AudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(this FlowNode obj, FlowNode newLength) => ConfigWishes.AudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode WithAudioLength(this FlowNode obj, double? newLength) => ConfigWishes.WithAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode WithAudioLength(this FlowNode obj, FlowNode newLength) => ConfigWishes.WithAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode SetAudioLength(this FlowNode obj, double? newLength) => ConfigWishes.SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode SetAudioLength(this FlowNode obj, FlowNode newLength) => ConfigWishes.SetAudioLength(obj, newLength);
 
-        internal static double AudioLength(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.AudioLength(obj, synthWishes);
-        internal static double GetAudioLength(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.GetAudioLength(obj, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static FlowNode AudioLength(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.AudioLength(obj, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static FlowNode GetAudioLength(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.GetAudioLength(obj, synthWishes);
 
-        internal static ConfigResolver AudioLength(this ConfigResolver obj, double? value, SynthWishes synthWishes) => ConfigWishes.AudioLength(obj, value, synthWishes);
-        internal static ConfigResolver WithAudioLength(this ConfigResolver obj, double? value, SynthWishes synthWishes) => ConfigWishes.WithAudioLength(obj, value, synthWishes);
-        internal static ConfigResolver SetAudioLength(this ConfigResolver obj, double? value, SynthWishes synthWishes) => ConfigWishes.SetAudioLength(obj, value, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver AudioLength(this ConfigResolver obj, double? newLength, SynthWishes synthWishes) => ConfigWishes.AudioLength(obj, newLength, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver AudioLength(this ConfigResolver obj, FlowNode newLength) => ConfigWishes.AudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver WithAudioLength(this ConfigResolver obj, double? newLength, SynthWishes synthWishes) => ConfigWishes.WithAudioLength(obj, newLength, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver WithAudioLength(this ConfigResolver obj, FlowNode newLength) => ConfigWishes.WithAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver SetAudioLength(this ConfigResolver obj, double? newLength, SynthWishes synthWishes) => ConfigWishes.SetAudioLength(obj, newLength, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver SetAudioLength(this ConfigResolver obj, FlowNode newLength) => ConfigWishes.SetAudioLength(obj, newLength);
 
         // Global-Bound
 
@@ -200,51 +233,99 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Synth-Bound
         
-        public static double AudioLength(SynthWishes obj) => GetAudioLength(obj);
-        public static double GetAudioLength(SynthWishes obj)
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(SynthWishes obj) => GetAudioLength(obj);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode GetAudioLength(SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.GetAudioLength.Value;
+            return obj.GetAudioLength;
         }
         
-        public static SynthWishes AudioLength(SynthWishes obj, double? value) => SetAudioLength(obj, value);
-        public static SynthWishes WithAudioLength(SynthWishes obj, double? value) => SetAudioLength(obj, value);
-        public static SynthWishes SetAudioLength(SynthWishes obj, double? value)
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes AudioLength(SynthWishes obj, double? newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes AudioLength(SynthWishes obj, FlowNode newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes WithAudioLength(SynthWishes obj, double? newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes WithAudioLength(SynthWishes obj, FlowNode newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes SetAudioLength(SynthWishes obj, double? newLength)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.WithAudioLength(value);
+            obj.WithAudioLength(newLength);
+            return obj;
+        }
+        /// <inheritdoc cref="docs._audiolength" />
+        public static SynthWishes SetAudioLength(SynthWishes obj, FlowNode newLength)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            obj.WithAudioLength(newLength);
             return obj;
         }
         
-        public static double AudioLength(FlowNode obj) => GetAudioLength(obj);
-        public static double GetAudioLength(FlowNode obj)
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(FlowNode obj) => GetAudioLength(obj);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode GetAudioLength(FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.GetAudioLength.Value;
+            return obj.GetAudioLength;
         }
         
-        public static FlowNode AudioLength(FlowNode obj, double? value) => SetAudioLength(obj, value);
-        public static FlowNode WithAudioLength(FlowNode obj, double? value) => SetAudioLength(obj, value);
-        public static FlowNode SetAudioLength(FlowNode obj, double? value)
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(FlowNode obj, double? newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode AudioLength(FlowNode obj, FlowNode newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode WithAudioLength(FlowNode obj, double? newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode WithAudioLength(FlowNode obj, FlowNode newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode SetAudioLength(FlowNode obj, double? newLength)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.WithAudioLength(value);
+            obj.WithAudioLength(newLength);
+            return obj;
+        }
+        /// <inheritdoc cref="docs._audiolength" />
+        public static FlowNode SetAudioLength(FlowNode obj, FlowNode newLength)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            obj.WithAudioLength(newLength);
             return obj;
         }
         
-        internal static double AudioLength(ConfigResolver obj, SynthWishes synthWishes) => GetAudioLength(obj, synthWishes);
-        internal static double GetAudioLength(ConfigResolver obj, SynthWishes synthWishes)
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static FlowNode AudioLength(ConfigResolver obj, SynthWishes synthWishes) => GetAudioLength(obj, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static FlowNode GetAudioLength(ConfigResolver obj, SynthWishes synthWishes)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.GetAudioLength(synthWishes).Value;
+            return obj.GetAudioLength(synthWishes);
         }
         
-        internal static ConfigResolver AudioLength(ConfigResolver obj, double? value, SynthWishes synthWishes) => SetAudioLength(obj, value, synthWishes);
-        internal static ConfigResolver WithAudioLength(ConfigResolver obj, double? value, SynthWishes synthWishes) => SetAudioLength(obj, value, synthWishes);
-        internal static ConfigResolver SetAudioLength(ConfigResolver obj, double? value, SynthWishes synthWishes)
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver AudioLength(ConfigResolver obj, double? newLength, SynthWishes synthWishes) => SetAudioLength(obj, newLength, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver AudioLength(ConfigResolver obj, FlowNode newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver WithAudioLength(ConfigResolver obj, double? newLength, SynthWishes synthWishes) => SetAudioLength(obj, newLength, synthWishes);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver WithAudioLength(ConfigResolver obj, FlowNode newLength) => SetAudioLength(obj, newLength);
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver SetAudioLength(ConfigResolver obj, double? newLength, SynthWishes synthWishes)
         {
             if (obj == null) throw new NullException(() => obj);
-            obj.WithAudioLength(value, synthWishes);
+            obj.WithAudioLength(newLength, synthWishes);
+            return obj;
+        }
+        /// <inheritdoc cref="docs._audiolength" />
+        internal static ConfigResolver SetAudioLength(ConfigResolver obj, FlowNode newLength)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            obj.WithAudioLength(newLength);
             return obj;
         }
         

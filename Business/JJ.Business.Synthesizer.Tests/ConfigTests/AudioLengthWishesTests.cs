@@ -285,9 +285,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, double audioLength)
         {
-            AreEqual(audioLength, () => x.SynthBound.SynthWishes.AudioLength());
-            AreEqual(audioLength, () => x.SynthBound.FlowNode.AudioLength());
-            AreEqual(audioLength, () => x.SynthBound.ConfigResolver.AudioLength(x.SynthBound.SynthWishes));
+            AreEqual(audioLength, () => x.SynthBound.SynthWishes.AudioLength().Value);
+            AreEqual(audioLength, () => x.SynthBound.FlowNode.AudioLength().Value);
+            AreEqual(audioLength, () => x.SynthBound.ConfigResolver.AudioLength(x.SynthBound.SynthWishes).Value);
         }
         
         private void Assert_TapeBound_Getters(ConfigTestEntities x, double audioLength)
