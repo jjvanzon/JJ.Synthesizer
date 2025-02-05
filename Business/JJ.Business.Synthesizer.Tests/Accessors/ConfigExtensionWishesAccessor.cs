@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
@@ -10,93 +11,137 @@ using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
+// TODO: Rename file to plural -s.
+
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
+
+    // Helper
+
+    /// <summary>
+    /// Specialized accessor for easier use with ConfigWishes extensions,
+    /// which require interplay between multiple accessors and
+    /// otherwise repetitive explicit parameter type specifications.
+    /// </summary>
+    internal class ConfigExtensionWishesAccessor : AccessorEx
+    {
+        public ConfigExtensionWishesAccessor(Type type) : base(type) { }
+
+        // For ConfigResolver
+        
+        public ConfigResolverAccessor Set<TValue>(ConfigResolverAccessor obj, TValue value, [CallerMemberName] string callerMemberName = null)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            
+            return new ConfigResolverAccessor(InvokeMethod(
+                callerMemberName,
+                new[] { obj.Obj, value },
+                new[] { null, typeof(TValue) }));
+}
+        
+        public ConfigResolverAccessor Call(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return new ConfigResolverAccessor(InvokeMethod(callerMemberName, obj.Obj));
+        }
+        
+        public bool GetBool(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return InvokeMethod<bool>(obj.Obj, callerMemberName);
+        }
+        
+        public T Get<T>(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return InvokeMethod<T>(obj.Obj, callerMemberName);
+        }
+        
+        public object Get(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return InvokeMethod(obj.Obj, callerMemberName);
+        }
+
+        // For ConfigSection
+
+        public bool GetBool(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null) => InvokeMethod<bool>(obj.Obj, callerMemberName);
+    }
+
     // Primaries
-    
+
     internal static class BitExtensionWishesAccessor
     {
         private static readonly Type _underlyingType = typeof(BitExtensionWishes);
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(_underlyingType);
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(_underlyingType);
         
         // With ConfigResolver
-        
+
+        public static bool Is8Bit(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool Is16Bit(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool Is32Bit(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static int Bits(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<int>(obj.Obj);
+        public static int GetBits(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<int>(obj.Obj);
 
-        public static ConfigResolverAccessor Bits(this ConfigResolverAccessor obj, int? value)
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(
-                MemberName(),
-                new[] { obj.Obj, value },
-                new[] { null, typeof(int?) }));
+        public static ConfigResolverAccessor With8Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor With16Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor With32Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor As8Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor As16Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor Ad32Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor Set8Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor Set16Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor Set32Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
 
-        public static bool Is8Bit(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool Is16Bit(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool Is32Bit(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-
-        public static ConfigResolverAccessor With8Bit(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-        public static ConfigResolverAccessor With16Bit(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-        public static ConfigResolverAccessor With32Bit(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+        public static ConfigResolverAccessor Bits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithBits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor AsBits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor SetBits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
 
         // With ConfigSection
         
-        public static int? Bits(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
-        public static bool Is8Bit(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static bool Is8Bit(this ConfigSectionAccessor  obj) => _accessor.GetBool(obj);
         public static bool Is16Bit(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
         public static bool Is32Bit(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static int? Bits(this    ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
+        public static int? GetBits(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
     }
 
     internal static class ChannelsExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(ChannelsExtensionWishes));
-        
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(ChannelsExtensionWishes));
+
         // With ConfigResolver
+
+        public static bool IsMono(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         
+        public static bool IsStereo(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static int Channels(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<int>(obj.Obj);
+        public static int GetChannels(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<int>(obj.Obj);
 
-        public static ConfigResolverAccessor Channels(this ConfigResolverAccessor obj, int? value)
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(
-                MemberName(),
-                new[] { obj.Obj, value },
-                new[] { null, typeof(int?) }));
-
-        public static ConfigResolverAccessor SetChannels(this ConfigResolverAccessor obj, int? channels)
-
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(
-                MemberName(),
-                new[] { obj.Obj, channels },
-                new[] { null, typeof(int?) }));
-
-        public static bool IsMono(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool IsStereo(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        
-        public static ConfigResolverAccessor Mono(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-        
-        public static ConfigResolverAccessor Stereo(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-
-        public static ConfigResolverAccessor SetMono(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-        
-        public static ConfigResolverAccessor SetStereo(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-
-        public static ConfigResolverAccessor WithMono(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-        
-        public static ConfigResolverAccessor WithStereo(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+        public static ConfigResolverAccessor Mono(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor Stereo(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor Channels(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithMono(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithStereo(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithChannels(this ConfigResolverAccessor obj, int? channels) => _accessor.Set(obj, channels);
+        public static ConfigResolverAccessor AsMono(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsStereo(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetMono(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetStereo(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetChannels(this ConfigResolverAccessor obj, int? channels) => _accessor.Set(obj, channels);
 
         // With ConfigSection
-        
-        public static int? Channels(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
+
         public static bool IsMono(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
         public static bool IsStereo(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static int? Channels(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
+        public static int? GetChannels(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
     }
-    
+
     internal static class ChannelExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(ChannelExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(ChannelExtensionWishes));
         
         // With ConfigResolver
         
@@ -108,26 +153,26 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
                   new[] { obj.Obj, value },
                   new[] { null, typeof(int?) }));
 
-        public static bool IsCenter(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool IsLeft(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool IsRight(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static bool IsCenter(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsLeft(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsRight(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         
         public static ConfigResolverAccessor Center(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+            => _accessor.Call(obj);
         
         public static ConfigResolverAccessor Left(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+            => _accessor.Call(obj);
         
         public static ConfigResolverAccessor Right(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+            => _accessor.Call(obj);
         
         public static ConfigResolverAccessor NoChannel(this ConfigResolverAccessor obj)
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+            => _accessor.Call(obj);
     }   
     
     internal static class SamplingRateExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(SamplingRateExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(SamplingRateExtensionWishes));
         
         // With ConfigResolver
         
@@ -146,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class AudioFormatExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(AudioFormatExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(AudioFormatExtensionWishes));
 
         // With ConfigResolver
         
@@ -159,8 +204,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
                 new[] { obj?.Obj, value },
                 new[] { null, typeof(AudioFileFormatEnum?) }));
 
-        public static bool IsRaw(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool IsWav(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static bool IsRaw(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsWav(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         
         // With ConfigSection
         
@@ -170,13 +215,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static bool IsRaw(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
         public static bool IsWav(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
 
-        public static ConfigResolverAccessor AsRaw(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
-        public static ConfigResolverAccessor AsWav(this ConfigResolverAccessor obj) => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+        public static ConfigResolverAccessor AsRaw(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsWav(this ConfigResolverAccessor obj) => _accessor.Call(obj);
     }
     
     internal static class InterpolationExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(InterpolationExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(InterpolationExtensionWishes));
 
         // With ConfigResolver
         
@@ -189,14 +234,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
                 new[] { obj.Obj, value },
                 new[] { null, typeof(InterpolationTypeEnum?) }));
 
-        public static bool IsLinear(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool IsBlocky(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static bool IsLinear(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsBlocky(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         
         public static ConfigResolverAccessor Linear(this ConfigResolverAccessor obj) 
-            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+            => _accessor.Call(obj);
         
         public static ConfigResolverAccessor Blocky(this ConfigResolverAccessor obj) 
-            =>  new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj));
+            => _accessor.Call(obj);
         
         // With ConfigSection
         
@@ -209,7 +254,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class CourtesyFrameExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(CourtesyFrameExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(CourtesyFrameExtensionWishes));
         
         // With ConfigResolver
         
@@ -230,7 +275,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class SizeOfBitDepthExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(SizeOfBitDepthExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(SizeOfBitDepthExtensionWishes));
         
         // With ConfigResolver
         
@@ -249,7 +294,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class FrameSizeExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(FrameSizeExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(FrameSizeExtensionWishes));
 
         internal static int FrameSize(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<int>(obj.Obj);
         internal static int? FrameSize(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
@@ -257,7 +302,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class CourtesyByteExtensionWishesAccessor
     {
-        private static readonly Accessor _accessor = new Accessor(typeof(CourtesyByteExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(CourtesyByteExtensionWishes));
 
         // With ConfigResolver
 
@@ -273,7 +318,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class FileExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(FileExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(FileExtensionWishes));
         
         // With ConfigResolver
         
@@ -292,7 +337,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class HeaderLengthExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(HeaderLengthExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(HeaderLengthExtensionWishes));
         
         // With ConfigResolver
         
@@ -307,7 +352,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class MaxAmplitudeExtensionWishesAccessor
     {
-        private static readonly Accessor _accessor = new Accessor(typeof(MaxAmplitudeExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(MaxAmplitudeExtensionWishes));
         
         public static double  MaxAmplitude(this ConfigResolverAccessor obj) => _accessor.InvokeMethod<double>(obj.Obj);
         public static double? MaxAmplitude(this ConfigSectionAccessor  obj) => _accessor.InvokeMethod<double?>(obj.Obj);
@@ -317,7 +362,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class AudioLengthExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(AudioLengthExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(AudioLengthExtensionWishes));
         
         // With ConfigResolver
         
@@ -337,7 +382,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
     internal static class ByteCountExtensionWishesAccessor
     {
-        private static readonly Accessor _accessor = new Accessor(typeof(ByteCountExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(ByteCountExtensionWishes));
         
         // with ConfigResolver
         
@@ -354,7 +399,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
     internal static class FrameCountExtensionWishesAccessor
     {
-        private static readonly Accessor_Adapted _accessor = new Accessor_Adapted(typeof(FrameCountExtensionWishes));
+        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(FrameCountExtensionWishes));
 
         // With ConfigResolver
         
