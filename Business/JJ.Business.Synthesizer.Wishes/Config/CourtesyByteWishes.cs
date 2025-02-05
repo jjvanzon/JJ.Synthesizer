@@ -30,7 +30,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode SetCourtesyBytes(this FlowNode obj, int? value) => ConfigWishes.SetCourtesyBytes(obj, value);
 
         [UsedImplicitly] internal static int CourtesyBytes(this ConfigResolver obj) => ConfigWishes.CourtesyBytes(obj);
-        [UsedImplicitly] internal static int WithCourtesyBytes(this ConfigResolver obj) => ConfigWishes.WithCourtesyBytes(obj);
         [UsedImplicitly] internal static int GetCourtesyBytes(this ConfigResolver obj) => ConfigWishes.GetCourtesyBytes(obj);
 
         [UsedImplicitly] internal static ConfigResolver CourtesyBytes(this ConfigResolver obj, int? value) => ConfigWishes.CourtesyBytes(obj, value);
@@ -143,7 +142,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         [UsedImplicitly] internal static int CourtesyBytes(ConfigResolver obj) => GetCourtesyBytes(obj);
-        [UsedImplicitly] internal static int WithCourtesyBytes(ConfigResolver obj) => GetCourtesyBytes(obj);
         [UsedImplicitly] internal static int GetCourtesyBytes(ConfigResolver obj)
         {
             return GetCourtesyBytes(obj.CourtesyFrames(), obj.FrameSize());
