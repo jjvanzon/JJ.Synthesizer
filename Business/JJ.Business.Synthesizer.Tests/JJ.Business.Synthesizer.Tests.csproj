@@ -127,6 +127,7 @@
     <Compile Include="Accessors\ConfigSectionAccessor.cs" />
     <Compile Include="Accessors\ConfigResolverAccessor.cs" />
     <Compile Include="Accessors\ConfigToolingElementAccessor.cs" />
+    <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />
