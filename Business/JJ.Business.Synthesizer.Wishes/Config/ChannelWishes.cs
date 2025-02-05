@@ -36,8 +36,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static SynthWishes Left(this          SynthWishes obj) => ConfigWishes.Left(obj);
         public static SynthWishes WithLeft(this      SynthWishes obj) => ConfigWishes.WithLeft(obj);
         public static SynthWishes AsLeft(this        SynthWishes obj) => ConfigWishes.AsLeft(obj);  
-        public static SynthWishes WithRight(this     SynthWishes obj) => ConfigWishes.WithRight(obj);
         public static SynthWishes Right(this         SynthWishes obj) => ConfigWishes.Right(obj);
+        public static SynthWishes WithRight(this     SynthWishes obj) => ConfigWishes.WithRight(obj);
         public static SynthWishes AsRight(this       SynthWishes obj) => ConfigWishes.AsRight(obj);
         public static SynthWishes NoChannel(this     SynthWishes obj) => ConfigWishes.NoChannel(obj);
         public static SynthWishes WithNoChannel(this SynthWishes obj) => ConfigWishes.WithNoChannel(obj);
