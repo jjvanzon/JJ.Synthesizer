@@ -117,6 +117,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
        
         // For ConfigSection
                 
+        //public ConfigSectionAccessor Call(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
+        //{
+        //    if (obj == null) throw new NullException(() => obj);
+        //    return new ConfigSectionAccessor(InvokeMethod(callerMemberName, obj.Obj));
+        //}
+
         public T Get<T>(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -256,11 +262,15 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
         
         public static int SamplingRate(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        public static int GetSamplingRate(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
         public static ConfigResolverAccessor SamplingRate(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithSamplingRate(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor SetSamplingRate(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
 
         // With ConfigSection
 
         public static int? SamplingRate(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetSamplingRate(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 
     internal static class AudioFormatExtensionWishesAccessor
@@ -269,21 +279,35 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         // With ConfigResolver
         
-        public static AudioFileFormatEnum AudioFormat(this ConfigResolverAccessor obj) => _accessor.Get<AudioFileFormatEnum>(obj);
-        public static ConfigResolverAccessor AudioFormat(this ConfigResolverAccessor obj, AudioFileFormatEnum? value) => _accessor.Set(obj, value);
-
         public static bool IsRaw(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static bool IsWav(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static AudioFileFormatEnum AudioFormat(this ConfigResolverAccessor obj) => _accessor.Get<AudioFileFormatEnum>(obj);
+        public static AudioFileFormatEnum GetAudioFormat(this ConfigResolverAccessor obj) => _accessor.Get<AudioFileFormatEnum>(obj);
+        
+        public static ConfigResolverAccessor WithWav(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsWav(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor FromWav(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor ToWav(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetWav(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithRaw(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsRaw(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor FromRaw(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor ToRaw(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetRaw(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AudioFormat(this ConfigResolverAccessor obj, AudioFileFormatEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithAudioFormat(this ConfigResolverAccessor obj, AudioFileFormatEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor AsAudioFormat(this ConfigResolverAccessor obj, AudioFileFormatEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor FromAudioFormat(this ConfigResolverAccessor obj, AudioFileFormatEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor ToAudioFormat(this ConfigResolverAccessor obj, AudioFileFormatEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor SetAudioFormat(this ConfigResolverAccessor obj, AudioFileFormatEnum? value) => _accessor.Set(obj, value);
+
         
         // With ConfigSection
         
-        public static AudioFileFormatEnum? AudioFormat(this ConfigSectionAccessor obj) => _accessor.Get<AudioFileFormatEnum?>(obj);
-        
         public static bool IsRaw(this ConfigSectionAccessor obj) => _accessor.GetBool(obj);
         public static bool IsWav(this ConfigSectionAccessor obj) => _accessor.GetBool(obj);
-
-        public static ConfigResolverAccessor AsRaw(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor AsWav(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static AudioFileFormatEnum? AudioFormat(this ConfigSectionAccessor obj) => _accessor.Get<AudioFileFormatEnum?>(obj);
+        public static AudioFileFormatEnum? GetAudioFormat(this ConfigSectionAccessor obj) => _accessor.Get<AudioFileFormatEnum?>(obj);
     }
     
     internal static class InterpolationExtensionWishesAccessor
@@ -292,21 +316,30 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         // With ConfigResolver
         
-        public static InterpolationTypeEnum Interpolation(this ConfigResolverAccessor obj) => _accessor.Get<InterpolationTypeEnum>(obj);
-        public static ConfigResolverAccessor Interpolation(this ConfigResolverAccessor obj, InterpolationTypeEnum? value) => _accessor.Set(obj, value);
-
         public static bool IsLinear(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static bool IsBlocky(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        
+        public static InterpolationTypeEnum Interpolation(this ConfigResolverAccessor obj) => _accessor.Get<InterpolationTypeEnum>(obj);
+        public static InterpolationTypeEnum GetInterpolation(this ConfigResolverAccessor obj) => _accessor.Get<InterpolationTypeEnum>(obj);
+
         public static ConfigResolverAccessor Linear(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Blocky(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        
+        public static ConfigResolverAccessor WithLinear(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithBlocky(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsLinear(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsBlocky(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetLinear(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetBlocky(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor Interpolation(this ConfigResolverAccessor obj, InterpolationTypeEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithInterpolation(this ConfigResolverAccessor obj, InterpolationTypeEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor AsInterpolation(this ConfigResolverAccessor obj, InterpolationTypeEnum? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor SetInterpolation(this ConfigResolverAccessor obj, InterpolationTypeEnum? value) => _accessor.Set(obj, value);
+
         // With ConfigSection
-        
-        public static InterpolationTypeEnum? Interpolation(this ConfigSectionAccessor obj) => _accessor.Get<InterpolationTypeEnum?>(obj);
         
         public static bool IsLinear(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
         public static bool IsBlocky(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static InterpolationTypeEnum? Interpolation(this ConfigSectionAccessor obj) => _accessor.Get<InterpolationTypeEnum?>(obj);
+        public static InterpolationTypeEnum? GetInterpolation(this ConfigSectionAccessor obj) => _accessor.Get<InterpolationTypeEnum?>(obj);
     }
 
     internal static class CourtesyFrameExtensionWishesAccessor
@@ -316,11 +349,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
         
         public static int CourtesyFrames(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        public static int GetCourtesyFrames(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+
         public static ConfigResolverAccessor CourtesyFrames(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithCourtesyFrames(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor SetCourtesyFrames(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
         
         // With ConfigSection
         
         public static int? CourtesyFrames(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetCourtesyFrames(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 
     // Derived Properties
@@ -332,11 +370,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
         
         internal static int SizeOfBitDepth(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        internal static int GetSizeOfBitDepth(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        
         internal static ConfigResolverAccessor SizeOfBitDepth(this ConfigResolverAccessor obj, int? byteSize) => _accessor.Set(obj, byteSize);
+        internal static ConfigResolverAccessor WithSizeOfBitDepth(this ConfigResolverAccessor obj, int? byteSize) => _accessor.Set(obj, byteSize);
+        internal static ConfigResolverAccessor SetSizeOfBitDepth(this ConfigResolverAccessor obj, int? byteSize) => _accessor.Set(obj, byteSize);
 
         // With ConfigSection
 
         public static int? SizeOfBitDepth(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetSizeOfBitDepth(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 
     internal static class FrameSizeExtensionWishesAccessor
@@ -344,7 +387,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(FrameSizeExtensionWishes));
 
         internal static int FrameSize(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        internal static int GetFrameSize(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        
         internal static int? FrameSize(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        internal static int? GetFrameSize(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 
     internal static class CourtesyByteExtensionWishesAccessor
@@ -354,12 +400,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
 
         public static int CourtesyBytes(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        public static int GetCourtesyBytes(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
         
         public static ConfigResolverAccessor CourtesyBytes(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithCourtesyBytes(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor SetCourtesyBytes(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
 
         // With ConfigSection
 
         public static int? CourtesyBytes(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetCourtesyBytes(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 
     internal static class FileExtensionWishesAccessor
@@ -369,11 +419,17 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
         
         internal static string FileExtension(this ConfigResolverAccessor obj) => _accessor.GetString(obj);
+        internal static string GetFileExtension(this ConfigResolverAccessor obj) => _accessor.GetString(obj);
+        
         internal static ConfigResolverAccessor FileExtension(this ConfigResolverAccessor obj, string value) => _accessor.Set(obj, value);
+        internal static ConfigResolverAccessor WithFileExtension(this ConfigResolverAccessor obj, string value) => _accessor.Set(obj, value);
+        internal static ConfigResolverAccessor AsFileExtension(this ConfigResolverAccessor obj, string value) => _accessor.Set(obj, value);
+        internal static ConfigResolverAccessor SetFileExtension(this ConfigResolverAccessor obj, string value) => _accessor.Set(obj, value);
 
         // With ConfigSection
 
         public static string FileExtension(this ConfigSectionAccessor obj) => _accessor.GetString(obj);
+        public static string GetFileExtension(this ConfigSectionAccessor obj) => _accessor.GetString(obj);
     }
 
     internal static class HeaderLengthExtensionWishesAccessor
@@ -383,11 +439,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
         
         public static int? HeaderLength(this ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetHeaderLength(this ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
+        
         public static ConfigResolverAccessor HeaderLength(this ConfigResolverAccessor obj, int? value)  => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithHeaderLength(this ConfigResolverAccessor obj, int? value)  => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor SetHeaderLength(this ConfigResolverAccessor obj, int? value)  => _accessor.Set(obj, value);
         
         // With ConfigSection
         
         public static int? HeaderLength(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetHeaderLength(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 
     internal static class MaxAmplitudeExtensionWishesAccessor
@@ -395,7 +456,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(MaxAmplitudeExtensionWishes));
         
         public static double  MaxAmplitude(this ConfigResolverAccessor obj) => _accessor.GetDouble(obj);
+        public static double  GetMaxAmplitude(this ConfigResolverAccessor obj) => _accessor.GetDouble(obj);
+        
         public static double? MaxAmplitude(this ConfigSectionAccessor obj) => _accessor.GetNullyDouble(obj);
+        public static double? GetMaxAmplitude(this ConfigSectionAccessor obj) => _accessor.GetNullyDouble(obj);
     }
     
     // Durations
@@ -408,13 +472,26 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public static FlowNode AudioLength(this ConfigResolverAccessor obj, SynthWishes synthWishes)
             => _accessor.Get<FlowNode>(obj, synthWishes);
+        public static FlowNode GetAudioLength(this ConfigResolverAccessor obj, SynthWishes synthWishes)
+            => _accessor.Get<FlowNode>(obj, synthWishes);
 
-        public static ConfigResolverAccessor AudioLength(this ConfigResolverAccessor obj, double? value, SynthWishes synthWishes)
-            => _accessor.Set(obj, value, synthWishes);
+        public static ConfigResolverAccessor AudioLength(this ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes)
+            => _accessor.Set(obj, newLength, synthWishes);
+        public static ConfigResolverAccessor AudioLength(this ConfigResolverAccessor obj, FlowNode newLength, SynthWishes synthWishes)
+            => _accessor.Set(obj, newLength, synthWishes);
+        public static ConfigResolverAccessor WithAudioLength(this ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes)
+            => _accessor.Set(obj, newLength, synthWishes);
+        public static ConfigResolverAccessor WithAudioLength(this ConfigResolverAccessor obj, FlowNode newLength, SynthWishes synthWishes)
+            => _accessor.Set(obj, newLength, synthWishes);
+        public static ConfigResolverAccessor SetAudioLength(this ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes)
+            => _accessor.Set(obj, newLength, synthWishes);
+        public static ConfigResolverAccessor SetAudioLength(this ConfigResolverAccessor obj, FlowNode newLength, SynthWishes synthWishes)
+            => _accessor.Set(obj, newLength, synthWishes);
 
         // With ConfigSection
 
         public static double? AudioLength(this ConfigSectionAccessor obj) => _accessor.GetNullyDouble(obj);
+        public static double? GetAudioLength(this ConfigSectionAccessor obj) => _accessor.GetNullyDouble(obj);
     }
         
     internal static class ByteCountExtensionWishesAccessor
@@ -425,13 +502,20 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public static int ByteCount(this ConfigResolverAccessor obj, SynthWishes synthWishes) 
             => _accessor.GetInt(obj, synthWishes);
+        public static int GetByteCount(this ConfigResolverAccessor obj, SynthWishes synthWishes) 
+            => _accessor.GetInt(obj, synthWishes);
         
         public static ConfigResolverAccessor ByteCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)  
+            => _accessor.Set(obj, value, synthWishes);
+        public static ConfigResolverAccessor WithByteCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)  
+            => _accessor.Set(obj, value, synthWishes);
+        public static ConfigResolverAccessor SetByteCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)  
             => _accessor.Set(obj, value, synthWishes);
         
         // With ConfigSection
         
         public static int? ByteCount(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
+        public static int? GetByteCount(this ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
     }
         
     internal static class FrameCountExtensionWishesAccessor
@@ -441,10 +525,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigResolver
         
         public static int FrameCount(this ConfigResolverAccessor obj, SynthWishes synthWishes) => _accessor.GetInt(obj, synthWishes);
+        public static int GetFrameCount(this ConfigResolverAccessor obj, SynthWishes synthWishes) => _accessor.GetInt(obj, synthWishes);
 
         public static ConfigResolverAccessor FrameCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)
             => _accessor.Set(obj, value, synthWishes);
+        public static ConfigResolverAccessor WithFrameCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)
+            => _accessor.Set(obj, value, synthWishes);
+        public static ConfigResolverAccessor SetFrameCount(this ConfigResolverAccessor obj, int? value, SynthWishes synthWishes)
+            => _accessor.Set(obj, value, synthWishes);
 
         public static int? FrameCount(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetFrameCount(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 }
