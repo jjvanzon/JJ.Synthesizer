@@ -1,4 +1,4 @@
-﻿using wishes = JJ.Business.Synthesizer.Wishes;
+﻿using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 // ReSharper disable UnusedType.Global
 
 #pragma warning disable CS0649
@@ -130,6 +130,9 @@ namespace JJ.Business.Synthesizer.Tests
         /// <c>From</c>, <c>Init</c> and <c>Source</c> are synonyms.
         /// </summary>
         public struct _from { }
+        
+        /// <inheritdoc cref="wishdocs._getsamplingrate" />
+        public struct _getsamplingrate { }
         
         /// <summary>
         /// Sounds like Horn.
@@ -271,19 +274,19 @@ namespace JJ.Business.Synthesizer.Tests
         // Aliases for ones in SynthWishes
 
         /// <inheritdoc
-        ///     cref="wishes.docs._default" />
+        ///     cref="wishdocs._default" />
         public struct _default { }
 
         /// <inheritdoc
-        ///     cref="wishes.docs._samplingrate" />
+        ///     cref="wishdocs._samplingrate" />
         public struct _samplingrate { }
 
         /// <inheritdoc
-        ///     cref="wishes.docs._tremolo" />
+        ///     cref="wishdocs._tremolo" />
         public struct _tremolo { }
 
         /// <inheritdoc
-        ///     cref="wishes.docs._vibrato" />
+        ///     cref="wishdocs._vibrato" />
         public struct _vibrato { }
     }
 }

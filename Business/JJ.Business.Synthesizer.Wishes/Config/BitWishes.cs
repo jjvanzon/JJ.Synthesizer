@@ -72,8 +72,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [UsedImplicitly] internal static bool Is8Bit(this ConfigResolver obj)  => ConfigWishes.Is8Bit(obj);
         [UsedImplicitly] internal static bool Is16Bit(this ConfigResolver obj) => ConfigWishes.Is16Bit(obj);
         [UsedImplicitly] internal static bool Is32Bit(this ConfigResolver obj) => ConfigWishes.Is32Bit(obj);
-        internal static int Bits(this ConfigResolver obj) => ConfigWishes.Bits(obj);
-        internal static int GetBits(this ConfigResolver obj) => ConfigWishes.GetBits(obj);
+        [UsedImplicitly] internal static int Bits(this ConfigResolver obj) => ConfigWishes.Bits(obj);
+        [UsedImplicitly] internal static int GetBits(this ConfigResolver obj) => ConfigWishes.GetBits(obj);
 
         [UsedImplicitly] internal static ConfigResolver With8Bit(this ConfigResolver obj)  => ConfigWishes.With8Bit(obj);
         [UsedImplicitly] internal static ConfigResolver With16Bit(this ConfigResolver obj) => ConfigWishes.With16Bit(obj);
@@ -84,18 +84,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [UsedImplicitly] internal static ConfigResolver Set8Bit(this ConfigResolver obj)   => ConfigWishes.Set8Bit(obj);
         [UsedImplicitly] internal static ConfigResolver Set16Bit(this ConfigResolver obj)  => ConfigWishes.Set16Bit(obj);
         [UsedImplicitly] internal static ConfigResolver Set32Bit(this ConfigResolver obj)  => ConfigWishes.Set32Bit(obj);
-        internal static ConfigResolver Bits(this ConfigResolver obj, int? value)     => ConfigWishes.Bits(obj, value);
-        internal static ConfigResolver WithBits(this ConfigResolver obj, int? value) => ConfigWishes.WithBits(obj, value);
-        internal static ConfigResolver AsBits(this ConfigResolver obj, int? value)   => ConfigWishes.AsBits(obj, value);
-        internal static ConfigResolver SetBits(this ConfigResolver obj, int? value)  => ConfigWishes.SetBits(obj, value);
+        [UsedImplicitly] internal static ConfigResolver Bits(this ConfigResolver obj, int? value)     => ConfigWishes.Bits(obj, value);
+        [UsedImplicitly] internal static ConfigResolver WithBits(this ConfigResolver obj, int? value) => ConfigWishes.WithBits(obj, value);
+        [UsedImplicitly] internal static ConfigResolver AsBits(this ConfigResolver obj, int? value)   => ConfigWishes.AsBits(obj, value);
+        [UsedImplicitly] internal static ConfigResolver SetBits(this ConfigResolver obj, int? value)  => ConfigWishes.SetBits(obj, value);
 
         // Global-Bound
 
         [UsedImplicitly] internal static bool Is8Bit(this ConfigSection obj)  => ConfigWishes.Is8Bit(obj);
         [UsedImplicitly] internal static bool Is16Bit(this ConfigSection obj) => ConfigWishes.Is16Bit(obj);
         [UsedImplicitly] internal static bool Is32Bit(this ConfigSection obj) => ConfigWishes.Is32Bit(obj);
-        internal static int? Bits(this ConfigSection obj) => ConfigWishes.Bits(obj);
-        internal static int? GetBits(this ConfigSection obj) => ConfigWishes.GetBits(obj);
+        [UsedImplicitly] internal static int? Bits(this ConfigSection obj) => ConfigWishes.Bits(obj);
+        [UsedImplicitly] internal static int? GetBits(this ConfigSection obj) => ConfigWishes.GetBits(obj);
 
         // Tape-Bound
         

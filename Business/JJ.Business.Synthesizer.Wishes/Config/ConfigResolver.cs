@@ -33,11 +33,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Bits
         
-        private int? _bits;
-        public int GetBits => CoalesceBits(_bits, _section.Bits);
         public bool Is8Bit => GetBits == 8;
         public bool Is16Bit => GetBits == 16;
         public bool Is32Bit => GetBits == 32;
+        private int? _bits;
+        public int GetBits => CoalesceBits(_bits, _section.Bits);
         public ConfigResolver WithBits(int? bits) { _bits = bits.AssertBits(); return this; }
         
         // Channels
@@ -46,10 +46,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public int MonoChannels   => ConfigWishes.MonoChannels;
         public int StereoChannels => ConfigWishes.StereoChannels;
 
-        private int? _channels;
-        public int GetChannels => CoalesceChannels(_channels, _section.Channels);
         public bool IsMono => GetChannels == 1;
         public bool IsStereo => GetChannels == 2;
+        private int? _channels;
+        public int GetChannels => CoalesceChannels(_channels, _section.Channels);
         public ConfigResolver WithChannels(int? channels) { _channels = AssertChannels(channels); return this; }
         
         // Channel
@@ -61,6 +61,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public int? EveryChannel  => ConfigWishes.EveryChannel;
         public int? ChannelEmpty  => ConfigWishes.ChannelEmpty;
         
+        public bool IsCenter => IsMono ? GetChannel == CenterChannel : default;
+        public bool IsLeft => IsStereo ? GetChannel == LeftChannel : default;
+        public bool IsRight => IsStereo ? GetChannel == RightChannel : default;
         private int? _channel;
         public int? GetChannel => CoalesceChannelsChannelCombo(GetChannels, _channel).channel;
         public ConfigResolver WithChannel(int? channel)
@@ -68,11 +71,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             //if (channel == EveryChannel || channel == RightChannel) this.WithStereo(); // Sneaky switch breaks tests.
             _channel = AssertChannel(channel); return this; 
         }
-        public bool           IsCenter  =>       IsMono  ? GetChannel == CenterChannel : default;
-        public ConfigResolver WithCenter() {   this.WithMono(); WithChannel  (CenterChannel); return this; }
-        public bool           IsLeft    =>     IsStereo  ? GetChannel == LeftChannel   : default;
-        public ConfigResolver WithLeft  () { this.WithStereo(); WithChannel  (LeftChannel)  ; return this; }
-        public bool           IsRight   =>     IsStereo  ? GetChannel == RightChannel  : default;
+        public ConfigResolver WithCenter() { this.WithMono(); WithChannel(CenterChannel); return this; }
+        public ConfigResolver WithLeft() { this.WithStereo(); WithChannel(LeftChannel); return this; }
         public ConfigResolver WithRight () { this.WithStereo(); WithChannel  (RightChannel) ; return this; }
         
         // SamplingRate
@@ -125,11 +125,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // AudioFormat
         
+        public bool IsWav => GetAudioFormat == Wav;
+        public bool IsRaw => GetAudioFormat == Raw;
         private AudioFileFormatEnum? _audioFormat;
         public AudioFileFormatEnum GetAudioFormat => CoalesceAudioFormat(_audioFormat, _section.AudioFormat);
         public ConfigResolver WithAudioFormat(AudioFileFormatEnum? audioFormat) { _audioFormat = AssertAudioFormat(audioFormat); return this; }
-        public bool IsWav => GetAudioFormat == Wav;
-        public bool IsRaw => GetAudioFormat == Raw;
         
         // Interpolation
         
