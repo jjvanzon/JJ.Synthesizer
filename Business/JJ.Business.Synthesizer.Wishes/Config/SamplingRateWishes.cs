@@ -19,25 +19,40 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         // Synth-Bound
 
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static int SamplingRate(this SynthWishes obj) => ConfigWishes.SamplingRate(obj);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static int GetSamplingRate(this SynthWishes obj) => ConfigWishes.GetSamplingRate(obj);
 
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static SynthWishes SamplingRate(this SynthWishes obj, int? value) => ConfigWishes.SamplingRate(obj, value);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static SynthWishes WithSamplingRate(this SynthWishes obj, int? value) => ConfigWishes.WithSamplingRate(obj, value);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static SynthWishes SetSamplingRate(this SynthWishes obj, int? value) => ConfigWishes.SetSamplingRate(obj, value);
 
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static int SamplingRate(this FlowNode obj) => ConfigWishes.SamplingRate(obj);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static int GetSamplingRate(this FlowNode obj) => ConfigWishes.GetSamplingRate(obj);
 
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static FlowNode SamplingRate(this FlowNode obj, int? value) => ConfigWishes.SamplingRate(obj, value);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static FlowNode WithSamplingRate(this FlowNode obj, int? value) => ConfigWishes.WithSamplingRate(obj, value);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         public static FlowNode SetSamplingRate(this FlowNode obj, int? value) => ConfigWishes.SetSamplingRate(obj, value);
 
+        /// <inheritdoc cref="docs._getsamplingrate" />
         internal static int SamplingRate(this ConfigResolver obj) => ConfigWishes.SamplingRate(obj);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         internal static int GetSamplingRate(this ConfigResolver obj) => ConfigWishes.GetSamplingRate(obj);
 
+        /// <inheritdoc cref="docs._getsamplingrate" />
         [UsedImplicitly] internal static ConfigResolver SamplingRate(this ConfigResolver obj, int? value) => ConfigWishes.SamplingRate(obj, value);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         [UsedImplicitly] internal static ConfigResolver WithSamplingRate(this ConfigResolver obj, int? value) => ConfigWishes.WithSamplingRate(obj, value);
+        /// <inheritdoc cref="docs._getsamplingrate" />
         [UsedImplicitly] internal static ConfigResolver SetSamplingRate(this ConfigResolver obj, int? value) => ConfigWishes.SetSamplingRate(obj, value);
 
         // Global-Bound

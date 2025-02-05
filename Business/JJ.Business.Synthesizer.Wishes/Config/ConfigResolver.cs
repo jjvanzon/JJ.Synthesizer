@@ -133,13 +133,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Interpolation
         
+        public bool IsLinear => GetInterpolation == Line;
+        public bool IsBlocky => GetInterpolation == Block;
         private InterpolationTypeEnum? _interpolation;
         public InterpolationTypeEnum GetInterpolation => CoalesceInterpolation(_interpolation, _section.Interpolation);
-        public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = AssertInterpolation(interpolation); return this; }
-        public bool IsLinear => GetInterpolation == Line;
         public ConfigResolver WithLinear() => WithInterpolation(Line);
-        public bool IsBlocky => GetInterpolation == Block;
         public ConfigResolver WithBlocky() => WithInterpolation(Block);
+        public ConfigResolver WithInterpolation(InterpolationTypeEnum? interpolation) { _interpolation = AssertInterpolation(interpolation); return this; }
         
         // Durations
         
@@ -536,22 +536,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public ConfigResolver WithLeafCheckTimeOut(double? seconds) { _leafCheckTimeOut = seconds; return this; }
         
-        /// <inheritdoc cref="docs._timeoutaction" />
+        /// <inheritdoc cref="docs._leafchecktimeout" />
         private TimeOutActionEnum? _timeOutAction;
-        /// <inheritdoc cref="docs._timeoutaction" />
+        /// <inheritdoc cref="docs._leafchecktimeout" />
         // ReSharper disable once PossibleInvalidOperationException
         public TimeOutActionEnum GetTimeOutAction => Coalesce(_timeOutAction, _section.TimeOutAction, DefaultTimeOutAction);
-        /// <inheritdoc cref="docs._timeoutaction" />
+        /// <inheritdoc cref="docs._leafchecktimeout" />
         public ConfigResolver WithTimeOutAction(TimeOutActionEnum? action) { _timeOutAction = action; return this; }
         
-        /// <inheritdoc cref="docs._courtesyframes" />
         private int? _courtesyFrames;
-        /// <inheritdoc cref="docs._courtesyframes" />
         public int GetCourtesyFrames => _courtesyFrames ?? _section.CourtesyFrames ?? DefaultCourtesyFrames;
-        /// <inheritdoc cref="docs._courtesyframes" />
         public ConfigResolver WithCourtesyFrames(int? value) { _courtesyFrames = value; return this; }
         
-        /// <inheritdoc cref="docs._fileextensionmaxlength" />
         public int GetFileExtensionMaxLength => Coalesce(_section.FileExtensionMaxLength, DefaultFileExtensionMaxLength);
         
         private string _longTestCategory;

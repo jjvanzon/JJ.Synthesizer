@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
-using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 
 // ReSharper disable once CheckNamespace
@@ -20,7 +19,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool Is32Bit => Config.Is32Bit;
         protected int Bits() => ConfigWishes.Bits(this);
         public int GetBits => Config.GetBits;
-
         protected SynthWishes With8Bit() => ConfigWishes.With8Bit(this);
         protected SynthWishes With16Bit() => ConfigWishes.With16Bit(this);
         protected SynthWishes With32Bit() => ConfigWishes.With32Bit(this);
@@ -34,65 +32,69 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithBits(int? bits) { Config.WithBits(bits); return this; }
         protected SynthWishes AsBits(int? bits) => ConfigWishes.AsBits(this, bits);
         protected SynthWishes SetBits(int? bits) => ConfigWishes.SetBits(this, bits);
-
-        public int Channels() => Config.GetChannels;
-        public int GetChannels => Config.GetChannels;
-        public int NoChannels => Config.NoChannels;
-        public int MonoChannels => Config.MonoChannels;
-        public int StereoChannels => Config.StereoChannels;
-        public bool IsMono => Config.IsMono;
-        public bool IsStereo => Config.IsStereo;
-        public SynthWishes WithChannels(int? channels) { Config.WithChannels(channels); return this; }
-        protected SynthWishes SetChannels(int? channels) => WithChannels(channels);
-        protected SynthWishes Channels(int? channels) => WithChannels(channels);
-        protected SynthWishes WithMono() => WithChannels(MonoChannels);
-        protected SynthWishes SetMono() => WithChannels(MonoChannels);
-        protected SynthWishes AsMono() => WithChannels(MonoChannels);
-        protected SynthWishes Mono() => WithChannels(MonoChannels);
-        protected SynthWishes WithStereo() => WithChannels(StereoChannels);
-        protected SynthWishes SetStereo() => WithChannels(StereoChannels);
-        protected SynthWishes AsStereo() => WithChannels(StereoChannels);
-        protected SynthWishes Stereo() => WithChannels(StereoChannels);
         
-        public int? Channel() => Config.GetChannel;
-        public int? GetChannel => Config.GetChannel;
-        public int CenterChannel => Config.CenterChannel;
-        public int LeftChannel => Config.LeftChannel;
-        public int RightChannel => Config.RightChannel;
-        public int? AnyChannel => Config.AnyChannel;
-        public int? EveryChannel => Config.EveryChannel;
-        public int? ChannelEmpty => Config.ChannelEmpty;
-        public bool IsLeft => Config.IsLeft;
-        public bool IsRight => Config.IsRight;
-        public bool IsCenter => Config.IsCenter;
-        public SynthWishes WithChannel(int? channel) { Config.WithChannel(channel); return this; }
-        public SynthWishes SetChannel(int? channel) => WithChannel(channel);
-        public SynthWishes Channel(int? channel) => WithChannel(channel);
-        // WARNING: Route to WithLeft not WithChannel; unexpected behavior differences.
-        public SynthWishes WithLeft() { Config.WithLeft(); return this; }
-        public SynthWishes SetLeft() => WithLeft();
-        public SynthWishes AsLeft() => WithLeft();
-        public SynthWishes Left() => WithLeft();
-        public SynthWishes WithRight() { Config.WithRight(); return this; }
-        public SynthWishes SetRight() => WithRight();
-        public SynthWishes AsRight() => WithRight();
-        public SynthWishes Right() => WithRight();
-        public SynthWishes WithCenter() { Config.WithCenter(); return this; }
-        public SynthWishes SetCenter() => WithCenter();
-        public SynthWishes AsCenter() => WithCenter();
-        public SynthWishes Center() => WithCenter();
+        public    int         NoChannels                  => Config.NoChannels;
+        public    int         MonoChannels                => Config.MonoChannels;
+        public    int         StereoChannels              => Config.StereoChannels;
+        public    bool        IsMono                      => Config.IsMono;
+        public    bool        IsStereo                    => Config.IsStereo;
+        protected int         Channels()                  => ConfigWishes.Channels(this);
+        public    int         GetChannels                 => Config.GetChannels;
+        protected SynthWishes Mono()                      => ConfigWishes.Mono(this);
+        protected SynthWishes Stereo()                    => ConfigWishes.Stereo(this);
+        protected SynthWishes Channels(int? channels)     => ConfigWishes.Channels(this, channels);
+        protected SynthWishes WithMono()                  => ConfigWishes.WithMono(this);
+        protected SynthWishes WithStereo()                => ConfigWishes.WithStereo(this);
+        public    SynthWishes WithChannels(int? channels) {  Config.WithChannels(channels); return this; }
+        protected SynthWishes AsMono()                    => ConfigWishes.AsMono(this);
+        protected SynthWishes AsStereo()                  => ConfigWishes.AsStereo(this);
+        protected SynthWishes SetMono()                   => ConfigWishes.SetMono(this);
+        protected SynthWishes SetStereo()                 => ConfigWishes.SetStereo(this);
+        protected SynthWishes SetChannels(int? channels)  => ConfigWishes.SetChannels(this, channels);
+        
+        public    int         CenterChannel             => Config.CenterChannel;
+        public    int         LeftChannel               => Config.LeftChannel;
+        public    int         RightChannel              => Config.RightChannel;
+        public    int?        AnyChannel                => Config.AnyChannel;
+        public    int?        EveryChannel              => Config.EveryChannel;
+        public    int?        ChannelEmpty              => Config.ChannelEmpty;
+        public    bool        IsCenter                  => Config.IsCenter;
+        public    bool        IsLeft                    => Config.IsLeft;
+        public    bool        IsRight                   => Config.IsRight;
+        protected int?        Channel()                 => ConfigWishes.Channel(this);
+        public    int?        GetChannel                => Config.GetChannel;
+        protected SynthWishes Center()                  => ConfigWishes.Center(this);
+        public    SynthWishes WithCenter()              {  Config.WithCenter(); return this; }
+        protected SynthWishes AsCenter()                => ConfigWishes.AsCenter(this);
+        protected SynthWishes Left()                    => ConfigWishes.Left(this);
+        public    SynthWishes WithLeft()                {  Config.WithLeft(); return this; }
+        protected SynthWishes AsLeft()                  => ConfigWishes.AsLeft(this);
+        protected SynthWishes Right()                   => ConfigWishes.Right(this);
+        public    SynthWishes WithRight()               {  Config.WithRight(); return this; }
+        protected SynthWishes AsRight()                 => ConfigWishes.AsRight(this);
+        protected SynthWishes NoChannel()               => ConfigWishes.NoChannel(this);
+        protected SynthWishes WithNoChannel()           => ConfigWishes.WithNoChannel(this);
+        protected SynthWishes AsNoChannel()             => ConfigWishes.AsNoChannel(this);
+        protected SynthWishes Channel(int?     channel) => ConfigWishes.Channel(this, channel);
+        public    SynthWishes WithChannel(int? channel) {  Config.WithChannel(channel); return this; }
+        protected SynthWishes AsChannel(int?   channel) => ConfigWishes.AsChannel(this, channel);
+        protected SynthWishes SetCenter()               => ConfigWishes.SetCenter(this);
+        protected SynthWishes SetLeft()                 => ConfigWishes.SetLeft(this);
+        protected SynthWishes SetRight()                => ConfigWishes.SetRight(this);
+        protected SynthWishes SetNoChannel()            => ConfigWishes.SetNoChannel(this);
+        protected SynthWishes SetChannel(int? channel)  => ConfigWishes.SetChannel(this, channel);
 
         /// <inheritdoc cref="docs._getsamplingrate" />
-        public int SamplingRate() => Config.GetSamplingRate;
+        protected int SamplingRate() => ConfigWishes.SamplingRate(this);
         /// <inheritdoc cref="docs._getsamplingrate" />
         public int GetSamplingRate => Config.GetSamplingRate;
         /// <inheritdoc cref="docs._withsamplingrate"/>
+        public SynthWishes SamplingRate(int? value) => ConfigWishes.SamplingRate(this, value);
+        /// <inheritdoc cref="docs._withsamplingrate"/>
         public SynthWishes WithSamplingRate(int? value) { Config.WithSamplingRate(value); return this; }
         /// <inheritdoc cref="docs._withsamplingrate"/>
-        public SynthWishes SetSamplingRate(int? value) => WithSamplingRate(value);
-        /// <inheritdoc cref="docs._withsamplingrate"/>
-        public SynthWishes SamplingRate(int? value) => WithSamplingRate(value);
-        
+        public SynthWishes SetSamplingRate(int? value) => ConfigWishes.SetSamplingRate(this, value);
+
         public bool IsWav => Config.IsWav;
         public bool IsRaw => Config.IsRaw;
         protected AudioFileFormatEnum AudioFormat() => ConfigWishes.AudioFormat(this);
@@ -109,25 +111,25 @@ namespace JJ.Business.Synthesizer.Wishes
         protected SynthWishes AsAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.AsAudioFormat(this, audioFormat);
         protected SynthWishes SetAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.SetAudioFormat(this, audioFormat);
 
-        public InterpolationTypeEnum Interpolation() => Config.GetInterpolation;
-        public InterpolationTypeEnum GetInterpolation => Config.GetInterpolation;
         public bool IsLinear => Config.IsLinear;
         public bool IsBlocky => Config.IsBlocky;
+        public InterpolationTypeEnum Interpolation() => ConfigWishes.Interpolation(this);
+        public InterpolationTypeEnum GetInterpolation => Config.GetInterpolation;
+        protected SynthWishes Linear() => ConfigWishes.Linear(this);
+        protected SynthWishes Blocky() => ConfigWishes.Blocky(this);
+        protected SynthWishes WithLinear() => ConfigWishes.WithLinear(this);
+        protected SynthWishes WithBlocky() => ConfigWishes.WithBlocky(this);
+        protected SynthWishes AsLinear() => ConfigWishes.AsLinear(this);
+        protected SynthWishes AsBlocky() => ConfigWishes.AsBlocky(this);
+        protected SynthWishes SetLinear() => ConfigWishes.SetLinear(this);
+        protected SynthWishes SetBlocky() => ConfigWishes.SetBlocky(this);
+        protected SynthWishes Interpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.Interpolation(this, interpolation);
         public SynthWishes WithInterpolation(InterpolationTypeEnum? interpolation) { Config.WithInterpolation(interpolation); return this; }
-        public SynthWishes SetInterpolation(InterpolationTypeEnum? interpolation) => WithInterpolation(interpolation);
-        public SynthWishes AsInterpolation(InterpolationTypeEnum? interpolation) => WithInterpolation(interpolation);
-        public SynthWishes Interpolation(InterpolationTypeEnum? interpolation) => WithInterpolation(interpolation);
-        public SynthWishes WithLinear() => WithInterpolation(Line);
-        public SynthWishes SetLinear() => WithInterpolation(Line);
-        public SynthWishes AsLinear() => WithInterpolation(Line);
-        public SynthWishes Linear() => WithInterpolation(Line);
-        public SynthWishes WithBlocky() => WithInterpolation(Block);
-        public SynthWishes SetBlocky() => WithInterpolation(Block);
-        public SynthWishes AsBlocky() => WithInterpolation(Block);
-        public SynthWishes Blocky() => WithInterpolation(Block);
+        public SynthWishes AsInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.AsInterpolation(this, interpolation);
+        public SynthWishes SetInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.SetInterpolation(this, interpolation);
 
         // Durations
-        
+
         /// <inheritdoc cref="docs._notelength" />
         public FlowNode NoteLength() => GetNoteLength();
         /// <inheritdoc cref="docs._notelength" />
@@ -344,19 +346,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes SetTimeOutAction(TimeOutActionEnum? action) => WithTimeOutAction(action);
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public SynthWishes TimeOutAction(TimeOutActionEnum? action) => WithTimeOutAction(action);
-
-        /// <inheritdoc cref="docs._courtesyframes" />
-        public int CourtesyFrames() => Config.GetCourtesyFrames;
-        /// <inheritdoc cref="docs._courtesyframes" />
-        public int GetCourtesyFrames => Config.GetCourtesyFrames;
-        /// <inheritdoc cref="docs._courtesyframes" />
-        public SynthWishes WithCourtesyFrames(int? value) { Config.WithCourtesyFrames(value); return this; }
-        /// <inheritdoc cref="docs._courtesyframes" />
-        public SynthWishes SetCourtesyFrames(int? value) => WithCourtesyFrames(value);
-        /// <inheritdoc cref="docs._courtesyframes" />
-        public SynthWishes CourtesyFrames(int? value) => WithCourtesyFrames(value);
         
-        /// <inheritdoc cref="docs._fileextensionmaxlength" />
+        protected int         CourtesyFrames()               => ConfigWishes.CourtesyFrames(this);
+        public    int         GetCourtesyFrames              => Config.GetCourtesyFrames;
+        protected SynthWishes CourtesyFrames    (int? value) => ConfigWishes.CourtesyFrames(this, value);
+        public    SynthWishes WithCourtesyFrames(int? value) {  Config.WithCourtesyFrames(value); return this; }
+        protected SynthWishes SetCourtesyFrames (int? value) => ConfigWishes.SetCourtesyFrames(this, value);
+
         public int GetFileExtensionMaxLength => Config.GetFileExtensionMaxLength;
         
         public bool IsUnderNCrunch 

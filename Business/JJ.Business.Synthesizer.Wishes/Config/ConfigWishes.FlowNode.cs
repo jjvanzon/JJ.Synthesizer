@@ -35,13 +35,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public int? AnyChannel => ConfigWishes.AnyChannel;
         public int? EveryChannel => ConfigWishes.EveryChannel;
         public int? ChannelEmpty => ConfigWishes.ChannelEmpty;
+        public bool IsCenter => _synthWishes.IsCenter;
+        public bool IsLeft => _synthWishes.IsLeft;
+        public bool IsRight => _synthWishes.IsRight;
         public int? GetChannel => _synthWishes.GetChannel;
         public FlowNode WithChannel(int? channel) { _synthWishes.WithChannel(channel); return this; }
-        public bool IsLeft => _synthWishes.IsLeft;
         public FlowNode WithLeft()  { _synthWishes.WithLeft(); return this; }
-        public bool IsRight => _synthWishes.IsRight;
         public FlowNode WithRight() { _synthWishes.WithRight(); return this; }
-        public bool IsCenter => _synthWishes.IsCenter;
         public FlowNode WithCenter() { _synthWishes.WithCenter(); return this; }
         
         /// <inheritdoc cref="docs._getsamplingrate" />
@@ -54,12 +54,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsWav => _synthWishes.IsWav;
         public bool IsRaw => _synthWishes.IsRaw;
 
-        public InterpolationTypeEnum GetInterpolation => _synthWishes.GetInterpolation;
-        public FlowNode WithInterpolation(InterpolationTypeEnum? interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
         public bool IsLinear => _synthWishes.IsLinear;
-        public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public bool IsBlocky => _synthWishes.IsBlocky;
+        public InterpolationTypeEnum GetInterpolation => _synthWishes.GetInterpolation;
+        public FlowNode WithLinear() { _synthWishes.WithLinear(); return this; }
         public FlowNode WithBlocky() { _synthWishes.WithBlocky(); return this; }
+        public FlowNode WithInterpolation(InterpolationTypeEnum? interpolation) { _synthWishes.WithInterpolation(interpolation); return this; }
         
         // Durations
         
@@ -187,9 +187,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public FlowNode WithTimeOutAction(TimeOutActionEnum? action) { _synthWishes.WithTimeOutAction(action); return this; }
         
-        /// <inheritdoc cref="docs._courtesyframes" />
         public int GetCourtesyFrames => _synthWishes.GetCourtesyFrames;
-        /// <inheritdoc cref="docs._courtesyframes" />
         public FlowNode WithCourtesyFrames(int? value) { _synthWishes.WithCourtesyFrames(value); return this; }
         
         /// <inheritdoc cref="docs._fileextensionmaxlength" />

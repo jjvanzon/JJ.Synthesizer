@@ -427,8 +427,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static SynthWishes Left(         SynthWishes obj) => SetLeft(obj);
         public static SynthWishes WithLeft(     SynthWishes obj) => SetLeft(obj);
         public static SynthWishes AsLeft(       SynthWishes obj) => SetLeft(obj);
-        public static SynthWishes WithRight(    SynthWishes obj) => SetRight(obj);
         public static SynthWishes Right(        SynthWishes obj) => SetRight(obj);
+        public static SynthWishes WithRight(    SynthWishes obj) => SetRight(obj);
         public static SynthWishes AsRight(      SynthWishes obj) => SetRight(obj);
         public static SynthWishes NoChannel(    SynthWishes obj) => SetNoChannel(obj);
         public static SynthWishes WithNoChannel(SynthWishes obj) => SetNoChannel(obj);

@@ -42,7 +42,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static SynthWishes WithChannels(this SynthWishes obj, int? value) => ConfigWishes.WithChannels(obj, value);
         public static SynthWishes AsMono(this SynthWishes obj) => ConfigWishes.AsMono(obj);
         public static SynthWishes AsStereo(this SynthWishes obj) => ConfigWishes.AsStereo(obj);
-        public static SynthWishes AsChannels(this SynthWishes obj, int? value) => ConfigWishes.AsChannels(obj, value);
         public static SynthWishes SetMono(this SynthWishes obj) => ConfigWishes.SetMono(obj);
         public static SynthWishes SetStereo(this SynthWishes obj) => ConfigWishes.SetStereo(obj);
         public static SynthWishes SetChannels(this SynthWishes obj, int? value) => ConfigWishes.SetChannels(obj, value);
@@ -374,7 +373,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static SynthWishes WithChannels(SynthWishes obj, int? value) => SetChannels(obj, value);
         public static SynthWishes AsMono(SynthWishes obj) => SetChannels(obj, MonoChannels);
         public static SynthWishes AsStereo(SynthWishes obj) => SetChannels(obj, StereoChannels);
-        public static SynthWishes AsChannels(SynthWishes obj, int? value) => SetChannels(obj, value);
         public static SynthWishes SetMono(SynthWishes obj) => SetChannels(obj, MonoChannels);
         public static SynthWishes SetStereo(SynthWishes obj) => SetChannels(obj, StereoChannels);
         public static SynthWishes SetChannels(SynthWishes obj, int? value)
