@@ -23,9 +23,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     /// which require interplay between multiple accessors and
     /// otherwise repetitive explicit parameter type specifications.
     /// </summary>
-    internal class ConfigExtensionWishesAccessor : AccessorEx
+    internal class ConfigWishesHelperAccessor : AccessorEx
     {
-        public ConfigExtensionWishesAccessor(Type type) : base(type) { }
+        public ConfigWishesHelperAccessor(Type type) : base(type) { }
 
         // For ConfigResolver
         
@@ -116,12 +116,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
        
         // For ConfigSection
-                
-        //public ConfigSectionAccessor Call(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
-        //{
-        //    if (obj == null) throw new NullException(() => obj);
-        //    return new ConfigSectionAccessor(InvokeMethod(callerMemberName, obj.Obj));
-        //}
 
         public T Get<T>(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
@@ -159,7 +153,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     internal static class BitExtensionWishesAccessor
     {
         private static readonly Type _underlyingType = typeof(BitExtensionWishes);
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(_underlyingType);
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(_underlyingType);
         
         // With ConfigResolver
 
@@ -195,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class ChannelsExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(ChannelsExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(ChannelsExtensionWishes));
 
         // With ConfigResolver
 
@@ -226,7 +220,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class ChannelExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(ChannelExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(ChannelExtensionWishes));
         
         // With ConfigResolver
 
@@ -257,7 +251,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class SamplingRateExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(SamplingRateExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(SamplingRateExtensionWishes));
         
         // With ConfigResolver
         
@@ -275,7 +269,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class AudioFormatExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(AudioFormatExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(AudioFormatExtensionWishes));
 
         // With ConfigResolver
         
@@ -312,7 +306,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class InterpolationExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(InterpolationExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(InterpolationExtensionWishes));
 
         // With ConfigResolver
         
@@ -344,7 +338,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class CourtesyFrameExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(CourtesyFrameExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(CourtesyFrameExtensionWishes));
         
         // With ConfigResolver
         
@@ -365,7 +359,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class SizeOfBitDepthExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(SizeOfBitDepthExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(SizeOfBitDepthExtensionWishes));
         
         // With ConfigResolver
         
@@ -384,7 +378,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class FrameSizeExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(FrameSizeExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(FrameSizeExtensionWishes));
 
         internal static int FrameSize(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
         internal static int GetFrameSize(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
@@ -395,7 +389,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class CourtesyByteExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(CourtesyByteExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(CourtesyByteExtensionWishes));
 
         // With ConfigResolver
 
@@ -414,7 +408,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class FileExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(FileExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(FileExtensionWishes));
         
         // With ConfigResolver
         
@@ -434,7 +428,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class HeaderLengthExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(HeaderLengthExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(HeaderLengthExtensionWishes));
         
         // With ConfigResolver
         
@@ -453,7 +447,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
     internal static class MaxAmplitudeExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(MaxAmplitudeExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(MaxAmplitudeExtensionWishes));
         
         public static double  MaxAmplitude(this ConfigResolverAccessor obj) => _accessor.GetDouble(obj);
         public static double  GetMaxAmplitude(this ConfigResolverAccessor obj) => _accessor.GetDouble(obj);
@@ -466,7 +460,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     
     internal static class AudioLengthExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(AudioLengthExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(AudioLengthExtensionWishes));
         
         // With ConfigResolver
         
@@ -496,7 +490,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
     internal static class ByteCountExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(ByteCountExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(ByteCountExtensionWishes));
         
         // with ConfigResolver
         
@@ -520,7 +514,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
     internal static class FrameCountExtensionWishesAccessor
     {
-        private static readonly ConfigExtensionWishesAccessor _accessor = new ConfigExtensionWishesAccessor(typeof(FrameCountExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(FrameCountExtensionWishes));
 
         // With ConfigResolver
         
