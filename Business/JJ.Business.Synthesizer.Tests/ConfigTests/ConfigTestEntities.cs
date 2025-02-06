@@ -344,92 +344,139 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         /// <inheritdoc cref="docs._synthwishesderived" />
         public SynthWishesDerived(SynthWishes other) => _other = other;
         
+        // Primary Audio Properties
+        
         // Bits
         
-        public SynthWishes Bits_Call(int? bits)
-        {
-            _other.Bits(bits);
-            return Bits(bits);
-        }
+        public bool Is8Bit_Call  => Is8Bit;
+        public bool Is16Bit_Call => Is16Bit;
+        public bool Is32Bit_Call => Is32Bit;
+        public int  Bits_Call()  => Bits();
+        public int  GetBits_Call => GetBits;
 
-        public SynthWishes WithBits_Call(int? bits)
-        {
-            _other.WithBits(bits);
-            return WithBits(bits);
-        }
-        
-        public SynthWishes With8Bit_Call()
-        {
-            _other.With8Bit();
-            return With8Bit();
-        }
-        
-        public SynthWishes With16Bit_Call()
-        {
-            _other.With16Bit();
-            return With16Bit();
-        }
-        
-        public SynthWishes With32Bit_Call()
-        {
-            _other.With32Bit();
-            return With32Bit();
-        }
+        public SynthWishes With8Bit_Call ()          { _other.With8Bit ();     return With8Bit ();     }
+        public SynthWishes With16Bit_Call()          { _other.With16Bit();     return With16Bit();     }
+        public SynthWishes With32Bit_Call()          { _other.With32Bit();     return With32Bit();     }
+        public SynthWishes As8Bit_Call   ()          { _other.As8Bit   ();     return As8Bit   ();     }
+        public SynthWishes As16Bit_Call  ()          { _other.As16Bit  ();     return As16Bit  ();     }
+        public SynthWishes As32Bit_Call  ()          { _other.As32Bit  ();     return As32Bit  ();     }
+        public SynthWishes Set8Bit_Call  ()          { _other.Set8Bit  ();     return Set8Bit  ();     }
+        public SynthWishes Set16Bit_Call ()          { _other.Set16Bit ();     return Set16Bit ();     }
+        public SynthWishes Set32Bit_Call ()          { _other.Set32Bit ();     return Set32Bit ();     }
+        public SynthWishes Bits_Call     (int? bits) { _other.Bits     (bits); return Bits     (bits); }
+        public SynthWishes WithBits_Call (int? bits) { _other.WithBits (bits); return WithBits (bits); }
+        public SynthWishes AsBits_Call   (int? bits) { _other.AsBits   (bits); return AsBits   (bits); }
+        public SynthWishes SetBits_Call  (int? bits) { _other.SetBits  (bits); return SetBits  (bits); }
         
         // Channels
         
-        public SynthWishes Channels_Call(int? channels)
-        {
-            _other.Channels(channels);
-            return Channels(channels);
-        }
-        
-        public SynthWishes SetChannels_Call(int? channels)
-        {
-            _other.SetChannels(channels);
-            return SetChannels(channels);
-        }
-                
-        public SynthWishes WithChannels_Call(int? channels)
-        {
-            _other.WithChannels(channels);
-            return WithChannels(channels);
-        }
+        public int  NoChannels_Call     => NoChannels;
+        public int  MonoChannels_Call   => MonoChannels;
+        public int  StereoChannels_Call => StereoChannels;
+        public bool IsMono_Call         => IsMono;
+        public bool IsStereo_Call       => IsStereo;
+        public int  Channels_Call()     => Channels();
+        public int  GetChannels_Call    => GetChannels;
 
-        public SynthWishes Mono_Call()
-        {
-            _other.Mono();
-            return Mono();
-        }
-                
-        public SynthWishes Stereo_Call()
-        {
-            _other.Stereo();
-            return Stereo();
-        }
+        public   SynthWishes Mono_Call        ()              { _other.Mono        ();         return Mono();                 }
+        public   SynthWishes Stereo_Call      ()              { _other.Stereo      ();         return Stereo();               }
+        public   SynthWishes Channels_Call    (int? channels) { _other.Channels    (channels); return Channels(channels);     }
+        public   SynthWishes WithMono_Call    ()              { _other.WithMono    ();         return WithMono();             }
+        public   SynthWishes WithStereo_Call  ()              { _other.WithStereo  ();         return WithStereo();           }
+        public   SynthWishes WithChannels_Call(int? channels) { _other.WithChannels(channels); return WithChannels(channels); }
+        public   SynthWishes AsMono_Call      ()              { _other.AsMono      ();         return AsMono();               }
+        public   SynthWishes AsStereo_Call    ()              { _other.AsStereo    ();         return AsStereo();             }
+        //public SynthWishes AsChannels_Call  (int? channels) { _other.AsChannels  (channels); return AsChannels(channels);   } // By Design: does not fit semantically.
+        public   SynthWishes SetMono_Call     ()              { _other.SetMono     ();         return SetMono();              }
+        public   SynthWishes SetStereo_Call   ()              { _other.SetStereo   ();         return SetStereo();            }
+        public   SynthWishes SetChannels_Call (int? channels) { _other.SetChannels(channels);  return SetChannels(channels);  }
         
-        public SynthWishes SetMono_Call()
-        {
-            _other.SetMono();
-            return SetMono();
-        }
-                
-        public SynthWishes SetStereo_Call()
-        {
-            _other.SetStereo();
-            return SetStereo();
-        }
+        // Channel
         
-        public SynthWishes WithMono_Call()
-        {
-            _other.WithMono();
-            return WithMono();
-        }
+        public int  CenterChannel_Call => CenterChannel;
+        public int  LeftChannel_Call   => LeftChannel;
+        public int  RightChannel_Call  => RightChannel;
+        public int? AnyChannel_Call    => AnyChannel;
+        public int? EveryChannel_Call  => EveryChannel;
+        public int? ChannelEmpty_Call  => ChannelEmpty;
+        public bool IsCenter_Call      => IsCenter;
+        public bool IsLeft_Call        => IsLeft;
+        public bool IsRight_Call       => IsRight;
+        public int? Channel_Call()     => Channel();
+        public int? GetChannel_Call    => GetChannel;
+        
+        public SynthWishes Center_Call       ()             { _other.Center       ()       ; return Center       ()       ;}
+        public SynthWishes WithCenter_Call   ()             { _other.WithCenter   ()       ; return WithCenter   ()       ;}
+        public SynthWishes AsCenter_Call     ()             { _other.AsCenter     ()       ; return AsCenter     ()       ;}
+        public SynthWishes Left_Call         ()             { _other.Left         ()       ; return Left         ()       ;}
+        public SynthWishes WithLeft_Call     ()             { _other.WithLeft     ()       ; return WithLeft     ()       ;}
+        public SynthWishes AsLeft_Call       ()             { _other.AsLeft       ()       ; return AsLeft       ()       ;}
+        public SynthWishes Right_Call        ()             { _other.Right        ()       ; return Right        ()       ;}
+        public SynthWishes WithRight_Call    ()             { _other.WithRight    ()       ; return WithRight    ()       ;}
+        public SynthWishes AsRight_Call      ()             { _other.AsRight      ()       ; return AsRight      ()       ;}
+        public SynthWishes NoChannel_Call    ()             { _other.NoChannel    ()       ; return NoChannel    ()       ;}
+        public SynthWishes WithNoChannel_Call()             { _other.WithNoChannel()       ; return WithNoChannel()       ;}
+        public SynthWishes AsNoChannel_Call  ()             { _other.AsNoChannel  ()       ; return AsNoChannel  ()       ;}
+        public SynthWishes Channel_Call      (int? channel) { _other.Channel      (channel); return Channel      (channel);}
+        public SynthWishes WithChannel_Call  (int? channel) { _other.WithChannel  (channel); return WithChannel  (channel);}
+        public SynthWishes AsChannel_Call    (int? channel) { _other.AsChannel    (channel); return AsChannel    (channel);}
+        public SynthWishes SetCenter_Call    ()             { _other.SetCenter    ()       ; return SetCenter    ()       ;}
+        public SynthWishes SetLeft_Call      ()             { _other.SetLeft      ()       ; return SetLeft      ()       ;}
+        public SynthWishes SetRight_Call     ()             { _other.SetRight     ()       ; return SetRight     ()       ;}
+        public SynthWishes SetNoChannel_Call ()             { _other.SetNoChannel ()       ; return SetNoChannel ()       ;}
+        public SynthWishes SetChannel_Call   (int? channel) { _other.SetChannel   (channel); return SetChannel   (channel);}
+        
+        // SamplingRate
+     
+        /// <inheritdoc cref="docs._getsamplingrate" />
+        public int         SamplingRate_Call    ()           => SamplingRate    ();
+        /// <inheritdoc cref="docs._getsamplingrate" />
+        public int         GetSamplingRate_Call              => GetSamplingRate;
+        /// <inheritdoc cref="docs._withsamplingrate"/>
+        public SynthWishes SamplingRate_Call    (int? value) => SamplingRate    (value);
+        /// <inheritdoc cref="docs._withsamplingrate"/>
+        public SynthWishes WithSamplingRate_Call(int? value) => WithSamplingRate(value);
+        /// <inheritdoc cref="docs._withsamplingrate"/>
+        public SynthWishes SetSamplingRate_Call (int? value) => SetSamplingRate (value);
 
-        public SynthWishes WithStereo_Call()
-        {
-            _other.WithStereo();
-            return WithStereo();
-        }
+        // AudioFormat
+        
+        public bool                IsWav_Call          => IsWav;
+        public bool                IsRaw_Call          => IsRaw;
+        public AudioFileFormatEnum AudioFormat_Call()  => AudioFormat();
+        public AudioFileFormatEnum GetAudioFormat_Call => GetAudioFormat;
+        
+        public SynthWishes  WithWav_Call        () => WithWav();
+        public SynthWishes  AsWav_Call          () => AsWav();
+        public SynthWishes  SetWav_Call         () => SetWav();
+        public SynthWishes  WithRaw_Call        () => WithRaw();
+        public SynthWishes  AsRaw_Call          () => AsRaw();
+        public SynthWishes  SetRaw_Call         () => SetRaw();
+        public SynthWishes  AudioFormat_Call    (AudioFileFormatEnum? audioFormat) => AudioFormat(audioFormat);
+        public SynthWishes  WithAudioFormat_Call(AudioFileFormatEnum? audioFormat) => WithAudioFormat(audioFormat); 
+        public SynthWishes  AsAudioFormat_Call  (AudioFileFormatEnum? audioFormat) => AsAudioFormat(audioFormat);
+        public SynthWishes  SetAudioFormat_Call (AudioFileFormatEnum? audioFormat) => SetAudioFormat(audioFormat);
+
+        // Interpolation
+        
+        public bool                  IsLinear_Call         => IsLinear;
+        public bool                  IsBlocky_Call         => IsBlocky;
+        public InterpolationTypeEnum Interpolation_Call()  => Interpolation();
+        public InterpolationTypeEnum GetInterpolation_Call => GetInterpolation;
+        
+        public SynthWishes Linear_Call           () => Linear();
+        public SynthWishes Blocky_Call           () => Blocky();
+        public SynthWishes WithLinear_Call       () => WithLinear();
+        public SynthWishes WithBlocky_Call       () => WithBlocky();
+        public SynthWishes AsLinear_Call         () => AsLinear();
+        public SynthWishes AsBlocky_Call         () => AsBlocky();
+        public SynthWishes SetLinear_Call        () => SetLinear();
+        public SynthWishes SetBlocky_Call        () => SetBlocky();
+        public SynthWishes Interpolation_Call    (InterpolationTypeEnum? interpolation) => Interpolation(interpolation);
+        public SynthWishes WithInterpolation_Call(InterpolationTypeEnum? interpolation) => WithInterpolation(interpolation); 
+        public SynthWishes AsInterpolation_Call  (InterpolationTypeEnum? interpolation) => AsInterpolation(interpolation);
+        public SynthWishes SetInterpolation_Call (InterpolationTypeEnum? interpolation) => SetInterpolation(interpolation);
+
+        // Durations
     }
 }
