@@ -609,11 +609,54 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.AudioFormat(value, x.SynthBound.Context)));
-                
-                AssertProp(() => {
-                    if (value == Raw) AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsRaw(x.SynthBound.Context));
-                    if (value == Wav) AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsWav(x.SynthBound.Context)); });
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.AudioFormat    (value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithAudioFormat(value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsAudioFormat  (value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.FromAudioFormat(value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.ToAudioFormat  (value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetAudioFormat (value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => AudioFormat    (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => WithAudioFormat(x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => AsAudioFormat  (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => FromAudioFormat(x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ToAudioFormat  (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => SetAudioFormat (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.AudioFormat    (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.WithAudioFormat(x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.AsAudioFormat  (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.FromAudioFormat(x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.ToAudioFormat  (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SetAudioFormat (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithRaw(x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithWav(x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsRaw  (x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsWav  (x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => x.Independent.Sample.FromRaw(x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => x.Independent.Sample.FromWav(x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => x.Independent.Sample.ToRaw  (x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => x.Independent.Sample.ToWav  (x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetRaw (x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetWav (x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => WithRaw(x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => WithWav(x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => AsRaw  (x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => AsWav  (x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => FromRaw(x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => FromWav(x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => ToRaw  (x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => ToWav  (x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => SetRaw (x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => SetWav (x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => ConfigWishes.WithRaw(x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => ConfigWishes.WithWav(x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => ConfigWishes.AsRaw  (x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => ConfigWishes.AsWav  (x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => ConfigWishes.FromRaw(x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => ConfigWishes.FromWav(x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => ConfigWishes.ToRaw  (x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => ConfigWishes.ToWav  (x.Independent.Sample, x.SynthBound.Context)); });
+                AssertProp(() => { if (value == Raw) AreEqual(x.Independent.Sample, () => ConfigWishes.SetRaw (x.Independent.Sample, x.SynthBound.Context));
+                                   if (value == Wav) AreEqual(x.Independent.Sample, () => ConfigWishes.SetWav (x.Independent.Sample, x.SynthBound.Context)); });
             }
         }
         
