@@ -112,7 +112,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetAudioFormat (x.SynthBound.SynthWishes   , value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetAudioFormat (x.SynthBound.FlowNode      , value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetAudioFormat (x.SynthBound.ConfigResolver, value)));
-            
             AssertProp(x => { if (value == Raw) AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .WithRaw());
                               if (value == Wav) AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .WithWav()); 
                               if (!Has(value))  AreEqual(x.SynthBound.SynthWishes,          x.SynthBound.SynthWishes   .WithAudioFormat(value)); });
@@ -347,7 +346,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetAudioFormat (x.TapeBound.TapeConfig , value)));
             AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetAudioFormat (x.TapeBound.TapeActions, value)));
             AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetAudioFormat (x.TapeBound.TapeAction , value)));
-            
             AssertProp(x => { if (value == Raw) AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithRaw());
                               if (value == Wav) AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithWav()); });
             AssertProp(x => { if (value == Raw) AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithRaw());
@@ -494,16 +492,93 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init);
             }
 
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.AudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .AudioFormat(value, x.SynthBound.Context)));
             AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AudioFormat(value, x.SynthBound.Context)));
-            
-            AssertProp(x => {
-                if (value == Raw) AreEqual(x.BuffBound.Buff,  () => x.BuffBound.Buff.AsRaw(x.SynthBound.Context));
-                if (value == Wav) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.AsWav(x.SynthBound.Context)); });
-            
-            AssertProp(x => {
-                if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput,  () => x.BuffBound.AudioFileOutput.AsRaw(x.SynthBound.Context));
-                if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AsWav(x.SynthBound.Context)); });
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .WithAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .AsAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AsAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .FromAudioFormat(value, x.SynthBound.Context))); // By Design: AudioFileOutput has no From prefix.
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .ToAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.ToAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetAudioFormat(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => AudioFormat    (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => AudioFormat    (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => WithAudioFormat(x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => WithAudioFormat(x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => AsAudioFormat  (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => AsAudioFormat  (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => FromAudioFormat(x.BuffBound.Buff,            value, x.SynthBound.Context))); // By Design: AudioFileOutput has no From prefix.
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ToAudioFormat  (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ToAudioFormat  (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => SetAudioFormat (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => SetAudioFormat (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.AudioFormat    (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.AudioFormat    (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.WithAudioFormat(x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.WithAudioFormat(x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.AsAudioFormat  (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.AsAudioFormat  (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.FromAudioFormat(x.BuffBound.Buff,            value, x.SynthBound.Context))); // By Design: AudioFileOutput has no From prefix.
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.ToAudioFormat  (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.ToAudioFormat  (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SetAudioFormat (x.BuffBound.Buff,            value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SetAudioFormat (x.BuffBound.AudioFileOutput, value, x.SynthBound.Context)));
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .WithRaw(x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .WithWav(x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithRaw(x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithWav(x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .AsRaw  (x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .AsWav  (x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AsRaw  (x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AsWav  (x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .FromRaw(x.SynthBound.Context));     // By Design: AudioFileOutput has no From prefix.
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .FromWav(x.SynthBound.Context)); }); // By Design: AudioFileOutput has no From prefix.
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .ToRaw  (x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .ToWav  (x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.ToRaw  (x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.ToWav  (x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetRaw (x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetWav (x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetRaw (x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetWav (x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => WithRaw(x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => WithWav(x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => WithRaw(x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => WithWav(x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => AsRaw  (x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => AsWav  (x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => AsRaw  (x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => AsWav  (x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => FromRaw(x.BuffBound.Buff           , x.SynthBound.Context));     // By Design: AudioFileOutput has no From prefix.
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => FromWav(x.BuffBound.Buff           , x.SynthBound.Context)); }); // By Design: AudioFileOutput has no From prefix.
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => ToRaw  (x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => ToWav  (x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => ToRaw  (x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => ToWav  (x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => SetRaw (x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => SetWav (x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => SetRaw (x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => SetWav (x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.WithRaw(x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.WithWav(x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.WithRaw(x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.WithWav(x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.AsRaw  (x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.AsWav  (x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.AsRaw  (x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.AsWav  (x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.FromRaw(x.BuffBound.Buff           , x.SynthBound.Context));     // By Design: AudioFileOutput has no From prefix.
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.FromWav(x.BuffBound.Buff           , x.SynthBound.Context)); }); // By Design: AudioFileOutput has no From prefix.
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.ToRaw  (x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.ToWav  (x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.ToRaw  (x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.ToWav  (x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SetRaw (x.BuffBound.Buff           , x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SetWav (x.BuffBound.Buff           , x.SynthBound.Context)); });
+            AssertProp(x => { if (value == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SetRaw (x.BuffBound.AudioFileOutput, x.SynthBound.Context));
+                              if (value == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SetWav (x.BuffBound.AudioFileOutput, x.SynthBound.Context)); });
         }
 
         [TestMethod]
