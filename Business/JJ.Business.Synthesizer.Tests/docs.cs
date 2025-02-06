@@ -11,6 +11,9 @@ namespace JJ.Business.Synthesizer.Tests
 {
     public struct docs
     {
+        /// <inheritdoc cref="wishdocs._audiolength" />
+        public struct _audiolength { }
+            
         /// <summary>
         /// Can function as a single collection, but also as a collection of collections, <br/>
         /// and a helper for using structured test Cases. <br/>
@@ -278,7 +281,7 @@ namespace JJ.Business.Synthesizer.Tests
         public struct _default { }
 
         /// <inheritdoc
-        ///     cref="wishdocs._samplingrate" />
+        ///     cref="_samplingrate" />
         public struct _samplingrate { }
 
         /// <inheritdoc
