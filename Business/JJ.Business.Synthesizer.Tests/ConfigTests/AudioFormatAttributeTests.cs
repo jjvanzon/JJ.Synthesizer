@@ -668,8 +668,53 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var value = (AudioFileFormatEnum)intAsValue;
             var x = CreateTestEntities(init);
 
-            // AudioFileFormatEnum
+            // FileExtension
             
+            var fileExtensions = new List<string>();
+            {
+                void AssertProp(Func<string> setter)
+                {
+                    Assert_Immutable_Getters(x.Immutable.AudioFormatEntity, init);
+
+                    string fileExtension2 = setter();
+                    
+                    Assert_Immutable_Getters(x.Immutable.FileExtension, init);
+                    Assert_Immutable_Getters(fileExtension2, value);
+                    
+                    fileExtensions.Add(fileExtension2);
+                }
+                
+                AssertProp(() => x.Immutable.FileExtension.AudioFormat    (value));
+                AssertProp(() => x.Immutable.FileExtension.WithAudioFormat(value));
+                AssertProp(() => x.Immutable.FileExtension.AsAudioFormat  (value));
+                AssertProp(() => x.Immutable.FileExtension.ToAudioFormat  (value));
+                AssertProp(() => x.Immutable.FileExtension.SetAudioFormat (value));
+                AssertProp(() => AudioFormat    (x.Immutable.FileExtension, value));
+                AssertProp(() => WithAudioFormat(x.Immutable.FileExtension, value));
+                AssertProp(() => AsAudioFormat  (x.Immutable.FileExtension, value));
+                AssertProp(() => ToAudioFormat  (x.Immutable.FileExtension, value));
+                AssertProp(() => SetAudioFormat (x.Immutable.FileExtension, value));
+                AssertProp(() => ConfigWishes.AudioFormat    (x.Immutable.FileExtension, value));
+                AssertProp(() => ConfigWishes.WithAudioFormat(x.Immutable.FileExtension, value));
+                AssertProp(() => ConfigWishes.AsAudioFormat  (x.Immutable.FileExtension, value));
+                AssertProp(() => ConfigWishes.ToAudioFormat  (x.Immutable.FileExtension, value));
+                AssertProp(() => ConfigWishes.SetAudioFormat (x.Immutable.FileExtension, value));
+                AssertProp(() => value == Wav ? x.Immutable.FileExtension.WithWav() : x.Immutable.FileExtension.WithRaw());
+                AssertProp(() => value == Wav ? x.Immutable.FileExtension.AsWav  () : x.Immutable.FileExtension.AsRaw  ());
+                AssertProp(() => value == Wav ? x.Immutable.FileExtension.ToWav  () : x.Immutable.FileExtension.ToRaw  ());
+                AssertProp(() => value == Wav ? x.Immutable.FileExtension.SetWav () : x.Immutable.FileExtension.SetRaw  ());
+                AssertProp(() => value == Wav ? WithWav(x.Immutable.FileExtension) : WithRaw(x.Immutable.FileExtension));
+                AssertProp(() => value == Wav ? AsWav  (x.Immutable.FileExtension) : AsRaw  (x.Immutable.FileExtension));
+                AssertProp(() => value == Wav ? ToWav  (x.Immutable.FileExtension) : ToRaw  (x.Immutable.FileExtension));
+                AssertProp(() => value == Wav ? SetWav (x.Immutable.FileExtension) : SetRaw (x.Immutable.FileExtension));
+                AssertProp(() => value == Wav ? ConfigWishes.WithWav(x.Immutable.FileExtension) : ConfigWishes.WithRaw(x.Immutable.FileExtension));
+                AssertProp(() => value == Wav ? ConfigWishes.AsWav  (x.Immutable.FileExtension) : ConfigWishes.AsRaw  (x.Immutable.FileExtension));
+                AssertProp(() => value == Wav ? ConfigWishes.ToWav  (x.Immutable.FileExtension) : ConfigWishes.ToRaw  (x.Immutable.FileExtension));
+                AssertProp(() => value == Wav ? ConfigWishes.SetWav (x.Immutable.FileExtension) : ConfigWishes.SetRaw (x.Immutable.FileExtension));
+            }
+
+            // AudioFileFormatEnum
+
             var audioFormats = new List<AudioFileFormatEnum>();
             {
                 void AssertProp(Func<AudioFileFormatEnum> setter)
@@ -684,9 +729,33 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     audioFormats.Add(audioFormat2);
                 }
 
-                AssertProp(() => x.Immutable.AudioFormat.AudioFormat(value));
-                AssertProp(() => value.AudioFormat());
-                AssertProp(() => value == Raw ? x.Immutable.AudioFormat.AsRaw() : x.Immutable.AudioFormat.AsWav());
+                AssertProp(() => x.Immutable.AudioFormat.AudioFormat    (value));
+                AssertProp(() => x.Immutable.AudioFormat.WithAudioFormat(value));
+                AssertProp(() => x.Immutable.AudioFormat.AsAudioFormat  (value));
+                AssertProp(() => x.Immutable.AudioFormat.ToAudioFormat  (value));
+                AssertProp(() => x.Immutable.AudioFormat.SetAudioFormat (value));
+                AssertProp(() => AudioFormat    (x.Immutable.AudioFormat, value));
+                AssertProp(() => WithAudioFormat(x.Immutable.AudioFormat, value));
+                AssertProp(() => AsAudioFormat  (x.Immutable.AudioFormat, value));
+                AssertProp(() => ToAudioFormat  (x.Immutable.AudioFormat, value));
+                AssertProp(() => SetAudioFormat (x.Immutable.AudioFormat, value));
+                AssertProp(() => ConfigWishes.AudioFormat    (x.Immutable.AudioFormat, value));
+                AssertProp(() => ConfigWishes.WithAudioFormat(x.Immutable.AudioFormat, value));
+                AssertProp(() => ConfigWishes.AsAudioFormat  (x.Immutable.AudioFormat, value));
+                AssertProp(() => ConfigWishes.ToAudioFormat  (x.Immutable.AudioFormat, value));
+                AssertProp(() => ConfigWishes.SetAudioFormat (x.Immutable.AudioFormat, value));
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormat.WithWav() : x.Immutable.AudioFormat.WithRaw());
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormat.AsWav  () : x.Immutable.AudioFormat.AsRaw  ());
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormat.ToWav  () : x.Immutable.AudioFormat.ToRaw  ());
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormat.SetWav () : x.Immutable.AudioFormat.SetRaw  ());
+                AssertProp(() => value == Wav ? WithWav(x.Immutable.AudioFormat) : WithRaw(x.Immutable.AudioFormat));
+                AssertProp(() => value == Wav ? AsWav  (x.Immutable.AudioFormat) : AsRaw  (x.Immutable.AudioFormat));
+                AssertProp(() => value == Wav ? ToWav  (x.Immutable.AudioFormat) : ToRaw  (x.Immutable.AudioFormat));
+                AssertProp(() => value == Wav ? SetWav (x.Immutable.AudioFormat) : SetRaw (x.Immutable.AudioFormat));
+                AssertProp(() => value == Wav ? ConfigWishes.WithWav(x.Immutable.AudioFormat) : ConfigWishes.WithRaw(x.Immutable.AudioFormat));
+                AssertProp(() => value == Wav ? ConfigWishes.AsWav  (x.Immutable.AudioFormat) : ConfigWishes.AsRaw  (x.Immutable.AudioFormat));
+                AssertProp(() => value == Wav ? ConfigWishes.ToWav  (x.Immutable.AudioFormat) : ConfigWishes.ToRaw  (x.Immutable.AudioFormat));
+                AssertProp(() => value == Wav ? ConfigWishes.SetWav (x.Immutable.AudioFormat) : ConfigWishes.SetRaw (x.Immutable.AudioFormat));
             }
 
             // AudioFormat Entity
@@ -705,29 +774,52 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     audioFormatEntities.Add(audioFormatEntity2);
                 }
                 
-                AssertProp(() => x.Immutable.AudioFormatEntity.AudioFormat(value, x.SynthBound.Context));
-                AssertProp(() => value.ToEntity(x.SynthBound.Context));
-                AssertProp(() => value == Raw ? x.Immutable.AudioFormatEntity.AsRaw(x.SynthBound.Context) : x.Immutable.AudioFormatEntity.AsWav(x.SynthBound.Context));
-            }
-            
-            // FileExtension
-            
-            var fileExtensions = new List<string>();
-            {
-                void AssertProp(Func<string> setter)
-                {
-                    Assert_Immutable_Getters(x.Immutable.AudioFormatEntity, init);
-
-                    string fileExtension2 = setter();
-                    
-                    Assert_Immutable_Getters(x.Immutable.FileExtension, init);
-                    Assert_Immutable_Getters(fileExtension2, value);
-                    
-                    fileExtensions.Add(fileExtension2);
-                }
+                AssertProp(() => value.AsEntity               (x.SynthBound.Context));
+                AssertProp(() => value.ToEntity               (x.SynthBound.Context));
+                AssertProp(() => value.GetEntity              (x.SynthBound.Context));
+                AssertProp(() => value.EnumToEntity           (x.SynthBound.Context));
+                AssertProp(() => value.AudioFormatToEntity    (x.SynthBound.Context));
+                AssertProp(() => value.AudioFormatEnumToEntity(x.SynthBound.Context));
+                AssertProp(() => AsEntity               (value, x.SynthBound.Context));
+                AssertProp(() => ToEntity               (value, x.SynthBound.Context));
+                AssertProp(() => GetEntity              (value, x.SynthBound.Context));
+                AssertProp(() => EnumToEntity           (value, x.SynthBound.Context));
+                AssertProp(() => AudioFormatToEntity    (value, x.SynthBound.Context));
+                AssertProp(() => AudioFormatEnumToEntity(value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.AsEntity               (value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.ToEntity               (value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.GetEntity              (value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.EnumToEntity           (value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.AudioFormatToEntity    (value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.AudioFormatEnumToEntity(value, x.SynthBound.Context));
                 
-                AssertProp(() => x.Immutable.FileExtension.AudioFormat(value));
-                AssertProp(() => value == Raw ? x.Immutable.FileExtension.AsRaw() : x.Immutable.FileExtension.AsWav());
+                AssertProp(() => x.Immutable.AudioFormatEntity.AudioFormat    (value, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.WithAudioFormat(value, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.AsAudioFormat  (value, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.ToAudioFormat  (value, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.SetAudioFormat (value, x.SynthBound.Context));
+                AssertProp(() => AudioFormat    (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => WithAudioFormat(x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => AsAudioFormat  (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => ToAudioFormat  (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => SetAudioFormat (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.AudioFormat    (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.WithAudioFormat(x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.AsAudioFormat  (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.ToAudioFormat  (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.SetAudioFormat (x.Immutable.AudioFormatEntity, value, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormatEntity.WithWav(x.SynthBound.Context) : x.Immutable.AudioFormatEntity.WithRaw(x.SynthBound.Context));
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormatEntity.AsWav  (x.SynthBound.Context) : x.Immutable.AudioFormatEntity.AsRaw  (x.SynthBound.Context));
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormatEntity.ToWav  (x.SynthBound.Context) : x.Immutable.AudioFormatEntity.ToRaw  (x.SynthBound.Context));
+                AssertProp(() => value == Wav ? x.Immutable.AudioFormatEntity.SetWav (x.SynthBound.Context) : x.Immutable.AudioFormatEntity.SetRaw (x.SynthBound.Context));
+                AssertProp(() => value == Wav ? WithWav(x.Immutable.AudioFormatEntity, x.SynthBound.Context) : WithRaw(x.Immutable.AudioFormatEntity, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? AsWav  (x.Immutable.AudioFormatEntity, x.SynthBound.Context) : AsRaw  (x.Immutable.AudioFormatEntity, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? ToWav  (x.Immutable.AudioFormatEntity, x.SynthBound.Context) : ToRaw  (x.Immutable.AudioFormatEntity, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? SetWav (x.Immutable.AudioFormatEntity, x.SynthBound.Context) : SetRaw (x.Immutable.AudioFormatEntity, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? ConfigWishes.WithWav(x.Immutable.AudioFormatEntity, x.SynthBound.Context) : ConfigWishes.WithRaw(x.Immutable.AudioFormatEntity, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? ConfigWishes.AsWav  (x.Immutable.AudioFormatEntity, x.SynthBound.Context) : ConfigWishes.AsRaw  (x.Immutable.AudioFormatEntity, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? ConfigWishes.ToWav  (x.Immutable.AudioFormatEntity, x.SynthBound.Context) : ConfigWishes.ToRaw  (x.Immutable.AudioFormatEntity, x.SynthBound.Context));
+                AssertProp(() => value == Wav ? ConfigWishes.SetWav (x.Immutable.AudioFormatEntity, x.SynthBound.Context) : ConfigWishes.SetRaw (x.Immutable.AudioFormatEntity, x.SynthBound.Context));
             }
 
             // After-Record
@@ -748,20 +840,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var x = CreateTestEntities(default);
             var configSection = x.SynthBound.ConfigSection;
             
-            // Extension Method Syntax
             AreEqual(DefaultAudioFormat == Raw, () => configSection.IsRaw());
             AreEqual(DefaultAudioFormat == Wav, () => configSection.IsWav());
             AreEqual(DefaultAudioFormat,        () => configSection.AudioFormat);
             AreEqual(DefaultAudioFormat,        () => configSection.AudioFormat());
             AreEqual(DefaultAudioFormat,        () => configSection.GetAudioFormat());
-
-            // Using Static Syntax
             AreEqual(DefaultAudioFormat == Raw, () => IsRaw(configSection));
             AreEqual(DefaultAudioFormat == Wav, () => IsWav(configSection));
             AreEqual(DefaultAudioFormat,        () => AudioFormat(configSection));
             AreEqual(DefaultAudioFormat,        () => GetAudioFormat(configSection));
-
-            // Static Syntax
             AreEqual(DefaultAudioFormat == Raw, () => ConfigWishesAccessor.IsRaw(configSection));
             AreEqual(DefaultAudioFormat == Wav, () => ConfigWishesAccessor.IsWav(configSection));
             AreEqual(DefaultAudioFormat,        () => ConfigWishesAccessor.AudioFormat(configSection));
@@ -799,7 +886,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, AudioFileFormatEnum audioFormat)
         {
-            // Property Syntax
             AreEqual(audioFormat == Wav, () => x.SynthBound.SynthWishes.IsWav);
             AreEqual(audioFormat == Wav, () => x.SynthBound.FlowNode.IsWav);
             AreEqual(audioFormat == Raw, () => x.SynthBound.SynthWishes.IsRaw);
@@ -807,8 +893,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => x.SynthBound.SynthWishes.GetAudioFormat);
             AreEqual(audioFormat,        () => x.SynthBound.FlowNode.GetAudioFormat);
             AreEqual(audioFormat,        () => x.SynthBound.ConfigResolver.GetAudioFormat);
-            
-            // Extension Method Syntax
             AreEqual(audioFormat == Wav, () => x.SynthBound.SynthWishes.IsWav());
             AreEqual(audioFormat == Wav, () => x.SynthBound.FlowNode.IsWav());
             AreEqual(audioFormat == Wav, () => x.SynthBound.ConfigResolver.IsWav);
@@ -823,8 +907,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => x.SynthBound.SynthWishes.GetAudioFormat());
             AreEqual(audioFormat,        () => x.SynthBound.FlowNode.GetAudioFormat());
             AreEqual(audioFormat,        () => x.SynthBound.ConfigResolver.GetAudioFormat());
-
-            // Using Static Syntax
             AreEqual(audioFormat == Wav, () => IsWav(x.SynthBound.SynthWishes));
             AreEqual(audioFormat == Wav, () => IsWav(x.SynthBound.FlowNode));
             AreEqual(audioFormat == Wav, () => IsWav(x.SynthBound.ConfigResolver));
@@ -837,8 +919,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => GetAudioFormat(x.SynthBound.SynthWishes));
             AreEqual(audioFormat,        () => GetAudioFormat(x.SynthBound.FlowNode));
             AreEqual(audioFormat,        () => GetAudioFormat(x.SynthBound.ConfigResolver));
-
-            // Static Syntax
             AreEqual(audioFormat == Wav, () => ConfigWishes        .IsWav(x.SynthBound.SynthWishes));
             AreEqual(audioFormat == Wav, () => ConfigWishes        .IsWav(x.SynthBound.FlowNode));
             AreEqual(audioFormat == Wav, () => ConfigWishesAccessor.IsWav(x.SynthBound.ConfigResolver));
@@ -855,10 +935,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_TapeBound_Getters(ConfigTestEntities x, AudioFileFormatEnum audioFormat)
         {
-            // Property Syntax
-            AreEqual(audioFormat, () => x.TapeBound.TapeConfig.AudioFormat);
-
-            // Extension Method Syntax
+            AreEqual(audioFormat,        () => x.TapeBound.TapeConfig.AudioFormat);
             AreEqual(audioFormat == Wav, () => x.TapeBound.Tape.IsWav());
             AreEqual(audioFormat == Wav, () => x.TapeBound.TapeConfig.IsWav());
             AreEqual(audioFormat == Wav, () => x.TapeBound.TapeActions.IsWav());
@@ -875,8 +952,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => x.TapeBound.TapeConfig.GetAudioFormat());
             AreEqual(audioFormat,        () => x.TapeBound.TapeActions.GetAudioFormat());
             AreEqual(audioFormat,        () => x.TapeBound.TapeAction.GetAudioFormat());
-            
-            // Using Static Syntax
             AreEqual(audioFormat == Wav, () => IsWav(x.TapeBound.Tape));
             AreEqual(audioFormat == Wav, () => IsWav(x.TapeBound.TapeConfig));
             AreEqual(audioFormat == Wav, () => IsWav(x.TapeBound.TapeActions));
@@ -893,8 +968,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => GetAudioFormat(x.TapeBound.TapeConfig));
             AreEqual(audioFormat,        () => GetAudioFormat(x.TapeBound.TapeActions));
             AreEqual(audioFormat,        () => GetAudioFormat(x.TapeBound.TapeAction));
-            
-            // Static Syntax
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(x.TapeBound.Tape));
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(x.TapeBound.TapeConfig));
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(x.TapeBound.TapeActions));
@@ -915,7 +988,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
         private void Assert_BuffBound_Getters(ConfigTestEntities x, AudioFileFormatEnum audioFormat)
         {
-            // Extension Method Syntax
             AreEqual(audioFormat == Wav, () => x.BuffBound.Buff.IsWav());
             AreEqual(audioFormat == Wav, () => x.BuffBound.AudioFileOutput.IsWav());
             AreEqual(audioFormat == Raw, () => x.BuffBound.Buff.IsRaw());
@@ -924,8 +996,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => x.BuffBound.AudioFileOutput.AudioFormat());
             AreEqual(audioFormat,        () => x.BuffBound.Buff.GetAudioFormat());
             AreEqual(audioFormat,        () => x.BuffBound.AudioFileOutput.GetAudioFormat());
-            
-            // Using Static Syntax
             AreEqual(audioFormat == Wav, () => IsWav(x.BuffBound.Buff));
             AreEqual(audioFormat == Wav, () => IsWav(x.BuffBound.AudioFileOutput));
             AreEqual(audioFormat == Raw, () => IsRaw(x.BuffBound.Buff));
@@ -934,9 +1004,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => AudioFormat(x.BuffBound.AudioFileOutput));
             AreEqual(audioFormat,        () => AudioFormat(x.BuffBound.Buff));
             AreEqual(audioFormat,        () => AudioFormat(x.BuffBound.AudioFileOutput));
-            
-            // Static Syntax
-            
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(x.BuffBound.Buff));
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(x.BuffBound.AudioFileOutput));
             AreEqual(audioFormat == Raw, () => ConfigWishes.IsRaw(x.BuffBound.Buff));
@@ -949,19 +1016,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Independent_Getters(Sample sample, AudioFileFormatEnum audioFormat)
         {
-            // Extension Method Syntax
             AreEqual(audioFormat == Wav, () => sample.IsWav());
             AreEqual(audioFormat == Raw, () => sample.IsRaw());
             AreEqual(audioFormat,        () => sample.AudioFormat());
             AreEqual(audioFormat,        () => sample.GetAudioFormat());
-            
-            // Using Static Syntax
             AreEqual(audioFormat == Wav, () => IsWav(sample));
             AreEqual(audioFormat == Raw, () => IsRaw(sample));
             AreEqual(audioFormat,        () => AudioFormat(sample));
             AreEqual(audioFormat,        () => GetAudioFormat(sample));
-            
-            // Static Syntax
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(sample));
             AreEqual(audioFormat == Raw, () => ConfigWishes.IsRaw(sample));
             AreEqual(audioFormat,        () => ConfigWishes.AudioFormat(sample));
@@ -974,17 +1036,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 NotEqual(default, () => wavHeader);
                 
-                // Extension Method Syntax 
                 IsTrue(               () => wavHeader.IsWav());
                 AreEqual(audioFormat, () => wavHeader.AudioFormat());
                 AreEqual(audioFormat, () => wavHeader.GetAudioFormat());
-
-                // Using Static Syntax
                 IsTrue(               () => IsWav(wavHeader));
                 AreEqual(audioFormat, () => AudioFormat(wavHeader));
                 AreEqual(audioFormat, () => GetAudioFormat(wavHeader));
-                
-                // Static Syntax
                 IsTrue(               () => ConfigWishes.IsWav(wavHeader));
                 AreEqual(audioFormat, () => ConfigWishes.AudioFormat(wavHeader));
                 AreEqual(audioFormat, () => ConfigWishes.GetAudioFormat(wavHeader));
@@ -993,17 +1050,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 AreEqual(default, () => wavHeader);
                 
-                // Extension Method Syntax
                 IsFalse(              () => wavHeader.IsRaw());
                 NotEqual(audioFormat, () => wavHeader.AudioFormat());
                 NotEqual(audioFormat, () => wavHeader.GetAudioFormat());
-
-                // Using Static Syntax
                 IsFalse(              () => IsRaw(wavHeader));
                 NotEqual(audioFormat, () => AudioFormat(wavHeader));
                 NotEqual(audioFormat, () => GetAudioFormat(wavHeader));
-                
-                // Static Syntax
                 IsFalse(              () => ConfigWishes.IsRaw(wavHeader));
                 NotEqual(audioFormat, () => ConfigWishes.AudioFormat(wavHeader));
                 NotEqual(audioFormat, () => ConfigWishes.GetAudioFormat(wavHeader));
@@ -1012,23 +1064,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                  
         private void Assert_Immutable_Getters(string fileExtension, AudioFileFormatEnum audioFormat)
         {
-            // Extension Method Syntax
             AreEqual(audioFormat == Wav, () => fileExtension.IsWav());
             AreEqual(audioFormat == Raw, () => fileExtension.IsRaw());
             AreEqual(audioFormat,        () => fileExtension.AudioFormat());
             AreEqual(audioFormat,        () => fileExtension.AsAudioFormat());
             AreEqual(audioFormat,        () => fileExtension.ToAudioFormat());
             AreEqual(audioFormat,        () => fileExtension.GetAudioFormat());
-
-            // Using Static Syntax
             AreEqual(audioFormat == Wav, () => IsWav(fileExtension));
             AreEqual(audioFormat == Raw, () => IsRaw(fileExtension));
             AreEqual(audioFormat,        () => AudioFormat(fileExtension));
             AreEqual(audioFormat,        () => AsAudioFormat(fileExtension));
             AreEqual(audioFormat,        () => ToAudioFormat(fileExtension));
             AreEqual(audioFormat,        () => GetAudioFormat(fileExtension));
-
-            // Static Syntax
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(fileExtension));
             AreEqual(audioFormat == Raw, () => ConfigWishes.IsRaw(fileExtension));
             AreEqual(audioFormat,        () => ConfigWishes.AudioFormat(fileExtension));
@@ -1039,23 +1086,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Immutable_Getters(AudioFileFormatEnum audioFileFormatEnum, AudioFileFormatEnum audioFormat)
         {
-            // Extension Method Syntax
             AreEqual(audioFormat == Wav, () => audioFileFormatEnum.IsWav());
             AreEqual(audioFormat == Raw, () => audioFileFormatEnum.IsRaw());
             AreEqual(audioFormat,        () => audioFileFormatEnum.AudioFormat());
             AreEqual(audioFormat,        () => audioFileFormatEnum.ToAudioFormat());
             AreEqual(audioFormat,        () => audioFileFormatEnum.AsAudioFormat());
             AreEqual(audioFormat,        () => audioFileFormatEnum.GetAudioFormat());
-            
-            // Using Static Syntax
             AreEqual(audioFormat == Wav, () => IsWav(audioFileFormatEnum));
             AreEqual(audioFormat == Raw, () => IsRaw(audioFileFormatEnum));
             AreEqual(audioFormat,        () => AudioFormat(audioFileFormatEnum));
             AreEqual(audioFormat,        () => ToAudioFormat(audioFileFormatEnum));
             AreEqual(audioFormat,        () => AsAudioFormat(audioFileFormatEnum));
             AreEqual(audioFormat,        () => GetAudioFormat(audioFileFormatEnum));
-            
-            // Static Syntax
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(audioFileFormatEnum));
             AreEqual(audioFormat == Raw, () => ConfigWishes.IsRaw(audioFileFormatEnum));
             AreEqual(audioFormat,        () => ConfigWishes.AudioFormat(audioFileFormatEnum));
@@ -1067,8 +1109,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Immutable_Getters(AudioFileFormat audioFormatEntity, AudioFileFormatEnum audioFormat)
         {
             if (audioFormatEntity == null) throw new NullException(() => audioFormatEntity);
-
-            // Extension Method Syntax
             AreEqual(audioFormat == Wav, () => audioFormatEntity.IsWav());
             AreEqual(audioFormat == Raw, () => audioFormatEntity.IsRaw());
             AreEqual(audioFormat,        () => audioFormatEntity.AudioFormat());
@@ -1085,8 +1125,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => audioFormatEntity.EntityToAudioFormat());
             AreEqual(audioFormat,        () => audioFormatEntity.EntityToAudioFormatEnum());
             AreEqual(audioFormat,        () => audioFormatEntity.AudioFormatEntityToEnum());
-
-            // Using Static Syntax
             AreEqual(audioFormat == Wav, () => IsWav(audioFormatEntity));
             AreEqual(audioFormat == Raw, () => IsRaw(audioFormatEntity));
             AreEqual(audioFormat,        () => AudioFormat(audioFormatEntity));
@@ -1103,8 +1141,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioFormat,        () => EntityToAudioFormat(audioFormatEntity));
             AreEqual(audioFormat,        () => EntityToAudioFormatEnum(audioFormatEntity));
             AreEqual(audioFormat,        () => AudioFormatEntityToEnum(audioFormatEntity));
-
-            // Static Syntax
             AreEqual(audioFormat == Wav, () => ConfigWishes.IsWav(audioFormatEntity));
             AreEqual(audioFormat == Raw, () => ConfigWishes.IsRaw(audioFormatEntity));
             AreEqual(audioFormat,        () => ConfigWishes.AudioFormat(audioFormatEntity));

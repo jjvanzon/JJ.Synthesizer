@@ -367,6 +367,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return fileExtension.FileExtensionToAudioFormat();
         }
         
+        
         /// <inheritdoc cref="docs._quasisetter" />
         public static string WithWav(string oldFileExtension) => SetAudioFormat(oldFileExtension, Wav);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -824,11 +825,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         public static string AsWav(this string oldFileExtension) => ConfigWishes.AsWav(oldFileExtension);
         /// <inheritdoc cref="docs._quasisetter" />
+        public static string ToWav(this string oldFileExtension) => ConfigWishes.ToWav(oldFileExtension);
+        /// <inheritdoc cref="docs._quasisetter" />
         public static string SetWav(this string oldFileExtension) => ConfigWishes.SetWav(oldFileExtension);
         /// <inheritdoc cref="docs._quasisetter" />
         public static string WithRaw(this string oldFileExtension) => ConfigWishes.WithRaw(oldFileExtension);
         /// <inheritdoc cref="docs._quasisetter" />
         public static string AsRaw(this string oldFileExtension) => ConfigWishes.AsRaw(oldFileExtension);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static string ToRaw(this string oldFileExtension) => ConfigWishes.ToRaw(oldFileExtension);
         /// <inheritdoc cref="docs._quasisetter" />
         public static string SetRaw(this string oldFileExtension) => ConfigWishes.SetRaw(oldFileExtension);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -837,6 +842,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static string WithAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.WithAudioFormat(oldFileExtension, newAudioFormat);
         /// <inheritdoc cref="docs._quasisetter" />
         public static string AsAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.AsAudioFormat(oldFileExtension, newAudioFormat);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static string ToAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.ToAudioFormat(oldFileExtension, newAudioFormat);
         /// <inheritdoc cref="docs._quasisetter" />
         public static string SetAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.SetAudioFormat(oldFileExtension, newAudioFormat);
 
