@@ -13,7 +13,10 @@ namespace JJ.Business.Synthesizer.Tests
     {
         /// <inheritdoc cref="wishdocs._audiolength" />
         public struct _audiolength { }
-            
+        
+        /// <inheritdoc cref="wishdocs._audioplayback" />
+        public struct _audioplayback { }
+        
         /// <summary>
         /// Can function as a single collection, but also as a collection of collections, <br/>
         /// and a helper for using structured test Cases. <br/>
@@ -87,6 +90,9 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         public struct _evenoutcurve { }
             
+        /// <inheritdoc cref="wishdocs._fileextension" />
+        public struct _fileextension { }
+        
         /// <summary>
         /// High hard flute: mod speed above sound freq, changes sound freq * [-0.005, 0.005] (erroneously)
         /// </summary>
@@ -137,6 +143,9 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="wishdocs._getsamplingrate" />
         public struct _getsamplingrate { }
         
+        /// <inheritdoc cref="wishdocs._headerlength" />
+        public struct _headerlength { }
+        
         /// <summary>
         /// Sounds like Horn.
         /// FM with mod speed below sound freq, changes sound freq to +/- 5Hz.
@@ -147,11 +156,14 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         public struct _horn { }
 
+        /// <inheritdoc cref="wishdocs._leafchecktimeout" />
+        public struct _leafchecktimeout { }
+        
         /// <summary>
         /// An airy sound with harmonics, a high-pitch sample for attack,
         /// separate curves for each partial, triggers a wav header auto-detect.
         /// </summary>
-        /// <inheritdoc cref="docs._docs._default" />
+        /// <inheritdoc cref="wishdocs._default" />
         public struct _metallophone { }
 
         /// <summary>
@@ -167,6 +179,8 @@ namespace JJ.Business.Synthesizer.Tests
         /// </summary>
         public struct _mysample { }
 
+        /// <inheritdoc cref="wishdocs._notelength" />
+        public struct _notelength { }
         /// <summary>
         /// <strong> "NullyLen Lullaby" </strong> <br/>
         /// Tests various note length fallbacks, including explicit values,
@@ -175,6 +189,15 @@ namespace JJ.Business.Synthesizer.Tests
         /// Ends with a soothing lullaby to help this big baby calm down after all the bleeps.
         /// </summary>
         public struct _notelengthfallbacktests { }
+        
+        /// <inheritdoc cref="wishdocs._padding" />
+        public struct _padding { }
+        
+        /// <inheritdoc cref="wishdocs._parallelprocessing" />
+        public struct _parallelprocessing { }
+        
+        /// <inheritdoc cref="wishdocs._playalltapes" />
+        public struct _playalltapes { }
         
         /// <summary> Mod speed way below sound freq, changes sound freq * 1 ± 0.005 </summary>
         /// <param name="freq"> The base frequency of the sound in Hz (default A1/55Hz). </param>
