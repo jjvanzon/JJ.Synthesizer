@@ -66,30 +66,30 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         // Bits
         
-        internal static bool Is8Bit(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        internal static bool Is16Bit(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        internal static bool Is32Bit(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        internal static int Bits(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
-        internal static int GetBits(this ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        internal static bool Is8Bit(ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        internal static bool Is16Bit(ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        internal static bool Is32Bit(ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        internal static int Bits(ConfigResolverAccessor obj) => _accessor.GetInt(obj);
+        internal static int GetBits(ConfigResolverAccessor obj) => _accessor.GetInt(obj);
 
-        internal static ConfigResolverAccessor With8Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor With16Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor With32Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor As8Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor As16Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor As32Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor Set8Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor Set16Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor Set32Bit(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        internal static ConfigResolverAccessor Bits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
-        internal static ConfigResolverAccessor WithBits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
-        internal static ConfigResolverAccessor AsBits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
-        internal static ConfigResolverAccessor SetBits(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        internal static ConfigResolverAccessor With8Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor With16Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor With32Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor As8Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor As16Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor As32Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor Set8Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor Set16Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor Set32Bit(ConfigResolverAccessor obj) => _accessor.Call(obj);
+        internal static ConfigResolverAccessor Bits(ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        internal static ConfigResolverAccessor WithBits(ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        internal static ConfigResolverAccessor AsBits(ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        internal static ConfigResolverAccessor SetBits(ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
 
-        internal static bool Is8Bit(this ConfigSectionAccessor obj) => _accessor.GetBool(obj);
-        internal static bool Is16Bit(this ConfigSectionAccessor obj) => _accessor.GetBool(obj);
-        internal static bool Is32Bit(this ConfigSectionAccessor obj) => _accessor.GetBool(obj);
-        internal static int? Bits(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
-        internal static int? GetBits(this ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        internal static bool Is8Bit(ConfigSectionAccessor obj) => _accessor.GetBool(obj);
+        internal static bool Is16Bit(ConfigSectionAccessor obj) => _accessor.GetBool(obj);
+        internal static bool Is32Bit(ConfigSectionAccessor obj) => _accessor.GetBool(obj);
+        internal static int? Bits(ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
+        internal static int? GetBits(ConfigSectionAccessor obj) => _accessor.GetNullyInt(obj);
     }
 }
