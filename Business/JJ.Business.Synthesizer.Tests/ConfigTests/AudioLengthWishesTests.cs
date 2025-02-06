@@ -15,7 +15,8 @@ using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.docs;
+using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
+
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0611
@@ -69,26 +70,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SetAudioLength (value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SetAudioLength (value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SetAudioLength (value, x.SynthBound.SynthWishes)));
-
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    AudioLength    (x.SynthBound.SynthWishes   , value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       AudioLength    (x.SynthBound.FlowNode      , value)));
-            //AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, AudioLength    (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, AudioLength    (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    WithAudioLength(x.SynthBound.SynthWishes   , value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       WithAudioLength(x.SynthBound.FlowNode      , value)));
-            //AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, WithAudioLength(x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, WithAudioLength(x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SetAudioLength (x.SynthBound.SynthWishes   , value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SetAudioLength (x.SynthBound.FlowNode      , value)));
-            //AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SetAudioLength (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes.AudioLength    (x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes.AudioLength    (x.SynthBound.FlowNode      , value)));
-            //AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishes.AudioLength    (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes.WithAudioLength(x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes.WithAudioLength(x.SynthBound.FlowNode      , value)));
-            //AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishes.WithAudioLength(x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes.SetAudioLength (x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes.SetAudioLength (x.SynthBound.FlowNode      , value)));
-            //AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishes.SetAudioLength (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SetAudioLength (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .AudioLength    (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .AudioLength    (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.AudioLength    (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .WithAudioLength(x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .WithAudioLength(x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.WithAudioLength(x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetAudioLength (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetAudioLength (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetAudioLength (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
         }
 
         [TestMethod] 
@@ -352,10 +351,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(DefaultAudioLength, () => configSection.AudioLength);
             AreEqual(DefaultAudioLength, () => configSection.AudioLength());
             AreEqual(DefaultAudioLength, () => configSection.GetAudioLength());
-            //AreEqual(DefaultAudioLength, () => AudioLength(configSection));
-            //AreEqual(DefaultAudioLength, () => GetAudioLength(configSection));
-            //AreEqual(DefaultAudioLength, () => ConfigWishesAccessor.AudioLength(configSection));
-            //AreEqual(DefaultAudioLength, () => ConfigWishesAccessor.GetAudioLength(configSection));
+            AreEqual(DefaultAudioLength, () => AudioLength(configSection));
+            AreEqual(DefaultAudioLength, () => GetAudioLength(configSection));
+            AreEqual(DefaultAudioLength, () => ConfigWishesAccessor.AudioLength(configSection));
+            AreEqual(DefaultAudioLength, () => ConfigWishesAccessor.GetAudioLength(configSection));
         }
 
         [TestMethod]
@@ -401,20 +400,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(audioLength, () => x.SynthBound.SynthWishes   .GetAudioLength().Value);
             AreEqual(audioLength, () => x.SynthBound.FlowNode      .GetAudioLength().Value);
             AreEqual(audioLength, () => x.SynthBound.ConfigResolver.GetAudioLength(x.SynthBound.SynthWishes).Value);
-
             AreEqual(audioLength, () => AudioLength   (x.SynthBound.SynthWishes   ).Value);
             AreEqual(audioLength, () => AudioLength   (x.SynthBound.FlowNode      ).Value);
-            //AreEqual(audioLength, () => AudioLength   (x.SynthBound.ConfigResolver(x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, () => AudioLength   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
             AreEqual(audioLength, () => GetAudioLength(x.SynthBound.SynthWishes   ).Value);
             AreEqual(audioLength, () => GetAudioLength(x.SynthBound.FlowNode      ).Value);
-            //AreEqual(audioLength, () => GetAudioLength(x.SynthBound.ConfigResolver(x.SynthBound.SynthWishes).Value);
-
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.SynthBound.SynthWishes   ).Value);
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.SynthBound.FlowNode      ).Value);
-            //AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.SynthBound.ConfigResolver(x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.SynthBound.SynthWishes   ).Value);
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.SynthBound.FlowNode      ).Value);
-            //AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.SynthBound.ConfigResolver(x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, () => GetAudioLength(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, () => ConfigWishes        .AudioLength   (x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, () => ConfigWishes        .AudioLength   (x.SynthBound.FlowNode   ).Value);
+            AreEqual(audioLength, () => ConfigWishesAccessor.AudioLength   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, () => ConfigWishes        .GetAudioLength(x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, () => ConfigWishes        .GetAudioLength(x.SynthBound.FlowNode   ).Value);
+            AreEqual(audioLength, () => ConfigWishesAccessor.GetAudioLength(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
         }
         
         private void Assert_TapeBound_Getters(ConfigTestEntities x, double audioLength)

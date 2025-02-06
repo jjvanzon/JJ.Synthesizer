@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     /// <inheritdoc cref="docs._configextensionwishes"/>
     public partial class ConfigWishes
     {
-        // A Primary Audio Attribute
+        // AudioFormatL: A Primary Audio Attribute
         
         // Synth-Bound
         
