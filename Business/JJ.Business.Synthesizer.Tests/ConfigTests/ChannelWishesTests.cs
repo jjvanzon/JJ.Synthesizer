@@ -764,83 +764,103 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             var channelEnums = new List<ChannelEnum>();
             {
+                ChannelEnum channelEnum = default;
+                
                 void AssertProp(Func<ChannelEnum> setter)
                 {
-                    Assert_Immutable_Getters(x.Immutable.ChannelEnum, init);
+                    channelEnum = x.Immutable.ChannelEnum;
+                        
+                    Assert_Immutable_Getters(channelEnum, init);
                     
                     ChannelEnum channelEnum2 = setter();
                     
-                    Assert_Immutable_Getters(x.Immutable.ChannelEnum, init);
+                    Assert_Immutable_Getters(channelEnum, init);
                     Assert_Immutable_Getters(channelEnum2, val);
                     
                     channelEnums.Add(channelEnum2);
                 }
 
-                AssertProp(() => val.channel.ChannelToEnum(val.channels));
-                AssertProp(() => x.Immutable.ChannelEnum.Channels(val.channels).Channel (val.channel ).Channels(val.channels));
-                AssertProp(() => x.Immutable.ChannelEnum.Channel (val.channel ).Channels(val.channels).Channel (val.channel ));
-                // TODO: Combo Nightmares harbor the other syntaxes (static and using static).
+                AssertProp(() => val.channel .ChannelToEnum(val.channels             ));
+                AssertProp(() =>              ChannelToEnum(val.channel, val.channels));
+                AssertProp(() => ConfigWishes.ChannelToEnum(val.channel, val.channels));
+                
+                AssertProp(() => channelEnum.Channel     (val.channel).Channels    (val.channels).Channel    (val.channel));
+                //AssertProp(() => channelEnum.WithChannel (val.channel).WithChannels(val.channels).WithChannel(val.channel));
+                //AssertProp(() => channelEnum.AsChannel   (val.channel).AsChannels  (val.channels).AsChannel  (val.channel));
+                //AssertProp(() => channelEnum.ToChannel   (val.channel).ToChannels  (val.channels).ToChannel  (val.channel));
+                //AssertProp(() => channelEnum.SetChannel  (val.channel).SetChannels (val.channels).SetChannel (val.channel));
+                AssertProp(() => Channel    (channelEnum, val.channel).Channels    (val.channels).Channel    (val.channel));
+                //AssertProp(() => WithChannel(channelEnum, val.channel).WithChannels(val.channels).WithChannel(val.channel));
+                //AssertProp(() => AsChannel  (channelEnum, val.channel).AsChannels  (val.channels).AsChannel  (val.channel));
+                //AssertProp(() => ToChannel  (channelEnum, val.channel).ToChannels  (val.channels).ToChannel  (val.channel));
+                //AssertProp(() => SetChannel (channelEnum, val.channel).SetChannels (val.channels).SetChannel (val.channel));
+                AssertProp(() => ConfigWishes.Channel    (channelEnum, val.channel).Channels    (val.channels).Channel    (val.channel));
+                //AssertProp(() => ConfigWishes.WithChannel(channelEnum, val.channel).WithChannels(val.channels).WithChannel(val.channel));
+                //AssertProp(() => ConfigWishes.AsChannel  (channelEnum, val.channel).AsChannels  (val.channels).AsChannel  (val.channel));
+                //AssertProp(() => ConfigWishes.ToChannel  (channelEnum, val.channel).ToChannels  (val.channels).ToChannel  (val.channel));
+                //AssertProp(() => ConfigWishes.SetChannel (channelEnum, val.channel).SetChannels (val.channels).SetChannel (val.channel));
+                AssertProp(() => channelEnum.Channels(val.channels).Channel(val.channel).Channels(val.channels)); // Switched Channel and ChannelS calls
 
-                AssertProp(() => { if (val == (1,0)) return x.Immutable.ChannelEnum.Center        ();
-                                   if (val == (2,0)) return x.Immutable.ChannelEnum.Left          ();
-                                   if (val == (2,1)) return x.Immutable.ChannelEnum.Right         ();
-                                   if (val == (2,_)) return x.Immutable.ChannelEnum.NoChannel     (); return default; });
-                AssertProp(() => { if (val == (1,0)) return x.Immutable.ChannelEnum.WithCenter    ();
-                                   if (val == (2,0)) return x.Immutable.ChannelEnum.WithLeft      ();
-                                   if (val == (2,1)) return x.Immutable.ChannelEnum.WithRight     ();
-                                   if (val == (2,_)) return x.Immutable.ChannelEnum.WithNoChannel (); return default; });
-                AssertProp(() => { if (val == (1,0)) return x.Immutable.ChannelEnum.AsCenter      ();
-                                   if (val == (2,0)) return x.Immutable.ChannelEnum.AsLeft        ();
-                                   if (val == (2,1)) return x.Immutable.ChannelEnum.AsRight       ();
-                                   if (val == (2,_)) return x.Immutable.ChannelEnum.AsNoChannel   (); return default; });
-                AssertProp(() => { if (val == (1,0)) return x.Immutable.ChannelEnum.ToCenter      ();
-                                   if (val == (2,0)) return x.Immutable.ChannelEnum.ToLeft        ();
-                                   if (val == (2,1)) return x.Immutable.ChannelEnum.ToRight       ();
-                                   if (val == (2,_)) return x.Immutable.ChannelEnum.ToNoChannel   (); return default; });
-                AssertProp(() => { if (val == (1,0)) return x.Immutable.ChannelEnum.SetCenter     ();
-                                   if (val == (2,0)) return x.Immutable.ChannelEnum.SetLeft       ();
-                                   if (val == (2,1)) return x.Immutable.ChannelEnum.SetRight      ();
-                                   if (val == (2,_)) return x.Immutable.ChannelEnum.SetNoChannel  (); return default; });
-                AssertProp(() => { if (val == (1,0)) return Center        (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return Left          (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return Right         (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return NoChannel     (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return WithCenter    (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return WithLeft      (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return WithRight     (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return WithNoChannel (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return AsCenter      (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return AsLeft        (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return AsRight       (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return AsNoChannel   (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return ToCenter      (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return ToLeft        (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return ToRight       (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return ToNoChannel   (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return SetCenter     (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return SetLeft       (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return SetRight      (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return SetNoChannel  (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return ConfigWishes.Center        (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return ConfigWishes.Left          (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return ConfigWishes.Right         (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return ConfigWishes.NoChannel     (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return ConfigWishes.WithCenter    (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return ConfigWishes.WithLeft      (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return ConfigWishes.WithRight     (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return ConfigWishes.WithNoChannel (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return ConfigWishes.AsCenter      (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return ConfigWishes.AsLeft        (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return ConfigWishes.AsRight       (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return ConfigWishes.AsNoChannel   (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return ConfigWishes.ToCenter      (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return ConfigWishes.ToLeft        (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return ConfigWishes.ToRight       (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return ConfigWishes.ToNoChannel   (x.Immutable.ChannelEnum); return default; });
-                AssertProp(() => { if (val == (1,0)) return ConfigWishes.SetCenter     (x.Immutable.ChannelEnum);
-                                   if (val == (2,0)) return ConfigWishes.SetLeft       (x.Immutable.ChannelEnum);
-                                   if (val == (2,1)) return ConfigWishes.SetRight      (x.Immutable.ChannelEnum);
-                                   if (val == (2,_)) return ConfigWishes.SetNoChannel  (x.Immutable.ChannelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return channelEnum.Center        ();
+                                   if (val == (2,0)) return channelEnum.Left          ();
+                                   if (val == (2,1)) return channelEnum.Right         ();
+                                   if (val == (2,_)) return channelEnum.NoChannel     (); return default; });
+                AssertProp(() => { if (val == (1,0)) return channelEnum.WithCenter    ();
+                                   if (val == (2,0)) return channelEnum.WithLeft      ();
+                                   if (val == (2,1)) return channelEnum.WithRight     ();
+                                   if (val == (2,_)) return channelEnum.WithNoChannel (); return default; });
+                AssertProp(() => { if (val == (1,0)) return channelEnum.AsCenter      ();
+                                   if (val == (2,0)) return channelEnum.AsLeft        ();
+                                   if (val == (2,1)) return channelEnum.AsRight       ();
+                                   if (val == (2,_)) return channelEnum.AsNoChannel   (); return default; });
+                AssertProp(() => { if (val == (1,0)) return channelEnum.ToCenter      ();
+                                   if (val == (2,0)) return channelEnum.ToLeft        ();
+                                   if (val == (2,1)) return channelEnum.ToRight       ();
+                                   if (val == (2,_)) return channelEnum.ToNoChannel   (); return default; });
+                AssertProp(() => { if (val == (1,0)) return channelEnum.SetCenter     ();
+                                   if (val == (2,0)) return channelEnum.SetLeft       ();
+                                   if (val == (2,1)) return channelEnum.SetRight      ();
+                                   if (val == (2,_)) return channelEnum.SetNoChannel  (); return default; });
+                AssertProp(() => { if (val == (1,0)) return Center        (channelEnum);
+                                   if (val == (2,0)) return Left          (channelEnum);
+                                   if (val == (2,1)) return Right         (channelEnum);
+                                   if (val == (2,_)) return NoChannel     (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return WithCenter    (channelEnum);
+                                   if (val == (2,0)) return WithLeft      (channelEnum);
+                                   if (val == (2,1)) return WithRight     (channelEnum);
+                                   if (val == (2,_)) return WithNoChannel (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return AsCenter      (channelEnum);
+                                   if (val == (2,0)) return AsLeft        (channelEnum);
+                                   if (val == (2,1)) return AsRight       (channelEnum);
+                                   if (val == (2,_)) return AsNoChannel   (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return ToCenter      (channelEnum);
+                                   if (val == (2,0)) return ToLeft        (channelEnum);
+                                   if (val == (2,1)) return ToRight       (channelEnum);
+                                   if (val == (2,_)) return ToNoChannel   (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return SetCenter     (channelEnum);
+                                   if (val == (2,0)) return SetLeft       (channelEnum);
+                                   if (val == (2,1)) return SetRight      (channelEnum);
+                                   if (val == (2,_)) return SetNoChannel  (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return ConfigWishes.Center        (channelEnum);
+                                   if (val == (2,0)) return ConfigWishes.Left          (channelEnum);
+                                   if (val == (2,1)) return ConfigWishes.Right         (channelEnum);
+                                   if (val == (2,_)) return ConfigWishes.NoChannel     (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return ConfigWishes.WithCenter    (channelEnum);
+                                   if (val == (2,0)) return ConfigWishes.WithLeft      (channelEnum);
+                                   if (val == (2,1)) return ConfigWishes.WithRight     (channelEnum);
+                                   if (val == (2,_)) return ConfigWishes.WithNoChannel (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return ConfigWishes.AsCenter      (channelEnum);
+                                   if (val == (2,0)) return ConfigWishes.AsLeft        (channelEnum);
+                                   if (val == (2,1)) return ConfigWishes.AsRight       (channelEnum);
+                                   if (val == (2,_)) return ConfigWishes.AsNoChannel   (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return ConfigWishes.ToCenter      (channelEnum);
+                                   if (val == (2,0)) return ConfigWishes.ToLeft        (channelEnum);
+                                   if (val == (2,1)) return ConfigWishes.ToRight       (channelEnum);
+                                   if (val == (2,_)) return ConfigWishes.ToNoChannel   (channelEnum); return default; });
+                AssertProp(() => { if (val == (1,0)) return ConfigWishes.SetCenter     (channelEnum);
+                                   if (val == (2,0)) return ConfigWishes.SetLeft       (channelEnum);
+                                   if (val == (2,1)) return ConfigWishes.SetRight      (channelEnum);
+                                   if (val == (2,_)) return ConfigWishes.SetNoChannel  (channelEnum); return default; });
             }
                         
             // Channel Entity
