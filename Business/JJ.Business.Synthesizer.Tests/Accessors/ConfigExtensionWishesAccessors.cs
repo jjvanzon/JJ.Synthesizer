@@ -149,18 +149,19 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static int? Channel(this ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
 
         public static ConfigResolverAccessor Center(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor WithCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor AsCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Left(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor WithLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor AsLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Right(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor WithRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor AsRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor NoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Channel(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor WithCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithNoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor WithChannel(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
-        public static ConfigResolverAccessor AsChannel(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
+        public static ConfigResolverAccessor AsCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsNoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
