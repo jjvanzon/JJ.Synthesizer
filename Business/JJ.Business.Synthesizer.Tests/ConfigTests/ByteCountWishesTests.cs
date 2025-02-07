@@ -42,8 +42,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
         
-        static CaseCollection<Case> BasicCases { get; } = Cases.Add
-        (
+        static CaseCollection<Case> BasicCases { get; } = Cases.FromTemplate(new Case
+        
+            { CourtesyFrames = { Nully = null, Coalesced = DefaultCourtesyFrames } }, // CourtesyFrames needed in BuffBound tests where methods take it as nullable or non-nullable parameter.
+            
             new Case { From = 100, To = 200, SizeOfBitDepth = { From = 4, To = 2 }  },
             new Case { From = 200, To = 100, SizeOfBitDepth = { From = 2, To = 4 }  }
         );
@@ -525,25 +527,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Nully)));
             
             // Test nullable and non-nullable courtesyFrames separately.
-            // TODO: These fail 
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount    (value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SetByteCount (value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetByteCount (value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .WithByteCount(value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithByteCount(value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            //AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount    (value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SetByteCount (value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetByteCount (value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .WithByteCount(value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithByteCount(value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
 
             
             if (testCase.AudioLength.Changed)
