@@ -53,7 +53,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Config\ChannelChannelsComboWishes.cs" />
+    <Compile Include="Config\ChannelChannelsComboNightmares.cs" />
     <Compile Include="Config\ConfigResolver.cs" />
     <Compile Include="Config\ConfigSection.cs" />
     <Compile Include="Config\ConfigToolingElement.cs" />

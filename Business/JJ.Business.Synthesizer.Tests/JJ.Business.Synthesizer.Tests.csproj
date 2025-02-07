@@ -154,7 +154,7 @@
     <Compile Include="ConfigTests\InterpolationWishesTests.cs" />
     <Compile Include="ConfigTests\SamplingRateWishesTests.cs" />
     <Compile Include="ConfigTests\ChannelWishesTests.cs" />
-    <Compile Include="ConfigTests\ChannelChannelsComboWishesTests.cs" />
+    <Compile Include="ConfigTests\ChannelChannelsComboNightmareTests.cs" />
     <Compile Include="ConfigTests\ChannelsWishesTests.cs" />
     <Compile Include="ConfigTests\BitWishesTests.cs" />
     <Compile Include="Helpers\CopiedFromFramework.cs" />

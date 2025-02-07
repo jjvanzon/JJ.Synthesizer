@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     [TestClass]
     [TestCategory("Config")]
-    public class ChannelChannelsComboWishesTests
+    public class ChannelChannelsComboNightmareTests
     {
         // Channels/Channel Combos
         [TestMethod] public void Test_Channels_Channel_Combo_Getters()
