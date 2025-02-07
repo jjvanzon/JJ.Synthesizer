@@ -310,8 +310,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static bool Is32Bit(this    SampleDataTypeEnum obj) => ConfigWishes.Is32Bit(obj);
         [Obsolete(ObsoleteMessage)] public static int  Bits(this       SampleDataTypeEnum obj) => ConfigWishes.Bits(obj);
         [Obsolete(ObsoleteMessage)] public static int  GetBits(this    SampleDataTypeEnum obj) => ConfigWishes.GetBits(obj);
-        [Obsolete(ObsoleteMessage)] public static int  ToBits(this     SampleDataTypeEnum obj) => ConfigWishes.ToBits(obj);
         [Obsolete(ObsoleteMessage)] public static int  AsBits(this     SampleDataTypeEnum obj) => ConfigWishes.AsBits(obj);
+        [Obsolete(ObsoleteMessage)] public static int  ToBits(this     SampleDataTypeEnum obj) => ConfigWishes.ToBits(obj);
         [Obsolete(ObsoleteMessage)] public static int  EnumToBits(this SampleDataTypeEnum obj) => ConfigWishes.EnumToBits(obj);
 
         /// <inheritdoc cref="docs._quasisetter" />
@@ -347,8 +347,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static bool Is32Bit(this SampleDataType obj) => ConfigWishes.Is32Bit(obj);
         [Obsolete(ObsoleteMessage)] public static int Bits(this SampleDataType obj) => ConfigWishes.Bits(obj);
         [Obsolete(ObsoleteMessage)] public static int GetBits(this SampleDataType obj) => ConfigWishes.GetBits(obj);
-        [Obsolete(ObsoleteMessage)] public static int ToBits(this SampleDataType obj) => ConfigWishes.ToBits(obj);
         [Obsolete(ObsoleteMessage)] public static int AsBits(this SampleDataType obj) => ConfigWishes.AsBits(obj);
+        [Obsolete(ObsoleteMessage)] public static int ToBits(this SampleDataType obj) => ConfigWishes.ToBits(obj);
         [Obsolete(ObsoleteMessage)] public static int EntityToBits(this SampleDataType obj) => ConfigWishes.EntityToBits(obj);
 
         /// <inheritdoc cref="docs._quasisetter" />
@@ -992,9 +992,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // With Type Arguments
         
-        public static bool Is8Bit <TValue> () => TypeToBits<TValue>() == 8;
-        public static bool Is16Bit<TValue> () => TypeToBits<TValue>() == 16;
-        public static bool Is32Bit<TValue> () => TypeToBits<TValue>() == 32;
+        public static bool Is8Bit <TValue>() => TypeToBits<TValue>() == 8;
+        public static bool Is16Bit<TValue>() => TypeToBits<TValue>() == 16;
+        public static bool Is32Bit<TValue>() => TypeToBits<TValue>() == 32;
         public static int Bits<TValueType>() => TypeToBits<TValueType>();
         public static int GetBits<TValueType>() => TypeToBits<TValueType>();
         public static int ToBits<TValueType>() => TypeToBits<TValueType>();
@@ -1025,7 +1025,5 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Type Bits<TOldValueType>(int value) => BitsToType(value);
         /// <inheritdoc cref="docs._quasisetter" />
         public static Type WithBits<TOldValueType>(int value) => BitsToType(value);
-        /// <inheritdoc cref="docs._quasisetter" />
-        public static Type BitsToType<TOldValueType>(int value) => BitsToType(value);
     }
 }
