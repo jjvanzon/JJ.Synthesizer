@@ -788,7 +788,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
 
-        private void Assert_All_Getters(ConfigTestEntities x, int byteCount, int sizeOfBitDepth, int? courtesyFrames)
+        private void Assert_All_Getters(ConfigTestEntities x, int byteCount, int sizeOfBitDepth, NullyPair<int> courtesyFrames)
         {
             Assert_SynthBound_Getters (x, byteCount);
             Assert_TapeBound_Getters  (x, byteCount);
@@ -860,36 +860,67 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters(ConfigTestEntities x, int byteCount, int? courtesyFrames)
+        private void Assert_BuffBound_Getters(ConfigTestEntities x, int byteCount, NullyPair<int> courtesyFrames)
         {
             Assert_Buff_Getters           (x, byteCount, courtesyFrames);
             Assert_AudioFileOutput_Getters(x, byteCount, courtesyFrames);
         }
 
-        private void Assert_AudioFileOutput_Getters(ConfigTestEntities x, int byteCount, int? courtesyFrames)
+        private void Assert_AudioFileOutput_Getters(ConfigTestEntities x, int byteCount, NullyPair<int> courtesyFrames)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
             IsNotNull(() => x.BuffBound.AudioFileOutput);
-            AreEqual(byteCount, () => x.BuffBound.AudioFileOutput.ByteCount   (courtesyFrames));
-            AreEqual(byteCount, () => x.BuffBound.AudioFileOutput.GetByteCount(courtesyFrames));
-            AreEqual(byteCount, () => ByteCount   (x.BuffBound.AudioFileOutput, courtesyFrames));
-            AreEqual(byteCount, () => GetByteCount(x.BuffBound.AudioFileOutput, courtesyFrames));
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.BuffBound.AudioFileOutput, courtesyFrames));
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.BuffBound.AudioFileOutput, courtesyFrames));
+            
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.ByteCount                 (courtesyFrames.Nully));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetByteCount              (courtesyFrames.Nully));
+            AreEqual(byteCount, ByteCount   (x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
+
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.ByteCount                 (courtesyFrames.Coalesced));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetByteCount              (courtesyFrames.Coalesced));
+            AreEqual(byteCount, ByteCount   (x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
+            
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.BytesNeeded                 (courtesyFrames.Nully));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetBytesNeeded              (courtesyFrames.Nully));
+            AreEqual(byteCount, BytesNeeded   (x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
+            AreEqual(byteCount, GetBytesNeeded(x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
+            AreEqual(byteCount, ConfigWishes.BytesNeeded   (x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
+            AreEqual(byteCount, ConfigWishes.GetBytesNeeded(x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
+            
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.BytesNeeded                 (courtesyFrames.Coalesced));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetBytesNeeded              (courtesyFrames.Coalesced));
+            AreEqual(byteCount, BytesNeeded   (x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
+            AreEqual(byteCount, GetBytesNeeded(x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
+            AreEqual(byteCount, ConfigWishes.BytesNeeded   (x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
+            AreEqual(byteCount, ConfigWishes.GetBytesNeeded(x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
+
         }
         
-        private void Assert_Buff_Getters(ConfigTestEntities x, int byteCount, int? courtesyFrames)
+        private void Assert_Buff_Getters(ConfigTestEntities x, int byteCount, NullyPair<int> courtesyFrames)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
             IsNotNull(() => x.BuffBound.Buff);
-            AreEqual(byteCount, () => x.BuffBound.Buff.ByteCount   (courtesyFrames));
-            AreEqual(byteCount, () => x.BuffBound.Buff.GetByteCount(courtesyFrames));
-            AreEqual(byteCount, () => ByteCount   (x.BuffBound.Buff, courtesyFrames));
-            AreEqual(byteCount, () => GetByteCount(x.BuffBound.Buff, courtesyFrames));
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.BuffBound.Buff, courtesyFrames));
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.BuffBound.Buff, courtesyFrames));
+            
+            AreEqual(byteCount, x.BuffBound.Buff.ByteCount                 (courtesyFrames.Nully));
+            AreEqual(byteCount, x.BuffBound.Buff.GetByteCount              (courtesyFrames.Nully));
+            AreEqual(byteCount, ByteCount   (x.BuffBound.Buff             , courtesyFrames.Nully));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.Buff             , courtesyFrames.Nully));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.Buff, courtesyFrames.Nully));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff, courtesyFrames.Nully));
+            
+            AreEqual(byteCount, x.BuffBound.Buff.ByteCount                 (courtesyFrames.Coalesced));
+            AreEqual(byteCount, x.BuffBound.Buff.GetByteCount              (courtesyFrames.Coalesced));
+            AreEqual(byteCount, ByteCount   (x.BuffBound.Buff             , courtesyFrames.Coalesced));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.Buff             , courtesyFrames.Coalesced));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.Buff, courtesyFrames.Coalesced));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff, courtesyFrames.Coalesced));
         }
         
         private void Assert_Independent_Getters(ConfigTestEntities x, int byteCount)
