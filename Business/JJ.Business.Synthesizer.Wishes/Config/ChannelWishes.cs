@@ -405,9 +405,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public const int CenterChannel = 0;
         public const int LeftChannel = 0;
         public const int RightChannel = 1;
-        public static readonly int? ChannelEmpty = null;
         public static readonly int? AnyChannel = null;
         public static readonly int? EveryChannel = null;
+        public static readonly int? ChannelEmpty = null;
         
         // Synth-Bound
         

@@ -41,12 +41,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Values init = testCase.init;
             Values val  = testCase.val;
 
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<SynthBoundEntities> setter)
             {
                 var x = CreateTestEntities(init.nully);
                 Assert_All_Getters(x, init.coalesce);
                 
-                setter(x);
+                setter(x.SynthBound);
                 
                 Assert_SynthBound_Getters(x, val.coalesce);
                 Assert_TapeBound_Getters_Complete(x, init.coalesce);
@@ -57,84 +57,48 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, val.coalesce);
             }
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Channels    (val.channels.nully).Channel    (val.channel.nully)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithChannels(val.channels.nully).WithChannel(val.channel.nully)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Channels    (val.channels.nully).Channel    (val.channel.nully)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithChannels(val.channels.nully).WithChannel(val.channel.nully)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Channels    (val.channels.nully).Channel    (val.channel.nully)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithChannels(val.channels.nully).WithChannel(val.channel.nully)));
+            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .Channels    (val.channels.nully).Channel    (val.channel.nully)));
+            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .Channels    (val.channels.nully).Channel    (val.channel.nully)));
+            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.Channels    (val.channels.nully).Channel    (val.channel.nully)));
+            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .WithChannels(val.channels.nully).WithChannel(val.channel.nully)));
+            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .WithChannels(val.channels.nully).WithChannel(val.channel.nully)));
+            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.WithChannels(val.channels.nully).WithChannel(val.channel.nully)));
+            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .WithChannels(val.channels.nully).SetChannel (val.channel.nully)));
+            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .WithChannels(val.channels.nully).SetChannel (val.channel.nully)));
+            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.WithChannels(val.channels.nully).SetChannel (val.channel.nully)));
             
-            AssertProp(x => {
-                if      (val.nully    == (1,0)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithCenter());
-                else if (val.nully    == (2,0)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithLeft());
-                else if (val.nully    == (2,1)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithRight());
-                else if (val.nully    == (2,_)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithStereo().WithChannel(null)); 
-                else if (val.coalesce == (1,0)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithChannel(val.channel.nully).WithChannels(val.channels.nully)); });
+            // TODO: Rework nully/coalesced distinction, fallback case, usage of NoChannel and replacing else if by if (if possible).
             
-            AssertProp(x => {
-                if      (val.nully    == (1,0)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Center());
-                else if (val.nully    == (2,0)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Left());
-                else if (val.nully    == (2,1)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Right());
-                else if (val.nully    == (2,_)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Stereo().NoChannel()); 
-                else if (val.coalesce == (1,0)) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Channel(val.channel.nully).Channels(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.nully    == (1,0)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithCenter());
-                else if (val.nully    == (2,0)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithLeft());
-                else if (val.nully    == (2,1)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithRight()); 
-                else if (val.nully    == (2,_)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithStereo().WithChannel(null)); 
-                else if (val.coalesce == (1,0)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithChannel(val.channel.nully).WithChannels(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.nully    == (1,0)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Center());
-                else if (val.nully    == (2,0)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Left());
-                else if (val.nully    == (2,1)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Right()); 
-                else if (val.nully    == (2,_)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Stereo().NoChannel()); 
-                else if (val.coalesce == (1,0)) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Channels(val.channel.nully).Channel(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.nully    == (1,0)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithCenter());
-                else if (val.nully    == (2,0)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithLeft());
-                else if (val.nully    == (2,1)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithRight()); 
-                else if (val.nully    == (2,_)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithStereo().WithChannel(AnyChannel)); 
-                else if (val.coalesce == (1,0)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithChannels(val.channels.nully)); });
-            
-            AssertProp(x => {
-                if      (val.nully    == (1,0)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Center());
-                else if (val.nully    == (2,0)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Left());
-                else if (val.nully    == (2,1)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Right()); 
-                else if (val.nully    == (2,_)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Stereo().NoChannel()); 
-                else if (val.coalesce == (1,0)) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Channels(val.channels.nully)); });
-            
-            AssertProp(x => {
-                if      (val.channels.nully    == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithMono  ().WithChannel(val.channel.nully));
-                else if (val.channels.nully    == 2) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithStereo().WithChannel(val.channel.nully)); 
-                else if (val.channels.coalesce == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.WithChannels(val.channels.nully).WithChannel(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.channels.nully    == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Mono  ().Channel(val.channel.nully));
-                else if (val.channels.nully    == 2) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Stereo().Channel(val.channel.nully)); 
-                else if (val.channels.coalesce == 1) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Channels(val.channels.nully).Channel(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.channels.nully    == 1) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithMono  ().WithChannel(val.channel.nully));
-                else if (val.channels.nully    == 2) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithStereo().WithChannel(val.channel.nully)); 
-                else if (val.channels.coalesce == 1) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.WithChannels(val.channels.nully).WithChannel(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.channels.nully    == 1) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Mono  ().Channel(val.channel.nully));
-                else if (val.channels.nully    == 2) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Stereo().Channel(val.channel.nully)); 
-                else if (val.channels.coalesce == 1) AreEqual(x.SynthBound.FlowNode, () => x.SynthBound.FlowNode.Channels(val.channels.nully).Channel(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.channels.nully    == 1) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithMono  ().WithChannel(val.channel.nully));
-                else if (val.channels.nully    == 2) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithStereo().WithChannel(val.channel.nully)); 
-                else if (val.channels.coalesce == 1) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithChannels(val.channels.nully).WithChannel(val.channel.nully)); });
-            
-            AssertProp(x => {
-                if      (val.channels.nully    == 1) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Mono  ().Channel(val.channel.nully));
-                else if (val.channels.nully    == 2) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Stereo().Channel(val.channel.nully)); 
-                else if (val.channels.coalesce == 1) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.Channels(val.channels.nully).Channel(val.channel.nully)); });
+            AssertProp(x => { if      (val.nully    == (1,0)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .WithCenter   ());
+                              else if (val.nully    == (2,0)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .WithLeft     ());
+                              else if (val.nully    == (2,1)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .WithRight    ());
+                              else if (val.nully    == (2,_)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .WithNoChannel()); 
+                              else if (val.coalesce == (1,0)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .WithChannel  (val.channel.nully).WithChannels(val.channels.nully)); });
+            AssertProp(x => { if      (val.nully    == (1,0)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .Center       ());
+                              else if (val.nully    == (2,0)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .Left         ());
+                              else if (val.nully    == (2,1)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .Right        ());
+                              else if (val.nully    == (2,_)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .NoChannel    ()); 
+                              else if (val.coalesce == (1,0)) AreEqual(x.SynthWishes,    () => x.SynthWishes   .Channel      (val.channel.nully).Channels(val.channel.nully)); });
+            AssertProp(x => { if      (val.nully    == (1,0)) AreEqual(x.FlowNode,       () => x.FlowNode      .WithCenter   ());
+                              else if (val.nully    == (2,0)) AreEqual(x.FlowNode,       () => x.FlowNode      .WithLeft     ());
+                              else if (val.nully    == (2,1)) AreEqual(x.FlowNode,       () => x.FlowNode      .WithRight    ()); 
+                              else if (val.nully    == (2,_)) AreEqual(x.FlowNode,       () => x.FlowNode      .WithNoChannel()); 
+                              else if (val.coalesce == (1,0)) AreEqual(x.FlowNode,       () => x.FlowNode      .WithChannel  (val.channel.nully).WithChannels(val.channel.nully)); });
+            AssertProp(x => { if      (val.nully    == (1,0)) AreEqual(x.FlowNode,       () => x.FlowNode      .Center       ());
+                              else if (val.nully    == (2,0)) AreEqual(x.FlowNode,       () => x.FlowNode      .Left         ());
+                              else if (val.nully    == (2,1)) AreEqual(x.FlowNode,       () => x.FlowNode      .Right        ()); 
+                              else if (val.nully    == (2,_)) AreEqual(x.FlowNode,       () => x.FlowNode      .NoChannel    ()); 
+                              else if (val.coalesce == (1,0)) AreEqual(x.FlowNode,       () => x.FlowNode      .Channels     (val.channel.nully).Channel(val.channel.nully)); });
+            AssertProp(x => { if      (val.nully    == (1,0)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.WithCenter   ());
+                              else if (val.nully    == (2,0)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.WithLeft     ());
+                              else if (val.nully    == (2,1)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.WithRight    ()); 
+                              else if (val.nully    == (2,_)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.WithNoChannel()); 
+                              else if (val.coalesce == (1,0)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.WithChannels (val.channels.nully)); });
+            AssertProp(x => { if      (val.nully    == (1,0)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.Center       ());
+                              else if (val.nully    == (2,0)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.Left         ());
+                              else if (val.nully    == (2,1)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.Right        ()); 
+                              else if (val.nully    == (2,_)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.NoChannel    ()); 
+                              else if (val.coalesce == (1,0)) AreEqual(x.ConfigResolver, () => x.ConfigResolver.Channels     (val.channels.nully)); });
         }
         
         [TestMethod]
@@ -191,22 +155,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 if (val == (2,0)) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.Left());
                 if (val == (2,1)) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.Right());
                 if (val == (2,_)) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.Stereo().NoChannel()); });
-            
-            AssertProp(x => {
-                if (val.channels == MonoChannels  ) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.Mono().  Channel(val.channel));
-                if (val.channels == StereoChannels) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.Stereo().Channel(val.channel)); });
-            
-            AssertProp(x => {
-                if (val.channels == MonoChannels  ) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.Mono().  Channel(val.channel));
-                if (val.channels == StereoChannels) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.Stereo().Channel(val.channel)); });
-            
-            AssertProp(x => {
-                if (val.channels == MonoChannels  ) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Mono()  .Channel(val.channel));
-                if (val.channels == StereoChannels) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Stereo().Channel(val.channel)); });
-            
-            AssertProp(x => {
-                if (val.channels == MonoChannels  ) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.Mono().Channel(val.channel));
-                if (val.channels == StereoChannels) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.Stereo().Channel(val.channel)); });
         }
                 
         [TestMethod]

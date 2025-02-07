@@ -129,6 +129,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public ConfigResolverAccessor WithCenter() => new ConfigResolverAccessor(_accessor.InvokeMethod());
         public ConfigResolverAccessor WithLeft() => new ConfigResolverAccessor(_accessor.InvokeMethod());
         public ConfigResolverAccessor WithRight() => new ConfigResolverAccessor(_accessor.InvokeMethod());
+        public ConfigResolverAccessor WithNoChannel() => new ConfigResolverAccessor(_accessor.InvokeMethod());
         
         // SamplingRate
         
