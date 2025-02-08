@@ -1114,44 +1114,175 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_TapeBound_Getters_SingleTape(ConfigTestEntities x, (int channels, int? channel) c)
         {
-            Assert_Tape_Getters_Base(x);
-            
-            AreEqual(c.channels,                   () => x.TapeBound.TapeConfig.Channels);
-            AreEqual(c.channel,                    () => x.TapeBound.TapeConfig.Channel);
-            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeConfig.IsMono);
-            AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeConfig.IsStereo);
-            AreEqual(c == (1,0),                   () => x.TapeBound.TapeConfig.IsCenter);
-            AreEqual(c == (2,0),                   () => x.TapeBound.TapeConfig.IsLeft);
-            AreEqual(c == (2,1),                   () => x.TapeBound.TapeConfig.IsRight);
-                    
-            AreEqual(c.channels,                   () => x.TapeBound.Tape.Channels());
-            AreEqual(c.channels,                   () => x.TapeBound.TapeConfig.Channels());
-            AreEqual(c.channels,                   () => x.TapeBound.TapeActions.Channels());
-            AreEqual(c.channels,                   () => x.TapeBound.TapeAction.Channels());
-            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.Tape.IsMono());
-            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeConfig.IsMono());
-            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeActions.IsMono());
-            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeAction.IsMono());
-            AreEqual(c.channels == StereoChannels, () => x.TapeBound.Tape.IsStereo());
-            AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeConfig.IsStereo());
-            AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeActions.IsStereo());
-            AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeAction.IsStereo());
-            AreEqual(c.channel,                    () => x.TapeBound.Tape.Channel());
-            AreEqual(c.channel,                    () => x.TapeBound.TapeConfig.Channel());
-            AreEqual(c.channel,                    () => x.TapeBound.TapeActions.Channel());
-            AreEqual(c.channel,                    () => x.TapeBound.TapeAction.Channel());
-            AreEqual(c == (1,0),                   () => x.TapeBound.Tape.IsCenter());
-            AreEqual(c == (1,0),                   () => x.TapeBound.TapeConfig.IsCenter());
-            AreEqual(c == (1,0),                   () => x.TapeBound.TapeActions.IsCenter());
-            AreEqual(c == (1,0),                   () => x.TapeBound.TapeAction.IsCenter());
-            AreEqual(c == (2,0),                   () => x.TapeBound.Tape.IsLeft());
-            AreEqual(c == (2,0),                   () => x.TapeBound.TapeConfig.IsLeft());
-            AreEqual(c == (2,0),                   () => x.TapeBound.TapeActions.IsLeft());
-            AreEqual(c == (2,0),                   () => x.TapeBound.TapeAction.IsLeft());
-            AreEqual(c == (2,1),                   () => x.TapeBound.Tape.IsRight());
-            AreEqual(c == (2,1),                   () => x.TapeBound.TapeConfig.IsRight());
-            AreEqual(c == (2,1),                   () => x.TapeBound.TapeActions.IsRight());
-            AreEqual(c == (2,1),                   () => x.TapeBound.TapeAction.IsRight());
+            IsNotNull(() => x);
+            IsNotNull(() => x.TapeBound.Tape);
+            IsNotNull(() => x.TapeBound.TapeConfig);
+            IsNotNull(() => x.TapeBound.TapeActions);
+            IsNotNull(() => x.TapeBound.TapeAction);
+            AreEqual(c.channels,      () => x.TapeBound.TapeConfig.Channels   );
+            AreEqual(c.channel,       () => x.TapeBound.TapeConfig.Channel    );
+            AreEqual(c.channels == 1, () => x.TapeBound.TapeConfig.IsMono     );
+            AreEqual(c.channels == 2, () => x.TapeBound.TapeConfig.IsStereo   );
+            AreEqual(c == (1,0),      () => x.TapeBound.TapeConfig.IsCenter   );
+            AreEqual(c == (2,0),      () => x.TapeBound.TapeConfig.IsLeft     );
+            AreEqual(c == (2,1),      () => x.TapeBound.TapeConfig.IsRight    );
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeConfig.IsNoChannel);
+            AreEqual(c.channel,       () => x.TapeBound.Tape       .Channel       ());
+            AreEqual(c.channel,       () => x.TapeBound.TapeConfig .Channel       ());
+            AreEqual(c.channel,       () => x.TapeBound.TapeActions.Channel       ());
+            AreEqual(c.channel,       () => x.TapeBound.TapeAction .Channel       ());
+            AreEqual(c.channels,      () => x.TapeBound.Tape       .Channels      ());
+            AreEqual(c.channels,      () => x.TapeBound.TapeConfig .Channels      ());
+            AreEqual(c.channels,      () => x.TapeBound.TapeActions.Channels      ());
+            AreEqual(c.channels,      () => x.TapeBound.TapeAction .Channels      ());
+            AreEqual(c.channel,       () => x.TapeBound.Tape       .GetChannel    ());
+            AreEqual(c.channel,       () => x.TapeBound.TapeConfig .GetChannel    ());
+            AreEqual(c.channel,       () => x.TapeBound.TapeActions.GetChannel    ());
+            AreEqual(c.channel,       () => x.TapeBound.TapeAction .GetChannel    ());
+            AreEqual(c.channels,      () => x.TapeBound.Tape       .GetChannels   ());
+            AreEqual(c.channels,      () => x.TapeBound.TapeConfig .GetChannels   ());
+            AreEqual(c.channels,      () => x.TapeBound.TapeActions.GetChannels   ());
+            AreEqual(c.channels,      () => x.TapeBound.TapeAction .GetChannels   ());
+            AreEqual(c == (1,0),      () => x.TapeBound.Tape       .IsCenter      ());
+            AreEqual(c == (1,0),      () => x.TapeBound.TapeConfig .IsCenter      ());
+            AreEqual(c == (1,0),      () => x.TapeBound.TapeActions.IsCenter      ());
+            AreEqual(c == (1,0),      () => x.TapeBound.TapeAction .IsCenter      ());
+            AreEqual(c == (2,0),      () => x.TapeBound.Tape       .IsLeft        ());
+            AreEqual(c == (2,0),      () => x.TapeBound.TapeConfig .IsLeft        ());
+            AreEqual(c == (2,0),      () => x.TapeBound.TapeActions.IsLeft        ());
+            AreEqual(c == (2,0),      () => x.TapeBound.TapeAction .IsLeft        ());
+            AreEqual(c == (2,1),      () => x.TapeBound.Tape       .IsRight       ());
+            AreEqual(c == (2,1),      () => x.TapeBound.TapeConfig .IsRight       ());
+            AreEqual(c == (2,1),      () => x.TapeBound.TapeActions.IsRight       ());
+            AreEqual(c == (2,1),      () => x.TapeBound.TapeAction .IsRight       ());
+            AreEqual(c == (2,_),      () => x.TapeBound.Tape       .IsNoChannel   ());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeConfig .IsNoChannel   ());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeActions.IsNoChannel   ());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeAction .IsNoChannel   ());
+            AreEqual(c == (2,_),      () => x.TapeBound.Tape       .IsAnyChannel  ());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeConfig .IsAnyChannel  ());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeActions.IsAnyChannel  ());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeAction .IsAnyChannel  ());
+            AreEqual(c == (2,_),      () => x.TapeBound.Tape       .IsEveryChannel());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeConfig .IsEveryChannel());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeActions.IsEveryChannel());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeAction .IsEveryChannel());
+            AreEqual(c == (2,_),      () => x.TapeBound.Tape       .IsChannelEmpty());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeConfig .IsChannelEmpty());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeActions.IsChannelEmpty());
+            AreEqual(c == (2,_),      () => x.TapeBound.TapeAction .IsChannelEmpty());
+            AreEqual(c.channels == 1, () => x.TapeBound.Tape       .IsMono        ());
+            AreEqual(c.channels == 1, () => x.TapeBound.TapeConfig .IsMono        ());
+            AreEqual(c.channels == 1, () => x.TapeBound.TapeActions.IsMono        ());
+            AreEqual(c.channels == 1, () => x.TapeBound.TapeAction .IsMono        ());
+            AreEqual(c.channels == 2, () => x.TapeBound.Tape       .IsStereo      ());
+            AreEqual(c.channels == 2, () => x.TapeBound.TapeConfig .IsStereo      ());
+            AreEqual(c.channels == 2, () => x.TapeBound.TapeActions.IsStereo      ());
+            AreEqual(c.channels == 2, () => x.TapeBound.TapeAction .IsStereo      ());
+            AreEqual(c.channel,       () => Channel       (x.TapeBound.Tape       ));
+            AreEqual(c.channel,       () => Channel       (x.TapeBound.TapeConfig ));
+            AreEqual(c.channel,       () => Channel       (x.TapeBound.TapeActions));
+            AreEqual(c.channel,       () => Channel       (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,      () => Channels      (x.TapeBound.Tape       ));
+            AreEqual(c.channels,      () => Channels      (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,      () => Channels      (x.TapeBound.TapeActions));
+            AreEqual(c.channels,      () => Channels      (x.TapeBound.TapeAction ));
+            AreEqual(c.channel,       () => GetChannel    (x.TapeBound.Tape       ));
+            AreEqual(c.channel,       () => GetChannel    (x.TapeBound.TapeConfig ));
+            AreEqual(c.channel,       () => GetChannel    (x.TapeBound.TapeActions));
+            AreEqual(c.channel,       () => GetChannel    (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.Tape       ));
+            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.TapeActions));
+            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.TapeAction ));
+            AreEqual(c == (1,0),      () => IsCenter      (x.TapeBound.Tape       ));
+            AreEqual(c == (1,0),      () => IsCenter      (x.TapeBound.TapeConfig ));
+            AreEqual(c == (1,0),      () => IsCenter      (x.TapeBound.TapeActions));
+            AreEqual(c == (1,0),      () => IsCenter      (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,0),      () => IsLeft        (x.TapeBound.Tape       ));
+            AreEqual(c == (2,0),      () => IsLeft        (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,0),      () => IsLeft        (x.TapeBound.TapeActions));
+            AreEqual(c == (2,0),      () => IsLeft        (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,1),      () => IsRight       (x.TapeBound.Tape       ));
+            AreEqual(c == (2,1),      () => IsRight       (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,1),      () => IsRight       (x.TapeBound.TapeActions));
+            AreEqual(c == (2,1),      () => IsRight       (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => IsNoChannel   (x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => IsNoChannel   (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => IsNoChannel   (x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => IsNoChannel   (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => IsAnyChannel  (x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => IsAnyChannel  (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => IsAnyChannel  (x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => IsAnyChannel  (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => IsEveryChannel(x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => IsEveryChannel(x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => IsEveryChannel(x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => IsEveryChannel(x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => IsChannelEmpty(x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => IsChannelEmpty(x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => IsChannelEmpty(x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => IsChannelEmpty(x.TapeBound.TapeAction ));
+            AreEqual(c.channels == 1, () => IsMono        (x.TapeBound.Tape       ));
+            AreEqual(c.channels == 1, () => IsMono        (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels == 1, () => IsMono        (x.TapeBound.TapeActions));
+            AreEqual(c.channels == 1, () => IsMono        (x.TapeBound.TapeAction ));
+            AreEqual(c.channels == 2, () => IsStereo      (x.TapeBound.Tape       ));
+            AreEqual(c.channels == 2, () => IsStereo      (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels == 2, () => IsStereo      (x.TapeBound.TapeActions));
+            AreEqual(c.channels == 2, () => IsStereo      (x.TapeBound.TapeAction ));
+            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.TapeBound.Tape       ));
+            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.TapeBound.TapeConfig ));
+            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.TapeBound.TapeActions));
+            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.Tape       ));
+            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.TapeActions));
+            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.TapeAction ));
+            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.Tape       ));
+            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.TapeConfig ));
+            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.TapeActions));
+            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.Tape       ));
+            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.TapeActions));
+            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.TapeAction ));
+            AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.TapeBound.Tape       ));
+            AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.TapeBound.TapeConfig ));
+            AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.TapeBound.TapeActions));
+            AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,0),      () => ConfigWishes.IsLeft        (x.TapeBound.Tape       ));
+            AreEqual(c == (2,0),      () => ConfigWishes.IsLeft        (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,0),      () => ConfigWishes.IsLeft        (x.TapeBound.TapeActions));
+            AreEqual(c == (2,0),      () => ConfigWishes.IsLeft        (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,1),      () => ConfigWishes.IsRight       (x.TapeBound.Tape       ));
+            AreEqual(c == (2,1),      () => ConfigWishes.IsRight       (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,1),      () => ConfigWishes.IsRight       (x.TapeBound.TapeActions));
+            AreEqual(c == (2,1),      () => ConfigWishes.IsRight       (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsNoChannel   (x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsNoChannel   (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsNoChannel   (x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsNoChannel   (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsAnyChannel  (x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsAnyChannel  (x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsAnyChannel  (x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsAnyChannel  (x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsEveryChannel(x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsEveryChannel(x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsEveryChannel(x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsEveryChannel(x.TapeBound.TapeAction ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.TapeBound.Tape       ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.TapeBound.TapeConfig ));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.TapeBound.TapeActions));
+            AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.TapeBound.TapeAction ));
+            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.TapeBound.Tape       ));
+            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.TapeBound.TapeActions));
+            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.TapeBound.TapeAction ));
+            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.TapeBound.Tape       ));
+            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.TapeBound.TapeActions));
+            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.TapeBound.TapeAction ));
         }
         
         private void Assert_TapeBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
@@ -1176,101 +1307,209 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_MonoTape_Getters(TapeEntities x)
         {
-            Assert_Tape_Getters_Base(x);
-            
-            AreEqual(MonoChannels, () => x.TapeBound.Tape.Channels());
-            AreEqual(MonoChannels, () => x.TapeBound.TapeConfig.Channels());
-            AreEqual(MonoChannels, () => x.TapeBound.TapeConfig.Channels);
-            AreEqual(MonoChannels, () => x.TapeBound.TapeActions.Channels());
-            AreEqual(MonoChannels, () => x.TapeBound.TapeAction.Channels());
-                                        
-            IsTrue(() => x.TapeBound.Tape.IsMono());
-            IsTrue(() => x.TapeBound.TapeConfig.IsMono());
-            IsTrue(() => x.TapeBound.TapeConfig.IsMono);
-            IsTrue(() => x.TapeBound.TapeActions.IsMono());
-            IsTrue(() => x.TapeBound.TapeAction.IsMono());
-                    
-            IsFalse(() => x.TapeBound.Tape.IsStereo());
-            IsFalse(() => x.TapeBound.TapeConfig.IsStereo());
-            IsFalse(() => x.TapeBound.TapeConfig.IsStereo);
-            IsFalse(() => x.TapeBound.TapeActions.IsStereo());
-            IsFalse(() => x.TapeBound.TapeAction.IsStereo());
-
-            AreEqual(CenterChannel, () => x.TapeBound.Tape.Channel());
-            AreEqual(CenterChannel, () => x.TapeBound.TapeConfig.Channel());
-            AreEqual(CenterChannel, () => x.TapeBound.TapeConfig.Channel);
-            AreEqual(CenterChannel, () => x.TapeBound.TapeActions.Channel());
-            AreEqual(CenterChannel, () => x.TapeBound.TapeAction.Channel());
-                                                                    
-            IsTrue(() => x.TapeBound.Tape.IsCenter());
-            IsTrue(() => x.TapeBound.TapeConfig.IsCenter());
-            IsTrue(() => x.TapeBound.TapeConfig.IsCenter);
-            IsTrue(() => x.TapeBound.TapeActions.IsCenter());
-            IsTrue(() => x.TapeBound.TapeAction.IsCenter());
-                                                                    
-            IsFalse(() => x.TapeBound.Tape.IsLeft());
-            IsFalse(() => x.TapeBound.TapeConfig.IsLeft());
-            IsFalse(() => x.TapeBound.TapeConfig.IsLeft);
-            IsFalse(() => x.TapeBound.TapeActions.IsLeft());
-            IsFalse(() => x.TapeBound.TapeAction.IsLeft());
-                                                                    
-            IsFalse(() => x.TapeBound.Tape.IsRight());
-            IsFalse(() => x.TapeBound.TapeConfig.IsRight());
-            IsFalse(() => x.TapeBound.TapeConfig.IsRight);
-            IsFalse(() => x.TapeBound.TapeActions.IsRight());
-            IsFalse(() => x.TapeBound.TapeAction.IsRight());
+                          IsNotNull(() => x                      );
+                          IsNotNull(() => x.TapeBound.Tape       );
+                          IsNotNull(() => x.TapeBound.TapeConfig );
+                          IsNotNull(() => x.TapeBound.TapeActions);
+                          IsNotNull(() => x.TapeBound.TapeAction );
+            AreEqual(CenterChannel, () => x.TapeBound.TapeConfig .Channel );
+            AreEqual(MonoChannels , () => x.TapeBound.TapeConfig .Channels);
+                            IsTrue (() => x.TapeBound.TapeConfig .IsCenter);
+                            IsTrue (() => x.TapeBound.TapeConfig .IsMono  );
+                            IsFalse(() => x.TapeBound.TapeConfig .IsLeft  );
+                            IsFalse(() => x.TapeBound.TapeConfig .IsRight );
+                            IsFalse(() => x.TapeBound.TapeConfig .IsStereo);
+            AreEqual(CenterChannel, () => x.TapeBound.Tape       .Channel    ());
+            AreEqual(CenterChannel, () => x.TapeBound.TapeConfig .Channel    ());
+            AreEqual(CenterChannel, () => x.TapeBound.TapeActions.Channel    ());
+            AreEqual(CenterChannel, () => x.TapeBound.TapeAction .Channel    ());
+            AreEqual(MonoChannels , () => x.TapeBound.Tape       .Channels   ());
+            AreEqual(MonoChannels , () => x.TapeBound.TapeConfig .Channels   ());
+            AreEqual(MonoChannels , () => x.TapeBound.TapeActions.Channels   ());
+            AreEqual(MonoChannels , () => x.TapeBound.TapeAction .Channels   ());
+            AreEqual(CenterChannel, () => x.TapeBound.Tape       .GetChannel ());
+            AreEqual(CenterChannel, () => x.TapeBound.TapeConfig .GetChannel ());
+            AreEqual(CenterChannel, () => x.TapeBound.TapeActions.GetChannel ());
+            AreEqual(CenterChannel, () => x.TapeBound.TapeAction .GetChannel ());
+            AreEqual(MonoChannels , () => x.TapeBound.Tape       .GetChannels());
+            AreEqual(MonoChannels , () => x.TapeBound.TapeConfig .GetChannels());
+            AreEqual(MonoChannels , () => x.TapeBound.TapeActions.GetChannels());
+            AreEqual(MonoChannels , () => x.TapeBound.TapeAction .GetChannels());
+                            IsTrue (() => x.TapeBound.Tape       .IsCenter   ());
+                            IsTrue (() => x.TapeBound.TapeConfig .IsCenter   ());
+                            IsTrue (() => x.TapeBound.TapeActions.IsCenter   ());
+                            IsTrue (() => x.TapeBound.TapeAction .IsCenter   ());
+                            IsTrue (() => x.TapeBound.Tape       .IsMono     ());
+                            IsTrue (() => x.TapeBound.TapeConfig .IsMono     ());
+                            IsTrue (() => x.TapeBound.TapeActions.IsMono     ());
+                            IsTrue (() => x.TapeBound.TapeAction .IsMono     ());
+                            IsFalse(() => x.TapeBound.Tape       .IsLeft     ());
+                            IsFalse(() => x.TapeBound.TapeConfig .IsLeft     ());
+                            IsFalse(() => x.TapeBound.TapeActions.IsLeft     ());
+                            IsFalse(() => x.TapeBound.TapeAction .IsLeft     ());
+                            IsFalse(() => x.TapeBound.Tape       .IsRight    ());
+                            IsFalse(() => x.TapeBound.TapeConfig .IsRight    ());
+                            IsFalse(() => x.TapeBound.TapeActions.IsRight    ());
+                            IsFalse(() => x.TapeBound.TapeAction .IsRight    ());
+                            //IsFalse(() => x.TapeBound.Tape       .IsNoChannel());
+                            //IsFalse(() => x.TapeBound.TapeConfig .IsNoChannel());
+                            //IsFalse(() => x.TapeBound.TapeActions.IsNoChannel());
+                            //IsFalse(() => x.TapeBound.TapeAction .IsNoChannel());
+                            //IsFalse(() => x.TapeBound.Tape       .IsAnyChannel());
+                            //IsFalse(() => x.TapeBound.TapeConfig .IsAnyChannel());
+                            //IsFalse(() => x.TapeBound.TapeActions.IsAnyChannel());
+                            //IsFalse(() => x.TapeBound.TapeAction .IsAnyChannel());
+                            //IsFalse(() => x.TapeBound.Tape       .IsEveryChannel());
+                            //IsFalse(() => x.TapeBound.TapeConfig .IsEveryChannel());
+                            //IsFalse(() => x.TapeBound.TapeActions.IsEveryChannel());
+                            //IsFalse(() => x.TapeBound.TapeAction .IsEveryChannel());
+                            //IsFalse(() => x.TapeBound.Tape       .IsChannelEmpty());
+                            //IsFalse(() => x.TapeBound.TapeConfig .IsChannelEmpty());
+                            //IsFalse(() => x.TapeBound.TapeActions.IsChannelEmpty());
+                            //IsFalse(() => x.TapeBound.TapeAction .IsChannelEmpty());
+                            IsFalse(() => x.TapeBound.Tape       .IsStereo   ());
+                            IsFalse(() => x.TapeBound.TapeConfig .IsStereo   ());
+                            IsFalse(() => x.TapeBound.TapeActions.IsStereo   ());
+                            IsFalse(() => x.TapeBound.TapeAction .IsStereo   ());
+            AreEqual(CenterChannel, () => Channel    (x.TapeBound.Tape       ));
+            AreEqual(CenterChannel, () => Channel    (x.TapeBound.TapeConfig ));
+            AreEqual(CenterChannel, () => Channel    (x.TapeBound.TapeActions));
+            AreEqual(CenterChannel, () => Channel    (x.TapeBound.TapeAction ));
+            AreEqual(MonoChannels , () => Channels   (x.TapeBound.Tape       ));
+            AreEqual(MonoChannels , () => Channels   (x.TapeBound.TapeConfig ));
+            AreEqual(MonoChannels , () => Channels   (x.TapeBound.TapeActions));
+            AreEqual(MonoChannels , () => Channels   (x.TapeBound.TapeAction ));
+            AreEqual(CenterChannel, () => GetChannel (x.TapeBound.Tape       ));
+            AreEqual(CenterChannel, () => GetChannel (x.TapeBound.TapeConfig ));
+            AreEqual(CenterChannel, () => GetChannel (x.TapeBound.TapeActions));
+            AreEqual(CenterChannel, () => GetChannel (x.TapeBound.TapeAction ));
+            AreEqual(MonoChannels , () => GetChannels(x.TapeBound.Tape       ));
+            AreEqual(MonoChannels , () => GetChannels(x.TapeBound.TapeConfig ));
+            AreEqual(MonoChannels , () => GetChannels(x.TapeBound.TapeActions));
+            AreEqual(MonoChannels , () => GetChannels(x.TapeBound.TapeAction ));
+                            IsTrue (() => IsCenter   (x.TapeBound.Tape       ));
+                            IsTrue (() => IsCenter   (x.TapeBound.TapeConfig ));
+                            IsTrue (() => IsCenter   (x.TapeBound.TapeActions));
+                            IsTrue (() => IsCenter   (x.TapeBound.TapeAction ));
+                            IsTrue (() => IsMono     (x.TapeBound.Tape       ));
+                            IsTrue (() => IsMono     (x.TapeBound.TapeConfig ));
+                            IsTrue (() => IsMono     (x.TapeBound.TapeActions));
+                            IsTrue (() => IsMono     (x.TapeBound.TapeAction ));
+                            IsFalse(() => IsLeft     (x.TapeBound.Tape       ));
+                            IsFalse(() => IsLeft     (x.TapeBound.TapeConfig ));
+                            IsFalse(() => IsLeft     (x.TapeBound.TapeActions));
+                            IsFalse(() => IsLeft     (x.TapeBound.TapeAction ));
+                            IsFalse(() => IsRight    (x.TapeBound.Tape       ));
+                            IsFalse(() => IsRight    (x.TapeBound.TapeConfig ));
+                            IsFalse(() => IsRight    (x.TapeBound.TapeActions));
+                            IsFalse(() => IsRight    (x.TapeBound.TapeAction ));
+                            IsFalse(() => IsStereo   (x.TapeBound.Tape       ));
+                            IsFalse(() => IsStereo   (x.TapeBound.TapeConfig ));
+                            IsFalse(() => IsStereo   (x.TapeBound.TapeActions));
+                            IsFalse(() => IsStereo   (x.TapeBound.TapeAction ));
+            AreEqual(CenterChannel, () => ConfigWishes.Channel    (x.TapeBound.Tape       ));
+            AreEqual(CenterChannel, () => ConfigWishes.Channel    (x.TapeBound.TapeConfig ));
+            AreEqual(CenterChannel, () => ConfigWishes.Channel    (x.TapeBound.TapeActions));
+            AreEqual(CenterChannel, () => ConfigWishes.Channel    (x.TapeBound.TapeAction ));
+            AreEqual(MonoChannels , () => ConfigWishes.Channels   (x.TapeBound.Tape       ));
+            AreEqual(MonoChannels , () => ConfigWishes.Channels   (x.TapeBound.TapeConfig ));
+            AreEqual(MonoChannels , () => ConfigWishes.Channels   (x.TapeBound.TapeActions));
+            AreEqual(MonoChannels , () => ConfigWishes.Channels   (x.TapeBound.TapeAction ));
+            AreEqual(CenterChannel, () => ConfigWishes.GetChannel (x.TapeBound.Tape       ));
+            AreEqual(CenterChannel, () => ConfigWishes.GetChannel (x.TapeBound.TapeConfig ));
+            AreEqual(CenterChannel, () => ConfigWishes.GetChannel (x.TapeBound.TapeActions));
+            AreEqual(CenterChannel, () => ConfigWishes.GetChannel (x.TapeBound.TapeAction ));
+            AreEqual(MonoChannels , () => ConfigWishes.GetChannels(x.TapeBound.Tape       ));
+            AreEqual(MonoChannels , () => ConfigWishes.GetChannels(x.TapeBound.TapeConfig ));
+            AreEqual(MonoChannels , () => ConfigWishes.GetChannels(x.TapeBound.TapeActions));
+            AreEqual(MonoChannels , () => ConfigWishes.GetChannels(x.TapeBound.TapeAction ));
+                            IsTrue (() => ConfigWishes.IsCenter   (x.TapeBound.Tape       ));
+                            IsTrue (() => ConfigWishes.IsCenter   (x.TapeBound.TapeConfig ));
+                            IsTrue (() => ConfigWishes.IsCenter   (x.TapeBound.TapeActions));
+                            IsTrue (() => ConfigWishes.IsCenter   (x.TapeBound.TapeAction ));
+                            IsTrue (() => ConfigWishes.IsMono     (x.TapeBound.Tape       ));
+                            IsTrue (() => ConfigWishes.IsMono     (x.TapeBound.TapeConfig ));
+                            IsTrue (() => ConfigWishes.IsMono     (x.TapeBound.TapeActions));
+                            IsTrue (() => ConfigWishes.IsMono     (x.TapeBound.TapeAction ));
+                            IsFalse(() => ConfigWishes.IsLeft     (x.TapeBound.Tape       ));
+                            IsFalse(() => ConfigWishes.IsLeft     (x.TapeBound.TapeConfig ));
+                            IsFalse(() => ConfigWishes.IsLeft     (x.TapeBound.TapeActions));
+                            IsFalse(() => ConfigWishes.IsLeft     (x.TapeBound.TapeAction ));
+                            IsFalse(() => ConfigWishes.IsRight    (x.TapeBound.Tape       ));
+                            IsFalse(() => ConfigWishes.IsRight    (x.TapeBound.TapeConfig ));
+                            IsFalse(() => ConfigWishes.IsRight    (x.TapeBound.TapeActions));
+                            IsFalse(() => ConfigWishes.IsRight    (x.TapeBound.TapeAction ));
+                            IsFalse(() => ConfigWishes.IsStereo   (x.TapeBound.Tape       ));
+                            IsFalse(() => ConfigWishes.IsStereo   (x.TapeBound.TapeConfig ));
+                            IsFalse(() => ConfigWishes.IsStereo   (x.TapeBound.TapeActions));
+                            IsFalse(() => ConfigWishes.IsStereo   (x.TapeBound.TapeAction ));
         }
 
         private void Assert_StereoTape_Getters(TapeEntities x)
         {
-            Assert_Tape_Getters_Base(x);
+            IsNotNull(() => x);
+            IsNotNull(() => x.TapeBound.Tape);
+            IsNotNull(() => x.TapeBound.TapeConfig);
+            IsNotNull(() => x.TapeBound.TapeActions);
+            IsNotNull(() => x.TapeBound.TapeAction);
             
-            AreEqual(StereoChannels, () => x.TapeBound.Tape.Channels());
-            AreEqual(StereoChannels, () => x.TapeBound.TapeConfig.Channels());
+            AreEqual(ChannelEmpty,   () => x.TapeBound.TapeConfig.Channel );
             AreEqual(StereoChannels, () => x.TapeBound.TapeConfig.Channels);
+                             IsTrue (() => x.TapeBound.TapeConfig.IsStereo);
+                             IsTrue (() => x.TapeBound.TapeConfig.IsNoChannel);
+                             IsFalse(() => x.TapeBound.TapeConfig.IsMono  );
+                             IsFalse(() => x.TapeBound.TapeConfig.IsCenter);
+                             IsFalse(() => x.TapeBound.TapeConfig.IsLeft  );
+                             IsFalse(() => x.TapeBound.TapeConfig.IsRight );
+
+            AreEqual(ChannelEmpty,   () => x.TapeBound.Tape       .Channel ());
+            AreEqual(ChannelEmpty,   () => x.TapeBound.TapeConfig .Channel ());
+            AreEqual(ChannelEmpty,   () => x.TapeBound.TapeActions.Channel ());
+            AreEqual(ChannelEmpty,   () => x.TapeBound.TapeAction .Channel ());
+            AreEqual(StereoChannels, () => x.TapeBound.Tape       .Channels());
+            AreEqual(StereoChannels, () => x.TapeBound.TapeConfig .Channels());
             AreEqual(StereoChannels, () => x.TapeBound.TapeActions.Channels());
-            AreEqual(StereoChannels, () => x.TapeBound.TapeAction.Channels());
-                                                    
-            IsFalse(() => x.TapeBound.Tape.IsMono());
-            IsFalse(() => x.TapeBound.TapeConfig.IsMono());
-            IsFalse(() => x.TapeBound.TapeConfig.IsMono);
-            IsFalse(() => x.TapeBound.TapeActions.IsMono());
-            IsFalse(() => x.TapeBound.TapeAction.IsMono());
+            AreEqual(StereoChannels, () => x.TapeBound.TapeAction .Channels());
             
-            IsTrue(() => x.TapeBound.Tape.IsStereo());
-            IsTrue(() => x.TapeBound.TapeConfig.IsStereo());
-            IsTrue(() => x.TapeBound.TapeConfig.IsStereo);
+            IsTrue(() => x.TapeBound.Tape       .IsStereo());
+            IsTrue(() => x.TapeBound.TapeConfig .IsStereo());
             IsTrue(() => x.TapeBound.TapeActions.IsStereo());
-            IsTrue(() => x.TapeBound.TapeAction.IsStereo());
+            IsTrue(() => x.TapeBound.TapeAction .IsStereo());
+            
+            //IsTrue(() => x.TapeBound.Tape       .IsNoChannel());
+            //IsTrue(() => x.TapeBound.TapeConfig .IsNoChannel());
+            //IsTrue(() => x.TapeBound.TapeActions.IsNoChannel());
+            //IsTrue(() => x.TapeBound.TapeAction .IsNoChannel());
 
-            AreEqual(ChannelEmpty, () => x.TapeBound.Tape.Channel());
-            AreEqual(ChannelEmpty, () => x.TapeBound.TapeConfig.Channel());
-            AreEqual(ChannelEmpty, () => x.TapeBound.TapeConfig.Channel);
-            AreEqual(ChannelEmpty, () => x.TapeBound.TapeActions.Channel());
-            AreEqual(ChannelEmpty, () => x.TapeBound.TapeAction.Channel());
+            IsFalse(() => x.TapeBound.Tape       .IsMono());
+            IsFalse(() => x.TapeBound.TapeConfig .IsMono());
+            IsFalse(() => x.TapeBound.TapeActions.IsMono());
+            IsFalse(() => x.TapeBound.TapeAction .IsMono());
 
-            IsFalse(() => x.TapeBound.Tape.IsCenter());
-            IsFalse(() => x.TapeBound.TapeConfig.IsCenter());
-            IsFalse(() => x.TapeBound.TapeConfig.IsCenter);
+
+            IsFalse(() => x.TapeBound.Tape       .IsCenter());
+            IsFalse(() => x.TapeBound.TapeConfig .IsCenter());
             IsFalse(() => x.TapeBound.TapeActions.IsCenter());
-            IsFalse(() => x.TapeBound.TapeAction.IsCenter());
+            IsFalse(() => x.TapeBound.TapeAction .IsCenter());
                                                                     
-            IsFalse(() => x.TapeBound.Tape.IsLeft());
-            IsFalse(() => x.TapeBound.TapeConfig.IsLeft());
-            IsFalse(() => x.TapeBound.TapeConfig.IsLeft);
+            IsFalse(() => x.TapeBound.Tape       .IsLeft());
+            IsFalse(() => x.TapeBound.TapeConfig .IsLeft());
             IsFalse(() => x.TapeBound.TapeActions.IsLeft());
-            IsFalse(() => x.TapeBound.TapeAction.IsLeft());
+            IsFalse(() => x.TapeBound.TapeAction .IsLeft());
                                                                     
-            IsFalse(() => x.TapeBound.Tape.IsRight());
-            IsFalse(() => x.TapeBound.TapeConfig.IsRight());
-            IsFalse(() => x.TapeBound.TapeConfig.IsRight);
+            IsFalse(() => x.TapeBound.Tape       .IsRight());
+            IsFalse(() => x.TapeBound.TapeConfig .IsRight());
             IsFalse(() => x.TapeBound.TapeActions.IsRight());
-            IsFalse(() => x.TapeBound.TapeAction.IsRight());
+            IsFalse(() => x.TapeBound.TapeAction .IsRight());
         }
 
         private void Assert_LeftTape_Getters(TapeEntities x)
         {
-            Assert_Tape_Getters_Base(x);
+            IsNotNull(() => x);
+            IsNotNull(() => x.TapeBound.Tape);
+            IsNotNull(() => x.TapeBound.TapeConfig);
+            IsNotNull(() => x.TapeBound.TapeActions);
+            IsNotNull(() => x.TapeBound.TapeAction);
             
             AreEqual(StereoChannels, () => x.TapeBound.Tape.Channels());
             AreEqual(StereoChannels, () => x.TapeBound.TapeConfig.Channels());
@@ -1317,8 +1556,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_RightTape_Getters(TapeEntities x)
         {
-            Assert_Tape_Getters_Base(x);
-                    
+            IsNotNull(() => x);
+            IsNotNull(() => x.TapeBound.Tape);
+            IsNotNull(() => x.TapeBound.TapeConfig);
+            IsNotNull(() => x.TapeBound.TapeActions);
+            IsNotNull(() => x.TapeBound.TapeAction);
+            
             AreEqual(StereoChannels, () => x.TapeBound.Tape.Channels());
             AreEqual(StereoChannels, () => x.TapeBound.TapeConfig.Channels());
             AreEqual(StereoChannels, () => x.TapeBound.TapeConfig.Channels);
@@ -1361,16 +1604,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             IsTrue(() => x.TapeBound.TapeActions.IsRight());
             IsTrue(() => x.TapeBound.TapeAction.IsRight());
         }
-
-        private void Assert_Tape_Getters_Base(TapeEntities x)
-        {
-            IsNotNull(() => x);
-            IsNotNull(() => x.TapeBound.Tape);
-            IsNotNull(() => x.TapeBound.TapeConfig);
-            IsNotNull(() => x.TapeBound.TapeActions);
-            IsNotNull(() => x.TapeBound.TapeAction);
-        }
-
+        
         private void Assert_BuffBound_Getters(ConfigTestEntities x, (int channels, int? channel) c)
         {
             // TODO: Handle Mono/Stereo gracefully.
