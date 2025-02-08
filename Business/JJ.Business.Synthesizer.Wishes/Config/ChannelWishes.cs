@@ -442,10 +442,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Synth-Bound
         
-        public static bool IsCenter(SynthWishes obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(SynthWishes   obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
-        public static bool IsRight(SynthWishes  obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
-        public static int? Channel(SynthWishes  obj) => GetChannel(obj);
+        public static bool IsCenter  (SynthWishes obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft    (SynthWishes obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight   (SynthWishes obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel   (SynthWishes obj) => GetChannel(obj);
         public static int? GetChannel(SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
