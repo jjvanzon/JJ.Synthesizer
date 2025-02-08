@@ -826,6 +826,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, int channels)
         {
+            IsNotNull(() => x);
+            IsNotNull(() => x.SynthBound);
+            IsNotNull(() => x.SynthBound.SynthWishes);
+            IsNotNull(() => x.SynthBound.FlowNode);
+            IsNotNull(() => x.SynthBound.ConfigResolver);
             AreEqual(channels,      () => x.SynthBound.SynthWishes   .GetChannels  );
             AreEqual(channels,      () => x.SynthBound.FlowNode      .GetChannels  );
             AreEqual(channels,      () => x.SynthBound.ConfigResolver.GetChannels  );
@@ -847,10 +852,41 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(channels == 2, () => x.SynthBound.SynthWishes   .IsStereo   ());
             AreEqual(channels == 2, () => x.SynthBound.FlowNode      .IsStereo   ());
             AreEqual(channels == 2, () => x.SynthBound.ConfigResolver.IsStereo   ());
+            AreEqual(channels,      () => Channels   (x.SynthBound.SynthWishes   ));
+            AreEqual(channels,      () => Channels   (x.SynthBound.FlowNode      ));
+            AreEqual(channels,      () => Channels   (x.SynthBound.ConfigResolver));
+            AreEqual(channels,      () => GetChannels(x.SynthBound.SynthWishes   ));
+            AreEqual(channels,      () => GetChannels(x.SynthBound.FlowNode      ));
+            AreEqual(channels,      () => GetChannels(x.SynthBound.ConfigResolver));
+            AreEqual(channels == 1, () => IsMono     (x.SynthBound.SynthWishes   ));
+            AreEqual(channels == 1, () => IsMono     (x.SynthBound.FlowNode      ));
+            AreEqual(channels == 1, () => IsMono     (x.SynthBound.ConfigResolver));
+            AreEqual(channels == 2, () => IsStereo   (x.SynthBound.SynthWishes   ));
+            AreEqual(channels == 2, () => IsStereo   (x.SynthBound.FlowNode      ));
+            AreEqual(channels == 2, () => IsStereo   (x.SynthBound.ConfigResolver));
+            AreEqual(channels,      () => ConfigWishes        .Channels   (x.SynthBound.SynthWishes   ));
+            AreEqual(channels,      () => ConfigWishes        .Channels   (x.SynthBound.FlowNode      ));
+            AreEqual(channels,      () => ConfigWishesAccessor.Channels   (x.SynthBound.ConfigResolver));
+            AreEqual(channels,      () => ConfigWishes        .GetChannels(x.SynthBound.SynthWishes   ));
+            AreEqual(channels,      () => ConfigWishes        .GetChannels(x.SynthBound.FlowNode      ));
+            AreEqual(channels,      () => ConfigWishesAccessor.GetChannels(x.SynthBound.ConfigResolver));
+            AreEqual(channels == 1, () => ConfigWishes        .IsMono     (x.SynthBound.SynthWishes   ));
+            AreEqual(channels == 1, () => ConfigWishes        .IsMono     (x.SynthBound.FlowNode      ));
+            AreEqual(channels == 1, () => ConfigWishesAccessor.IsMono     (x.SynthBound.ConfigResolver));
+            AreEqual(channels == 2, () => ConfigWishes        .IsStereo   (x.SynthBound.SynthWishes   ));
+            AreEqual(channels == 2, () => ConfigWishes        .IsStereo   (x.SynthBound.FlowNode      ));
+            AreEqual(channels == 2, () => ConfigWishesAccessor.IsStereo   (x.SynthBound.ConfigResolver));
+
         }
         
         private void Assert_TapeBound_Getters(ConfigTestEntities x, int channels)
         {
+            IsNotNull(() => x);
+            IsNotNull(() => x.TapeBound);
+            IsNotNull(() => x.TapeBound.Tape);
+            IsNotNull(() => x.TapeBound.TapeConfig);
+            IsNotNull(() => x.TapeBound.TapeActions);
+            IsNotNull(() => x.TapeBound.TapeAction);
             AreEqual(channels,      () => x.TapeBound.TapeConfig .Channels);
             AreEqual(channels,      () => x.TapeBound.Tape       .Channels   ());
             AreEqual(channels,      () => x.TapeBound.TapeConfig .Channels   ());
@@ -868,10 +904,46 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(channels == 2, () => x.TapeBound.TapeConfig .IsStereo   ());
             AreEqual(channels == 2, () => x.TapeBound.TapeActions.IsStereo   ());
             AreEqual(channels == 2, () => x.TapeBound.TapeAction .IsStereo   ());
+            AreEqual(channels,      () => Channels   (x.TapeBound.Tape       ));
+            AreEqual(channels,      () => Channels   (x.TapeBound.TapeConfig ));
+            AreEqual(channels,      () => Channels   (x.TapeBound.TapeActions));
+            AreEqual(channels,      () => Channels   (x.TapeBound.TapeAction ));
+            AreEqual(channels,      () => GetChannels(x.TapeBound.Tape       ));
+            AreEqual(channels,      () => GetChannels(x.TapeBound.TapeConfig ));
+            AreEqual(channels,      () => GetChannels(x.TapeBound.TapeActions));
+            AreEqual(channels,      () => GetChannels(x.TapeBound.TapeAction ));
+            AreEqual(channels == 1, () => IsMono     (x.TapeBound.Tape       ));
+            AreEqual(channels == 1, () => IsMono     (x.TapeBound.TapeConfig ));
+            AreEqual(channels == 1, () => IsMono     (x.TapeBound.TapeActions));
+            AreEqual(channels == 1, () => IsMono     (x.TapeBound.TapeAction ));
+            AreEqual(channels == 2, () => IsStereo   (x.TapeBound.Tape       ));
+            AreEqual(channels == 2, () => IsStereo   (x.TapeBound.TapeConfig ));
+            AreEqual(channels == 2, () => IsStereo   (x.TapeBound.TapeActions));
+            AreEqual(channels == 2, () => IsStereo   (x.TapeBound.TapeAction ));
+            AreEqual(channels,      () => ConfigWishes.Channels   (x.TapeBound.Tape       ));
+            AreEqual(channels,      () => ConfigWishes.Channels   (x.TapeBound.TapeConfig ));
+            AreEqual(channels,      () => ConfigWishes.Channels   (x.TapeBound.TapeActions));
+            AreEqual(channels,      () => ConfigWishes.Channels   (x.TapeBound.TapeAction ));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(x.TapeBound.Tape       ));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(x.TapeBound.TapeConfig ));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(x.TapeBound.TapeActions));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(x.TapeBound.TapeAction ));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (x.TapeBound.Tape       ));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (x.TapeBound.TapeConfig ));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (x.TapeBound.TapeActions));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (x.TapeBound.TapeAction ));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (x.TapeBound.Tape       ));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (x.TapeBound.TapeConfig ));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (x.TapeBound.TapeActions));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (x.TapeBound.TapeAction ));
         }
         
         private void Assert_BuffBound_Getters(ConfigTestEntities x, int channels)
         {
+            IsNotNull(() => x);
+            IsNotNull(() => x.BuffBound);
+            IsNotNull(() => x.BuffBound.Buff);
+            IsNotNull(() => x.BuffBound.AudioFileOutput);
             AreEqual(channels,      () => x.BuffBound.Buff           .Channels   ());
             AreEqual(channels,      () => x.BuffBound.AudioFileOutput.Channels   ());
             AreEqual(channels,      () => x.BuffBound.Buff           .GetChannels());
@@ -880,61 +952,138 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(channels == 1, () => x.BuffBound.AudioFileOutput.IsMono     ());
             AreEqual(channels == 2, () => x.BuffBound.Buff           .IsStereo   ());
             AreEqual(channels == 2, () => x.BuffBound.AudioFileOutput.IsStereo   ());
+            AreEqual(channels,      () => Channels   (x.BuffBound.Buff           ));
+            AreEqual(channels,      () => Channels   (x.BuffBound.AudioFileOutput));
+            AreEqual(channels,      () => GetChannels(x.BuffBound.Buff           ));
+            AreEqual(channels,      () => GetChannels(x.BuffBound.AudioFileOutput));
+            AreEqual(channels == 1, () => IsMono     (x.BuffBound.Buff           ));
+            AreEqual(channels == 1, () => IsMono     (x.BuffBound.AudioFileOutput));
+            AreEqual(channels == 2, () => IsStereo   (x.BuffBound.Buff           ));
+            AreEqual(channels == 2, () => IsStereo   (x.BuffBound.AudioFileOutput));
+            AreEqual(channels,      () => ConfigWishes.Channels   (x.BuffBound.Buff           ));
+            AreEqual(channels,      () => ConfigWishes.Channels   (x.BuffBound.AudioFileOutput));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(x.BuffBound.Buff           ));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(x.BuffBound.AudioFileOutput));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (x.BuffBound.Buff           ));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (x.BuffBound.AudioFileOutput));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (x.BuffBound.Buff           ));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (x.BuffBound.AudioFileOutput));
         }
 
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int channels)
         {
+            IsNotNull(() => audioFileInfo);
             AreEqual(channels,      () => audioFileInfo.Channels   ());
             AreEqual(channels,      () => audioFileInfo.GetChannels());
             AreEqual(channels == 1, () => audioFileInfo.IsMono     ());
             AreEqual(channels == 2, () => audioFileInfo.IsStereo   ());
+            AreEqual(channels,      () => Channels   (audioFileInfo));
+            AreEqual(channels,      () => GetChannels(audioFileInfo));
+            AreEqual(channels == 1, () => IsMono     (audioFileInfo));
+            AreEqual(channels == 2, () => IsStereo   (audioFileInfo));
+            AreEqual(channels,      () => ConfigWishes.Channels   (audioFileInfo));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(audioFileInfo));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (audioFileInfo));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (audioFileInfo));
         }
         
         private void Assert_Independent_Getters(Sample sample, int channels)
         {
+            IsNotNull(() => sample);
             AreEqual(channels,      () => sample.Channels   ());
             AreEqual(channels,      () => sample.GetChannels());
             AreEqual(channels == 1, () => sample.IsMono     ());
             AreEqual(channels == 2, () => sample.IsStereo   ());
+            AreEqual(channels,      () => Channels   (sample));
+            AreEqual(channels,      () => GetChannels(sample));
+            AreEqual(channels == 1, () => IsMono     (sample));
+            AreEqual(channels == 2, () => IsStereo   (sample));
+            AreEqual(channels,      () => ConfigWishes.Channels   (sample));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(sample));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (sample));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (sample));
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int channels)
         {
+            IsNotNull(() => audioInfoWish);
             AreEqual(channels,      () => audioInfoWish.Channels);
-            AreEqual(channels,      () => audioInfoWish.Channels  ());
+            AreEqual(channels,      () => audioInfoWish.Channels   ());
             AreEqual(channels,      () => audioInfoWish.GetChannels());
             AreEqual(channels == 1, () => audioInfoWish.IsMono     ());
             AreEqual(channels == 2, () => audioInfoWish.IsStereo   ());
+            AreEqual(channels,      () => Channels   (audioInfoWish));
+            AreEqual(channels,      () => GetChannels(audioInfoWish));
+            AreEqual(channels == 1, () => IsMono     (audioInfoWish));
+            AreEqual(channels == 2, () => IsStereo   (audioInfoWish));
+            AreEqual(channels,      () => ConfigWishes.Channels   (audioInfoWish));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(audioInfoWish));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (audioInfoWish));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (audioInfoWish));
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int channels)
         {
+            IsTrue(() => Has(wavHeader));
             AreEqual(channels,      () => wavHeader.ChannelCount);
             AreEqual(channels,      () => wavHeader.Channels   ());
             AreEqual(channels,      () => wavHeader.GetChannels());
             AreEqual(channels == 1, () => wavHeader.IsMono     ());
             AreEqual(channels == 2, () => wavHeader.IsStereo   ());
+            AreEqual(channels,      () => Channels   (wavHeader));
+            AreEqual(channels,      () => GetChannels(wavHeader));
+            AreEqual(channels == 1, () => IsMono     (wavHeader));
+            AreEqual(channels == 2, () => IsStereo   (wavHeader));
+            AreEqual(channels,      () => ConfigWishes.Channels   (wavHeader));
+            AreEqual(channels,      () => ConfigWishes.GetChannels(wavHeader));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono     (wavHeader));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo   (wavHeader));
         }
         
         private void Assert_Immutable_Getters(SpeakerSetupEnum speakerSetupEnum, int channels)
         {
+            IsTrue(() => Has(speakerSetupEnum));
             AreEqual(channels,      () => speakerSetupEnum.Channels      ());
             AreEqual(channels,      () => speakerSetupEnum.GetChannels   ());
             AreEqual(channels,      () => speakerSetupEnum.ToChannels    ());
             AreEqual(channels,      () => speakerSetupEnum.EnumToChannels());
             AreEqual(channels == 1, () => speakerSetupEnum.IsMono        ());
             AreEqual(channels == 2, () => speakerSetupEnum.IsStereo      ());
+            AreEqual(channels,      () => Channels      (speakerSetupEnum));
+            AreEqual(channels,      () => GetChannels   (speakerSetupEnum));
+            AreEqual(channels,      () => ToChannels    (speakerSetupEnum));
+            AreEqual(channels,      () => EnumToChannels(speakerSetupEnum));
+            AreEqual(channels == 1, () => IsMono        (speakerSetupEnum));
+            AreEqual(channels == 2, () => IsStereo      (speakerSetupEnum));
+            AreEqual(channels,      () => ConfigWishes.Channels      (speakerSetupEnum));
+            AreEqual(channels,      () => ConfigWishes.GetChannels   (speakerSetupEnum));
+            AreEqual(channels,      () => ConfigWishes.ToChannels    (speakerSetupEnum));
+            AreEqual(channels,      () => ConfigWishes.EnumToChannels(speakerSetupEnum));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono        (speakerSetupEnum));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo      (speakerSetupEnum));
         }
                 
         private void Assert_Immutable_Getters(SpeakerSetup speakerSetup, int channels)
         {
-            if (speakerSetup == null) throw new NullException(() => speakerSetup);
+            IsNotNull(() => speakerSetup);
             AreEqual(channels,      () => speakerSetup.Channels        ());
             AreEqual(channels,      () => speakerSetup.GetChannels     ());
             AreEqual(channels,      () => speakerSetup.ToChannels      ());
             AreEqual(channels,      () => speakerSetup.EntityToChannels());
             AreEqual(channels == 1, () => speakerSetup.IsMono          ());
             AreEqual(channels == 2, () => speakerSetup.IsStereo        ());
+            AreEqual(channels,      () => Channels        (speakerSetup));
+            AreEqual(channels,      () => GetChannels     (speakerSetup));
+            AreEqual(channels,      () => ToChannels      (speakerSetup));
+            AreEqual(channels,      () => EntityToChannels(speakerSetup));
+            AreEqual(channels == 1, () => IsMono          (speakerSetup));
+            AreEqual(channels == 2, () => IsStereo        (speakerSetup));
+            AreEqual(channels,      () => ConfigWishes.Channels        (speakerSetup));
+            AreEqual(channels,      () => ConfigWishes.GetChannels     (speakerSetup));
+            AreEqual(channels,      () => ConfigWishes.ToChannels      (speakerSetup));
+            AreEqual(channels,      () => ConfigWishes.EntityToChannels(speakerSetup));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono          (speakerSetup));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo        (speakerSetup));
         }
         
         // Test Data Helpers
