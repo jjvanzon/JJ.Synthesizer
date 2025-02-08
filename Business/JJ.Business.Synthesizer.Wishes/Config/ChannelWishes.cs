@@ -107,113 +107,147 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Tape-Bound
         
-        public static bool IsCenter(this   Tape obj) => ConfigWishes.IsCenter(obj);
-        public static bool IsLeft(this     Tape obj) => ConfigWishes.IsLeft(obj);
-        public static bool IsRight(this    Tape obj) => ConfigWishes.IsRight(obj);
-        public static int? Channel(this    Tape obj) => ConfigWishes.Channel(obj);
-        public static int? GetChannel(this Tape obj) => ConfigWishes.GetChannel(obj);
-
-        public static Tape Center(this        Tape obj) => ConfigWishes.Center(obj);
-        public static Tape WithCenter(this    Tape obj) => ConfigWishes.WithCenter(obj);
-        public static Tape AsCenter(this      Tape obj) => ConfigWishes.AsCenter(obj);
-        public static Tape Left(this          Tape obj) => ConfigWishes.Left(obj);
-        public static Tape WithLeft(this      Tape obj) => ConfigWishes.WithLeft(obj);
-        public static Tape AsLeft(this        Tape obj) => ConfigWishes.AsLeft(obj);
-        public static Tape WithRight(this     Tape obj) => ConfigWishes.WithRight(obj);
-        public static Tape Right(this         Tape obj) => ConfigWishes.Right(obj);
-        public static Tape AsRight(this       Tape obj) => ConfigWishes.AsRight(obj);
-        public static Tape NoChannel(this     Tape obj) => ConfigWishes.NoChannel(obj);
-        public static Tape WithNoChannel(this Tape obj) => ConfigWishes.WithNoChannel(obj);
-        public static Tape AsNoChannel(this   Tape obj) => ConfigWishes.AsNoChannel(obj);
-        public static Tape Channel(this       Tape obj, int? value) => ConfigWishes.Channel(obj, value);
-        public static Tape WithChannel(this   Tape obj, int? value) => ConfigWishes.WithChannel(obj, value);
-        public static Tape AsChannel(this     Tape obj, int? value) => ConfigWishes.AsChannel(obj, value);
-        public static Tape SetCenter(this     Tape obj) => ConfigWishes.SetCenter(obj);
-        public static Tape SetLeft(this       Tape obj) => ConfigWishes.SetLeft(obj);
-        public static Tape SetRight(this      Tape obj) => ConfigWishes.SetRight(obj);
-        public static Tape SetNoChannel(this  Tape obj) => ConfigWishes.SetNoChannel(obj);
-        public static Tape SetChannel(this    Tape obj, int? value) => ConfigWishes.SetChannel(obj, value);
+        public static bool IsCenter(this       Tape obj) => ConfigWishes.IsCenter(obj);
+        public static bool IsLeft(this         Tape obj) => ConfigWishes.IsLeft(obj);
+        public static bool IsRight(this        Tape obj) => ConfigWishes.IsRight(obj);
+        public static bool IsChannelEmpty(this Tape obj) => ConfigWishes.IsChannelEmpty(obj);
+        public static bool IsEveryChannel(this Tape obj) => ConfigWishes.IsEveryChannel(obj);
+        public static bool IsAnyChannel(this   Tape obj) => ConfigWishes.IsAnyChannel(obj);
+        public static bool IsNoChannel(this    Tape obj) => ConfigWishes.IsNoChannel(obj);
+        public static int? Channel(this        Tape obj) => ConfigWishes.Channel(obj);
+        public static int? GetChannel(this     Tape obj) => ConfigWishes.GetChannel(obj);
         
-        public static bool IsCenter(this   TapeConfig obj) => ConfigWishes.IsCenter(obj);
-        public static bool IsLeft(this     TapeConfig obj) => ConfigWishes.IsLeft(obj);
-        public static bool IsRight(this    TapeConfig obj) => ConfigWishes.IsRight(obj);
-        public static int? Channel(this    TapeConfig obj) => ConfigWishes.Channel(obj);
-        public static int? GetChannel(this TapeConfig obj) => ConfigWishes.GetChannel(obj);
+        public static Tape Center(this           Tape obj) => ConfigWishes.Center(obj);
+        public static Tape WithCenter(this       Tape obj) => ConfigWishes.WithCenter(obj);
+        public static Tape AsCenter(this         Tape obj) => ConfigWishes.AsCenter(obj);
+        public static Tape Left(this             Tape obj) => ConfigWishes.Left(obj);
+        public static Tape WithLeft(this         Tape obj) => ConfigWishes.WithLeft(obj);
+        public static Tape AsLeft(this           Tape obj) => ConfigWishes.AsLeft(obj);
+        public static Tape WithRight(this        Tape obj) => ConfigWishes.WithRight(obj);
+        public static Tape Right(this            Tape obj) => ConfigWishes.Right(obj);
+        public static Tape AsRight(this          Tape obj) => ConfigWishes.AsRight(obj);
+        public static Tape NoChannel(this        Tape obj) => ConfigWishes.NoChannel(obj);
+        public static Tape WithNoChannel(this    Tape obj) => ConfigWishes.WithNoChannel(obj);
+        public static Tape WithAnyChannel(this   Tape obj) => ConfigWishes.WithAnyChannel(obj);
+        public static Tape WithEveryChannel(this Tape obj) => ConfigWishes.WithEveryChannel(obj);
+        public static Tape WithChannelEmpty(this Tape obj) => ConfigWishes.WithChannelEmpty(obj);
+        public static Tape AsNoChannel(this      Tape obj) => ConfigWishes.AsNoChannel(obj);
+        public static Tape AsAnyChannel(this     Tape obj) => ConfigWishes.AsAnyChannel(obj);
+        public static Tape AsEveryChannel(this   Tape obj) => ConfigWishes.AsEveryChannel(obj);
+        public static Tape AsChannelEmpty(this   Tape obj) => ConfigWishes.AsChannelEmpty(obj);
+        public static Tape SetNoChannel(this     Tape obj) => ConfigWishes.SetNoChannel(obj);
+        public static Tape SetAnyChannel(this    Tape obj) => ConfigWishes.SetAnyChannel(obj);
+        public static Tape SetEveryChannel(this  Tape obj) => ConfigWishes.SetEveryChannel(obj);
+        public static Tape Channel(this          Tape obj, int? value) => ConfigWishes.Channel(obj, value);
+        public static Tape WithChannel(this      Tape obj, int? value) => ConfigWishes.WithChannel(obj, value);
+        public static Tape AsChannel(this        Tape obj, int? value) => ConfigWishes.AsChannel(obj, value);
+        public static Tape SetCenter(this        Tape obj) => ConfigWishes.SetCenter(obj);
+        public static Tape SetLeft(this          Tape obj) => ConfigWishes.SetLeft(obj);
+        public static Tape SetRight(this         Tape obj) => ConfigWishes.SetRight(obj);
+        public static Tape SetChannelEmpty(this  Tape obj) => ConfigWishes.SetChannelEmpty(obj);
+        public static Tape SetChannel(this       Tape obj, int? value) => ConfigWishes.SetChannel(obj, value);
         
-        public static TapeConfig Center(this        TapeConfig obj) => ConfigWishes.Center(obj);
-        public static TapeConfig WithCenter(this    TapeConfig obj) => ConfigWishes.WithCenter(obj);
-        public static TapeConfig AsCenter(this      TapeConfig obj) => ConfigWishes.AsCenter(obj);
-        public static TapeConfig Left(this          TapeConfig obj) => ConfigWishes.Left(obj);
-        public static TapeConfig WithLeft(this      TapeConfig obj) => ConfigWishes.WithLeft(obj);
-        public static TapeConfig AsLeft(this        TapeConfig obj) => ConfigWishes.AsLeft(obj);
-        public static TapeConfig WithRight(this     TapeConfig obj) => ConfigWishes.WithRight(obj);
-        public static TapeConfig Right(this         TapeConfig obj) => ConfigWishes.Right(obj);
-        public static TapeConfig AsRight(this       TapeConfig obj) => ConfigWishes.AsRight(obj);
-        public static TapeConfig NoChannel(this     TapeConfig obj) => ConfigWishes.NoChannel(obj);
-        public static TapeConfig WithNoChannel(this TapeConfig obj) => ConfigWishes.WithNoChannel(obj);
-        public static TapeConfig AsNoChannel(this   TapeConfig obj) => ConfigWishes.AsNoChannel(obj);
-        public static TapeConfig Channel(this       TapeConfig obj, int? value) => ConfigWishes.Channel(obj, value);
-        public static TapeConfig WithChannel(this   TapeConfig obj, int? value) => ConfigWishes.WithChannel(obj, value);
-        public static TapeConfig AsChannel(this     TapeConfig obj, int? value) => ConfigWishes.AsChannel(obj, value);
-        public static TapeConfig SetCenter(this     TapeConfig obj) => ConfigWishes.SetCenter(obj);
-        public static TapeConfig SetLeft(this       TapeConfig obj) => ConfigWishes.SetLeft(obj);
-        public static TapeConfig SetRight(this      TapeConfig obj) => ConfigWishes.SetRight(obj);
-        public static TapeConfig SetNoChannel(this  TapeConfig obj) => ConfigWishes.SetNoChannel(obj);
-        public static TapeConfig SetChannel(this    TapeConfig obj, int? value) => ConfigWishes.SetChannel(obj, value);
+        public static bool IsCenter(this       TapeConfig obj) => ConfigWishes.IsCenter(obj);
+        public static bool IsLeft(this         TapeConfig obj) => ConfigWishes.IsLeft(obj);
+        public static bool IsRight(this        TapeConfig obj) => ConfigWishes.IsRight(obj);
+        public static bool IsChannelEmpty(this TapeConfig obj) => ConfigWishes.IsChannelEmpty(obj);
+        public static bool IsEveryChannel(this TapeConfig obj) => ConfigWishes.IsEveryChannel(obj);
+        public static bool IsAnyChannel(this   TapeConfig obj) => ConfigWishes.IsAnyChannel(obj);
+        public static bool IsNoChannel(this    TapeConfig obj) => ConfigWishes.IsNoChannel(obj);
+        public static int? Channel(this        TapeConfig obj) => ConfigWishes.Channel(obj);
+        public static int? GetChannel(this     TapeConfig obj) => ConfigWishes.GetChannel(obj);
         
-        public static bool IsCenter(this   TapeActions obj) => ConfigWishes.IsCenter(obj);
-        public static bool IsLeft(this     TapeActions obj) => ConfigWishes.IsLeft(obj);
-        public static bool IsRight(this    TapeActions obj) => ConfigWishes.IsRight(obj);
-        public static int? Channel(this    TapeActions obj) => ConfigWishes.Channel(obj);
-        public static int? GetChannel(this TapeActions obj) => ConfigWishes.GetChannel(obj);
-
-        public static TapeActions Center(this        TapeActions obj) => ConfigWishes.Center(obj);
-        public static TapeActions WithCenter(this    TapeActions obj) => ConfigWishes.WithCenter(obj);
-        public static TapeActions AsCenter(this      TapeActions obj) => ConfigWishes.AsCenter(obj);
-        public static TapeActions Left(this          TapeActions obj) => ConfigWishes.Left(obj);
-        public static TapeActions WithLeft(this      TapeActions obj) => ConfigWishes.WithLeft(obj);
-        public static TapeActions AsLeft(this        TapeActions obj) => ConfigWishes.AsLeft(obj);
-        public static TapeActions WithRight(this     TapeActions obj) => ConfigWishes.WithRight(obj);
-        public static TapeActions Right(this         TapeActions obj) => ConfigWishes.Right(obj);
-        public static TapeActions AsRight(this       TapeActions obj) => ConfigWishes.AsRight(obj);
-        public static TapeActions NoChannel(this     TapeActions obj) => ConfigWishes.NoChannel(obj);
-        public static TapeActions WithNoChannel(this TapeActions obj) => ConfigWishes.WithNoChannel(obj);
-        public static TapeActions AsNoChannel(this   TapeActions obj) => ConfigWishes.AsNoChannel(obj);
-        public static TapeActions Channel(this       TapeActions obj, int? value) => ConfigWishes.Channel(obj, value);
-        public static TapeActions WithChannel(this   TapeActions obj, int? value) => ConfigWishes.WithChannel(obj, value);
-        public static TapeActions AsChannel(this     TapeActions obj, int? value) => ConfigWishes.AsChannel(obj, value);
-        public static TapeActions SetCenter(this     TapeActions obj) => ConfigWishes .SetCenter(obj);
-        public static TapeActions SetLeft(this       TapeActions obj) => ConfigWishes .SetLeft(obj);
-        public static TapeActions SetRight(this      TapeActions obj) => ConfigWishes .SetRight(obj);
-        public static TapeActions SetNoChannel(this  TapeActions obj) => ConfigWishes.SetNoChannel(obj);
-        public static TapeActions SetChannel(this    TapeActions obj, int? value) => ConfigWishes.SetChannel(obj, value);
+        public static TapeConfig Center(this          TapeConfig obj)             => ConfigWishes.Center(obj);
+        public static TapeConfig WithCenter(this      TapeConfig obj)             => ConfigWishes.WithCenter(obj);
+        public static TapeConfig AsCenter(this        TapeConfig obj)             => ConfigWishes.AsCenter(obj);
+        public static TapeConfig Left(this            TapeConfig obj)             => ConfigWishes.Left(obj);
+        public static TapeConfig WithLeft(this        TapeConfig obj)             => ConfigWishes.WithLeft(obj);
+        public static TapeConfig AsLeft(this          TapeConfig obj)             => ConfigWishes.AsLeft(obj);
+        public static TapeConfig WithRight(this       TapeConfig obj)             => ConfigWishes.WithRight(obj);
+        public static TapeConfig Right(this           TapeConfig obj)             => ConfigWishes.Right(obj);
+        public static TapeConfig AsRight(this         TapeConfig obj)             => ConfigWishes.AsRight(obj);
+        public static TapeConfig NoChannel(this       TapeConfig obj)             => ConfigWishes.NoChannel(obj);
+        public static TapeConfig WithNoChannel(this   TapeConfig obj)             => ConfigWishes.WithNoChannel(obj);
+        public static TapeConfig AsNoChannel(this     TapeConfig obj)             => ConfigWishes.AsNoChannel(obj);
+        public static TapeConfig SetAnyChannel(this   TapeConfig obj)             => ConfigWishes.SetAnyChannel(obj);
+        public static TapeConfig SetEveryChannel(this TapeConfig obj)             => ConfigWishes.SetEveryChannel(obj);
+        public static TapeConfig SetChannelEmpty(this TapeConfig obj)             => ConfigWishes.SetChannelEmpty(obj);
+        public static TapeConfig Channel(this         TapeConfig obj, int? value) => ConfigWishes.Channel(obj, value);
+        public static TapeConfig WithChannel(this     TapeConfig obj, int? value) => ConfigWishes.WithChannel(obj, value);
+        public static TapeConfig AsChannel(this       TapeConfig obj, int? value) => ConfigWishes.AsChannel(obj, value);
+        public static TapeConfig SetCenter(this       TapeConfig obj)             => ConfigWishes.SetCenter(obj);
+        public static TapeConfig SetLeft(this         TapeConfig obj)             => ConfigWishes.SetLeft(obj);
+        public static TapeConfig SetRight(this        TapeConfig obj)             => ConfigWishes.SetRight(obj);
+        public static TapeConfig SetNoChannel(this    TapeConfig obj)             => ConfigWishes.SetNoChannel(obj);
+        public static TapeConfig SetChannel(this      TapeConfig obj, int? value) => ConfigWishes.SetChannel(obj, value);
         
-        public static bool IsCenter(this   TapeAction obj) => ConfigWishes.IsCenter(obj);
-        public static bool IsLeft(this     TapeAction obj) => ConfigWishes.IsLeft(obj);
-        public static bool IsRight(this    TapeAction obj) => ConfigWishes.IsRight(obj);
-        public static int? Channel(this    TapeAction obj) => ConfigWishes.Channel(obj);
-        public static int? GetChannel(this TapeAction obj) => ConfigWishes.GetChannel(obj);
+        public static bool IsCenter(this       TapeActions obj) => ConfigWishes.IsCenter(obj);
+        public static bool IsLeft(this         TapeActions obj) => ConfigWishes.IsLeft(obj);
+        public static bool IsRight(this        TapeActions obj) => ConfigWishes.IsRight(obj);
+        public static bool IsChannelEmpty(this TapeActions obj) => ConfigWishes.IsChannelEmpty(obj);
+        public static bool IsEveryChannel(this TapeActions obj) => ConfigWishes.IsEveryChannel(obj);
+        public static bool IsAnyChannel(this   TapeActions obj) => ConfigWishes.IsAnyChannel(obj);
+        public static bool IsNoChannel(this    TapeActions obj) => ConfigWishes.IsNoChannel(obj);
+        public static int? Channel(this        TapeActions obj) => ConfigWishes.Channel(obj);
+        public static int? GetChannel(this     TapeActions obj) => ConfigWishes.GetChannel(obj);
         
-        public static TapeAction Center(this        TapeAction obj) => ConfigWishes.Center(obj);
-        public static TapeAction WithCenter(this    TapeAction obj) => ConfigWishes.WithCenter(obj);
-        public static TapeAction AsCenter(this      TapeAction obj) => ConfigWishes.AsCenter(obj);
-        public static TapeAction Left(this          TapeAction obj) => ConfigWishes.Left(obj);
-        public static TapeAction WithLeft(this      TapeAction obj) => ConfigWishes.WithLeft(obj);
-        public static TapeAction AsLeft(this        TapeAction obj) => ConfigWishes.AsLeft(obj);
-        public static TapeAction WithRight(this     TapeAction obj) => ConfigWishes.WithRight(obj);
-        public static TapeAction Right(this         TapeAction obj) => ConfigWishes.Right(obj);
-        public static TapeAction AsRight(this       TapeAction obj) => ConfigWishes.AsRight(obj);
-        public static TapeAction NoChannel(this     TapeAction obj) => ConfigWishes.NoChannel(obj);
-        public static TapeAction WithNoChannel(this TapeAction obj) => ConfigWishes.WithNoChannel(obj);
-        public static TapeAction AsNoChannel(this   TapeAction obj) => ConfigWishes.AsNoChannel(obj);
-        public static TapeAction Channel(this       TapeAction obj, int? value) => ConfigWishes.Channel(obj, value);
-        public static TapeAction WithChannel(this   TapeAction obj, int? value) => ConfigWishes.WithChannel(obj, value);
-        public static TapeAction AsChannel(this     TapeAction obj, int? value) => ConfigWishes.AsChannel(obj, value);
-        public static TapeAction SetCenter(this     TapeAction obj) => ConfigWishes.SetCenter(obj);
-        public static TapeAction SetLeft(this       TapeAction obj) => ConfigWishes.SetLeft(obj);
-        public static TapeAction SetRight(this      TapeAction obj) => ConfigWishes.SetRight(obj);
-        public static TapeAction SetNoChannel(this  TapeAction obj) => ConfigWishes.SetNoChannel(obj);
-        public static TapeAction SetChannel(this    TapeAction obj, int? value) => ConfigWishes.SetChannel(obj, value);
+        public static TapeActions Center(this          TapeActions obj)             => ConfigWishes.Center(obj);
+        public static TapeActions WithCenter(this      TapeActions obj)             => ConfigWishes.WithCenter(obj);
+        public static TapeActions AsCenter(this        TapeActions obj)             => ConfigWishes.AsCenter(obj);
+        public static TapeActions Left(this            TapeActions obj)             => ConfigWishes.Left(obj);
+        public static TapeActions WithLeft(this        TapeActions obj)             => ConfigWishes.WithLeft(obj);
+        public static TapeActions AsLeft(this          TapeActions obj)             => ConfigWishes.AsLeft(obj);
+        public static TapeActions WithRight(this       TapeActions obj)             => ConfigWishes.WithRight(obj);
+        public static TapeActions Right(this           TapeActions obj)             => ConfigWishes.Right(obj);
+        public static TapeActions AsRight(this         TapeActions obj)             => ConfigWishes.AsRight(obj);
+        public static TapeActions NoChannel(this       TapeActions obj)             => ConfigWishes.NoChannel(obj);
+        public static TapeActions WithNoChannel(this   TapeActions obj)             => ConfigWishes.WithNoChannel(obj);
+        public static TapeActions AsNoChannel(this     TapeActions obj)             => ConfigWishes.AsNoChannel(obj);
+        public static TapeActions SetAnyChannel(this   TapeActions obj)             => ConfigWishes.SetAnyChannel(obj);
+        public static TapeActions SetEveryChannel(this TapeActions obj)             => ConfigWishes.SetEveryChannel(obj);
+        public static TapeActions SetChannelEmpty(this TapeActions obj)             => ConfigWishes.SetChannelEmpty(obj);
+        public static TapeActions Channel(this         TapeActions obj, int? value) => ConfigWishes.Channel(obj, value);
+        public static TapeActions WithChannel(this     TapeActions obj, int? value) => ConfigWishes.WithChannel(obj, value);
+        public static TapeActions AsChannel(this       TapeActions obj, int? value) => ConfigWishes.AsChannel(obj, value);
+        public static TapeActions SetCenter(this       TapeActions obj)             => ConfigWishes.SetCenter(obj);
+        public static TapeActions SetLeft(this         TapeActions obj)             => ConfigWishes.SetLeft(obj);
+        public static TapeActions SetRight(this        TapeActions obj)             => ConfigWishes.SetRight(obj);
+        public static TapeActions SetNoChannel(this    TapeActions obj)             => ConfigWishes.SetNoChannel(obj);
+        public static TapeActions SetChannel(this      TapeActions obj, int? value) => ConfigWishes.SetChannel(obj, value);
+        
+        public static bool IsCenter(this       TapeAction obj) => ConfigWishes.IsCenter(obj);
+        public static bool IsLeft(this         TapeAction obj) => ConfigWishes.IsLeft(obj);
+        public static bool IsRight(this        TapeAction obj) => ConfigWishes.IsRight(obj);
+        public static bool IsChannelEmpty(this TapeAction obj) => ConfigWishes.IsChannelEmpty(obj);
+        public static bool IsEveryChannel(this TapeAction obj) => ConfigWishes.IsEveryChannel(obj);
+        public static bool IsAnyChannel(this   TapeAction obj) => ConfigWishes.IsAnyChannel(obj);
+        public static bool IsNoChannel(this    TapeAction obj) => ConfigWishes.IsNoChannel(obj);
+        public static int? Channel(this        TapeAction obj) => ConfigWishes.Channel(obj);
+        public static int? GetChannel(this     TapeAction obj) => ConfigWishes.GetChannel(obj);
+        
+        public static TapeAction Center(this          TapeAction obj)             => ConfigWishes.Center(obj);
+        public static TapeAction WithCenter(this      TapeAction obj)             => ConfigWishes.WithCenter(obj);
+        public static TapeAction AsCenter(this        TapeAction obj)             => ConfigWishes.AsCenter(obj);
+        public static TapeAction Left(this            TapeAction obj)             => ConfigWishes.Left(obj);
+        public static TapeAction WithLeft(this        TapeAction obj)             => ConfigWishes.WithLeft(obj);
+        public static TapeAction AsLeft(this          TapeAction obj)             => ConfigWishes.AsLeft(obj);
+        public static TapeAction WithRight(this       TapeAction obj)             => ConfigWishes.WithRight(obj);
+        public static TapeAction Right(this           TapeAction obj)             => ConfigWishes.Right(obj);
+        public static TapeAction AsRight(this         TapeAction obj)             => ConfigWishes.AsRight(obj);
+        public static TapeAction NoChannel(this       TapeAction obj)             => ConfigWishes.NoChannel(obj);
+        public static TapeAction WithNoChannel(this   TapeAction obj)             => ConfigWishes.WithNoChannel(obj);
+        public static TapeAction AsNoChannel(this     TapeAction obj)             => ConfigWishes.AsNoChannel(obj);
+        public static TapeAction SetAnyChannel(this   TapeAction obj)             => ConfigWishes.SetAnyChannel(obj);
+        public static TapeAction SetEveryChannel(this TapeAction obj)             => ConfigWishes.SetEveryChannel(obj);
+        public static TapeAction SetChannelEmpty(this TapeAction obj)             => ConfigWishes.SetChannelEmpty(obj);
+        public static TapeAction Channel(this         TapeAction obj, int? value) => ConfigWishes.Channel(obj, value);
+        public static TapeAction WithChannel(this     TapeAction obj, int? value) => ConfigWishes.WithChannel(obj, value);
+        public static TapeAction AsChannel(this       TapeAction obj, int? value) => ConfigWishes.AsChannel(obj, value);
+        public static TapeAction SetCenter(this       TapeAction obj)             => ConfigWishes.SetCenter(obj);
+        public static TapeAction SetLeft(this         TapeAction obj)             => ConfigWishes.SetLeft(obj);
+        public static TapeAction SetRight(this        TapeAction obj)             => ConfigWishes.SetRight(obj);
+        public static TapeAction SetNoChannel(this    TapeAction obj)             => ConfigWishes.SetNoChannel(obj);
+        public static TapeAction SetChannel(this      TapeAction obj, int? value) => ConfigWishes.SetChannel(obj, value);
         
         // Buff-Bound
         
@@ -442,106 +476,145 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Synth-Bound
         
-        public static bool IsCenter  (SynthWishes obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
-        public static bool IsLeft    (SynthWishes obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
-        public static bool IsRight   (SynthWishes obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
-        public static int? Channel   (SynthWishes obj) => GetChannel(obj);
-        public static int? GetChannel(SynthWishes obj)
+        public static bool IsNoChannel   (SynthWishes obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (SynthWishes obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(SynthWishes obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(SynthWishes obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (SynthWishes obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (SynthWishes obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (SynthWishes obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (SynthWishes obj) => GetChannel(obj);
+        public static int? GetChannel    (SynthWishes obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannel;
         }
         
-        public static SynthWishes Center(       SynthWishes obj) => SetCenter(obj);
-        public static SynthWishes WithCenter(   SynthWishes obj) => SetCenter(obj);
-        public static SynthWishes AsCenter(     SynthWishes obj) => SetCenter(obj);
-        public static SynthWishes Left(         SynthWishes obj) => SetLeft(obj);
-        public static SynthWishes WithLeft(     SynthWishes obj) => SetLeft(obj);
-        public static SynthWishes AsLeft(       SynthWishes obj) => SetLeft(obj);
-        public static SynthWishes Right(        SynthWishes obj) => SetRight(obj);
-        public static SynthWishes WithRight(    SynthWishes obj) => SetRight(obj);
-        public static SynthWishes AsRight(      SynthWishes obj) => SetRight(obj);
-        public static SynthWishes NoChannel(    SynthWishes obj) => SetNoChannel(obj);
-        public static SynthWishes WithNoChannel(SynthWishes obj) => SetNoChannel(obj);
-        public static SynthWishes AsNoChannel(  SynthWishes obj) => SetNoChannel(obj);
-        public static SynthWishes Channel(      SynthWishes obj, int? value) => SetChannel(obj, value);
-        public static SynthWishes WithChannel(  SynthWishes obj, int? value) => SetChannel(obj, value);
-        public static SynthWishes AsChannel(    SynthWishes obj, int? value) => SetChannel(obj, value);
-        public static SynthWishes SetCenter(    SynthWishes obj) => obj.Mono().SetChannel(CenterChannel);
-        public static SynthWishes SetLeft(      SynthWishes obj) => obj.Stereo().SetChannel(LeftChannel);
-        public static SynthWishes SetRight(     SynthWishes obj) => obj.Stereo().SetChannel(RightChannel);
-        public static SynthWishes SetNoChannel( SynthWishes obj) => obj.Stereo().SetChannel(EveryChannel);
-        public static SynthWishes SetChannel(   SynthWishes obj, int? value)
+        public static SynthWishes NoChannel       (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes Center          (SynthWishes obj            ) => SetCenter      (obj);
+        public static SynthWishes Left            (SynthWishes obj            ) => SetLeft        (obj);
+        public static SynthWishes Right           (SynthWishes obj            ) => SetRight       (obj);
+        public static SynthWishes Channel         (SynthWishes obj, int? value) => SetChannel     (obj, value);
+        public static SynthWishes WithNoChannel   (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes WithAnyChannel  (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes WithEveryChannel(SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes WithChannelEmpty(SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes WithCenter      (SynthWishes obj            ) => SetCenter      (obj);
+        public static SynthWishes WithLeft        (SynthWishes obj            ) => SetLeft        (obj);
+        public static SynthWishes WithRight       (SynthWishes obj            ) => SetRight       (obj);
+        public static SynthWishes WithChannel     (SynthWishes obj, int? value) => SetChannel     (obj, value);
+        public static SynthWishes AsNoChannel     (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes AsAnyChannel    (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes AsEveryChannel  (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes AsChannelEmpty  (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes AsCenter        (SynthWishes obj            ) => SetCenter      (obj);
+        public static SynthWishes AsLeft          (SynthWishes obj            ) => SetLeft        (obj);
+        public static SynthWishes AsRight         (SynthWishes obj            ) => SetRight       (obj);
+        public static SynthWishes AsChannel       (SynthWishes obj, int? value) => SetChannel     (obj, value);
+        public static SynthWishes SetAnyChannel   (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes SetEveryChannel (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes SetNoChannel    (SynthWishes obj            ) => SetChannelEmpty(obj);
+        public static SynthWishes SetChannelEmpty (SynthWishes obj            ) => SetChannel     (obj, ChannelEmpty ).Stereo();
+        public static SynthWishes SetCenter       (SynthWishes obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
+        public static SynthWishes SetLeft         (SynthWishes obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
+        public static SynthWishes SetRight        (SynthWishes obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        public static SynthWishes SetChannel      (SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannel(value);
         }
 
-        public static bool IsCenter(FlowNode obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(  FlowNode obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
-        public static bool IsRight( FlowNode obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
-        public static int? Channel( FlowNode obj) => GetChannel(obj);
-        public static int? GetChannel(FlowNode obj)
+        public static bool IsNoChannel   (FlowNode obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (FlowNode obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(FlowNode obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(FlowNode obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (FlowNode obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (FlowNode obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (FlowNode obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (FlowNode obj) => GetChannel(obj);
+        public static int? GetChannel    (FlowNode obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannel;
         }
         
-        public static FlowNode Center(       FlowNode obj) => SetCenter(obj);
-        public static FlowNode WithCenter(   FlowNode obj) => SetCenter(obj);
-        public static FlowNode AsCenter(     FlowNode obj) => SetCenter(obj);
-        public static FlowNode Left(         FlowNode obj) => SetLeft(obj);
-        public static FlowNode WithLeft(     FlowNode obj) => SetLeft(obj);
-        public static FlowNode AsLeft(       FlowNode obj) => SetLeft(obj);
-        public static FlowNode WithRight(    FlowNode obj) => SetRight(obj);
-        public static FlowNode Right(        FlowNode obj) => SetRight(obj);
-        public static FlowNode AsRight(      FlowNode obj) => SetRight(obj);
-        public static FlowNode NoChannel(    FlowNode obj) => SetNoChannel(obj);
-        public static FlowNode WithNoChannel(FlowNode obj) => SetNoChannel(obj);
-        public static FlowNode AsNoChannel(  FlowNode obj) => SetNoChannel(obj);
-        public static FlowNode Channel(      FlowNode obj, int? value) => SetChannel(obj, value);
-        public static FlowNode WithChannel(  FlowNode obj, int? value) => SetChannel(obj, value);
-        public static FlowNode AsChannel(    FlowNode obj, int? value) => SetChannel(obj, value);
-        public static FlowNode SetCenter(    FlowNode obj) => obj.Mono().SetChannel(CenterChannel);
-        public static FlowNode SetLeft(      FlowNode obj) => obj.Stereo().SetChannel(LeftChannel);
-        public static FlowNode SetRight(     FlowNode obj) => obj.Stereo().SetChannel(RightChannel);
-        public static FlowNode SetNoChannel( FlowNode obj) => obj.Stereo().SetChannel(EveryChannel);
-        public static FlowNode SetChannel(   FlowNode obj, int? value)
+        public static FlowNode NoChannel       (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode Center          (FlowNode obj            ) => SetCenter      (obj);
+        public static FlowNode Left            (FlowNode obj            ) => SetLeft        (obj);
+        public static FlowNode Right           (FlowNode obj            ) => SetRight       (obj);
+        public static FlowNode Channel         (FlowNode obj, int? value) => SetChannel     (obj, value);
+        public static FlowNode WithNoChannel   (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode WithAnyChannel  (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode WithEveryChannel(FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode WithChannelEmpty(FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode WithCenter      (FlowNode obj            ) => SetCenter      (obj);
+        public static FlowNode WithLeft        (FlowNode obj            ) => SetLeft        (obj);
+        public static FlowNode WithRight       (FlowNode obj            ) => SetRight       (obj);
+        public static FlowNode WithChannel     (FlowNode obj, int? value) => SetChannel     (obj, value);
+        public static FlowNode AsNoChannel     (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode AsAnyChannel    (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode AsEveryChannel  (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode AsChannelEmpty  (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode AsCenter        (FlowNode obj            ) => SetCenter      (obj);
+        public static FlowNode AsLeft          (FlowNode obj            ) => SetLeft        (obj);
+        public static FlowNode AsRight         (FlowNode obj            ) => SetRight       (obj);
+        public static FlowNode AsChannel       (FlowNode obj, int? value) => SetChannel     (obj, value);
+        public static FlowNode SetAnyChannel   (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode SetEveryChannel (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode SetNoChannel    (FlowNode obj            ) => SetChannelEmpty(obj);
+        public static FlowNode SetChannelEmpty (FlowNode obj            ) => SetChannel     (obj, ChannelEmpty ).Stereo();
+        public static FlowNode SetCenter       (FlowNode obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
+        public static FlowNode SetLeft         (FlowNode obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
+        public static FlowNode SetRight        (FlowNode obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        public static FlowNode SetChannel      (FlowNode obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannel(value);
         }
         
-        [UsedImplicitly] internal static bool IsCenter(ConfigResolver obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        [UsedImplicitly] internal static bool IsLeft(  ConfigResolver obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
-        [UsedImplicitly] internal static bool IsRight( ConfigResolver obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
-        [UsedImplicitly] internal static int? Channel( ConfigResolver obj) => GetChannel(obj);
-        [UsedImplicitly] internal static int? GetChannel(ConfigResolver obj)
+        [UsedImplicitly] internal static bool IsNoChannel   (ConfigResolver obj) => IsChannelEmpty(obj);
+        [UsedImplicitly] internal static bool IsAnyChannel  (ConfigResolver obj) => IsChannelEmpty(obj);
+        [UsedImplicitly] internal static bool IsEveryChannel(ConfigResolver obj) => IsChannelEmpty(obj);
+        [UsedImplicitly] internal static bool IsChannelEmpty(ConfigResolver obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        [UsedImplicitly] internal static bool IsCenter      (ConfigResolver obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        [UsedImplicitly] internal static bool IsLeft        (ConfigResolver obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        [UsedImplicitly] internal static bool IsRight       (ConfigResolver obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        [UsedImplicitly] internal static int? Channel       (ConfigResolver obj) => GetChannel(obj);
+        [UsedImplicitly] internal static int? GetChannel    (ConfigResolver obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannel;
         }
         
-        internal static ConfigResolver Center(       ConfigResolver obj) => SetCenter(obj);
-        internal static ConfigResolver WithCenter(   ConfigResolver obj) => SetCenter(obj);
-        internal static ConfigResolver AsCenter(     ConfigResolver obj) => SetCenter(obj);
-        internal static ConfigResolver Left(         ConfigResolver obj) => SetLeft(obj);
-        internal static ConfigResolver WithLeft(     ConfigResolver obj) => SetLeft(obj);
-        internal static ConfigResolver AsLeft(       ConfigResolver obj) => SetLeft(obj);
-        internal static ConfigResolver WithRight(    ConfigResolver obj) => SetRight(obj);
-        internal static ConfigResolver Right(        ConfigResolver obj) => SetRight(obj);
-        internal static ConfigResolver AsRight(      ConfigResolver obj) => SetRight(obj);
-        internal static ConfigResolver NoChannel(    ConfigResolver obj) => SetNoChannel(obj);
-        internal static ConfigResolver WithNoChannel(ConfigResolver obj) => SetNoChannel(obj);
-        internal static ConfigResolver AsNoChannel(  ConfigResolver obj) => SetNoChannel(obj);
-        internal static ConfigResolver Channel(      ConfigResolver obj, int? value) => SetChannel(obj, value);
-        internal static ConfigResolver WithChannel(  ConfigResolver obj, int? value) => SetChannel(obj, value);
-        internal static ConfigResolver AsChannel(    ConfigResolver obj, int? value) => SetChannel(obj, value);
-        internal static ConfigResolver SetCenter(    ConfigResolver obj) => obj.Mono().SetChannel(CenterChannel);
-        internal static ConfigResolver SetLeft(      ConfigResolver obj) => obj.Stereo().SetChannel(LeftChannel);
-        internal static ConfigResolver SetRight(     ConfigResolver obj) => obj.Stereo().SetChannel(RightChannel);
-        internal static ConfigResolver SetNoChannel( ConfigResolver obj) => obj.Stereo().SetChannel(EveryChannel);
-        internal static ConfigResolver SetChannel(   ConfigResolver obj, int? value)
+        [UsedImplicitly] internal static ConfigResolver NoChannel       (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver Center          (ConfigResolver obj            ) => SetCenter      (obj);
+        [UsedImplicitly] internal static ConfigResolver Left            (ConfigResolver obj            ) => SetLeft        (obj);
+        [UsedImplicitly] internal static ConfigResolver Right           (ConfigResolver obj            ) => SetRight       (obj);
+        [UsedImplicitly] internal static ConfigResolver Channel         (ConfigResolver obj, int? value) => SetChannel     (obj, value);
+        [UsedImplicitly] internal static ConfigResolver WithNoChannel   (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver WithAnyChannel  (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver WithEveryChannel(ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver WithChannelEmpty(ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver WithCenter      (ConfigResolver obj            ) => SetCenter      (obj);
+        [UsedImplicitly] internal static ConfigResolver WithLeft        (ConfigResolver obj            ) => SetLeft        (obj);
+        [UsedImplicitly] internal static ConfigResolver WithRight       (ConfigResolver obj            ) => SetRight       (obj);
+        [UsedImplicitly] internal static ConfigResolver WithChannel     (ConfigResolver obj, int? value) => SetChannel     (obj, value);
+        [UsedImplicitly] internal static ConfigResolver AsNoChannel     (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver AsAnyChannel    (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver AsEveryChannel  (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver AsChannelEmpty  (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver AsCenter        (ConfigResolver obj            ) => SetCenter      (obj);
+        [UsedImplicitly] internal static ConfigResolver AsLeft          (ConfigResolver obj            ) => SetLeft        (obj);
+        [UsedImplicitly] internal static ConfigResolver AsRight         (ConfigResolver obj            ) => SetRight       (obj);
+        [UsedImplicitly] internal static ConfigResolver AsChannel       (ConfigResolver obj, int? value) => SetChannel     (obj, value);
+        [UsedImplicitly] internal static ConfigResolver SetAnyChannel   (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver SetEveryChannel (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver SetNoChannel    (ConfigResolver obj            ) => SetChannelEmpty(obj);
+        [UsedImplicitly] internal static ConfigResolver SetChannelEmpty (ConfigResolver obj            ) => SetChannel     (obj, ChannelEmpty ).Stereo();
+        [UsedImplicitly] internal static ConfigResolver SetCenter       (ConfigResolver obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
+        [UsedImplicitly] internal static ConfigResolver SetLeft         (ConfigResolver obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
+        [UsedImplicitly] internal static ConfigResolver SetRight        (ConfigResolver obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        [UsedImplicitly] internal static ConfigResolver SetChannel      (ConfigResolver obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.WithChannel(value);
@@ -549,144 +622,196 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tape-Bound
         
-        public static bool IsCenter(Tape obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(Tape obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
-        public static bool IsRight( Tape obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
-        public static int? Channel( Tape obj) => GetChannel(obj);
-        public static int? GetChannel(Tape obj)
+        public static bool IsNoChannel   (Tape obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (Tape obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(Tape obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(Tape obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (Tape obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (Tape obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (Tape obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (Tape obj) => GetChannel(obj);
+        public static int? GetChannel    (Tape obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Config.Channel;
         }
         
-        public static Tape Center(       Tape obj) => SetCenter(obj);
-        public static Tape WithCenter(   Tape obj) => SetCenter(obj);
-        public static Tape AsCenter(     Tape obj) => SetCenter(obj);
-        public static Tape Left(         Tape obj) => SetLeft(obj);
-        public static Tape WithLeft(     Tape obj) => SetLeft(obj);
-        public static Tape AsLeft(       Tape obj) => SetLeft(obj);
-        public static Tape WithRight(    Tape obj) => SetRight(obj);
-        public static Tape Right(        Tape obj) => SetRight(obj);
-        public static Tape AsRight(      Tape obj) => SetRight(obj);
-        public static Tape NoChannel(    Tape obj) => SetNoChannel(obj);
-        public static Tape WithNoChannel(Tape obj) => SetNoChannel(obj);
-        public static Tape AsNoChannel(  Tape obj) => SetNoChannel(obj);
-        public static Tape Channel(      Tape obj, int? value) => SetChannel(obj, value);
-        public static Tape WithChannel(  Tape obj, int? value) => SetChannel(obj, value);
-        public static Tape AsChannel(    Tape obj, int? value) => SetChannel(obj, value);
-        public static Tape SetCenter(    Tape obj) => obj.Mono().SetChannel(CenterChannel);
-        public static Tape SetLeft(      Tape obj) => obj.Stereo().SetChannel(LeftChannel);
-        public static Tape SetRight(     Tape obj) => obj.Stereo().SetChannel(RightChannel);
-        public static Tape SetNoChannel( Tape obj) => obj.Stereo().SetChannel(EveryChannel);
-        public static Tape SetChannel(   Tape obj, int? value)
+        public static Tape NoChannel       (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape Center          (Tape obj            ) => SetCenter      (obj);
+        public static Tape Left            (Tape obj            ) => SetLeft        (obj);
+        public static Tape Right           (Tape obj            ) => SetRight       (obj);
+        public static Tape Channel         (Tape obj, int? value) => SetChannel     (obj, value);
+        public static Tape WithNoChannel   (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape WithAnyChannel  (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape WithEveryChannel(Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape WithChannelEmpty(Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape WithCenter      (Tape obj            ) => SetCenter      (obj);
+        public static Tape WithLeft        (Tape obj            ) => SetLeft        (obj);
+        public static Tape WithRight       (Tape obj            ) => SetRight       (obj);
+        public static Tape WithChannel     (Tape obj, int? value) => SetChannel     (obj, value);
+        public static Tape AsNoChannel     (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape AsAnyChannel    (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape AsEveryChannel  (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape AsChannelEmpty  (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape AsCenter        (Tape obj            ) => SetCenter      (obj);
+        public static Tape AsLeft          (Tape obj            ) => SetLeft        (obj);
+        public static Tape AsRight         (Tape obj            ) => SetRight       (obj);
+        public static Tape AsChannel       (Tape obj, int? value) => SetChannel     (obj, value);
+        public static Tape SetAnyChannel   (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape SetEveryChannel (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape SetNoChannel    (Tape obj            ) => SetChannelEmpty(obj);
+        public static Tape SetChannelEmpty (Tape obj            ) => SetChannel     (obj, ChannelEmpty ).Stereo();
+        public static Tape SetCenter       (Tape obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
+        public static Tape SetLeft         (Tape obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
+        public static Tape SetRight        (Tape obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        public static Tape SetChannel      (Tape obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Config.Channel = value;
             return obj;
         }
         
-        public static bool IsCenter(TapeConfig obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(TapeConfig obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
-        public static bool IsRight(TapeConfig obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
-        public static int? Channel(TapeConfig obj) => GetChannel(obj);
-        public static int? GetChannel(TapeConfig obj)
+        public static bool IsNoChannel   (TapeConfig obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (TapeConfig obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(TapeConfig obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(TapeConfig obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (TapeConfig obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (TapeConfig obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (TapeConfig obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (TapeConfig obj) => GetChannel(obj);
+        public static int? GetChannel    (TapeConfig obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Channel;
         }
         
-        public static TapeConfig Center(       TapeConfig obj) => SetCenter(obj);
-        public static TapeConfig WithCenter(   TapeConfig obj) => SetCenter(obj);
-        public static TapeConfig AsCenter(     TapeConfig obj) => SetCenter(obj);
-        public static TapeConfig Left(         TapeConfig obj) => SetLeft(obj);
-        public static TapeConfig WithLeft(     TapeConfig obj) => SetLeft(obj);
-        public static TapeConfig AsLeft(       TapeConfig obj) => SetLeft(obj);
-        public static TapeConfig WithRight(    TapeConfig obj) => SetRight(obj);
-        public static TapeConfig Right(        TapeConfig obj) => SetRight(obj);
-        public static TapeConfig AsRight(      TapeConfig obj) => SetRight(obj);
-        public static TapeConfig NoChannel(    TapeConfig obj) => SetNoChannel(obj);
-        public static TapeConfig WithNoChannel(TapeConfig obj) => SetNoChannel(obj);
-        public static TapeConfig AsNoChannel(  TapeConfig obj) => SetNoChannel(obj);
-        public static TapeConfig Channel(      TapeConfig obj, int? value) => SetChannel(obj, value);
-        public static TapeConfig WithChannel(  TapeConfig obj, int? value) => SetChannel(obj, value);
-        public static TapeConfig AsChannel(    TapeConfig obj, int? value) => SetChannel(obj, value);
-        public static TapeConfig SetCenter(    TapeConfig obj) => obj.Mono().SetChannel(CenterChannel);
-        public static TapeConfig SetLeft(      TapeConfig obj) => obj.Stereo().SetChannel(LeftChannel);
-        public static TapeConfig SetRight(     TapeConfig obj) => obj.Stereo().SetChannel(RightChannel);
-        public static TapeConfig SetNoChannel( TapeConfig obj) => obj.Stereo().SetChannel(EveryChannel);
-        public static TapeConfig SetChannel(   TapeConfig obj, int? value)
+        public static TapeConfig NoChannel       (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig Center          (TapeConfig obj            ) => SetCenter      (obj);
+        public static TapeConfig Left            (TapeConfig obj            ) => SetLeft        (obj);
+        public static TapeConfig Right           (TapeConfig obj            ) => SetRight       (obj);
+        public static TapeConfig Channel         (TapeConfig obj, int? value) => SetChannel     (obj, value);
+        public static TapeConfig WithNoChannel   (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig WithAnyChannel  (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig WithEveryChannel(TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig WithChannelEmpty(TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig WithCenter      (TapeConfig obj            ) => SetCenter      (obj);
+        public static TapeConfig WithLeft        (TapeConfig obj            ) => SetLeft        (obj);
+        public static TapeConfig WithRight       (TapeConfig obj            ) => SetRight       (obj);
+        public static TapeConfig WithChannel     (TapeConfig obj, int? value) => SetChannel     (obj, value);
+        public static TapeConfig AsNoChannel     (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig AsAnyChannel    (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig AsEveryChannel  (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig AsChannelEmpty  (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig AsCenter        (TapeConfig obj            ) => SetCenter      (obj);
+        public static TapeConfig AsLeft          (TapeConfig obj            ) => SetLeft        (obj);
+        public static TapeConfig AsRight         (TapeConfig obj            ) => SetRight       (obj);
+        public static TapeConfig AsChannel       (TapeConfig obj, int? value) => SetChannel     (obj, value);
+        public static TapeConfig SetAnyChannel   (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig SetEveryChannel (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig SetNoChannel    (TapeConfig obj            ) => SetChannelEmpty(obj);
+        public static TapeConfig SetChannelEmpty (TapeConfig obj            ) => SetChannel     (obj, ChannelEmpty ).Stereo();
+        public static TapeConfig SetCenter       (TapeConfig obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
+        public static TapeConfig SetLeft         (TapeConfig obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
+        public static TapeConfig SetRight        (TapeConfig obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        public static TapeConfig SetChannel      (TapeConfig obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Channel = value;
             return obj;
         }
         
-        public static bool IsCenter(TapeActions obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(TapeActions obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
-        public static bool IsRight(TapeActions obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
-        public static int? Channel(TapeActions obj) => GetChannel(obj);
-        public static int? GetChannel(TapeActions obj)
+        public static bool IsNoChannel   (TapeActions obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (TapeActions obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(TapeActions obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(TapeActions obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (TapeActions obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (TapeActions obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (TapeActions obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (TapeActions obj) => GetChannel(obj);
+        public static int? GetChannel    (TapeActions obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Channel;
         }
         
-        public static TapeActions Center(       TapeActions obj) => SetCenter(obj);
-        public static TapeActions WithCenter(   TapeActions obj) => SetCenter(obj);
-        public static TapeActions AsCenter(     TapeActions obj) => SetCenter(obj);
-        public static TapeActions Left(         TapeActions obj) => SetLeft(obj);
-        public static TapeActions WithLeft(     TapeActions obj) => SetLeft(obj);
-        public static TapeActions AsLeft(       TapeActions obj) => SetLeft(obj);
-        public static TapeActions WithRight(    TapeActions obj) => SetRight(obj);
-        public static TapeActions Right(        TapeActions obj) => SetRight(obj);
-        public static TapeActions AsRight(      TapeActions obj) => SetRight(obj);
-        public static TapeActions NoChannel(    TapeActions obj) => SetNoChannel(obj);
-        public static TapeActions WithNoChannel(TapeActions obj) => SetNoChannel(obj);
-        public static TapeActions AsNoChannel(  TapeActions obj) => SetNoChannel(obj);
-        public static TapeActions Channel(      TapeActions obj, int? value) => SetChannel(obj, value);
-        public static TapeActions WithChannel(  TapeActions obj, int? value) => SetChannel(obj, value);
-        public static TapeActions AsChannel(    TapeActions obj, int? value) => SetChannel(obj, value);
-        public static TapeActions SetCenter(    TapeActions obj) => obj.Mono().SetChannel(CenterChannel);
-        public static TapeActions SetLeft(      TapeActions obj) => obj.Stereo().SetChannel(LeftChannel);
-        public static TapeActions SetRight(     TapeActions obj) => obj.Stereo().SetChannel(RightChannel);
-        public static TapeActions SetNoChannel( TapeActions obj) => obj.Stereo().SetChannel(EveryChannel);
-        public static TapeActions SetChannel(   TapeActions obj, int? value)
+        public static TapeActions NoChannel       (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions Center          (TapeActions obj            ) => SetCenter      (obj);
+        public static TapeActions Left            (TapeActions obj            ) => SetLeft        (obj);
+        public static TapeActions Right           (TapeActions obj            ) => SetRight       (obj);
+        public static TapeActions Channel         (TapeActions obj, int? value) => SetChannel     (obj, value);
+        public static TapeActions WithNoChannel   (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions WithAnyChannel  (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions WithEveryChannel(TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions WithChannelEmpty(TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions WithCenter      (TapeActions obj            ) => SetCenter      (obj);
+        public static TapeActions WithLeft        (TapeActions obj            ) => SetLeft        (obj);
+        public static TapeActions WithRight       (TapeActions obj            ) => SetRight       (obj);
+        public static TapeActions WithChannel     (TapeActions obj, int? value) => SetChannel     (obj, value);
+        public static TapeActions AsNoChannel     (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions AsAnyChannel    (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions AsEveryChannel  (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions AsChannelEmpty  (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions AsCenter        (TapeActions obj            ) => SetCenter      (obj);
+        public static TapeActions AsLeft          (TapeActions obj            ) => SetLeft        (obj);
+        public static TapeActions AsRight         (TapeActions obj            ) => SetRight       (obj);
+        public static TapeActions AsChannel       (TapeActions obj, int? value) => SetChannel     (obj, value);
+        public static TapeActions SetAnyChannel   (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions SetEveryChannel (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions SetNoChannel    (TapeActions obj            ) => SetChannelEmpty(obj);
+        public static TapeActions SetChannelEmpty (TapeActions obj            ) => SetChannel     (obj, ChannelEmpty ).Stereo();
+        public static TapeActions SetCenter       (TapeActions obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
+        public static TapeActions SetLeft         (TapeActions obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
+        public static TapeActions SetRight        (TapeActions obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        public static TapeActions SetChannel      (TapeActions obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Channel = value;
             return obj;
         }
         
-        public static bool IsCenter(TapeAction obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(TapeAction obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
-        public static bool IsRight(TapeAction obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
-        public static int? Channel(TapeAction obj) => GetChannel(obj);
-        public static int? GetChannel(TapeAction obj)
+        public static bool IsNoChannel   (TapeAction obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (TapeAction obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(TapeAction obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(TapeAction obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (TapeAction obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (TapeAction obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (TapeAction obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (TapeAction obj) => GetChannel(obj);
+        public static int? GetChannel    (TapeAction obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Tape.Config.Channel;
         }
         
-        public static TapeAction Center(       TapeAction obj) => SetCenter(obj);
-        public static TapeAction WithCenter(   TapeAction obj) => SetCenter(obj);
-        public static TapeAction AsCenter(     TapeAction obj) => SetCenter(obj);
-        public static TapeAction Left(         TapeAction obj) => SetLeft(obj);
-        public static TapeAction WithLeft(     TapeAction obj) => SetLeft(obj);
-        public static TapeAction AsLeft(       TapeAction obj) => SetLeft(obj);
-        public static TapeAction WithRight(    TapeAction obj) => SetRight(obj);
-        public static TapeAction Right(        TapeAction obj) => SetRight(obj);
-        public static TapeAction AsRight(      TapeAction obj) => SetRight(obj);
-        public static TapeAction NoChannel(    TapeAction obj) => SetNoChannel(obj);
-        public static TapeAction WithNoChannel(TapeAction obj) => SetNoChannel(obj);
-        public static TapeAction AsNoChannel(  TapeAction obj) => SetNoChannel(obj);
-        public static TapeAction Channel(      TapeAction obj, int? value) => SetChannel(obj, value);
-        public static TapeAction WithChannel(  TapeAction obj, int? value) => SetChannel(obj, value);
-        public static TapeAction AsChannel(    TapeAction obj, int? value) => SetChannel(obj, value);
-        public static TapeAction SetCenter(    TapeAction obj) => obj.Mono().SetChannel(CenterChannel);
-        public static TapeAction SetLeft(      TapeAction obj) => obj.Stereo().SetChannel(LeftChannel);
-        public static TapeAction SetRight(     TapeAction obj) => obj.Stereo().SetChannel(RightChannel);
-        public static TapeAction SetNoChannel( TapeAction obj) => obj.Stereo().SetChannel(EveryChannel);
-        public static TapeAction SetChannel(   TapeAction obj, int? value)
+        public static TapeAction NoChannel       (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction Center          (TapeAction obj            ) => SetCenter      (obj);
+        public static TapeAction Left            (TapeAction obj            ) => SetLeft        (obj);
+        public static TapeAction Right           (TapeAction obj            ) => SetRight       (obj);
+        public static TapeAction Channel         (TapeAction obj, int? value) => SetChannel     (obj, value);
+        public static TapeAction WithNoChannel   (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction WithAnyChannel  (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction WithEveryChannel(TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction WithChannelEmpty(TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction WithCenter      (TapeAction obj            ) => SetCenter      (obj);
+        public static TapeAction WithLeft        (TapeAction obj            ) => SetLeft        (obj);
+        public static TapeAction WithRight       (TapeAction obj            ) => SetRight       (obj);
+        public static TapeAction WithChannel     (TapeAction obj, int? value) => SetChannel     (obj, value);
+        public static TapeAction AsNoChannel     (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction AsAnyChannel    (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction AsEveryChannel  (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction AsChannelEmpty  (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction AsCenter        (TapeAction obj            ) => SetCenter      (obj);
+        public static TapeAction AsLeft          (TapeAction obj            ) => SetLeft        (obj);
+        public static TapeAction AsRight         (TapeAction obj            ) => SetRight       (obj);
+        public static TapeAction AsChannel       (TapeAction obj, int? value) => SetChannel     (obj, value);
+        public static TapeAction SetAnyChannel   (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction SetEveryChannel (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction SetNoChannel    (TapeAction obj            ) => SetChannelEmpty(obj);
+        public static TapeAction SetChannelEmpty (TapeAction obj            ) => SetChannel     (obj, ChannelEmpty ).Stereo();
+        public static TapeAction SetCenter       (TapeAction obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
+        public static TapeAction SetLeft         (TapeAction obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
+        public static TapeAction SetRight        (TapeAction obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        public static TapeAction SetChannel      (TapeAction obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.Config.Channel = value;
@@ -695,36 +820,49 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Buff-Bound
         
-        public static bool IsCenter(Buff obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(Buff obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
-        public static bool IsRight(Buff obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
-        public static int? Channel(Buff obj) => GetChannel(obj);
-        public static int? GetChannel(Buff obj)
+        public static bool IsNoChannel   (Buff obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (Buff obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(Buff obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(Buff obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (Buff obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (Buff obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (Buff obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (Buff obj) => GetChannel(obj);
+        public static int? GetChannel    (Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.UnderlyingAudioFileOutput?.Channel();
         }
         
-        public static Buff Center(       Buff obj, IContext context) => SetCenter(obj, context);
-        public static Buff WithCenter(   Buff obj, IContext context) => SetCenter(obj, context);
-        public static Buff AsCenter(     Buff obj, IContext context) => SetCenter(obj, context);
-        public static Buff Left(         Buff obj, IContext context) => SetLeft(obj, context);
-        public static Buff WithLeft(     Buff obj, IContext context) => SetLeft(obj, context);
-        public static Buff AsLeft(       Buff obj, IContext context) => SetLeft(obj, context);
-        public static Buff WithRight(    Buff obj, IContext context) => SetRight(obj, context);
-        public static Buff Right(        Buff obj, IContext context) => SetRight(obj, context);
-        public static Buff AsRight(      Buff obj, IContext context) => SetRight(obj, context);
-        public static Buff NoChannel(    Buff obj, IContext context) => SetNoChannel(obj, context);
-        public static Buff WithNoChannel(Buff obj, IContext context) => SetNoChannel(obj, context);
-        public static Buff AsNoChannel(  Buff obj, IContext context) => SetNoChannel(obj, context);
-        public static Buff Channel(      Buff obj, int? value, IContext context) => SetChannel(obj, value, context);
-        public static Buff WithChannel(  Buff obj, int? value, IContext context) => SetChannel(obj, value, context);
-        public static Buff AsChannel(    Buff obj, int? value, IContext context) => SetChannel(obj, value, context);
-        public static Buff SetCenter(    Buff obj, IContext context) => obj.Mono(context).SetChannel(CenterChannel, context);
-        public static Buff SetLeft(      Buff obj, IContext context) => obj.Stereo(context).SetChannel(LeftChannel, context);
-        public static Buff SetRight(     Buff obj, IContext context) => obj.Stereo(context).SetChannel(RightChannel, context);
-        public static Buff SetNoChannel( Buff obj, IContext context) => obj.Stereo(context).SetChannel(EveryChannel, context);
-        public static Buff SetChannel(   Buff obj, int? value, IContext context)
+        public static Buff NoChannel       (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff Center          (Buff obj,             IContext context) => SetCenter      (obj,        context);
+        public static Buff Left            (Buff obj,             IContext context) => SetLeft        (obj,        context);
+        public static Buff Right           (Buff obj,             IContext context) => SetRight       (obj,        context);
+        public static Buff Channel         (Buff obj, int? value, IContext context) => SetChannel     (obj, value, context);
+        public static Buff WithNoChannel   (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff WithAnyChannel  (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff WithEveryChannel(Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff WithChannelEmpty(Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff WithCenter      (Buff obj,             IContext context) => SetCenter      (obj,        context);
+        public static Buff WithLeft        (Buff obj,             IContext context) => SetLeft        (obj,        context);
+        public static Buff WithRight       (Buff obj,             IContext context) => SetRight       (obj,        context);
+        public static Buff WithChannel     (Buff obj, int? value, IContext context) => SetChannel     (obj, value, context);
+        public static Buff AsNoChannel     (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff AsAnyChannel    (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff AsEveryChannel  (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff AsChannelEmpty  (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff AsCenter        (Buff obj,             IContext context) => SetCenter      (obj,        context);
+        public static Buff AsLeft          (Buff obj,             IContext context) => SetLeft        (obj,        context);
+        public static Buff AsRight         (Buff obj,             IContext context) => SetRight       (obj,        context);
+        public static Buff AsChannel       (Buff obj, int? value, IContext context) => SetChannel     (obj, value, context);
+        public static Buff SetAnyChannel   (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff SetEveryChannel (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff SetNoChannel    (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
+        public static Buff SetChannelEmpty (Buff obj,             IContext context) => SetChannel     (obj, ChannelEmpty , context).Stereo(context);
+        public static Buff SetCenter       (Buff obj,             IContext context) => SetChannel     (obj, CenterChannel, context).Mono  (context);
+        public static Buff SetLeft         (Buff obj,             IContext context) => SetChannel     (obj, LeftChannel  , context).Stereo(context);
+        public static Buff SetRight        (Buff obj,             IContext context) => SetChannel     (obj, RightChannel , context).Stereo(context);
+        public static Buff SetChannel      (Buff obj, int? value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
             
@@ -740,64 +878,92 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsCenter(AudioFileOutput obj) => GetChannel(obj) == CenterChannel && IsMono(obj);
-        public static bool IsLeft(AudioFileOutput obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
-        public static bool IsRight(AudioFileOutput obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
-        public static int? Channel(AudioFileOutput obj) => GetChannel(obj);
-        public static int? GetChannel(AudioFileOutput obj) => ConfigNightmares.GetChannel(obj);
-
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput Center(AudioFileOutput obj, IContext context) => SetCenter(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithCenter(AudioFileOutput obj, IContext context) => SetCenter(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsCenter(AudioFileOutput obj, IContext context) => SetCenter(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput Left(AudioFileOutput obj, IContext context) => SetLeft(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithLeft(AudioFileOutput obj, IContext context) => SetLeft(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsLeft(AudioFileOutput obj, IContext context) => SetLeft(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithRight(AudioFileOutput obj, IContext context) => SetRight(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput Right(AudioFileOutput obj, IContext context) => SetRight(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsRight(AudioFileOutput obj, IContext context) => SetRight(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput NoChannel(AudioFileOutput obj, IContext context) => SetNoChannel(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithNoChannel(AudioFileOutput obj, IContext context) => SetNoChannel(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsNoChannel(AudioFileOutput obj, IContext context) => SetNoChannel(obj, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput Channel(AudioFileOutput obj, int? value, IContext context) => SetChannel(obj, value, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithChannel(AudioFileOutput obj, int? value, IContext context) => SetChannel(obj, value, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsChannel(AudioFileOutput obj, int? value, IContext context) => SetChannel(obj, value, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetCenter(AudioFileOutput obj, IContext context) => obj.Mono(context).SetChannel(CenterChannel, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetLeft(AudioFileOutput obj, IContext context) => obj.Stereo(context).SetChannel(LeftChannel, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetRight(AudioFileOutput obj, IContext context) => obj.Stereo(context).SetChannel(RightChannel, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetNoChannel(AudioFileOutput obj, IContext context) => obj.Stereo(context).SetChannel(EveryChannel, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetChannel(AudioFileOutput obj, int? channel, IContext context) => ConfigNightmares.SetChannel(obj, channel, context);
+        public static bool IsNoChannel   (AudioFileOutput obj) => IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (AudioFileOutput obj) => IsChannelEmpty(obj);
+        public static bool IsEveryChannel(AudioFileOutput obj) => IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(AudioFileOutput obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
+        public static bool IsCenter      (AudioFileOutput obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsLeft        (AudioFileOutput obj) => GetChannel(obj) == LeftChannel   && IsStereo(obj);
+        public static bool IsRight       (AudioFileOutput obj) => GetChannel(obj) == RightChannel  && IsStereo(obj);
+        public static int? Channel       (AudioFileOutput obj) => GetChannel(obj);
+        public static int? GetChannel    (AudioFileOutput obj)
+        {
+            return ConfigNightmares.GetChannel(obj);
+        }
         
-        public static int Channel(AudioFileOutputChannel obj) => GetChannel(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput NoChannel       (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput Center          (AudioFileOutput obj,             IContext context) => SetCenter      (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput Left            (AudioFileOutput obj,             IContext context) => SetLeft        (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput Right           (AudioFileOutput obj,             IContext context) => SetRight       (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput Channel         (AudioFileOutput obj, int? value, IContext context) => SetChannel     (obj, value, context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithNoChannel   (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithAnyChannel  (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithEveryChannel(AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithChannelEmpty(AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithCenter      (AudioFileOutput obj,             IContext context) => SetCenter      (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithLeft        (AudioFileOutput obj,             IContext context) => SetLeft        (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithRight       (AudioFileOutput obj,             IContext context) => SetRight       (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput WithChannel     (AudioFileOutput obj, int? value, IContext context) => SetChannel     (obj, value, context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsNoChannel     (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsAnyChannel    (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsEveryChannel  (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsChannelEmpty  (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsCenter        (AudioFileOutput obj,             IContext context) => SetCenter      (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsLeft          (AudioFileOutput obj,             IContext context) => SetLeft        (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsRight         (AudioFileOutput obj,             IContext context) => SetRight       (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput AsChannel       (AudioFileOutput obj, int? value, IContext context) => SetChannel     (obj, value, context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetAnyChannel   (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetEveryChannel (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetNoChannel    (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetChannelEmpty (AudioFileOutput obj,             IContext context) => SetChannel     (obj, ChannelEmpty , context).Stereo(context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetCenter       (AudioFileOutput obj,             IContext context) => SetChannel     (obj, CenterChannel, context).Mono  (context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetLeft         (AudioFileOutput obj,             IContext context) => SetChannel     (obj, LeftChannel  , context).Stereo(context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetRight        (AudioFileOutput obj,             IContext context) => SetChannel     (obj, RightChannel , context).Stereo(context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetChannel      (AudioFileOutput obj, int? value, IContext context)
+        {
+            return ConfigNightmares.SetChannel(obj, value, context);
+        }
+        
+        public static int Channel   (AudioFileOutputChannel obj) => GetChannel(obj);
         public static int GetChannel(AudioFileOutputChannel obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.Index;
         }
         
-        public static AudioFileOutputChannel Channel(    AudioFileOutputChannel obj, int value) => SetChannel(obj, value);
+        public static AudioFileOutputChannel Channel    (AudioFileOutputChannel obj, int value) => SetChannel(obj, value);
         public static AudioFileOutputChannel WithChannel(AudioFileOutputChannel obj, int value) => SetChannel(obj, value);
-        public static AudioFileOutputChannel AsChannel(  AudioFileOutputChannel obj, int value) => SetChannel(obj, value);
-        public static AudioFileOutputChannel SetChannel( AudioFileOutputChannel obj, int value)
+        public static AudioFileOutputChannel AsChannel  (AudioFileOutputChannel obj, int value) => SetChannel(obj, value);
+        public static AudioFileOutputChannel SetChannel ( AudioFileOutputChannel obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);
             obj.Index = value;
@@ -806,12 +972,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Immutable
 
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(     ChannelEnum enumValue) => enumValue == ChannelEnum.Single;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(       ChannelEnum enumValue) => enumValue == ChannelEnum.Left;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(      ChannelEnum enumValue) => enumValue == ChannelEnum.Right;
-        [Obsolete(ObsoleteMessage)] public static int? Channel(      ChannelEnum enumValue) => EnumToChannel(enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? GetChannel(   ChannelEnum enumValue) => EnumToChannel(enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel(ChannelEnum enumValue)
+        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel   (ChannelEnum enumValue) => IsChannelEmpty(enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel  (ChannelEnum enumValue) => IsChannelEmpty(enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel(ChannelEnum enumValue) => IsChannelEmpty(enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsChannelEmpty(ChannelEnum enumValue) => EnumToChannel(enumValue) == ChannelEmpty  && IsStereo(enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter      (ChannelEnum enumValue) => EnumToChannel(enumValue) == CenterChannel && IsMono  (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft        (ChannelEnum enumValue) => EnumToChannel(enumValue) == LeftChannel   && IsStereo(enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsRight       (ChannelEnum enumValue) => EnumToChannel(enumValue) == RightChannel  && IsStereo(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? Channel       (ChannelEnum enumValue) => EnumToChannel(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? GetChannel    (ChannelEnum enumValue) => EnumToChannel(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel (ChannelEnum enumValue)
         {
             switch (enumValue)
             {
