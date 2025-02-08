@@ -1002,6 +1002,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_SynthBound_Getters(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x);
+            IsNotNull(() => x.SynthBound);
+            IsNotNull(() => x.SynthBound.SynthWishes);
+            IsNotNull(() => x.SynthBound.FlowNode);
+            IsNotNull(() => x.SynthBound.ConfigResolver);
             AreEqual(c.channel,                    () => x.SynthBound.SynthWishes   .GetChannel   );
             AreEqual(c.channel,                    () => x.SynthBound.FlowNode      .GetChannel   );
             AreEqual(c.channel,                    () => x.SynthBound.ConfigResolver.GetChannel   );
