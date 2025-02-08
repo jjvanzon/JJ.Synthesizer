@@ -56,6 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             throw new Exception($"Unsupported value: {new { newChannelsValue }}");
         }
         
+        
                 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(ChannelEnum oldChannelEnum)
@@ -71,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Channels(Channel thisChannelEntity, int channelsForContext, IContext context)
+        [Obsolete(ObsoleteMessage)] public static Channel SetChannels(Channel thisChannelEntity, int channelsForContext, IContext context)
         {
             if (channelsForContext == NoChannels) return null;
             if (channelsForContext == MonoChannels) return ChannelEnum.Single.ToEntity(context);
@@ -90,6 +91,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             throw new Exception($"Unsupported value: {new { channelsForContext }}");
         }
+        
         
         // Channel (Center/Left/Right)
 
@@ -126,7 +128,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Channel(Channel oldChannelEntity, int? newChannelValue, IContext context)
+        [Obsolete(ObsoleteMessage)] public static Channel SetChannel(Channel oldChannelEntity, int? newChannelValue, IContext context)
         {
             // Unspecified
             if (newChannelValue == null) return ChannelEnum.Undefined.ToEntity(context);

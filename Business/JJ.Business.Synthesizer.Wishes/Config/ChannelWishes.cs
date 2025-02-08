@@ -84,26 +84,26 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [UsedImplicitly] internal static int? Channel(this    ConfigResolver obj) => ConfigWishes.Channel(obj);
         [UsedImplicitly] internal static int? GetChannel(this ConfigResolver obj) => ConfigWishes.GetChannel(obj);
         
-        internal static ConfigResolver Center(this        ConfigResolver obj) => ConfigWishes.Center(obj);
-        internal static ConfigResolver WithCenter(this    ConfigResolver obj) => ConfigWishes.WithCenter(obj);
-        internal static ConfigResolver AsCenter(this      ConfigResolver obj) => ConfigWishes.AsCenter(obj);
-        internal static ConfigResolver Left(this          ConfigResolver obj) => ConfigWishes.Left(obj);
-        internal static ConfigResolver WithLeft(this      ConfigResolver obj) => ConfigWishes.WithLeft(obj);
-        internal static ConfigResolver AsLeft(this        ConfigResolver obj) => ConfigWishes.AsLeft(obj);
-        internal static ConfigResolver WithRight(this     ConfigResolver obj) => ConfigWishes.WithRight(obj);
-        internal static ConfigResolver Right(this         ConfigResolver obj) => ConfigWishes.Right(obj);
-        internal static ConfigResolver AsRight(this       ConfigResolver obj) => ConfigWishes.AsRight(obj);
-        internal static ConfigResolver NoChannel(this     ConfigResolver obj) => ConfigWishes.NoChannel(obj);
-        internal static ConfigResolver WithNoChannel(this ConfigResolver obj) => ConfigWishes.WithNoChannel(obj);
-        internal static ConfigResolver AsNoChannel(this   ConfigResolver obj) => ConfigWishes.AsNoChannel(obj);
-        internal static ConfigResolver Channel(this       ConfigResolver obj, int? value) => ConfigWishes.Channel(obj, value);
-        internal static ConfigResolver WithChannel(this   ConfigResolver obj, int? value) => ConfigWishes.WithChannel(obj, value);
-        internal static ConfigResolver AsChannel(this     ConfigResolver obj, int? value) => ConfigWishes.AsChannel(obj, value);
-        internal static ConfigResolver SetCenter(this     ConfigResolver obj) => ConfigWishes.SetCenter(obj);
-        internal static ConfigResolver SetLeft(this       ConfigResolver obj) => ConfigWishes.SetLeft(obj);
-        internal static ConfigResolver SetRight(this      ConfigResolver obj) => ConfigWishes.SetRight(obj);
-        internal static ConfigResolver SetNoChannel(this  ConfigResolver obj) => ConfigWishes.SetNoChannel(obj);
-        internal static ConfigResolver SetChannel(this    ConfigResolver obj, int? value) => ConfigWishes.SetChannel(obj, value);
+        [UsedImplicitly] internal static ConfigResolver Center(this        ConfigResolver obj) => ConfigWishes.Center(obj);
+        [UsedImplicitly] internal static ConfigResolver WithCenter(this    ConfigResolver obj) => ConfigWishes.WithCenter(obj);
+        [UsedImplicitly] internal static ConfigResolver AsCenter(this      ConfigResolver obj) => ConfigWishes.AsCenter(obj);
+        [UsedImplicitly] internal static ConfigResolver Left(this          ConfigResolver obj) => ConfigWishes.Left(obj);
+        [UsedImplicitly] internal static ConfigResolver WithLeft(this      ConfigResolver obj) => ConfigWishes.WithLeft(obj);
+        [UsedImplicitly] internal static ConfigResolver AsLeft(this        ConfigResolver obj) => ConfigWishes.AsLeft(obj);
+        [UsedImplicitly] internal static ConfigResolver WithRight(this     ConfigResolver obj) => ConfigWishes.WithRight(obj);
+        [UsedImplicitly] internal static ConfigResolver Right(this         ConfigResolver obj) => ConfigWishes.Right(obj);
+        [UsedImplicitly] internal static ConfigResolver AsRight(this       ConfigResolver obj) => ConfigWishes.AsRight(obj);
+        [UsedImplicitly] internal static ConfigResolver NoChannel(this     ConfigResolver obj) => ConfigWishes.NoChannel(obj);
+        [UsedImplicitly] internal static ConfigResolver WithNoChannel(this ConfigResolver obj) => ConfigWishes.WithNoChannel(obj);
+        [UsedImplicitly] internal static ConfigResolver AsNoChannel(this   ConfigResolver obj) => ConfigWishes.AsNoChannel(obj);
+        [UsedImplicitly] internal static ConfigResolver Channel(this       ConfigResolver obj, int? value) => ConfigWishes.Channel(obj, value);
+        [UsedImplicitly] internal static ConfigResolver WithChannel(this   ConfigResolver obj, int? value) => ConfigWishes.WithChannel(obj, value);
+        [UsedImplicitly] internal static ConfigResolver AsChannel(this     ConfigResolver obj, int? value) => ConfigWishes.AsChannel(obj, value);
+        [UsedImplicitly] internal static ConfigResolver SetCenter(this     ConfigResolver obj) => ConfigWishes.SetCenter(obj);
+        [UsedImplicitly] internal static ConfigResolver SetLeft(this       ConfigResolver obj) => ConfigWishes.SetLeft(obj);
+        [UsedImplicitly] internal static ConfigResolver SetRight(this      ConfigResolver obj) => ConfigWishes.SetRight(obj);
+        [UsedImplicitly] internal static ConfigResolver SetNoChannel(this  ConfigResolver obj) => ConfigWishes.SetNoChannel(obj);
+        [UsedImplicitly] internal static ConfigResolver SetChannel(this    ConfigResolver obj, int? value) => ConfigWishes.SetChannel(obj, value);
 
         // Tape-Bound
         
@@ -365,6 +365,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Channel(this Channel oldChannelEntity, int? newChannelValue, IContext context)
             => ConfigWishes.Channel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel WithChannel(this Channel oldChannelEntity, int? newChannelValue, IContext context)
+            => ConfigWishes.WithChannel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel AsChannel(this Channel oldChannelEntity, int? newChannelValue, IContext context)
+            => ConfigWishes.AsChannel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToChannel(this Channel oldChannelEntity, int? newChannelValue, IContext context)
+            => ConfigWishes.ToChannel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel SetChannel(this Channel oldChannelEntity, int? newChannelValue, IContext context)
+            => ConfigWishes.SetChannel(oldChannelEntity, newChannelValue, context);
 
         [Obsolete(ObsoleteMessage)] public static bool IsCenter(this        Channel entity) => ConfigWishes.IsCenter(entity);
         [Obsolete(ObsoleteMessage)] public static bool IsLeft(this          Channel entity) => ConfigWishes.IsLeft(entity);
@@ -873,8 +885,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(Channel entity) => entity.ToEnum().EnumToChannel();
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel Channel(Channel oldChannelEntity, int? newChannelValue, IContext context) => ConfigNightmares.Channel(oldChannelEntity, newChannelValue, context);
-        [Obsolete(ObsoleteMessage)] public static Channel ChannelToEntity(int? thisChannel, int channelsForContext, IContext context) => ChannelToEnum(thisChannel, channelsForContext).ToEntity(context);
+        [Obsolete(ObsoleteMessage)] public static Channel Channel(Channel oldChannelEntity, int? newChannelValue, IContext context) => ConfigNightmares.SetChannel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel WithChannel(Channel oldChannelEntity, int? newChannelValue, IContext context) => ConfigNightmares.SetChannel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel AsChannel(Channel oldChannelEntity, int? newChannelValue, IContext context) => ConfigNightmares.SetChannel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToChannel(Channel oldChannelEntity, int? newChannelValue, IContext context) => ConfigNightmares.SetChannel(oldChannelEntity, newChannelValue, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel SetChannel(Channel oldChannelEntity, int? newChannelValue, IContext context) => ConfigNightmares.SetChannel(oldChannelEntity, newChannelValue, context);
+        
+        [Obsolete(ObsoleteMessage)] public static Channel ChannelToEntity(int? thisChannel, int channelsForContext, IContext context) => thisChannel.ChannelToEnum(channelsForContext).ToEntity(context);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithCenter(Channel oldChannelEntity, IContext context) => SetCenter(oldChannelEntity, context);
