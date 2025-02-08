@@ -335,9 +335,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Mono(this ChannelEnum oldChannelEnum) => ConfigWishes.Mono(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(this ChannelEnum oldChannelEnum) => ConfigNightmares.Stereo(oldChannelEnum);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(this ChannelEnum oldChannelEnum) => ConfigWishes.Stereo(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.Channels(oldChannelEnum, newChannelsValue);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigWishes.Channels(oldChannelEnum, newChannelsValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum WithChannels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigWishes.WithChannels(oldChannelEnum, newChannelsValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigWishes.ToChannels(oldChannelEnum, newChannelsValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigWishes.SetChannels(oldChannelEnum, newChannelsValue);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelsToChannelEnum(this int theseChannels, int? channelForContext) => ConfigNightmares.ChannelsToChannelEnum(theseChannels, channelForContext);
 
@@ -805,8 +811,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int  ChannelEnumToChannels(ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.Channels(oldChannelEnum, newChannelsValue);
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(int? channel, int channels) => ConfigNightmares.ChannelToEnum(channel, channels);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum WithChannels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelsToChannelEnum(int theseChannels, int? channelForContext) => ConfigNightmares.ChannelsToChannelEnum(theseChannels, channelForContext);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Mono(ChannelEnum oldChannelEnum) => ChannelEnum.Single;

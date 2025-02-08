@@ -784,22 +784,22 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() =>              ChannelToEnum(val.channel, val.channels));
                 AssertProp(() => ConfigWishes.ChannelToEnum(val.channel, val.channels));
                 
-                AssertProp(() => channelEnum.Channel     (val.channel).Channels    (val.channels).Channel    (val.channel));
-                //AssertProp(() => channelEnum.WithChannel (val.channel).WithChannels(val.channels).WithChannel(val.channel));
-                //AssertProp(() => channelEnum.AsChannel   (val.channel).AsChannels  (val.channels).AsChannel  (val.channel));
-                //AssertProp(() => channelEnum.ToChannel   (val.channel).ToChannels  (val.channels).ToChannel  (val.channel));
-                //AssertProp(() => channelEnum.SetChannel  (val.channel).SetChannels (val.channels).SetChannel (val.channel));
-                AssertProp(() => Channel    (channelEnum, val.channel).Channels    (val.channels).Channel    (val.channel));
-                //AssertProp(() => WithChannel(channelEnum, val.channel).WithChannels(val.channels).WithChannel(val.channel));
-                //AssertProp(() => AsChannel  (channelEnum, val.channel).AsChannels  (val.channels).AsChannel  (val.channel));
-                //AssertProp(() => ToChannel  (channelEnum, val.channel).ToChannels  (val.channels).ToChannel  (val.channel));
-                //AssertProp(() => SetChannel (channelEnum, val.channel).SetChannels (val.channels).SetChannel (val.channel));
-                AssertProp(() => ConfigWishes.Channel    (channelEnum, val.channel).Channels    (val.channels).Channel    (val.channel));
-                //AssertProp(() => ConfigWishes.WithChannel(channelEnum, val.channel).WithChannels(val.channels).WithChannel(val.channel));
-                //AssertProp(() => ConfigWishes.AsChannel  (channelEnum, val.channel).AsChannels  (val.channels).AsChannel  (val.channel));
-                //AssertProp(() => ConfigWishes.ToChannel  (channelEnum, val.channel).ToChannels  (val.channels).ToChannel  (val.channel));
-                //AssertProp(() => ConfigWishes.SetChannel (channelEnum, val.channel).SetChannels (val.channels).SetChannel (val.channel));
-                AssertProp(() => channelEnum.Channels(val.channels).Channel(val.channel).Channels(val.channels)); // Switched Channel and ChannelS calls
+                AssertProp(() => channelEnum .Channel                 (val.channel).SetChannels(val.channels).Channel    (val.channel));
+                AssertProp(() => channelEnum .WithChannel             (val.channel).SetChannels(val.channels).WithChannel(val.channel));
+                AssertProp(() => channelEnum .ToChannel               (val.channel).SetChannels(val.channels).ToChannel  (val.channel));
+                AssertProp(() => channelEnum .AsChannel               (val.channel).SetChannels(val.channels).AsChannel  (val.channel));
+                AssertProp(() => channelEnum .SetChannel              (val.channel).SetChannels(val.channels).SetChannel (val.channel));
+                AssertProp(() =>              Channel    (channelEnum, val.channel).SetChannels(val.channels).Channel    (val.channel));
+                AssertProp(() =>              WithChannel(channelEnum, val.channel).SetChannels(val.channels).WithChannel(val.channel));
+                AssertProp(() =>              ToChannel  (channelEnum, val.channel).SetChannels(val.channels).ToChannel  (val.channel));
+                AssertProp(() =>              AsChannel  (channelEnum, val.channel).SetChannels(val.channels).AsChannel  (val.channel));
+                AssertProp(() =>              SetChannel (channelEnum, val.channel).SetChannels(val.channels).SetChannel (val.channel));
+                AssertProp(() => ConfigWishes.Channel    (channelEnum, val.channel).SetChannels(val.channels).Channel    (val.channel));
+                AssertProp(() => ConfigWishes.WithChannel(channelEnum, val.channel).SetChannels(val.channels).WithChannel(val.channel));
+                AssertProp(() => ConfigWishes.ToChannel  (channelEnum, val.channel).SetChannels(val.channels).ToChannel  (val.channel));
+                AssertProp(() => ConfigWishes.AsChannel  (channelEnum, val.channel).SetChannels(val.channels).AsChannel  (val.channel));
+                AssertProp(() => ConfigWishes.SetChannel (channelEnum, val.channel).SetChannels(val.channels).SetChannel (val.channel));
+                AssertProp(() => channelEnum .SetChannels            (val.channels).SetChannel (val.channel) .SetChannels(val.channels)); // Switched Channel and ChannelS calls
 
                 AssertProp(() => { if (val == (1,0)) return channelEnum.Center        ();
                                    if (val == (2,0)) return channelEnum.Left          ();
@@ -881,21 +881,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
                 AssertProp(() => val.channel.ChannelToEntity(val.channels, x.SynthBound.Context));
                 
-                AssertProp(() => x.Immutable.ChannelEntity
-                                            .Channels(val.channels, x.SynthBound.Context)
-                                            .Channel (val.channel,  x.SynthBound.Context)
-                                            .Channels(val.channels, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.ChannelEntity.Channels(val.channels, x.SynthBound.Context).Channel (val.channel,  x.SynthBound.Context).Channels(val.channels, x.SynthBound.Context));
                 
-                AssertProp(() => x.Immutable.ChannelEntity
-                                            .Channel(val.channel, x.SynthBound.Context)
-                                            .Channels(val.channels, x.SynthBound.Context)
-                                            .Channel(val.channel, x.SynthBound.Context));
-                AssertProp(() => {
-                    if (val == (1,0)) return x.Immutable.ChannelEntity.Center(x.SynthBound.Context);
-                    if (val == (2,0)) return x.Immutable.ChannelEntity.Left(x.SynthBound.Context);
-                    if (val == (2,1)) return x.Immutable.ChannelEntity.Right(x.SynthBound.Context);
-                    if (val == (2,_)) return x.Immutable.ChannelEntity.NoChannel();
-                    return default; });
+                AssertProp(() => x.Immutable.ChannelEntity.Channel(val.channel, x.SynthBound.Context).Channels(val.channels, x.SynthBound.Context).Channel(val.channel, x.SynthBound.Context));
+                AssertProp(() => { if (val == (1,0)) return x.Immutable.ChannelEntity.Center(x.SynthBound.Context);
+                                   if (val == (2,0)) return x.Immutable.ChannelEntity.Left(x.SynthBound.Context);
+                                   if (val == (2,1)) return x.Immutable.ChannelEntity.Right(x.SynthBound.Context);
+                                   if (val == (2,_)) return x.Immutable.ChannelEntity.NoChannel(); return default; });
 
                 // TODO: There must be more.
             }

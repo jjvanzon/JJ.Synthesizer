@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => channelEnum == ChannelEnum.Left || channelEnum == ChannelEnum.Right || channelEnum == ChannelEnum.Undefined; // Undefined = stereo signal with 2 channels = not a specific channel
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(ChannelEnum oldChannelEnum, int newChannelsValue)
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannels(ChannelEnum oldChannelEnum, int newChannelsValue)
         {
             if (newChannelsValue == NoChannels) return ChannelEnum.Undefined;
             if (newChannelsValue == MonoChannels) return ChannelEnum.Single;
@@ -55,6 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
             throw new Exception($"Unsupported value: {new { newChannelsValue }}");
         }
+        
                 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(ChannelEnum oldChannelEnum)
@@ -93,13 +94,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Channel (Center/Left/Right)
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(ChannelEnum oldChannelEnum, int? newChannelValue)
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannel(ChannelEnum oldChannelEnumForContext, int? newChannelValue)
         {
             // Unspecified
             if (newChannelValue == null) return ChannelEnum.Undefined;
 
             // Helper variable
-            int oldChannels = oldChannelEnum.Channels();
+            int oldChannels = oldChannelEnumForContext.Channels();
 
             // Mono
             if (oldChannels == MonoChannels)
@@ -121,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 if (newChannelValue == 1) return ChannelEnum.Right;
             }
          
-            throw new Exception($"Unsupported combination of values: {new{ oldChannels, oldChannelEnum, newChannelValue }}");
+            throw new Exception($"Unsupported combination of values: {new{ oldChannels, oldChannelEnumForContext, newChannelValue }}");
         }
 
         /// <inheritdoc cref="docs._quasisetter" />

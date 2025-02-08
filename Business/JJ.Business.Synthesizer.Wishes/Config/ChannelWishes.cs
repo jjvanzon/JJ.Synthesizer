@@ -302,8 +302,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Immutable
         
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(this ChannelEnum oldChannelEnum, int? newChannelValue)
-            => ConfigWishes.Channel(oldChannelEnum, newChannelValue);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(this ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigWishes.Channel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum WithChannel(this ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigWishes.WithChannel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum AsChannel(this ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigWishes.AsChannel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannel(this ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigWishes.ToChannel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannel(this ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigWishes.SetChannel(oldChannelEnum, newChannelValue);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? channel, int channels) => ConfigWishes.ChannelToEnum(channel, channels);
 
         [Obsolete(ObsoleteMessage)] public static bool IsCenter(this      ChannelEnum enumValue) => ConfigWishes.IsCenter(enumValue);
         [Obsolete(ObsoleteMessage)] public static bool IsLeft(this        ChannelEnum enumValue) => ConfigWishes.IsLeft(enumValue);
@@ -312,7 +320,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? GetChannel(this    ChannelEnum enumValue) => ConfigWishes.GetChannel(enumValue);
         [Obsolete(ObsoleteMessage)] public static int? EnumToChannel(this ChannelEnum enumValue) => ConfigWishes.EnumToChannel(enumValue);
 
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? channel, int channels) => ConfigNightmares.ChannelToEnum(channel, channels);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithCenter(this ChannelEnum oldChannelEnum) => ConfigWishes.WithCenter(oldChannelEnum);
@@ -805,8 +812,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(ChannelEnum oldChannelEnum, int? newChannelValue)
-            => ConfigNightmares.Channel(oldChannelEnum, newChannelValue);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigNightmares.SetChannel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum WithChannel(ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigNightmares.SetChannel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum AsChannel(ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigNightmares.SetChannel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannel(ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigNightmares.SetChannel(oldChannelEnum, newChannelValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannel(ChannelEnum oldChannelEnum, int? newChannelValue) => ConfigNightmares.SetChannel(oldChannelEnum, newChannelValue);
+        
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(int? thisChannel, int channelsForContext) => ConfigNightmares.ChannelToEnum(thisChannel, channelsForContext);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithCenter(ChannelEnum oldChannelEnum) => SetCenter(oldChannelEnum);
@@ -817,6 +833,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Center(ChannelEnum oldChannelEnum) => SetCenter(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetCenter(ChannelEnum oldChannelEnum) => ChannelEnum.Single;
+        /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithLeft(ChannelEnum oldChannelEnum) => SetLeft(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum AsLeft(ChannelEnum oldChannelEnum) => SetLeft(oldChannelEnum);
@@ -824,6 +842,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToLeft(ChannelEnum oldChannelEnum) => SetLeft(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Left(ChannelEnum oldChannelEnum) => SetLeft(oldChannelEnum);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetLeft(ChannelEnum oldChannelEnum) => ChannelEnum.Left;
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithRight(ChannelEnum oldChannelEnum) => SetRight(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -833,6 +853,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Right(ChannelEnum oldChannelEnum) => SetRight(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetRight(ChannelEnum oldChannelEnum) => ChannelEnum.Right;
+        /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithNoChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum AsNoChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
@@ -840,12 +862,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToNoChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetCenter(ChannelEnum oldChannelEnum) => ChannelEnum.Single;
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetLeft(ChannelEnum oldChannelEnum) => ChannelEnum.Left;
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetRight(ChannelEnum oldChannelEnum) => ChannelEnum.Right;
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetNoChannel(ChannelEnum oldChannelEnum) => ChannelEnum.Undefined;
 
