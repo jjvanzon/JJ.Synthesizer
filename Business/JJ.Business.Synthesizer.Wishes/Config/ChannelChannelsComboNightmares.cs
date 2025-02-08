@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
                 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(ChannelEnum oldChannelEnum)
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum SetStereo(ChannelEnum oldChannelEnum)
         {
             switch (oldChannelEnum)
             {
