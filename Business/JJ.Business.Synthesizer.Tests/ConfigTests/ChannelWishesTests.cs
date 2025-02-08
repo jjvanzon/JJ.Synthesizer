@@ -1113,48 +1113,43 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_TapeBound_Getters_SingleTape(ConfigTestEntities x, (int channels, int? channel) c)
         {
             Assert_Tape_Getters_Base(x);
+            
+            AreEqual(c.channels,                   () => x.TapeBound.TapeConfig.Channels);
+            AreEqual(c.channel,                    () => x.TapeBound.TapeConfig.Channel);
+            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeConfig.IsMono);
+            AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeConfig.IsStereo);
+            AreEqual(c == (1,0),                   () => x.TapeBound.TapeConfig.IsCenter);
+            AreEqual(c == (2,0),                   () => x.TapeBound.TapeConfig.IsLeft);
+            AreEqual(c == (2,1),                   () => x.TapeBound.TapeConfig.IsRight);
                     
-            AreEqual(c.channels, () => x.TapeBound.Tape.Channels());
-            AreEqual(c.channels, () => x.TapeBound.TapeConfig.Channels());
-            AreEqual(c.channels, () => x.TapeBound.TapeConfig.Channels);
-            AreEqual(c.channels, () => x.TapeBound.TapeActions.Channels());
-            AreEqual(c.channels, () => x.TapeBound.TapeAction.Channels());
-            
-            AreEqual(c.channels == MonoChannels, () => x.TapeBound.Tape.IsMono());
-            AreEqual(c.channels == MonoChannels, () => x.TapeBound.TapeConfig.IsMono());
-            AreEqual(c.channels == MonoChannels, () => x.TapeBound.TapeConfig.IsMono);
-            AreEqual(c.channels == MonoChannels, () => x.TapeBound.TapeActions.IsMono());
-            AreEqual(c.channels == MonoChannels, () => x.TapeBound.TapeAction.IsMono());
-            
+            AreEqual(c.channels,                   () => x.TapeBound.Tape.Channels());
+            AreEqual(c.channels,                   () => x.TapeBound.TapeConfig.Channels());
+            AreEqual(c.channels,                   () => x.TapeBound.TapeActions.Channels());
+            AreEqual(c.channels,                   () => x.TapeBound.TapeAction.Channels());
+            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.Tape.IsMono());
+            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeConfig.IsMono());
+            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeActions.IsMono());
+            AreEqual(c.channels == MonoChannels,   () => x.TapeBound.TapeAction.IsMono());
             AreEqual(c.channels == StereoChannels, () => x.TapeBound.Tape.IsStereo());
             AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeConfig.IsStereo());
-            AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeConfig.IsStereo);
             AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeActions.IsStereo());
             AreEqual(c.channels == StereoChannels, () => x.TapeBound.TapeAction.IsStereo());
-
-            AreEqual(c.channel, () => x.TapeBound.Tape.Channel());
-            AreEqual(c.channel, () => x.TapeBound.TapeConfig.Channel());
-            AreEqual(c.channel, () => x.TapeBound.TapeConfig.Channel);
-            AreEqual(c.channel, () => x.TapeBound.TapeActions.Channel());
-            AreEqual(c.channel, () => x.TapeBound.TapeAction.Channel());
-
-            AreEqual(c == (1,0), () => x.TapeBound.Tape.IsCenter());
-            AreEqual(c == (1,0), () => x.TapeBound.TapeConfig.IsCenter());
-            AreEqual(c == (1,0), () => x.TapeBound.TapeConfig.IsCenter);
-            AreEqual(c == (1,0), () => x.TapeBound.TapeActions.IsCenter());
-            AreEqual(c == (1,0), () => x.TapeBound.TapeAction.IsCenter());
-                                                                    
-            AreEqual(c == (2,0), () => x.TapeBound.Tape.IsLeft());
-            AreEqual(c == (2,0), () => x.TapeBound.TapeConfig.IsLeft());
-            AreEqual(c == (2,0), () => x.TapeBound.TapeConfig.IsLeft);
-            AreEqual(c == (2,0), () => x.TapeBound.TapeActions.IsLeft());
-            AreEqual(c == (2,0), () => x.TapeBound.TapeAction.IsLeft());
-                                                                    
-            AreEqual(c == (2,1), () => x.TapeBound.Tape.IsRight());
-            AreEqual(c == (2,1), () => x.TapeBound.TapeConfig.IsRight());
-            AreEqual(c == (2,1), () => x.TapeBound.TapeConfig.IsRight);
-            AreEqual(c == (2,1), () => x.TapeBound.TapeActions.IsRight());
-            AreEqual(c == (2,1), () => x.TapeBound.TapeAction.IsRight());
+            AreEqual(c.channel,                    () => x.TapeBound.Tape.Channel());
+            AreEqual(c.channel,                    () => x.TapeBound.TapeConfig.Channel());
+            AreEqual(c.channel,                    () => x.TapeBound.TapeActions.Channel());
+            AreEqual(c.channel,                    () => x.TapeBound.TapeAction.Channel());
+            AreEqual(c == (1,0),                   () => x.TapeBound.Tape.IsCenter());
+            AreEqual(c == (1,0),                   () => x.TapeBound.TapeConfig.IsCenter());
+            AreEqual(c == (1,0),                   () => x.TapeBound.TapeActions.IsCenter());
+            AreEqual(c == (1,0),                   () => x.TapeBound.TapeAction.IsCenter());
+            AreEqual(c == (2,0),                   () => x.TapeBound.Tape.IsLeft());
+            AreEqual(c == (2,0),                   () => x.TapeBound.TapeConfig.IsLeft());
+            AreEqual(c == (2,0),                   () => x.TapeBound.TapeActions.IsLeft());
+            AreEqual(c == (2,0),                   () => x.TapeBound.TapeAction.IsLeft());
+            AreEqual(c == (2,1),                   () => x.TapeBound.Tape.IsRight());
+            AreEqual(c == (2,1),                   () => x.TapeBound.TapeConfig.IsRight());
+            AreEqual(c == (2,1),                   () => x.TapeBound.TapeActions.IsRight());
+            AreEqual(c == (2,1),                   () => x.TapeBound.TapeAction.IsRight());
         }
         
         private void Assert_TapeBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
