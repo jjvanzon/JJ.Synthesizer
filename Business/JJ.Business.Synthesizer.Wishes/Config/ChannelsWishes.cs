@@ -332,9 +332,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static bool IsMono               (this ChannelEnum channelEnum)   => channelEnum == ChannelEnum.Single;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo             (this ChannelEnum channelEnum) => ConfigNightmares.IsStereo(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  Channels             (this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
-        [Obsolete(ObsoleteMessage)] public static int  WithChannels         (this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  ToChannels           (this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
-        [Obsolete(ObsoleteMessage)] public static int  SetChannels          (this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
+        [Obsolete(ObsoleteMessage)] public static int  GetChannels          (this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  ChannelEnumToChannels(this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
 
         /// <inheritdoc cref="docs._quasisetter" />
@@ -393,6 +392,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static Channel WithStereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.WithStereo(oldChannelEntity, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithChannels(this Channel oldChannelEntity, int newChannels, IContext context) => ConfigWishes.WithChannels(oldChannelEntity, newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToMono(this Channel oldChannelEntity, IContext context) => ConfigWishes.ToMono(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToStereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.ToStereo(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToChannels(this Channel oldChannelEntity, int newChannels, IContext context) => ConfigWishes.ToChannels(oldChannelEntity, newChannels, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel SetMono(this Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel SetStereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetChannels(this Channel oldChannelEntity, int newChannels, IContext context) => ConfigWishes.SetChannels(oldChannelEntity, newChannels, context);
         [Obsolete(ObsoleteMessage)] public static Channel ChannelsToChannelEntity(this int theseChannels, int? channelForContext, IContext context) => ConfigWishes.ChannelsToChannelEntity(theseChannels, channelForContext, context);
@@ -842,9 +851,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static bool IsMono               (ChannelEnum channelEnum)   => channelEnum == ChannelEnum.Single;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo             (ChannelEnum channelEnum) => ConfigNightmares.IsStereo(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  Channels             (ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
-        [Obsolete(ObsoleteMessage)] public static int  WithChannels         (ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  ToChannels           (ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
-        [Obsolete(ObsoleteMessage)] public static int  SetChannels          (ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
+        [Obsolete(ObsoleteMessage)] public static int  GetChannels          (ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  ChannelEnumToChannels(ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
 
         /// <inheritdoc cref="docs._quasisetter" />
@@ -906,6 +914,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static Channel AsMono(Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AsStereo(Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToMono(Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToStereo(Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel ToChannels(Channel oldChannelEntity, int newChannels, IContext context) => ConfigNightmares.SetChannels(oldChannelEntity, newChannels, context);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetMono(Channel oldChannelEntity, IContext context) => ChannelEnum.Single.ToEntity(context);
         /// <inheritdoc cref="docs._quasisetter" />

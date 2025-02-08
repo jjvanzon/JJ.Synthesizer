@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -748,53 +749,113 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => value == 1 ? WithMono(x.Immutable.SpeakerSetup, x.SynthBound.Context) : WithStereo(x.Immutable.SpeakerSetup, x.SynthBound.Context));
                 AssertProp(() => value == 1 ? AsMono  (x.Immutable.SpeakerSetup, x.SynthBound.Context) : AsStereo  (x.Immutable.SpeakerSetup, x.SynthBound.Context));
                 AssertProp(() => value == 1 ? SetMono (x.Immutable.SpeakerSetup, x.SynthBound.Context) : SetStereo (x.Immutable.SpeakerSetup, x.SynthBound.Context));
-                AssertProp(() => value == 1 ? ConfigWishes.Mono    (x.Immutable.SpeakerSetup, x.SynthBound.Context) : Stereo    (x.Immutable.SpeakerSetup, x.SynthBound.Context));
-                AssertProp(() => value == 1 ? ConfigWishes.WithMono(x.Immutable.SpeakerSetup, x.SynthBound.Context) : WithStereo(x.Immutable.SpeakerSetup, x.SynthBound.Context));
-                AssertProp(() => value == 1 ? ConfigWishes.AsMono  (x.Immutable.SpeakerSetup, x.SynthBound.Context) : AsStereo  (x.Immutable.SpeakerSetup, x.SynthBound.Context));
-                AssertProp(() => value == 1 ? ConfigWishes.SetMono (x.Immutable.SpeakerSetup, x.SynthBound.Context) : SetStereo (x.Immutable.SpeakerSetup, x.SynthBound.Context));
+                AssertProp(() => value == 1 ? ConfigWishes.Mono    (x.Immutable.SpeakerSetup, x.SynthBound.Context) : ConfigWishes.Stereo    (x.Immutable.SpeakerSetup, x.SynthBound.Context));
+                AssertProp(() => value == 1 ? ConfigWishes.WithMono(x.Immutable.SpeakerSetup, x.SynthBound.Context) : ConfigWishes.WithStereo(x.Immutable.SpeakerSetup, x.SynthBound.Context));
+                AssertProp(() => value == 1 ? ConfigWishes.AsMono  (x.Immutable.SpeakerSetup, x.SynthBound.Context) : ConfigWishes.AsStereo  (x.Immutable.SpeakerSetup, x.SynthBound.Context));
+                AssertProp(() => value == 1 ? ConfigWishes.SetMono (x.Immutable.SpeakerSetup, x.SynthBound.Context) : ConfigWishes.SetStereo (x.Immutable.SpeakerSetup, x.SynthBound.Context));
             }
             
             var channelEnums = new List<ChannelEnum>();
             {
+                ChannelEnum channelEnum;
+                
                 void AssertProp(Func<ChannelEnum> setter)
                 {
-                    Assert_Immutable_Getters(x.Immutable.ChannelEnum, init);
+                    channelEnum = x.Immutable.ChannelEnum;
+                    
+                    Assert_Immutable_Getters(channelEnum, init);
                     
                     ChannelEnum channelEnum2 = setter();
                     
-                    Assert_Immutable_Getters(x.Immutable.ChannelEnum, init);
+                    Assert_Immutable_Getters(channelEnum, init);
                     Assert_Immutable_Getters(channelEnum2, value);
                     
                     channelEnums.Add(channelEnum2);
                 }
 
-                AssertProp(() => x.Immutable.ChannelEnum.Channels    (value));
-                AssertProp(() => x.Immutable.ChannelEnum.WithChannels(value));
-                AssertProp(() => x.Immutable.ChannelEnum.SetChannels (value));
-                AssertProp(() => value.ChannelsToChannelEnum(x.Immutable.Channel));
-                AssertProp(() => Channels    (x.Immutable.ChannelEnum, value));
-                AssertProp(() => WithChannels(x.Immutable.ChannelEnum, value));
-                AssertProp(() => SetChannels (x.Immutable.ChannelEnum, value));
-                AssertProp(() => ChannelsToChannelEnum(value, x.Immutable.Channel));
-                AssertProp(() => ConfigWishes.Channels             (x.Immutable.ChannelEnum, value));
-                AssertProp(() => ConfigWishes.WithChannels         (x.Immutable.ChannelEnum, value));
-                AssertProp(() => ConfigWishes.SetChannels          (x.Immutable.ChannelEnum, value));
+                AssertProp(() =>        value.ChannelsToChannelEnum(       x.Immutable.Channel));
+                AssertProp(() =>              ChannelsToChannelEnum(value, x.Immutable.Channel));
                 AssertProp(() => ConfigWishes.ChannelsToChannelEnum(value, x.Immutable.Channel));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.Mono    () : x.Immutable.ChannelEnum.Stereo    ());
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.WithMono() : x.Immutable.ChannelEnum.WithStereo());
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.AsMono  () : x.Immutable.ChannelEnum.AsStereo  ());
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.SetMono () : x.Immutable.ChannelEnum.SetStereo ());
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.Mono    () : Stereo    (x.Immutable.ChannelEnum));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.WithMono() : WithStereo(x.Immutable.ChannelEnum));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.AsMono  () : AsStereo  (x.Immutable.ChannelEnum));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.SetMono () : SetStereo (x.Immutable.ChannelEnum));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.Mono    () : ConfigWishes.Stereo    (x.Immutable.ChannelEnum));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.WithMono() : ConfigWishes.WithStereo(x.Immutable.ChannelEnum));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.AsMono  () : ConfigWishes.AsStereo  (x.Immutable.ChannelEnum));
-                AssertProp(() => value == 1 ? x.Immutable.ChannelEnum.SetMono () : ConfigWishes.SetStereo (x.Immutable.ChannelEnum));
+                AssertProp(() => channelEnum.Channels    (value));
+                AssertProp(() => channelEnum.WithChannels(value));
+                AssertProp(() => channelEnum.SetChannels (value));
+                AssertProp(() => channelEnum.ToChannels  (value));
+                AssertProp(() => Channels    (channelEnum, value));
+                AssertProp(() => WithChannels(channelEnum, value));
+                AssertProp(() => SetChannels (channelEnum, value));
+                AssertProp(() => ToChannels  (channelEnum, value));
+                AssertProp(() => ConfigWishes.Channels    (channelEnum, value));
+                AssertProp(() => ConfigWishes.WithChannels(channelEnum, value));
+                AssertProp(() => ConfigWishes.SetChannels (channelEnum, value));
+                AssertProp(() => ConfigWishes.ToChannels  (channelEnum, value));
+                AssertProp(() => value == 1 ? channelEnum.Mono    () : channelEnum.Stereo    ());
+                AssertProp(() => value == 1 ? channelEnum.WithMono() : channelEnum.WithStereo());
+                AssertProp(() => value == 1 ? channelEnum.AsMono  () : channelEnum.AsStereo  ());
+                AssertProp(() => value == 1 ? channelEnum.ToMono  () : channelEnum.ToStereo  ());
+                AssertProp(() => value == 1 ? channelEnum.SetMono () : channelEnum.SetStereo ());
+                AssertProp(() => value == 1 ? Mono    (channelEnum) : Stereo    (channelEnum));
+                AssertProp(() => value == 1 ? WithMono(channelEnum) : WithStereo(channelEnum));
+                AssertProp(() => value == 1 ? AsMono  (channelEnum) : AsStereo  (channelEnum));
+                AssertProp(() => value == 1 ? ToMono  (channelEnum) : ToStereo  (channelEnum));
+                AssertProp(() => value == 1 ? SetMono (channelEnum) : SetStereo (channelEnum));
+                AssertProp(() => value == 1 ? ConfigWishes.Mono    (channelEnum) : ConfigWishes.Stereo    (channelEnum));
+                AssertProp(() => value == 1 ? ConfigWishes.WithMono(channelEnum) : ConfigWishes.WithStereo(channelEnum));
+                AssertProp(() => value == 1 ? ConfigWishes.AsMono  (channelEnum) : ConfigWishes.AsStereo  (channelEnum));
+                AssertProp(() => value == 1 ? ConfigWishes.ToMono  (channelEnum) : ConfigWishes.ToStereo  (channelEnum));
+                AssertProp(() => value == 1 ? ConfigWishes.SetMono (channelEnum) : ConfigWishes.SetStereo (channelEnum));
             }
             
-            // TODO: Channel entity.
+            var channelEntities = new List<Channel>();
+            {
+                Channel channelEntity;
+                IContext context = null;
+                
+                void AssertProp(Func<Channel> setter)
+                {
+                    channelEntity = x.Immutable.ChannelEntity;
+                    context = x.SynthBound.Context;
+                    
+                    Assert_Immutable_Getters(channelEntity, init);
+                    
+                    Channel channelEntity2 = setter();
+                    
+                    Assert_Immutable_Getters(channelEntity, init);
+                    Assert_Immutable_Getters(channelEntity2, value);
+                    
+                    channelEntities.Add(channelEntity2);
+                }
+
+                AssertProp(() =>        value.ChannelsToChannelEntity(       x.Immutable.Channel, context));
+                AssertProp(() =>              ChannelsToChannelEntity(value, x.Immutable.Channel, context));
+                AssertProp(() => ConfigWishes.ChannelsToChannelEntity(value, x.Immutable.Channel, context));
+                AssertProp(() => channelEntity.Channels    (value, context));
+                AssertProp(() => channelEntity.WithChannels(value, context));
+                AssertProp(() => channelEntity.SetChannels (value, context));
+                AssertProp(() => channelEntity.ToChannels  (value, context));
+                AssertProp(() => Channels    (channelEntity, value, context));
+                AssertProp(() => WithChannels(channelEntity, value, context));
+                AssertProp(() => SetChannels (channelEntity, value, context));
+                AssertProp(() => ToChannels  (channelEntity, value, context));
+                AssertProp(() => ConfigWishes.Channels    (channelEntity, value, context));
+                AssertProp(() => ConfigWishes.WithChannels(channelEntity, value, context));
+                AssertProp(() => ConfigWishes.SetChannels (channelEntity, value, context));
+                AssertProp(() => ConfigWishes.ToChannels  (channelEntity, value, context));
+                AssertProp(() => value == 1 ? channelEntity.Mono    (context) : channelEntity.Stereo    (context));
+                AssertProp(() => value == 1 ? channelEntity.WithMono(context) : channelEntity.WithStereo(context));
+                AssertProp(() => value == 1 ? channelEntity.AsMono  (context) : channelEntity.AsStereo  (context));
+                AssertProp(() => value == 1 ? channelEntity.ToMono  (context) : channelEntity.ToStereo  (context));
+                AssertProp(() => value == 1 ? channelEntity.SetMono (context) : channelEntity.SetStereo (context));
+                AssertProp(() => value == 1 ? Mono    (channelEntity, context) : Stereo    (channelEntity, context));
+                AssertProp(() => value == 1 ? WithMono(channelEntity, context) : WithStereo(channelEntity, context));
+                AssertProp(() => value == 1 ? AsMono  (channelEntity, context) : AsStereo  (channelEntity, context));
+                AssertProp(() => value == 1 ? ToMono  (channelEntity, context) : ToStereo  (channelEntity, context));
+                AssertProp(() => value == 1 ? SetMono (channelEntity, context) : SetStereo (channelEntity, context));
+                AssertProp(() => value == 1 ? ConfigWishes.Mono    (channelEntity, context) : ConfigWishes.Stereo    (channelEntity, context));
+                AssertProp(() => value == 1 ? ConfigWishes.WithMono(channelEntity, context) : ConfigWishes.WithStereo(channelEntity, context));
+                AssertProp(() => value == 1 ? ConfigWishes.AsMono  (channelEntity, context) : ConfigWishes.AsStereo  (channelEntity, context));
+                AssertProp(() => value == 1 ? ConfigWishes.ToMono  (channelEntity, context) : ConfigWishes.ToStereo  (channelEntity, context));
+                AssertProp(() => value == 1 ? ConfigWishes.SetMono (channelEntity, context) : ConfigWishes.SetStereo (channelEntity, context));
+            }
             
             // After-Record
             x.Record();
@@ -858,6 +919,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.WavHeader,        channels);
             Assert_Immutable_Getters(x.Immutable.SpeakerSetupEnum, channels);
             Assert_Immutable_Getters(x.Immutable.SpeakerSetup,     channels);
+            Assert_Immutable_Getters(x.Immutable.ChannelEnum,      channels);
+            Assert_Immutable_Getters(x.Immutable.ChannelEntity,    channels);
         }
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, int channels)
@@ -1124,24 +1187,46 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
         private void Assert_Immutable_Getters(ChannelEnum channelEnum, int channels)
         {
-            AreEqual(channels,      () => channelEnum.Channels      ());
-            //AreEqual(channels,      () => channelEnum.GetChannels   ());
-            AreEqual(channels,      () => channelEnum.ToChannels    ());
-            //AreEqual(channels,      () => channelEnum.EnumToChannels());
-            AreEqual(channels == 1, () => channelEnum.IsMono        ());
-            AreEqual(channels == 2, () => channelEnum.IsStereo      ());
-            AreEqual(channels,      () => Channels      (channelEnum));
-            //AreEqual(channels,      () => GetChannels   (channelEnum));
-            AreEqual(channels,      () => ToChannels    (channelEnum));
-            //AreEqual(channels,      () => EnumToChannels(channelEnum));
-            AreEqual(channels == 1, () => IsMono        (channelEnum));
-            AreEqual(channels == 2, () => IsStereo      (channelEnum));
-            AreEqual(channels,      () => ConfigWishes.Channels      (channelEnum));
-            //AreEqual(channels,      () => ConfigWishes.GetChannels   (channelEnum));
-            AreEqual(channels,      () => ConfigWishes.ToChannels    (channelEnum));
-            //AreEqual(channels,      () => ConfigWishes.EnumToChannels(channelEnum));
-            AreEqual(channels == 1, () => ConfigWishes.IsMono        (channelEnum));
-            AreEqual(channels == 2, () => ConfigWishes.IsStereo      (channelEnum));
+            AreEqual(channels,      () => channelEnum.ChannelEnumToChannels());
+            AreEqual(channels,      () => channelEnum.Channels             ());
+            AreEqual(channels,      () => channelEnum.GetChannels          ());
+            AreEqual(channels,      () => channelEnum.ToChannels           ());
+            AreEqual(channels == 1, () => channelEnum.IsMono               ());
+            AreEqual(channels == 2, () => channelEnum.IsStereo             ());
+            AreEqual(channels,      () => ChannelEnumToChannels(channelEnum));
+            AreEqual(channels,      () => Channels             (channelEnum));
+            AreEqual(channels,      () => GetChannels          (channelEnum));
+            AreEqual(channels,      () => ToChannels           (channelEnum));
+            AreEqual(channels == 1, () => IsMono               (channelEnum));
+            AreEqual(channels == 2, () => IsStereo             (channelEnum));
+            AreEqual(channels,      () => ConfigWishes.ChannelEnumToChannels(channelEnum));
+            AreEqual(channels,      () => ConfigWishes.Channels             (channelEnum));
+            AreEqual(channels,      () => ConfigWishes.GetChannels          (channelEnum));
+            AreEqual(channels,      () => ConfigWishes.ToChannels           (channelEnum));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono               (channelEnum));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo             (channelEnum));
+        }
+                
+        private void Assert_Immutable_Getters(Channel channelEntity, int channels)
+        {
+            AreEqual(channels,      () => channelEntity.ChannelEntityToChannels());
+            AreEqual(channels,      () => channelEntity.Channels               ());
+            AreEqual(channels,      () => channelEntity.GetChannels            ());
+            AreEqual(channels,      () => channelEntity.ToChannels             ());
+            AreEqual(channels == 1, () => channelEntity.IsMono                 ());
+            AreEqual(channels == 2, () => channelEntity.IsStereo               ());
+            AreEqual(channels,      () => ChannelEntityToChannels(channelEntity));
+            AreEqual(channels,      () => Channels               (channelEntity));
+            AreEqual(channels,      () => GetChannels            (channelEntity));
+            AreEqual(channels,      () => ToChannels             (channelEntity));
+            AreEqual(channels == 1, () => IsMono                 (channelEntity));
+            AreEqual(channels == 2, () => IsStereo               (channelEntity));
+            AreEqual(channels,      () => ConfigWishes.ChannelEntityToChannels(channelEntity));
+            AreEqual(channels,      () => ConfigWishes.Channels               (channelEntity));
+            AreEqual(channels,      () => ConfigWishes.GetChannels            (channelEntity));
+            AreEqual(channels,      () => ConfigWishes.ToChannels             (channelEntity));
+            AreEqual(channels == 1, () => ConfigWishes.IsMono                 (channelEntity));
+            AreEqual(channels == 2, () => ConfigWishes.IsStereo               (channelEntity));
         }
 
         // Test Data Helpers
