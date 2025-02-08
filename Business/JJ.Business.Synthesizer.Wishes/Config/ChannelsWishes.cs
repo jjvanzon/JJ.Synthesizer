@@ -326,6 +326,34 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.SetChannels(oldSpeakerSetup, newChannels, context);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
+
+        [Obsolete(ObsoleteMessage)] public static bool IsMono               (this ChannelEnum channelEnum) => ConfigWishes.IsMono(channelEnum);
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo             (this ChannelEnum channelEnum) => ConfigWishes.IsStereo(channelEnum);
+        [Obsolete(ObsoleteMessage)] public static int  Channels             (this ChannelEnum channelEnum) => ConfigWishes.Channels(channelEnum);
+        [Obsolete(ObsoleteMessage)] public static int  ChannelEnumToChannels(this ChannelEnum channelEnum) => ConfigWishes.ChannelEnumToChannels(channelEnum);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Mono(this ChannelEnum oldChannelEnum) => ConfigWishes.Mono(oldChannelEnum);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(this ChannelEnum oldChannelEnum) => ConfigNightmares.Stereo(oldChannelEnum);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.Channels(oldChannelEnum, newChannelsValue);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelsToChannelEnum(this int theseChannels, int? channelForContext) => ConfigNightmares.ChannelsToChannelEnum(theseChannels, channelForContext);
+
+        [Obsolete(ObsoleteMessage)] public static bool IsMono  (this Channel channelEntity) => ConfigWishes.IsMono(channelEntity);
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(this Channel channelEntity) => ConfigWishes.IsStereo(channelEntity);
+        [Obsolete(ObsoleteMessage)] public static int  Channels(this Channel channelEntity) => ConfigWishes.Channels(channelEntity);
+        [Obsolete(ObsoleteMessage)] public static int  ChannelEntityToChannels(this Channel channelEntity) => ConfigWishes.ChannelEntityToChannels(channelEntity);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Mono(this Channel oldChannelEntity, IContext context) => ConfigWishes.Mono(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Stereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.Stereo(oldChannelEntity, context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Channels(this Channel oldChannelEntity, int newChannelsValue, IContext context) => ConfigNightmares.Channels(oldChannelEntity, newChannelsValue, context);
+    
+        [Obsolete(ObsoleteMessage)] public static Channel ChannelsToChannelEntity(this int theseChannels, int? channelForContext, IContext context) => ConfigNightmares.ChannelsToChannelEnum(theseChannels, channelForContext).ToEntity(context);
     }
 
     public partial class ConfigWishes
@@ -768,5 +796,36 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             return channels.ChannelsToEnum().ToEntity(context);
         }
+        
+        // NOTE: Target types ChannelEnum and Channel's static implementation can be found in ChannelChannelsComboNightmares.cs
+
+        [Obsolete(ObsoleteMessage)] public static bool IsMono(ChannelEnum channelEnum)   => channelEnum == ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(ChannelEnum channelEnum) => ConfigNightmares.IsStereo(channelEnum);
+        [Obsolete(ObsoleteMessage)] public static int  Channels(ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
+        [Obsolete(ObsoleteMessage)] public static int  ChannelEnumToChannels(ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.Channels(oldChannelEnum, newChannelsValue);
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(int? channel, int channels) => ConfigNightmares.ChannelToEnum(channel, channels);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Mono(ChannelEnum oldChannelEnum) => ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(ChannelEnum oldChannelEnum) => ConfigNightmares.Stereo(oldChannelEnum);
+
+
+        [Obsolete(ObsoleteMessage)] public static bool IsMono  (Channel channelEntity) => channelEntity.ToEnum().IsMono();
+        [Obsolete(ObsoleteMessage)] public static bool IsStereo(Channel channelEntity) => channelEntity.ToEnum().IsStereo();
+        [Obsolete(ObsoleteMessage)] public static int  Channels(Channel channelEntity) => channelEntity.ToEnum().Channels();
+        [Obsolete(ObsoleteMessage)] public static int ChannelEntityToChannels(Channel channelEntity) => ConfigNightmares.ChannelEnumToChannels(channelEntity.ToEnum());
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Mono(Channel oldChannelEntity, IContext context) => ChannelEnum.Single.ToEntity(context);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Stereo(Channel oldChannelEntity, IContext context)
+        {
+            ChannelEnum oldChannelEnum = oldChannelEntity.ToEnum();
+            return ConfigNightmares.Stereo(oldChannelEnum).ToEntity(context);
+        }
+
     }
 }

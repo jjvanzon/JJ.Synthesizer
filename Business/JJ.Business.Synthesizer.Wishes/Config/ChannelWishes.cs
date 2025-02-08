@@ -300,6 +300,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileOutputChannel SetChannel(this  AudioFileOutputChannel obj, int value) => ConfigWishes.SetChannel(obj, value);
 
         // Immutable
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(this ChannelEnum oldChannelEnum, int? newChannelValue)
+            => ConfigWishes.Channel(oldChannelEnum, newChannelValue);
 
         [Obsolete(ObsoleteMessage)] public static bool IsCenter(this      ChannelEnum enumValue) => ConfigWishes.IsCenter(enumValue);
         [Obsolete(ObsoleteMessage)] public static bool IsLeft(this        ChannelEnum enumValue) => ConfigWishes.IsLeft(enumValue);
@@ -308,6 +312,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? GetChannel(this    ChannelEnum enumValue) => ConfigWishes.GetChannel(enumValue);
         [Obsolete(ObsoleteMessage)] public static int? EnumToChannel(this ChannelEnum enumValue) => ConfigWishes.EnumToChannel(enumValue);
 
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? channel, int channels) => ConfigNightmares.ChannelToEnum(channel, channels);
+        
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithCenter(this ChannelEnum oldChannelEnum) => ConfigWishes.WithCenter(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -348,6 +354,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetRight(this ChannelEnum oldChannelEnum) => ConfigWishes.SetRight(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetNoChannel(this ChannelEnum oldChannelEnum) => ConfigWishes.SetNoChannel(oldChannelEnum);
+        
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Channel(this Channel oldChannelEntity, int? newChannelValue, IContext context)
+            => ConfigWishes.Channel(oldChannelEntity, newChannelValue, context);
 
         [Obsolete(ObsoleteMessage)] public static bool IsCenter(this        Channel entity) => ConfigWishes.IsCenter(entity);
         [Obsolete(ObsoleteMessage)] public static bool IsLeft(this          Channel entity) => ConfigWishes.IsLeft(entity);
@@ -355,6 +365,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? Channel(this         Channel entity) => ConfigWishes.Channel(entity);
         [Obsolete(ObsoleteMessage)] public static int? GetChannel(this      Channel entity) => ConfigWishes.GetChannel(entity);
         [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(this Channel entity) => ConfigWishes.EntityToChannel(entity);
+
+        [Obsolete(ObsoleteMessage)] public static Channel ChannelToEntity(this int? thisChannel, int channelsForContext, IContext context) => ConfigWishes.ChannelToEntity(thisChannel, channelsForContext, context);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithCenter(this Channel oldChannelEntity, IContext context) => ConfigWishes.WithCenter(oldChannelEntity, context);
@@ -713,41 +725,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsLeft(AudioFileOutput obj) => GetChannel(obj) == LeftChannel && IsStereo(obj);
         public static bool IsRight(AudioFileOutput obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel(AudioFileOutput obj) => GetChannel(obj);
-        public static int? GetChannel(AudioFileOutput obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
-            
-            int channels = obj.Channels();
-            int signalCount = obj.AudioFileOutputChannels.Count;
-            int? firstChannelNumber = obj.AudioFileOutputChannels.ElementAtOrDefault(0)?.Channel();
-            
-            // Mono has channel 0 only.
-            if (channels == MonoChannels) return CenterChannel;
-            
-            if (channels == StereoChannels)
-            {
-                if (signalCount == 2)
-                {
-                    // Handles stereo with 2 channels defined, so not specific channel can be returned,
-                    return null;
-                }
-                if (signalCount == 1)
-                {
-                    // By returning index, we handle both "Left-only" and "Right-only" (single channel 1) scenarios.
-                    if (firstChannelNumber != null)
-                    {
-                        return firstChannelNumber;
-                    }
-                }
-            }
-            
-            throw new Exception(
-                "Unsupported combination of values: " + Environment.NewLine +
-                $"obj.Channels = {channels}, " + Environment.NewLine +
-                $"obj.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + Environment.NewLine +
-                $"obj.AudioFileOutputChannels[0].Index = {firstChannelNumber} ({nameof(firstChannelNumber)})");
-        }
+        public static int? GetChannel(AudioFileOutput obj) => ConfigNightmares.GetChannel(obj);
 
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput Center(AudioFileOutput obj, IContext context) => SetCenter(obj, context);
@@ -788,44 +766,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetNoChannel(AudioFileOutput obj, IContext context) => obj.Stereo(context).SetChannel(EveryChannel, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetChannel(AudioFileOutput obj, int? channel, IContext context)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
-            if (obj.AudioFileOutputChannels.Contains(null)) throw new Exception("obj.AudioFileOutputChannels contains nulls.");
-            
-            if (channel == CenterChannel && obj.IsMono())
-            {
-                obj.Channels(MonoChannels, context);
-                CreateOrRemoveChannels(obj, signalCount: 1, context);
-                obj.AudioFileOutputChannels[0].Index = CenterChannel;
-            }
-            else if (channel == LeftChannel && obj.IsStereo())
-            {
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
-                CreateOrRemoveChannels(obj, signalCount: 1, context);
-                obj.AudioFileOutputChannels[0].Index = LeftChannel;
-            }
-            else if (channel == RightChannel)
-            {
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
-                CreateOrRemoveChannels(obj, signalCount: 1, context);
-                obj.AudioFileOutputChannels[0].Index = RightChannel;
-            }
-            else if (channel == EveryChannel) 
-            {
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
-                CreateOrRemoveChannels(obj, signalCount: 2, context);
-                obj.AudioFileOutputChannels[0].Index = 0;
-                obj.AudioFileOutputChannels[0].Index = 1;
-            }
-            else
-            {
-                throw new Exception($"Invalid combination of values: {new { AudioFileOutput_Channels = obj.Channels(), channel }}");
-            }
-            
-            return obj;
-        }
+        public static AudioFileOutput SetChannel(AudioFileOutput obj, int? channel, IContext context) => ConfigNightmares.SetChannel(obj, channel, context);
         
         public static int Channel(AudioFileOutputChannel obj) => GetChannel(obj);
         public static int GetChannel(AudioFileOutputChannel obj)
@@ -862,6 +803,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 default: throw new ValueNotSupportedException(enumValue);
             }
         }
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum Channel(ChannelEnum oldChannelEnum, int? newChannelValue)
+            => ConfigNightmares.Channel(oldChannelEnum, newChannelValue);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithCenter(ChannelEnum oldChannelEnum) => SetCenter(oldChannelEnum);
@@ -910,6 +855,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? Channel(        Channel entity) => EntityToChannel(entity);
         [Obsolete(ObsoleteMessage)] public static int? GetChannel(     Channel entity) => EntityToChannel(entity);
         [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(Channel entity) => entity.ToEnum().EnumToChannel();
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel Channel(Channel oldChannelEntity, int? newChannelValue, IContext context) => ConfigNightmares.Channel(oldChannelEntity, newChannelValue, context);
+        [Obsolete(ObsoleteMessage)] public static Channel ChannelToEntity(int? thisChannel, int channelsForContext, IContext context) => ChannelToEnum(thisChannel, channelsForContext).ToEntity(context);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithCenter(Channel oldChannelEntity, IContext context) => SetCenter(oldChannelEntity, context);
