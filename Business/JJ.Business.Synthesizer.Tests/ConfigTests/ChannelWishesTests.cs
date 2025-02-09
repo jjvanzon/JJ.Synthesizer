@@ -2171,6 +2171,30 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.BuffBound.AudioFileOutput));
         }
 
+        private void Assert_BuffBound_Getters_Single(ConfigTestEntities x, (int channels, int? channel) c)
+        { 
+            if (c == (1,0))
+            {
+                Assert_MonoBuff_Getters(x);
+            }
+            else if (c == (2,0))
+            {
+                Assert_LeftBuff_Getters(x);
+            }
+            else if (c == (2,1))
+            {
+                Assert_RightBuff_Getters(x);
+            }
+            else if (c == (2,_))
+            {
+                Assert_StereoBuff_Getters(x);
+            }
+            else
+            {
+                throw new Exception("Unsupported combination of values: " + c);
+            }
+        }
+        
         private void Assert_BuffBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
