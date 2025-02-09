@@ -38,6 +38,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public bool IsCenter => _synthWishes.IsCenter;
         public bool IsLeft => _synthWishes.IsLeft;
         public bool IsRight => _synthWishes.IsRight;
+        public bool IsChannelEmpty => _synthWishes.IsChannelEmpty;
+        public bool IsAnyChannel => _synthWishes.IsAnyChannel;
+        public bool IsEveryChannel => _synthWishes.IsEveryChannel;
+        public bool IsNoChannel => _synthWishes.IsNoChannel;
         public int? GetChannel => _synthWishes.GetChannel;
         public FlowNode WithChannel(int? channel) { _synthWishes.WithChannel(channel); return this; }
         public FlowNode WithLeft()  { _synthWishes.WithLeft(); return this; }

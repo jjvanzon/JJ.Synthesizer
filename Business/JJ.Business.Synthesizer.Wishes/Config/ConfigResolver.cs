@@ -61,9 +61,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public int? EveryChannel  => ConfigWishes.EveryChannel;
         public int? ChannelEmpty  => ConfigWishes.ChannelEmpty;
         
-        public bool IsCenter => IsMono ? GetChannel == CenterChannel : default;
-        public bool IsLeft => IsStereo ? GetChannel == LeftChannel : default;
-        public bool IsRight => IsStereo ? GetChannel == RightChannel : default;
+        public bool IsCenter       => IsMono   ? GetChannel == CenterChannel : default;
+        public bool IsLeft         => IsStereo ? GetChannel == LeftChannel   : default;
+        public bool IsRight        => IsStereo ? GetChannel == RightChannel  : default;
+        public bool IsChannelEmpty => IsStereo ? GetChannel == ChannelEmpty  : default;
+        public bool IsAnyChannel   => IsChannelEmpty;
+        public bool IsEveryChannel => IsChannelEmpty;
+        public bool IsNoChannel    => IsChannelEmpty;
+
         private int? _channel;
         public int? GetChannel => CoalesceChannelsChannelCombo(GetChannels, _channel).channel;
         public ConfigResolver WithChannel(int? channel)

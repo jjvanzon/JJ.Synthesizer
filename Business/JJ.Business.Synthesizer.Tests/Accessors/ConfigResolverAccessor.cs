@@ -112,6 +112,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public bool IsCenter => _accessor.GetPropertyValue(() => IsCenter);
         public bool IsLeft => _accessor.GetPropertyValue(() => IsLeft);
         public bool IsRight => _accessor.GetPropertyValue(() => IsRight);
+        public bool IsChannelEmpty=> _accessor.GetPropertyValue(() => IsChannelEmpty);
+        public bool IsAnyChannel => _accessor.GetPropertyValue(() => IsAnyChannel);
+        public bool IsEveryChannel => _accessor.GetPropertyValue(() => IsEveryChannel);
+        public bool IsNoChannel => _accessor.GetPropertyValue(() => IsNoChannel);
 
         public int _channel
         {
