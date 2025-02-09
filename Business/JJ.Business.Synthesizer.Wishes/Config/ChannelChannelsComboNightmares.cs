@@ -55,8 +55,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
             throw new Exception($"Unsupported value: {new { newChannelsValue }}");
         }
-        
-        
                 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetStereo(ChannelEnum oldChannelEnum)
@@ -243,6 +241,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 "Unsupported combination of values: " + new { speakerSetupEnumForContext, thisChannel });
         }
         
+        // AudioFileOutput Nightmares
+        
         public static int? GetChannel(AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -346,34 +346,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsMono  (Buff            obj) => obj.GetChannels() == MonoChannels   && obj.GetChannel() != RightChannel;
         public static bool IsStereo(Buff            obj) => obj.GetChannels() == StereoChannels || obj.GetChannel() == RightChannel;
 
-        // TODO: Consider using this:
-        // Draft of longer version but perhaps better readable?
-        //public static bool IsMono(AudioFileOutput obj)
-        //{
-        //    if (obj.GetChannels() == MonoChannels)
-        //    {
-        //        // Stereo can be Right. Right not Mono.
-        //        return obj.GetChannel() != RightChannel;
-        //    }
-
-        //    return false;
-        //}
-
-        //public static bool IsStereo(AudioFileOutput obj)
-        //{
-        //    if (obj.GetChannels() == StereoChannels)
-        //    {
-        //        return true; // Standard stereo case.
-        //    }
-
-        //    // Stereo can be Right. Right not Mono.
-        //    if (obj.GetChannel() == RightChannel)
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
+        // Non-Nightmare version (does not work)
+        //public static bool IsMono  (AudioFileOutput obj) => GetChannels(obj) == MonoChannels;
+        //public static bool IsStereo(AudioFileOutput obj) => GetChannels(obj) == StereoChannels;
+        //public static bool IsMono  (Buff            obj) => GetChannels(obj) == MonoChannels;
+        //public static bool IsStereo(Buff            obj) => GetChannels(obj) == StereoChannels;
     }
 }
