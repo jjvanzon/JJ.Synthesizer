@@ -612,10 +612,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Buff-Bound
         
-        public static bool IsMono(Buff obj) => GetChannels(obj) == MonoChannels;
-        public static bool IsStereo(Buff obj) => GetChannels(obj) == StereoChannels;
-        public static int Channels(Buff obj) => GetChannels(obj);
-        public static int GetChannels(Buff obj)
+        public static bool IsMono     (Buff obj) => ConfigNightmares.IsMono(obj);
+        public static bool IsStereo   (Buff obj) => ConfigNightmares.IsStereo(obj);
+        public static int  Channels   (Buff obj) => GetChannels(obj);
+        public static int  GetChannels(Buff obj)
         {
             if (obj == null) throw new NullException(() => obj);
             if (obj.UnderlyingAudioFileOutput == null) return NoChannels;
@@ -640,10 +640,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        public static bool IsMono(AudioFileOutput obj) => GetChannels(obj) == MonoChannels;
-        public static bool IsStereo(AudioFileOutput obj) => GetChannels(obj) == StereoChannels;
-        public static int Channels(AudioFileOutput obj) => GetChannels(obj);
-        public static int GetChannels(AudioFileOutput obj)
+        public static bool IsMono     (AudioFileOutput obj) => ConfigNightmares.IsMono(obj);
+        public static bool IsStereo   (AudioFileOutput obj) => ConfigNightmares.IsStereo(obj);
+        public static int  Channels   (AudioFileOutput obj) => GetChannels(obj);
+        public static int  GetChannels(AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
             return obj.GetChannelCount();
@@ -661,11 +661,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileOutput SetStereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
         public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
         {
-            if (obj == null) throw new NullException(() => obj);
-            obj.SpeakerSetup = GetSubstituteSpeakerSetup(value, context);
-            // Do not adjust channels, to accommodate Left-Only and Right-Only scenarios with 1 channel, but Stereo speaker setup.
-            //CreateOrRemoveChannels(obj, value, context); 
-            return obj;
+            return ConfigNightmares.SetChannels(obj, value, context);
         }
         
         // Independent after Taping

@@ -1024,6 +1024,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsEveryChannel(AudioFileOutput obj) => IsChannelEmpty(obj);
         public static bool IsChannelEmpty(AudioFileOutput obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
         public static bool IsCenter      (AudioFileOutput obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        // TODO: Move to ConfigNightmares.
         public static bool IsLeft        (AudioFileOutput obj) => GetChannel(obj) == LeftChannel ;//&& IsStereo(obj); // No Stereo info: Mono & Left are the same.
         public static bool IsRight       (AudioFileOutput obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel       (AudioFileOutput obj) => GetChannel(obj);

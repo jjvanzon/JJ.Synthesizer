@@ -252,9 +252,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             int signalCount = obj.AudioFileOutputChannels.Count;
             int? firstChannelNumber = obj.AudioFileOutputChannels.ElementAtOrDefault(0)?.Channel();
             
-            // Mono has channel 0 only.
-            if (channels == MonoChannels) return CenterChannel;
-            
+            if (channels == MonoChannels)
+            {
+                if (firstChannelNumber.HasValue) 
+                {
+                    // Handles Right-Channel-Only case
+                    return firstChannelNumber.Value;
+                }
+                
+                // Mono has channel 0 only.
+                return CenterChannel;
+            }
+
             if (channels == StereoChannels)
             {
                 if (signalCount == 2)
@@ -318,5 +327,20 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             return obj;
         }
+
+        public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            obj.SpeakerSetup = GetSubstituteSpeakerSetup(value, context);
+            // Do not adjust channels, to accommodate Left-Only and Right-Only scenarios with 1 channel, but Stereo speaker setup.
+            //CreateOrRemoveChannels(obj, value, context); 
+            return obj;
+        }
+        
+        // Stereo can be Right. Right not Mono.
+        public static bool IsMono  (AudioFileOutput obj) => obj.GetChannels() == MonoChannels   && obj.GetChannel() != RightChannel;
+        public static bool IsStereo(AudioFileOutput obj) => obj.GetChannels() == StereoChannels || obj.GetChannel() == RightChannel;
+        public static bool IsMono  (Buff            obj) => obj.GetChannels() == MonoChannels   && obj.GetChannel() != RightChannel;
+        public static bool IsStereo(Buff            obj) => obj.GetChannels() == StereoChannels || obj.GetChannel() == RightChannel;
     }
 }
