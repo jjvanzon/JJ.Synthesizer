@@ -966,6 +966,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsEveryChannel(Buff obj) => IsChannelEmpty(obj);
         public static bool IsChannelEmpty(Buff obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
         public static bool IsCenter      (Buff obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        // TODO: Move to ConfigNightmares
         public static bool IsLeft        (Buff obj) => GetChannel(obj) == LeftChannel ;//&& IsStereo(obj); // No Stereo info: Mono & Left are the same.
         public static bool IsRight       (Buff obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
         public static int? Channel       (Buff obj) => GetChannel(obj);

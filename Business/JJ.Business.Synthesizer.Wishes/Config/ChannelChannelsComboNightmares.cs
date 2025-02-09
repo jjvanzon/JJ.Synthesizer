@@ -342,5 +342,35 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsStereo(AudioFileOutput obj) => obj.GetChannels() == StereoChannels || obj.GetChannel() == RightChannel;
         public static bool IsMono  (Buff            obj) => obj.GetChannels() == MonoChannels   && obj.GetChannel() != RightChannel;
         public static bool IsStereo(Buff            obj) => obj.GetChannels() == StereoChannels || obj.GetChannel() == RightChannel;
+
+        // TODO: Consider using this:
+        // Draft of longer version but perhaps better readable?
+        //public static bool IsMono(AudioFileOutput obj)
+        //{
+        //    if (obj.GetChannels() == MonoChannels)
+        //    {
+        //        // Stereo can be Right. Right not Mono.
+        //        return obj.GetChannel() != RightChannel;
+        //    }
+
+        //    return false;
+        //}
+
+        //public static bool IsStereo(AudioFileOutput obj)
+        //{
+        //    if (obj.GetChannels() == StereoChannels)
+        //    {
+        //        return true; // Standard stereo case.
+        //    }
+
+        //    // Stereo can be Right. Right not Mono.
+        //    if (obj.GetChannel() == RightChannel)
+        //    {
+        //        return true;
+        //    }
+
+        //    return false;
+        //}
+
     }
 }

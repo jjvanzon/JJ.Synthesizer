@@ -325,8 +325,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 setter(x.TapeBound);
                 
                 Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters_SingleTape(x, val);
-                Assert_BuffBound_Getters_SingleTape(x, init);
+                Assert_TapeBound_Getters_Simple(x, val);
+                Assert_BuffBound_Getters_Complete(x, init);
                 Assert_Immutable_Getters(x, init);
                 
                 x.Record();
@@ -628,7 +628,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 Assert_SynthBound_Getters(x, init);
                 Assert_TapeBound_Getters_Complete(x, init);
-                Assert_BuffBound_Getters_Complete(x, val);
+                Assert_BuffBound_Getters_Simple(x, val);
                 Assert_Immutable_Getters(x, init);
                 
                 x.Record();
@@ -1160,7 +1160,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == 2, () => ConfigWishesAccessor.IsStereo      (x.SynthBound.ConfigResolver ));
         }
         
-        private void Assert_TapeBound_Getters_SingleTape(ConfigTestEntities x, (int channels, int? channel) c)
+        /// <summary>
+        /// Changing a property like Channels without re-recording desynchronizes it from
+        /// TestEntities.ChannelTapes, making direct assertions unreliable. <br/><br/>
+        ///
+        /// In such cases, use this <c>Simple</c> variation instead of the <c>Complete</c> version
+        /// to validate properties without requiring full synchronization.
+        /// </summary>
+        private void Assert_TapeBound_Getters_Simple(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound.Tape);
@@ -2060,7 +2067,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                          IsFalse(() => ConfigWishes.IsMono        (x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters_SingleTape(ConfigTestEntities x, (int channels, int? channel) c)
+        /// <summary>
+        /// Changing a property like Channels without re-recording desynchronizes it from
+        /// TestEntities.ChannelTapes, making direct assertions unreliable. <br/><br/>
+        ///
+        /// In such cases, use this <c>Simple</c> variation instead of the <c>Complete</c> version
+        /// to validate properties without requiring full synchronization.
+        /// </summary>
+        private void Assert_BuffBound_Getters_Simple(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound.Buff);
@@ -2144,7 +2158,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.Buff           ));
             AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
         }
-        
+
         private void Assert_BuffBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
@@ -2180,10 +2194,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         AreEqual(MonoChannels , () => x.BuffBound.AudioFileOutput.GetChannels   ());
                         IsTrue (() => x.BuffBound.Buff           .IsCenter      ());
                         IsTrue (() => x.BuffBound.AudioFileOutput.IsCenter      ());
+                        IsTrue (() => x.BuffBound.Buff           .IsLeft        ()); // By Design: Buff thinks Channel 0 are Left & Center.
+                        IsTrue (() => x.BuffBound.AudioFileOutput.IsLeft        ());
                         IsTrue (() => x.BuffBound.Buff           .IsMono        ());
                         IsTrue (() => x.BuffBound.AudioFileOutput.IsMono        ());
-                        IsFalse(() => x.BuffBound.Buff           .IsLeft        ());
-                        IsFalse(() => x.BuffBound.AudioFileOutput.IsLeft        ());
                         IsFalse(() => x.BuffBound.Buff           .IsRight       ());
                         IsFalse(() => x.BuffBound.AudioFileOutput.IsRight       ());
                         IsFalse(() => x.BuffBound.Buff           .IsNoChannel   ());
@@ -2206,10 +2220,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         AreEqual(MonoChannels , () => GetChannels   (x.BuffBound.AudioFileOutput ));
                         IsTrue (() => IsCenter      (x.BuffBound.Buff            ));
                         IsTrue (() => IsCenter      (x.BuffBound.AudioFileOutput ));
+                        IsTrue (() => IsLeft        (x.BuffBound.Buff            )); // By Design: Buff thinks Channel 0 are Left & Center.
+                        IsTrue (() => IsLeft        (x.BuffBound.AudioFileOutput )); // By Design: Buff thinks Channel 0 are Left & Center.
                         IsTrue (() => IsMono        (x.BuffBound.Buff            ));
                         IsTrue (() => IsMono        (x.BuffBound.AudioFileOutput ));
-                        IsFalse(() => IsLeft        (x.BuffBound.Buff            ));
-                        IsFalse(() => IsLeft        (x.BuffBound.AudioFileOutput ));
                         IsFalse(() => IsRight       (x.BuffBound.Buff            ));
                         IsFalse(() => IsRight       (x.BuffBound.AudioFileOutput ));
                         IsFalse(() => IsNoChannel   (x.BuffBound.Buff            ));
@@ -2232,10 +2246,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         AreEqual(MonoChannels , () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
                         IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.Buff           ));
                         IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.AudioFileOutput));
+                        IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.Buff           )); // By Design: Buff thinks Channel 0 are Left & Center.
+                        IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.AudioFileOutput)); // By Design: Buff thinks Channel 0 are Left & Center.
                         IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.Buff           ));
                         IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
-                        IsFalse(() => ConfigWishes.IsLeft        (x.BuffBound.Buff           ));
-                        IsFalse(() => ConfigWishes.IsLeft        (x.BuffBound.AudioFileOutput));
                         IsFalse(() => ConfigWishes.IsRight       (x.BuffBound.Buff           ));
                         IsFalse(() => ConfigWishes.IsRight       (x.BuffBound.AudioFileOutput));
                         IsFalse(() => ConfigWishes.IsNoChannel   (x.BuffBound.Buff           ));
@@ -2623,17 +2637,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         static Case[] _cases =
         {
             new Case( init:(1,0) , val:(2,0) ),
+            // TODO: Re-enable cases after debugging.
             new Case( init:(1,0) , val:(2,1) ),
             new Case( init:(1,0) , val:(2,_) ),
-                                             
+
             new Case( init:(2,0) , val:(1,0) ),
             new Case( init:(2,0) , val:(2,1) ),
             new Case( init:(2,0) , val:(2,_) ),
-                                             
+
             new Case( init:(2,1) , val:(1,0) ),
             new Case( init:(2,1) , val:(2,0) ),
             new Case( init:(2,1) , val:(2,_) ),
-                                             
+
             new Case( init:(2,_) , val:(1,0) ),
             new Case( init:(2,_) , val:(2,0) ),
             new Case( init:(2,_) , val:(2,1) ),
