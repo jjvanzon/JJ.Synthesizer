@@ -2087,6 +2087,45 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => x.BuffBound.AudioFileOutput.GetChannel    ());
             AreEqual(c.channels,      () => x.BuffBound.Buff           .GetChannels   ());
             AreEqual(c.channels,      () => x.BuffBound.AudioFileOutput.GetChannels   ());
+            AreEqual(c.channels == 1, () => x.BuffBound.Buff           .IsMono        ());
+            AreEqual(c.channels == 1, () => x.BuffBound.AudioFileOutput.IsMono        ());
+            AreEqual(c.channels == 2, () => x.BuffBound.Buff           .IsStereo      ());
+            AreEqual(c.channels == 2, () => x.BuffBound.AudioFileOutput.IsStereo      ());
+            AreEqual(c.channel,       () => Channel       (x.BuffBound.Buff            ));
+            AreEqual(c.channel,       () => Channel       (x.BuffBound.AudioFileOutput ));
+            AreEqual(c.channels,      () => Channels      (x.BuffBound.Buff            ));
+            AreEqual(c.channels,      () => Channels      (x.BuffBound.AudioFileOutput ));
+            AreEqual(c.channel,       () => GetChannel    (x.BuffBound.Buff            ));
+            AreEqual(c.channel,       () => GetChannel    (x.BuffBound.AudioFileOutput ));
+            AreEqual(c.channels,      () => GetChannels   (x.BuffBound.Buff            ));
+            AreEqual(c.channels,      () => GetChannels   (x.BuffBound.AudioFileOutput ));
+            AreEqual(c.channels == 1, () => IsMono        (x.BuffBound.Buff            ));
+            AreEqual(c.channels == 1, () => IsMono        (x.BuffBound.AudioFileOutput ));
+            AreEqual(c.channels == 2, () => IsStereo      (x.BuffBound.Buff            ));
+            AreEqual(c.channels == 2, () => IsStereo      (x.BuffBound.AudioFileOutput ));
+            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.BuffBound.Buff           ));
+            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
+            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.BuffBound.Buff           ));
+            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
+            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
+            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
+            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
+            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
+            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.BuffBound.Buff           ));
+            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
+            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.Buff           ));
+            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
+
+            if (c == (2,0))
+            {
+                IsTrue(() => x.BuffBound.Buff.IsLeft());
+            }
+            if (c == (1,0))
+            {
+                IsTrue(() => x.BuffBound.Buff.IsCenter());
+                IsTrue(() => x.BuffBound.Buff.IsLeft());
+            }
+
             AreEqual(c == (1,0),      () => x.BuffBound.Buff           .IsCenter      ());
             AreEqual(c == (1,0),      () => x.BuffBound.AudioFileOutput.IsCenter      ());
             AreEqual(c == (2,0),      () => x.BuffBound.Buff           .IsLeft        ());
@@ -2101,18 +2140,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c == (2,_),      () => x.BuffBound.AudioFileOutput.IsEveryChannel());
             AreEqual(c == (2,_),      () => x.BuffBound.Buff           .IsChannelEmpty());
             AreEqual(c == (2,_),      () => x.BuffBound.AudioFileOutput.IsChannelEmpty());
-            AreEqual(c.channels == 1, () => x.BuffBound.Buff           .IsMono        ());
-            AreEqual(c.channels == 1, () => x.BuffBound.AudioFileOutput.IsMono        ());
-            AreEqual(c.channels == 2, () => x.BuffBound.Buff           .IsStereo      ());
-            AreEqual(c.channels == 2, () => x.BuffBound.AudioFileOutput.IsStereo      ());
-            AreEqual(c.channel,       () => Channel       (x.BuffBound.Buff            ));
-            AreEqual(c.channel,       () => Channel       (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels,      () => Channels      (x.BuffBound.Buff            ));
-            AreEqual(c.channels,      () => Channels      (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channel,       () => GetChannel    (x.BuffBound.Buff            ));
-            AreEqual(c.channel,       () => GetChannel    (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels,      () => GetChannels   (x.BuffBound.Buff            ));
-            AreEqual(c.channels,      () => GetChannels   (x.BuffBound.AudioFileOutput ));
             AreEqual(c == (1,0),      () => IsCenter      (x.BuffBound.Buff            ));
             AreEqual(c == (1,0),      () => IsCenter      (x.BuffBound.AudioFileOutput ));
             AreEqual(c == (2,0),      () => IsLeft        (x.BuffBound.Buff            ));
@@ -2127,18 +2154,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c == (2,_),      () => IsEveryChannel(x.BuffBound.AudioFileOutput ));
             AreEqual(c == (2,_),      () => IsChannelEmpty(x.BuffBound.Buff            ));
             AreEqual(c == (2,_),      () => IsChannelEmpty(x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels == 1, () => IsMono        (x.BuffBound.Buff            ));
-            AreEqual(c.channels == 1, () => IsMono        (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels == 2, () => IsStereo      (x.BuffBound.Buff            ));
-            AreEqual(c.channels == 2, () => IsStereo      (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.BuffBound.Buff           ));
-            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.BuffBound.Buff           ));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
-            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
             AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.BuffBound.Buff           ));
             AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.BuffBound.AudioFileOutput));
             AreEqual(c == (2,0),      () => ConfigWishes.IsLeft        (x.BuffBound.Buff           ));
@@ -2153,10 +2168,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c == (2,_),      () => ConfigWishes.IsEveryChannel(x.BuffBound.AudioFileOutput));
             AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.BuffBound.Buff           ));
             AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.BuffBound.Buff           ));
-            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.Buff           ));
-            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
         }
 
         private void Assert_BuffBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
@@ -2637,7 +2648,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         static Case[] _cases =
         {
             new Case( init:(1,0) , val:(2,0) ),
-            // TODO: Re-enable cases after debugging.
             new Case( init:(1,0) , val:(2,1) ),
             new Case( init:(1,0) , val:(2,_) ),
 
