@@ -152,10 +152,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static int? Channel(this        ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
         public static int? GetChannel(this     ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
 
+        public static ConfigResolverAccessor NoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AnyChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor EveryChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Center(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Left(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Right(this ConfigResolverAccessor obj) => _accessor.Call(obj);
-        public static ConfigResolverAccessor NoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Channel(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
         public static ConfigResolverAccessor WithCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor WithLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);

@@ -33,6 +33,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? Channel       (this SynthWishes obj) => ConfigWishes.Channel(obj);
         public static int? GetChannel    (this SynthWishes obj) => ConfigWishes.GetChannel(obj);
 
+        public static SynthWishes AnyChannel      (this SynthWishes obj            ) => ConfigWishes.AnyChannel(obj);
+        public static SynthWishes EveryChannel    (this SynthWishes obj            ) => ConfigWishes.EveryChannel(obj);
         public static SynthWishes NoChannel       (this SynthWishes obj            ) => ConfigWishes.NoChannel(obj);
         public static SynthWishes Center          (this SynthWishes obj            ) => ConfigWishes.Center(obj);
         public static SynthWishes Left            (this SynthWishes obj            ) => ConfigWishes.Left(obj);
@@ -45,9 +47,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static SynthWishes WithLeft        (this SynthWishes obj            ) => ConfigWishes.WithLeft(obj);
         public static SynthWishes WithRight       (this SynthWishes obj            ) => ConfigWishes.WithRight(obj);
         public static SynthWishes WithChannel     (this SynthWishes obj, int? value) => ConfigWishes.WithChannel(obj, value);
-        public static SynthWishes AsNoChannel     (this SynthWishes obj            ) => ConfigWishes.AsNoChannel(obj);
         public static SynthWishes AsAnyChannel    (this SynthWishes obj            ) => ConfigWishes.AsAnyChannel(obj);
         public static SynthWishes AsEveryChannel  (this SynthWishes obj            ) => ConfigWishes.AsEveryChannel(obj);
+        public static SynthWishes AsNoChannel     (this SynthWishes obj            ) => ConfigWishes.AsNoChannel(obj);
         public static SynthWishes AsCenter        (this SynthWishes obj            ) => ConfigWishes.AsCenter(obj);
         public static SynthWishes AsLeft          (this SynthWishes obj            ) => ConfigWishes.AsLeft(obj);
         public static SynthWishes AsRight         (this SynthWishes obj            ) => ConfigWishes.AsRight(obj);
@@ -69,6 +71,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? Channel       (this FlowNode obj) => ConfigWishes.Channel(obj);
         public static int? GetChannel    (this FlowNode obj) => ConfigWishes.GetChannel(obj);
 
+        public static FlowNode AnyChannel      (this FlowNode obj            ) => ConfigWishes.AnyChannel(obj);
+        public static FlowNode EveryChannel    (this FlowNode obj            ) => ConfigWishes.EveryChannel(obj);
         public static FlowNode NoChannel       (this FlowNode obj            ) => ConfigWishes.NoChannel(obj);
         public static FlowNode Center          (this FlowNode obj            ) => ConfigWishes.Center(obj);
         public static FlowNode Left            (this FlowNode obj            ) => ConfigWishes.Left(obj);
@@ -105,6 +109,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [UsedImplicitly] internal static int? Channel       (this ConfigResolver obj) => ConfigWishes.Channel(obj);
         [UsedImplicitly] internal static int? GetChannel    (this ConfigResolver obj) => ConfigWishes.GetChannel(obj);
 
+        [UsedImplicitly] internal static ConfigResolver AnyChannel      (this ConfigResolver obj            ) => ConfigWishes.AnyChannel(obj);
+        [UsedImplicitly] internal static ConfigResolver EveryChannel    (this ConfigResolver obj            ) => ConfigWishes.EveryChannel(obj);
         [UsedImplicitly] internal static ConfigResolver NoChannel       (this ConfigResolver obj            ) => ConfigWishes.NoChannel(obj);
         [UsedImplicitly] internal static ConfigResolver Center          (this ConfigResolver obj            ) => ConfigWishes.Center(obj);
         [UsedImplicitly] internal static ConfigResolver Left            (this ConfigResolver obj            ) => ConfigWishes.Left(obj);
@@ -574,31 +580,33 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.GetChannel;
         }
         
+        public static SynthWishes AnyChannel      (SynthWishes obj            ) => SetNoChannel(obj);
+        public static SynthWishes EveryChannel    (SynthWishes obj            ) => SetNoChannel(obj);
         public static SynthWishes NoChannel       (SynthWishes obj            ) => SetNoChannel(obj);
-        public static SynthWishes Center          (SynthWishes obj            ) => SetCenter      (obj);
-        public static SynthWishes Left            (SynthWishes obj            ) => SetLeft        (obj);
-        public static SynthWishes Right           (SynthWishes obj            ) => SetRight       (obj);
-        public static SynthWishes Channel         (SynthWishes obj, int? value) => SetChannel     (obj, value);
+        public static SynthWishes Center          (SynthWishes obj            ) => SetCenter   (obj);
+        public static SynthWishes Left            (SynthWishes obj            ) => SetLeft     (obj);
+        public static SynthWishes Right           (SynthWishes obj            ) => SetRight    (obj);
+        public static SynthWishes Channel         (SynthWishes obj, int? value) => SetChannel  (obj, value);
         public static SynthWishes WithNoChannel   (SynthWishes obj            ) => SetNoChannel(obj);
         public static SynthWishes WithAnyChannel  (SynthWishes obj            ) => SetNoChannel(obj);
         public static SynthWishes WithEveryChannel(SynthWishes obj            ) => SetNoChannel(obj);
-        public static SynthWishes WithCenter      (SynthWishes obj            ) => SetCenter      (obj);
-        public static SynthWishes WithLeft        (SynthWishes obj            ) => SetLeft        (obj);
-        public static SynthWishes WithRight       (SynthWishes obj            ) => SetRight       (obj);
-        public static SynthWishes WithChannel     (SynthWishes obj, int? value) => SetChannel     (obj, value);
+        public static SynthWishes WithCenter      (SynthWishes obj            ) => SetCenter   (obj);
+        public static SynthWishes WithLeft        (SynthWishes obj            ) => SetLeft     (obj);
+        public static SynthWishes WithRight       (SynthWishes obj            ) => SetRight    (obj);
+        public static SynthWishes WithChannel     (SynthWishes obj, int? value) => SetChannel  (obj, value);
         public static SynthWishes AsNoChannel     (SynthWishes obj            ) => SetNoChannel(obj);
         public static SynthWishes AsAnyChannel    (SynthWishes obj            ) => SetNoChannel(obj);
         public static SynthWishes AsEveryChannel  (SynthWishes obj            ) => SetNoChannel(obj);
-        public static SynthWishes AsCenter        (SynthWishes obj            ) => SetCenter      (obj);
-        public static SynthWishes AsLeft          (SynthWishes obj            ) => SetLeft        (obj);
-        public static SynthWishes AsRight         (SynthWishes obj            ) => SetRight       (obj);
-        public static SynthWishes AsChannel       (SynthWishes obj, int? value) => SetChannel     (obj, value);
+        public static SynthWishes AsCenter        (SynthWishes obj            ) => SetCenter   (obj);
+        public static SynthWishes AsLeft          (SynthWishes obj            ) => SetLeft     (obj);
+        public static SynthWishes AsRight         (SynthWishes obj            ) => SetRight    (obj);
+        public static SynthWishes AsChannel       (SynthWishes obj, int? value) => SetChannel  (obj, value);
         public static SynthWishes SetAnyChannel   (SynthWishes obj            ) => SetNoChannel(obj);
         public static SynthWishes SetEveryChannel (SynthWishes obj            ) => SetNoChannel(obj);
-        public static SynthWishes SetNoChannel    (SynthWishes obj            ) => SetChannel     (obj, EmptyChannel ).Stereo();
-        public static SynthWishes SetCenter       (SynthWishes obj            ) => SetChannel     (obj, CenterChannel).Mono  ();
-        public static SynthWishes SetLeft         (SynthWishes obj            ) => SetChannel     (obj, LeftChannel  ).Stereo();
-        public static SynthWishes SetRight        (SynthWishes obj            ) => SetChannel     (obj, RightChannel ).Stereo();
+        public static SynthWishes SetNoChannel    (SynthWishes obj            ) => SetChannel  (obj, EmptyChannel ).Stereo();
+        public static SynthWishes SetCenter       (SynthWishes obj            ) => SetChannel  (obj, CenterChannel).Mono  ();
+        public static SynthWishes SetLeft         (SynthWishes obj            ) => SetChannel  (obj, LeftChannel  ).Stereo();
+        public static SynthWishes SetRight        (SynthWishes obj            ) => SetChannel  (obj, RightChannel ).Stereo();
         public static SynthWishes SetChannel      (SynthWishes obj, int? value)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -618,6 +626,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.GetChannel;
         }
         
+        public static FlowNode AnyChannel      (FlowNode obj            ) => SetNoChannel(obj);
+        public static FlowNode EveryChannel    (FlowNode obj            ) => SetNoChannel(obj);
         public static FlowNode NoChannel       (FlowNode obj            ) => SetNoChannel(obj);
         public static FlowNode Center          (FlowNode obj            ) => SetCenter      (obj);
         public static FlowNode Left            (FlowNode obj            ) => SetLeft        (obj);
@@ -662,6 +672,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.GetChannel;
         }
         
+        [UsedImplicitly] internal static ConfigResolver AnyChannel      (ConfigResolver obj            ) => SetNoChannel(obj);
+        [UsedImplicitly] internal static ConfigResolver EveryChannel    (ConfigResolver obj            ) => SetNoChannel(obj);
         [UsedImplicitly] internal static ConfigResolver NoChannel       (ConfigResolver obj            ) => SetNoChannel(obj);
         [UsedImplicitly] internal static ConfigResolver Center          (ConfigResolver obj            ) => SetCenter      (obj);
         [UsedImplicitly] internal static ConfigResolver Left            (ConfigResolver obj            ) => SetLeft        (obj);
@@ -708,6 +720,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.Config.Channel;
         }
         
+        public static Tape AnyChannel      (Tape obj            ) => SetNoChannel(obj);
+        public static Tape EveryChannel    (Tape obj            ) => SetNoChannel(obj);
         public static Tape NoChannel       (Tape obj            ) => SetNoChannel(obj);
         public static Tape Center          (Tape obj            ) => SetCenter      (obj);
         public static Tape Left            (Tape obj            ) => SetLeft        (obj);
@@ -753,6 +767,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.Channel;
         }
         
+        public static TapeConfig AnyChannel      (TapeConfig obj            ) => SetNoChannel(obj);
+        public static TapeConfig EveryChannel    (TapeConfig obj            ) => SetNoChannel(obj);
         public static TapeConfig NoChannel       (TapeConfig obj            ) => SetNoChannel(obj);
         public static TapeConfig Center          (TapeConfig obj            ) => SetCenter      (obj);
         public static TapeConfig Left            (TapeConfig obj            ) => SetLeft        (obj);
@@ -798,6 +814,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.Tape.Config.Channel;
         }
         
+        public static TapeActions AnyChannel      (TapeActions obj            ) => SetNoChannel(obj);
+        public static TapeActions EveryChannel    (TapeActions obj            ) => SetNoChannel(obj);
         public static TapeActions NoChannel       (TapeActions obj            ) => SetNoChannel(obj);
         public static TapeActions Center          (TapeActions obj            ) => SetCenter      (obj);
         public static TapeActions Left            (TapeActions obj            ) => SetLeft        (obj);
@@ -843,6 +861,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.Tape.Config.Channel;
         }
         
+        public static TapeAction AnyChannel      (TapeAction obj            ) => SetNoChannel(obj);
+        public static TapeAction EveryChannel    (TapeAction obj            ) => SetNoChannel(obj);
         public static TapeAction NoChannel       (TapeAction obj            ) => SetNoChannel(obj);
         public static TapeAction Center          (TapeAction obj            ) => SetCenter      (obj);
         public static TapeAction Left            (TapeAction obj            ) => SetLeft        (obj);
@@ -896,6 +916,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static int? GetChannel    (Buff obj) => GetChannel    (obj?.UnderlyingAudioFileOutput);
 
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static Buff AnyChannel      (Buff obj,             IContext context) { NoChannel       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static Buff EveryChannel    (Buff obj,             IContext context) { NoChannel       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff NoChannel       (Buff obj,             IContext context) { NoChannel       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
@@ -967,7 +991,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? GetChannel    (AudioFileOutput obj) => ConfigNightmares.GetChannel(obj);
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput NoChannel       (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput AnyChannel      (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput EveryChannel    (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput NoChannel       (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput Center          (AudioFileOutput obj,             IContext context) => SetCenter      (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
@@ -977,11 +1005,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput Channel         (AudioFileOutput obj, int? value, IContext context) => SetChannel     (obj, value, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithNoChannel   (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput WithNoChannel   (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithAnyChannel  (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput WithAnyChannel  (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput WithEveryChannel(AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput WithEveryChannel(AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput WithCenter      (AudioFileOutput obj,             IContext context) => SetCenter      (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
@@ -991,11 +1019,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput WithChannel     (AudioFileOutput obj, int? value, IContext context) => SetChannel     (obj, value, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsNoChannel     (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput AsNoChannel     (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsAnyChannel    (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput AsAnyChannel    (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput AsEveryChannel  (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput AsEveryChannel  (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput AsCenter        (AudioFileOutput obj,             IContext context) => SetCenter      (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
@@ -1005,11 +1033,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput AsChannel       (AudioFileOutput obj, int? value, IContext context) => SetChannel     (obj, value, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetAnyChannel   (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput SetAnyChannel   (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetEveryChannel (AudioFileOutput obj,             IContext context) => SetNoChannel(obj,        context);
+        public static AudioFileOutput SetEveryChannel (AudioFileOutput obj,             IContext context) => SetNoChannel   (obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetNoChannel (AudioFileOutput obj,             IContext context) => ConfigNightmares.SetNoChannel(obj, context);
+        public static AudioFileOutput SetNoChannel    (AudioFileOutput obj,             IContext context) => ConfigNightmares.SetNoChannel(obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetCenter       (AudioFileOutput obj,             IContext context) => ConfigNightmares.SetCenter(obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
@@ -1058,6 +1086,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
 
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum AnyChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum EveryChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -1141,11 +1173,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(Channel entity) => entity.ToEnum().EnumToChannel();
 
         /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static Channel NoChannel(Channel oldChannelEntity) => SetNoChannel(oldChannelEntity);
-        /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AnyChannel(Channel oldChannelEntity) => SetNoChannel(oldChannelEntity);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel EveryChannel(Channel oldChannelEntity) => SetNoChannel(oldChannelEntity);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel NoChannel(Channel oldChannelEntity) => SetNoChannel(oldChannelEntity);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Center(Channel oldChannelEntity, IContext context) => SetCenter(oldChannelEntity, context);
         /// <inheritdoc cref="docs._quasisetter" />
