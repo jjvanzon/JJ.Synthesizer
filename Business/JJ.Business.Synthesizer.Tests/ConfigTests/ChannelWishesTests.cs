@@ -2059,118 +2059,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         /// <inheritdoc cref="docs._singletapeassertion" />
         private void Assert_BuffBound_Getters_Single(ConfigTestEntities x, (int channels, int? channel) c)
-            => Assert_BuffBound_Getters_Single_TarzanVersion(x, c);
-        
-        /// <inheritdoc cref="docs._singletapeassertion" />
-        private void Assert_BuffBound_Getters_Single_NightmareVersion(ConfigTestEntities x, (int channels, int? channel) c)
-        {
-            IsNotNull(() => x);
-            IsNotNull(() => x.BuffBound.Buff);
-            IsNotNull(() => x.BuffBound.AudioFileOutput);
-            AreEqual(c.channel,       () => x.BuffBound.Buff           .Channel       ());
-            AreEqual(c.channel,       () => x.BuffBound.AudioFileOutput.Channel       ());
-            AreEqual(c.channels,      () => x.BuffBound.Buff           .Channels      ());
-            AreEqual(c.channels,      () => x.BuffBound.AudioFileOutput.Channels      ());
-            AreEqual(c.channel,       () => x.BuffBound.Buff           .GetChannel    ());
-            AreEqual(c.channel,       () => x.BuffBound.AudioFileOutput.GetChannel    ());
-            AreEqual(c.channels,      () => x.BuffBound.Buff           .GetChannels   ());
-            AreEqual(c.channels,      () => x.BuffBound.AudioFileOutput.GetChannels   ());
-            AreEqual(c.channels == 1, () => x.BuffBound.Buff           .IsMono        ());
-            AreEqual(c.channels == 1, () => x.BuffBound.AudioFileOutput.IsMono        ());
-            AreEqual(c.channels == 2, () => x.BuffBound.Buff           .IsStereo      ());
-            AreEqual(c.channels == 2, () => x.BuffBound.AudioFileOutput.IsStereo      ());
-            AreEqual(c.channel,       () => Channel       (x.BuffBound.Buff            ));
-            AreEqual(c.channel,       () => Channel       (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels,      () => Channels      (x.BuffBound.Buff            ));
-            AreEqual(c.channels,      () => Channels      (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channel,       () => GetChannel    (x.BuffBound.Buff            ));
-            AreEqual(c.channel,       () => GetChannel    (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels,      () => GetChannels   (x.BuffBound.Buff            ));
-            AreEqual(c.channels,      () => GetChannels   (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels == 1, () => IsMono        (x.BuffBound.Buff            ));
-            AreEqual(c.channels == 1, () => IsMono        (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channels == 2, () => IsStereo      (x.BuffBound.Buff            ));
-            AreEqual(c.channels == 2, () => IsStereo      (x.BuffBound.AudioFileOutput ));
-            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.BuffBound.Buff           ));
-            AreEqual(c.channel,       () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.BuffBound.Buff           ));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
-            AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.BuffBound.Buff           ));
-            AreEqual(c.channels == 1, () => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
-            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.Buff           ));
-            AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
-
-            // AudioFileOutput currently cannot (always) represent stereo-left and mono-center states unambiguously.
-            //if (c == (1,0))
-            //{
-            //    IsTrue (() => x.BuffBound.Buff.IsCenter());
-            //    IsTrue (() => x.BuffBound.Buff.IsLeft());
-            //    IsFalse(() => x.BuffBound.Buff.IsRight());
-            //}
-            //else if (c == (2,0))
-            //{
-            //    IsTrue(() => x.BuffBound.Buff.IsLeft());
-            //}
-            //else if (c == (2,1))
-            //{
-            //}
-            //else if (c == (2,_))
-            //{
-            //}
-            //else
-            //{
-            //    throw new Exception("Unsupported combination of values: " + c);
-            //}
-
-            AreEqual(c == (1,0),      () => x.BuffBound.Buff           .IsCenter      ());
-            AreEqual(c == (1,0),      () => x.BuffBound.AudioFileOutput.IsCenter      ());
-            AreEqual(c == (2,0),      () => x.BuffBound.Buff           .IsLeft        ());
-            AreEqual(c == (2,0),      () => x.BuffBound.AudioFileOutput.IsLeft        ());
-            AreEqual(c == (2,1),      () => x.BuffBound.Buff           .IsRight       ());
-            AreEqual(c == (2,1),      () => x.BuffBound.AudioFileOutput.IsRight       ());
-            AreEqual(c == (2,_),      () => x.BuffBound.Buff           .IsNoChannel   ());
-            AreEqual(c == (2,_),      () => x.BuffBound.AudioFileOutput.IsNoChannel   ());
-            AreEqual(c == (2,_),      () => x.BuffBound.Buff           .IsAnyChannel  ());
-            AreEqual(c == (2,_),      () => x.BuffBound.AudioFileOutput.IsAnyChannel  ());
-            AreEqual(c == (2,_),      () => x.BuffBound.Buff           .IsEveryChannel());
-            AreEqual(c == (2,_),      () => x.BuffBound.AudioFileOutput.IsEveryChannel());
-            AreEqual(c == (2,_),      () => x.BuffBound.Buff           .IsChannelEmpty());
-            AreEqual(c == (2,_),      () => x.BuffBound.AudioFileOutput.IsChannelEmpty());
-            AreEqual(c == (1,0),      () => IsCenter      (x.BuffBound.Buff            ));
-            AreEqual(c == (1,0),      () => IsCenter      (x.BuffBound.AudioFileOutput ));
-            AreEqual(c == (2,0),      () => IsLeft        (x.BuffBound.Buff            ));
-            AreEqual(c == (2,0),      () => IsLeft        (x.BuffBound.AudioFileOutput ));
-            AreEqual(c == (2,1),      () => IsRight       (x.BuffBound.Buff            ));
-            AreEqual(c == (2,1),      () => IsRight       (x.BuffBound.AudioFileOutput ));
-            AreEqual(c == (2,_),      () => IsNoChannel   (x.BuffBound.Buff            ));
-            AreEqual(c == (2,_),      () => IsNoChannel   (x.BuffBound.AudioFileOutput ));
-            AreEqual(c == (2,_),      () => IsAnyChannel  (x.BuffBound.Buff            ));
-            AreEqual(c == (2,_),      () => IsAnyChannel  (x.BuffBound.AudioFileOutput ));
-            AreEqual(c == (2,_),      () => IsEveryChannel(x.BuffBound.Buff            ));
-            AreEqual(c == (2,_),      () => IsEveryChannel(x.BuffBound.AudioFileOutput ));
-            AreEqual(c == (2,_),      () => IsChannelEmpty(x.BuffBound.Buff            ));
-            AreEqual(c == (2,_),      () => IsChannelEmpty(x.BuffBound.AudioFileOutput ));
-            AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.BuffBound.Buff           ));
-            AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.BuffBound.AudioFileOutput));
-            AreEqual(c == (2,0),      () => ConfigWishes.IsLeft        (x.BuffBound.Buff           ));
-            AreEqual(c == (2,0),      () => ConfigWishes.IsLeft        (x.BuffBound.AudioFileOutput));
-            AreEqual(c == (2,1),      () => ConfigWishes.IsRight       (x.BuffBound.Buff           ));
-            AreEqual(c == (2,1),      () => ConfigWishes.IsRight       (x.BuffBound.AudioFileOutput));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsNoChannel   (x.BuffBound.Buff           ));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsNoChannel   (x.BuffBound.AudioFileOutput));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsAnyChannel  (x.BuffBound.Buff           ));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsAnyChannel  (x.BuffBound.AudioFileOutput));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsEveryChannel(x.BuffBound.Buff           ));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsEveryChannel(x.BuffBound.AudioFileOutput));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.BuffBound.Buff           ));
-            AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.BuffBound.AudioFileOutput));
-        }
-
-        private void Assert_BuffBound_Getters_Single_TarzanVersion(ConfigTestEntities x, (int channels, int? channel) c)
         { 
             if (c == (1,0))
             {
@@ -2222,10 +2110,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                       IsNotNull(() => x.BuffBound.AudioFileOutput);
         AreEqual(CenterChannel, () => x.BuffBound.Buff           .Channel       ());
         AreEqual(CenterChannel, () => x.BuffBound.AudioFileOutput.Channel       ());
-        AreEqual(MonoChannels , () => x.BuffBound.Buff           .Channels      ());
-        AreEqual(MonoChannels , () => x.BuffBound.AudioFileOutput.Channels      ());
         AreEqual(CenterChannel, () => x.BuffBound.Buff           .GetChannel    ());
         AreEqual(CenterChannel, () => x.BuffBound.AudioFileOutput.GetChannel    ());
+        AreEqual(MonoChannels , () => x.BuffBound.Buff           .Channels      ());
+        AreEqual(MonoChannels , () => x.BuffBound.AudioFileOutput.Channels      ());
         AreEqual(MonoChannels , () => x.BuffBound.Buff           .GetChannels   ());
         AreEqual(MonoChannels , () => x.BuffBound.AudioFileOutput.GetChannels   ());
                         IsTrue (() => x.BuffBound.Buff           .IsCenter      ());
@@ -2244,20 +2132,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         IsFalse(() => x.BuffBound.AudioFileOutput.IsEveryChannel());
                         IsFalse(() => x.BuffBound.Buff           .IsChannelEmpty());
                         IsFalse(() => x.BuffBound.AudioFileOutput.IsChannelEmpty());
-                        IsFalse(() => x.BuffBound.Buff           .IsStereo      ());
-                        IsFalse(() => x.BuffBound.AudioFileOutput.IsStereo      ());
+                        IsTrue (() => x.BuffBound.Buff           .IsStereo      ()); // By Design: Every state maps to stereo, 2 channels, or single L/R.
+                        IsTrue (() => x.BuffBound.AudioFileOutput.IsStereo      ());
         AreEqual(CenterChannel, () => Channel       (x.BuffBound.Buff            ));
         AreEqual(CenterChannel, () => Channel       (x.BuffBound.AudioFileOutput ));
-        AreEqual(MonoChannels , () => Channels      (x.BuffBound.Buff            ));
-        AreEqual(MonoChannels , () => Channels      (x.BuffBound.AudioFileOutput ));
         AreEqual(CenterChannel, () => GetChannel    (x.BuffBound.Buff            ));
         AreEqual(CenterChannel, () => GetChannel    (x.BuffBound.AudioFileOutput ));
+        AreEqual(MonoChannels , () => Channels      (x.BuffBound.Buff            ));
+        AreEqual(MonoChannels , () => Channels      (x.BuffBound.AudioFileOutput ));
         AreEqual(MonoChannels , () => GetChannels   (x.BuffBound.Buff            ));
         AreEqual(MonoChannels , () => GetChannels   (x.BuffBound.AudioFileOutput ));
                         IsTrue (() => IsCenter      (x.BuffBound.Buff            ));
                         IsTrue (() => IsCenter      (x.BuffBound.AudioFileOutput ));
                         IsTrue (() => IsLeft        (x.BuffBound.Buff            )); // By Design: Buff thinks Channel 0 are Left & Center.
-                        IsTrue (() => IsLeft        (x.BuffBound.AudioFileOutput )); // By Design: Buff thinks Channel 0 are Left & Center.
+                        IsTrue (() => IsLeft        (x.BuffBound.AudioFileOutput ));
                         IsTrue (() => IsMono        (x.BuffBound.Buff            ));
                         IsTrue (() => IsMono        (x.BuffBound.AudioFileOutput ));
                         IsFalse(() => IsRight       (x.BuffBound.Buff            ));
@@ -2270,20 +2158,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         IsFalse(() => IsEveryChannel(x.BuffBound.AudioFileOutput ));
                         IsFalse(() => IsChannelEmpty(x.BuffBound.Buff            ));
                         IsFalse(() => IsChannelEmpty(x.BuffBound.AudioFileOutput ));
-                        IsFalse(() => IsStereo      (x.BuffBound.Buff            ));
-                        IsFalse(() => IsStereo      (x.BuffBound.AudioFileOutput ));
+                        IsTrue (() => IsStereo      (x.BuffBound.Buff            )); // By Design: Every state maps to stereo, 2 channels, or single L/R.
+                        IsTrue (() => IsStereo      (x.BuffBound.AudioFileOutput ));
         AreEqual(CenterChannel, () => ConfigWishes.Channel       (x.BuffBound.Buff           ));
         AreEqual(CenterChannel, () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
-        AreEqual(MonoChannels , () => ConfigWishes.Channels      (x.BuffBound.Buff           ));
-        AreEqual(MonoChannels , () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
         AreEqual(CenterChannel, () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
         AreEqual(CenterChannel, () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
+        AreEqual(MonoChannels , () => ConfigWishes.Channels      (x.BuffBound.Buff           ));
+        AreEqual(MonoChannels , () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
         AreEqual(MonoChannels , () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
         AreEqual(MonoChannels , () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
                         IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.Buff           ));
                         IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.AudioFileOutput));
                         IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.Buff           )); // By Design: Buff thinks Channel 0 are Left & Center.
-                        IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.AudioFileOutput)); // By Design: Buff thinks Channel 0 are Left & Center.
+                        IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.AudioFileOutput));
                         IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.Buff           ));
                         IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
                         IsFalse(() => ConfigWishes.IsRight       (x.BuffBound.Buff           ));
@@ -2296,8 +2184,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         IsFalse(() => ConfigWishes.IsEveryChannel(x.BuffBound.AudioFileOutput));
                         IsFalse(() => ConfigWishes.IsChannelEmpty(x.BuffBound.Buff           ));
                         IsFalse(() => ConfigWishes.IsChannelEmpty(x.BuffBound.AudioFileOutput));
-                        IsFalse(() => ConfigWishes.IsStereo      (x.BuffBound.Buff           ));
-                        IsFalse(() => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
+                        IsTrue (() => ConfigWishes.IsStereo      (x.BuffBound.Buff           )); // By Design: Every state maps to stereo, 2 channels, or single L/R.
+                        IsTrue (() => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
         }
 
         private void Assert_StereoBuff_Getters(TapeEntities x)
@@ -2307,10 +2195,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        IsNotNull(() => x.BuffBound.AudioFileOutput);
         AreEqual(ChannelEmpty  , () => x.BuffBound.Buff           .Channel       ());
         AreEqual(ChannelEmpty  , () => x.BuffBound.AudioFileOutput.Channel       ());
-        AreEqual(StereoChannels, () => x.BuffBound.Buff           .Channels      ());
-        AreEqual(StereoChannels, () => x.BuffBound.AudioFileOutput.Channels      ());
         AreEqual(ChannelEmpty  , () => x.BuffBound.Buff           .GetChannel    ());
         AreEqual(ChannelEmpty  , () => x.BuffBound.AudioFileOutput.GetChannel    ());
+        AreEqual(StereoChannels, () => x.BuffBound.Buff           .Channels      ());
+        AreEqual(StereoChannels, () => x.BuffBound.AudioFileOutput.Channels      ());
         AreEqual(StereoChannels, () => x.BuffBound.Buff           .GetChannels   ());
         AreEqual(StereoChannels, () => x.BuffBound.AudioFileOutput.GetChannels   ());
                          IsTrue (() => x.BuffBound.Buff           .IsAnyChannel  ());
@@ -2333,10 +2221,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                          IsFalse(() => x.BuffBound.AudioFileOutput.IsMono        ());
         AreEqual(ChannelEmpty  , () => Channel       (x.BuffBound.Buff            ));
         AreEqual(ChannelEmpty  , () => Channel       (x.BuffBound.AudioFileOutput ));
-        AreEqual(StereoChannels, () => Channels      (x.BuffBound.Buff            ));
-        AreEqual(StereoChannels, () => Channels      (x.BuffBound.AudioFileOutput ));
         AreEqual(ChannelEmpty  , () => GetChannel    (x.BuffBound.Buff            ));
         AreEqual(ChannelEmpty  , () => GetChannel    (x.BuffBound.AudioFileOutput ));
+        AreEqual(StereoChannels, () => Channels      (x.BuffBound.Buff            ));
+        AreEqual(StereoChannels, () => Channels      (x.BuffBound.AudioFileOutput ));
         AreEqual(StereoChannels, () => GetChannels   (x.BuffBound.Buff            ));
         AreEqual(StereoChannels, () => GetChannels   (x.BuffBound.AudioFileOutput ));
                          IsTrue (() => IsAnyChannel  (x.BuffBound.Buff            ));
@@ -2359,10 +2247,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                          IsFalse(() => IsMono        (x.BuffBound.AudioFileOutput ));
         AreEqual(ChannelEmpty  , () => ConfigWishes.Channel       (x.BuffBound.Buff           ));
         AreEqual(ChannelEmpty  , () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
-        AreEqual(StereoChannels, () => ConfigWishes.Channels      (x.BuffBound.Buff           ));
-        AreEqual(StereoChannels, () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
         AreEqual(ChannelEmpty  , () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
         AreEqual(ChannelEmpty  , () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
+        AreEqual(StereoChannels, () => ConfigWishes.Channels      (x.BuffBound.Buff           ));
+        AreEqual(StereoChannels, () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
         AreEqual(StereoChannels, () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
         AreEqual(StereoChannels, () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
                          IsTrue (() => ConfigWishes.IsAnyChannel  (x.BuffBound.Buff           ));
@@ -2387,87 +2275,87 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_LeftBuff_Getters(TapeEntities x)
         {   
-                    IsNotNull(() => x                          );
-                    IsNotNull(() => x.BuffBound.Buff           );
-                    IsNotNull(() => x.BuffBound.AudioFileOutput);
-        AreEqual(LeftChannel, () => x.BuffBound.Buff           .Channel       ());
-        AreEqual(LeftChannel, () => x.BuffBound.AudioFileOutput.Channel       ());
-        AreEqual(LeftChannel, () => x.BuffBound.Buff           .GetChannel    ());
-        AreEqual(LeftChannel, () => x.BuffBound.AudioFileOutput.GetChannel    ());
-        AreEqual(          1, () => x.BuffBound.Buff           .Channels      ()); // By Design: Mono, Left & Right are the same for Buff & AudioFileOutput.
-        AreEqual(          1, () => x.BuffBound.AudioFileOutput.Channels      ());
-        AreEqual(          1, () => x.BuffBound.Buff           .GetChannels   ());
-        AreEqual(          1, () => x.BuffBound.AudioFileOutput.GetChannels   ());
-                      IsTrue (() => x.BuffBound.Buff           .IsLeft        ());
-                      IsTrue (() => x.BuffBound.AudioFileOutput.IsLeft        ());
-                      IsTrue (() => x.BuffBound.Buff           .IsCenter      ()); // By Design: Buff thinks Channel 0 are Left & Center.
-                      IsTrue (() => x.BuffBound.AudioFileOutput.IsCenter      ());
-                      IsTrue (() => x.BuffBound.Buff           .IsMono        ()); // By Design: Buff & AudioFileOutput treat Left as Mono.
-                      IsTrue (() => x.BuffBound.AudioFileOutput.IsMono        ());
-                      IsFalse(() => x.BuffBound.Buff           .IsAnyChannel  ());
-                      IsFalse(() => x.BuffBound.AudioFileOutput.IsAnyChannel  ());
-                      IsFalse(() => x.BuffBound.Buff           .IsEveryChannel());
-                      IsFalse(() => x.BuffBound.AudioFileOutput.IsEveryChannel());
-                      IsFalse(() => x.BuffBound.Buff           .IsNoChannel   ());
-                      IsFalse(() => x.BuffBound.AudioFileOutput.IsNoChannel   ());
-                      IsFalse(() => x.BuffBound.Buff           .IsChannelEmpty());
-                      IsFalse(() => x.BuffBound.AudioFileOutput.IsChannelEmpty());
-                      IsFalse(() => x.BuffBound.Buff           .IsRight       ());
-                      IsFalse(() => x.BuffBound.AudioFileOutput.IsRight       ());
-                      IsFalse(() => x.BuffBound.Buff           .IsStereo      ()); // By Design: Buff & AudioFileOutput treat Left as Mono.
-                      IsFalse(() => x.BuffBound.AudioFileOutput.IsStereo      ());
-        AreEqual(LeftChannel, () => Channel       (x.BuffBound.Buff            ));
-        AreEqual(LeftChannel, () => Channel       (x.BuffBound.AudioFileOutput ));
-        AreEqual(LeftChannel, () => GetChannel    (x.BuffBound.Buff            ));
-        AreEqual(LeftChannel, () => GetChannel    (x.BuffBound.AudioFileOutput ));
-        AreEqual(          1, () => Channels      (x.BuffBound.Buff            )); // By Design: Mono, Left & Right are the same for Buff & AudioFileOutput.
-        AreEqual(          1, () => Channels      (x.BuffBound.AudioFileOutput ));
-        AreEqual(          1, () => GetChannels   (x.BuffBound.Buff            ));
-        AreEqual(          1, () => GetChannels   (x.BuffBound.AudioFileOutput ));
-                      IsTrue (() => IsLeft        (x.BuffBound.Buff            ));
-                      IsTrue (() => IsLeft        (x.BuffBound.AudioFileOutput ));
-                      IsTrue (() => IsCenter      (x.BuffBound.Buff            )); // By Design: Buff thinks Channel 0 are Left & Center.
-                      IsTrue (() => IsCenter      (x.BuffBound.AudioFileOutput ));
-                      IsTrue (() => IsMono        (x.BuffBound.Buff            )); // By Design: Buff & AudioFileOutput treat Left as Mono.
-                      IsTrue (() => IsMono        (x.BuffBound.AudioFileOutput ));
-                      IsFalse(() => IsAnyChannel  (x.BuffBound.Buff            ));
-                      IsFalse(() => IsAnyChannel  (x.BuffBound.AudioFileOutput ));
-                      IsFalse(() => IsEveryChannel(x.BuffBound.Buff            ));
-                      IsFalse(() => IsEveryChannel(x.BuffBound.AudioFileOutput ));
-                      IsFalse(() => IsNoChannel   (x.BuffBound.Buff            ));
-                      IsFalse(() => IsNoChannel   (x.BuffBound.AudioFileOutput ));
-                      IsFalse(() => IsChannelEmpty(x.BuffBound.Buff            ));
-                      IsFalse(() => IsChannelEmpty(x.BuffBound.AudioFileOutput ));
-                      IsFalse(() => IsRight       (x.BuffBound.Buff            ));
-                      IsFalse(() => IsRight       (x.BuffBound.AudioFileOutput ));
-                      IsFalse(() => IsStereo      (x.BuffBound.Buff            )); // By Design: Buff & AudioFileOutput treat Left as Mono.
-                      IsFalse(() => IsStereo      (x.BuffBound.AudioFileOutput ));
-        AreEqual(LeftChannel, () => ConfigWishes.Channel       (x.BuffBound.Buff           ));
-        AreEqual(LeftChannel, () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
-        AreEqual(LeftChannel, () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
-        AreEqual(LeftChannel, () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
-        AreEqual(          1, () => ConfigWishes.Channels      (x.BuffBound.Buff           )); // By Design: Mono, Left & Right are the same for Buff & AudioFileOutput.
-        AreEqual(          1, () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
-        AreEqual(          1, () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
-        AreEqual(          1, () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
-                      IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.Buff           ));
-                      IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.AudioFileOutput));
-                      IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.Buff           )); // By Design: Buff thinks Channel 0 are Left & Center.
-                      IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.AudioFileOutput));
-                      IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.Buff           )); // By Design: Buff & AudioFileOutput treat Left as Mono.
-                      IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
-                      IsFalse(() => ConfigWishes.IsAnyChannel  (x.BuffBound.Buff           ));
-                      IsFalse(() => ConfigWishes.IsAnyChannel  (x.BuffBound.AudioFileOutput));
-                      IsFalse(() => ConfigWishes.IsEveryChannel(x.BuffBound.Buff           ));
-                      IsFalse(() => ConfigWishes.IsEveryChannel(x.BuffBound.AudioFileOutput));
-                      IsFalse(() => ConfigWishes.IsNoChannel   (x.BuffBound.Buff           ));
-                      IsFalse(() => ConfigWishes.IsNoChannel   (x.BuffBound.AudioFileOutput));
-                      IsFalse(() => ConfigWishes.IsChannelEmpty(x.BuffBound.Buff           ));
-                      IsFalse(() => ConfigWishes.IsChannelEmpty(x.BuffBound.AudioFileOutput));
-                      IsFalse(() => ConfigWishes.IsRight       (x.BuffBound.Buff           ));
-                      IsFalse(() => ConfigWishes.IsRight       (x.BuffBound.AudioFileOutput));
-                      IsFalse(() => ConfigWishes.IsStereo      (x.BuffBound.Buff           )); // By Design: Buff & AudioFileOutput treat Left as Mono.
-                      IsFalse(() => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
+                     IsNotNull(() => x                          );
+                     IsNotNull(() => x.BuffBound.Buff           );
+                     IsNotNull(() => x.BuffBound.AudioFileOutput);
+        AreEqual(LeftChannel , () => x.BuffBound.Buff           .Channel       ());
+        AreEqual(LeftChannel , () => x.BuffBound.AudioFileOutput.Channel       ());
+        AreEqual(LeftChannel , () => x.BuffBound.Buff           .GetChannel    ());
+        AreEqual(LeftChannel , () => x.BuffBound.AudioFileOutput.GetChannel    ());
+        AreEqual(MonoChannels, () => x.BuffBound.Buff           .Channels      ()); // By Design: Left-only is set as SpeakerSetup Mono to trick the back-end.
+        AreEqual(MonoChannels, () => x.BuffBound.AudioFileOutput.Channels      ());
+        AreEqual(MonoChannels, () => x.BuffBound.Buff           .GetChannels   ());
+        AreEqual(MonoChannels, () => x.BuffBound.AudioFileOutput.GetChannels   ());
+                       IsTrue (() => x.BuffBound.Buff           .IsLeft        ());
+                       IsTrue (() => x.BuffBound.AudioFileOutput.IsLeft        ());
+                       IsTrue (() => x.BuffBound.Buff           .IsCenter      ()); // By Design: Buff thinks Channel 0 are Left & Center.
+                       IsTrue (() => x.BuffBound.AudioFileOutput.IsCenter      ());
+                       IsTrue (() => x.BuffBound.Buff           .IsMono        ()); // By Design: Buff & AudioFileOutput treat Left as Mono.
+                       IsTrue (() => x.BuffBound.AudioFileOutput.IsMono        ());
+                       IsTrue (() => x.BuffBound.Buff           .IsStereo      ()); // By Design: Every state maps to stereo, 2 channels, or single L/R.
+                       IsTrue (() => x.BuffBound.AudioFileOutput.IsStereo      ());
+                       IsFalse(() => x.BuffBound.Buff           .IsAnyChannel  ());
+                       IsFalse(() => x.BuffBound.AudioFileOutput.IsAnyChannel  ());
+                       IsFalse(() => x.BuffBound.Buff           .IsEveryChannel());
+                       IsFalse(() => x.BuffBound.AudioFileOutput.IsEveryChannel());
+                       IsFalse(() => x.BuffBound.Buff           .IsNoChannel   ());
+                       IsFalse(() => x.BuffBound.AudioFileOutput.IsNoChannel   ());
+                       IsFalse(() => x.BuffBound.Buff           .IsChannelEmpty());
+                       IsFalse(() => x.BuffBound.AudioFileOutput.IsChannelEmpty());
+                       IsFalse(() => x.BuffBound.Buff           .IsRight       ());
+                       IsFalse(() => x.BuffBound.AudioFileOutput.IsRight       ());
+        AreEqual(LeftChannel , () => Channel       (x.BuffBound.Buff            ));
+        AreEqual(LeftChannel , () => Channel       (x.BuffBound.AudioFileOutput ));
+        AreEqual(LeftChannel , () => GetChannel    (x.BuffBound.Buff            ));
+        AreEqual(LeftChannel , () => GetChannel    (x.BuffBound.AudioFileOutput ));
+        AreEqual(MonoChannels, () => Channels      (x.BuffBound.Buff            )); // By Design: Left-only is set as SpeakerSetup Mono to trick the back-end.
+        AreEqual(MonoChannels, () => Channels      (x.BuffBound.AudioFileOutput ));
+        AreEqual(MonoChannels, () => GetChannels   (x.BuffBound.Buff            ));
+        AreEqual(MonoChannels, () => GetChannels   (x.BuffBound.AudioFileOutput ));
+                       IsTrue (() => IsLeft        (x.BuffBound.Buff            ));
+                       IsTrue (() => IsLeft        (x.BuffBound.AudioFileOutput ));
+                       IsTrue (() => IsCenter      (x.BuffBound.Buff            )); // By Design: Buff thinks Channel 0 are Left & Center.
+                       IsTrue (() => IsCenter      (x.BuffBound.AudioFileOutput ));
+                       IsTrue (() => IsMono        (x.BuffBound.Buff            )); // By Design: Buff & AudioFileOutput treat Left as Mono.
+                       IsTrue (() => IsMono        (x.BuffBound.AudioFileOutput ));
+                       IsTrue (() => IsStereo      (x.BuffBound.Buff            )); // By Design: Every state maps to stereo, 2 channels, or single L/R.
+                       IsTrue (() => IsStereo      (x.BuffBound.AudioFileOutput ));
+                       IsFalse(() => IsAnyChannel  (x.BuffBound.Buff            ));
+                       IsFalse(() => IsAnyChannel  (x.BuffBound.AudioFileOutput ));
+                       IsFalse(() => IsEveryChannel(x.BuffBound.Buff            ));
+                       IsFalse(() => IsEveryChannel(x.BuffBound.AudioFileOutput ));
+                       IsFalse(() => IsNoChannel   (x.BuffBound.Buff            ));
+                       IsFalse(() => IsNoChannel   (x.BuffBound.AudioFileOutput ));
+                       IsFalse(() => IsChannelEmpty(x.BuffBound.Buff            ));
+                       IsFalse(() => IsChannelEmpty(x.BuffBound.AudioFileOutput ));
+                       IsFalse(() => IsRight       (x.BuffBound.Buff            ));
+                       IsFalse(() => IsRight       (x.BuffBound.AudioFileOutput ));
+        AreEqual(LeftChannel,  () => ConfigWishes.Channel       (x.BuffBound.Buff           ));
+        AreEqual(LeftChannel,  () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
+        AreEqual(LeftChannel,  () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
+        AreEqual(LeftChannel,  () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
+        AreEqual(MonoChannels, () => ConfigWishes.Channels      (x.BuffBound.Buff           )); // By Design: Left-only is set as SpeakerSetup Mono to trick the back-end.
+        AreEqual(MonoChannels, () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
+        AreEqual(MonoChannels, () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
+        AreEqual(MonoChannels, () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
+                       IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.Buff           ));
+                       IsTrue (() => ConfigWishes.IsLeft        (x.BuffBound.AudioFileOutput));
+                       IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.Buff           )); // By Design: Buff thinks Channel 0 are Left & Center.
+                       IsTrue (() => ConfigWishes.IsCenter      (x.BuffBound.AudioFileOutput));
+                       IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.Buff           )); // By Design: Buff & AudioFileOutput treat Left as Mono.
+                       IsTrue (() => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
+                       IsTrue (() => ConfigWishes.IsStereo      (x.BuffBound.Buff           )); // By Design: Every state maps to stereo, 2 channels, or single L/R.
+                       IsTrue (() => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
+                       IsFalse(() => ConfigWishes.IsAnyChannel  (x.BuffBound.Buff           ));
+                       IsFalse(() => ConfigWishes.IsAnyChannel  (x.BuffBound.AudioFileOutput));
+                       IsFalse(() => ConfigWishes.IsEveryChannel(x.BuffBound.Buff           ));
+                       IsFalse(() => ConfigWishes.IsEveryChannel(x.BuffBound.AudioFileOutput));
+                       IsFalse(() => ConfigWishes.IsNoChannel   (x.BuffBound.Buff           ));
+                       IsFalse(() => ConfigWishes.IsNoChannel   (x.BuffBound.AudioFileOutput));
+                       IsFalse(() => ConfigWishes.IsChannelEmpty(x.BuffBound.Buff           ));
+                       IsFalse(() => ConfigWishes.IsChannelEmpty(x.BuffBound.AudioFileOutput));
+                       IsFalse(() => ConfigWishes.IsRight       (x.BuffBound.Buff           ));
+                       IsFalse(() => ConfigWishes.IsRight       (x.BuffBound.AudioFileOutput));
         }
 
         private void Assert_RightBuff_Getters(TapeEntities x)
@@ -2479,10 +2367,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         AreEqual(RightChannel, () => x.BuffBound.AudioFileOutput.Channel       ());
         AreEqual(RightChannel, () => x.BuffBound.Buff           .GetChannel    ());
         AreEqual(RightChannel, () => x.BuffBound.AudioFileOutput.GetChannel    ());
-        AreEqual(           1, () => x.BuffBound.Buff           .Channels      ()); // By Design: Mono, Left & Right are the same for Buff & AudioFileOutput.
-        AreEqual(           1, () => x.BuffBound.AudioFileOutput.Channels      ());
-        AreEqual(           1, () => x.BuffBound.Buff           .GetChannels   ());
-        AreEqual(           1, () => x.BuffBound.AudioFileOutput.GetChannels   ());
+        AreEqual(MonoChannels, () => x.BuffBound.Buff           .Channels      ()); // By Design: Left-only is set as SpeakerSetup Mono to trick the back-end.
+        AreEqual(MonoChannels, () => x.BuffBound.AudioFileOutput.Channels      ());
+        AreEqual(MonoChannels, () => x.BuffBound.Buff           .GetChannels   ());
+        AreEqual(MonoChannels, () => x.BuffBound.AudioFileOutput.GetChannels   ());
                        IsTrue (() => x.BuffBound.Buff           .IsRight       ());
                        IsTrue (() => x.BuffBound.AudioFileOutput.IsRight       ());
                        IsTrue (() => x.BuffBound.Buff           .IsStereo      ());
@@ -2505,10 +2393,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         AreEqual(RightChannel, () => Channel       (x.BuffBound.AudioFileOutput ));
         AreEqual(RightChannel, () => GetChannel    (x.BuffBound.Buff            ));
         AreEqual(RightChannel, () => GetChannel    (x.BuffBound.AudioFileOutput ));
-        AreEqual(           1, () => Channels      (x.BuffBound.Buff            )); // By Design: Mono, Left & Right are the same for Buff & AudioFileOutput.
-        AreEqual(           1, () => Channels      (x.BuffBound.AudioFileOutput ));
-        AreEqual(           1, () => GetChannels   (x.BuffBound.Buff            ));
-        AreEqual(           1, () => GetChannels   (x.BuffBound.AudioFileOutput ));
+        AreEqual(MonoChannels, () => Channels      (x.BuffBound.Buff            )); // By Design: Left-only is set as SpeakerSetup Mono to trick the back-end.
+        AreEqual(MonoChannels, () => Channels      (x.BuffBound.AudioFileOutput ));
+        AreEqual(MonoChannels, () => GetChannels   (x.BuffBound.Buff            ));
+        AreEqual(MonoChannels, () => GetChannels   (x.BuffBound.AudioFileOutput ));
                        IsTrue (() => IsRight       (x.BuffBound.Buff            ));
                        IsTrue (() => IsRight       (x.BuffBound.AudioFileOutput ));
                        IsTrue (() => IsStereo      (x.BuffBound.Buff            ));
@@ -2531,10 +2419,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         AreEqual(RightChannel, () => ConfigWishes.Channel       (x.BuffBound.AudioFileOutput));
         AreEqual(RightChannel, () => ConfigWishes.GetChannel    (x.BuffBound.Buff           ));
         AreEqual(RightChannel, () => ConfigWishes.GetChannel    (x.BuffBound.AudioFileOutput));
-        AreEqual(           1, () => ConfigWishes.Channels      (x.BuffBound.Buff           )); // By Design: Mono, Left & Right are the same for Buff & AudioFileOutput.
-        AreEqual(           1, () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
-        AreEqual(           1, () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
-        AreEqual(           1, () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
+        AreEqual(MonoChannels, () => ConfigWishes.Channels      (x.BuffBound.Buff           )); // By Design: Left-only is set as SpeakerSetup Mono to trick the back-end.
+        AreEqual(MonoChannels, () => ConfigWishes.Channels      (x.BuffBound.AudioFileOutput));
+        AreEqual(MonoChannels, () => ConfigWishes.GetChannels   (x.BuffBound.Buff           ));
+        AreEqual(MonoChannels, () => ConfigWishes.GetChannels   (x.BuffBound.AudioFileOutput));
                        IsTrue (() => ConfigWishes.IsRight       (x.BuffBound.Buff           ));
                        IsTrue (() => ConfigWishes.IsRight       (x.BuffBound.AudioFileOutput));
                        IsTrue (() => ConfigWishes.IsStereo      (x.BuffBound.Buff           ));
