@@ -396,9 +396,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public int  CenterChannel_Call => CenterChannel;
         public int  LeftChannel_Call   => LeftChannel;
         public int  RightChannel_Call  => RightChannel;
-        public int? AnyChannel_Call    => AnyChannel;
-        public int? EveryChannel_Call  => EveryChannel;
-        public int? ChannelEmpty_Call  => ChannelEmpty;
+        public int? EmptyChannel_Call  => EmptyChannel;
         public bool IsCenter_Call      => IsCenter;
         public bool IsLeft_Call        => IsLeft;
         public bool IsRight_Call       => IsRight;

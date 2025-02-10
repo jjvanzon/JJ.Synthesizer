@@ -142,16 +142,15 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(ChannelExtensionWishes));
         
         // With ConfigResolver
-
-        public static bool IsCenter(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        public static bool IsLeft(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        public static bool IsRight(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        public static bool IsNoChannel(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        public static bool IsAnyChannel(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        
+        public static bool IsCenter(this       ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsLeft(this         ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsRight(this        ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsNoChannel(this    ConfigResolverAccessor obj) => _accessor.GetBool(obj);
+        public static bool IsAnyChannel(this   ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static bool IsEveryChannel(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        public static bool IsChannelEmpty(this ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        public static int? Channel(this ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
-        public static int? GetChannel(this ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? Channel(this        ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
+        public static int? GetChannel(this     ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
 
         public static ConfigResolverAccessor Center(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor Left(this ConfigResolverAccessor obj) => _accessor.Call(obj);
@@ -161,16 +160,22 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static ConfigResolverAccessor WithCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor WithLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor WithRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithAnyChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor WithEveryChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor WithNoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor WithChannel(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
         public static ConfigResolverAccessor AsCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor AsLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor AsRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsAnyChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor AsEveryChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor AsNoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor AsChannel(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
         public static ConfigResolverAccessor SetCenter(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetLeft(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetRight(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetAnyChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
+        public static ConfigResolverAccessor SetEveryChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetNoChannel(this ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetChannel(this ConfigResolverAccessor obj, int? value) => _accessor.Set(obj, value);
     }   

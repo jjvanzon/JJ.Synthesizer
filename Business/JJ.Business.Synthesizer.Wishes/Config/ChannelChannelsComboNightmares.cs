@@ -167,7 +167,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (theseChannels == MonoChannels) return ChannelEnum.Single;
             if (theseChannels == StereoChannels && channelForContext == LeftChannel) return ChannelEnum.Left;
             if (theseChannels == StereoChannels && channelForContext == RightChannel) return ChannelEnum.Right;
-            if (theseChannels == StereoChannels && channelForContext == ChannelEmpty) return ChannelEnum.Undefined;
+            if (theseChannels == StereoChannels && channelForContext == EmptyChannel) return ChannelEnum.Undefined;
             throw new Exception($"Unsupported combination of values {new { theseChannels, channelForContext }}");
         }
         
@@ -226,11 +226,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 case SpeakerSetupEnum.Stereo:
                     if (thisChannel == LeftChannel) return ChannelEnum.Left;
                     if (thisChannel == RightChannel) return ChannelEnum.Right;
-                    if (thisChannel == ChannelEmpty) return ChannelEnum.Undefined;
+                    if (thisChannel == EmptyChannel) return ChannelEnum.Undefined;
                     break;
                     
                 case SpeakerSetupEnum.Undefined:
-                    if (thisChannel == ChannelEmpty) return ChannelEnum.Undefined;
+                    if (thisChannel == EmptyChannel) return ChannelEnum.Undefined;
                     // Tolerate inconsistent state for smooth switch between speaker setups.
                     if (thisChannel == CenterChannel) return ChannelEnum.Single;
                     if (thisChannel == LeftChannel) return ChannelEnum.Left;
@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             switch (channel)
             {
-                case null: return SetChannelEmpty(obj, context);
+                case null: return SetNoChannel(obj, context);
                 case    0: return SetCenter      (obj, context);
                 case    1: return SetRight       (obj, context);
                 default  : AssertChannel(channel); return default;
@@ -319,7 +319,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // TODO: SetMono and SetStereo should have a Nightmare implementation as well.
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetChannelEmpty(AudioFileOutput obj, IContext context)
+        public static AudioFileOutput SetNoChannel(AudioFileOutput obj, IContext context)
         {
             int channelCount = 2;
             
@@ -383,11 +383,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsChannelEmpty(AudioFileOutput obj)
+        public static bool IsNoChannel(AudioFileOutput obj)
         {
             AssertEntities(obj);
             
-            // ChannelEmpty means "no specific channel",
+            // NoChannel means "no specific channel",
             // which is only the case in case of a Stereo situation with both channels in it.
             return obj.GetSpeakerSetupEnum() == SpeakerSetupEnum.Stereo && 
                    obj.AudioFileOutputChannels.Count == 2 && 
@@ -443,6 +443,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsMono(AudioFileOutput obj) => IsCenter(obj);
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsStereo(AudioFileOutput obj) => IsChannelEmpty(obj) || IsLeft(obj) || IsRight(obj);
+        public static bool IsStereo(AudioFileOutput obj) => IsNoChannel(obj) || IsLeft(obj) || IsRight(obj);
     }
 }

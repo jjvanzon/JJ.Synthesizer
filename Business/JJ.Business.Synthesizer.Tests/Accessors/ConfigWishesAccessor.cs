@@ -111,7 +111,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static bool IsNoChannel(ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static bool IsEveryChannel(ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static bool IsAnyChannel(ConfigResolverAccessor obj) => _accessor.GetBool(obj);
-        public static bool IsChannelEmpty(ConfigResolverAccessor obj) => _accessor.GetBool(obj);
         public static int? Channel(ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
         public static int? GetChannel(ConfigResolverAccessor obj) => _accessor.GetNullyInt(obj);
         public static ConfigResolverAccessor Center(ConfigResolverAccessor obj) => _accessor.Call(obj);

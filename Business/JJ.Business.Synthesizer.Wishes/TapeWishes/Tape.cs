@@ -285,10 +285,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool IsLeft         => IsChannel(0)    && IsStereo;
         public bool IsRight        => IsChannel(1)    && IsStereo;
         public bool IsCenter       => IsChannel(0)    && IsMono;
-        public bool IsChannelEmpty => Channel == null && IsStereo;
-        public bool IsNoChannel    => IsChannelEmpty;
-        public bool IsAnyChannel   => IsChannelEmpty;
-        public bool IsEveryChannel => IsChannelEmpty;
+        public bool IsNoChannel    => Channel == null && IsStereo;
+        public bool IsAnyChannel   => IsNoChannel;
+        public bool IsEveryChannel => IsNoChannel;
     }
         
     public enum ActionEnum

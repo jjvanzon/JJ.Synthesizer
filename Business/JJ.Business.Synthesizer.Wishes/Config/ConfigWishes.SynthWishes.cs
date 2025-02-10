@@ -55,13 +55,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public    int         CenterChannel             => Config.CenterChannel;
         public    int         LeftChannel               => Config.LeftChannel;
         public    int         RightChannel              => Config.RightChannel;
-        public    int?        AnyChannel                => Config.AnyChannel;
-        public    int?        EveryChannel              => Config.EveryChannel;
-        public    int?        ChannelEmpty              => Config.ChannelEmpty;
+        public    int?        EmptyChannel              => Config.EmptyChannel;
         public    bool        IsCenter                  => Config.IsCenter;
         public    bool        IsLeft                    => Config.IsLeft;
         public    bool        IsRight                   => Config.IsRight;
-        public    bool        IsChannelEmpty            => Config.IsChannelEmpty;
         public    bool        IsAnyChannel              => Config.IsAnyChannel;
         public    bool        IsEveryChannel            => Config.IsEveryChannel;
         public    bool        IsNoChannel               => Config.IsNoChannel;
