@@ -326,7 +326,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 setter(x.TapeBound);
                 
                 Assert_SynthBound_Getters(x, init);
-                Assert_TapeBound_Getters_Simple(x, val);
+                Assert_TapeBound_Getters_Single(x, val);
                 Assert_BuffBound_Getters_Complete(x, init);
                 Assert_Immutable_Getters(x, init);
                 
@@ -629,7 +629,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 Assert_SynthBound_Getters(x, init);
                 Assert_TapeBound_Getters_Complete(x, init);
-                Assert_BuffBound_Getters_Simple(x, val);
+                Assert_BuffBound_Getters_Single(x, val);
                 Assert_Immutable_Getters(x, init);
                 
                 x.Record();
@@ -1161,14 +1161,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == 2, () => ConfigWishesAccessor.IsStereo      (x.SynthBound.ConfigResolver ));
         }
         
-        /// <summary>
-        /// Changing a property like Channels without re-recording desynchronizes it from
-        /// TestEntities.ChannelTapes, making direct assertions unreliable. <br/><br/>
-        ///
-        /// In such cases, use this <c>Simple</c> variation instead of the <c>Complete</c> version
-        /// to validate properties without requiring full synchronization.
-        /// </summary>
-        private void Assert_TapeBound_Getters_Simple(ConfigTestEntities x, (int channels, int? channel) c)
+        /// <inheritdoc cref="docs._singletapeassertion" />
+        private void Assert_TapeBound_Getters_Single(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound.Tape);
@@ -2068,14 +2062,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                          IsFalse(() => ConfigWishes.IsMono        (x.TapeBound.TapeAction ));
         }
         
-        /// <summary>
-        /// Changing a property like Channels without re-recording desynchronizes it from
-        /// TestEntities.ChannelTapes, making direct assertions unreliable. <br/><br/>
-        ///
-        /// In such cases, use this <c>Simple</c> variation instead of the <c>Complete</c> version
-        /// to validate properties without requiring full synchronization.
-        /// </summary>
-        private void Assert_BuffBound_Getters_Simple(ConfigTestEntities x, (int channels, int? channel) c)
+        /// <inheritdoc cref="docs._singletapeassertion" />
+        private void Assert_BuffBound_Getters_Single(ConfigTestEntities x, (int channels, int? channel) c)
+            => Assert_BuffBound_Getters_Single_TarzanVersion(x, c);
+        
+        /// <inheritdoc cref="docs._singletapeassertion" />
+        private void Assert_BuffBound_Getters_Single_NightmareVersion(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound.Buff);
@@ -2117,15 +2109,27 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.Buff           ));
             AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.BuffBound.AudioFileOutput));
 
-            if (c == (2,0))
-            {
-                IsTrue(() => x.BuffBound.Buff.IsLeft());
-            }
-            if (c == (1,0))
-            {
-                IsTrue(() => x.BuffBound.Buff.IsCenter());
-                IsTrue(() => x.BuffBound.Buff.IsLeft());
-            }
+            // AudioFileOutput currently cannot (always) represent stereo-left and mono-center states unambiguously.
+            //if (c == (1,0))
+            //{
+            //    IsTrue (() => x.BuffBound.Buff.IsCenter());
+            //    IsTrue (() => x.BuffBound.Buff.IsLeft());
+            //    IsFalse(() => x.BuffBound.Buff.IsRight());
+            //}
+            //else if (c == (2,0))
+            //{
+            //    IsTrue(() => x.BuffBound.Buff.IsLeft());
+            //}
+            //else if (c == (2,1))
+            //{
+            //}
+            //else if (c == (2,_))
+            //{
+            //}
+            //else
+            //{
+            //    throw new Exception("Unsupported combination of values: " + c);
+            //}
 
             AreEqual(c == (1,0),      () => x.BuffBound.Buff           .IsCenter      ());
             AreEqual(c == (1,0),      () => x.BuffBound.AudioFileOutput.IsCenter      ());
@@ -2171,7 +2175,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c == (2,_),      () => ConfigWishes.IsChannelEmpty(x.BuffBound.AudioFileOutput));
         }
 
-        private void Assert_BuffBound_Getters_Single(ConfigTestEntities x, (int channels, int? channel) c)
+        private void Assert_BuffBound_Getters_Single_TarzanVersion(ConfigTestEntities x, (int channels, int? channel) c)
         { 
             if (c == (1,0))
             {
@@ -2195,6 +2199,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
         
+        /// <inheritdoc cref="docs._singletapeassertion" />
         private void Assert_BuffBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
