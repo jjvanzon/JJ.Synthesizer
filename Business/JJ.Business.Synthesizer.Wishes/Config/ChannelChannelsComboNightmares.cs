@@ -315,7 +315,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             CreateOrRemoveChannels(obj, value, context); 
             return obj;
         }
-
+        
+        // TODO: SetMono and SetStereo should have a Nightmare implementation as well.
+        
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannelEmpty(AudioFileOutput obj, IContext context)
         {
@@ -441,6 +443,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsMono(AudioFileOutput obj) => IsCenter(obj);
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsStereo(AudioFileOutput obj) => IsNoChannel(obj) || IsLeft(obj) || IsRight(obj);
+        public static bool IsStereo(AudioFileOutput obj) => IsChannelEmpty(obj) || IsLeft(obj) || IsRight(obj);
     }
 }

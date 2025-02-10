@@ -37,6 +37,9 @@ namespace JJ.Business.Synthesizer.Tests
         /// <returns>A collection of cases derived from the template.</returns>
         public struct _casetemplate { }
         
+        /// <inheritdoc cref="wishdocs._channeltoaudiofileoutput "/>
+        public struct _channeltoaudiofileoutput { }
+            
         /// <summary>
         /// Copied from newer JJ.Framework version.
         /// </summary>
