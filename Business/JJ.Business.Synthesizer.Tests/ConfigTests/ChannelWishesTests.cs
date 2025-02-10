@@ -636,38 +636,33 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init);
             }
                         
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .Channel     (val.channel, context).Channels    (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Channel     (val.channel, context).Channels    (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .WithChannel (val.channel, context).WithChannels(val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.WithChannel (val.channel, context).WithChannels(val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .AsChannel   (val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.AsChannel   (val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .SetChannel  (val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.SetChannel  (val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => Channel    (x.Buff,            val.channel, context).Channels    (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => Channel    (x.AudioFileOutput, val.channel, context).Channels    (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => WithChannel(x.Buff,            val.channel, context).WithChannels(val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => WithChannel(x.AudioFileOutput, val.channel, context).WithChannels(val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => AsChannel  (x.Buff,            val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => AsChannel  (x.AudioFileOutput, val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => SetChannel (x.Buff,            val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => SetChannel (x.AudioFileOutput, val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.Channel    (x.Buff,            val.channel, context).Channels    (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.Channel    (x.AudioFileOutput, val.channel, context).Channels    (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.WithChannel(x.Buff,            val.channel, context).WithChannels(val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.WithChannel(x.AudioFileOutput, val.channel, context).WithChannels(val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.AsChannel  (x.Buff,            val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.AsChannel  (x.AudioFileOutput, val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.SetChannel (x.Buff,            val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.SetChannel (x.AudioFileOutput, val.channel, context).SetChannels (val.channels, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .Channels    (val.channels, context).Channel    (val.channel, context))); // Switched Channel and ChannelS calls
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Channels    (val.channels, context).Channel    (val.channel, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .WithChannels(val.channels, context).WithChannel(val.channel, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.WithChannels(val.channels, context).WithChannel(val.channel, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .SetChannels (val.channels, context).AsChannel  (val.channel, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.SetChannels (val.channels, context).AsChannel  (val.channel, context)));
-            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .SetChannels (val.channels, context).SetChannel (val.channel, context)));
-            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.SetChannels (val.channels, context).SetChannel (val.channel, context)));
+
+            // By Design: Channels property is not set to avoid interfering with Channel state.
+            // The same channel number results in the same (ambiguous) state, whether Mono or Stereo.
+            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .Channel     (val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.Channel     (val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .WithChannel (val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.WithChannel (val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .AsChannel   (val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.AsChannel   (val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .SetChannel  (val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.SetChannel  (val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => Channel    (x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => Channel    (x.AudioFileOutput, val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => WithChannel(x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => WithChannel(x.AudioFileOutput, val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => AsChannel  (x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => AsChannel  (x.AudioFileOutput, val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => SetChannel (x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => SetChannel (x.AudioFileOutput, val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.Channel    (x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.Channel    (x.AudioFileOutput, val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.WithChannel(x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.WithChannel(x.AudioFileOutput, val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.AsChannel  (x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.AsChannel  (x.AudioFileOutput, val.channel, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.SetChannel (x.Buff,            val.channel, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.SetChannel (x.AudioFileOutput, val.channel, context)));
             AssertProp(x => { if (val == (1,0)) AreEqual(x.Buff,            () => x.Buff           .Center       (context));
                               if (val == (2,0)) AreEqual(x.Buff,            () => x.Buff           .Left         (context));
                               if (val == (2,1)) AreEqual(x.Buff,            () => x.Buff           .Right        (context)); 
