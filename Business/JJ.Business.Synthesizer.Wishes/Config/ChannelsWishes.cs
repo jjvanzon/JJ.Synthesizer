@@ -612,57 +612,41 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Buff-Bound
         
-        public static bool IsMono     (Buff obj) => ConfigNightmares.IsMono(obj);
-        public static bool IsStereo   (Buff obj) => ConfigNightmares.IsStereo(obj);
-        public static int  Channels   (Buff obj) => GetChannels(obj);
-        public static int  GetChannels(Buff obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            if (obj.UnderlyingAudioFileOutput == null) return NoChannels;
-            return obj.UnderlyingAudioFileOutput.Channels();
-        }
+        // Delegated to AudioFileOutput to ensure the same handling.
         
-        public static Buff Mono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static Buff Stereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static Buff Channels(Buff obj, int value, IContext context) => SetChannels(obj, value, context);
-        public static Buff WithMono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static Buff WithStereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static Buff WithChannels(Buff obj, int value, IContext context) => SetChannels(obj, value, context);
-        public static Buff AsMono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static Buff AsStereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static Buff SetMono(Buff obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static Buff SetStereo(Buff obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static Buff SetChannels(Buff obj, int value, IContext context)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            if (obj.UnderlyingAudioFileOutput == null) throw new NullException(() => obj);
-            obj.UnderlyingAudioFileOutput.Channels(value, context);
-            return obj;
-        }
+        public static bool IsMono     (Buff obj) => IsMono     (obj?.UnderlyingAudioFileOutput);
+        public static bool IsStereo   (Buff obj) => IsStereo   (obj?.UnderlyingAudioFileOutput);
+        public static int  Channels   (Buff obj) => Channels   (obj?.UnderlyingAudioFileOutput);
+        public static int  GetChannels(Buff obj) => GetChannels(obj?.UnderlyingAudioFileOutput);
+        
+        public static Buff Mono        (Buff obj,            IContext context) { Mono        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff Stereo      (Buff obj,            IContext context) { Stereo      (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff Channels    (Buff obj, int value, IContext context) { Channels    (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        public static Buff WithMono    (Buff obj,            IContext context) { WithMono    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithStereo  (Buff obj,            IContext context) { WithStereo  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithChannels(Buff obj, int value, IContext context) { WithChannels(obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        public static Buff AsMono      (Buff obj,            IContext context) { AsMono      (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsStereo    (Buff obj,            IContext context) { AsStereo    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetMono     (Buff obj,            IContext context) { SetMono     (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetStereo   (Buff obj,            IContext context) { SetStereo   (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetChannels (Buff obj, int value, IContext context) { SetChannels (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
         
         public static bool IsMono     (AudioFileOutput obj) => ConfigNightmares.IsMono(obj);
         public static bool IsStereo   (AudioFileOutput obj) => ConfigNightmares.IsStereo(obj);
-        public static int  Channels   (AudioFileOutput obj) => GetChannels(obj);
-        public static int  GetChannels(AudioFileOutput obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.GetChannelCount();
-        }
-        
-        public static AudioFileOutput Mono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static AudioFileOutput Stereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static AudioFileOutput Channels(AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value, context);
-        public static AudioFileOutput WithMono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static AudioFileOutput WithStereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static AudioFileOutput WithChannels(AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value, context);
-        public static AudioFileOutput AsMono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static AudioFileOutput AsStereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static AudioFileOutput SetMono(AudioFileOutput obj, IContext context) => SetChannels(obj, MonoChannels, context);
-        public static AudioFileOutput SetStereo(AudioFileOutput obj, IContext context) => SetChannels(obj, StereoChannels, context);
-        public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
-        {
-            return ConfigNightmares.SetChannels(obj, value, context);
-        }
+        public static int  Channels   (AudioFileOutput obj) => ConfigNightmares.GetChannels(obj);
+        public static int  GetChannels(AudioFileOutput obj) => ConfigNightmares.GetChannels(obj);
+
+        public static AudioFileOutput Mono        (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
+        public static AudioFileOutput Stereo      (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
+        public static AudioFileOutput Channels    (AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value,          context);
+        public static AudioFileOutput WithMono    (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
+        public static AudioFileOutput WithStereo  (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
+        public static AudioFileOutput WithChannels(AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value,          context);
+        public static AudioFileOutput AsMono      (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
+        public static AudioFileOutput AsStereo    (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
+        public static AudioFileOutput SetMono     (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
+        public static AudioFileOutput SetStereo   (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
+        public static AudioFileOutput SetChannels (AudioFileOutput obj, int value, IContext context) => ConfigNightmares.SetChannels(obj, value, context);
         
         // Independent after Taping
         

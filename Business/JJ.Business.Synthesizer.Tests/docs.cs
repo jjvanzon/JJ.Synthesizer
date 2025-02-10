@@ -229,6 +229,15 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="docs._default" />
         public struct _semisaw { }
 
+        /// <summary>
+        /// Changing a property like Channels without re-recording desynchronizes it from
+        /// TestEntities.ChannelTapes, making direct assertions unreliable. <br/><br/>
+        ///
+        /// In such cases, use this <c>Simple</c> variation instead of the <c>Complete</c> version
+        /// to validate a single tape without channel tapes.
+        /// </summary>
+        public struct _singletapeassertion { }
+            
         /// <summary> Shapes a ripple effect sound giving it a volume envelope and a delay, volume and audioLength. </summary>
         /// <param name="duration"> The audioLength of the sound in seconds (default is 2.5). </param>
         /// <param name="fmSignal"> A ripple sound to be shaped </param>

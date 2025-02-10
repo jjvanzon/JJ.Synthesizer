@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
@@ -960,77 +961,58 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         // Buff-Bound
+
+        // Delegated to AudioFileOutput to ensure the same handling.
         
-        public static bool IsNoChannel   (Buff obj) => IsChannelEmpty(obj);
-        public static bool IsAnyChannel  (Buff obj) => IsChannelEmpty(obj);
-        public static bool IsEveryChannel(Buff obj) => IsChannelEmpty(obj);
-        public static bool IsChannelEmpty(Buff obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
-        public static bool IsCenter      (Buff obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
-        public static bool IsLeft        (Buff obj) => ConfigNightmares.IsLeft(obj);
-        public static bool IsRight       (Buff obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
-        public static int? Channel       (Buff obj) => GetChannel(obj);
-        public static int? GetChannel    (Buff obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            return obj.UnderlyingAudioFileOutput?.Channel();
-        }
+        public static bool IsNoChannel   (Buff obj) => IsNoChannel   (obj?.UnderlyingAudioFileOutput);
+        public static bool IsAnyChannel  (Buff obj) => IsAnyChannel  (obj?.UnderlyingAudioFileOutput);
+        public static bool IsEveryChannel(Buff obj) => IsEveryChannel(obj?.UnderlyingAudioFileOutput);
+        public static bool IsChannelEmpty(Buff obj) => IsChannelEmpty(obj?.UnderlyingAudioFileOutput);
+        public static bool IsCenter      (Buff obj) => IsCenter      (obj?.UnderlyingAudioFileOutput);
+        public static bool IsLeft        (Buff obj) => IsLeft        (obj?.UnderlyingAudioFileOutput);
+        public static bool IsRight       (Buff obj) => IsRight       (obj?.UnderlyingAudioFileOutput);
+        public static int? Channel       (Buff obj) => Channel       (obj?.UnderlyingAudioFileOutput);
+        public static int? GetChannel    (Buff obj) => GetChannel    (obj?.UnderlyingAudioFileOutput);
+
+        public static Buff NoChannel       (Buff obj,             IContext context) { NoChannel       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff Center          (Buff obj,             IContext context) { Center          (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff Left            (Buff obj,             IContext context) { Left            (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff Right           (Buff obj,             IContext context) { Right           (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff Channel         (Buff obj, int? value, IContext context) { Channel         (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        public static Buff WithNoChannel   (Buff obj,             IContext context) { WithNoChannel   (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithAnyChannel  (Buff obj,             IContext context) { WithAnyChannel  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithEveryChannel(Buff obj,             IContext context) { WithEveryChannel(obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithChannelEmpty(Buff obj,             IContext context) { WithChannelEmpty(obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithCenter      (Buff obj,             IContext context) { WithCenter      (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithLeft        (Buff obj,             IContext context) { WithLeft        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithRight       (Buff obj,             IContext context) { WithRight       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff WithChannel     (Buff obj, int? value, IContext context) { WithChannel     (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        public static Buff AsNoChannel     (Buff obj,             IContext context) { AsNoChannel     (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsAnyChannel    (Buff obj,             IContext context) { AsAnyChannel    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsEveryChannel  (Buff obj,             IContext context) { AsEveryChannel  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsChannelEmpty  (Buff obj,             IContext context) { AsChannelEmpty  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsCenter        (Buff obj,             IContext context) { AsCenter        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsLeft          (Buff obj,             IContext context) { AsLeft          (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsRight         (Buff obj,             IContext context) { AsRight         (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff AsChannel       (Buff obj, int? value, IContext context) { AsChannel       (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        public static Buff SetAnyChannel   (Buff obj,             IContext context) { SetAnyChannel   (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetEveryChannel (Buff obj,             IContext context) { SetEveryChannel (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetNoChannel    (Buff obj,             IContext context) { SetNoChannel    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetChannelEmpty (Buff obj,             IContext context) { SetChannelEmpty (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetCenter       (Buff obj,             IContext context) { SetCenter       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetLeft         (Buff obj,             IContext context) { SetLeft         (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetRight        (Buff obj,             IContext context) { SetRight        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        public static Buff SetChannel      (Buff obj, int? value, IContext context) { SetChannel      (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
         
-        public static Buff NoChannel       (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff Center          (Buff obj,             IContext context) => SetCenter      (obj,        context);
-        public static Buff Left            (Buff obj,             IContext context) => SetLeft        (obj,        context);
-        public static Buff Right           (Buff obj,             IContext context) => SetRight       (obj,        context);
-        public static Buff Channel         (Buff obj, int? value, IContext context) => SetChannel     (obj, value, context);
-        public static Buff WithNoChannel   (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff WithAnyChannel  (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff WithEveryChannel(Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff WithChannelEmpty(Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff WithCenter      (Buff obj,             IContext context) => SetCenter      (obj,        context);
-        public static Buff WithLeft        (Buff obj,             IContext context) => SetLeft        (obj,        context);
-        public static Buff WithRight       (Buff obj,             IContext context) => SetRight       (obj,        context);
-        public static Buff WithChannel     (Buff obj, int? value, IContext context) => SetChannel     (obj, value, context);
-        public static Buff AsNoChannel     (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff AsAnyChannel    (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff AsEveryChannel  (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff AsChannelEmpty  (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff AsCenter        (Buff obj,             IContext context) => SetCenter      (obj,        context);
-        public static Buff AsLeft          (Buff obj,             IContext context) => SetLeft        (obj,        context);
-        public static Buff AsRight         (Buff obj,             IContext context) => SetRight       (obj,        context);
-        public static Buff AsChannel       (Buff obj, int? value, IContext context) => SetChannel     (obj, value, context);
-        public static Buff SetAnyChannel   (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff SetEveryChannel (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff SetNoChannel    (Buff obj,             IContext context) => SetChannelEmpty(obj,        context);
-        public static Buff SetChannelEmpty (Buff obj,             IContext context) => SetChannel     (obj, ChannelEmpty , context).Stereo(context);
-        public static Buff SetCenter       (Buff obj,             IContext context) => SetChannel     (obj, CenterChannel, context).Mono  (context);
-        public static Buff SetLeft         (Buff obj,             IContext context) => SetChannel     (obj, LeftChannel  , context).Stereo(context);
-        public static Buff SetRight        (Buff obj,             IContext context) => SetChannel     (obj, RightChannel , context).Stereo(context);
-        public static Buff SetChannel      (Buff obj, int? value, IContext context)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            
-            if (obj.UnderlyingAudioFileOutput == null && value == null)
-            {
-                // Both null: it's ok to set to null.
-                return obj;
-            }
-            
-            // Otherwise, let method throw error upon null UnderlyingAudioFileOutput.
-            obj.UnderlyingAudioFileOutput.Channel(value, context);
-            
-            return obj;
-        }
-        
-        public static bool IsNoChannel   (AudioFileOutput obj) => IsChannelEmpty(obj);
-        public static bool IsAnyChannel  (AudioFileOutput obj) => IsChannelEmpty(obj);
-        public static bool IsEveryChannel(AudioFileOutput obj) => IsChannelEmpty(obj);
-        public static bool IsChannelEmpty(AudioFileOutput obj) => GetChannel(obj) == ChannelEmpty  && IsStereo(obj);
-        public static bool IsCenter      (AudioFileOutput obj) => GetChannel(obj) == CenterChannel && IsMono  (obj);
+        public static bool IsNoChannel   (AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        public static bool IsAnyChannel  (AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        public static bool IsEveryChannel(AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        public static bool IsChannelEmpty(AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        public static bool IsCenter      (AudioFileOutput obj) => ConfigNightmares.IsCenter(obj);
         public static bool IsLeft        (AudioFileOutput obj) => ConfigNightmares.IsLeft(obj);
-        public static bool IsRight       (AudioFileOutput obj) => GetChannel(obj) == RightChannel && IsStereo(obj);
-        public static int? Channel       (AudioFileOutput obj) => GetChannel(obj);
-        public static int? GetChannel    (AudioFileOutput obj)
-        {
-            return ConfigNightmares.GetChannel(obj);
-        }
+        public static bool IsRight       (AudioFileOutput obj) => ConfigNightmares.IsRight(obj);
+        public static int? Channel       (AudioFileOutput obj) => ConfigNightmares.GetChannel(obj);
+        public static int? GetChannel    (AudioFileOutput obj) => ConfigNightmares.GetChannel(obj);
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput NoChannel       (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
@@ -1081,18 +1063,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetNoChannel    (AudioFileOutput obj,             IContext context) => SetChannelEmpty(obj,        context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetChannelEmpty (AudioFileOutput obj,             IContext context) => SetChannel     (obj, ChannelEmpty , context).Stereo(context);
+        public static AudioFileOutput SetChannelEmpty (AudioFileOutput obj,             IContext context) => ConfigNightmares.SetChannelEmpty(obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetCenter       (AudioFileOutput obj,             IContext context) => SetChannel     (obj, CenterChannel, context).Mono  (context);
+        public static AudioFileOutput SetCenter       (AudioFileOutput obj,             IContext context) => ConfigNightmares.SetCenter(obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetLeft         (AudioFileOutput obj,             IContext context) => SetChannel     (obj, LeftChannel  , context).Stereo(context);
+        public static AudioFileOutput SetLeft         (AudioFileOutput obj,             IContext context) => ConfigNightmares.SetLeft(obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetRight        (AudioFileOutput obj,             IContext context) => SetChannel     (obj, RightChannel , context).Stereo(context);
+        public static AudioFileOutput SetRight        (AudioFileOutput obj,             IContext context) => ConfigNightmares.SetRight(obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetChannel      (AudioFileOutput obj, int? value, IContext context)
-        {
-            return ConfigNightmares.SetChannel(obj, value, context);
-        }
+        public static AudioFileOutput SetChannel      (AudioFileOutput obj, int? value, IContext context) => ConfigNightmares.SetChannel(obj, value, context);
         
         public static int Channel   (AudioFileOutputChannel obj) => GetChannel(obj);
         public static int GetChannel(AudioFileOutputChannel obj)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
@@ -242,8 +243,42 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         // AudioFileOutput Nightmares
+
+        // Align with back-end requirements:
+        // Stereo channel tapes are registered as Mono with 1 channel, where Index 0 = Left and Index 1 = Right.
+        // This makes meaning clash between Mono/Center and Left channel, which we have to deal with.
+
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static int? GetChannel(AudioFileOutput obj) => GetChannel_New(obj);
+
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static int? GetChannel_New(AudioFileOutput obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
+            
+            switch (obj.AudioFileOutputChannels.Count)
+            {
+                case 1:
+                {
+                    // Covers Mono/Center case (Index = 0), and Stereo Left (Index = 0) and Right (Index = 1).
+                    return obj.AudioFileOutputChannels[0].Index; 
+                }
+                case 2: 
+                {
+                    // Stereo case (2 channels = no specific channel = null)
+                    return null;
+                }
+                default: 
+                {
+                    // Signal count other than 1 or 2 not supported.
+                    throw new Exception("obj.AudioFileOutputChannels.Count = " + obj.AudioFileOutputChannels.Count + " not supported.");
+                }
+            }
+        }        
         
-        public static int? GetChannel(AudioFileOutput obj)
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static int? GetChannel_Old(AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
             if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
@@ -254,10 +289,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             if (channels == MonoChannels)
             {
-                if (firstChannelNumber.HasValue) 
+                if (firstChannelNumber != null) 
                 {
                     // Handles Right-Channel-Only case
-                    return firstChannelNumber.Value;
+                    return firstChannelNumber;
                 }
                 
                 // Mono has channel 0 only.
@@ -287,7 +322,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 $"obj.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + Environment.NewLine +
                 $"obj.AudioFileOutputChannels[0].Index = {firstChannelNumber} ({nameof(firstChannelNumber)})");
         }
-        
+
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannel(AudioFileOutput obj, int? channel, IContext context)
         {
@@ -303,13 +338,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
             else if (channel == LeftChannel && obj.IsStereo())
             {
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
+                //obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
+                obj.SpeakerSetup = GetSubstituteSpeakerSetup(MonoChannels, context); // Quirk of the back-end: Stereo tapes are registered as Mono with 1 channel.
                 CreateOrRemoveChannels(obj, signalCount: 1, context);
                 obj.AudioFileOutputChannels[0].Index = LeftChannel;
             }
             else if (channel == RightChannel)
             {
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
+                //obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
+                obj.SpeakerSetup = GetSubstituteSpeakerSetup(MonoChannels, context); // Quirk of the back-end: Stereo tapes are registered as Mono with 1 channel.
                 CreateOrRemoveChannels(obj, signalCount: 1, context);
                 obj.AudioFileOutputChannels[0].Index = RightChannel;
             }
@@ -328,6 +365,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
 
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static int  GetChannels(AudioFileOutput obj)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return obj.GetChannelCount();
+        }
+
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -336,15 +381,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             //CreateOrRemoveChannels(obj, value, context); 
             return obj;
         }
-        
-        public static bool IsLeft(Buff            obj) => obj.GetChannel() == LeftChannel ;//&& IsStereo(obj); // No Stereo info: Mono & Left are the same.
-        public static bool IsLeft(AudioFileOutput obj) => obj.GetChannel() == LeftChannel ;//&& IsStereo(obj); // No Stereo info: Mono & Left are the same.
+
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetChannelEmpty (AudioFileOutput obj, IContext context) => SetChannel(obj, ChannelEmpty , context).Stereo(context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetCenter       (AudioFileOutput obj, IContext context) => SetChannel(obj, CenterChannel, context).Mono  (context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetLeft         (AudioFileOutput obj, IContext context) => SetChannel(obj, LeftChannel  , context);//.Stereo(context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetRight        (AudioFileOutput obj, IContext context) => SetChannel(obj, RightChannel , context);//.Stereo(context);
+
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsChannelEmpty(AudioFileOutput obj) => GetChannel(obj) == ChannelEmpty ;//&& IsStereo(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsCenter      (AudioFileOutput obj) => GetChannel(obj) == CenterChannel;//&& IsMono  (obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsLeft        (AudioFileOutput obj) => GetChannel(obj) == LeftChannel  ;//&& IsStereo(obj); // No Stereo info: Mono & Left are the same.
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsRight       (AudioFileOutput obj) => GetChannel(obj) == RightChannel ;//&& IsStereo(obj);
 
         // Stereo can be Right. Right can't be Mono.
-        public static bool IsMono  (AudioFileOutput obj) => obj.GetChannels() == MonoChannels   && obj.GetChannel() != RightChannel;
-        public static bool IsStereo(AudioFileOutput obj) => obj.GetChannels() == StereoChannels || obj.GetChannel() == RightChannel;
-        public static bool IsMono  (Buff            obj) => obj.GetChannels() == MonoChannels   && obj.GetChannel() != RightChannel;
-        public static bool IsStereo(Buff            obj) => obj.GetChannels() == StereoChannels || obj.GetChannel() == RightChannel;
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsMono  (AudioFileOutput obj) => GetChannels(obj) == MonoChannels   && obj.GetChannel() != RightChannel;
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsStereo(AudioFileOutput obj) => GetChannels(obj) == StereoChannels || obj.GetChannel() == RightChannel;
 
         // Non-Nightmare version (does not work)
         //public static bool IsMono  (AudioFileOutput obj) => GetChannels(obj) == MonoChannels;
