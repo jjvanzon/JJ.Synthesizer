@@ -964,54 +964,101 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Delegated to AudioFileOutput to ensure the same handling.
         
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsNoChannel   (Buff obj) => IsNoChannel   (obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsAnyChannel  (Buff obj) => IsAnyChannel  (obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsEveryChannel(Buff obj) => IsEveryChannel(obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsChannelEmpty(Buff obj) => IsChannelEmpty(obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsCenter      (Buff obj) => IsCenter      (obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsLeft        (Buff obj) => IsLeft        (obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsRight       (Buff obj) => IsRight       (obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static int? Channel       (Buff obj) => Channel       (obj?.UnderlyingAudioFileOutput);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static int? GetChannel    (Buff obj) => GetChannel    (obj?.UnderlyingAudioFileOutput);
 
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff NoChannel       (Buff obj,             IContext context) { NoChannel       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff Center          (Buff obj,             IContext context) { Center          (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff Left            (Buff obj,             IContext context) { Left            (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff Right           (Buff obj,             IContext context) { Right           (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff Channel         (Buff obj, int? value, IContext context) { Channel         (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithNoChannel   (Buff obj,             IContext context) { WithNoChannel   (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithAnyChannel  (Buff obj,             IContext context) { WithAnyChannel  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithEveryChannel(Buff obj,             IContext context) { WithEveryChannel(obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithChannelEmpty(Buff obj,             IContext context) { WithChannelEmpty(obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithCenter      (Buff obj,             IContext context) { WithCenter      (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithLeft        (Buff obj,             IContext context) { WithLeft        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithRight       (Buff obj,             IContext context) { WithRight       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff WithChannel     (Buff obj, int? value, IContext context) { WithChannel     (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsNoChannel     (Buff obj,             IContext context) { AsNoChannel     (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsAnyChannel    (Buff obj,             IContext context) { AsAnyChannel    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsEveryChannel  (Buff obj,             IContext context) { AsEveryChannel  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsChannelEmpty  (Buff obj,             IContext context) { AsChannelEmpty  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsCenter        (Buff obj,             IContext context) { AsCenter        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsLeft          (Buff obj,             IContext context) { AsLeft          (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsRight         (Buff obj,             IContext context) { AsRight         (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff AsChannel       (Buff obj, int? value, IContext context) { AsChannel       (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetAnyChannel   (Buff obj,             IContext context) { SetAnyChannel   (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetEveryChannel (Buff obj,             IContext context) { SetEveryChannel (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetNoChannel    (Buff obj,             IContext context) { SetNoChannel    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetChannelEmpty (Buff obj,             IContext context) { SetChannelEmpty (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetCenter       (Buff obj,             IContext context) { SetCenter       (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetLeft         (Buff obj,             IContext context) { SetLeft         (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetRight        (Buff obj,             IContext context) { SetRight        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static Buff SetChannel      (Buff obj, int? value, IContext context) { SetChannel      (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
         
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsNoChannel   (AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsAnyChannel  (AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsEveryChannel(AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsChannelEmpty(AudioFileOutput obj) => ConfigNightmares.IsChannelEmpty(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsCenter      (AudioFileOutput obj) => ConfigNightmares.IsCenter(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsLeft        (AudioFileOutput obj) => ConfigNightmares.IsLeft(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static bool IsRight       (AudioFileOutput obj) => ConfigNightmares.IsRight(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static int? Channel       (AudioFileOutput obj) => ConfigNightmares.GetChannel(obj);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static int? GetChannel    (AudioFileOutput obj) => ConfigNightmares.GetChannel(obj);
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
