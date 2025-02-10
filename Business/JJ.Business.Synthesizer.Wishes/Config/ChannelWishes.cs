@@ -303,6 +303,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? Channel       (this Buff obj) => ConfigWishes.Channel       (obj);
         public static int? GetChannel    (this Buff obj) => ConfigWishes.GetChannel    (obj);
         
+        public static Buff AnyChannel      (this Buff obj,             IContext context) => ConfigWishes.AnyChannel      (obj,        context);
+        public static Buff EveryChannel    (this Buff obj,             IContext context) => ConfigWishes.EveryChannel    (obj,        context);
         public static Buff NoChannel       (this Buff obj,             IContext context) => ConfigWishes.NoChannel       (obj,        context);
         public static Buff Center          (this Buff obj,             IContext context) => ConfigWishes.Center          (obj,        context);
         public static Buff Left            (this Buff obj,             IContext context) => ConfigWishes.Left            (obj,        context);
@@ -340,7 +342,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? GetChannel    (this AudioFileOutput obj) => ConfigWishes.GetChannel    (obj);
 
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput NoChannel       (this AudioFileOutput obj,             IContext context) => ConfigWishes.NoChannel       (obj, context);
+        public static AudioFileOutput AnyChannel      (this AudioFileOutput obj,             IContext context) => ConfigWishes.NoChannel       (obj, context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput EveryChannel    (this AudioFileOutput obj,             IContext context) => ConfigWishes.AnyChannel      (obj, context);
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput NoChannel       (this AudioFileOutput obj,             IContext context) => ConfigWishes.EveryChannel    (obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput Center          (this AudioFileOutput obj,             IContext context) => ConfigWishes.Center          (obj, context);
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
