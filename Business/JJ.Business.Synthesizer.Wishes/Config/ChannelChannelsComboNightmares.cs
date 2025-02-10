@@ -249,13 +249,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // This makes meaning clash between Mono/Center and Left channel, which we have to deal with.
 
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static int? GetChannel(AudioFileOutput obj) => GetChannel_New(obj);
-
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static int? GetChannel_New(AudioFileOutput obj)
+        public static int? GetChannel(AudioFileOutput obj) 
         {
-            if (obj == null) throw new NullException(() => obj);
-            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
+            AssertEntities(obj);
             
             switch (obj.AudioFileOutputChannels.Count)
             {
@@ -276,141 +272,175 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 }
             }
         }        
-        
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static int? GetChannel_Old(AudioFileOutput obj)
-        {
-            if (obj == null) throw new NullException(() => obj);
-            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
-            
-            int channels = obj.Channels();
-            int signalCount = obj.AudioFileOutputChannels.Count;
-            int? firstChannelNumber = obj.AudioFileOutputChannels.ElementAtOrDefault(0)?.Channel();
-            
-            if (channels == MonoChannels)
-            {
-                if (firstChannelNumber != null) 
-                {
-                    // Handles Right-Channel-Only case
-                    return firstChannelNumber;
-                }
-                
-                // Mono has channel 0 only.
-                return CenterChannel;
-            }
-
-            if (channels == StereoChannels)
-            {
-                if (signalCount == 2)
-                {
-                    // Handles stereo with 2 channels defined, so not specific channel can be returned,
-                    return null;
-                }
-                if (signalCount == 1)
-                {
-                    // By returning index, we handle both "Left-only" and "Right-only" (single channel 1) scenarios.
-                    if (firstChannelNumber != null)
-                    {
-                        return firstChannelNumber;
-                    }
-                }
-            }
-            
-            throw new Exception(
-                "Unsupported combination of values: " + Environment.NewLine +
-                $"obj.Channels = {channels}, " + Environment.NewLine +
-                $"obj.AudioFileOutputChannels.Count = {signalCount} ({nameof(signalCount)})" + Environment.NewLine +
-                $"obj.AudioFileOutputChannels[0].Index = {firstChannelNumber} ({nameof(firstChannelNumber)})");
-        }
 
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannel(AudioFileOutput obj, int? channel, IContext context)
         {
-            if (obj                         == null) throw new NullException(() => obj);
-            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
-            if (obj.AudioFileOutputChannels.Contains(null)) throw new Exception("obj.AudioFileOutputChannels contains nulls.");
+            AssertEntities(obj);
             
-            if (channel == CenterChannel && obj.IsMono())
+            switch (channel)
             {
-                obj.Channels(MonoChannels, context);
-                CreateOrRemoveChannels(obj, signalCount: 1, context);
-                obj.AudioFileOutputChannels[0].Index = CenterChannel;
-            }
-            else if (channel == LeftChannel && obj.IsStereo())
-            {
-                //obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(MonoChannels, context); // Quirk of the back-end: Stereo tapes are registered as Mono with 1 channel.
-                CreateOrRemoveChannels(obj, signalCount: 1, context);
-                obj.AudioFileOutputChannels[0].Index = LeftChannel;
-            }
-            else if (channel == RightChannel)
-            {
-                //obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(MonoChannels, context); // Quirk of the back-end: Stereo tapes are registered as Mono with 1 channel.
-                CreateOrRemoveChannels(obj, signalCount: 1, context);
-                obj.AudioFileOutputChannels[0].Index = RightChannel;
-            }
-            else if (channel == EveryChannel)
-            {
-                obj.SpeakerSetup = GetSubstituteSpeakerSetup(StereoChannels, context);
-                CreateOrRemoveChannels(obj, signalCount: 2, context);
-                obj.AudioFileOutputChannels[0].Index = 0;
-                obj.AudioFileOutputChannels[0].Index = 1;
-            }
-            else
-            {
-                throw new Exception($"Invalid combination of values: {new { AudioFileOutput_Channels = obj.Channels(), channel }}");
-            }
-            
-            return obj;
+                case null: return SetChannelEmpty(obj, context);
+                case    0: return SetCenter      (obj, context);
+                case    1: return SetRight       (obj, context);
+                default  : AssertChannel(channel); return default;
+            } 
         }
 
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static int  GetChannels(AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
-            return obj.GetChannelCount();
+           
+            SpeakerSetupEnum speakerSetupEnum = obj.GetSpeakerSetupEnum();
+            switch (speakerSetupEnum)
+            {
+                case SpeakerSetupEnum.Mono:   return 1;
+                case SpeakerSetupEnum.Stereo: return 2;
+                default: throw new ValueNotSupportedException(speakerSetupEnum);
+            }
         }
 
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
         {
+            // This is ambiguous: Channels = 2 is stereo,
+            // But stereo can also be a single channel (Left of Right), which is Mono in the back-end.
+            // Maybe here an explicit SetChannels should mean 1 = Mono, 2 = Stereo,
+            // differentiating it from specific behavior in methods like SetLeft and SetRight.
+            
             if (obj == null) throw new NullException(() => obj);
             obj.SpeakerSetup = GetSubstituteSpeakerSetup(value, context);
             // Do not adjust channels, to accommodate Left-Only and Right-Only scenarios with 1 channel, but Stereo speaker setup.
-            //CreateOrRemoveChannels(obj, value, context); 
+            CreateOrRemoveChannels(obj, value, context); 
             return obj;
         }
 
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetChannelEmpty (AudioFileOutput obj, IContext context) => SetChannel(obj, ChannelEmpty , context).Stereo(context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetCenter       (AudioFileOutput obj, IContext context) => SetChannel(obj, CenterChannel, context).Mono  (context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetLeft         (AudioFileOutput obj, IContext context) => SetChannel(obj, LeftChannel  , context);//.Stereo(context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static AudioFileOutput SetRight        (AudioFileOutput obj, IContext context) => SetChannel(obj, RightChannel , context);//.Stereo(context);
-
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsChannelEmpty(AudioFileOutput obj) => GetChannel(obj) == ChannelEmpty ;//&& IsStereo(obj);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsCenter      (AudioFileOutput obj) => GetChannel(obj) == CenterChannel;//&& IsMono  (obj);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsLeft        (AudioFileOutput obj) => GetChannel(obj) == LeftChannel  ;//&& IsStereo(obj); // No Stereo info: Mono & Left are the same.
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsRight       (AudioFileOutput obj) => GetChannel(obj) == RightChannel ;//&& IsStereo(obj);
-
-        // Stereo can be Right. Right can't be Mono.
+        public static AudioFileOutput SetChannelEmpty(AudioFileOutput obj, IContext context)
+        {
+            int channelCount = 2;
+            
+            GetSubstituteSpeakerSetup(channelCount, context);
+            CreateOrRemoveChannels(obj, channelCount, context); 
+            
+            AssertEntities(obj, channelCount);
+            
+            obj.AudioFileOutputChannels[0].Index = 0;
+            obj.AudioFileOutputChannels[1].Index = 1;
+            
+            return obj;
+        }
         
         /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsMono  (AudioFileOutput obj) => GetChannels(obj) == MonoChannels   && obj.GetChannel() != RightChannel;
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
-        public static bool IsStereo(AudioFileOutput obj) => GetChannels(obj) == StereoChannels || obj.GetChannel() == RightChannel;
+        public static AudioFileOutput SetCenter(AudioFileOutput obj, IContext context)
+        {
+            int channelCount = 1;
 
-        // Non-Nightmare version (does not work)
-        //public static bool IsMono  (AudioFileOutput obj) => GetChannels(obj) == MonoChannels;
-        //public static bool IsStereo(AudioFileOutput obj) => GetChannels(obj) == StereoChannels;
-        //public static bool IsMono  (Buff            obj) => GetChannels(obj) == MonoChannels;
-        //public static bool IsStereo(Buff            obj) => GetChannels(obj) == StereoChannels;
+            GetSubstituteSpeakerSetup(channelCount, context);
+            CreateOrRemoveChannels(obj, channelCount, context); 
+
+            AssertEntities(obj, channelCount);
+
+            obj.AudioFileOutputChannels[0].Index = 0;
+            
+            return obj;
+        }
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetLeft(AudioFileOutput obj, IContext context)
+        {
+            int channelCount = 1;
+            
+            // Left channel is represented as mono.
+            GetSubstituteSpeakerSetup(channelCount, context);
+            CreateOrRemoveChannels(obj, channelCount, context); 
+
+            AssertEntities(obj, channelCount);
+
+            obj.AudioFileOutputChannels[0].Index = 0;
+
+            return obj;
+        }
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static AudioFileOutput SetRight(AudioFileOutput obj, IContext context)
+        {
+            int channelCount = 1;
+            
+            // Right channel is represented as mono.
+            GetSubstituteSpeakerSetup(channelCount, context);
+            CreateOrRemoveChannels(obj, channelCount, context); 
+            
+            AssertEntities(obj, channelCount);
+
+            // Right channel has channel index 1.
+            obj.AudioFileOutputChannels[0].Index = 1;
+
+            return obj;
+        }
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsChannelEmpty(AudioFileOutput obj)
+        {
+            AssertEntities(obj);
+            
+            // ChannelEmpty means "no specific channel",
+            // which is only the case in case of a Stereo situation with both channels in it.
+            return obj.GetSpeakerSetupEnum() == SpeakerSetupEnum.Stereo && 
+                   obj.AudioFileOutputChannels.Count == 2 && 
+                   obj.AudioFileOutputChannels[0].Index == 0 &&
+                   obj.AudioFileOutputChannels[1].Index == 1;
+        }
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsCenter(AudioFileOutput obj)
+        {
+            AssertEntities(obj);
+            
+            // Yes, Mono/Center channel in the back-end is indistinguishable from Stereo/Left channel.
+            return obj.GetSpeakerSetupEnum() == SpeakerSetupEnum.Mono && 
+                   obj.AudioFileOutputChannels.Count == 1 && 
+                   obj.AudioFileOutputChannels[0].Index == 0;
+        }
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsLeft(AudioFileOutput obj)
+        {
+            AssertEntities(obj);
+
+            // Yes, the Left channel in the back-end is Mono.
+            return obj.GetSpeakerSetupEnum() == SpeakerSetupEnum.Mono && 
+                   obj.AudioFileOutputChannels.Count == 1 && 
+                   obj.AudioFileOutputChannels[0].Index == 0;
+        }
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsRight(AudioFileOutput obj)
+        {
+            AssertEntities(obj);
+            
+            // Yes, a Right channel in the back-end is Mono.
+            return obj.GetSpeakerSetupEnum() == SpeakerSetupEnum.Mono && 
+                   obj.AudioFileOutputChannels.Count == 1 && 
+                   obj.AudioFileOutputChannels[0].Index == 1;
+        }
+        
+        private static void AssertEntities(AudioFileOutput obj, int? channelCount = null)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            if (obj.AudioFileOutputChannels == null) throw new NullException(() => obj.AudioFileOutputChannels);
+            if (obj.AudioFileOutputChannels.Contains(null)) throw new Exception("obj.AudioFileOutputChannels contains nulls.");
+            if (channelCount != null)
+            {
+                if (obj.AudioFileOutputChannels.Count != channelCount) throw new Exception("obj.AudioFileOutputChannels.Count != "+ channelCount);
+            }
+        }
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsMono(AudioFileOutput obj) => IsCenter(obj);
+        
+        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        public static bool IsStereo(AudioFileOutput obj) => IsNoChannel(obj) || IsLeft(obj) || IsRight(obj);
     }
 }
