@@ -323,7 +323,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             int channelCount = 2;
             
-            GetSubstituteSpeakerSetup(channelCount, context);
+            obj.SpeakerSetup = GetSubstituteSpeakerSetup(channelCount, context);
             CreateOrRemoveChannels(obj, channelCount, context); 
             
             AssertEntities(obj, channelCount);
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             int channelCount = 1;
 
-            GetSubstituteSpeakerSetup(channelCount, context);
+            obj.SpeakerSetup = GetSubstituteSpeakerSetup(channelCount, context);
             CreateOrRemoveChannels(obj, channelCount, context); 
 
             AssertEntities(obj, channelCount);
@@ -355,7 +355,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             int channelCount = 1;
             
             // Left channel is represented as mono.
-            GetSubstituteSpeakerSetup(channelCount, context);
+            obj.SpeakerSetup = GetSubstituteSpeakerSetup(channelCount, context);
             CreateOrRemoveChannels(obj, channelCount, context); 
 
             AssertEntities(obj, channelCount);
@@ -371,7 +371,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             int channelCount = 1;
             
             // Right channel is represented as mono.
-            GetSubstituteSpeakerSetup(channelCount, context);
+            obj.SpeakerSetup = GetSubstituteSpeakerSetup(channelCount, context);
             CreateOrRemoveChannels(obj, channelCount, context); 
             
             AssertEntities(obj, channelCount);
