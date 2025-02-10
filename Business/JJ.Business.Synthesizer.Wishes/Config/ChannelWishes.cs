@@ -149,6 +149,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? Channel       (this Tape obj) => ConfigWishes.Channel(obj);
         public static int? GetChannel    (this Tape obj) => ConfigWishes.GetChannel(obj);
 
+        public static Tape AnyChannel      (this Tape obj            ) => ConfigWishes.AnyChannel(obj);
+        public static Tape EveryChannel    (this Tape obj            ) => ConfigWishes.EveryChannel(obj);
         public static Tape NoChannel       (this Tape obj            ) => ConfigWishes.NoChannel(obj);
         public static Tape Center          (this Tape obj            ) => ConfigWishes.Center(obj);
         public static Tape Left            (this Tape obj            ) => ConfigWishes.Left(obj);
@@ -185,6 +187,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? Channel       (this TapeConfig obj) => ConfigWishes.Channel       (obj);
         public static int? GetChannel    (this TapeConfig obj) => ConfigWishes.GetChannel    (obj);
         
+        public static TapeConfig AnyChannel      (this TapeConfig obj            ) => ConfigWishes.AnyChannel      (obj);
+        public static TapeConfig EveryChannel    (this TapeConfig obj            ) => ConfigWishes.EveryChannel    (obj);
         public static TapeConfig NoChannel       (this TapeConfig obj            ) => ConfigWishes.NoChannel       (obj);
         public static TapeConfig Center          (this TapeConfig obj            ) => ConfigWishes.Center          (obj);
         public static TapeConfig Left            (this TapeConfig obj            ) => ConfigWishes.Left            (obj);
@@ -221,6 +225,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? Channel       (this TapeActions obj) => ConfigWishes.Channel       (obj);
         public static int? GetChannel    (this TapeActions obj) => ConfigWishes.GetChannel    (obj);
         
+        public static TapeActions AnyChannel      (this TapeActions obj            ) => ConfigWishes.AnyChannel      (obj);
+        public static TapeActions EveryChannel    (this TapeActions obj            ) => ConfigWishes.EveryChannel    (obj);
         public static TapeActions NoChannel       (this TapeActions obj            ) => ConfigWishes.NoChannel       (obj);
         public static TapeActions Center          (this TapeActions obj            ) => ConfigWishes.Center          (obj);
         public static TapeActions Left            (this TapeActions obj            ) => ConfigWishes.Left            (obj);
@@ -257,6 +263,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? Channel       (this TapeAction obj) => ConfigWishes.Channel       (obj);
         public static int? GetChannel    (this TapeAction obj) => ConfigWishes.GetChannel    (obj);
         
+        public static TapeAction AnyChannel      (this TapeAction obj            ) => ConfigWishes.AnyChannel      (obj);
+        public static TapeAction EveryChannel    (this TapeAction obj            ) => ConfigWishes.EveryChannel    (obj);
         public static TapeAction NoChannel       (this TapeAction obj            ) => ConfigWishes.NoChannel       (obj);
         public static TapeAction Center          (this TapeAction obj            ) => ConfigWishes.Center          (obj);
         public static TapeAction Left            (this TapeAction obj            ) => ConfigWishes.Left            (obj);
