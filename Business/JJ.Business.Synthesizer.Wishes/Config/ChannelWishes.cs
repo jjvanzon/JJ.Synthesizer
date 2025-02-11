@@ -409,15 +409,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Immutable
 
         
-        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel   (this ChannelEnum enumValue) => ConfigWishes.IsNoChannel   (enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel  (this ChannelEnum enumValue) => ConfigWishes.IsAnyChannel  (enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel(this ChannelEnum enumValue) => ConfigWishes.IsEveryChannel(enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter      (this ChannelEnum enumValue) => ConfigWishes.IsCenter      (enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft        (this ChannelEnum enumValue) => ConfigWishes.IsLeft        (enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsRight       (this ChannelEnum enumValue) => ConfigWishes.IsRight       (enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? Channel       (this ChannelEnum enumValue) => ConfigWishes.Channel       (enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? GetChannel    (this ChannelEnum enumValue) => ConfigWishes.GetChannel    (enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel (this ChannelEnum enumValue) => ConfigWishes.EnumToChannel (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel          (this ChannelEnum enumValue) => ConfigWishes.IsNoChannel          (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel         (this ChannelEnum enumValue) => ConfigWishes.IsAnyChannel         (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel       (this ChannelEnum enumValue) => ConfigWishes.IsEveryChannel       (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter             (this ChannelEnum enumValue) => ConfigWishes.IsCenter             (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft               (this ChannelEnum enumValue) => ConfigWishes.IsLeft               (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsRight              (this ChannelEnum enumValue) => ConfigWishes.IsRight              (enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? Channel              (this ChannelEnum enumValue) => ConfigWishes.Channel              (enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? GetChannel           (this ChannelEnum enumValue) => ConfigWishes.GetChannel           (enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel        (this ChannelEnum enumValue) => ConfigWishes.EnumToChannel        (enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? ChannelEnumToChannel (this ChannelEnum enumValue) => ConfigWishes.ChannelEnumToChannel (enumValue);
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum AnyChannel(this ChannelEnum oldChannelEnum) => ConfigWishes.AnyChannel(oldChannelEnum);
@@ -1088,15 +1089,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Immutable
 
-        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel  (ChannelEnum enumValue) => IsNoChannel   (enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel(ChannelEnum enumValue) => IsNoChannel   (enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel   (ChannelEnum enumValue) => EnumToChannel(enumValue) == EmptyChannel  && IsStereo(enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter      (ChannelEnum enumValue) => EnumToChannel(enumValue) == CenterChannel && IsMono  (enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft        (ChannelEnum enumValue) => EnumToChannel(enumValue) == LeftChannel   && IsStereo(enumValue);
-        [Obsolete(ObsoleteMessage)] public static bool IsRight       (ChannelEnum enumValue) => EnumToChannel(enumValue) == RightChannel  && IsStereo(enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? Channel       (ChannelEnum enumValue) => EnumToChannel(enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? GetChannel    (ChannelEnum enumValue) => EnumToChannel(enumValue);
-        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel (ChannelEnum enumValue)
+        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel        (ChannelEnum enumValue) => IsNoChannel   (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel      (ChannelEnum enumValue) => IsNoChannel   (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel         (ChannelEnum enumValue) => ChannelEnumToChannel(enumValue) == EmptyChannel  && IsStereo(enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter            (ChannelEnum enumValue) => ChannelEnumToChannel(enumValue) == CenterChannel && IsMono  (enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft              (ChannelEnum enumValue) => ChannelEnumToChannel(enumValue) == LeftChannel   && IsStereo(enumValue);
+        [Obsolete(ObsoleteMessage)] public static bool IsRight             (ChannelEnum enumValue) => ChannelEnumToChannel(enumValue) == RightChannel  && IsStereo(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? Channel             (ChannelEnum enumValue) => ChannelEnumToChannel(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? GetChannel          (ChannelEnum enumValue) => ChannelEnumToChannel(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? EnumToChannel       (ChannelEnum enumValue) => ChannelEnumToChannel(enumValue);
+        [Obsolete(ObsoleteMessage)] public static int? ChannelEnumToChannel(ChannelEnum enumValue)
         {
             switch (enumValue)
             {
