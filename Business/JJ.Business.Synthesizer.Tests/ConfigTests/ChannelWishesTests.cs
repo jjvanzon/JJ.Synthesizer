@@ -9,10 +9,12 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Framework.Testing;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
+using JJ.Framework.Common;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0618 
@@ -860,7 +862,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => { if (val == (1,0)) AreEqual(x.Tape,        () => x.Tape       .WithCenter      ());
                               if (val == (2,0)) AreEqual(x.Tape,        () => x.Tape       .WithLeft        ());
                               if (val == (2,1)) AreEqual(x.Tape,        () => x.Tape       .WithRight       ());
-                              if (val == (2,_)) AreEqual(x.Tape,        () => x.Tape       .EveryChannel    ()); });
+                              if (val == (2,_)) AreEqual(x.Tape,        () => x.Tape       .WithEveryChannel()); });
             AssertProp(x => { if (val == (1,0)) AreEqual(x.Tape,        () => x.Tape       .WithCenter      ());
                               if (val == (2,0)) AreEqual(x.Tape,        () => x.Tape       .WithLeft        ());
                               if (val == (2,1)) AreEqual(x.Tape,        () => x.Tape       .WithRight       ());
@@ -2192,6 +2194,49 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             channelEntities.ForEach(e => Assert_Immutable_Getters(e, val));
         }
         
+        [TestMethod]
+        public void AudioFileOutputChannel_Channel()
+        {
+            var x = CreateTestEntities(channels: 2);
+            
+            // TODO: Replace magic numbers by constants.
+            
+            IsNotNull(   () => x);
+            IsNotNull(   () => x.BuffBound);
+            IsNotNull(   () => x.BuffBound.AudioFileOutput);
+            IsNotNull(   () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels);
+            AreEqual (2, () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
+            IsNotNull(   () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
+            IsNotNull(   () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[1]);
+            AreEqual (0, () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[0].Index);
+            AreEqual (1, () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[1].Index);
+            
+            IsNotNull(   () => x.ChannelEntities);
+            AreEqual (2, () => x.ChannelEntities.Count);
+            IsNotNull(   () => x.ChannelEntities[0]);
+            IsNotNull(   () => x.ChannelEntities[1]);
+            IsNotNull(   () => x.ChannelEntities[0].BuffBound);
+            IsNotNull(   () => x.ChannelEntities[1].BuffBound);
+            IsNotNull(   () => x.ChannelEntities[0].BuffBound.AudioFileOutput);
+            IsNotNull(   () => x.ChannelEntities[1].BuffBound.AudioFileOutput);
+            IsNotNull(   () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels);
+            IsNotNull(   () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels);
+            AreEqual (1, () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
+            AreEqual (1, () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
+            IsNotNull(   () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
+            IsNotNull(   () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
+            AreEqual (0, () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels[0].Index);
+            AreEqual (1, () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels[0].Index); // Here's our Right-only Channel.
+
+            
+        }
+        
+        [TestMethod]
+        public void Channel_EdgeCases()
+        {
+            ThrowsException<ValueNotSupportedException>(() => ChannelEnumToChannel((ChannelEnum)(-1)));
+        }
+
         // Getter Helpers
 
         private void Assert_All_Getters(ConfigTestEntities x, (int, int?) values)
@@ -3795,8 +3840,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
 
         private ConfigTestEntities CreateTestEntities((int? channels, int? channel) c)
-            => new ConfigTestEntities(x => x.WithChannels(c.channels)
-                                            .WithChannel (c.channel));
+            => CreateTestEntities(c.channels, c.channel);
+
+        private ConfigTestEntities CreateTestEntities(int? channels = null, int? channel = null)
+            => new ConfigTestEntities(x => x.WithChannels(channels)
+                                            .WithChannel (channel));
         
         // ncrunch: no coverage start
 
