@@ -2234,18 +2234,76 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var rightOnly   = x.ChannelEntities[RightChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels[0];
             
             // Assert Getters
-            AreEqual (LeftChannel , () => stereoLeft .Index       );
-            AreEqual (LeftChannel , () => stereoLeft .Channel   ());
-            AreEqual (LeftChannel , () => stereoLeft .GetChannel());
-            AreEqual (RightChannel, () => stereoRight.Index       );
-            AreEqual (RightChannel, () => stereoRight.Channel   ());
-            AreEqual (RightChannel, () => stereoRight.GetChannel());
-            AreEqual (LeftChannel , () => leftOnly   .Index       );
-            AreEqual (LeftChannel , () => leftOnly   .Channel   ());
-            AreEqual (LeftChannel , () => leftOnly   .GetChannel());
-            AreEqual (RightChannel, () => rightOnly  .Index       );
-            AreEqual (RightChannel, () => rightOnly  .Channel   ());
-            AreEqual (RightChannel, () => rightOnly  .GetChannel());
+            AreEqual (LeftChannel , () => stereoLeft  .Index                  );
+            AreEqual (RightChannel, () => stereoRight .Index                  );
+            AreEqual (LeftChannel , () => leftOnly    .Index                  );
+            AreEqual (RightChannel, () => rightOnly   .Index                  );
+            AreEqual (LeftChannel , () => stereoLeft  .Channel   ()           );
+            AreEqual (RightChannel, () => stereoRight .Channel   ()           );
+            AreEqual (LeftChannel , () => leftOnly    .Channel   ()           );
+            AreEqual (RightChannel, () => rightOnly   .Channel   ()           );
+            AreEqual (LeftChannel , () => stereoLeft  .GetChannel()           );
+            AreEqual (RightChannel, () => stereoRight .GetChannel()           );
+            AreEqual (LeftChannel , () => leftOnly    .GetChannel()           );
+            AreEqual (RightChannel, () => rightOnly   .GetChannel()           );
+            AreEqual (LeftChannel , () =>              Channel   (stereoLeft) );
+            AreEqual (RightChannel, () =>              Channel   (stereoRight));
+            AreEqual (LeftChannel , () =>              Channel   (leftOnly)   );
+            AreEqual (RightChannel, () =>              Channel   (rightOnly)  );
+            AreEqual (LeftChannel , () =>              GetChannel(stereoLeft) );
+            AreEqual (RightChannel, () =>              GetChannel(stereoRight));
+            AreEqual (LeftChannel , () =>              GetChannel(leftOnly)   );
+            AreEqual (RightChannel, () =>              GetChannel(rightOnly)  );
+            AreEqual (LeftChannel , () => ConfigWishes.Channel   (stereoLeft) );
+            AreEqual (RightChannel, () => ConfigWishes.Channel   (stereoRight));
+            AreEqual (LeftChannel , () => ConfigWishes.Channel   (leftOnly)   );
+            AreEqual (RightChannel, () => ConfigWishes.Channel   (rightOnly)  );
+            AreEqual (LeftChannel , () => ConfigWishes.GetChannel(stereoLeft) );
+            AreEqual (RightChannel, () => ConfigWishes.GetChannel(stereoRight));
+            AreEqual (LeftChannel , () => ConfigWishes.GetChannel(leftOnly)   );
+            AreEqual (RightChannel, () => ConfigWishes.GetChannel(rightOnly)  );
+            
+            // Assert Setters
+            var audioFileOutputChannel = rightOnly;
+            
+            audioFileOutputChannel.Index = 1;
+            AreEqual(1, () => audioFileOutputChannel.Index);
+            
+            audioFileOutputChannel.Channel(0);
+            AreEqual(0, () => audioFileOutputChannel.Channel());
+            
+            audioFileOutputChannel.WithChannel(1);
+            AreEqual(1, () => audioFileOutputChannel.GetChannel());
+            
+            audioFileOutputChannel.AsChannel(0);
+            AreEqual(0, () => audioFileOutputChannel.GetChannel());
+            
+            audioFileOutputChannel.SetChannel(1);
+            AreEqual(1, () => audioFileOutputChannel.GetChannel());
+
+            Channel(audioFileOutputChannel, 0);
+            AreEqual(0, () => Channel(audioFileOutputChannel));
+            
+            WithChannel(audioFileOutputChannel, 1);
+            AreEqual(1, () => GetChannel(audioFileOutputChannel));
+            
+            AsChannel(audioFileOutputChannel, 0);
+            AreEqual(0, () => GetChannel(audioFileOutputChannel));
+            
+            SetChannel(audioFileOutputChannel,  1);
+            AreEqual(1, () => GetChannel(audioFileOutputChannel));
+
+            ConfigWishes.Channel(audioFileOutputChannel, 0);
+            AreEqual(0, () => ConfigWishes.Channel(audioFileOutputChannel));
+            
+            ConfigWishes.WithChannel(audioFileOutputChannel, 1);
+            AreEqual(1, () => ConfigWishes.GetChannel(audioFileOutputChannel));
+            
+            ConfigWishes.AsChannel(audioFileOutputChannel, 0);
+            AreEqual(0, () => ConfigWishes.GetChannel(audioFileOutputChannel));
+            
+            ConfigWishes.SetChannel(audioFileOutputChannel, 1);
+            AreEqual(1, () => ConfigWishes.GetChannel(audioFileOutputChannel));
         }
         
         [TestMethod]
