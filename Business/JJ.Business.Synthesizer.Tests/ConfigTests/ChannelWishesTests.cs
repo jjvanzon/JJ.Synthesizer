@@ -9,12 +9,12 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Framework.Testing;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using JJ.Framework.Common;
+using JJ.Framework.Wishes.Testing;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0618 
@@ -30,23 +30,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private static int? _ = null;
 
         [TestMethod]
-        [DynamicData(nameof(CaseKeysInit))]
+        [DynamicData(nameof(CasesInit))]
         public void Init_Channel(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
-            var  nully    = testCase.init.nully;
-            var  coalesce = testCase.val.coalesce;
+            Case testCase = Cases[caseKey];
+            var  nully    = testCase.Init.Nully;
+            var  coalesce = testCase.Val.Coalesced;
             var  x        = CreateTestEntities(nully);
             Assert_All_Getters(x, coalesce);
         }
-        
+
+
         [TestMethod]
         [DynamicData(nameof(CaseKeysWithEmpties))]
         public void SynthBound_Channel(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
-            Values init = testCase.init;
-            Values val  = testCase.val;
+            CaseStruct testCase = _caseDictionary[caseKey];
+            ValuesStruct init = testCase.init;
+            ValuesStruct val  = testCase.val;
 
             void AssertProp(Action<SynthBoundEntities> setter)
             {
@@ -706,7 +707,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(CaseKeys))]
         public void TapeBound_Channel(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
+            CaseStruct testCase = _caseDictionary[caseKey];
             var init = testCase.init.coalesce;
             var val  = testCase.val.coalesce;
 
@@ -1389,7 +1390,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(CaseKeys))]
         public void BuffBound_Channel(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
+            CaseStruct testCase = _caseDictionary[caseKey];
             var init = testCase.init.coalesce;
             var val  = testCase.val.coalesce;
             IContext context = null;
@@ -1733,7 +1734,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(CaseKeys))]
         public void Immutables_Channel(string caseKey)
         {
-            Case testCase = _caseDictionary[caseKey];
+            CaseStruct testCase = _caseDictionary[caseKey];
             var init = testCase.init.coalesce;
             var val  = testCase.val.coalesce;
             var x = CreateTestEntities(init);
@@ -2314,7 +2315,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
 
-        private void Assert_All_Getters(ConfigTestEntities x, (int, int?) values)
+        private void Assert_All_Getters(ConfigTestEntities x, (int?, int?) values)
         {
             Assert_SynthBound_Getters(x, values);
             Assert_TapeBound_Getters_Complete(x, values);
@@ -2324,7 +2325,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // NOTE: Test ChannelS alongside Channel since shorthand can change both.
 
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, (int channels, int? channel) c)
+        private void Assert_SynthBound_Getters(ConfigTestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.SynthBound);
@@ -2334,9 +2335,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => x.SynthBound.SynthWishes   .GetChannel      );
             AreEqual(c.channel,       () => x.SynthBound.FlowNode      .GetChannel      );
             AreEqual(c.channel,       () => x.SynthBound.ConfigResolver.GetChannel      );
-            AreEqual(c.channels,      () => x.SynthBound.SynthWishes   .GetChannels     );
-            AreEqual(c.channels,      () => x.SynthBound.FlowNode      .GetChannels     );
-            AreEqual(c.channels,      () => x.SynthBound.ConfigResolver.GetChannels     );
+            AreEqual(c.channels,            x.SynthBound.SynthWishes   .GetChannels     );
+            AreEqual(c.channels,            x.SynthBound.FlowNode      .GetChannels     );
+            AreEqual(c.channels,            x.SynthBound.ConfigResolver.GetChannels     );
             AreEqual(c == (1,0),      () => x.SynthBound.SynthWishes   .IsCenter        );
             AreEqual(c == (1,0),      () => x.SynthBound.FlowNode      .IsCenter        );
             AreEqual(c == (1,0),      () => x.SynthBound.ConfigResolver.IsCenter        );
@@ -2364,15 +2365,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => x.SynthBound.SynthWishes.   Channel       ());
             AreEqual(c.channel,       () => x.SynthBound.FlowNode      .Channel       ());
             AreEqual(c.channel,       () => x.SynthBound.ConfigResolver.Channel       ());
-            AreEqual(c.channels,      () => x.SynthBound.SynthWishes   .Channels      ());
-            AreEqual(c.channels,      () => x.SynthBound.FlowNode      .Channels      ());
-            AreEqual(c.channels,      () => x.SynthBound.ConfigResolver.Channels      ());
+            AreEqual(c.channels,            x.SynthBound.SynthWishes   .Channels      ());
+            AreEqual(c.channels,            x.SynthBound.FlowNode      .Channels      ());
+            AreEqual(c.channels,            x.SynthBound.ConfigResolver.Channels      ());
             AreEqual(c.channel,       () => x.SynthBound.SynthWishes.   GetChannel    ());
             AreEqual(c.channel,       () => x.SynthBound.FlowNode      .GetChannel    ());
             AreEqual(c.channel,       () => x.SynthBound.ConfigResolver.GetChannel    ());
-            AreEqual(c.channels,      () => x.SynthBound.SynthWishes   .GetChannels   ());
-            AreEqual(c.channels,      () => x.SynthBound.FlowNode      .GetChannels   ());
-            AreEqual(c.channels,      () => x.SynthBound.ConfigResolver.GetChannels   ());
+            AreEqual(c.channels,            x.SynthBound.SynthWishes   .GetChannels   ());
+            AreEqual(c.channels,            x.SynthBound.FlowNode      .GetChannels   ());
+            AreEqual(c.channels,            x.SynthBound.ConfigResolver.GetChannels   ());
             AreEqual(c == (1,0),      () => x.SynthBound.SynthWishes   .IsCenter      ());
             AreEqual(c == (1,0),      () => x.SynthBound.FlowNode      .IsCenter      ());
             AreEqual(c == (1,0),      () => x.SynthBound.ConfigResolver.IsCenter      ());
@@ -2400,15 +2401,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => Channel       (x.SynthBound.SynthWishes    ));
             AreEqual(c.channel,       () => Channel       (x.SynthBound.FlowNode       ));
             AreEqual(c.channel,       () => Channel       (x.SynthBound.ConfigResolver ));
-            AreEqual(c.channels,      () => Channels      (x.SynthBound.SynthWishes    ));
-            AreEqual(c.channels,      () => Channels      (x.SynthBound.FlowNode       ));
-            AreEqual(c.channels,      () => Channels      (x.SynthBound.ConfigResolver ));
+            AreEqual(c.channels,            Channels      (x.SynthBound.SynthWishes    ));
+            AreEqual(c.channels,            Channels      (x.SynthBound.FlowNode       ));
+            AreEqual(c.channels,            Channels      (x.SynthBound.ConfigResolver ));
             AreEqual(c.channel,       () => GetChannel    (x.SynthBound.SynthWishes    ));
             AreEqual(c.channel,       () => GetChannel    (x.SynthBound.FlowNode       ));
             AreEqual(c.channel,       () => GetChannel    (x.SynthBound.ConfigResolver ));
-            AreEqual(c.channels,      () => GetChannels   (x.SynthBound.SynthWishes    ));
-            AreEqual(c.channels,      () => GetChannels   (x.SynthBound.FlowNode       ));
-            AreEqual(c.channels,      () => GetChannels   (x.SynthBound.ConfigResolver ));
+            AreEqual(c.channels,            GetChannels   (x.SynthBound.SynthWishes    ));
+            AreEqual(c.channels,            GetChannels   (x.SynthBound.FlowNode       ));
+            AreEqual(c.channels,            GetChannels   (x.SynthBound.ConfigResolver ));
             AreEqual(c == (1,0),      () => IsCenter      (x.SynthBound.SynthWishes    ));
             AreEqual(c == (1,0),      () => IsCenter      (x.SynthBound.FlowNode       ));
             AreEqual(c == (1,0),      () => IsCenter      (x.SynthBound.ConfigResolver ));
@@ -2436,15 +2437,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => ConfigWishes        .Channel       (x.SynthBound.SynthWishes    ));
             AreEqual(c.channel,       () => ConfigWishes        .Channel       (x.SynthBound.FlowNode       ));
             AreEqual(c.channel,       () => ConfigWishesAccessor.Channel       (x.SynthBound.ConfigResolver ));
-            AreEqual(c.channels,      () => ConfigWishes        .Channels      (x.SynthBound.SynthWishes    ));
-            AreEqual(c.channels,      () => ConfigWishes        .Channels      (x.SynthBound.FlowNode       ));
-            AreEqual(c.channels,      () => ConfigWishesAccessor.Channels      (x.SynthBound.ConfigResolver ));
+            AreEqual(c.channels,            ConfigWishes        .Channels      (x.SynthBound.SynthWishes    ));
+            AreEqual(c.channels,            ConfigWishes        .Channels      (x.SynthBound.FlowNode       ));
+            AreEqual(c.channels,            ConfigWishesAccessor.Channels      (x.SynthBound.ConfigResolver ));
             AreEqual(c.channel,       () => ConfigWishes        .GetChannel    (x.SynthBound.SynthWishes    ));
             AreEqual(c.channel,       () => ConfigWishes        .GetChannel    (x.SynthBound.FlowNode       ));
             AreEqual(c.channel,       () => ConfigWishesAccessor.GetChannel    (x.SynthBound.ConfigResolver ));
-            AreEqual(c.channels,      () => ConfigWishes        .GetChannels   (x.SynthBound.SynthWishes    ));
-            AreEqual(c.channels,      () => ConfigWishes        .GetChannels   (x.SynthBound.FlowNode       ));
-            AreEqual(c.channels,      () => ConfigWishesAccessor.GetChannels   (x.SynthBound.ConfigResolver ));
+            AreEqual(c.channels,            ConfigWishes        .GetChannels   (x.SynthBound.SynthWishes    ));
+            AreEqual(c.channels,            ConfigWishes        .GetChannels   (x.SynthBound.FlowNode       ));
+            AreEqual(c.channels,            ConfigWishesAccessor.GetChannels   (x.SynthBound.ConfigResolver ));
             AreEqual(c == (1,0),      () => ConfigWishes        .IsCenter      (x.SynthBound.SynthWishes    ));
             AreEqual(c == (1,0),      () => ConfigWishes        .IsCenter      (x.SynthBound.FlowNode       ));
             AreEqual(c == (1,0),      () => ConfigWishesAccessor.IsCenter      (x.SynthBound.ConfigResolver ));
@@ -2472,14 +2473,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         /// <inheritdoc cref="docs._singletapeassertion" />
-        private void Assert_TapeBound_Getters_Single(ConfigTestEntities x, (int channels, int? channel) c)
+        private void Assert_TapeBound_Getters_Single(ConfigTestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound.Tape);
             IsNotNull(() => x.TapeBound.TapeConfig);
             IsNotNull(() => x.TapeBound.TapeActions);
             IsNotNull(() => x.TapeBound.TapeAction);
-            AreEqual(c.channels,      () => x.TapeBound.TapeConfig.Channels      );
+            AreEqual(c.channels,            x.TapeBound.TapeConfig.Channels      );
             AreEqual(c.channel,       () => x.TapeBound.TapeConfig.Channel       );
             AreEqual(c.channels == 1, () => x.TapeBound.TapeConfig.IsMono        );
             AreEqual(c.channels == 2, () => x.TapeBound.TapeConfig.IsStereo      );
@@ -2493,18 +2494,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => x.TapeBound.TapeConfig .Channel       ());
             AreEqual(c.channel,       () => x.TapeBound.TapeActions.Channel       ());
             AreEqual(c.channel,       () => x.TapeBound.TapeAction .Channel       ());
-            AreEqual(c.channels,      () => x.TapeBound.Tape       .Channels      ());
-            AreEqual(c.channels,      () => x.TapeBound.TapeConfig .Channels      ());
-            AreEqual(c.channels,      () => x.TapeBound.TapeActions.Channels      ());
-            AreEqual(c.channels,      () => x.TapeBound.TapeAction .Channels      ());
+            AreEqual(c.channels,            x.TapeBound.Tape       .Channels      ());
+            AreEqual(c.channels,            x.TapeBound.TapeConfig .Channels      ());
+            AreEqual(c.channels,            x.TapeBound.TapeActions.Channels      ());
+            AreEqual(c.channels,            x.TapeBound.TapeAction .Channels      ());
             AreEqual(c.channel,       () => x.TapeBound.Tape       .GetChannel    ());
             AreEqual(c.channel,       () => x.TapeBound.TapeConfig .GetChannel    ());
             AreEqual(c.channel,       () => x.TapeBound.TapeActions.GetChannel    ());
             AreEqual(c.channel,       () => x.TapeBound.TapeAction .GetChannel    ());
-            AreEqual(c.channels,      () => x.TapeBound.Tape       .GetChannels   ());
-            AreEqual(c.channels,      () => x.TapeBound.TapeConfig .GetChannels   ());
-            AreEqual(c.channels,      () => x.TapeBound.TapeActions.GetChannels   ());
-            AreEqual(c.channels,      () => x.TapeBound.TapeAction .GetChannels   ());
+            AreEqual(c.channels,            x.TapeBound.Tape       .GetChannels   ());
+            AreEqual(c.channels,            x.TapeBound.TapeConfig .GetChannels   ());
+            AreEqual(c.channels,            x.TapeBound.TapeActions.GetChannels   ());
+            AreEqual(c.channels,            x.TapeBound.TapeAction .GetChannels   ());
             AreEqual(c == (1,0),      () => x.TapeBound.Tape       .IsCenter      ());
             AreEqual(c == (1,0),      () => x.TapeBound.TapeConfig .IsCenter      ());
             AreEqual(c == (1,0),      () => x.TapeBound.TapeActions.IsCenter      ());
@@ -2541,18 +2542,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => Channel       (x.TapeBound.TapeConfig ));
             AreEqual(c.channel,       () => Channel       (x.TapeBound.TapeActions));
             AreEqual(c.channel,       () => Channel       (x.TapeBound.TapeAction ));
-            AreEqual(c.channels,      () => Channels      (x.TapeBound.Tape       ));
-            AreEqual(c.channels,      () => Channels      (x.TapeBound.TapeConfig ));
-            AreEqual(c.channels,      () => Channels      (x.TapeBound.TapeActions));
-            AreEqual(c.channels,      () => Channels      (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,            Channels      (x.TapeBound.Tape       ));
+            AreEqual(c.channels,            Channels      (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,            Channels      (x.TapeBound.TapeActions));
+            AreEqual(c.channels,            Channels      (x.TapeBound.TapeAction ));
             AreEqual(c.channel,       () => GetChannel    (x.TapeBound.Tape       ));
             AreEqual(c.channel,       () => GetChannel    (x.TapeBound.TapeConfig ));
             AreEqual(c.channel,       () => GetChannel    (x.TapeBound.TapeActions));
             AreEqual(c.channel,       () => GetChannel    (x.TapeBound.TapeAction ));
-            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.Tape       ));
-            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.TapeConfig ));
-            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.TapeActions));
-            AreEqual(c.channels,      () => GetChannels   (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,            GetChannels   (x.TapeBound.Tape       ));
+            AreEqual(c.channels,            GetChannels   (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,            GetChannels   (x.TapeBound.TapeActions));
+            AreEqual(c.channels,            GetChannels   (x.TapeBound.TapeAction ));
             AreEqual(c == (1,0),      () => IsCenter      (x.TapeBound.Tape       ));
             AreEqual(c == (1,0),      () => IsCenter      (x.TapeBound.TapeConfig ));
             AreEqual(c == (1,0),      () => IsCenter      (x.TapeBound.TapeActions));
@@ -2593,18 +2594,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channel,       () => ConfigWishes.Channel       (x.TapeBound.TapeConfig ));
             AreEqual(c.channel,       () => ConfigWishes.Channel       (x.TapeBound.TapeActions));
             AreEqual(c.channel,       () => ConfigWishes.Channel       (x.TapeBound.TapeAction ));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.Tape       ));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.TapeConfig ));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.TapeActions));
-            AreEqual(c.channels,      () => ConfigWishes.Channels      (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,            ConfigWishes.Channels      (x.TapeBound.Tape       ));
+            AreEqual(c.channels,            ConfigWishes.Channels      (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,            ConfigWishes.Channels      (x.TapeBound.TapeActions));
+            AreEqual(c.channels,            ConfigWishes.Channels      (x.TapeBound.TapeAction ));
             AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.Tape       ));
             AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.TapeConfig ));
             AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.TapeActions));
             AreEqual(c.channel,       () => ConfigWishes.GetChannel    (x.TapeBound.TapeAction ));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.Tape       ));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.TapeConfig ));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.TapeActions));
-            AreEqual(c.channels,      () => ConfigWishes.GetChannels   (x.TapeBound.TapeAction ));
+            AreEqual(c.channels,            ConfigWishes.GetChannels   (x.TapeBound.Tape       ));
+            AreEqual(c.channels,            ConfigWishes.GetChannels   (x.TapeBound.TapeConfig ));
+            AreEqual(c.channels,            ConfigWishes.GetChannels   (x.TapeBound.TapeActions));
+            AreEqual(c.channels,            ConfigWishes.GetChannels   (x.TapeBound.TapeAction ));
             AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.TapeBound.Tape       ));
             AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.TapeBound.TapeConfig ));
             AreEqual(c == (1,0),      () => ConfigWishes.IsCenter      (x.TapeBound.TapeActions));
@@ -2643,10 +2644,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.TapeBound.TapeAction ));
         }
         
-        private void Assert_TapeBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
+        private void Assert_TapeBound_Getters_Complete(ConfigTestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
-            AreEqual(c.channels, () => x.ChannelEntities.Count);
+            AreEqual(c.channels, x.ChannelEntities.Count);
             IsFalse(() => x.ChannelEntities.Contains(null));
             
             if (c.channels == MonoChannels)
@@ -3348,7 +3349,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         /// <inheritdoc cref="docs._singletapeassertion" />
-        private void Assert_BuffBound_Getters_Single(ConfigTestEntities x, (int channels, int? channel) c)
+        private void Assert_BuffBound_Getters_Single(ConfigTestEntities x, (int? channels, int? channel) c)
         { 
             if (c == (1,0))
             {
@@ -3373,10 +3374,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         /// <inheritdoc cref="docs._singletapeassertion" />
-        private void Assert_BuffBound_Getters_Complete(ConfigTestEntities x, (int channels, int? channel) c)
+        private void Assert_BuffBound_Getters_Complete(ConfigTestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
-            AreEqual(c.channels, () => x.ChannelEntities.Count);
+            AreEqual(c.channels, x.ChannelEntities.Count);
             IsFalse(() => x.ChannelEntities.Contains(null));
             
             if (c.channels == MonoChannels)
@@ -3709,7 +3710,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        IsFalse(() => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
         }
 
-        private void Assert_Immutable_Getters(ConfigTestEntities x, (int, int?) c)
+        private void Assert_Immutable_Getters(ConfigTestEntities x, (int?, int?) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
@@ -3718,7 +3719,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.ChannelEntity, c);
         }
         
-        private void Assert_Immutable_Getters(ChannelEnum channelEnum, (int channels, int? channel) c)
+        private void Assert_Immutable_Getters(ChannelEnum channelEnum, (int? channels, int? channel) c)
         {
             if (c.channels == MonoChannels)
             {
@@ -3815,7 +3816,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // ncrunch: no coverage end
         }
             
-        private void Assert_Immutable_Getters(Channel channelEntity, (int channels, int? channel) c)
+        private void Assert_Immutable_Getters(Channel channelEntity, (int? channels, int? channel) c)
         {
             if (c.channels == MonoChannels)
             {
@@ -3917,22 +3918,34 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private ConfigTestEntities CreateTestEntities((int? channels, int? channel) c)
             => CreateTestEntities(c.channels, c.channel);
 
+        private ConfigTestEntities CreateTestEntities((int? channels, int? channel)? c)
+            => CreateTestEntities(c?.channels, c?.channel);
+            
         private ConfigTestEntities CreateTestEntities(int? channels = null, int? channel = null)
             => new ConfigTestEntities(x => x.WithChannels(channels)
                                             .WithChannel (channel));
         
         // ncrunch: no coverage start
-
+        
         static object CaseKeys            => _cases           .Select(x => new object[] { x.Descriptor }).ToArray();
         static object CaseKeysInit        => _casesInit       .Select(x => new object[] { x.Descriptor }).ToArray();
         static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
 
-        static Case[] _casesInit =
+        private class Case : CaseBase<(int? channels, int? channel)>
         {
+            public Case(int? channels, int? channel) : base((channels, channel)) { }
+
+            public Case((int?, int?) from, (int?, int?) to) : base(from, to) { }
+        }
+
+        static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
+        
+        static CaseCollection<Case> CasesInit { get; } = Cases.Add
+        (
             // Stereo configurations
-            new Case (2,0),
-            new Case (2,1),
-            new Case (2,_),
+            new Case(2,0),
+            new Case(2,1),
+            new Case(2,_),
 
             // Mono: channel ignored (defaults to CenterChannel)
             new Case ( (1,_), (1,0) ),
@@ -3946,39 +3959,61 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case ( (0,0) , (1,0) ), 
             new Case ( (_,1) , (1,0) ), 
             new Case ( (0,1) , (1,0) ) 
-        };
+        );
 
-        static Case[] _cases =
+
+        static CaseStruct[] _casesInit =
         {
-            new Case( init:(1,0) , val:(2,0) ),
-            new Case( init:(1,0) , val:(2,1) ),
-            new Case( init:(1,0) , val:(2,_) ),
+            // Stereo configurations
+            new CaseStruct (2,0),
+            new CaseStruct (2,1),
+            new CaseStruct (2,_),
 
-            new Case( init:(2,0) , val:(1,0) ),
-            new Case( init:(2,0) , val:(2,1) ),
-            new Case( init:(2,0) , val:(2,_) ),
-
-            new Case( init:(2,1) , val:(1,0) ),
-            new Case( init:(2,1) , val:(2,0) ),
-            new Case( init:(2,1) , val:(2,_) ),
-
-            new Case( init:(2,_) , val:(1,0) ),
-            new Case( init:(2,_) , val:(2,0) ),
-            new Case( init:(2,_) , val:(2,1) ),
+            // Mono: channel ignored (defaults to CenterChannel)
+            new CaseStruct ( (1,_), (1,0) ),
+            new CaseStruct   (1,0),
+            new CaseStruct ( (1,1), (1,0) ),
+            
+            // All Mono: null / 0 Channels => defaults to Mono => ignores the channel.
+            new CaseStruct ( (_,_) , (1,0) ),
+            new CaseStruct ( (0,_) , (1,0) ), 
+            new CaseStruct ( (_,0) , (1,0) ), 
+            new CaseStruct ( (0,0) , (1,0) ), 
+            new CaseStruct ( (_,1) , (1,0) ), 
+            new CaseStruct ( (0,1) , (1,0) ) 
         };
 
-        static Case[] _casesWithEmpties = _cases.Concat(new[]
+        static CaseStruct[] _cases =
+        {
+            new CaseStruct( init:(1,0) , val:(2,0) ),
+            new CaseStruct( init:(1,0) , val:(2,1) ),
+            new CaseStruct( init:(1,0) , val:(2,_) ),
+
+            new CaseStruct( init:(2,0) , val:(1,0) ),
+            new CaseStruct( init:(2,0) , val:(2,1) ),
+            new CaseStruct( init:(2,0) , val:(2,_) ),
+
+            new CaseStruct( init:(2,1) , val:(1,0) ),
+            new CaseStruct( init:(2,1) , val:(2,0) ),
+            new CaseStruct( init:(2,1) , val:(2,_) ),
+
+            new CaseStruct( init:(2,_) , val:(1,0) ),
+            new CaseStruct( init:(2,_) , val:(2,0) ),
+            new CaseStruct( init:(2,_) , val:(2,1) ),
+        };
+
+        static CaseStruct[] _casesWithEmpties = _cases.Concat(new[]
         {
             // Most vals should all coalesce to Mono: null / 0 / 1 channels => defaults to Mono => ignores the channel.
-            new Case( init: (2,1)          , val: ((_,_), (1,0)) ),
-            new Case( init: (2,0)          , val: ((0,_), (1,0)) ),
-            new Case( init: (2,_)          , val: ((1,1), (1,0)) ),
-            new Case( init: ((_,_), (1,0)) , val: (2,1)          )
+            new CaseStruct( init: (2,1)          , val: ((_,_), (1,0)) ),
+            new CaseStruct( init: (2,0)          , val: ((0,_), (1,0)) ),
+            new CaseStruct( init: (2,_)          , val: ((1,1), (1,0)) ),
+            new CaseStruct( init: ((_,_), (1,0)) , val: (2,1)          )
         }).ToArray();
         
-        static Dictionary<string, Case> _caseDictionary = _casesWithEmpties.Union(_casesInit).ToDictionary(x => x.Descriptor);
+        static Dictionary<string, CaseStruct> _caseDictionary = _casesWithEmpties.Union(_casesInit).ToDictionary(x => x.Descriptor);
 
-        struct Case
+        struct CaseStruct
         {
             private int? _fromChannelsNully;
             private int  _fromChannelsCoalesced;
@@ -3989,12 +4024,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             private int? _toChannelNully;
             private int? _toChannelCoalesced;
             
-            public readonly Values init;
-            public readonly Values val;
+            public readonly ValuesStruct init;
+            public readonly ValuesStruct val;
             
             public string Descriptor { get; }
 
-            public Case(
+            public CaseStruct(
                 ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) init,
                 ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) val )
                 : this(fromChannelsNully     : init.nully   .channels,
@@ -4006,7 +4041,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        toChannelNully        : val .nully   .channel ,
                        toChannelCoalesced    : val .coalesce.channel ) { }
 
-            public Case(
+            public CaseStruct(
                 ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) init,
                 ( int? channels, int? channel) val) 
                 : this(fromChannelsNully     : init.nully   .channels,
@@ -4018,7 +4053,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        toChannelNully        : val          .channel,
                        toChannelCoalesced    : val          .channel) { }
 
-            public Case(
+            public CaseStruct(
                 ( int? channels, int? channel) init,
                 ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) val )
                 : this(fromChannelsNully     : init         .channels,
@@ -4031,7 +4066,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        toChannelCoalesced    : val .coalesce.channel )
             { }
             
-            public Case(
+            public CaseStruct(
                 (int? channels, int? channel) init,
                 (int? channels, int? channel) val) 
                 : this(fromChannelsNully     : init.channels,
@@ -4043,7 +4078,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        toChannelNully        : val .channel,
                        toChannelCoalesced    : val .channel) { }
 
-            public Case(int? channels, int? channel)
+            public CaseStruct(int? channels, int? channel)
                 : this(fromChannelsNully     : channels,
                        fromChannelsCoalesced : channels,
                        fromChannelNully      : channel,
@@ -4053,7 +4088,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        toChannelNully        : channel,
                        toChannelCoalesced    : channel) { }
                 
-            public Case(
+            public CaseStruct(
                 int? fromChannelsNully, int? fromChannelsCoalesced, int? fromChannelNully, int? fromChannelCoalesced, 
                 int? toChannelsNully,   int? toChannelsCoalesced,   int? toChannelNully,   int? toChannelCoalesced)
             {
@@ -4078,14 +4113,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 _toChannelNully        = toChannelNully;
                 _toChannelCoalesced    = toChannelCoalesced;
                 
-                init = new Values(_fromChannelsNully, _fromChannelNully, _fromChannelsCoalesced, _fromChannelCoalesced);
-                val  = new Values(_toChannelsNully,   _toChannelNully,   _toChannelsCoalesced,   _toChannelCoalesced);
+                init = new ValuesStruct(_fromChannelsNully, _fromChannelNully, _fromChannelsCoalesced, _fromChannelCoalesced);
+                val  = new ValuesStruct(_toChannelsNully,   _toChannelNully,   _toChannelsCoalesced,   _toChannelCoalesced);
                 
                 Descriptor = $"({init.channels.nully},{init.channel.nully}) => ({val.channels.nully},{val.channel.nully})";
             }
         }
  
-        struct Values
+        struct ValuesStruct
         {
             private readonly int? _channelsNully;
             private readonly int  _channelsCoalesced;
@@ -4097,7 +4132,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public readonly (int? channels, int? channel)  nully   ;
             public readonly (int  channels, int? channel)  coalesce;
 
-            public Values( 
+            public ValuesStruct( 
                 int? channelsNully, int? channelNully, 
                 int  channelsCoalesced, int? channelCoalesced )
             {
