@@ -15,6 +15,7 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using JJ.Framework.Common;
 using JJ.Framework.Wishes.Testing;
+using static JJ.Business.Synthesizer.Tests.docs;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0618 
@@ -704,12 +705,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         [TestMethod]
-        [DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(TransitionCases))]
         public void TapeBound_Channel(string caseKey)
         {
-            CaseStruct testCase = _caseDictionary[caseKey];
-            var init = testCase.init.coalesce;
-            var val  = testCase.val.coalesce;
+            Case testCase = Cases[caseKey];
+            var init = testCase.Init.Coalesced;
+            var val  = (channels: testCase.Val.Coalesced.channels.Value, testCase.Val.Coalesced.channel);
 
             void AssertProp(Action<TapeBoundEntities> setter)
             {
@@ -3928,14 +3929,39 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // ncrunch: no coverage start
         
         static object CaseKeys            => _cases           .Select(x => new object[] { x.Descriptor }).ToArray();
-        static object CaseKeysInit        => _casesInit       .Select(x => new object[] { x.Descriptor }).ToArray();
         static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
 
         private class Case : CaseBase<(int? channels, int? channel)>
         {
             public Case(int? channels, int? channel) : base((channels, channel)) { }
 
-            public Case((int?, int?) from, (int?, int?) to) : base(from, to) { }
+            public Case((int?, int?) init, (int?, int?) val) : base(init, val) { }
+
+            //public Case((
+            //    (int? channels, int? channel)? nully, (int? channels, int? channel) coalesced) from, 
+            //    (int? channels, int? channel) to) : base(from, to)
+            //{ }
+
+            //public Case(
+            //    (int? channels, int? channel) from, 
+            //    ((int? channels, int? channel)? nully, (int? channels, int? channel) coalesced) to) : base(from, to)
+            //{ }
+
+            public Case(
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) init,
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) val ) 
+                : base(init, val) { }
+
+            public Case(
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) init,
+                ( int? channels, int? channel) val) 
+                : base(init, val) { }
+
+            public Case(
+                ( int? channels, int? channel) init,
+                ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) val )
+                : base(init, val) { }
+
         }
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
@@ -3961,28 +3987,37 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case ( (0,1) , (1,0) ) 
         );
 
+        static CaseCollection<Case> TransitionCases { get; } = Cases.Add
+        (        
+            new Case( init:(1,0) , val:(2,0) ),
+            new Case( init:(1,0) , val:(2,1) ),
+            new Case( init:(1,0) , val:(2,_) ),
 
-        static CaseStruct[] _casesInit =
-        {
-            // Stereo configurations
-            new CaseStruct (2,0),
-            new CaseStruct (2,1),
-            new CaseStruct (2,_),
+            new Case( init:(2,0) , val:(1,0) ),
+            new Case( init:(2,0) , val:(2,1) ),
+            new Case( init:(2,0) , val:(2,_) ),
 
-            // Mono: channel ignored (defaults to CenterChannel)
-            new CaseStruct ( (1,_), (1,0) ),
-            new CaseStruct   (1,0),
-            new CaseStruct ( (1,1), (1,0) ),
-            
-            // All Mono: null / 0 Channels => defaults to Mono => ignores the channel.
-            new CaseStruct ( (_,_) , (1,0) ),
-            new CaseStruct ( (0,_) , (1,0) ), 
-            new CaseStruct ( (_,0) , (1,0) ), 
-            new CaseStruct ( (0,0) , (1,0) ), 
-            new CaseStruct ( (_,1) , (1,0) ), 
-            new CaseStruct ( (0,1) , (1,0) ) 
-        };
+            new Case( init:(2,1) , val:(1,0) ),
+            new Case( init:(2,1) , val:(2,0) ),
+            new Case( init:(2,1) , val:(2,_) ),
 
+            new Case( init:(2,_) , val:(1,0) ),
+            new Case( init:(2,_) , val:(2,0) ),
+            new Case( init:(2,_) , val:(2,1) )
+        );
+        
+        static CaseCollection<Case> NullyCases { get; } = Cases.Add
+        (
+            // Most vals should all coalesce to Mono: null / 0 / 1 channels => defaults to Mono => ignores the channel.
+            new Case( init: (2,1)          , val: ((_,_), (1,0)) ),
+            new Case( init: (2,0)          , val: ((0,_), (1,0)) ),
+            new Case( init: (2,_)          , val: ((1,1), (1,0)) ),
+            new Case( init: ((_,_), (1,0)) , val: (2,1)          )
+        );
+
+        object TransitionCasesWithNullies => TransitionCases.Concat(NullyCases);
+        
+        
         static CaseStruct[] _cases =
         {
             new CaseStruct( init:(1,0) , val:(2,0) ),
@@ -4011,7 +4046,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new CaseStruct( init: ((_,_), (1,0)) , val: (2,1)          )
         }).ToArray();
         
-        static Dictionary<string, CaseStruct> _caseDictionary = _casesWithEmpties.Union(_casesInit).ToDictionary(x => x.Descriptor);
+        static Dictionary<string, CaseStruct> _caseDictionary = _casesWithEmpties.ToDictionary(x => x.Descriptor);
 
         struct CaseStruct
         {
@@ -4088,7 +4123,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        toChannelNully        : channel,
                        toChannelCoalesced    : channel) { }
                 
-            public CaseStruct(
+            private CaseStruct(
                 int? fromChannelsNully, int? fromChannelsCoalesced, int? fromChannelNully, int? fromChannelCoalesced, 
                 int? toChannelsNully,   int? toChannelsCoalesced,   int? toChannelNully,   int? toChannelCoalesced)
             {
