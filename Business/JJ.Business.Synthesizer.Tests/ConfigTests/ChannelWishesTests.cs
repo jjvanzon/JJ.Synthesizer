@@ -16,6 +16,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using JJ.Framework.Common;
 using JJ.Framework.Wishes.Testing;
 using static JJ.Business.Synthesizer.Tests.docs;
+using JJ.Framework.Wishes.Common;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0618 
@@ -43,13 +44,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
 
         [TestMethod]
-        [DynamicData(nameof(CaseKeysWithEmpties))]
+        //[DynamicData(nameof(TransitionCasesWithNullies))]
+        [DynamicData(nameof(CaseKeysWithNullies))]
         public void SynthBound_Channel(string caseKey)
         {
-            CaseStruct testCase = _caseDictionary[caseKey];
-            ValuesStruct init = testCase.init;
-            ValuesStruct val  = testCase.val;
-
+            //var testCase = Cases[caseKey];
+            //var init     = testCase.Init;
+            //var val      = testCase.Val;
+            var testCase = _caseDictionary[caseKey];
+            var init     = testCase.init;
+            var val      = testCase.val;
+            
             void AssertProp(Action<SynthBoundEntities> setter)
             {
                 var x = CreateTestEntities(init.nully);
@@ -66,6 +71,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, val.coalesce);
             }
             
+            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .Channel    (val.channel.nully).Channels    (val.channels.nully)));
             AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .Channel    (val.channel.nully).Channels    (val.channels.nully)));
             AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .Channel    (val.channel.nully).Channels    (val.channels.nully)));
             AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.Channel    (val.channel.nully).Channels    (val.channels.nully)));
@@ -3928,24 +3934,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // ncrunch: no coverage start
         
-        static object CaseKeys            => _cases           .Select(x => new object[] { x.Descriptor }).ToArray();
-        static object CaseKeysWithEmpties => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
+        static object CaseKeysWithNullies => _casesWithEmpties.Select(x => new object[] { x.Descriptor }).ToArray();
 
         private class Case : CaseBase<(int? channels, int? channel)>
         {
             public Case(int? channels, int? channel) : base((channels, channel)) { }
 
             public Case((int?, int?) init, (int?, int?) val) : base(init, val) { }
-
-            //public Case((
-            //    (int? channels, int? channel)? nully, (int? channels, int? channel) coalesced) from, 
-            //    (int? channels, int? channel) to) : base(from, to)
-            //{ }
-
-            //public Case(
-            //    (int? channels, int? channel) from, 
-            //    ((int? channels, int? channel)? nully, (int? channels, int? channel) coalesced) to) : base(from, to)
-            //{ }
 
             public Case(
                 ((int? channels, int? channel) nully, (int? channels, int? channel) coalesce) init,
