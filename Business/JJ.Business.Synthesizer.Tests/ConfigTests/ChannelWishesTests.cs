@@ -2198,37 +2198,54 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public void AudioFileOutputChannel_Channel()
         {
             var x = CreateTestEntities(channels: 2);
-            
-            // TODO: Replace magic numbers by constants.
-            
-            IsNotNull(   () => x);
-            IsNotNull(   () => x.BuffBound);
-            IsNotNull(   () => x.BuffBound.AudioFileOutput);
-            IsNotNull(   () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels);
-            AreEqual (2, () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
-            IsNotNull(   () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
-            IsNotNull(   () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[1]);
-            AreEqual (0, () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[0].Index);
-            AreEqual (1, () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[1].Index);
-            
-            IsNotNull(   () => x.ChannelEntities);
-            AreEqual (2, () => x.ChannelEntities.Count);
-            IsNotNull(   () => x.ChannelEntities[0]);
-            IsNotNull(   () => x.ChannelEntities[1]);
-            IsNotNull(   () => x.ChannelEntities[0].BuffBound);
-            IsNotNull(   () => x.ChannelEntities[1].BuffBound);
-            IsNotNull(   () => x.ChannelEntities[0].BuffBound.AudioFileOutput);
-            IsNotNull(   () => x.ChannelEntities[1].BuffBound.AudioFileOutput);
-            IsNotNull(   () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels);
-            IsNotNull(   () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels);
-            AreEqual (1, () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
-            AreEqual (1, () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
-            IsNotNull(   () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
-            IsNotNull(   () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
-            AreEqual (0, () => x.ChannelEntities[0].BuffBound.AudioFileOutput.AudioFileOutputChannels[0].Index);
-            AreEqual (1, () => x.ChannelEntities[1].BuffBound.AudioFileOutput.AudioFileOutputChannels[0].Index); // Here's our Right-only Channel.
 
+            // Verify Constants
+            AreEqual (0,              () => LeftChannel);
+            AreEqual (1,              () => RightChannel);
+            AreEqual (2,              () => StereoChannels);
             
+            // Verify Test Entity Structure
+            IsNotNull(                () => x);
+            IsNotNull(                () => x.BuffBound);
+            IsNotNull(                () => x.BuffBound.AudioFileOutput);
+            IsNotNull(                () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels);
+            AreEqual (StereoChannels, () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
+            IsNotNull(                () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[LeftChannel]);
+            IsNotNull(                () => x.BuffBound.AudioFileOutput.AudioFileOutputChannels[RightChannel]);
+            IsNotNull(                () => x.ChannelEntities);
+            AreEqual (StereoChannels, () => x.ChannelEntities.Count);
+            IsNotNull(                () => x.ChannelEntities[LeftChannel]);
+            IsNotNull(                () => x.ChannelEntities[LeftChannel].BuffBound);
+            IsNotNull(                () => x.ChannelEntities[LeftChannel].BuffBound.AudioFileOutput);
+            IsNotNull(                () => x.ChannelEntities[LeftChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels);
+            AreEqual (MonoChannels,   () => x.ChannelEntities[LeftChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
+            IsNotNull(                () => x.ChannelEntities[LeftChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
+            IsNotNull(                () => x.ChannelEntities[RightChannel]);
+            IsNotNull(                () => x.ChannelEntities[RightChannel].BuffBound);
+            IsNotNull(                () => x.ChannelEntities[RightChannel].BuffBound.AudioFileOutput);
+            IsNotNull(                () => x.ChannelEntities[RightChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels);
+            AreEqual (MonoChannels,   () => x.ChannelEntities[RightChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels.Count);
+            IsNotNull(                () => x.ChannelEntities[RightChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels[0]);
+
+            // Get AudioFileOutputChannel Variations
+            var stereoLeft  = x                              .BuffBound.AudioFileOutput.AudioFileOutputChannels[LeftChannel];
+            var stereoRight = x                              .BuffBound.AudioFileOutput.AudioFileOutputChannels[RightChannel];
+            var leftOnly    = x.ChannelEntities[LeftChannel ].BuffBound.AudioFileOutput.AudioFileOutputChannels[0];
+            var rightOnly   = x.ChannelEntities[RightChannel].BuffBound.AudioFileOutput.AudioFileOutputChannels[0];
+            
+            // Assert Getters
+            AreEqual (LeftChannel , () => stereoLeft .Index       );
+            AreEqual (LeftChannel , () => stereoLeft .Channel   ());
+            AreEqual (LeftChannel , () => stereoLeft .GetChannel());
+            AreEqual (RightChannel, () => stereoRight.Index       );
+            AreEqual (RightChannel, () => stereoRight.Channel   ());
+            AreEqual (RightChannel, () => stereoRight.GetChannel());
+            AreEqual (LeftChannel , () => leftOnly   .Index       );
+            AreEqual (LeftChannel , () => leftOnly   .Channel   ());
+            AreEqual (LeftChannel , () => leftOnly   .GetChannel());
+            AreEqual (RightChannel, () => rightOnly  .Index       );
+            AreEqual (RightChannel, () => rightOnly  .Channel   ());
+            AreEqual (RightChannel, () => rightOnly  .GetChannel());
         }
         
         [TestMethod]
