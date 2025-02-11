@@ -495,15 +495,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? thisChannel, int channelsForContext) => ConfigWishes.ChannelToEnum(thisChannel, channelsForContext);
 
-        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel    (this Channel entity) => ConfigWishes.IsNoChannel    (entity);
-        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel   (this Channel entity) => ConfigWishes.IsAnyChannel   (entity);
-        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel (this Channel entity) => ConfigWishes.IsEveryChannel (entity);
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter       (this Channel entity) => ConfigWishes.IsCenter       (entity);
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft         (this Channel entity) => ConfigWishes.IsLeft         (entity);
-        [Obsolete(ObsoleteMessage)] public static bool IsRight        (this Channel entity) => ConfigWishes.IsRight        (entity);
-        [Obsolete(ObsoleteMessage)] public static int? Channel        (this Channel entity) => ConfigWishes.Channel        (entity);
-        [Obsolete(ObsoleteMessage)] public static int? GetChannel     (this Channel entity) => ConfigWishes.GetChannel     (entity);
-        [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(this Channel entity) => ConfigWishes.EntityToChannel(entity);
+        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel           (this Channel entity) => ConfigWishes.IsNoChannel           (entity);
+        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel          (this Channel entity) => ConfigWishes.IsAnyChannel          (entity);
+        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel        (this Channel entity) => ConfigWishes.IsEveryChannel        (entity);
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter              (this Channel entity) => ConfigWishes.IsCenter              (entity);
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft                (this Channel entity) => ConfigWishes.IsLeft                (entity);
+        [Obsolete(ObsoleteMessage)] public static bool IsRight               (this Channel entity) => ConfigWishes.IsRight               (entity);
+        [Obsolete(ObsoleteMessage)] public static int? Channel               (this Channel entity) => ConfigWishes.Channel               (entity);
+        [Obsolete(ObsoleteMessage)] public static int? GetChannel            (this Channel entity) => ConfigWishes.GetChannel            (entity);
+        [Obsolete(ObsoleteMessage)] public static int? EntityToChannel       (this Channel entity) => ConfigWishes.EntityToChannel       (entity);
+        [Obsolete(ObsoleteMessage)] public static int? ChannelEntityToChannel(this Channel entity) => ConfigWishes.ChannelEntityToChannel(entity);
         
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AnyChannel(this Channel oldChannelEntity) => ConfigWishes.AnyChannel(oldChannelEntity);
@@ -1186,15 +1187,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(int? thisChannel, int channelsForContext) => ConfigNightmares.ChannelToEnum(thisChannel, channelsForContext);
 
 
-        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel   (Channel entity) => entity == null;
-        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel (Channel entity) => entity == null;
-        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel    (Channel entity) => entity == null;
-        [Obsolete(ObsoleteMessage)] public static bool IsCenter(       Channel entity) => entity.ToEnum() == ChannelEnum.Single;
-        [Obsolete(ObsoleteMessage)] public static bool IsLeft(         Channel entity) => entity.ToEnum() == ChannelEnum.Left;
-        [Obsolete(ObsoleteMessage)] public static bool IsRight(        Channel entity) => entity.ToEnum() == ChannelEnum.Right; 
-        [Obsolete(ObsoleteMessage)] public static int? Channel(        Channel entity) => EntityToChannel(entity);
-        [Obsolete(ObsoleteMessage)] public static int? GetChannel(     Channel entity) => EntityToChannel(entity);
-        [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(Channel entity) => entity.ToEnum().EnumToChannel();
+        [Obsolete(ObsoleteMessage)] public static bool IsAnyChannel          (Channel entity) => entity == null;
+        [Obsolete(ObsoleteMessage)] public static bool IsEveryChannel        (Channel entity) => entity == null;
+        [Obsolete(ObsoleteMessage)] public static bool IsNoChannel           (Channel entity) => entity == null;
+        [Obsolete(ObsoleteMessage)] public static bool IsCenter              (Channel entity) => entity.ToEnum() == ChannelEnum.Single;
+        [Obsolete(ObsoleteMessage)] public static bool IsLeft                (Channel entity) => entity.ToEnum() == ChannelEnum.Left;
+        [Obsolete(ObsoleteMessage)] public static bool IsRight               (Channel entity) => entity.ToEnum() == ChannelEnum.Right; 
+        [Obsolete(ObsoleteMessage)] public static int? Channel               (Channel entity) => ChannelEntityToChannel(entity);
+        [Obsolete(ObsoleteMessage)] public static int? GetChannel            (Channel entity) => ChannelEntityToChannel(entity);
+        [Obsolete(ObsoleteMessage)] public static int? EntityToChannel       (Channel entity) => ChannelEntityToChannel(entity);
+        [Obsolete(ObsoleteMessage)] public static int? ChannelEntityToChannel(Channel entity) => entity.ToEnum().EnumToChannel();
 
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AnyChannel(Channel oldChannelEntity) => SetNoChannel(oldChannelEntity);

@@ -3699,35 +3699,97 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             if (c.channels == MonoChannels)
             {
-                IsTrue (() => channelEntity.IsMono  ());
-                IsTrue (() => channelEntity.IsCenter());
-                
-                IsFalse(() => channelEntity.IsStereo());
-                IsFalse(() => channelEntity.IsLeft  ());
-                IsFalse(() => channelEntity.IsRight ());
-
-                AreEqual(MonoChannels, () => channelEntity.Channels());
-                AreEqual(CenterChannel, () => channelEntity.Channel());
+                                IsTrue (() => channelEntity.IsCenter               ());
+                                IsTrue (() => channelEntity.IsMono                 ());
+                                IsFalse(() => channelEntity.IsLeft                 ());
+                                IsFalse(() => channelEntity.IsRight                ());
+                                IsFalse(() => channelEntity.IsStereo               ());
+                AreEqual(CenterChannel, () => channelEntity.Channel                ());
+                AreEqual(CenterChannel, () => channelEntity.GetChannel             ());
+                AreEqual(CenterChannel, () => channelEntity.EntityToChannel        ());
+                AreEqual(CenterChannel, () => channelEntity.ChannelEntityToChannel ());
+                AreEqual(MonoChannels , () => channelEntity.Channels               ());
+                AreEqual(MonoChannels , () => channelEntity.GetChannels            ());
+                AreEqual(MonoChannels , () => channelEntity.ChannelEntityToChannels());
+                                IsTrue (() => IsCenter               (channelEntity));
+                                IsTrue (() => IsMono                 (channelEntity));
+                                IsFalse(() => IsLeft                 (channelEntity));
+                                IsFalse(() => IsRight                (channelEntity));
+                                IsFalse(() => IsStereo               (channelEntity));
+                AreEqual(CenterChannel, () => Channel                (channelEntity));
+                AreEqual(CenterChannel, () => GetChannel             (channelEntity));
+                AreEqual(CenterChannel, () => EntityToChannel        (channelEntity));
+                AreEqual(CenterChannel, () => ChannelEntityToChannel (channelEntity));
+                AreEqual(MonoChannels , () => Channels               (channelEntity));
+                AreEqual(MonoChannels , () => GetChannels            (channelEntity));
+                AreEqual(MonoChannels , () => ChannelEntityToChannels(channelEntity));
+                                IsTrue (() => ConfigWishes.IsCenter               (channelEntity));
+                                IsTrue (() => ConfigWishes.IsMono                 (channelEntity));
+                                IsFalse(() => ConfigWishes.IsLeft                 (channelEntity));
+                                IsFalse(() => ConfigWishes.IsRight                (channelEntity));
+                                IsFalse(() => ConfigWishes.IsStereo               (channelEntity));
+                AreEqual(CenterChannel, () => ConfigWishes.Channel                (channelEntity));
+                AreEqual(CenterChannel, () => ConfigWishes.GetChannel             (channelEntity));
+                AreEqual(CenterChannel, () => ConfigWishes.EntityToChannel        (channelEntity));
+                AreEqual(CenterChannel, () => ConfigWishes.ChannelEntityToChannel (channelEntity));
+                AreEqual(MonoChannels , () => ConfigWishes.Channels               (channelEntity));
+                AreEqual(MonoChannels , () => ConfigWishes.GetChannels            (channelEntity));
+                AreEqual(MonoChannels , () => ConfigWishes.ChannelEntityToChannels(channelEntity));
             }
             else if (c.channels == StereoChannels)
             {
-                IsTrue(() => channelEntity.IsStereo());
-                AreEqual(c.channel == 0, () => channelEntity.IsLeft());
-                AreEqual(c.channel == 1, () => channelEntity.IsRight());
-                
-                IsFalse(() => channelEntity.IsMono());
-                IsFalse(() => channelEntity.IsCenter());
-
-                AreEqual(StereoChannels, () => channelEntity.Channels());
-                AreEqual(StereoChannels, () => channelEntity.ChannelEntityToChannels());
-
-                AreEqual(c.channel, () => channelEntity.Channel());
-                AreEqual(c.channel, () => channelEntity.EntityToChannel());
+                IsFalse(                    () => channelEntity.IsCenter               ());
+                AreEqual(c.channel == 0,    () => channelEntity.IsLeft                 ());
+                AreEqual(c.channel == 1,    () => channelEntity.IsRight                ());
+                AreEqual(c.channel == null, () => channelEntity.IsAnyChannel           ());
+                AreEqual(c.channel == null, () => channelEntity.IsEveryChannel         ());
+                AreEqual(c.channel == null, () => channelEntity.IsNoChannel            ());
+                AreEqual(c.channel,         () => channelEntity.Channel                ());
+                AreEqual(c.channel,         () => channelEntity.GetChannel             ());
+                AreEqual(c.channel,         () => channelEntity.EntityToChannel        ());
+                AreEqual(c.channel,         () => channelEntity.ChannelEntityToChannel ());
+                IsTrue (                    () => channelEntity.IsStereo               ());
+                IsFalse(                    () => channelEntity.IsMono                 ());
+                AreEqual(StereoChannels,    () => channelEntity.Channels               ());
+                AreEqual(StereoChannels,    () => channelEntity.GetChannels            ());
+                AreEqual(StereoChannels,    () => channelEntity.ChannelEntityToChannels());
+                IsFalse(                    () => IsCenter               (channelEntity));
+                AreEqual(c.channel == 0,    () => IsLeft                 (channelEntity));
+                AreEqual(c.channel == 1,    () => IsRight                (channelEntity));
+                AreEqual(c.channel == null, () => IsAnyChannel           (channelEntity));
+                AreEqual(c.channel == null, () => IsEveryChannel         (channelEntity));
+                AreEqual(c.channel == null, () => IsNoChannel            (channelEntity));
+                AreEqual(c.channel,         () => Channel                (channelEntity));
+                AreEqual(c.channel,         () => GetChannel             (channelEntity));
+                AreEqual(c.channel,         () => EntityToChannel        (channelEntity));
+                AreEqual(c.channel,         () => ChannelEntityToChannel (channelEntity));
+                IsTrue (                    () => IsStereo               (channelEntity));
+                IsFalse(                    () => IsMono                 (channelEntity));
+                AreEqual(StereoChannels,    () => Channels               (channelEntity));
+                AreEqual(StereoChannels,    () => GetChannels            (channelEntity));
+                AreEqual(StereoChannels,    () => ChannelEntityToChannels(channelEntity));
+                IsFalse(                    () => ConfigWishes.IsCenter               (channelEntity));
+                AreEqual(c.channel == 0,    () => ConfigWishes.IsLeft                 (channelEntity));
+                AreEqual(c.channel == 1,    () => ConfigWishes.IsRight                (channelEntity));
+                AreEqual(c.channel == null, () => ConfigWishes.IsAnyChannel           (channelEntity));
+                AreEqual(c.channel == null, () => ConfigWishes.IsEveryChannel         (channelEntity));
+                AreEqual(c.channel == null, () => ConfigWishes.IsNoChannel            (channelEntity));
+                AreEqual(c.channel,         () => ConfigWishes.Channel                (channelEntity));
+                AreEqual(c.channel,         () => ConfigWishes.GetChannel             (channelEntity));
+                AreEqual(c.channel,         () => ConfigWishes.EntityToChannel        (channelEntity));
+                AreEqual(c.channel,         () => ConfigWishes.ChannelEntityToChannel (channelEntity));
+                IsTrue (                    () => ConfigWishes.IsStereo               (channelEntity));
+                IsFalse(                    () => ConfigWishes.IsMono                 (channelEntity));
+                AreEqual(StereoChannels,    () => ConfigWishes.Channels               (channelEntity));
+                AreEqual(StereoChannels,    () => ConfigWishes.GetChannels            (channelEntity));
+                AreEqual(StereoChannels,    () => ConfigWishes.ChannelEntityToChannels(channelEntity));
             }
+            // ncrunch: no coverage start
             else
             {
                 Fail($"Unsupported combination of values: {channelEntity?.ID} - {channelEntity?.Name}, {new{ c.channels, c.channel }}");
             }
+            // ncrunch: no coverage end
         }
         
         // Test Data Helpers
