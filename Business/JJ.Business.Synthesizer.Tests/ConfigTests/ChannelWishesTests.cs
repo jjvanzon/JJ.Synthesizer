@@ -1386,14 +1386,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                               if (val == (2,1)) AreEqual(x.TapeAction,  () => ConfigWishes.SetRight        (x.TapeAction  ));
                               if (val == (2,_)) AreEqual(x.TapeAction,  () => ConfigWishes.SetNoChannel    (x.TapeAction  )); });
         }
-                
+
         [TestMethod]
-        [DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(TransitionCases))]
         public void BuffBound_Channel(string caseKey)
         {
-            CaseStruct testCase = _caseDictionary[caseKey];
-            var init = testCase.init.coalesce;
-            var val  = testCase.val.coalesce;
+            Case testCase = Cases[caseKey];
+            var init = testCase.Init.Coalesced;
+            var val  = (channels: testCase.Val.Coalesced.channels.Value, testCase.Val.Coalesced.channel);
             IContext context = null;
 
             void AssertProp(Action<BuffBoundEntities> setter)
