@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
@@ -468,8 +467,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToAnyChannel(this ChannelEnum oldChannelEnum) => ConfigWishes.ToAnyChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToEveryChannel(this ChannelEnum oldChannelEnum) => ConfigWishes.ToEveryChannel(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannelsEmpty(this ChannelEnum oldChannelEnum) => ConfigWishes.ToChannelsEmpty(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToCenter(this ChannelEnum oldChannelEnum) => ConfigWishes.ToCenter(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
@@ -1159,8 +1156,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToAnyChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToEveryChannel(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
-        [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannelsEmpty(ChannelEnum oldChannelEnum) => SetNoChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToCenter(ChannelEnum oldChannelEnum) => SetCenter(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
