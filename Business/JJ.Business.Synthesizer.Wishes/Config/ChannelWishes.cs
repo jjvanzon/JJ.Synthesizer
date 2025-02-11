@@ -420,6 +420,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? EnumToChannel (this ChannelEnum enumValue) => ConfigWishes.EnumToChannel (enumValue);
 
         /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum AnyChannel(this ChannelEnum oldChannelEnum) => ConfigWishes.AnyChannel(oldChannelEnum);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static ChannelEnum EveryChannel(this ChannelEnum oldChannelEnum) => ConfigWishes.EveryChannel(oldChannelEnum);
+        /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum NoChannel(this ChannelEnum oldChannelEnum) => ConfigWishes.NoChannel(oldChannelEnum);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Center(this ChannelEnum oldChannelEnum) => ConfigWishes.Center(oldChannelEnum);
@@ -500,6 +504,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int? GetChannel     (this Channel entity) => ConfigWishes.GetChannel     (entity);
         [Obsolete(ObsoleteMessage)] public static int? EntityToChannel(this Channel entity) => ConfigWishes.EntityToChannel(entity);
         
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel AnyChannel(this Channel oldChannelEntity) => ConfigWishes.AnyChannel(oldChannelEntity);
+        /// <inheritdoc cref="docs._quasisetter" />
+        [Obsolete(ObsoleteMessage)] public static Channel EveryChannel(this Channel oldChannelEntity) => ConfigWishes.EveryChannel(oldChannelEntity);
         /// <inheritdoc cref="docs._quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel NoChannel(this Channel oldChannelEntity) => ConfigWishes.NoChannel(oldChannelEntity);
         /// <inheritdoc cref="docs._quasisetter" />
