@@ -1806,7 +1806,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => { if (val == (1,0)) return channelEnum.AsCenter        ();
                                    if (val == (2,0)) return channelEnum.AsLeft          ();
                                    if (val == (2,1)) return channelEnum.AsRight         ();
-                                   if (val == (2,_)) return channelEnum.AsNoChannel     (); return default; });
+                                   if (val == (2,_)) return channelEnum.AsEveryChannel  (); return default; });
                 AssertProp(() => { if (val == (1,0)) return channelEnum.AsCenter        ();
                                    if (val == (2,0)) return channelEnum.AsLeft          ();
                                    if (val == (2,1)) return channelEnum.AsRight         ();
