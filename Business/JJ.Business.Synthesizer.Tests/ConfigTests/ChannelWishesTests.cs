@@ -1732,12 +1732,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         [TestMethod]
-        [DynamicData(nameof(CaseKeys))]
+        [DynamicData(nameof(TransitionCases))]
         public void Immutables_Channel(string caseKey)
         {
-            CaseStruct testCase = _caseDictionary[caseKey];
-            var init = testCase.init.coalesce;
-            var val  = testCase.val.coalesce;
+            Case testCase = Cases[caseKey];
+            var init = testCase.Init.Coalesced;
+            var val  = (channels: testCase.Val.Coalesced.channels.Value, testCase.Val.Coalesced.channel);
             var x = CreateTestEntities(init);
             
             // ChannelEnum
