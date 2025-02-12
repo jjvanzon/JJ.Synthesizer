@@ -25,3 +25,25 @@
 
                 AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SamplingRate  (testCase.SamplingRate)));
                 AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SamplingRate  (testCase.SamplingRate)));
+
+            public CaseProp<int> Frames => this;
+            public CaseProp<double> Len         { get => AudioLength; set => AudioLength = value; }
+            public CaseProp<double> Duration    { get => AudioLength; set => AudioLength = value; }
+            public CaseProp<double> seconds     { get => AudioLength; set => AudioLength = value; }
+
+
+            AreEqual(test.FrameCount.Coalesced, FrameCountFromAudioLength(test.AudioLength, test.SamplingRate, test.CourtesyFrames), delta: 1);
+
+            //AreEqual(test.FrameCount.Coalesced, () => FrameCountFromAudioLength(test.AudioLength, test.SamplingRate, test.CourtesyFrames), Tolerance);
+            //AreEqual(test.FrameCount.Coalesced, FrameCountFromAudioLength(test.AudioLength, test.SamplingRate, test.CourtesyFrames), Tolerance);
+
+            Case   test = Cases[caseKey];
+            double len  = test.AudioLength;
+            int    Hz   = test.SamplingRate;
+            int    plus = test.CourtesyFrames;
+            int    frameCount;
+            
+            frameCount = FrameCountFromAudioLength(len, Hz, plus); AreEqual(test.FrameCount, () => frameCount, delta: -1);
+            frameCount = GetFrameCount            (len, Hz, plus); AreEqual(test.FrameCount, () => frameCount, delta: -1);
+            frameCount = ToFrameCount             (len, Hz, plus); AreEqual(test.FrameCount, () => frameCount, delta: -1);
+            frameCount = FrameCount               (len, Hz, plus); AreEqual(test.FrameCount, () => frameCount, delta: -1);

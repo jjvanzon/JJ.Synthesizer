@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Framework.Testing;
 using JJ.Framework.Wishes.Testing;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
@@ -42,7 +43,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount => this;
-            public CaseProp<int> Frames => this;
             
             // SamplingRate: Scales FrameCount
             public CaseProp<int> SamplingRate { get; set; }
@@ -57,9 +57,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // AudioLength: Scales FrameCount + FrameCount setters adjust AudioLength.
             public CaseProp<double> AudioLength { get; set; }
             public CaseProp<double> Length      { get => AudioLength; set => AudioLength = value; }
-            public CaseProp<double> Len         { get => AudioLength; set => AudioLength = value; }
-            public CaseProp<double> Duration    { get => AudioLength; set => AudioLength = value; }
-            public CaseProp<double> seconds     { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> sec         { get => AudioLength; set => AudioLength = value; }
 
             // Constructors
@@ -322,25 +319,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 }
             });
         }
- 
-        [TestMethod]
-        public void FrameCount_EdgeCases()
-        {
-            ThrowsException_OrInnerException<Exception>(
-                () => CreateTestEntities(
-                    new Case(frameCount: -1)), 
-                    "FrameCount -1 below 0.");
-            
-            ThrowsException_OrInnerException<Exception>(
-                () => CreateTestEntities(
-                    new Case(frameCount:  0) { CourtesyFrames = 2 }), 
-                    "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
-            
-            ThrowsException_OrInnerException<Exception>(
-                () => CreateTestEntities(
-                    new Case(frameCount:  2) { CourtesyFrames = 2, AudioLength = 0 }), 
-                    "Duration is not above 0.");
-        }
         
         [TestMethod]
         [DynamicData(nameof(InitCases))]
@@ -350,9 +328,38 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var x = CreateTestEntities(testCase);
             Assert_All_Getters(x, testCase);
         }
+        
+        static object ConversionFormulaCases => new CaseCollection<Case>() // ncrunch: no coverage
+            //.Concat(BasicCases)
+            .Concat(AudioLengthCases)
+            .Concat(SamplingRateCases)
+            .Concat(CourtesyFramesCases);
 
-        static object SynthBoundCases => Empty<object[]>() // ncrunch: no coverage
-            .Concat(BasicCases)
+        [TestMethod]
+        [DynamicData(nameof(ConversionFormulaCases))]
+        public void ConversionFormula_FrameCount(string caseKey)
+        {
+            Case   test = Cases[caseKey];
+            double len  = test.AudioLength;
+            int    Hz   = test.SamplingRate;
+            int    plus = test.CourtesyFrames;
+            
+            AreEqual(test.FrameCount, () =>              len.FrameCountFromAudioLength (Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () =>              len.GetFrameCount             (Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () =>              len.ToFrameCount              (Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () =>              len.FrameCount                (Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () =>              FrameCountFromAudioLength(len, Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () =>              GetFrameCount            (len, Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () =>              ToFrameCount             (len, Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () =>              FrameCount               (len, Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () => ConfigWishes.FrameCountFromAudioLength(len, Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () => ConfigWishes.GetFrameCount            (len, Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () => ConfigWishes.ToFrameCount             (len, Hz, plus), delta: -1);
+            AreEqual(test.FrameCount, () => ConfigWishes.FrameCount               (len, Hz, plus), delta: -1);
+        }
+
+        static object SynthBoundCases => 
+            BasicCases // ncrunch: no coverage
             .Concat(AudioLengthCases)
             .Concat(SamplingRateCases)
             .Concat(CourtesyFramesCases)
@@ -698,6 +705,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(DefaultAudioLength * DefaultSamplingRate + DefaultCourtesyFrames, () => DefaultFrameCount);
         }
         
+        [TestMethod]
+        public void FrameCount_EdgeCases()
+        {
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount: -1)), 
+                    "FrameCount -1 below 0.");
+            
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount:  0) { CourtesyFrames = 2 }), 
+                    "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
+            
+            ThrowsException_OrInnerException<Exception>(
+                () => CreateTestEntities(
+                    new Case(frameCount:  2) { CourtesyFrames = 2, AudioLength = 0 }), 
+                    "Duration is not above 0.");
+        }
+
         // Getter Helpers
         
         private void Assert_All_Getters(ConfigTestEntities x, int frameCount)

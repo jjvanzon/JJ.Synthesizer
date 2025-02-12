@@ -136,6 +136,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => ConfigWishes.FrameCount(audioLength, samplingRate, courtesyFrames);
         public static int ToFrameCount(this double audioLength, int samplingRate, int courtesyFrames) 
             => ConfigWishes.FrameCount(audioLength, samplingRate, courtesyFrames);
+        public static int GetFrameCount(this double audioLength, int samplingRate, int courtesyFrames) 
+            => ConfigWishes.FrameCount(audioLength, samplingRate, courtesyFrames);
         public static int FrameCountFromAudioLength(this double audioLength, int samplingRate, int courtesyFrames) 
             => ConfigWishes.FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
         
@@ -420,6 +422,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // From AudioLength
         
         public static int FrameCount(double audioLength, int samplingRate, int courtesyFrames)
+            => FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
+        public static int GetFrameCount(double audioLength, int samplingRate, int courtesyFrames)
             => FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
         public static int ToFrameCount(double audioLength, int samplingRate, int courtesyFrames)
             => FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
