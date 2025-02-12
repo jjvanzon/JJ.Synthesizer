@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
@@ -24,13 +25,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameSize(this FlowNode obj) => ConfigWishes.FrameSize(obj);
         public static int GetFrameSize(this FlowNode obj) => ConfigWishes.GetFrameSize(obj);
         
-        internal static int FrameSize(this ConfigResolver obj) => ConfigWishes.FrameSize(obj);
-        internal static int GetFrameSize(this ConfigResolver obj) => ConfigWishes.GetFrameSize(obj);
+        [UsedImplicitly] internal static int FrameSize(this ConfigResolver obj) => ConfigWishes.FrameSize(obj);
+        [UsedImplicitly] internal static int GetFrameSize(this ConfigResolver obj) => ConfigWishes.GetFrameSize(obj);
 
         // Global-Bound
 
-        internal static int? FrameSize(this ConfigSection obj) => ConfigWishes.FrameSize(obj);
-        internal static int? GetFrameSize(this ConfigSection obj) => ConfigWishes.GetFrameSize(obj);
+        [UsedImplicitly] internal static int? FrameSize(this ConfigSection obj) => ConfigWishes.FrameSize(obj);
+        [UsedImplicitly] internal static int? GetFrameSize(this ConfigSection obj) => ConfigWishes.GetFrameSize(obj);
 
         // Tape-Bound
 
@@ -201,6 +202,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             return GetFrameSize(entities.sampleDataType.Bits(), entities.speakerSetup.Channels());
         }
+
+        
+        [Obsolete(ObsoleteMessage)]
+        public static int FrameSize(SampleDataType sampleDataType, SpeakerSetup speakerSetup) => GetFrameSize(sampleDataType, speakerSetup);
+        [Obsolete(ObsoleteMessage)]
+        public static int ToFrameSize(SampleDataType sampleDataType, SpeakerSetup speakerSetup) => GetFrameSize(sampleDataType, speakerSetup);
+        [Obsolete(ObsoleteMessage)]
+        public static int GetFrameSize(SampleDataType sampleDataType, SpeakerSetup speakerSetup)
+        {
+            return GetFrameSize(sampleDataType.Bits(), speakerSetup.Channels());
+        }
         
         [Obsolete(ObsoleteMessage)]
         public static int FrameSize((SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums) => GetFrameSize(enums);
@@ -210,6 +222,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int GetFrameSize((SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) enums)
         {
             return GetFrameSize(enums.sampleDataTypeEnum.Bits(), enums.speakerSetupEnum.Channels());
+        }
+
+        
+        [Obsolete(ObsoleteMessage)]
+        public static int FrameSize(SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) => GetFrameSize(sampleDataTypeEnum, speakerSetupEnum);
+        [Obsolete(ObsoleteMessage)]
+        public static int ToFrameSize(SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum) => GetFrameSize(sampleDataTypeEnum, speakerSetupEnum);
+        [Obsolete(ObsoleteMessage)]
+        public static int GetFrameSize(SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum)
+        {
+            return GetFrameSize(sampleDataTypeEnum.Bits(), speakerSetupEnum.Channels());
         }
         
         // Conversion Formula

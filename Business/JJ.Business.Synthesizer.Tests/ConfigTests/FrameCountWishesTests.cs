@@ -299,6 +299,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case(frameCount:  500+5) { ByteCount = 4000+40 + WavHeaderLength, Plus = 5 },
             new Case(frameCount:  500+3) { ByteCount = 2000+12 + WavHeaderLength, Bits = 16,    FrameSize = 4 },
             new Case(frameCount:  500+3) { ByteCount = 2000+12 + WavHeaderLength, Channels = 1, FrameSize = 4 }
+            // TODO: Set HeaderLength to 0, but 0 gets overwritten by 44 from the template.
+            // Add again when CaseCollection supports clean syntax for multiple templates in a single collection.
         );
 
         // ncrunch: no coverage end
