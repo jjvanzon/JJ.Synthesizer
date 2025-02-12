@@ -414,25 +414,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             double audioLength = AudioLengthFromFrameCount(value, obj.SamplingRate(), courtesyFrames);
             return obj.AudioLength(audioLength, courtesyFrames);
         }
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         // Conversion Formulas
 
