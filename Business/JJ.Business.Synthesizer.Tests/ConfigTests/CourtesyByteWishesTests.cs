@@ -323,10 +323,40 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes     (courtesyFrames, frameSize));
             AreEqual(courtesyBytes, () => ConfigWishes.ToCourtesyBytes      (courtesyFrames, frameSize));
             AreEqual(courtesyBytes, () => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize));
+            AreEqual(courtesyFrames, () => courtesyBytes.CourtesyFrames       (frameSize));
+            AreEqual(courtesyFrames, () => courtesyBytes.GetCourtesyFrames    (frameSize));
+            AreEqual(courtesyFrames, () => courtesyBytes.ToCourtesyFrames     (frameSize));
+            AreEqual(courtesyFrames, () => courtesyBytes.CourtesyBytesToFrames(frameSize));
+            AreEqual(courtesyFrames, () => CourtesyFrames       (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, () => GetCourtesyFrames    (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, () => ToCourtesyFrames     (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, () => CourtesyBytesToFrames(courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyFrames       (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, () => ConfigWishes.GetCourtesyFrames    (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, () => ConfigWishes.ToCourtesyFrames     (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize));
             
+            // TODO: These touch the nully overloads, but don't actually test nully values.
             Assert_Immutable_Getters((int?)courtesyFrames,       frameSize,       courtesyBytes);
+            Assert_Immutable_Getters((int?)courtesyFrames,       frameSize, (int?)courtesyBytes);
             Assert_Immutable_Getters((int?)courtesyFrames, (int?)frameSize,       courtesyBytes);
             Assert_Immutable_Getters((int?)courtesyFrames, (int?)frameSize, (int?)courtesyBytes);
+        }
+        
+        private void Assert_Immutable_Getters(int? courtesyFrames, int frameSize, int?courtesyBytes)
+        {
+            AreEqual(courtesyFrames, courtesyBytes.CourtesyFrames       (frameSize));
+            AreEqual(courtesyFrames, courtesyBytes.GetCourtesyFrames    (frameSize));
+            AreEqual(courtesyFrames, courtesyBytes.ToCourtesyFrames     (frameSize));
+            AreEqual(courtesyFrames, courtesyBytes.CourtesyBytesToFrames(frameSize));
+            AreEqual(courtesyFrames, CourtesyFrames       (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, GetCourtesyFrames    (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ToCourtesyFrames     (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, CourtesyBytesToFrames(courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyFrames       (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.GetCourtesyFrames    (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.ToCourtesyFrames     (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize));
         }
         
         private void Assert_Immutable_Getters(int? courtesyFrames, int frameSize, int courtesyBytes)
