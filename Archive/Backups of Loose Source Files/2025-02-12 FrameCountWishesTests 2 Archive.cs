@@ -47,3 +47,5 @@
             frameCount = GetFrameCount            (len, Hz, plus); AreEqual(test.FrameCount, () => frameCount, delta: -1);
             frameCount = ToFrameCount             (len, Hz, plus); AreEqual(test.FrameCount, () => frameCount, delta: -1);
             frameCount = FrameCount               (len, Hz, plus); AreEqual(test.FrameCount, () => frameCount, delta: -1);
+
+            //new Case(frameCount:  500+3) { ByteCount = 4000+24                  , HeaderLength = { Nully = 0, Coalesced = 0 } }

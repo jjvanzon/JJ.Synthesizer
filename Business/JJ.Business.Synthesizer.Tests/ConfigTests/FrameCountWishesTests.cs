@@ -39,7 +39,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         internal class Case : CaseBase<int>
         {
             public override IList<object> KeyElements 
-                => new object[] { Name, "~", Descriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"), ")" };
+                => new object[] { Name, "~", Descriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"),
+                                  ByteCount, Bits, Channels, FrameSize, HeaderLength, ")" };
 
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
             public CaseProp<int> FrameCount => this;
@@ -287,6 +288,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Reference case without nullies
             new Case { From = 480+3, To = 480+3, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
+        
+        static CaseCollection<Case> ConversionFormulaCases { get; } = Cases.FromTemplate(new Case
+
+            { AudioLength = 0.01, Bits = 32, Channels = 2, FrameSize = 8, Hertz = 50000, Plus = 3, HeaderLength = WavHeaderLength },
+
+            new Case(frameCount:  500+3) { ByteCount = 4000+24 + WavHeaderLength },
+            new Case(frameCount:  550+3) { ByteCount = 4400+24 + WavHeaderLength, AudioLength = 0.011 },
+            new Case(frameCount: 1000+3) { ByteCount = 8000+24 + WavHeaderLength, Hertz = 100000 },
+            new Case(frameCount:  500+5) { ByteCount = 4000+40 + WavHeaderLength, Plus = 5 },
+            new Case(frameCount:  500+3) { ByteCount = 2000+12 + WavHeaderLength, Bits = 16,    FrameSize = 4 },
+            new Case(frameCount:  500+3) { ByteCount = 2000+12 + WavHeaderLength, Channels = 1, FrameSize = 4 }
+        );
 
         // ncrunch: no coverage end
         
@@ -335,28 +348,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var x = CreateTestEntities(testCase);
             Assert_All_Getters(x, testCase);
         }
-        
-        static CaseCollection<Case> ConversionFormulaCases { get; } = Cases.FromTemplate(new Case
-
-            { AudioLength = 0.01, Bits = 32, Channels = 2, FrameSize = 8, Hz = 40000, PlusFrames = 3, HeaderLength = WavHeaderLength },
-
-            new Case(frameCount: 400+3) { ByteCount = 3200+24 + WavHeaderLength }
-        );
 
         [TestMethod]
         [DynamicData(nameof(ConversionFormulaCases))]
-        public void ConversionFormula_FrameCount_FromAudioLength(string caseKey)
+        public void ConversionFormula_FrameCount(string caseKey)
         {
-            Case   test = Cases[caseKey];
-            double len  = test.AudioLength;
-            int    Hz   = test.SamplingRate;
-            int    plus = test.CourtesyFrames;
-            int  frameCount   = test.FrameCount;
-            int  byteCount    = test.ByteCount;
-            int  bits         = test.Bits;
-            int  channels     = test.Channels;
-            int  frameSize    = FrameSize(bits, channels);
-            int  headerLength = test.HeaderLength;
+            Case   test         = Cases[caseKey];
+            int    frameCount   = test.FrameCount;
+            double len          = test.AudioLength;
+            int    Hz           = test.SamplingRate;
+            int    plus         = test.CourtesyFrames;
+            int    byteCount    = test.ByteCount;
+            int    bits         = test.Bits;
+            int    channels     = test.Channels;
+            int    frameSize    = FrameSize(bits, channels);
+            int    headerLength = test.HeaderLength;
 
             AreEqual(frameCount, () =>              len.FrameCountFromAudioLength (Hz, plus), Tolerance);
             AreEqual(frameCount, () =>              len.GetFrameCount             (Hz, plus), Tolerance);
@@ -370,19 +376,30 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(frameCount, () => ConfigWishes.GetFrameCount            (len, Hz, plus), Tolerance);
             AreEqual(frameCount, () => ConfigWishes.ToFrameCount             (len, Hz, plus), Tolerance);
             AreEqual(frameCount, () => ConfigWishes.FrameCount               (len, Hz, plus), Tolerance);
-
-            AreEqual(frameCount, () =>              byteCount.FrameCountFromByteCount (frameSize, headerLength));
-            AreEqual(frameCount, () =>              byteCount.GetFrameCount           (frameSize, headerLength));
-            AreEqual(frameCount, () =>              byteCount.ToFrameCount            (frameSize, headerLength));
-            AreEqual(frameCount, () =>              byteCount.FrameCount              (frameSize, headerLength));
-            AreEqual(frameCount, () =>              FrameCountFromByteCount(byteCount, frameSize, headerLength));
-            AreEqual(frameCount, () =>              GetFrameCount          (byteCount, frameSize, headerLength));
-            AreEqual(frameCount, () =>              ToFrameCount           (byteCount, frameSize, headerLength));
-            AreEqual(frameCount, () =>              FrameCount             (byteCount, frameSize, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.FrameCountFromByteCount(byteCount, frameSize, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount          (byteCount, frameSize, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.ToFrameCount           (byteCount, frameSize, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.FrameCount             (byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () =>              byteCount.FrameCountFromByteCount (bits, channels, headerLength));
+            AreEqual(frameCount, () =>              byteCount.GetFrameCount           (bits, channels, headerLength));
+            AreEqual(frameCount, () =>              byteCount.ToFrameCount            (bits, channels, headerLength));
+            AreEqual(frameCount, () =>              byteCount.FrameCount              (bits, channels, headerLength));
+            AreEqual(frameCount, () =>              FrameCountFromByteCount(byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () =>              GetFrameCount          (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () =>              ToFrameCount           (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () =>              FrameCount             (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.FrameCountFromByteCount(byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.GetFrameCount          (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.ToFrameCount           (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.FrameCount             (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, () =>              byteCount.FrameCountFromByteCount (frameSize,      headerLength));
+            AreEqual(frameCount, () =>              byteCount.GetFrameCount           (frameSize,      headerLength));
+            AreEqual(frameCount, () =>              byteCount.ToFrameCount            (frameSize,      headerLength));
+            AreEqual(frameCount, () =>              byteCount.FrameCount              (frameSize,      headerLength));
+            AreEqual(frameCount, () =>              FrameCountFromByteCount(byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, () =>              GetFrameCount          (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, () =>              ToFrameCount           (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, () =>              FrameCount             (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, () => ConfigWishes.FrameCountFromByteCount(byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, () => ConfigWishes.GetFrameCount          (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, () => ConfigWishes.ToFrameCount           (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, () => ConfigWishes.FrameCount             (byteCount, frameSize,      headerLength));
         }
 
 
