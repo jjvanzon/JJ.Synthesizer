@@ -10,13 +10,15 @@ using JJ.Framework.Wishes.Common;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-
+// ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
+#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
@@ -57,38 +59,45 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, CoalesceFileExtension(val.fileExtension));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .FileExtension  (val.fileExtension)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .FileExtension  (val.fileExtension)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.FileExtension  (val.fileExtension)));
-
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,          x.SynthBound.SynthWishes   .AudioFormat    (val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,             x.SynthBound.FlowNode      .AudioFormat    (val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.AudioFormat    (val.audioFormat)));
-                                                                      
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,          x.SynthBound.SynthWishes   .WithAudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,             x.SynthBound.FlowNode      .WithAudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.WithAudioFormat(val.audioFormat)));
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw      ) AreEqual(x.SynthBound.SynthWishes  , () => x.SynthBound.SynthWishes.AsRaw());
-                if (val.audioFormat == Wav      ) AreEqual(x.SynthBound.SynthWishes  , () => x.SynthBound.SynthWishes.AsWav()); 
-                if (val.audioFormat == Undefined) AreEqual(x.SynthBound.SynthWishes  ,       x.SynthBound.SynthWishes.AudioFormat(Undefined)); 
-                if (val.audioFormat == 0        ) AreEqual(x.SynthBound.SynthWishes  ,       x.SynthBound.SynthWishes.AudioFormat(0));
-                if (val.audioFormat == null     ) AreEqual(x.SynthBound.SynthWishes  ,       x.SynthBound.SynthWishes.AudioFormat(null)); });
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw      ) AreEqual(x.SynthBound.FlowNode     , () => x.SynthBound.FlowNode   .AsRaw());
-                if (val.audioFormat == Wav      ) AreEqual(x.SynthBound.FlowNode     , () => x.SynthBound.FlowNode   .AsWav());
-                if (val.audioFormat == Undefined) AreEqual(x.SynthBound.FlowNode     ,       x.SynthBound.FlowNode   .AudioFormat(Undefined)); 
-                if (val.audioFormat == 0        ) AreEqual(x.SynthBound.FlowNode     ,       x.SynthBound.FlowNode   .AudioFormat(0));
-                if (val.audioFormat == null     ) AreEqual(x.SynthBound.FlowNode     ,       x.SynthBound.FlowNode   .AudioFormat(null));});
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw      ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsRaw());
-                if (val.audioFormat == Wav      ) AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsWav());
-                if (val.audioFormat == Undefined) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.AudioFormat(Undefined));
-                if (val.audioFormat == 0        ) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.AudioFormat(0));
-                if (val.audioFormat == null     ) AreEqual(x.SynthBound.ConfigResolver,       x.SynthBound.ConfigResolver.AudioFormat(null)); });
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .FileExtension    (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .FileExtension    (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.FileExtension    (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .WithFileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .WithFileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.WithFileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .AsFileExtension  (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .AsFileExtension  (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.AsFileExtension  (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .SetFileExtension (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .SetFileExtension (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.SetFileExtension (val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => FileExtension    (x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => FileExtension    (x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => FileExtension    (x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => WithFileExtension(x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => WithFileExtension(x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => WithFileExtension(x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => AsFileExtension  (x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => AsFileExtension  (x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => AsFileExtension  (x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => SetFileExtension (x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => SetFileExtension (x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => SetFileExtension (x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => ConfigWishes        .FileExtension    (x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => ConfigWishes        .FileExtension    (x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => ConfigWishesAccessor.FileExtension    (x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => ConfigWishes        .WithFileExtension(x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => ConfigWishes        .WithFileExtension(x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => ConfigWishesAccessor.WithFileExtension(x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => ConfigWishes        .AsFileExtension  (x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => ConfigWishes        .AsFileExtension  (x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => ConfigWishesAccessor.AsFileExtension  (x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => ConfigWishes        .SetFileExtension (x.SynthBound.SynthWishes   , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => ConfigWishes        .SetFileExtension (x.SynthBound.FlowNode      , val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => ConfigWishesAccessor.SetFileExtension (x.SynthBound.ConfigResolver, val.fileExtension)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .SetAudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .SetAudioFormat(val.audioFormat)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.SetAudioFormat(val.audioFormat)));
         }
 
         [TestMethod] 
@@ -115,32 +124,55 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init.fileExtension); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape.FileExtension(val.fileExtension)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig.FileExtension(val.fileExtension)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FileExtension(val.fileExtension)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.FileExtension(val.fileExtension)));
-
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape.AudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig.AudioFormat(val.audioFormat)));
-            AssertProp(x =>                                         x.TapeBound.TapeConfig.AudioFormat = val.audioFormat);
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.AudioFormat(val.audioFormat)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.AudioFormat(val.audioFormat)));
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.AsWav()); });
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.AsWav()); });
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.AsWav()); });
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.AsRaw());
-                if (val.audioFormat == Wav) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.AsWav()); });
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .FileExtension    (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .FileExtension    (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FileExtension    (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .FileExtension    (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .AsFileExtension  (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .AsFileExtension  (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.AsFileExtension  (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .AsFileExtension  (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithFileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithFileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithFileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .WithFileExtension(val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetFileExtension (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetFileExtension (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetFileExtension (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetFileExtension (val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => FileExtension    (x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => FileExtension    (x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => FileExtension    (x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => FileExtension    (x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => AsFileExtension  (x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => AsFileExtension  (x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => AsFileExtension  (x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => AsFileExtension  (x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => WithFileExtension(x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => WithFileExtension(x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => WithFileExtension(x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => WithFileExtension(x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SetFileExtension (x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SetFileExtension (x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SetFileExtension (x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SetFileExtension (x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.FileExtension    (x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.FileExtension    (x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.FileExtension    (x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.FileExtension    (x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.AsFileExtension  (x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.AsFileExtension  (x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.AsFileExtension  (x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.AsFileExtension  (x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.WithFileExtension(x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.WithFileExtension(x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.WithFileExtension(x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.WithFileExtension(x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SetFileExtension (x.TapeBound.Tape       , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetFileExtension (x.TapeBound.TapeConfig , val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetFileExtension (x.TapeBound.TapeActions, val.fileExtension)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetFileExtension (x.TapeBound.TapeAction , val.fileExtension)));
+            AssertProp(x => x.TapeBound.TapeConfig.AudioFormat = val.audioFormat);
         }
         
         [TestMethod]
@@ -167,19 +199,32 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init.fileExtension);
             }
 
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.FileExtension(val.fileExtension, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.FileExtension(val.fileExtension, x.SynthBound.Context)));
-
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.AudioFormat(val.audioFormat, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AudioFormat(val.audioFormat, x.SynthBound.Context)));
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.AsRaw(x.SynthBound.Context));
-                if (val.audioFormat == Wav) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.AsWav(x.SynthBound.Context)); });
-            
-            AssertProp(x => {
-                if (val.audioFormat == Raw) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AsRaw(x.SynthBound.Context));
-                if (val.audioFormat == Wav) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AsWav(x.SynthBound.Context)); });
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .FileExtension    (val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.FileExtension    (val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .WithFileExtension(val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithFileExtension(val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .AsFileExtension  (val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AsFileExtension  (val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetFileExtension (val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetFileExtension (val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => FileExtension    (x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => FileExtension    (x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => WithFileExtension(x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => WithFileExtension(x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => AsFileExtension  (x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => AsFileExtension  (x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => SetFileExtension (x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => SetFileExtension (x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.FileExtension    (x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.FileExtension    (x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.WithFileExtension(x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.WithFileExtension(x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.AsFileExtension  (x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.AsFileExtension  (x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SetFileExtension (x.BuffBound.Buff           , val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SetFileExtension (x.BuffBound.AudioFileOutput, val.fileExtension, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
         }
 
         [TestMethod]
@@ -210,12 +255,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init.fileExtension);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.FileExtension(val.fileExtension, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.AudioFormat(val.audioFormat, x.SynthBound.Context)));
-                
-                AssertProp(() => {
-                    if (val.audioFormat == Raw) AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsRaw(x.SynthBound.Context));
-                    if (val.audioFormat == Wav) AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsWav(x.SynthBound.Context)); });
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.FileExtension    (val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithFileExtension(val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.AsFileExtension  (val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetFileExtension (val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => FileExtension    (x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => WithFileExtension(x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => AsFileExtension  (x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => SetFileExtension (x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.FileExtension    (x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.WithFileExtension(x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.AsFileExtension  (x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SetFileExtension (x.Independent.Sample, val.fileExtension, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
             }
         }
         
@@ -244,12 +296,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     audioFormats.Add(audioFormat2);
                 }
 
-                AssertProp(() => x.Immutable.AudioFormat.FileExtension(val.fileExtension));
+                AssertProp(() => x.Immutable.AudioFormat.FileExtension    (val.fileExtension));
+                AssertProp(() => x.Immutable.AudioFormat.WithFileExtension(val.fileExtension));
+                AssertProp(() => x.Immutable.AudioFormat.AsFileExtension  (val.fileExtension));
+                AssertProp(() => x.Immutable.AudioFormat.SetFileExtension (val.fileExtension));
+                AssertProp(() => x.Immutable.AudioFormat.ToFileExtension  (val.fileExtension));
                 AssertProp(() => val.fileExtension.FileExtensionToAudioFormat());
+                AssertProp(() => FileExtension    (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => WithFileExtension(x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => AsFileExtension  (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => SetFileExtension (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => ToFileExtension  (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => FileExtensionToAudioFormat(val.fileExtension));
+                AssertProp(() => ConfigWishes.FileExtension    (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => ConfigWishes.WithFileExtension(x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => ConfigWishes.AsFileExtension  (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => ConfigWishes.SetFileExtension (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => ConfigWishes.ToFileExtension (x.Immutable.AudioFormat, val.fileExtension));
+                AssertProp(() => ConfigWishes.FileExtensionToAudioFormat(val.fileExtension));
                 
-                AssertProp(() => x.Immutable.AudioFormat.AudioFormat(val.audioFormat));
-                AssertProp(() => val.audioFormat.AudioFormat());
-                AssertProp(() => val.audioFormat == Raw ? x.Immutable.AudioFormat.AsRaw() : x.Immutable.AudioFormat.AsWav());
+                AssertProp(() => x.Immutable.AudioFormat.SetAudioFormat(val.audioFormat));
             }
 
             // AudioFormat Entity
@@ -268,11 +334,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     audioFormatEntities.Add(audioFormatEntity2);
                 }
                 
-                AssertProp(() => x.Immutable.AudioFormatEntity.FileExtension(val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.FileExtension    (val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.WithFileExtension(val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.AsFileExtension  (val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.ToFileExtension  (val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.SetFileExtension (val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => FileExtension    (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => WithFileExtension(x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => AsFileExtension  (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => ToFileExtension  (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => SetFileExtension (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.FileExtension    (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.WithFileExtension(x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.AsFileExtension  (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.ToFileExtension  (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.SetFileExtension (x.Immutable.AudioFormatEntity, val.fileExtension, x.SynthBound.Context));
                 
-                AssertProp(() => x.Immutable.AudioFormatEntity.AudioFormat(val.audioFormat, x.SynthBound.Context));
-                AssertProp(() => val.audioFormat.ToEntity(x.SynthBound.Context));
-                AssertProp(() => val.audioFormat == Raw ? x.Immutable.AudioFormatEntity.AsRaw(x.SynthBound.Context) : x.Immutable.AudioFormatEntity.AsWav(x.SynthBound.Context));
+                AssertProp(() => x.Immutable.AudioFormatEntity.SetAudioFormat(val.audioFormat, x.SynthBound.Context));
             }
             
             // After-Record
@@ -287,20 +365,35 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod] 
+        public void Default_FileExtension()
+        {
+            AreEqual(".wav", () => DefaultAudioFormat.FileExtension   ());
+            AreEqual(".wav", () => DefaultAudioFormat.GetFileExtension());
+            AreEqual(".wav", () => FileExtension   (DefaultAudioFormat));
+            AreEqual(".wav", () => GetFileExtension(DefaultAudioFormat));
+            AreEqual(".wav", () => ConfigWishes.FileExtension   (DefaultAudioFormat));
+            AreEqual(".wav", () => ConfigWishes.GetFileExtension(DefaultAudioFormat));
+        }
+        
+        [TestMethod] 
         public void ConfigSection_FileExtension()
         {
-            // Synth-Bound. Immutable. Get-only.
             var x = CreateTestEntities(default);
             var configSection = x.SynthBound.ConfigSection;
-            AreEqual(".wav", () => DefaultAudioFormat.FileExtension());
-            AreEqual(DefaultAudioFormat.FileExtension(), () => configSection.FileExtension());
+            AreEqual(DefaultAudioFormat.FileExtension(), () => configSection.FileExtension   ());
+            AreEqual(DefaultAudioFormat.FileExtension(), () => configSection.GetFileExtension());
+            AreEqual(DefaultAudioFormat.FileExtension(), () => FileExtension   (configSection));
+            AreEqual(DefaultAudioFormat.FileExtension(), () => GetFileExtension(configSection));
+            AreEqual(DefaultAudioFormat.FileExtension(), () => ConfigWishesAccessor.FileExtension   (configSection));
+            AreEqual(DefaultAudioFormat.FileExtension(), () => ConfigWishesAccessor.GetFileExtension(configSection));
         }
         
         [TestMethod]
         public void FileExtension_EdgeCases()
         {
-            // For code coverage
             ThrowsException(() => ".abc".FileExtensionToAudioFormat());
+            ThrowsException(() => AudioFormatToFileExtension((AudioFileFormatEnum)(-1)));
+            IsNull(() => AudioFormatToFileExtension(Undefined));
         }
 
         // Getter Helpers
@@ -334,64 +427,117 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, string fileExtension)
         {
-            IsTrue(() => x.SynthBound.SynthWishes.FileExtension().Is(fileExtension));
-            IsTrue(() => x.SynthBound.FlowNode.FileExtension().Is(fileExtension));
-            IsTrue(() => x.SynthBound.ConfigResolver.FileExtension().Is(fileExtension));
-            
-            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.SynthWishes.IsRaw());
-            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.SynthWishes.IsRaw);
-            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.FlowNode.IsRaw());
-            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.FlowNode.IsRaw);
-            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.ConfigResolver.IsRaw());
+            IsTrue(() => x.SynthBound.SynthWishes   .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.SynthBound.FlowNode      .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.SynthBound.ConfigResolver.FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.SynthBound.SynthWishes   .GetFileExtension().Is(fileExtension));
+            IsTrue(() => x.SynthBound.FlowNode      .GetFileExtension().Is(fileExtension));
+            IsTrue(() => x.SynthBound.ConfigResolver.GetFileExtension().Is(fileExtension));
+            IsTrue(() => FileExtension   (x.SynthBound.SynthWishes   ).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.SynthBound.FlowNode      ).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.SynthBound.ConfigResolver).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.SynthBound.SynthWishes   ).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.SynthBound.FlowNode      ).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.SynthBound.ConfigResolver).Is(fileExtension));
+            IsTrue(() => ConfigWishes        .FileExtension   (x.SynthBound.SynthWishes   ).Is(fileExtension));
+            IsTrue(() => ConfigWishes        .FileExtension   (x.SynthBound.FlowNode      ).Is(fileExtension));
+            IsTrue(() => ConfigWishesAccessor.FileExtension   (x.SynthBound.ConfigResolver).Is(fileExtension));
+            IsTrue(() => ConfigWishes        .GetFileExtension(x.SynthBound.SynthWishes   ).Is(fileExtension));
+            IsTrue(() => ConfigWishes        .GetFileExtension(x.SynthBound.FlowNode      ).Is(fileExtension));
+            IsTrue(() => ConfigWishesAccessor.GetFileExtension(x.SynthBound.ConfigResolver).Is(fileExtension));
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.SynthWishes   .IsRaw);
+            AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.FlowNode      .IsRaw);
             AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.ConfigResolver.IsRaw);
-            
-            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.SynthWishes.IsWav());
-            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.SynthWishes.IsWav);
-            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.FlowNode.IsWav());
-            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.FlowNode.IsWav);
-            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.ConfigResolver.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.SynthWishes   .IsWav);
+            AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.FlowNode      .IsWav);
             AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.ConfigResolver.IsWav);
         }
 
         private void Assert_TapeBound_Getters(ConfigTestEntities x, string fileExtension)
         {
-            IsTrue(() => x.TapeBound.Tape.FileExtension().Is(fileExtension));
-            IsTrue(() => x.TapeBound.TapeConfig.FileExtension().Is(fileExtension));
-            IsTrue(() => x.TapeBound.TapeActions.FileExtension().Is(fileExtension));
-            IsTrue(() => x.TapeBound.TapeAction.FileExtension().Is(fileExtension));
-            
-            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.Tape.IsRaw());
-            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeConfig.IsRaw());
+            IsTrue(() => x.TapeBound.Tape       .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeConfig .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeActions.FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeAction .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.TapeBound.Tape       .GetFileExtension().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeConfig .GetFileExtension().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeActions.GetFileExtension().Is(fileExtension));
+            IsTrue(() => x.TapeBound.TapeAction .GetFileExtension().Is(fileExtension));
+            IsTrue(() => FileExtension   (x.TapeBound.Tape       ).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.TapeBound.TapeConfig ).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.TapeBound.TapeActions).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.TapeBound.TapeAction ).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.TapeBound.Tape       ).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.TapeBound.TapeConfig ).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.TapeBound.TapeActions).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.TapeBound.TapeAction ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (x.TapeBound.Tape       ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (x.TapeBound.TapeConfig ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (x.TapeBound.TapeActions).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (x.TapeBound.TapeAction ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(x.TapeBound.Tape       ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(x.TapeBound.TapeConfig ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(x.TapeBound.TapeActions).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(x.TapeBound.TapeAction ).Is(fileExtension));
+            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.Tape       .IsRaw());
+            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeConfig .IsRaw());
             AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeActions.IsRaw());
-            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeAction.IsRaw());
-        
-            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.Tape.IsWav());
-            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeConfig.IsWav());
+            AreEqual(fileExtension.Is(".raw"), () => x.TapeBound.TapeAction .IsRaw());
+            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.Tape       .IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeConfig .IsWav());
             AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeActions.IsWav());
-            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeAction.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.TapeBound.TapeAction .IsWav());
         }
                         
         private void Assert_BuffBound_Getters(ConfigTestEntities x, string fileExtension)
         {
-            IsTrue(() => x.BuffBound.Buff.FileExtension().Is(fileExtension));
-            IsTrue(() => x.BuffBound.AudioFileOutput.FileExtension().Is(fileExtension));
-            
-            AreEqual(fileExtension.Is(".raw"), () => x.BuffBound.Buff.IsRaw());
+            IsTrue(() => x.BuffBound.Buff           .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.BuffBound.AudioFileOutput.FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.BuffBound.Buff           .GetFileExtension().Is(fileExtension));
+            IsTrue(() => x.BuffBound.AudioFileOutput.GetFileExtension().Is(fileExtension));
+            IsTrue(() => FileExtension   (x.BuffBound.Buff           ).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.BuffBound.AudioFileOutput).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.BuffBound.Buff           ).Is(fileExtension));
+            IsTrue(() => GetFileExtension(x.BuffBound.AudioFileOutput).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (x.BuffBound.Buff           ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (x.BuffBound.AudioFileOutput).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(x.BuffBound.Buff           ).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(x.BuffBound.AudioFileOutput).Is(fileExtension));
+            AreEqual(fileExtension.Is(".raw"), () => x.BuffBound.Buff           .IsRaw());
             AreEqual(fileExtension.Is(".raw"), () => x.BuffBound.AudioFileOutput.IsRaw());
-            
-            AreEqual(fileExtension.Is(".wav"), () => x.BuffBound.Buff.IsWav());
+            AreEqual(fileExtension.Is(".wav"), () => x.BuffBound.Buff           .IsWav());
             AreEqual(fileExtension.Is(".wav"), () => x.BuffBound.AudioFileOutput.IsWav());
         }
 
         private void Assert_Independent_Getters(Sample sample, string fileExtension)
         {
-            IsTrue(() => sample.FileExtension().Is(fileExtension));
+            IsTrue(() => sample.FileExtension   ().Is(fileExtension));
+            IsTrue(() => sample.GetFileExtension().Is(fileExtension));
+            IsTrue(() => FileExtension   (sample).Is(fileExtension));
+            IsTrue(() => GetFileExtension(sample).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (sample).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(sample).Is(fileExtension));
+            AreEqual(fileExtension.Is(".raw"), () => sample.IsRaw());
+            AreEqual(fileExtension.Is(".wav"), () => sample.IsWav());
         }
         
         private void Assert_Immutable_Getters(AudioFileFormatEnum audioFileFormatEnum, string fileExtension)
         {
-            IsTrue(() => audioFileFormatEnum.FileExtension().Is(fileExtension));
+            IsTrue(() => audioFileFormatEnum.FileExtension   ().Is(fileExtension));
+            IsTrue(() => audioFileFormatEnum.GetFileExtension().Is(fileExtension));
+            IsTrue(() => audioFileFormatEnum.AsFileExtension ().Is(fileExtension));
+            IsTrue(() => audioFileFormatEnum.ToFileExtension ().Is(fileExtension));
             IsTrue(() => audioFileFormatEnum.AudioFormatToFileExtension().Is(fileExtension));
+            IsTrue(() => FileExtension   (audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => GetFileExtension(audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => AsFileExtension (audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => ToFileExtension (audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => AudioFormatToFileExtension(audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => ConfigWishes.AsFileExtension (audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => ConfigWishes.ToFileExtension (audioFileFormatEnum).Is(fileExtension));
+            IsTrue(() => ConfigWishes.AudioFormatToFileExtension(audioFileFormatEnum).Is(fileExtension));
             AreEqual(fileExtension.Is(".raw"), () => audioFileFormatEnum.IsRaw());
             AreEqual(fileExtension.Is(".wav"), () => audioFileFormatEnum.IsWav());
         }
@@ -399,7 +545,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Immutable_Getters(AudioFileFormat audioFormatEntity, string fileExtension)
         {
             IsNotNull(() => audioFormatEntity);
-            IsTrue(() => audioFormatEntity.FileExtension().Is(fileExtension));
+            IsTrue(() => audioFormatEntity.FileExtension   ().Is(fileExtension));
+            IsTrue(() => audioFormatEntity.GetFileExtension().Is(fileExtension));
+            IsTrue(() => audioFormatEntity.AsFileExtension ().Is(fileExtension));
+            IsTrue(() => audioFormatEntity.ToFileExtension ().Is(fileExtension));
+            IsTrue(() => FileExtension   (audioFormatEntity).Is(fileExtension));
+            IsTrue(() => GetFileExtension(audioFormatEntity).Is(fileExtension));
+            IsTrue(() => AsFileExtension (audioFormatEntity).Is(fileExtension));
+            IsTrue(() => ToFileExtension (audioFormatEntity).Is(fileExtension));
+            IsTrue(() => ConfigWishes.FileExtension   (audioFormatEntity).Is(fileExtension));
+            IsTrue(() => ConfigWishes.GetFileExtension(audioFormatEntity).Is(fileExtension));
+            IsTrue(() => ConfigWishes.AsFileExtension (audioFormatEntity).Is(fileExtension));
+            IsTrue(() => ConfigWishes.ToFileExtension (audioFormatEntity).Is(fileExtension));
             AreEqual(fileExtension.Is(".raw"), () => audioFormatEntity.IsRaw());
             AreEqual(fileExtension.Is(".wav"), () => audioFormatEntity.IsWav());
         }
@@ -410,13 +567,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             {
                 NotEqual(default, () => wavHeader);
                 IsTrue(() => wavHeader.IsWav());
-                IsTrue(() => wavHeader.FileExtension().Is(fileExtension));
+                IsTrue(() => wavHeader.FileExtension   ().Is(fileExtension));
+                IsTrue(() => wavHeader.GetFileExtension().Is(fileExtension));
             }
             else
             {
                 AreEqual(default, () => wavHeader);
                 IsFalse(() => wavHeader.IsRaw());
-                IsFalse(() => wavHeader.FileExtension().Is(fileExtension));
+                IsFalse(() => wavHeader.FileExtension   ().Is(fileExtension));
+                IsFalse(() => wavHeader.GetFileExtension().Is(fileExtension));
             }
         }
 

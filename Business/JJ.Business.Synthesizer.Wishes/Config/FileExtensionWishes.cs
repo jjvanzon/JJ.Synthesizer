@@ -207,7 +207,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._fileextension"/>
         public static AudioFileFormatEnum AsFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) => ConfigWishes.AsFileExtension(oldAudioFormat, newExtension);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension) => ConfigWishes.FileExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum ToFileExtension(this AudioFileFormatEnum oldAudioFormat, string newExtension) => ConfigWishes.ToFileExtension(oldAudioFormat, newExtension);
         
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
@@ -215,6 +215,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
         public static string GetFileExtension(this AudioFileFormat obj) => ConfigWishes.GetFileExtension(obj);
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)]
+        public static string AsFileExtension(this AudioFileFormat obj) => ConfigWishes.AsFileExtension(obj);
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)]
+        public static string ToFileExtension(this AudioFileFormat obj) => ConfigWishes.ToFileExtension(obj);
 
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
@@ -228,6 +234,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat AsFileExtension(this AudioFileFormat oldAudioFormat, string newExtension, IContext context)
             => ConfigWishes.AsFileExtension(oldAudioFormat, newExtension, context);
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)] 
+        public static AudioFileFormat ToFileExtension(this AudioFileFormat oldAudioFormat, string newExtension, IContext context)
+            => ConfigWishes.ToFileExtension(oldAudioFormat, newExtension, context);
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat SetFileExtension(this AudioFileFormat oldAudioFormat, string newExtension, IContext context)
@@ -498,17 +508,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileFormatEnum AsFileExtension(AudioFileFormatEnum oldAudioFormat, string newExtension) 
             => FileExtensionToAudioFormat(newExtension);
         /// <inheritdoc cref="docs._fileextension"/>
-        public static AudioFileFormatEnum FileExtensionToAudioFormat(string fileExtension)
-        {
-            if (Is(fileExtension, ".wav")) return Wav;
-            if (Is(fileExtension, ".raw")) return Raw;
-            if (!Has(fileExtension)) return Undefined;
-            AssertFileExtension(fileExtension); return default;
-        }
+        public static AudioFileFormatEnum ToFileExtension(AudioFileFormatEnum oldAudioFormat, string newExtension) 
+            => FileExtensionToAudioFormat(newExtension);
 
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
         public static string FileExtension(AudioFileFormat obj) => GetFileExtension(obj);
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)]
+        public static string AsFileExtension(AudioFileFormat obj) => GetFileExtension(obj);
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)]
+        public static string ToFileExtension(AudioFileFormat obj) => GetFileExtension(obj);
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)]
         public static string GetFileExtension(AudioFileFormat obj)
@@ -525,6 +536,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat AsFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context) => SetFileExtension(oldAudioFormat, newExtension, context);
+        /// <inheritdoc cref="docs._fileextension"/>
+        [Obsolete(ObsoleteMessage)] 
+        public static AudioFileFormat ToFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context) => SetFileExtension(oldAudioFormat, newExtension, context);
         /// <inheritdoc cref="docs._fileextension"/>
         [Obsolete(ObsoleteMessage)] 
         public static AudioFileFormat SetFileExtension(AudioFileFormat oldAudioFormat, string newExtension, IContext context)

@@ -13,6 +13,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 // ReSharper disable UnusedParameter.Global
 
@@ -54,7 +55,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (obj == null) throw new NullException(() => obj);
             return obj.WithAudioFormat(value);
         }
-
 
         public static bool IsWav(FlowNode obj) => GetAudioFormat(obj) == Wav;
         public static bool IsRaw(FlowNode obj) => GetAudioFormat(obj) == Raw;
@@ -357,16 +357,19 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return Wav;
         }
         
-        public static bool IsWav(string fileExtension) => GetAudioFormat(fileExtension) == Wav;
-        public static bool IsRaw(string fileExtension) => GetAudioFormat(fileExtension) == Raw;
-        public static AudioFileFormatEnum AudioFormat(string fileExtension) => GetAudioFormat(fileExtension);
-        public static AudioFileFormatEnum AsAudioFormat(string fileExtension) => GetAudioFormat(fileExtension);
-        public static AudioFileFormatEnum ToAudioFormat(string fileExtension) => GetAudioFormat(fileExtension);
-        public static AudioFileFormatEnum GetAudioFormat(string fileExtension)
+        public static bool IsWav(string fileExtension) => FileExtensionToAudioFormat(fileExtension) == Wav;
+        public static bool IsRaw(string fileExtension) => FileExtensionToAudioFormat(fileExtension) == Raw;
+        public static AudioFileFormatEnum AudioFormat(string fileExtension) => FileExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum AsAudioFormat(string fileExtension) => FileExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum GetAudioFormat(string fileExtension) => FileExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum ToAudioFormat(string fileExtension) => FileExtensionToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum FileExtensionToAudioFormat(string fileExtension)
         {
-            return fileExtension.FileExtensionToAudioFormat();
+            if (Is(fileExtension, ".wav")) return Wav;
+            if (Is(fileExtension, ".raw")) return Raw;
+            if (!Has(fileExtension)) return Undefined;
+            AssertFileExtension(fileExtension); return default;
         }
-        
         
         /// <inheritdoc cref="docs._quasisetter" />
         public static string WithWav(string oldFileExtension) => SetAudioFormat(oldFileExtension, Wav);
@@ -816,9 +819,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsWav(this string fileExtension) => ConfigWishes.IsWav(fileExtension);
         public static bool IsRaw(this string fileExtension) => ConfigWishes.IsRaw(fileExtension);
         public static AudioFileFormatEnum AudioFormat(this string fileExtension) => ConfigWishes.AudioFormat(fileExtension);
-        public static AudioFileFormatEnum ToAudioFormat(this string fileExtension) => ConfigWishes.ToAudioFormat(fileExtension);
         public static AudioFileFormatEnum AsAudioFormat(this string fileExtension) => ConfigWishes.AsAudioFormat(fileExtension);
         public static AudioFileFormatEnum GetAudioFormat(this string fileExtension) => ConfigWishes.GetAudioFormat(fileExtension);
+        public static AudioFileFormatEnum ToAudioFormat(this string fileExtension) => ConfigWishes.ToAudioFormat(fileExtension);
+        public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension) => ConfigWishes.FileExtensionToAudioFormat(fileExtension);
 
         /// <inheritdoc cref="docs._quasisetter" />
         public static string WithWav(this string oldFileExtension) => ConfigWishes.WithWav(oldFileExtension);
