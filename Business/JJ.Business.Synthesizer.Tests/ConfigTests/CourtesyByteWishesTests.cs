@@ -9,7 +9,6 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 // ReSharper disable ArrangeStaticMemberQualifier
@@ -60,15 +59,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, val.courtesyBytes);
             }
 
-            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .    Bits(val.bits).    Channels(val.channels).    CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .    Bits(val.bits).    Channels(val.channels).    CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.    Bits(val.bits).    Channels(val.channels).    CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .WithBits(val.bits).WithChannels(val.channels).WithCourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .WithBits(val.bits).WithChannels(val.channels).WithCourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.WithBits(val.bits).WithChannels(val.channels).WithCourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   . SetBits(val.bits). SetChannels(val.channels). SetCourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      . SetBits(val.bits). SetChannels(val.channels). SetCourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver. SetBits(val.bits). SetChannels(val.channels). SetCourtesyBytes(val.courtesyBytes)));
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    x.SynthWishes   .CourtesyBytes    (val.courtesyBytes)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       x.FlowNode      .CourtesyBytes    (val.courtesyBytes)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, x.ConfigResolver.CourtesyBytes    (val.courtesyBytes)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    x.SynthWishes   .WithCourtesyBytes(val.courtesyBytes)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       x.FlowNode      .WithCourtesyBytes(val.courtesyBytes)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, x.ConfigResolver.WithCourtesyBytes(val.courtesyBytes)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    x.SynthWishes   .SetCourtesyBytes (val.courtesyBytes)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       x.FlowNode      .SetCourtesyBytes (val.courtesyBytes)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, x.ConfigResolver.SetCourtesyBytes (val.courtesyBytes)); });
             AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    CourtesyBytes    (x.SynthWishes,    val.courtesyBytes)); });
             AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       CourtesyBytes    (x.FlowNode,       val.courtesyBytes)); });
             AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, CourtesyBytes    (x.ConfigResolver, val.courtesyBytes)); });
@@ -78,7 +77,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    SetCourtesyBytes (x.SynthWishes,    val.courtesyBytes)); });
             AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       SetCourtesyBytes (x.FlowNode,       val.courtesyBytes)); });
             AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, SetCourtesyBytes (x.ConfigResolver, val.courtesyBytes)); });
-
             AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    ConfigWishes        .CourtesyBytes    (x.SynthWishes,    val.courtesyBytes)); });
             AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       ConfigWishes        .CourtesyBytes    (x.FlowNode,       val.courtesyBytes)); });
             AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, ConfigWishesAccessor.CourtesyBytes    (x.ConfigResolver, val.courtesyBytes)); });
@@ -88,16 +86,33 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    ConfigWishes        .SetCourtesyBytes (x.SynthWishes,    val.courtesyBytes)); });
             AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       ConfigWishes        .SetCourtesyBytes (x.FlowNode,       val.courtesyBytes)); });
             AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, ConfigWishesAccessor.SetCourtesyBytes (x.ConfigResolver, val.courtesyBytes)); });
-
-            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .    Bits(val.bits).    Channels(val.channels).    CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .    Bits(val.bits).    Channels(val.channels).    CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.    Bits(val.bits).    Channels(val.channels).    CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   .WithBits(val.bits).WithChannels(val.channels).WithCourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      .WithBits(val.bits).WithChannels(val.channels).WithCourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver.WithBits(val.bits).WithChannels(val.channels).WithCourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.SynthWishes,    x.SynthWishes   . SetBits(val.bits). SetChannels(val.channels). SetCourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.FlowNode,       x.FlowNode      . SetBits(val.bits). SetChannels(val.channels). SetCourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.ConfigResolver, x.ConfigResolver. SetBits(val.bits). SetChannels(val.channels). SetCourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    x.SynthWishes   .CourtesyFrames    (val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       x.FlowNode      .CourtesyFrames    (val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, x.ConfigResolver.CourtesyFrames    (val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    x.SynthWishes   .WithCourtesyFrames(val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       x.FlowNode      .WithCourtesyFrames(val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, x.ConfigResolver.WithCourtesyFrames(val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    x.SynthWishes   .SetCourtesyFrames (val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       x.FlowNode      .SetCourtesyFrames (val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, x.ConfigResolver.SetCourtesyFrames (val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    CourtesyFrames    (x.SynthWishes,    val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       CourtesyFrames    (x.FlowNode,       val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, CourtesyFrames    (x.ConfigResolver, val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    WithCourtesyFrames(x.SynthWishes,    val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       WithCourtesyFrames(x.FlowNode,       val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, WithCourtesyFrames(x.ConfigResolver, val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    SetCourtesyFrames (x.SynthWishes,    val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       SetCourtesyFrames (x.FlowNode,       val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, SetCourtesyFrames (x.ConfigResolver, val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    ConfigWishes        .CourtesyFrames    (x.SynthWishes,    val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       ConfigWishes        .CourtesyFrames    (x.FlowNode,       val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, ConfigWishesAccessor.CourtesyFrames    (x.ConfigResolver, val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    ConfigWishes        .WithCourtesyFrames(x.SynthWishes,    val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       ConfigWishes        .WithCourtesyFrames(x.FlowNode,       val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, ConfigWishesAccessor.WithCourtesyFrames(x.ConfigResolver, val.courtesyFrames)); });
+            AssertProp(x => { x.SynthWishes   .Bits(val.bits).Channels(val.channels); AreEqual(x.SynthWishes,    ConfigWishes        .SetCourtesyFrames (x.SynthWishes,    val.courtesyFrames)); });
+            AssertProp(x => { x.FlowNode      .Bits(val.bits).Channels(val.channels); AreEqual(x.FlowNode,       ConfigWishes        .SetCourtesyFrames (x.FlowNode,       val.courtesyFrames)); });
+            AssertProp(x => { x.ConfigResolver.Bits(val.bits).Channels(val.channels); AreEqual(x.ConfigResolver, ConfigWishesAccessor.SetCourtesyFrames (x.ConfigResolver, val.courtesyFrames)); });
         }
 
         [TestMethod]
@@ -110,12 +125,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init = (courtesyBytes: initCourtesyBytes, courtesyFrames: initCourtesyFrames, bits: initBits, channels: initChannels);
             var val  = (courtesyBytes, courtesyFrames, bits, channels);
 
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TapeBoundEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init.courtesyBytes);
                 
-                setter(x);
+                setter(x.TapeBound);
                 
                 Assert_SynthBound_Getters(x, init.courtesyBytes);
                 Assert_TapeBound_Getters(x, val.courtesyBytes);
@@ -125,15 +140,46 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init.courtesyBytes); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .Bits(val.bits).Channels(val.channels).CourtesyBytes(val.courtesyBytes)));
-
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        x.Tape       .CourtesyBytes    (val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  x.TapeConfig .CourtesyBytes    (val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, x.TapeActions.CourtesyBytes    (val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  x.TapeAction .CourtesyBytes    (val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        x.Tape       .WithCourtesyBytes(val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  x.TapeConfig .WithCourtesyBytes(val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, x.TapeActions.WithCourtesyBytes(val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  x.TapeAction .WithCourtesyBytes(val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        x.Tape       .SetCourtesyBytes (val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  x.TapeConfig .SetCourtesyBytes (val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, x.TapeActions.SetCourtesyBytes (val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  x.TapeAction .SetCourtesyBytes (val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        CourtesyBytes    (x.Tape       , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  CourtesyBytes    (x.TapeConfig , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, CourtesyBytes    (x.TapeActions, val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  CourtesyBytes    (x.TapeAction , val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        WithCourtesyBytes(x.Tape       , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  WithCourtesyBytes(x.TapeConfig , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, WithCourtesyBytes(x.TapeActions, val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  WithCourtesyBytes(x.TapeAction , val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        SetCourtesyBytes (x.Tape       , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  SetCourtesyBytes (x.TapeConfig , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, SetCourtesyBytes (x.TapeActions, val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  SetCourtesyBytes (x.TapeAction , val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        ConfigWishes.CourtesyBytes    (x.Tape       , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  ConfigWishes.CourtesyBytes    (x.TapeConfig , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, ConfigWishes.CourtesyBytes    (x.TapeActions, val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  ConfigWishes.CourtesyBytes    (x.TapeAction , val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        ConfigWishes.WithCourtesyBytes(x.Tape       , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  ConfigWishes.WithCourtesyBytes(x.TapeConfig , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, ConfigWishes.WithCourtesyBytes(x.TapeActions, val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  ConfigWishes.WithCourtesyBytes(x.TapeAction , val.courtesyBytes)); });
+            AssertProp(x => { x.Tape       .Bits(val.bits).Channels(val.channels); AreEqual(x.Tape,        ConfigWishes.SetCourtesyBytes (x.Tape       , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  ConfigWishes.SetCourtesyBytes (x.TapeConfig , val.courtesyBytes)); });
+            AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, ConfigWishes.SetCourtesyBytes (x.TapeActions, val.courtesyBytes)); });
+            AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  ConfigWishes.SetCourtesyBytes (x.TapeAction , val.courtesyBytes)); });
+            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
         }
         
         [TestMethod]
@@ -142,7 +188,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Get-only
             var configSection = CreateTestEntities().SynthBound.ConfigSection;
             int? expected = configSection.CourtesyFrames * configSection.Bits / 8 * configSection.Channels;
-            AreEqual(expected, () => configSection.CourtesyBytes());
+            AreEqual(expected, () => configSection.CourtesyBytes   ());
+            AreEqual(expected, () => configSection.GetCourtesyBytes());
+            AreEqual(expected, () => CourtesyBytes   (configSection));
+            AreEqual(expected, () => GetCourtesyBytes(configSection));
+            AreEqual(expected, () => ConfigWishesAccessor.CourtesyBytes   (configSection));
+            AreEqual(expected, () => ConfigWishesAccessor.GetCourtesyBytes(configSection));
         }
         
         [TestMethod]
@@ -165,6 +216,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             Assert_Bound_Getters(x, courtesyBytes);
             Assert_Immutable_Getters(x.Immutable.CourtesyFrames, x.Immutable.FrameSize, courtesyBytes);
+            Assert_Immutable_Getters(x.Immutable.CourtesyFrames, x.Immutable.Bits, x.Immutable.Channels, courtesyBytes);
         }
 
         private void Assert_Bound_Getters(ConfigTestEntities x, int courtesyBytes)
@@ -222,7 +274,41 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeActions));
             AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeAction ));
         }
-                        
+
+        private void Assert_Immutable_Getters(int courtesyFrames, int bits, int channels, int courtesyBytes)
+        {
+            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyBytes        (bits, channels));
+            AreEqual(courtesyBytes, () => courtesyFrames.GetCourtesyBytes     (bits, channels));
+            AreEqual(courtesyBytes, () => courtesyFrames.ToCourtesyBytes      (bits, channels));
+            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyFramesToBytes(bits, channels));
+            AreEqual(courtesyBytes, () => CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => CourtesyFramesToBytes(courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels));
+            
+            Assert_Immutable_Getters((int?)courtesyFrames, (int?)bits, (int?)channels, courtesyBytes);
+        }
+
+        private void Assert_Immutable_Getters(int? courtesyFrames, int? bits, int? channels, int courtesyBytes)
+        {
+            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyBytes        (bits, channels));
+            AreEqual(courtesyBytes, () => courtesyFrames.GetCourtesyBytes     (bits, channels));
+            AreEqual(courtesyBytes, () => courtesyFrames.ToCourtesyBytes      (bits, channels));
+            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyFramesToBytes(bits, channels));
+            AreEqual(courtesyBytes, () => CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => CourtesyFramesToBytes(courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels));
+        }
+        
         private void Assert_Immutable_Getters(int courtesyFrames, int frameSize, int courtesyBytes)
         {
             AreEqual(courtesyBytes, () => courtesyFrames.CourtesyBytes        (frameSize));

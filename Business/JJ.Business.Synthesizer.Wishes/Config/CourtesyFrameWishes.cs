@@ -69,6 +69,21 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeAction CourtesyFrames(this TapeAction obj, int value) => ConfigWishes.CourtesyFrames(obj, value);
         public static TapeAction WithCourtesyFrames(this TapeAction obj, int value) => ConfigWishes.WithCourtesyFrames(obj, value);
         public static TapeAction SetCourtesyFrames(this TapeAction obj, int value) => ConfigWishes.SetCourtesyFrames(obj, value);
+        
+        // Conversion Formulas
+
+        // Courtesy Bytes to Frames
+
+        public static int? CourtesyFrames(this int? courtesyBytes, int frameSize) => ConfigWishes.CourtesyFrames(courtesyBytes, frameSize);
+        public static int? GetCourtesyFrames(this int? courtesyBytes, int frameSize) => ConfigWishes.GetCourtesyFrames(courtesyBytes, frameSize);
+        public static int? ToCourtesyFrames(this int? courtesyBytes, int frameSize) => ConfigWishes.ToCourtesyFrames(courtesyBytes, frameSize);
+        public static int? CourtesyBytesToFrames(this int? courtesyBytes, int? frameSize) => ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize);
+
+
+        public static int CourtesyFrames(this int courtesyBytes, int frameSize) => ConfigWishes.CourtesyFrames(courtesyBytes, frameSize);
+        public static int GetCourtesyFrames(this int courtesyBytes, int frameSize) => ConfigWishes.GetCourtesyFrames(courtesyBytes, frameSize);
+        public static int ToCourtesyFrames(this int courtesyBytes, int frameSize) => ConfigWishes.ToCourtesyFrames(courtesyBytes, frameSize);
+        public static int CourtesyBytesToFrames(this int courtesyBytes, int frameSize) => ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize);
     }
     
     public partial class ConfigWishes
@@ -193,6 +208,25 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.CourtesyFrames(value);
             return obj;
+        }
+ 
+        // Conversion Formulas
+        
+        // Courtesy Bytes to Frames
+        
+        public static int? CourtesyFrames(int? courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int? GetCourtesyFrames(int? courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int? ToCourtesyFrames(int? courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int? CourtesyBytesToFrames(int? courtesyBytes, int? frameSize) 
+            => CourtesyBytesToFrames(courtesyBytes.CoalesceCourtesyBytes(), frameSize.CoalesceFrameSize());
+        
+        public static int CourtesyFrames(int courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int GetCourtesyFrames(int courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int ToCourtesyFrames(int courtesyBytes, int frameSize) => CourtesyBytesToFrames(courtesyBytes, frameSize);
+        public static int CourtesyBytesToFrames(int courtesyBytes, int frameSize)
+        {
+            courtesyBytes.AssertCourtesyBytes(frameSize);
+            return courtesyBytes / frameSize;
         }
     }
 }
