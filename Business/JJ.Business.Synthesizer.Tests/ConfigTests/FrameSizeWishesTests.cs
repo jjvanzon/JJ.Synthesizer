@@ -226,18 +226,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getter(wavHeader, val.frameSize);
 
             // Enums
-            var initEnums = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum);
-            Assert_Immutable_Getter(initEnums, init.frameSize);
-            var enums = (val.bits.BitsToEnum(), val.channels.ChannelsToEnum());
-            Assert_Immutable_Getter(initEnums, init.frameSize);
-            Assert_Immutable_Getter(enums, val.frameSize);
+            Assert_Immutable_Getter(x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, init.frameSize);
+            Assert_Immutable_Getter(x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, init.frameSize);
+            SampleDataTypeEnum sampleDataTypeEnum = val.bits.BitsToEnum();
+            SpeakerSetupEnum speakerSetupEnum   = val.channels.ChannelsToEnum();
+            Assert_Immutable_Getter(sampleDataTypeEnum, speakerSetupEnum, val.frameSize);
 
             // Entities
-            var initEntities = (x.Immutable.SampleDataType, x.Immutable.SpeakerSetup);
-            Assert_Immutable_Getter(initEntities, init.frameSize);
-            var entities = (val.bits.BitsToEntity(x.SynthBound.Context), val.channels.ChannelsToEntity(x.SynthBound.Context));
-            Assert_Immutable_Getter(initEntities, init.frameSize);
-            Assert_Immutable_Getter(entities, val.frameSize);
+            Assert_Immutable_Getter(x.Immutable.SampleDataType, x.Immutable.SpeakerSetup, init.frameSize);
+            Assert_Immutable_Getter(x.Immutable.SampleDataType, x.Immutable.SpeakerSetup, init.frameSize);
+            SampleDataType sampleDataType = val.bits.BitsToEntity(x.SynthBound.Context);
+            SpeakerSetup speakerSetup = val.channels.ChannelsToEntity(x.SynthBound.Context);
+            Assert_Immutable_Getter(sampleDataType, speakerSetup, val.frameSize);
             
             // After-Record
             x.Record();
@@ -247,14 +247,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // Except for our variables
             Assert_Immutable_Getter(wavHeader, val.frameSize);
-            Assert_Immutable_Getter(enums, val.frameSize);
-            Assert_Immutable_Getter(entities, val.frameSize);
+            Assert_Immutable_Getter(sampleDataTypeEnum, speakerSetupEnum, val.frameSize);
+            Assert_Immutable_Getter(sampleDataType, speakerSetup, val.frameSize);
         }
 
         [TestMethod]
         public void ConfigSection_FrameSize()
         {
-            // Immutable. Get-only.
             var x = CreateTestEntities(default);
             AreEqual(FrameSize(DefaultBits, DefaultChannels), () => x.SynthBound.ConfigSection.FrameSize());
             AreEqual(FrameSize(DefaultBits, DefaultChannels), () => x.SynthBound.ConfigSection.GetFrameSize());
@@ -296,10 +295,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Immutable_Getters(ConfigTestEntities x, int frameSize)
         {
-            Assert_Immutable_Getter(x.Immutable.WavHeader, frameSize);
-            Assert_Immutable_Getter((x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum), frameSize);
-            Assert_Immutable_Getter((x.Immutable.SampleDataType, x.Immutable.SpeakerSetup), frameSize);
-            Assert_Immutable_Getter((x.Immutable.Bits, x.Immutable.Channels), frameSize);
+            Assert_Immutable_Getter(x.Immutable.WavHeader,                                        frameSize);
+            Assert_Immutable_Getter(x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, frameSize);
+            Assert_Immutable_Getter(x.Immutable.SampleDataType,     x.Immutable.SpeakerSetup,     frameSize);
+            Assert_Immutable_Getter(x.Immutable.Bits,               x.Immutable.Channels,         frameSize);
         }
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, int frameSize)
@@ -408,80 +407,83 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(frameSize, () => ConfigWishes.GetFrameSize(wavHeader));
         }
         
-        private void Assert_Immutable_Getter((SampleDataTypeEnum, SpeakerSetupEnum) enums, int frameSize)
+        private void Assert_Immutable_Getter(SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetupEnum, int frameSize)
         {
+            var enums = (sampleDataTypeEnum, speakerSetupEnum);
             AreEqual(frameSize, () => enums.FrameSize());
             AreEqual(frameSize, () => enums.ToFrameSize());
             AreEqual(frameSize, () => enums.GetFrameSize());
             AreEqual(frameSize, () => FrameSize(enums));
             AreEqual(frameSize, () => ToFrameSize(enums));
             AreEqual(frameSize, () => GetFrameSize(enums));
+            AreEqual(frameSize, () => FrameSize(sampleDataTypeEnum, speakerSetupEnum));
+            AreEqual(frameSize, () => ToFrameSize(sampleDataTypeEnum, speakerSetupEnum));
+            AreEqual(frameSize, () => GetFrameSize(sampleDataTypeEnum, speakerSetupEnum));
             AreEqual(frameSize, () => ConfigWishes.FrameSize(enums));
             AreEqual(frameSize, () => ConfigWishes.ToFrameSize(enums));
             AreEqual(frameSize, () => ConfigWishes.GetFrameSize(enums));
-            AreEqual(frameSize, () => FrameSize(enums.Item1, enums.Item2));
-            AreEqual(frameSize, () => ToFrameSize(enums.Item1, enums.Item2));
-            AreEqual(frameSize, () => GetFrameSize(enums.Item1, enums.Item2));
-            AreEqual(frameSize, () => ConfigWishes.FrameSize(enums.Item1, enums.Item2));
-            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(enums.Item1, enums.Item2));
-            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(enums.Item1, enums.Item2));
+            AreEqual(frameSize, () => ConfigWishes.FrameSize(sampleDataTypeEnum, speakerSetupEnum));
+            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(sampleDataTypeEnum, speakerSetupEnum));
+            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(sampleDataTypeEnum, speakerSetupEnum));
         }
         
-        private void Assert_Immutable_Getter((SampleDataType, SpeakerSetup) entities, int frameSize)
+        private void Assert_Immutable_Getter(SampleDataType sampleDataType, SpeakerSetup speakerSetup, int frameSize)
         {
+            var entities = (sampleDataType, speakerSetup);
             AreEqual(frameSize, () => entities.FrameSize());
             AreEqual(frameSize, () => entities.ToFrameSize());
             AreEqual(frameSize, () => entities.GetFrameSize());
             AreEqual(frameSize, () => FrameSize(entities));
             AreEqual(frameSize, () => ToFrameSize(entities));
             AreEqual(frameSize, () => GetFrameSize(entities));
+            AreEqual(frameSize, () => FrameSize(sampleDataType, speakerSetup));
+            AreEqual(frameSize, () => ToFrameSize(sampleDataType, speakerSetup));
+            AreEqual(frameSize, () => GetFrameSize(sampleDataType, speakerSetup));
             AreEqual(frameSize, () => ConfigWishes.FrameSize(entities));
             AreEqual(frameSize, () => ConfigWishes.ToFrameSize(entities));
             AreEqual(frameSize, () => ConfigWishes.GetFrameSize(entities));
-            AreEqual(frameSize, () => FrameSize(entities.Item1, entities.Item2));
-            AreEqual(frameSize, () => ToFrameSize(entities.Item1, entities.Item2));
-            AreEqual(frameSize, () => GetFrameSize(entities.Item1, entities.Item2));
-            AreEqual(frameSize, () => ConfigWishes.FrameSize(entities.Item1, entities.Item2));
-            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(entities.Item1, entities.Item2));
-            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(entities.Item1, entities.Item2));
+            AreEqual(frameSize, () => ConfigWishes.FrameSize(sampleDataType, speakerSetup));
+            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(sampleDataType, speakerSetup));
+            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(sampleDataType, speakerSetup));
         }
                 
-        private void Assert_Immutable_Getter((int bits, int channels) tuple, int frameSize)
+        private void Assert_Immutable_Getter(int bits, int channels, int frameSize)
         {
+            (int, int) tuple = (bits, channels);
+            int? nullyBits = bits; // TODO: Test actual nully values with better Case definition structure
+            int? nullyChannels = channels;
+            (int?, int?) nullyTuple = (nullyBits, nullyChannels);
+
             AreEqual(frameSize, () => tuple.FrameSize());
             AreEqual(frameSize, () => tuple.ToFrameSize());
             AreEqual(frameSize, () => tuple.GetFrameSize());
-            AreEqual(frameSize, () => FrameSize(tuple));
-            AreEqual(frameSize, () => ToFrameSize(tuple));
-            AreEqual(frameSize, () => GetFrameSize(tuple));
-            AreEqual(frameSize, () => ConfigWishes.FrameSize(tuple));
-            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(tuple));
-            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(tuple));
-
-            // TODO: Test actual nully values with better Case definition structure
-            var nullyTuple = (bits: (int?)tuple.bits, channels: (int?)tuple.channels);
             AreEqual(frameSize, () => nullyTuple.FrameSize());
             AreEqual(frameSize, () => nullyTuple.ToFrameSize());
             AreEqual(frameSize, () => nullyTuple.GetFrameSize());
+            AreEqual(frameSize, () => FrameSize(tuple));
+            AreEqual(frameSize, () => ToFrameSize(tuple));
+            AreEqual(frameSize, () => GetFrameSize(tuple));
             AreEqual(frameSize, () => FrameSize(nullyTuple));
             AreEqual(frameSize, () => ToFrameSize(nullyTuple));
             AreEqual(frameSize, () => GetFrameSize(nullyTuple));
+            AreEqual(frameSize, () => FrameSize(bits, channels));
+            AreEqual(frameSize, () => ToFrameSize(bits, channels));
+            AreEqual(frameSize, () => GetFrameSize(bits, channels));
+            AreEqual(frameSize, () => FrameSize(nullyBits, nullyChannels));
+            AreEqual(frameSize, () => ToFrameSize(nullyBits, nullyChannels));
+            AreEqual(frameSize, () => GetFrameSize(nullyBits, nullyChannels));
+            AreEqual(frameSize, () => ConfigWishes.FrameSize(tuple));
+            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(tuple));
+            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(tuple));
             AreEqual(frameSize, () => ConfigWishes.FrameSize(nullyTuple));
             AreEqual(frameSize, () => ConfigWishes.ToFrameSize(nullyTuple));
             AreEqual(frameSize, () => ConfigWishes.GetFrameSize(nullyTuple));
-            
-            AreEqual(frameSize, () => FrameSize(tuple.bits, tuple.channels));
-            AreEqual(frameSize, () => ToFrameSize(tuple.bits, tuple.channels));
-            AreEqual(frameSize, () => GetFrameSize(tuple.bits, tuple.channels));
-            AreEqual(frameSize, () => ConfigWishes.FrameSize(tuple.bits, tuple.channels));
-            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(tuple.bits, tuple.channels));
-            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(tuple.bits, tuple.channels));
-            AreEqual(frameSize, () => FrameSize(nullyTuple.bits, nullyTuple.channels));
-            AreEqual(frameSize, () => ToFrameSize(nullyTuple.bits, nullyTuple.channels));
-            AreEqual(frameSize, () => GetFrameSize(nullyTuple.bits, nullyTuple.channels));
-            AreEqual(frameSize, () => ConfigWishes.FrameSize(nullyTuple.bits, nullyTuple.channels));
-            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(nullyTuple.bits, nullyTuple.channels));
-            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(nullyTuple.bits, nullyTuple.channels));
+            AreEqual(frameSize, () => ConfigWishes.FrameSize(bits, channels));
+            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(bits, channels));
+            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(bits, channels));
+            AreEqual(frameSize, () => ConfigWishes.FrameSize(nullyBits, nullyChannels));
+            AreEqual(frameSize, () => ConfigWishes.ToFrameSize(nullyBits, nullyChannels));
+            AreEqual(frameSize, () => ConfigWishes.GetFrameSize(nullyBits, nullyChannels));
         }
 
         // Test Data Helpers
