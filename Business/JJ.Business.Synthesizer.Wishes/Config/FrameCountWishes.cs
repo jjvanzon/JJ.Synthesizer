@@ -209,10 +209,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return ConfigWishes.FrameCountFromAudioLength(obj.AudioLength(synthWishes).Value, obj.SamplingRate(), obj.CourtesyFrames());
         }
         
-        internal static ConfigResolver FrameCount(ConfigResolver obj, int? value, SynthWishes synthWishes)
-            => SetFrameCount(obj, value, synthWishes);
-        internal static ConfigResolver WithFrameCount(ConfigResolver obj, int? value, SynthWishes synthWishes)
-            => SetFrameCount(obj, value, synthWishes);
+        internal static ConfigResolver FrameCount(ConfigResolver obj, int? value, SynthWishes synthWishes) => SetFrameCount(obj, value, synthWishes);
+        internal static ConfigResolver WithFrameCount(ConfigResolver obj, int? value, SynthWishes synthWishes) => SetFrameCount(obj, value, synthWishes);
         internal static ConfigResolver SetFrameCount(ConfigResolver obj, int? value, SynthWishes synthWishes)
         {
             return obj.AudioLength(AudioLengthFromFrameCount(value, obj.SamplingRate(), obj.CourtesyFrames()), synthWishes);
