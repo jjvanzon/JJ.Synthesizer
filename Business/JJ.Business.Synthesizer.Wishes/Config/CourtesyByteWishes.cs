@@ -82,19 +82,19 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int CourtesyBytes(this int? courtesyFrames, int? bits, int? channels) => ConfigWishes.CourtesyBytes(courtesyFrames, bits, channels);
         public static int GetCourtesyBytes(this int? courtesyFrames, int? bits, int? channels) => ConfigWishes.GetCourtesyBytes(courtesyFrames, bits, channels);
         public static int ToCourtesyBytes(this int? courtesyFrames, int? bits, int? channels) => ConfigWishes.ToCourtesyBytes(courtesyFrames, bits, channels);
-        public static int CourtesyFramesToBytes(int? courtesyFrames, int? bits, int? channels) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels);
+        public static int CourtesyFramesToBytes(this int? courtesyFrames, int? bits, int? channels) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels);
 
 
         public static int CourtesyBytes(this int courtesyFrames, int frameSize) => ConfigWishes.CourtesyBytes(courtesyFrames, frameSize);
         public static int GetCourtesyBytes(this int courtesyFrames, int frameSize) => ConfigWishes.GetCourtesyBytes(courtesyFrames, frameSize);
         public static int ToCourtesyBytes(this int courtesyFrames, int frameSize) => ConfigWishes.ToCourtesyBytes(courtesyFrames, frameSize);
-        public static int CourtesyFramesToBytes(int courtesyFrames, int frameSize) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize);
+        public static int CourtesyFramesToBytes(this int courtesyFrames, int frameSize) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize);
 
 
         public static int CourtesyBytes(this int? courtesyFrames, int? frameSize) => ConfigWishes.CourtesyBytes(courtesyFrames, frameSize);
         public static int GetCourtesyBytes(this int? courtesyFrames, int? frameSize) => ConfigWishes.GetCourtesyBytes(courtesyFrames, frameSize);
         public static int ToCourtesyBytes(this int? courtesyFrames, int? frameSize) => ConfigWishes.ToCourtesyBytes(courtesyFrames, frameSize);
-        public static int CourtesyFramesToBytes(int? courtesyFrames, int? frameSize) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize);
+        public static int CourtesyFramesToBytes(this int? courtesyFrames, int? frameSize) => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize);
 
 
         // Courtesy Bytes to Frames
