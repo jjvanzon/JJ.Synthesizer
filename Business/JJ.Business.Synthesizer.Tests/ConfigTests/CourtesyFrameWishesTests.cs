@@ -11,7 +11,6 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 // ReSharper disable ArrangeStaticMemberQualifier
-
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
 #pragma warning disable IDE0002
