@@ -132,38 +132,42 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // From AudioLength
 
-        public static int FrameCount(this double audioLength, int samplingRate, int courtesyFrames) 
+        public static int FrameCount               (this double audioLength, int samplingRate, int courtesyFrames) 
             => ConfigWishes.FrameCount(audioLength, samplingRate, courtesyFrames);
-        public static int ToFrameCount(this double audioLength, int samplingRate, int courtesyFrames) 
+        public static int ToFrameCount             (this double audioLength, int samplingRate, int courtesyFrames) 
             => ConfigWishes.FrameCount(audioLength, samplingRate, courtesyFrames);
-        public static int GetFrameCount(this double audioLength, int samplingRate, int courtesyFrames) 
+        public static int GetFrameCount            (this double audioLength, int samplingRate, int courtesyFrames) 
             => ConfigWishes.FrameCount(audioLength, samplingRate, courtesyFrames);
         public static int FrameCountFromAudioLength(this double audioLength, int samplingRate, int courtesyFrames) 
             => ConfigWishes.FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
         
         // From ByteCount
 
-        public static int FrameCount(this int byteCount, int frameSize, int headerLength) 
+        public static int FrameCount             (this int byteCount, int frameSize, int headerLength) 
             => ConfigWishes.FrameCount(byteCount, frameSize, headerLength);
-        public static int ToFrameCount(this int byteCount, int frameSize, int headerLength) 
+        public static int GetFrameCount           (this int byteCount, int frameSize, int headerLength) 
+            => ConfigWishes.GetFrameCount(byteCount, frameSize, headerLength);
+        public static int ToFrameCount           (this int byteCount, int frameSize, int headerLength) 
             => ConfigWishes.ToFrameCount(byteCount, frameSize, headerLength);
         public static int FrameCountFromByteCount(this int byteCount, int frameSize, int headerLength) 
             => ConfigWishes.FrameCountFromByteCount(byteCount, frameSize, headerLength);
         
-        public static int FrameCount(this int byteCount, int bits, int channels, int headerLength) 
+        public static int FrameCount             (this int byteCount, int bits, int channels, int headerLength) 
             => ConfigWishes.FrameCount(byteCount, bits, channels, headerLength);
-        public static int ToFrameCount(this int byteCount, int bits, int channels, int headerLength) 
+        public static int GetFrameCount           (this int byteCount, int bits, int channels, int headerLength) 
+            => ConfigWishes.GetFrameCount(byteCount, bits, channels, headerLength);
+        public static int ToFrameCount           (this int byteCount, int bits, int channels, int headerLength) 
             => ConfigWishes.ToFrameCount(byteCount, bits, channels, headerLength);
         public static int FrameCountFromByteCount(this int byteCount, int bits, int channels, int headerLength) 
             => ConfigWishes.FrameCountFromByteCount(byteCount, bits, channels, headerLength);
         
         // From Bytes
 
-        public static int FrameCount((byte[] bytes, string filePath) buffTuple, int frameSize, int headerLength) 
+        public static int FrameCount         ((byte[] bytes, string filePath) buffTuple, int frameSize, int headerLength) 
             => ConfigWishes.FrameCount(buffTuple.bytes, buffTuple.filePath, frameSize, headerLength);
-        public static int ToFrameCount((byte[] bytes, string filePath) buffTuple, int frameSize, int headerLength) 
+        public static int ToFrameCount       ((byte[] bytes, string filePath) buffTuple, int frameSize, int headerLength) 
             => ConfigWishes.ToFrameCount(buffTuple.bytes, buffTuple.filePath, frameSize, headerLength);
-        public static int FrameCountFromBuff((byte[] bytes, string filePath) buffTuple, int frameSize, int headerLength) 
+        public static int FrameCountFromBuff ((byte[] bytes, string filePath) buffTuple, int frameSize, int headerLength) 
             => ConfigWishes.FrameCountFromBuff(buffTuple.bytes, buffTuple.filePath, frameSize, headerLength);
         public static int FrameCountFromBytes((byte[] bytes, string filePath) buffTuple, int frameSize, int headerLength) 
             => ConfigWishes.FrameCountFromBytes(buffTuple.bytes, buffTuple.filePath, frameSize, headerLength);
@@ -421,11 +425,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // From AudioLength
         
-        public static int FrameCount(double audioLength, int samplingRate, int courtesyFrames)
+        public static int FrameCount               (double audioLength, int samplingRate, int courtesyFrames)
             => FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
-        public static int GetFrameCount(double audioLength, int samplingRate, int courtesyFrames)
+        public static int GetFrameCount            (double audioLength, int samplingRate, int courtesyFrames)
             => FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
-        public static int ToFrameCount(double audioLength, int samplingRate, int courtesyFrames)
+        public static int ToFrameCount             (double audioLength, int samplingRate, int courtesyFrames)
             => FrameCountFromAudioLength(audioLength, samplingRate, courtesyFrames);
         public static int FrameCountFromAudioLength(double audioLength, int samplingRate, int courtesyFrames)
         {
@@ -438,9 +442,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // From ByteCount
 
-        public static int FrameCount(int byteCount, int frameSize, int headerLength)
+        public static int FrameCount             (int byteCount, int frameSize, int headerLength)
             => FrameCountFromByteCount(byteCount, frameSize, headerLength);
-        public static int ToFrameCount(int byteCount, int frameSize, int headerLength)
+        public static int GetFrameCount           (int byteCount, int frameSize, int headerLength)
+            => FrameCountFromByteCount(byteCount, frameSize, headerLength);
+        public static int ToFrameCount           (int byteCount, int frameSize, int headerLength)
             => FrameCountFromByteCount(byteCount, frameSize, headerLength);
         public static int FrameCountFromByteCount(int byteCount, int frameSize, int headerLength)
         {
@@ -455,9 +461,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return frameCount;
         }
 
-        public static int FrameCount(int byteCount, int bits, int channels, int headerLength)
+        public static int FrameCount             (int byteCount, int bits, int channels, int headerLength)
             => FrameCountFromByteCount(byteCount, bits, channels, headerLength);
-        public static int ToFrameCount(int byteCount, int bits, int channels, int headerLength)
+        public static int GetFrameCount           (int byteCount, int bits, int channels, int headerLength)
+            => FrameCountFromByteCount(byteCount, bits, channels, headerLength);
+        public static int ToFrameCount           (int byteCount, int bits, int channels, int headerLength)
             => FrameCountFromByteCount(byteCount, bits, channels, headerLength);
         public static int FrameCountFromByteCount(int byteCount, int bits, int channels, int headerLength)
         {
@@ -467,11 +475,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // From Bytes
 
-        public static int FrameCount(byte[] bytes, string filePath, int frameSize, int headerLength)
+        public static int FrameCount         (byte[] bytes, string filePath, int frameSize, int headerLength)
             => FrameCountFromBytes(bytes, filePath, frameSize, headerLength);
-        public static int ToFrameCount(byte[] bytes, string filePath, int frameSize, int headerLength)
+        public static int ToFrameCount       (byte[] bytes, string filePath, int frameSize, int headerLength)
             => FrameCountFromBytes(bytes, filePath, frameSize, headerLength);
-        public static int FrameCountFromBuff(byte[] bytes, string filePath, int frameSize, int headerLength)
+        public static int FrameCountFromBuff (byte[] bytes, string filePath, int frameSize, int headerLength)
             => FrameCountFromBytes(bytes, filePath, frameSize, headerLength);
         public static int FrameCountFromBytes(byte[] bytes, string filePath, int frameSize, int headerLength)
         {
