@@ -59,6 +59,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<double> Length      { get => AudioLength; set => AudioLength = value; }
             public CaseProp<double> sec         { get => AudioLength; set => AudioLength = value; }
 
+            // Additional properties, used in conversion formulae
+            public CaseProp<int> ByteCount { get; set; }
+            public CaseProp<int> Bits { get; set; }
+            public CaseProp<int> Channels { get; set; }
+            public CaseProp<int> FrameSize { get; set; }
+            public CaseProp<int> HeaderLength { get; set; }
+
             // Constructors
             
             public Case(
@@ -329,34 +336,55 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_All_Getters(x, testCase);
         }
         
-        static object ConversionFormulaCases => new CaseCollection<Case>() // ncrunch: no coverage
-            //.Concat(BasicCases)
-            .Concat(AudioLengthCases)
-            .Concat(SamplingRateCases)
-            .Concat(CourtesyFramesCases);
+        static CaseCollection<Case> ConversionFormulaCases { get; } = Cases.FromTemplate(new Case
+
+            { AudioLength = 0.01, Bits = 32, Channels = 2, FrameSize = 8, Hz = 40000, PlusFrames = 3, HeaderLength = WavHeaderLength },
+
+            new Case(frameCount: 400+3) { ByteCount = 3200+24 + WavHeaderLength }
+        );
 
         [TestMethod]
         [DynamicData(nameof(ConversionFormulaCases))]
-        public void ConversionFormula_FrameCount(string caseKey)
+        public void ConversionFormula_FrameCount_FromAudioLength(string caseKey)
         {
             Case   test = Cases[caseKey];
             double len  = test.AudioLength;
             int    Hz   = test.SamplingRate;
             int    plus = test.CourtesyFrames;
-            
-            AreEqual(test.FrameCount, () =>              len.FrameCountFromAudioLength (Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () =>              len.GetFrameCount             (Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () =>              len.ToFrameCount              (Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () =>              len.FrameCount                (Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () =>              FrameCountFromAudioLength(len, Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () =>              GetFrameCount            (len, Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () =>              ToFrameCount             (len, Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () =>              FrameCount               (len, Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () => ConfigWishes.FrameCountFromAudioLength(len, Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () => ConfigWishes.GetFrameCount            (len, Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () => ConfigWishes.ToFrameCount             (len, Hz, plus), delta: -1);
-            AreEqual(test.FrameCount, () => ConfigWishes.FrameCount               (len, Hz, plus), delta: -1);
+            int  frameCount   = test.FrameCount;
+            int  byteCount    = test.ByteCount;
+            int  bits         = test.Bits;
+            int  channels     = test.Channels;
+            int  frameSize    = FrameSize(bits, channels);
+            int  headerLength = test.HeaderLength;
+
+            AreEqual(frameCount, () =>              len.FrameCountFromAudioLength (Hz, plus), Tolerance);
+            AreEqual(frameCount, () =>              len.GetFrameCount             (Hz, plus), Tolerance);
+            AreEqual(frameCount, () =>              len.ToFrameCount              (Hz, plus), Tolerance);
+            AreEqual(frameCount, () =>              len.FrameCount                (Hz, plus), Tolerance);
+            AreEqual(frameCount, () =>              FrameCountFromAudioLength(len, Hz, plus), Tolerance);
+            AreEqual(frameCount, () =>              GetFrameCount            (len, Hz, plus), Tolerance);
+            AreEqual(frameCount, () =>              ToFrameCount             (len, Hz, plus), Tolerance);
+            AreEqual(frameCount, () =>              FrameCount               (len, Hz, plus), Tolerance);
+            AreEqual(frameCount, () => ConfigWishes.FrameCountFromAudioLength(len, Hz, plus), Tolerance);
+            AreEqual(frameCount, () => ConfigWishes.GetFrameCount            (len, Hz, plus), Tolerance);
+            AreEqual(frameCount, () => ConfigWishes.ToFrameCount             (len, Hz, plus), Tolerance);
+            AreEqual(frameCount, () => ConfigWishes.FrameCount               (len, Hz, plus), Tolerance);
+
+            AreEqual(frameCount, () =>              byteCount.FrameCountFromByteCount (frameSize, headerLength));
+            AreEqual(frameCount, () =>              byteCount.GetFrameCount           (frameSize, headerLength));
+            AreEqual(frameCount, () =>              byteCount.ToFrameCount            (frameSize, headerLength));
+            AreEqual(frameCount, () =>              byteCount.FrameCount              (frameSize, headerLength));
+            AreEqual(frameCount, () =>              FrameCountFromByteCount(byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () =>              GetFrameCount          (byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () =>              ToFrameCount           (byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () =>              FrameCount             (byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.FrameCountFromByteCount(byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.GetFrameCount          (byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.ToFrameCount           (byteCount, frameSize, headerLength));
+            AreEqual(frameCount, () => ConfigWishes.FrameCount             (byteCount, frameSize, headerLength));
         }
+
 
         static object SynthBoundCases => 
             BasicCases // ncrunch: no coverage
