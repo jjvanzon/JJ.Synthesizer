@@ -70,3 +70,4 @@ FileExtensionWishesTests:
             AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.SynthWishes   .IsWav());
             AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.FlowNode      .IsWav());
             AreEqual(fileExtension.Is(".wav"), () => x.SynthBound.ConfigResolver.IsWav());
+

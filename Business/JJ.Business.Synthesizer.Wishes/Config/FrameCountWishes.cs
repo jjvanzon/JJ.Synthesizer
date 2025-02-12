@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
+// ReSharper disable ArrangeStaticMemberQualifier
+#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -33,17 +35,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode WithFrameCount(this FlowNode obj, int? value) => ConfigWishes.WithFrameCount(obj, value);
         public static FlowNode SetFrameCount(this FlowNode obj, int? value) => ConfigWishes.SetFrameCount(obj, value);
 
-        internal static int FrameCount(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.FrameCount(obj, synthWishes);
-        internal static int GetFrameCount(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.GetFrameCount(obj, synthWishes);
+        [UsedImplicitly] internal static int FrameCount(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.FrameCount(obj, synthWishes);
+        [UsedImplicitly] internal static int GetFrameCount(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.GetFrameCount(obj, synthWishes);
 
-        internal static ConfigResolver FrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.FrameCount(obj, value, synthWishes);
-        internal static ConfigResolver WithFrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.WithFrameCount(obj, value, synthWishes);
-        internal static ConfigResolver SetFrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.SetFrameCount(obj, value, synthWishes);
+        [UsedImplicitly] internal static ConfigResolver FrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.FrameCount(obj, value, synthWishes);
+        [UsedImplicitly] internal static ConfigResolver WithFrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.WithFrameCount(obj, value, synthWishes);
+        [UsedImplicitly] internal static ConfigResolver SetFrameCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.SetFrameCount(obj, value, synthWishes);
 
         // Global-Bound
 
-        internal static int? FrameCount(this ConfigSection obj) => ConfigWishes.FrameCount(obj);
-        internal static int? GetFrameCount(this ConfigSection obj) => ConfigWishes.GetFrameCount(obj);
+        [UsedImplicitly] internal static int? FrameCount(this ConfigSection obj) => ConfigWishes.FrameCount(obj);
+        [UsedImplicitly] internal static int? GetFrameCount(this ConfigSection obj) => ConfigWishes.GetFrameCount(obj);
 
         // Tape-Bound
 
