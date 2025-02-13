@@ -303,27 +303,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             sampleDataTypes    .ForEach(s => Assert_Immutable_Getters(s, val.maxAmplitude));
             types              .ForEach(t => Assert_Immutable_Getters(t, val.maxAmplitude));
         }
-
-        [TestMethod]
-        public void ConfigSection_MaxAmplitude()
-        {
-            // Immutable. Get-only.
-            var x = CreateTestEntities(default);
-            var configSection = x.SynthBound.ConfigSection;
-            AreEqual(DefaultMaxAmplitude, () => configSection.MaxAmplitude());
-            AreEqual(DefaultMaxAmplitude, () => configSection.GetMaxAmplitude());
-            AreEqual(DefaultMaxAmplitude, () => MaxAmplitude(configSection));
-            AreEqual(DefaultMaxAmplitude, () => GetMaxAmplitude(configSection));
-            AreEqual(DefaultMaxAmplitude, () => ConfigWishesAccessor.MaxAmplitude(configSection));
-            AreEqual(DefaultMaxAmplitude, () => ConfigWishesAccessor.GetMaxAmplitude(configSection));
-        }
-
-        [TestMethod]
-        public void Default_MaxAmplitude()
-        {
-            AreEqual(1, () => DefaultMaxAmplitude);
-        }
-
         [TestMethod]
         public void MaxAmplitude_WithTypeArguments()
         {
@@ -346,6 +325,32 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(1,                 () => ConfigWishes. ToMaxAmplitude<float>());
             AreEqual(1,                 () => ConfigWishes.GetMaxAmplitude<float>());
 
+        }
+        
+        [TestMethod]
+        public void ConfigSection_MaxAmplitude()
+        {
+            // Immutable. Get-only.
+            var x = CreateTestEntities(default);
+            var configSection = x.SynthBound.ConfigSection;
+            AreEqual(DefaultMaxAmplitude, () => configSection.MaxAmplitude());
+            AreEqual(DefaultMaxAmplitude, () => configSection.GetMaxAmplitude());
+            AreEqual(DefaultMaxAmplitude, () => MaxAmplitude(configSection));
+            AreEqual(DefaultMaxAmplitude, () => GetMaxAmplitude(configSection));
+            AreEqual(DefaultMaxAmplitude, () => ConfigWishesAccessor.MaxAmplitude(configSection));
+            AreEqual(DefaultMaxAmplitude, () => ConfigWishesAccessor.GetMaxAmplitude(configSection));
+        }
+
+        [TestMethod]
+        public void Default_MaxAmplitude()
+        {
+            AreEqual(1, () => DefaultMaxAmplitude);
+        }
+
+        [TestMethod]
+        public void MaxAmplitude_EdgeCases()
+        {
+            ThrowsException(() => GetMaxAmplitude(bits: -1), "Bits = -1 not valid. Supported values: 8, 16, 32");
         }
 
         // Getter Helpers
@@ -381,6 +386,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.WavHeader, maxAmplitude);
             Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, maxAmplitude);
             Assert_Immutable_Getters(x.Immutable.SampleDataType, maxAmplitude);
+            Assert_Immutable_Getters(x.Immutable.Bits, maxAmplitude);
             Assert_Immutable_Getters(x.Immutable.Type, maxAmplitude);
         }
 
@@ -540,6 +546,52 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(sampleDataType));
         }
         
+        private void Assert_Immutable_Getters(int bits, int maxAmplitude)
+        {
+            AreEqual(maxAmplitude, () => bits.MaxAmplitude());
+            AreEqual(maxAmplitude, () => bits.ToMaxAmplitude());
+            AreEqual(maxAmplitude, () => bits.GetMaxAmplitude());
+            AreEqual(maxAmplitude, () => MaxAmplitude(bits));
+            AreEqual(maxAmplitude, () => ToMaxAmplitude(bits));
+            AreEqual(maxAmplitude, () => GetMaxAmplitude(bits));
+            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(bits));
+            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude(bits));
+            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(bits));
+
+            int? nullyBits = bits;
+            AreEqual(maxAmplitude, () => nullyBits.MaxAmplitude());
+            AreEqual(maxAmplitude, () => nullyBits.ToMaxAmplitude());
+            AreEqual(maxAmplitude, () => nullyBits.GetMaxAmplitude());
+            AreEqual(maxAmplitude, () => MaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, () => ToMaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, () => GetMaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(nullyBits));
+
+            nullyBits = null;
+            IsNull(() => nullyBits.MaxAmplitude());
+            IsNull(() => nullyBits.ToMaxAmplitude());
+            IsNull(() => nullyBits.GetMaxAmplitude());
+            IsNull(() => MaxAmplitude(nullyBits));
+            IsNull(() => ToMaxAmplitude(nullyBits));
+            IsNull(() => GetMaxAmplitude(nullyBits));
+            IsNull(() => ConfigWishes.MaxAmplitude(nullyBits));
+            IsNull(() => ConfigWishes.ToMaxAmplitude(nullyBits));
+            IsNull(() => ConfigWishes.GetMaxAmplitude(nullyBits));
+
+            nullyBits = 0;
+            AreEqual(0, () => nullyBits.MaxAmplitude());
+            AreEqual(0, () => nullyBits.ToMaxAmplitude());
+            AreEqual(0, () => nullyBits.GetMaxAmplitude());
+            AreEqual(0, () => MaxAmplitude(nullyBits));
+            AreEqual(0, () => ToMaxAmplitude(nullyBits));
+            AreEqual(0, () => GetMaxAmplitude(nullyBits));
+            AreEqual(0, () => ConfigWishes.MaxAmplitude(nullyBits));
+            AreEqual(0, () => ConfigWishes.ToMaxAmplitude(nullyBits));
+            AreEqual(0, () => ConfigWishes.GetMaxAmplitude(nullyBits));
+        }
+
         private void Assert_Immutable_Getters(Type type, int maxAmplitude)
         {
             IsNotNull(             () => type);
