@@ -57,6 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         public static double MaxAmplitude(this AudioFileOutput obj) => ConfigWishes.MaxAmplitude(obj);
         public static double GetMaxAmplitude(this AudioFileOutput obj) => ConfigWishes.GetMaxAmplitude(obj);
+        
         // Independent after Taping
 
         public static double MaxAmplitude(this Sample obj) => ConfigWishes.MaxAmplitude(obj);
@@ -69,6 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static double MaxAmplitude(this AudioInfoWish obj) => ConfigWishes.MaxAmplitude(obj);
         public static double ToMaxAmplitude(this AudioInfoWish obj) => ConfigWishes.ToMaxAmplitude(obj);
         public static double GetMaxAmplitude(this AudioInfoWish obj) => ConfigWishes.GetMaxAmplitude(obj);
+        
         // Immutable
 
         public static double MaxAmplitude(this WavHeaderStruct obj) => ConfigWishes.MaxAmplitude(obj);
