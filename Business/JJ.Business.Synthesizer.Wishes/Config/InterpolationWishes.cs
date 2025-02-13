@@ -201,6 +201,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         public static InterpolationTypeEnum AsBlocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.AsBlocky(oldInterpolation);
         /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum ToLinear(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.ToLinear(oldInterpolation);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum ToBlocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.ToBlocky(oldInterpolation);
+        /// <inheritdoc cref="docs._quasisetter" />
         public static InterpolationTypeEnum SetLinear(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.SetLinear(oldInterpolation);
         /// <inheritdoc cref="docs._quasisetter" />
         public static InterpolationTypeEnum SetBlocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.SetBlocky(oldInterpolation);
@@ -558,6 +562,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => SetInterpolation(oldInterpolation, Line);
         /// <inheritdoc cref="docs._quasisetter" />
         public static InterpolationTypeEnum AsBlocky(InterpolationTypeEnum oldInterpolation)
+            => SetInterpolation(oldInterpolation, Block);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum ToLinear(InterpolationTypeEnum oldInterpolation)
+            => SetInterpolation(oldInterpolation, Line);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static InterpolationTypeEnum ToBlocky(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Block);
         /// <inheritdoc cref="docs._quasisetter" />
         public static InterpolationTypeEnum SetLinear(InterpolationTypeEnum oldInterpolation)

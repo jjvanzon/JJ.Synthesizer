@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public bool IsLinear => Config.IsLinear;
         public bool IsBlocky => Config.IsBlocky;
-        public InterpolationTypeEnum Interpolation() => ConfigWishes.Interpolation(this);
+        protected InterpolationTypeEnum Interpolation() => ConfigWishes.Interpolation(this);
         public InterpolationTypeEnum GetInterpolation => Config.GetInterpolation;
         protected SynthWishes Linear() => ConfigWishes.Linear(this);
         protected SynthWishes Blocky() => ConfigWishes.Blocky(this);
@@ -126,8 +126,8 @@ namespace JJ.Business.Synthesizer.Wishes
         protected SynthWishes SetBlocky() => ConfigWishes.SetBlocky(this);
         protected SynthWishes Interpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.Interpolation(this, interpolation);
         public SynthWishes WithInterpolation(InterpolationTypeEnum? interpolation) { Config.WithInterpolation(interpolation); return this; }
-        public SynthWishes AsInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.AsInterpolation(this, interpolation);
-        public SynthWishes SetInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.SetInterpolation(this, interpolation);
+        protected SynthWishes AsInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.AsInterpolation(this, interpolation);
+        protected SynthWishes SetInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.SetInterpolation(this, interpolation);
 
         // Durations
 
