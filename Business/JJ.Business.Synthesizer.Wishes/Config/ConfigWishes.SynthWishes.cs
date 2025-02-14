@@ -90,11 +90,11 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="docs._getsamplingrate" />
         public int GetSamplingRate => Config.GetSamplingRate;
         /// <inheritdoc cref="docs._withsamplingrate"/>
-        public SynthWishes SamplingRate(int? value) => ConfigWishes.SamplingRate(this, value);
+        protected SynthWishes SamplingRate(int? value) => ConfigWishes.SamplingRate(this, value);
         /// <inheritdoc cref="docs._withsamplingrate"/>
         public SynthWishes WithSamplingRate(int? value) { Config.WithSamplingRate(value); return this; }
         /// <inheritdoc cref="docs._withsamplingrate"/>
-        public SynthWishes SetSamplingRate(int? value) => ConfigWishes.SetSamplingRate(this, value);
+        protected SynthWishes SetSamplingRate(int? value) => ConfigWishes.SetSamplingRate(this, value);
 
         public bool IsWav => Config.IsWav;
         public bool IsRaw => Config.IsRaw;

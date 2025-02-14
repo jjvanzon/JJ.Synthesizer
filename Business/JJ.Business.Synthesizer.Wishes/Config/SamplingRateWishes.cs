@@ -8,7 +8,6 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -44,9 +43,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode SetSamplingRate(this FlowNode obj, int? value) => ConfigWishes.SetSamplingRate(obj, value);
 
         /// <inheritdoc cref="docs._getsamplingrate" />
-        internal static int SamplingRate(this ConfigResolver obj) => ConfigWishes.SamplingRate(obj);
+        [UsedImplicitly] internal static int SamplingRate(this ConfigResolver obj) => ConfigWishes.SamplingRate(obj);
         /// <inheritdoc cref="docs._getsamplingrate" />
-        internal static int GetSamplingRate(this ConfigResolver obj) => ConfigWishes.GetSamplingRate(obj);
+        [UsedImplicitly] internal static int GetSamplingRate(this ConfigResolver obj) => ConfigWishes.GetSamplingRate(obj);
 
         /// <inheritdoc cref="docs._getsamplingrate" />
         [UsedImplicitly] internal static ConfigResolver SamplingRate(this ConfigResolver obj, int? value) => ConfigWishes.SamplingRate(obj, value);
@@ -73,6 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int GetSamplingRate(this TapeConfig obj) => ConfigWishes.GetSamplingRate(obj);
 
         public static TapeConfig SamplingRate(this TapeConfig obj, int value) => ConfigWishes.SamplingRate(obj, value);
+        public static TapeConfig WithSamplingRate(this TapeConfig obj, int value) => ConfigWishes.WithSamplingRate(obj, value);
         public static TapeConfig SetSamplingRate(this TapeConfig obj, int value) => ConfigWishes.SetSamplingRate(obj, value);
 
         public static int SamplingRate(this TapeActions obj) => ConfigWishes.SamplingRate(obj);
@@ -222,6 +222,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
         
         public static TapeConfig SamplingRate(TapeConfig obj, int value) => SetSamplingRate(obj, value);
+        public static TapeConfig WithSamplingRate(TapeConfig obj, int value) => SetSamplingRate(obj, value);
         public static TapeConfig SetSamplingRate(TapeConfig obj, int value)
         {
             if (obj == null) throw new NullException(() => obj);

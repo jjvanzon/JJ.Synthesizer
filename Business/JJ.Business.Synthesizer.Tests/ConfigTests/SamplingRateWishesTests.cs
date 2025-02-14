@@ -8,12 +8,15 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
+// ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
+#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
@@ -51,13 +54,36 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, Coalesce(value));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SamplingRate(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SamplingRate(value)));
-            
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SamplingRate    (value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SamplingRate    (value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SamplingRate    (value)));
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithSamplingRate(value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithSamplingRate(value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SetSamplingRate (value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SetSamplingRate (value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SetSamplingRate (value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SamplingRate    (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SamplingRate    (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SamplingRate    (x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    WithSamplingRate(x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       WithSamplingRate(x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, WithSamplingRate(x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SetSamplingRate (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SetSamplingRate (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SetSamplingRate (x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SamplingRate    (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SamplingRate    (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SamplingRate    (x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .WithSamplingRate(x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .WithSamplingRate(x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.WithSamplingRate(x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetSamplingRate (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetSamplingRate (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetSamplingRate (x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SamplingRateExtensionWishes.WithSamplingRate(x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SamplingRateExtensionWishes.WithSamplingRate(x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SamplingRateExtensionWishesAccessor.WithSamplingRate(x.SynthBound.ConfigResolver, value)));
         }
 
         [TestMethod] 
@@ -81,11 +107,43 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,       () => x.TapeBound.Tape.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.SamplingRate(value)));
-            AssertProp(x =>                                        x.TapeBound.TapeConfig.SamplingRate = value);
+            AssertProp(x =>                                         x.TapeBound.TapeConfig.SamplingRate = value);
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SamplingRate(value)));
             AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.SamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetSamplingRate(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SamplingRate    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SamplingRate    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SamplingRate    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SamplingRate    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => WithSamplingRate(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => WithSamplingRate(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => WithSamplingRate(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => WithSamplingRate(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SetSamplingRate (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SetSamplingRate (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SetSamplingRate (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SetSamplingRate (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SamplingRate    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SamplingRate    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SamplingRate    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SamplingRate    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.WithSamplingRate(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.WithSamplingRate(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.WithSamplingRate(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.WithSamplingRate(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SetSamplingRate (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetSamplingRate (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetSamplingRate (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetSamplingRate (x.TapeBound.TapeAction , value)));
         }
 
         [TestMethod] 
@@ -109,9 +167,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init);
             }
 
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.SamplingRate(value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SamplingRate(value)));
-            AssertProp(x =>                                             x.BuffBound.AudioFileOutput.SamplingRate =value);
+            AssertProp(x =>                                             x.BuffBound.AudioFileOutput.SamplingRate = value);
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SamplingRate    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SamplingRate    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithSamplingRate(value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetSamplingRate (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetSamplingRate (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => SamplingRate    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => SamplingRate    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => WithSamplingRate(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => WithSamplingRate(x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => SetSamplingRate (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => SetSamplingRate (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SamplingRate    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SamplingRate    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.WithSamplingRate(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.WithSamplingRate(x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SetSamplingRate (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SetSamplingRate (x.BuffBound.AudioFileOutput, value)));
         }
         
         [TestMethod]
@@ -141,8 +215,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SamplingRate(value)));
                 AssertProp(() =>                                      x.Independent.Sample.SamplingRate = value);
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SamplingRate    (value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithSamplingRate(value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetSamplingRate (value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => SamplingRate    (x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => WithSamplingRate(x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => SetSamplingRate (x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SamplingRate    (x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.WithSamplingRate(x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SetSamplingRate (x.Independent.Sample, value)));
             }
             
             // AudioInfoWish
@@ -166,8 +248,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SamplingRate(value)));
                 AssertProp(() =>                                             x.Independent.AudioInfoWish.SamplingRate = value);
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SamplingRate    (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.WithSamplingRate(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SetSamplingRate (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => SamplingRate    (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => WithSamplingRate(x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => SetSamplingRate (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.SamplingRate    (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.WithSamplingRate(x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.SetSamplingRate (x.Independent.AudioInfoWish, value)));
             }
                         
             // AudioFileInfo
@@ -191,8 +281,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SamplingRate(value)));
                 AssertProp(() =>                                             x.Independent.AudioFileInfo.SamplingRate = value);
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SamplingRate    (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.WithSamplingRate(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SetSamplingRate (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => SamplingRate    (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => WithSamplingRate(x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => SetSamplingRate (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.SamplingRate    (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.WithSamplingRate(x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.SetSamplingRate (x.Independent.AudioFileInfo, value)));
             }
         }
         
@@ -218,7 +316,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     wavHeaders.Add(wavHeader2);
                 }
 
-                AssertProp(() => x.Immutable.WavHeader.SamplingRate(value));
+                AssertProp(() => x.Immutable.WavHeader.SamplingRate    (value));
+                AssertProp(() => x.Immutable.WavHeader.WithSamplingRate(value));
+                AssertProp(() => x.Immutable.WavHeader.SetSamplingRate (value));
+                AssertProp(() => SamplingRate    (x.Immutable.WavHeader, value));
+                AssertProp(() => WithSamplingRate(x.Immutable.WavHeader, value));
+                AssertProp(() => SetSamplingRate (x.Immutable.WavHeader, value));
+                AssertProp(() => ConfigWishes.SamplingRate    (x.Immutable.WavHeader, value));
+                AssertProp(() => ConfigWishes.WithSamplingRate(x.Immutable.WavHeader, value));
+                AssertProp(() => ConfigWishes.SetSamplingRate (x.Immutable.WavHeader, value));
             }
             
             // After-Record
@@ -236,9 +342,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             // Immutable. Get-only.
             var x = CreateTestEntities(default);
-            var configSection = x.SynthBound.ConfigSection;
-            AreEqual(DefaultSamplingRate, () => configSection.SamplingRate);
-            AreEqual(DefaultSamplingRate, () => configSection.SamplingRate());
+
+            AreEqual(DefaultSamplingRate, () => x.SynthBound.ConfigSection.SamplingRate);
+            AreEqual(DefaultSamplingRate, () => x.SynthBound.ConfigSection.SamplingRate   ());
+            AreEqual(DefaultSamplingRate, () => x.SynthBound.ConfigSection.GetSamplingRate());
+            AreEqual(DefaultSamplingRate, () => SamplingRate   (x.SynthBound.ConfigSection));
+            AreEqual(DefaultSamplingRate, () => GetSamplingRate(x.SynthBound.ConfigSection));
+            AreEqual(DefaultSamplingRate, () => ConfigWishesAccessor.SamplingRate   (x.SynthBound.ConfigSection));
+            AreEqual(DefaultSamplingRate, () => ConfigWishesAccessor.GetSamplingRate(x.SynthBound.ConfigSection));
+        }
+
+        [TestMethod]
+        public void Default_SamplingRate()
+        {
+            AreEqual(48000, () => DefaultSamplingRate);
         }
 
         // Getter Helpers
@@ -272,51 +389,116 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, int samplingRate)
         {
-            AreEqual(samplingRate, () => x.SynthBound.SynthWishes.SamplingRate());
-            AreEqual(samplingRate, () => x.SynthBound.SynthWishes.GetSamplingRate);
-            AreEqual(samplingRate, () => x.SynthBound.FlowNode.SamplingRate());
-            AreEqual(samplingRate, () => x.SynthBound.FlowNode.GetSamplingRate);
-            AreEqual(samplingRate, () => x.SynthBound.ConfigResolver.SamplingRate());
+            AreEqual(samplingRate, () => x.SynthBound.SynthWishes   .GetSamplingRate);
+            AreEqual(samplingRate, () => x.SynthBound.FlowNode      .GetSamplingRate);
             AreEqual(samplingRate, () => x.SynthBound.ConfigResolver.GetSamplingRate);
+            AreEqual(samplingRate, () => x.SynthBound.SynthWishes   .SamplingRate   ());
+            AreEqual(samplingRate, () => x.SynthBound.FlowNode      .SamplingRate   ());
+            AreEqual(samplingRate, () => x.SynthBound.ConfigResolver.SamplingRate   ());
+            AreEqual(samplingRate, () => x.SynthBound.SynthWishes   .GetSamplingRate());
+            AreEqual(samplingRate, () => x.SynthBound.FlowNode      .GetSamplingRate());
+            AreEqual(samplingRate, () => x.SynthBound.ConfigResolver.GetSamplingRate());
+            AreEqual(samplingRate, () => SamplingRate   (x.SynthBound.SynthWishes   ));
+            AreEqual(samplingRate, () => SamplingRate   (x.SynthBound.FlowNode      ));
+            AreEqual(samplingRate, () => SamplingRate   (x.SynthBound.ConfigResolver));
+            AreEqual(samplingRate, () => GetSamplingRate(x.SynthBound.SynthWishes   ));
+            AreEqual(samplingRate, () => GetSamplingRate(x.SynthBound.FlowNode      ));
+            AreEqual(samplingRate, () => GetSamplingRate(x.SynthBound.ConfigResolver));
+            AreEqual(samplingRate, () => ConfigWishes        .SamplingRate   (x.SynthBound.SynthWishes   ));
+            AreEqual(samplingRate, () => ConfigWishes        .SamplingRate   (x.SynthBound.FlowNode      ));
+            AreEqual(samplingRate, () => ConfigWishesAccessor.SamplingRate   (x.SynthBound.ConfigResolver));
+            AreEqual(samplingRate, () => ConfigWishes        .GetSamplingRate(x.SynthBound.SynthWishes   ));
+            AreEqual(samplingRate, () => ConfigWishes        .GetSamplingRate(x.SynthBound.FlowNode      ));
+            AreEqual(samplingRate, () => ConfigWishesAccessor.GetSamplingRate(x.SynthBound.ConfigResolver));
         }
         
         private void Assert_TapeBound_Getters(ConfigTestEntities x, int samplingRate)
         {
-            AreEqual(samplingRate, () => x.TapeBound.Tape.SamplingRate());
-            AreEqual(samplingRate, () => x.TapeBound.TapeConfig.SamplingRate());
-            AreEqual(samplingRate, () => x.TapeBound.TapeConfig.SamplingRate);
-            AreEqual(samplingRate, () => x.TapeBound.TapeActions.SamplingRate());
-            AreEqual(samplingRate, () => x.TapeBound.TapeAction.SamplingRate());
+            AreEqual(samplingRate, () => x.TapeBound.TapeConfig .SamplingRate);
+            AreEqual(samplingRate, () => x.TapeBound.Tape       .SamplingRate   ());
+            AreEqual(samplingRate, () => x.TapeBound.TapeConfig .SamplingRate   ());
+            AreEqual(samplingRate, () => x.TapeBound.TapeActions.SamplingRate   ());
+            AreEqual(samplingRate, () => x.TapeBound.TapeAction .SamplingRate   ());
+            AreEqual(samplingRate, () => x.TapeBound.Tape       .GetSamplingRate());
+            AreEqual(samplingRate, () => x.TapeBound.TapeConfig .GetSamplingRate());
+            AreEqual(samplingRate, () => x.TapeBound.TapeActions.GetSamplingRate());
+            AreEqual(samplingRate, () => x.TapeBound.TapeAction .GetSamplingRate());
+            AreEqual(samplingRate, () => SamplingRate   (x.TapeBound.Tape       ));
+            AreEqual(samplingRate, () => SamplingRate   (x.TapeBound.TapeConfig ));
+            AreEqual(samplingRate, () => SamplingRate   (x.TapeBound.TapeActions));
+            AreEqual(samplingRate, () => SamplingRate   (x.TapeBound.TapeAction ));
+            AreEqual(samplingRate, () => GetSamplingRate(x.TapeBound.Tape       ));
+            AreEqual(samplingRate, () => GetSamplingRate(x.TapeBound.TapeConfig ));
+            AreEqual(samplingRate, () => GetSamplingRate(x.TapeBound.TapeActions));
+            AreEqual(samplingRate, () => GetSamplingRate(x.TapeBound.TapeAction ));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (x.TapeBound.Tape       ));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (x.TapeBound.TapeConfig ));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (x.TapeBound.TapeActions));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (x.TapeBound.TapeAction ));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.TapeBound.Tape       ));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.TapeBound.TapeConfig ));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.TapeBound.TapeActions));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.TapeBound.TapeAction ));
         }
         
         private void Assert_BuffBound_Getters(ConfigTestEntities x, int samplingRate)
         {
-            AreEqual(samplingRate, () => x.BuffBound.Buff.SamplingRate());
-            AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.SamplingRate());
             AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.SamplingRate);
+            AreEqual(samplingRate, () => x.BuffBound.Buff           .SamplingRate   ());
+            AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.SamplingRate   ());
+            AreEqual(samplingRate, () => x.BuffBound.Buff           .GetSamplingRate());
+            AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.GetSamplingRate());
+            AreEqual(samplingRate, () => SamplingRate   (x.BuffBound.Buff           ));
+            AreEqual(samplingRate, () => SamplingRate   (x.BuffBound.AudioFileOutput));
+            AreEqual(samplingRate, () => GetSamplingRate(x.BuffBound.Buff           ));
+            AreEqual(samplingRate, () => GetSamplingRate(x.BuffBound.AudioFileOutput));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (x.BuffBound.Buff           ));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (x.BuffBound.AudioFileOutput));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.BuffBound.Buff           ));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.BuffBound.AudioFileOutput));
         }
         
         private void Assert_Independent_Getters(Sample sample, int samplingRate)
         {
-            AreEqual(samplingRate, () => sample.SamplingRate());
             AreEqual(samplingRate, () => sample.SamplingRate);
+            AreEqual(samplingRate, () => sample.SamplingRate   ());
+            AreEqual(samplingRate, () => sample.GetSamplingRate());
+            AreEqual(samplingRate, () => SamplingRate   (sample));
+            AreEqual(samplingRate, () => GetSamplingRate(sample));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (sample));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(sample));
         }
         
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int samplingRate)
         {
-            AreEqual(samplingRate, () => audioFileInfo.SamplingRate());
             AreEqual(samplingRate, () => audioFileInfo.SamplingRate);
+            AreEqual(samplingRate, () => audioFileInfo.SamplingRate   ());
+            AreEqual(samplingRate, () => audioFileInfo.GetSamplingRate());
+            AreEqual(samplingRate, () => SamplingRate   (audioFileInfo));
+            AreEqual(samplingRate, () => GetSamplingRate(audioFileInfo));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (audioFileInfo));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(audioFileInfo));
         }
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int samplingRate)
         {
-            AreEqual(samplingRate, () => audioInfoWish.SamplingRate());
             AreEqual(samplingRate, () => audioInfoWish.SamplingRate);
+            AreEqual(samplingRate, () => audioInfoWish.SamplingRate   ());
+            AreEqual(samplingRate, () => audioInfoWish.GetSamplingRate());
+            AreEqual(samplingRate, () => SamplingRate   (audioInfoWish));
+            AreEqual(samplingRate, () => GetSamplingRate(audioInfoWish));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (audioInfoWish));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(audioInfoWish));
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int samplingRate)
         {
-            AreEqual(samplingRate, () => wavHeader.SamplingRate());
             AreEqual(samplingRate, () => wavHeader.SamplingRate);
+            AreEqual(samplingRate, () => wavHeader.SamplingRate   ());
+            AreEqual(samplingRate, () => wavHeader.GetSamplingRate());
+            AreEqual(samplingRate, () => SamplingRate   (wavHeader));
+            AreEqual(samplingRate, () => GetSamplingRate(wavHeader));
+            AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (wavHeader));
+            AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(wavHeader));
         }
  
         // Test Data Helpers
