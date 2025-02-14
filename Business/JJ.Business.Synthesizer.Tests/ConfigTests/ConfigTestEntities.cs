@@ -68,6 +68,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public SampleDataTypeEnum    SampleDataTypeEnum  { get; set; }
         public SampleDataType        SampleDataType      { get; set; }
         public int                   Bits                { get; set; }
+        public int                   SizeOfBitDepth      { get; set; }
         public Type                  Type                { get; set; }
         public int                   SamplingRate        { get; set; }
         public int                   Channels            { get; set; }
@@ -214,6 +215,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                           Immutable = new ImmutableEntities
                           {
                               Bits                = t.Config.Bits,
+                              SizeOfBitDepth      = t.Config.SizeOfBitDepth(),
                               SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
                               SampleDataType      = t.UnderlyingSample.SampleDataType,
                               SamplingRate        = t.Config.SamplingRate,
@@ -265,6 +267,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                           e.Immutable = new ImmutableEntities
                           {
                               Bits                = t.Config.Bits,
+                              SizeOfBitDepth      = t.Config.SizeOfBitDepth(),
                               SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
                               SampleDataType      = t.UnderlyingSample.SampleDataType,
                               SamplingRate        = t.Config.SamplingRate,
@@ -312,6 +315,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // TODO: Assert other types of being filled in.
             
             Immutable.Bits                = SynthBound.SynthWishes.GetBits;
+            Immutable.SizeOfBitDepth      = SynthBound.SynthWishes.SizeOfBitDepth();
             Immutable.SampleDataTypeEnum  = SynthBound.SynthWishes.GetBits.BitsToEnum();
             Immutable.SampleDataType      = SynthBound.SynthWishes.GetBits.BitsToEntity(SynthBound.Context);
             Immutable.SamplingRate        = SynthBound.SynthWishes.GetSamplingRate;

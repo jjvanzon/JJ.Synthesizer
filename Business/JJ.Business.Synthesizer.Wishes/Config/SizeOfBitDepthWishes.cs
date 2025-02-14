@@ -183,26 +183,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="docs._quasisetter" />
         public static int WithSizeOfBitDepth(this int oldBits, int newByteSize) 
             => ConfigWishes.WithSizeOfBitDepth(oldBits, newByteSize);
-        public static int Bits(this int sizeOfBitDepth) => ConfigWishes.Bits(sizeOfBitDepth);
-        public static int? Bits(this int? sizeOfBitDepth) => ConfigWishes.Bits(sizeOfBitDepth);
-        public static int GetBits(this int sizeOfBitDepth) => ConfigWishes.GetBits(sizeOfBitDepth);
-        public static int? GetBits(this int? sizeOfBitDepth) => ConfigWishes.GetBits(sizeOfBitDepth);
-        public static int AsBits(this int sizeOfBitDepth) => ConfigWishes.AsBits(sizeOfBitDepth);
-        public static int? AsBits(this int? sizeOfBitDepth) => ConfigWishes.AsBits(sizeOfBitDepth);
-        public static int ToBits(this int sizeOfBitDepth) => ConfigWishes.ToBits(sizeOfBitDepth);
-        public static int? ToBits(this int? sizeOfBitDepth) => ConfigWishes.ToBits(sizeOfBitDepth);
         public static int SizeOfBitDepthToBits(this int sizeOfBitDepth) => ConfigWishes.SizeOfBitDepthToBits(sizeOfBitDepth);
         public static int? SizeOfBitDepthToBits(this int? sizeOfBitDepth) => ConfigWishes.SizeOfBitDepthToBits(sizeOfBitDepth);
 
-        public static int SizeOfBitDepth(this int bits) => ConfigWishes.SizeOfBitDepth(bits);
-        public static int? SizeOfBitDepth(this int? bits) => ConfigWishes.SizeOfBitDepth(bits);
-        public static int GetSizeOfBitDepth(this int bits) => ConfigWishes.GetSizeOfBitDepth(bits);
-        public static int? GetSizeOfBitDepth(this int? bits) => ConfigWishes.GetSizeOfBitDepth(bits);
-        public static int ToSizeOfBitDepth(this int bits) => ConfigWishes.ToSizeOfBitDepth(bits);
-        public static int? ToSizeOfBitDepth(this int? bits) => ConfigWishes.ToSizeOfBitDepth(bits);
-        public static int AsSizeOfBitDepth(this int bits) => ConfigWishes.AsSizeOfBitDepth(bits);
-        public static int? AsSizeOfBitDepth(this int? bits) => ConfigWishes.AsSizeOfBitDepth(bits);
-        public static int BitsToSizeOfBitDepth(this int bits) => ConfigWishes.BitsToSizeOfBitDepth(bits);
+        public static int SizeOfBitDepth       (this int  bits) => ConfigWishes.SizeOfBitDepth(bits);
+        public static int? SizeOfBitDepth      (this int? bits) => ConfigWishes.SizeOfBitDepth(bits);
+        public static int GetSizeOfBitDepth    (this int  bits) => ConfigWishes.GetSizeOfBitDepth(bits);
+        public static int? GetSizeOfBitDepth   (this int? bits) => ConfigWishes.GetSizeOfBitDepth(bits);
+        public static int ToSizeOfBitDepth     (this int  bits) => ConfigWishes.ToSizeOfBitDepth(bits);
+        public static int? ToSizeOfBitDepth    (this int? bits) => ConfigWishes.ToSizeOfBitDepth(bits);
+        public static int AsSizeOfBitDepth     (this int  bits) => ConfigWishes.AsSizeOfBitDepth(bits);
+        public static int? AsSizeOfBitDepth    (this int? bits) => ConfigWishes.AsSizeOfBitDepth(bits);
+        public static int BitsToSizeOfBitDepth (this int  bits) => ConfigWishes.BitsToSizeOfBitDepth(bits);
         public static int? BitsToSizeOfBitDepth(this int? bits) => ConfigWishes.BitsToSizeOfBitDepth(bits);
 
         public static int SizeOfBitDepth(this Type obj) => ConfigWishes.SizeOfBitDepth(obj);
@@ -475,14 +467,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int SetSizeOfBitDepth(int oldBits, int newByteSize) => SizeOfBitDepthToBits(newByteSize);
         /// <inheritdoc cref="docs._quasisetter" />
         public static int WithSizeOfBitDepth(int oldBits, int newByteSize) => SizeOfBitDepthToBits(newByteSize);
-        public static int Bits(int sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int? Bits(int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int GetBits(int sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int? GetBits(int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int AsBits(int sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int? AsBits(int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int ToBits(int sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
-        public static int? ToBits(int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
         public static int SizeOfBitDepthToBits(int sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth, strict: false) * 8;
         public static int? SizeOfBitDepthToBits(int? sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth, strict: false) * 8;
 

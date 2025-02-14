@@ -393,6 +393,28 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType BitsToEntity(this int bits, IContext context) => ConfigWishes.BitsToEntity(bits, context);
 
+        public static int Bits(this int sizeOfBitDepth) => ConfigWishes.Bits(sizeOfBitDepth);
+        public static int? Bits(this int? sizeOfBitDepth) => ConfigWishes.Bits(sizeOfBitDepth);
+        public static int GetBits(this int sizeOfBitDepth) => ConfigWishes.GetBits(sizeOfBitDepth);
+        public static int? GetBits(this int? sizeOfBitDepth) => ConfigWishes.GetBits(sizeOfBitDepth);
+        public static int AsBits(this int sizeOfBitDepth) => ConfigWishes.AsBits(sizeOfBitDepth);
+        public static int? AsBits(this int? sizeOfBitDepth) => ConfigWishes.AsBits(sizeOfBitDepth);
+        public static int ToBits(this int sizeOfBitDepth) => ConfigWishes.ToBits(sizeOfBitDepth);
+        public static int? ToBits(this int? sizeOfBitDepth) => ConfigWishes.ToBits(sizeOfBitDepth);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int Bits(this int oldSizeOfBitDepth, int newBits) => ConfigWishes.Bits(oldSizeOfBitDepth, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int? Bits(this int? oldSizeOfBitDepth, int? newBits) => ConfigWishes.Bits(oldSizeOfBitDepth, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int WithBits(this int oldSizeOfBitDepth, int newBits) => ConfigWishes.WithBits(oldSizeOfBitDepth, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int? WithBits(this int? oldSizeOfBitDepth, int? newBits) => ConfigWishes.WithBits(oldSizeOfBitDepth, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int SetBits(this int oldSizeOfBitDepth, int newBits) => ConfigWishes.SetBits(oldSizeOfBitDepth, newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int? SetBits(this int? oldSizeOfBitDepth, int? newBits) => ConfigWishes.SetBits(oldSizeOfBitDepth, newBits);
+        
         public static bool Is8Bit(this Type obj) => ConfigWishes.Is8Bit(obj);
         public static bool Is16Bit(this Type obj) => ConfigWishes.Is16Bit(obj);
         public static bool Is32Bit(this Type obj) => ConfigWishes.Is32Bit(obj);
@@ -939,6 +961,28 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return BitsToEnum(bits).ToEntity(context);
         }
         
+        public static int  Bits    (int  sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int? Bits    (int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int  GetBits (int  sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int? GetBits (int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int  AsBits  (int  sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int? AsBits  (int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int  ToBits  (int  sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+        public static int? ToBits  (int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
+
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int  Bits    (int  oldSizeOfBitDepth, int  newBits) => BitsToSizeOfBitDepth(newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int? Bits    (int? oldSizeOfBitDepth, int? newBits) => BitsToSizeOfBitDepth(newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int  WithBits(int  oldSizeOfBitDepth, int  newBits) => BitsToSizeOfBitDepth(newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int? WithBits(int? oldSizeOfBitDepth, int? newBits) => BitsToSizeOfBitDepth(newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int  SetBits (int  oldSizeOfBitDepth, int  newBits) => BitsToSizeOfBitDepth(newBits);
+        /// <inheritdoc cref="docs._quasisetter" />
+        public static int? SetBits (int? oldSizeOfBitDepth, int? newBits) => BitsToSizeOfBitDepth(newBits);
+
         public static bool Is8Bit(Type obj) => TypeToBits(obj) == 8;
         public static bool Is16Bit(Type obj) => TypeToBits(obj) == 16;
         public static bool Is32Bit(Type obj) => TypeToBits(obj) == 32;

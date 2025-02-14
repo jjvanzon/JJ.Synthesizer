@@ -439,9 +439,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => x.Immutable.Type.SetBits(value * 8));
             }
                 
-            // To bits
-
-                
             // Bits
 
             var bitsList = new List<int>();
@@ -461,27 +458,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => x.Immutable.Bits.SizeOfBitDepth    (value));
                 AssertProp(() => x.Immutable.Bits.WithSizeOfBitDepth(value));
                 AssertProp(() => x.Immutable.Bits.SetSizeOfBitDepth (value));
-                AssertProp(() => value.Bits());
-                AssertProp(() => value.GetBits());
-                AssertProp(() => value.AsBits());
-                AssertProp(() => value.ToBits());
-                AssertProp(() => value.SizeOfBitDepthToBits());
-                AssertProp(() => SizeOfBitDepth      (x.Immutable.Bits, value));
-                AssertProp(() => WithSizeOfBitDepth  (x.Immutable.Bits, value));
-                AssertProp(() => SetSizeOfBitDepth   (x.Immutable.Bits, value));
-                AssertProp(() => Bits(value));
-                AssertProp(() => GetBits(value));
-                AssertProp(() => AsBits(value));
-                AssertProp(() => ToBits(value));
+                AssertProp(() => SizeOfBitDepth    (x.Immutable.Bits, value));
+                AssertProp(() => WithSizeOfBitDepth(x.Immutable.Bits, value));
+                AssertProp(() => SetSizeOfBitDepth (x.Immutable.Bits, value));
                 AssertProp(() => SizeOfBitDepthToBits(value));
-                AssertProp(() => ConfigWishes.SizeOfBitDepth      (x.Immutable.Bits, value));
-                AssertProp(() => ConfigWishes.WithSizeOfBitDepth  (x.Immutable.Bits, value));
-                AssertProp(() => ConfigWishes.SetSizeOfBitDepth   (x.Immutable.Bits, value));
-                AssertProp(() => ConfigWishes.Bits(value));
-                AssertProp(() => ConfigWishes.GetBits(value));
-                AssertProp(() => ConfigWishes.AsBits(value));
-                AssertProp(() => ConfigWishes.ToBits(value));
-                AssertProp(() => ConfigWishes.SizeOfBitDepthToBits(value));
+                AssertProp(() => ConfigWishes.SizeOfBitDepth    (x.Immutable.Bits, value));
+                AssertProp(() => ConfigWishes.WithSizeOfBitDepth(x.Immutable.Bits, value));
+                AssertProp(() => ConfigWishes.SetSizeOfBitDepth (x.Immutable.Bits, value));
             }
             
             
@@ -926,39 +909,112 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_Immutable_Getters(int bits, int sizeOfBitDepth)
         {
-            AreEqual(sizeOfBitDepth, () => bits.SizeOfBitDepth      ());
-            AreEqual(sizeOfBitDepth, () => bits.GetSizeOfBitDepth   ());
-            AreEqual(sizeOfBitDepth, () => bits.AsSizeOfBitDepth    ());
-            AreEqual(sizeOfBitDepth, () => bits.ToSizeOfBitDepth    ());
-            AreEqual(sizeOfBitDepth, () => bits.BitsToSizeOfBitDepth());
-            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth      (bits));
-            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth   (bits));
-            AreEqual(sizeOfBitDepth, () => AsSizeOfBitDepth    (bits));
-            AreEqual(sizeOfBitDepth, () => ToSizeOfBitDepth    (bits));
-            AreEqual(sizeOfBitDepth, () => BitsToSizeOfBitDepth(bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth      (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth   (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth    (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth    (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.BitsToSizeOfBitDepth(bits));
+            int otherSizeOfBitDepth = 1;
+            
+            AreEqual(sizeOfBitDepth, () => bits.SizeOfBitDepth              ());
+            AreEqual(sizeOfBitDepth, () => bits.GetSizeOfBitDepth           ());
+            AreEqual(sizeOfBitDepth, () => bits.AsSizeOfBitDepth            ());
+            AreEqual(sizeOfBitDepth, () => bits.ToSizeOfBitDepth            ());
+            AreEqual(sizeOfBitDepth, () => bits.BitsToSizeOfBitDepth        ());
+            AreEqual(sizeOfBitDepth, () => otherSizeOfBitDepth.Bits     (bits));
+            AreEqual(sizeOfBitDepth, () => otherSizeOfBitDepth.WithBits (bits));
+            AreEqual(sizeOfBitDepth, () => otherSizeOfBitDepth.SetBits  (bits));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth               (bits));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth            (bits));
+            AreEqual(sizeOfBitDepth, () => AsSizeOfBitDepth             (bits));
+            AreEqual(sizeOfBitDepth, () => ToSizeOfBitDepth             (bits));
+            AreEqual(sizeOfBitDepth, () => BitsToSizeOfBitDepth         (bits));
+            AreEqual(sizeOfBitDepth, () => Bits    (otherSizeOfBitDepth, bits));
+            AreEqual(sizeOfBitDepth, () => WithBits(otherSizeOfBitDepth, bits));
+            AreEqual(sizeOfBitDepth, () => SetBits (otherSizeOfBitDepth, bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth               (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth            (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth             (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth             (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.BitsToSizeOfBitDepth         (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.Bits    (otherSizeOfBitDepth, bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.WithBits(otherSizeOfBitDepth, bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SetBits (otherSizeOfBitDepth, bits));
 
             int? nullyBits = bits;
             int? nullySizeOfBitDepth = sizeOfBitDepth;
-            AreEqual(nullySizeOfBitDepth, () => nullyBits.SizeOfBitDepth      ());
-            AreEqual(nullySizeOfBitDepth, () => nullyBits.GetSizeOfBitDepth   ());
-            AreEqual(nullySizeOfBitDepth, () => nullyBits.AsSizeOfBitDepth    ());
-            AreEqual(nullySizeOfBitDepth, () => nullyBits.ToSizeOfBitDepth    ());
-            AreEqual(nullySizeOfBitDepth, () => nullyBits.BitsToSizeOfBitDepth());
-            AreEqual(nullySizeOfBitDepth, () => SizeOfBitDepth      (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => GetSizeOfBitDepth   (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => AsSizeOfBitDepth    (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => ToSizeOfBitDepth    (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => BitsToSizeOfBitDepth(nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth      (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth   (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth    (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth    (nullyBits));
-            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.BitsToSizeOfBitDepth(nullyBits));
+            int? nullyOtherSizeOfBitDepth = otherSizeOfBitDepth;
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.SizeOfBitDepth                   ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.GetSizeOfBitDepth                ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.AsSizeOfBitDepth                 ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.ToSizeOfBitDepth                 ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.BitsToSizeOfBitDepth             ());
+            AreEqual(nullySizeOfBitDepth, () => nullyOtherSizeOfBitDepth.Bits     (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => nullyOtherSizeOfBitDepth.WithBits (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => nullyOtherSizeOfBitDepth.SetBits  (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => SizeOfBitDepth                    (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => GetSizeOfBitDepth                 (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => AsSizeOfBitDepth                  (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ToSizeOfBitDepth                  (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => BitsToSizeOfBitDepth              (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => Bits    (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => WithBits(nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => SetBits (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth                    (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth                 (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth                  (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth                  (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.BitsToSizeOfBitDepth              (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.Bits    (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.WithBits(nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.SetBits (nullyOtherSizeOfBitDepth, nullyBits));
+
+            nullyBits = 0;
+            AreEqual(0, () => nullyBits.SizeOfBitDepth                   ());
+            AreEqual(0, () => nullyBits.GetSizeOfBitDepth                ());
+            AreEqual(0, () => nullyBits.AsSizeOfBitDepth                 ());
+            AreEqual(0, () => nullyBits.ToSizeOfBitDepth                 ());
+            AreEqual(0, () => nullyBits.BitsToSizeOfBitDepth             ());
+            AreEqual(0, () => nullyOtherSizeOfBitDepth.Bits     (nullyBits));
+            AreEqual(0, () => nullyOtherSizeOfBitDepth.WithBits (nullyBits));
+            AreEqual(0, () => nullyOtherSizeOfBitDepth.SetBits  (nullyBits));
+            AreEqual(0, () => SizeOfBitDepth                    (nullyBits));
+            AreEqual(0, () => GetSizeOfBitDepth                 (nullyBits));
+            AreEqual(0, () => AsSizeOfBitDepth                  (nullyBits));
+            AreEqual(0, () => ToSizeOfBitDepth                  (nullyBits));
+            AreEqual(0, () => BitsToSizeOfBitDepth              (nullyBits));
+            AreEqual(0, () => Bits    (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(0, () => WithBits(nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(0, () => SetBits (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(0, () => ConfigWishes.SizeOfBitDepth                    (nullyBits));
+            AreEqual(0, () => ConfigWishes.GetSizeOfBitDepth                 (nullyBits));
+            AreEqual(0, () => ConfigWishes.AsSizeOfBitDepth                  (nullyBits));
+            AreEqual(0, () => ConfigWishes.ToSizeOfBitDepth                  (nullyBits));
+            AreEqual(0, () => ConfigWishes.BitsToSizeOfBitDepth              (nullyBits));
+            AreEqual(0, () => ConfigWishes.Bits    (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(0, () => ConfigWishes.WithBits(nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(0, () => ConfigWishes.SetBits (nullyOtherSizeOfBitDepth, nullyBits));
+
+            nullyBits = null;
+            AreEqual(null, () => nullyBits.SizeOfBitDepth                   ());
+            AreEqual(null, () => nullyBits.GetSizeOfBitDepth                ());
+            AreEqual(null, () => nullyBits.AsSizeOfBitDepth                 ());
+            AreEqual(null, () => nullyBits.ToSizeOfBitDepth                 ());
+            AreEqual(null, () => nullyBits.BitsToSizeOfBitDepth             ());
+            AreEqual(null, () => nullyOtherSizeOfBitDepth.Bits     (nullyBits));
+            AreEqual(null, () => nullyOtherSizeOfBitDepth.WithBits (nullyBits));
+            AreEqual(null, () => nullyOtherSizeOfBitDepth.SetBits  (nullyBits));
+            AreEqual(null, () => SizeOfBitDepth                    (nullyBits));
+            AreEqual(null, () => GetSizeOfBitDepth                 (nullyBits));
+            AreEqual(null, () => AsSizeOfBitDepth                  (nullyBits));
+            AreEqual(null, () => ToSizeOfBitDepth                  (nullyBits));
+            AreEqual(null, () => BitsToSizeOfBitDepth              (nullyBits));
+            AreEqual(null, () => Bits    (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(null, () => WithBits(nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(null, () => SetBits (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(null, () => ConfigWishes.SizeOfBitDepth                    (nullyBits));
+            AreEqual(null, () => ConfigWishes.GetSizeOfBitDepth                 (nullyBits));
+            AreEqual(null, () => ConfigWishes.AsSizeOfBitDepth                  (nullyBits));
+            AreEqual(null, () => ConfigWishes.ToSizeOfBitDepth                  (nullyBits));
+            AreEqual(null, () => ConfigWishes.BitsToSizeOfBitDepth              (nullyBits));
+            AreEqual(null, () => ConfigWishes.Bits    (nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(null, () => ConfigWishes.WithBits(nullyOtherSizeOfBitDepth, nullyBits));
+            AreEqual(null, () => ConfigWishes.SetBits (nullyOtherSizeOfBitDepth, nullyBits));
         }
          
         // Data Helpers

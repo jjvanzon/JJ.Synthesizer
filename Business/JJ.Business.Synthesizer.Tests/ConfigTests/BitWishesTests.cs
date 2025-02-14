@@ -870,6 +870,38 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                                    if (value == 32) return ConfigWishes.Set32Bit  (x.Immutable.SampleDataType, x.SynthBound.Context); return default; });
             }
 
+            // int / SizeOfBitDepth
+
+            // TODO
+
+            
+            var sizeOfBitDepthList = new List<int>();
+            {
+                void AssertProp(Func<int> setter)
+                {
+                    Assert_Immutable_Getters(x.Immutable.SizeOfBitDepth, init);
+
+                    int sizeofbitdepth2 = setter();
+                    
+                    Assert_Immutable_Getters(x.Immutable.SizeOfBitDepth, init);
+                    Assert_Immutable_Getters(sizeofbitdepth2, value);
+                    
+                    sizeOfBitDepthList.Add(sizeofbitdepth2);
+                }
+            
+                AssertProp(() => x.Immutable.SizeOfBitDepth.Bits    (value));
+                AssertProp(() => x.Immutable.SizeOfBitDepth.WithBits(value));
+                AssertProp(() => x.Immutable.SizeOfBitDepth.SetBits (value));
+                AssertProp(() => Bits    (x.Immutable.SizeOfBitDepth, value));
+                AssertProp(() => WithBits(x.Immutable.SizeOfBitDepth, value));
+                AssertProp(() => SetBits (x.Immutable.SizeOfBitDepth, value));
+                AssertProp(() => BitsToSizeOfBitDepth(value));
+                AssertProp(() => ConfigWishes.Bits    (x.Immutable.SizeOfBitDepth, value));
+                AssertProp(() => ConfigWishes.WithBits(x.Immutable.SizeOfBitDepth, value));
+                AssertProp(() => ConfigWishes.SetBits (x.Immutable.SizeOfBitDepth, value));
+            }
+
+
             // Type
 
             var types = new List<Type>();
@@ -1083,6 +1115,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, bits);
             Assert_Immutable_Getters(x.Immutable.SampleDataType, bits);
             Assert_Immutable_Getters(x.Immutable.Type, bits);
+            Assert_Immutable_Getters(x.Immutable.SizeOfBitDepth, bits);
         }
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, int bits)
@@ -1397,6 +1430,72 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(bits == 32, () => ConfigWishes.Is32Bit     (sampleDataType));
         }
         
+        private void Assert_Immutable_Getters(int sizeOfBitDepth, int bits)
+        {
+            AreEqual(bits, () => sizeOfBitDepth.Bits());
+            AreEqual(bits, () => sizeOfBitDepth.GetBits());
+            AreEqual(bits, () => sizeOfBitDepth.AsBits());
+            AreEqual(bits, () => sizeOfBitDepth.ToBits());
+            AreEqual(bits, () => sizeOfBitDepth.SizeOfBitDepthToBits());
+            AreEqual(bits, () => Bits(sizeOfBitDepth));
+            AreEqual(bits, () => GetBits(sizeOfBitDepth));
+            AreEqual(bits, () => AsBits(sizeOfBitDepth));
+            AreEqual(bits, () => ToBits(sizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.Bits(sizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.GetBits(sizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.AsBits(sizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.ToBits(sizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.SizeOfBitDepthToBits(sizeOfBitDepth));
+
+            int? nullySizeOfBitDepth = sizeOfBitDepth;
+            AreEqual(bits, () => nullySizeOfBitDepth.Bits());
+            AreEqual(bits, () => nullySizeOfBitDepth.GetBits());
+            AreEqual(bits, () => nullySizeOfBitDepth.AsBits());
+            AreEqual(bits, () => nullySizeOfBitDepth.ToBits());
+            AreEqual(bits, () => nullySizeOfBitDepth.SizeOfBitDepthToBits());
+            AreEqual(bits, () => Bits(nullySizeOfBitDepth));
+            AreEqual(bits, () => GetBits(nullySizeOfBitDepth));
+            AreEqual(bits, () => AsBits(nullySizeOfBitDepth));
+            AreEqual(bits, () => ToBits(nullySizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.Bits(nullySizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.GetBits(nullySizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.AsBits(nullySizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.ToBits(nullySizeOfBitDepth));
+            AreEqual(bits, () => ConfigWishes.SizeOfBitDepthToBits(nullySizeOfBitDepth));
+
+            nullySizeOfBitDepth = 0;
+            AreEqual(0, () => nullySizeOfBitDepth.Bits());
+            AreEqual(0, () => nullySizeOfBitDepth.GetBits());
+            AreEqual(0, () => nullySizeOfBitDepth.AsBits());
+            AreEqual(0, () => nullySizeOfBitDepth.ToBits());
+            AreEqual(0, () => nullySizeOfBitDepth.SizeOfBitDepthToBits());
+            AreEqual(0, () => Bits(nullySizeOfBitDepth));
+            AreEqual(0, () => GetBits(nullySizeOfBitDepth));
+            AreEqual(0, () => AsBits(nullySizeOfBitDepth));
+            AreEqual(0, () => ToBits(nullySizeOfBitDepth));
+            AreEqual(0, () => ConfigWishes.Bits(nullySizeOfBitDepth));
+            AreEqual(0, () => ConfigWishes.GetBits(nullySizeOfBitDepth));
+            AreEqual(0, () => ConfigWishes.AsBits(nullySizeOfBitDepth));
+            AreEqual(0, () => ConfigWishes.ToBits(nullySizeOfBitDepth));
+            AreEqual(0, () => ConfigWishes.SizeOfBitDepthToBits(nullySizeOfBitDepth));
+
+            nullySizeOfBitDepth = null;
+            AreEqual(null, () => nullySizeOfBitDepth.Bits());
+            AreEqual(null, () => nullySizeOfBitDepth.GetBits());
+            AreEqual(null, () => nullySizeOfBitDepth.AsBits());
+            AreEqual(null, () => nullySizeOfBitDepth.ToBits());
+            AreEqual(null, () => nullySizeOfBitDepth.SizeOfBitDepthToBits());
+            AreEqual(null, () => Bits(nullySizeOfBitDepth));
+            AreEqual(null, () => GetBits(nullySizeOfBitDepth));
+            AreEqual(null, () => AsBits(nullySizeOfBitDepth));
+            AreEqual(null, () => ToBits(nullySizeOfBitDepth));
+            AreEqual(null, () => ConfigWishes.Bits(nullySizeOfBitDepth));
+            AreEqual(null, () => ConfigWishes.GetBits(nullySizeOfBitDepth));
+            AreEqual(null, () => ConfigWishes.AsBits(nullySizeOfBitDepth));
+            AreEqual(null, () => ConfigWishes.ToBits(nullySizeOfBitDepth));
+            AreEqual(null, () => ConfigWishes.SizeOfBitDepthToBits(nullySizeOfBitDepth));
+        }
+
         private void Assert_Immutable_Getters(Type type, int bits)
         {
             IsNotNull(() => type);
