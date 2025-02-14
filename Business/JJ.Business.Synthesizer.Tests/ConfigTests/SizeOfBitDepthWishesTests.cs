@@ -7,14 +7,17 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-
-#pragma warning disable CS0618 // Type or member is obsolete
-#pragma warning disable MSTEST0018 // DynamicData members should be IEnumerable<object[]>
+// ReSharper disable ArrangeStaticMemberQualifier
+#pragma warning disable CS0618 
+#pragma warning disable MSTEST0018 
+#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
@@ -51,35 +54,37 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters        (x, CoalesceSizeOfBitDepth(value));
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SizeOfBitDepth    (value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SizeOfBitDepth    (value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SizeOfBitDepth    (value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithSizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithSizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithSizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SetSizeOfBitDepth (value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SetSizeOfBitDepth (value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SetSizeOfBitDepth (value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SizeOfBitDepth    (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SizeOfBitDepth    (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SizeOfBitDepth    (x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    WithSizeOfBitDepth(x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       WithSizeOfBitDepth(x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, WithSizeOfBitDepth(x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SetSizeOfBitDepth (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SetSizeOfBitDepth (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SetSizeOfBitDepth (x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SizeOfBitDepth    (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SizeOfBitDepth    (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SizeOfBitDepth    (x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .WithSizeOfBitDepth(x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .WithSizeOfBitDepth(x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.WithSizeOfBitDepth(x.SynthBound.ConfigResolver, value)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetSizeOfBitDepth (x.SynthBound.SynthWishes   , value)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetSizeOfBitDepth (x.SynthBound.FlowNode      , value)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetSizeOfBitDepth (x.SynthBound.ConfigResolver, value)));
             
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .Bits(value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .Bits(value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.Bits(value * 8)));
-
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithBits(value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithBits(value * 8)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithBits(value * 8)));
-            
-            AssertProp(x => { switch (value) {
-                case  1: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With8Bit (     )); break;
-                case  2: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With16Bit(     )); break;
-                case  4: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .With32Bit(     )); break; 
-                default: AreEqual(x.SynthBound.SynthWishes,    () => x.SynthBound.SynthWishes   .WithBits (value)); break; } });
-            
-            AssertProp(x => { switch (value) {
-                case  1: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With8Bit (     )); break;
-                case  2: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With16Bit(     )); break;
-                case  4: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .With32Bit(     )); break; 
-                default: AreEqual(x.SynthBound.FlowNode,       () => x.SynthBound.FlowNode      .Bits     (value)); break;} });
-            
-            AssertProp(x => { switch (value) {
-                case  1: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With8Bit (     )); break;
-                case  2: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With16Bit(     )); break;
-                case  4: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit(     )); break; 
-                default: AreEqual(x.SynthBound.ConfigResolver, () => x.SynthBound.ConfigResolver.With32Bit(     )); break; } });
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SetBits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SetBits(value * 8)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SetBits(value * 8)));
         }
         
         [TestMethod]
@@ -104,48 +109,62 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape.SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig.SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SizeOfBitDepth(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction.SizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SizeOfBitDepth    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SizeOfBitDepth    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SizeOfBitDepth    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SizeOfBitDepth    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithSizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithSizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithSizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .WithSizeOfBitDepth(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetSizeOfBitDepth (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetSizeOfBitDepth (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetSizeOfBitDepth (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetSizeOfBitDepth (value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SizeOfBitDepth    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SizeOfBitDepth    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SizeOfBitDepth    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SizeOfBitDepth    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => WithSizeOfBitDepth(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => WithSizeOfBitDepth(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => WithSizeOfBitDepth(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => WithSizeOfBitDepth(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SetSizeOfBitDepth (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SetSizeOfBitDepth (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SetSizeOfBitDepth (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SetSizeOfBitDepth (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SizeOfBitDepth    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SizeOfBitDepth    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SizeOfBitDepth    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SizeOfBitDepth    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.WithSizeOfBitDepth(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.WithSizeOfBitDepth(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.WithSizeOfBitDepth(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.WithSizeOfBitDepth(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SetSizeOfBitDepth (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetSizeOfBitDepth (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetSizeOfBitDepth (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetSizeOfBitDepth (x.TapeBound.TapeAction , value)));
             
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape.Bits(value * 8)));
-            AssertProp(x =>                                   x.TapeBound.TapeConfig.Bits = value * 8);
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig.Bits(value * 8)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.Bits(value * 8)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction.Bits(value * 8)));
-            
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With8Bit());
-                if (value == 2) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With16Bit());
-                if (value == 4) AreEqual(x.TapeBound.Tape, () => x.TapeBound.Tape.With32Bit()); });
-            
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With8Bit());
-                if (value == 2) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With16Bit());
-                if (value == 4) AreEqual(x.TapeBound.TapeConfig, () => x.TapeBound.TapeConfig.With32Bit()); });
-            
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With8Bit());
-                if (value == 2) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With16Bit());
-                if (value == 4) AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.With32Bit()); });
-            
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With8Bit());
-                if (value == 2) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With16Bit());
-                if (value == 4) AreEqual(x.TapeBound.TapeAction, () => x.TapeBound.TapeAction.With32Bit()); });
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .SetBits(value * 8)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .SetBits(value * 8)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.SetBits(value * 8)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .SetBits(value * 8)));
         }
 
         [TestMethod]
         [DynamicData(nameof(TestParameters))]
         public void BuffBound_SizeOfBitDepth(int init, int value)
         {
-            void AssertProp(Action<ConfigTestEntities> setter)
+            IContext context = null;
+            void AssertProp(Action<BuffBoundEntities> setter)
             {
                 var x = CreateTestEntities(init);
+                context = x.SynthBound.Context;
+
                 Assert_All_Getters(x, init);
                 
-                setter(x);
+                setter(x.BuffBound);
                 
                 Assert_SynthBound_Getters(x, init);
                 Assert_TapeBound_Getters(x, init);
@@ -157,21 +176,27 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init);
             }
             
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff.SizeOfBitDepth(value, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SizeOfBitDepth(value, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .SizeOfBitDepth    (value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.SizeOfBitDepth    (value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .WithSizeOfBitDepth(value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.WithSizeOfBitDepth(value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => x.Buff           .SetSizeOfBitDepth (value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => x.AudioFileOutput.SetSizeOfBitDepth (value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => SizeOfBitDepth    (x.Buff           , value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => SizeOfBitDepth    (x.AudioFileOutput, value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => WithSizeOfBitDepth(x.Buff           , value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => WithSizeOfBitDepth(x.AudioFileOutput, value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => SetSizeOfBitDepth (x.Buff           , value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => SetSizeOfBitDepth (x.AudioFileOutput, value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.SizeOfBitDepth    (x.Buff           , value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.SizeOfBitDepth    (x.AudioFileOutput, value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.WithSizeOfBitDepth(x.Buff           , value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.WithSizeOfBitDepth(x.AudioFileOutput, value, context)));
+            AssertProp(x => AreEqual(x.Buff,            () => ConfigWishes.SetSizeOfBitDepth (x.Buff           , value, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, () => ConfigWishes.SetSizeOfBitDepth (x.AudioFileOutput, value, context)));
 
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff.Bits(value * 8, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.Bits(value * 8, x.SynthBound.Context)));
-            
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With8Bit(x.SynthBound.Context));
-                if (value == 2) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With16Bit(x.SynthBound.Context));
-                if (value == 4) AreEqual(x.BuffBound.Buff, () => x.BuffBound.Buff.With32Bit(x.SynthBound.Context)); });
-            
-            AssertProp(x => {
-                if (value == 1) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With8Bit(x.SynthBound.Context));
-                if (value == 2) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With16Bit(x.SynthBound.Context));
-                if (value == 4) AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.With32Bit(x.SynthBound.Context)); });
+            AssertProp(x => AreEqual(x.Buff,            x.Buff           .SetBits(value * 8, context)));
+            AssertProp(x => AreEqual(x.AudioFileOutput, x.AudioFileOutput.SetBits(value * 8, context)));
         }
         
         [TestMethod]
@@ -201,13 +226,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
                 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SizeOfBitDepth(value, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.Bits(value * 8, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SizeOfBitDepth    (value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithSizeOfBitDepth(value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetSizeOfBitDepth (value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => SizeOfBitDepth    (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => WithSizeOfBitDepth(x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => SetSizeOfBitDepth (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SizeOfBitDepth    (x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.WithSizeOfBitDepth(x.Independent.Sample, value, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SetSizeOfBitDepth (x.Independent.Sample, value, x.SynthBound.Context)));
                 
-                AssertProp(() => {
-                    if (value == 1) AreEqual(x.Independent.Sample, () => x.Independent.Sample.With8Bit(x.SynthBound.Context));
-                    if (value == 2) AreEqual(x.Independent.Sample, () => x.Independent.Sample.With16Bit(x.SynthBound.Context));
-                    if (value == 4) AreEqual(x.Independent.Sample, () => x.Independent.Sample.With32Bit(x.SynthBound.Context)); });
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.SetBits(value * 8, x.SynthBound.Context)));
             }
             
             // AudioInfoWish
@@ -231,14 +260,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
                 
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SizeOfBitDepth(value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish,       x.Independent.AudioInfoWish.Bits(value * 8)));
-                AssertProp(() =>                                             x.Independent.AudioInfoWish.Bits = value * 8);
-                
-                AssertProp(() => {
-                    if (value == 1) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.With8Bit());
-                    if (value == 2) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.With16Bit());
-                    if (value == 4) AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.With32Bit()); });
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SizeOfBitDepth    (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.WithSizeOfBitDepth(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SetSizeOfBitDepth (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => SizeOfBitDepth    (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => WithSizeOfBitDepth(x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => SetSizeOfBitDepth (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => SizeOfBitDepth    (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => WithSizeOfBitDepth(x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => SetSizeOfBitDepth (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.SizeOfBitDepth    (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.WithSizeOfBitDepth(x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.SetSizeOfBitDepth (x.Independent.AudioInfoWish, value)));
+
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.SetBits(value * 8)));
             }
                         
             // AudioFileInfo
@@ -262,13 +297,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
                 
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SizeOfBitDepth(value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.Bits(value * 8)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SizeOfBitDepth    (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.WithSizeOfBitDepth(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SetSizeOfBitDepth (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => SizeOfBitDepth    (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => WithSizeOfBitDepth(x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => SetSizeOfBitDepth (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.SizeOfBitDepth    (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.WithSizeOfBitDepth(x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.SetSizeOfBitDepth (x.Independent.AudioFileInfo, value)));
                 
-                AssertProp(() => {
-                    if (value == 1) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.With8Bit());
-                    if (value == 2) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.With16Bit());
-                    if (value == 4) AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.With32Bit()); });
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.SetBits(value * 8)));
             }
         }
         
@@ -294,16 +333,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     wavHeaders.Add(wavHeader2);
                 }
                 
-                AssertProp(() => x.Immutable.WavHeader.SizeOfBitDepth(value));
-                AssertProp(() => x.Immutable.WavHeader.Bits(value * 8));
-                
-                AssertProp(() => 
-                {
-                    if (value == 1) return x.Immutable.WavHeader.With8Bit();
-                    if (value == 2) return x.Immutable.WavHeader.With16Bit();
-                    if (value == 4) return x.Immutable.WavHeader.With32Bit();
-                    return default; // ncrunch: no coverage
-                });
+                AssertProp(() => x.Immutable.WavHeader.SizeOfBitDepth    (value));
+                AssertProp(() => x.Immutable.WavHeader.WithSizeOfBitDepth(value));
+                AssertProp(() => x.Immutable.WavHeader.SetSizeOfBitDepth (value));
+                AssertProp(() => SizeOfBitDepth    (x.Immutable.WavHeader, value));
+                AssertProp(() => WithSizeOfBitDepth(x.Immutable.WavHeader, value));
+                AssertProp(() => SetSizeOfBitDepth (x.Immutable.WavHeader, value));
+                AssertProp(() => ConfigWishes.SizeOfBitDepth    (x.Immutable.WavHeader, value));
+                AssertProp(() => ConfigWishes.WithSizeOfBitDepth(x.Immutable.WavHeader, value));
+                AssertProp(() => ConfigWishes.SetSizeOfBitDepth (x.Immutable.WavHeader, value));
+
+                AssertProp(() => x.Immutable.WavHeader.SetBits(value * 8));
             }
 
             // SampleDataTypeEnum
@@ -322,17 +362,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     sampleDataTypeEnums.Add(sampleDataTypeEnum2);
                 }
                 
-                AssertProp(() => x.Immutable.SampleDataTypeEnum.SizeOfBitDepth(value));
-                AssertProp(() => x.Immutable.SampleDataTypeEnum.Bits(value * 8));
-                AssertProp(() => (value * 8).BitsToEnum());
-                
-                AssertProp(() => 
-                {
-                    if (value == 1) return x.Immutable.SampleDataTypeEnum.With8Bit();
-                    if (value == 2) return x.Immutable.SampleDataTypeEnum.With16Bit();
-                    if (value == 4) return x.Immutable.SampleDataTypeEnum.With32Bit();
-                    return default; // ncrunch: no coverage
-                });
+                AssertProp(() => x.Immutable.SampleDataTypeEnum.SizeOfBitDepth    (value));
+                AssertProp(() => x.Immutable.SampleDataTypeEnum.WithSizeOfBitDepth(value));
+                AssertProp(() => x.Immutable.SampleDataTypeEnum.SetSizeOfBitDepth (value));
+                AssertProp(() => SizeOfBitDepth    (x.Immutable.SampleDataTypeEnum, value));
+                AssertProp(() => WithSizeOfBitDepth(x.Immutable.SampleDataTypeEnum, value));
+                AssertProp(() => SetSizeOfBitDepth (x.Immutable.SampleDataTypeEnum, value));
+                AssertProp(() => ConfigWishes.SizeOfBitDepth    (x.Immutable.SampleDataTypeEnum, value));
+                AssertProp(() => ConfigWishes.WithSizeOfBitDepth(x.Immutable.SampleDataTypeEnum, value));
+                AssertProp(() => ConfigWishes.SetSizeOfBitDepth (x.Immutable.SampleDataTypeEnum, value));
+
+                AssertProp(() => x.Immutable.SampleDataTypeEnum.SetBits(value * 8));
             }
 
             // SampleDataType
@@ -351,17 +391,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     sampleDataTypes.Add(sampleDataType2);
                 }
             
-                AssertProp(() => x.Immutable.SampleDataType.SizeOfBitDepth(value, x.SynthBound.Context));
-                AssertProp(() => x.Immutable.SampleDataType.Bits(value * 8, x.SynthBound.Context));
-                AssertProp(() => (value * 8).BitsToEntity(x.SynthBound.Context));
+                AssertProp(() => x.Immutable.SampleDataType.SizeOfBitDepth    (value, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.SampleDataType.WithSizeOfBitDepth(value, x.SynthBound.Context));
+                AssertProp(() => x.Immutable.SampleDataType.SetSizeOfBitDepth (value, x.SynthBound.Context));
+                AssertProp(() => SizeOfBitDepth    (x.Immutable.SampleDataType, value, x.SynthBound.Context));
+                AssertProp(() => WithSizeOfBitDepth(x.Immutable.SampleDataType, value, x.SynthBound.Context));
+                AssertProp(() => SetSizeOfBitDepth (x.Immutable.SampleDataType, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.SizeOfBitDepth    (x.Immutable.SampleDataType, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.WithSizeOfBitDepth(x.Immutable.SampleDataType, value, x.SynthBound.Context));
+                AssertProp(() => ConfigWishes.SetSizeOfBitDepth (x.Immutable.SampleDataType, value, x.SynthBound.Context));
                 
-                AssertProp(() => 
-                {
-                    if (value == 1) return x.Immutable.SampleDataType.With8Bit(x.SynthBound.Context);
-                    if (value == 2) return x.Immutable.SampleDataType.With16Bit(x.SynthBound.Context);
-                    if (value == 4) return x.Immutable.SampleDataType.With32Bit(x.SynthBound.Context);
-                    return default; // ncrunch: no coverage
-                });
+                AssertProp(() => x.Immutable.SampleDataType.SetBits(value * 8, x.SynthBound.Context));
             }
             
             // Type
@@ -380,20 +420,29 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     types.Add(type2);
                 }
 
-                AssertProp(() => x.Immutable.Type.SizeOfBitDepth(value));
-                AssertProp(() => x.Immutable.Type.Bits(value * 8));
-                AssertProp(() => (value * 8).BitsToType());
-                
-                AssertProp(() => 
-                {
-                    if (value == 1) return x.Immutable.Type.With8Bit();
-                    if (value == 2) return x.Immutable.Type.With16Bit();
-                    if (value == 4) return x.Immutable.Type.With32Bit();
-                    return default; // ncrunch: no coverage
-                });
+                AssertProp(() => x.Immutable.Type.SizeOfBitDepth    (value));
+                AssertProp(() => x.Immutable.Type.WithSizeOfBitDepth(value));
+                AssertProp(() => x.Immutable.Type.AsSizeOfBitDepth  (value));
+                AssertProp(() => x.Immutable.Type.ToSizeOfBitDepth  (value));
+                AssertProp(() => x.Immutable.Type.SetSizeOfBitDepth (value));
+                AssertProp(() => SizeOfBitDepth    (x.Immutable.Type, value));
+                AssertProp(() => WithSizeOfBitDepth(x.Immutable.Type, value));
+                AssertProp(() => AsSizeOfBitDepth  (x.Immutable.Type, value));
+                AssertProp(() => ToSizeOfBitDepth  (x.Immutable.Type, value));
+                AssertProp(() => SetSizeOfBitDepth (x.Immutable.Type, value));
+                AssertProp(() => ConfigWishes.SizeOfBitDepth    (x.Immutable.Type, value));
+                AssertProp(() => ConfigWishes.WithSizeOfBitDepth(x.Immutable.Type, value));
+                AssertProp(() => ConfigWishes.AsSizeOfBitDepth  (x.Immutable.Type, value));
+                AssertProp(() => ConfigWishes.ToSizeOfBitDepth  (x.Immutable.Type, value));
+                AssertProp(() => ConfigWishes.SetSizeOfBitDepth (x.Immutable.Type, value));
+
+                AssertProp(() => x.Immutable.Type.SetBits(value * 8));
             }
                 
             // To bits
+
+                
+            // Bits
 
             var bitsList = new List<int>();
             {
@@ -409,9 +458,32 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     bitsList.Add(bits2);
                 }
             
-                AssertProp(() => x.Immutable.Bits.SizeOfBitDepth(value));
+                AssertProp(() => x.Immutable.Bits.SizeOfBitDepth    (value));
+                AssertProp(() => x.Immutable.Bits.WithSizeOfBitDepth(value));
+                AssertProp(() => x.Immutable.Bits.SetSizeOfBitDepth (value));
+                AssertProp(() => value.Bits());
+                AssertProp(() => value.GetBits());
+                AssertProp(() => value.AsBits());
+                AssertProp(() => value.ToBits());
+                AssertProp(() => value.SizeOfBitDepthToBits());
+                AssertProp(() => SizeOfBitDepth      (x.Immutable.Bits, value));
+                AssertProp(() => WithSizeOfBitDepth  (x.Immutable.Bits, value));
+                AssertProp(() => SetSizeOfBitDepth   (x.Immutable.Bits, value));
+                AssertProp(() => Bits(value));
+                AssertProp(() => GetBits(value));
+                AssertProp(() => AsBits(value));
+                AssertProp(() => ToBits(value));
+                AssertProp(() => SizeOfBitDepthToBits(value));
+                AssertProp(() => ConfigWishes.SizeOfBitDepth      (x.Immutable.Bits, value));
+                AssertProp(() => ConfigWishes.WithSizeOfBitDepth  (x.Immutable.Bits, value));
+                AssertProp(() => ConfigWishes.SetSizeOfBitDepth   (x.Immutable.Bits, value));
+                AssertProp(() => ConfigWishes.Bits(value));
+                AssertProp(() => ConfigWishes.GetBits(value));
+                AssertProp(() => ConfigWishes.AsBits(value));
+                AssertProp(() => ConfigWishes.ToBits(value));
+                AssertProp(() => ConfigWishes.SizeOfBitDepthToBits(value));
             }
-
+            
             
             // After-Record
             x.Record();
@@ -430,10 +502,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void ConfigSection_SizeOfBitDepth()
         {
-            // Immutable. Get-only.
             var x = CreateTestEntities(default);
-            var configSection = x.SynthBound.ConfigSection;
-            AreEqual(DefaultBits / 8, () => configSection.SizeOfBitDepth());
+            AreEqual(DefaultSizeOfBitDepth, () => x.SynthBound.ConfigSection.SizeOfBitDepth   ());
+            AreEqual(DefaultSizeOfBitDepth, () => x.SynthBound.ConfigSection.GetSizeOfBitDepth());
+            AreEqual(DefaultSizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.ConfigSection));
+            AreEqual(DefaultSizeOfBitDepth, () => GetSizeOfBitDepth(x.SynthBound.ConfigSection));
+            AreEqual(DefaultSizeOfBitDepth, () => ConfigWishesAccessor.SizeOfBitDepth   (x.SynthBound.ConfigSection));
+            AreEqual(DefaultSizeOfBitDepth, () => ConfigWishesAccessor.GetSizeOfBitDepth(x.SynthBound.ConfigSection));
+        }
+
+        [TestMethod]
+        public void ConfigSection_Default()
+        { 
+            AreEqual(4, () => DefaultSizeOfBitDepth);
         }
 
         [TestMethod]
@@ -443,37 +524,183 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(1, () => SizeOfBitDepth<byte>());
             AreEqual(2, () => SizeOfBitDepth<short>());
             AreEqual(4, () => SizeOfBitDepth<float>());
+            AreEqual(1, () => GetSizeOfBitDepth<byte>());
+            AreEqual(2, () => GetSizeOfBitDepth<short>());
+            AreEqual(4, () => GetSizeOfBitDepth<float>());
+            AreEqual(1, () => AsSizeOfBitDepth<byte>());
+            AreEqual(2, () => AsSizeOfBitDepth<short>());
+            AreEqual(4, () => AsSizeOfBitDepth<float>());
+            AreEqual(1, () => ToSizeOfBitDepth<byte>());
+            AreEqual(2, () => ToSizeOfBitDepth<short>());
+            AreEqual(4, () => ToSizeOfBitDepth<float>());
+            AreEqual(1, () => ConfigWishes.SizeOfBitDepth<byte>());
+            AreEqual(2, () => ConfigWishes.SizeOfBitDepth<short>());
+            AreEqual(4, () => ConfigWishes.SizeOfBitDepth<float>());
+            AreEqual(1, () => ConfigWishes.GetSizeOfBitDepth<byte>());
+            AreEqual(2, () => ConfigWishes.GetSizeOfBitDepth<short>());
+            AreEqual(4, () => ConfigWishes.GetSizeOfBitDepth<float>());
+            AreEqual(1, () => ConfigWishes.AsSizeOfBitDepth<byte>());
+            AreEqual(2, () => ConfigWishes.AsSizeOfBitDepth<short>());
+            AreEqual(4, () => ConfigWishes.AsSizeOfBitDepth<float>());
+            AreEqual(1, () => ConfigWishes.ToSizeOfBitDepth<byte>());
+            AreEqual(2, () => ConfigWishes.ToSizeOfBitDepth<short>());
+            AreEqual(4, () => ConfigWishes.ToSizeOfBitDepth<float>());
         
             // Setters
-            AreEqual(typeof(byte), () => SizeOfBitDepth<byte>(1));
-            AreEqual(typeof(byte), () => SizeOfBitDepth<short>(1));
-            AreEqual(typeof(byte), () => SizeOfBitDepth<float>(1));
-            
-            AreEqual(typeof(short), () => SizeOfBitDepth<byte>(2));
-            AreEqual(typeof(short), () => SizeOfBitDepth<short>(2));
-            AreEqual(typeof(short), () => SizeOfBitDepth<float>(2));
-            
-            AreEqual(typeof(float), () => SizeOfBitDepth<byte>(4));
-            AreEqual(typeof(float), () => SizeOfBitDepth<short>(4));
-            AreEqual(typeof(float), () => SizeOfBitDepth<float>(4));
+            AreEqual(typeof(byte),  () => SizeOfBitDepth     <byte>(1));
+            AreEqual(typeof(byte),  () => SizeOfBitDepth    <short>(1));
+            AreEqual(typeof(byte),  () => SizeOfBitDepth    <float>(1));
+            AreEqual(typeof(short), () => SizeOfBitDepth     <byte>(2));
+            AreEqual(typeof(short), () => SizeOfBitDepth    <short>(2));
+            AreEqual(typeof(short), () => SizeOfBitDepth    <float>(2));
+            AreEqual(typeof(float), () => SizeOfBitDepth     <byte>(4));
+            AreEqual(typeof(float), () => SizeOfBitDepth    <short>(4));
+            AreEqual(typeof(float), () => SizeOfBitDepth    <float>(4));
+            AreEqual(typeof(byte),  () => AsSizeOfBitDepth   <byte>(1));
+            AreEqual(typeof(byte),  () => AsSizeOfBitDepth  <short>(1));
+            AreEqual(typeof(byte),  () => AsSizeOfBitDepth  <float>(1));
+            AreEqual(typeof(short), () => AsSizeOfBitDepth   <byte>(2));
+            AreEqual(typeof(short), () => AsSizeOfBitDepth  <short>(2));
+            AreEqual(typeof(short), () => AsSizeOfBitDepth  <float>(2));
+            AreEqual(typeof(float), () => AsSizeOfBitDepth   <byte>(4));
+            AreEqual(typeof(float), () => AsSizeOfBitDepth  <short>(4));
+            AreEqual(typeof(float), () => AsSizeOfBitDepth  <float>(4));
+            AreEqual(typeof(byte),  () => ToSizeOfBitDepth   <byte>(1));
+            AreEqual(typeof(byte),  () => ToSizeOfBitDepth  <short>(1));
+            AreEqual(typeof(byte),  () => ToSizeOfBitDepth  <float>(1));
+            AreEqual(typeof(short), () => ToSizeOfBitDepth   <byte>(2));
+            AreEqual(typeof(short), () => ToSizeOfBitDepth  <short>(2));
+            AreEqual(typeof(short), () => ToSizeOfBitDepth  <float>(2));
+            AreEqual(typeof(float), () => ToSizeOfBitDepth   <byte>(4));
+            AreEqual(typeof(float), () => ToSizeOfBitDepth  <short>(4));
+            AreEqual(typeof(float), () => ToSizeOfBitDepth  <float>(4));
+            AreEqual(typeof(byte),  () => WithSizeOfBitDepth <byte>(1));
+            AreEqual(typeof(byte),  () => WithSizeOfBitDepth<short>(1));
+            AreEqual(typeof(byte),  () => WithSizeOfBitDepth<float>(1));
+            AreEqual(typeof(short), () => WithSizeOfBitDepth <byte>(2));
+            AreEqual(typeof(short), () => WithSizeOfBitDepth<short>(2));
+            AreEqual(typeof(short), () => WithSizeOfBitDepth<float>(2));
+            AreEqual(typeof(float), () => WithSizeOfBitDepth <byte>(4));
+            AreEqual(typeof(float), () => WithSizeOfBitDepth<short>(4));
+            AreEqual(typeof(float), () => WithSizeOfBitDepth<float>(4));
+            AreEqual(typeof(byte),  () => SetSizeOfBitDepth  <byte>(1));
+            AreEqual(typeof(byte),  () => SetSizeOfBitDepth <short>(1));
+            AreEqual(typeof(byte),  () => SetSizeOfBitDepth <float>(1));
+            AreEqual(typeof(short), () => SetSizeOfBitDepth  <byte>(2));
+            AreEqual(typeof(short), () => SetSizeOfBitDepth <short>(2));
+            AreEqual(typeof(short), () => SetSizeOfBitDepth <float>(2));
+            AreEqual(typeof(float), () => SetSizeOfBitDepth  <byte>(4));
+            AreEqual(typeof(float), () => SetSizeOfBitDepth <short>(4));
+            AreEqual(typeof(float), () => SetSizeOfBitDepth <float>(4));
+            AreEqual(typeof(byte),  () => ConfigWishes.SizeOfBitDepth     <byte>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.SizeOfBitDepth    <short>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.SizeOfBitDepth    <float>(1));
+            AreEqual(typeof(short), () => ConfigWishes.SizeOfBitDepth     <byte>(2));
+            AreEqual(typeof(short), () => ConfigWishes.SizeOfBitDepth    <short>(2));
+            AreEqual(typeof(short), () => ConfigWishes.SizeOfBitDepth    <float>(2));
+            AreEqual(typeof(float), () => ConfigWishes.SizeOfBitDepth     <byte>(4));
+            AreEqual(typeof(float), () => ConfigWishes.SizeOfBitDepth    <short>(4));
+            AreEqual(typeof(float), () => ConfigWishes.SizeOfBitDepth    <float>(4));
+            AreEqual(typeof(byte),  () => ConfigWishes.WithSizeOfBitDepth <byte>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.WithSizeOfBitDepth<short>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.WithSizeOfBitDepth<float>(1));
+            AreEqual(typeof(short), () => ConfigWishes.WithSizeOfBitDepth <byte>(2));
+            AreEqual(typeof(short), () => ConfigWishes.WithSizeOfBitDepth<short>(2));
+            AreEqual(typeof(short), () => ConfigWishes.WithSizeOfBitDepth<float>(2));
+            AreEqual(typeof(float), () => ConfigWishes.WithSizeOfBitDepth <byte>(4));
+            AreEqual(typeof(float), () => ConfigWishes.WithSizeOfBitDepth<short>(4));
+            AreEqual(typeof(float), () => ConfigWishes.WithSizeOfBitDepth<float>(4));
+            AreEqual(typeof(byte),  () => ConfigWishes.AsSizeOfBitDepth   <byte>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.AsSizeOfBitDepth  <short>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.AsSizeOfBitDepth  <float>(1));
+            AreEqual(typeof(short), () => ConfigWishes.AsSizeOfBitDepth   <byte>(2));
+            AreEqual(typeof(short), () => ConfigWishes.AsSizeOfBitDepth  <short>(2));
+            AreEqual(typeof(short), () => ConfigWishes.AsSizeOfBitDepth  <float>(2));
+            AreEqual(typeof(float), () => ConfigWishes.AsSizeOfBitDepth   <byte>(4));
+            AreEqual(typeof(float), () => ConfigWishes.AsSizeOfBitDepth  <short>(4));
+            AreEqual(typeof(float), () => ConfigWishes.AsSizeOfBitDepth  <float>(4));
+            AreEqual(typeof(byte),  () => ConfigWishes.ToSizeOfBitDepth   <byte>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.ToSizeOfBitDepth  <short>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.ToSizeOfBitDepth  <float>(1));
+            AreEqual(typeof(short), () => ConfigWishes.ToSizeOfBitDepth   <byte>(2));
+            AreEqual(typeof(short), () => ConfigWishes.ToSizeOfBitDepth  <short>(2));
+            AreEqual(typeof(short), () => ConfigWishes.ToSizeOfBitDepth  <float>(2));
+            AreEqual(typeof(float), () => ConfigWishes.ToSizeOfBitDepth   <byte>(4));
+            AreEqual(typeof(float), () => ConfigWishes.ToSizeOfBitDepth  <short>(4));
+            AreEqual(typeof(float), () => ConfigWishes.ToSizeOfBitDepth  <float>(4));
+            AreEqual(typeof(byte),  () => ConfigWishes.SetSizeOfBitDepth  <byte>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.SetSizeOfBitDepth <short>(1));
+            AreEqual(typeof(byte),  () => ConfigWishes.SetSizeOfBitDepth <float>(1));
+            AreEqual(typeof(short), () => ConfigWishes.SetSizeOfBitDepth  <byte>(2));
+            AreEqual(typeof(short), () => ConfigWishes.SetSizeOfBitDepth <short>(2));
+            AreEqual(typeof(short), () => ConfigWishes.SetSizeOfBitDepth <float>(2));
+            AreEqual(typeof(float), () => ConfigWishes.SetSizeOfBitDepth  <byte>(4));
+            AreEqual(typeof(float), () => ConfigWishes.SetSizeOfBitDepth <short>(4));
+            AreEqual(typeof(float), () => ConfigWishes.SetSizeOfBitDepth <float>(4));
             
             // Conversion-Style Getters
-            AreEqual(1, () => TypeToSizeOfBitDepth<byte>());
+            AreEqual(1, () => TypeToSizeOfBitDepth <byte>());
             AreEqual(2, () => TypeToSizeOfBitDepth<short>());
             AreEqual(4, () => TypeToSizeOfBitDepth<float>());
+            AreEqual(1, () => ConfigWishes.TypeToSizeOfBitDepth <byte>());
+            AreEqual(2, () => ConfigWishes.TypeToSizeOfBitDepth<short>());
+            AreEqual(4, () => ConfigWishes.TypeToSizeOfBitDepth<float>());
 
             // 'Shorthand' Setters
-            AreEqual(typeof(byte), () => With8Bit<byte>());
-            AreEqual(typeof(byte), () => With8Bit<short>());
-            AreEqual(typeof(byte), () => With8Bit<float>());
-
-            AreEqual(typeof(short), () => With16Bit<byte>());
+            AreEqual(typeof(byte),  () => With8Bit  <byte>());
+            AreEqual(typeof(byte),  () => With8Bit <short>());
+            AreEqual(typeof(byte),  () => With8Bit <float>());
+            AreEqual(typeof(short), () => With16Bit <byte>());
             AreEqual(typeof(short), () => With16Bit<short>());
             AreEqual(typeof(short), () => With16Bit<float>());
-
-            AreEqual(typeof(float), () => With32Bit<byte>());
+            AreEqual(typeof(float), () => With32Bit <byte>());
             AreEqual(typeof(float), () => With32Bit<short>());
             AreEqual(typeof(float), () => With32Bit<float>());
+            AreEqual(typeof(byte),  () => As8Bit    <byte>());
+            AreEqual(typeof(byte),  () => As8Bit   <short>());
+            AreEqual(typeof(byte),  () => As8Bit   <float>());
+            AreEqual(typeof(short), () => As16Bit   <byte>());
+            AreEqual(typeof(short), () => As16Bit  <short>());
+            AreEqual(typeof(short), () => As16Bit  <float>());
+            AreEqual(typeof(float), () => As32Bit   <byte>());
+            AreEqual(typeof(float), () => As32Bit  <short>());
+            AreEqual(typeof(float), () => As32Bit  <float>());
+            AreEqual(typeof(byte),  () => Set8Bit   <byte>());
+            AreEqual(typeof(byte),  () => Set8Bit  <short>());
+            AreEqual(typeof(byte),  () => Set8Bit  <float>());
+            AreEqual(typeof(short), () => Set16Bit  <byte>());
+            AreEqual(typeof(short), () => Set16Bit <short>());
+            AreEqual(typeof(short), () => Set16Bit <float>());
+            AreEqual(typeof(float), () => Set32Bit  <byte>());
+            AreEqual(typeof(float), () => Set32Bit <short>());
+            AreEqual(typeof(float), () => Set32Bit <float>());
+            AreEqual(typeof(byte),  () => ConfigWishes.With8Bit <byte>());
+            AreEqual(typeof(byte),  () => ConfigWishes.With8Bit <short>());
+            AreEqual(typeof(byte),  () => ConfigWishes.With8Bit <float>());
+            AreEqual(typeof(short), () => ConfigWishes.With16Bit <byte>());
+            AreEqual(typeof(short), () => ConfigWishes.With16Bit<short>());
+            AreEqual(typeof(short), () => ConfigWishes.With16Bit<float>());
+            AreEqual(typeof(float), () => ConfigWishes.With32Bit <byte>());
+            AreEqual(typeof(float), () => ConfigWishes.With32Bit<short>());
+            AreEqual(typeof(float), () => ConfigWishes.With32Bit<float>());
+            AreEqual(typeof(byte),  () => ConfigWishes.As8Bit  <byte>());
+            AreEqual(typeof(byte),  () => ConfigWishes.As8Bit  <short>());
+            AreEqual(typeof(byte),  () => ConfigWishes.As8Bit  <float>());
+            AreEqual(typeof(short), () => ConfigWishes.As16Bit  <byte>());
+            AreEqual(typeof(short), () => ConfigWishes.As16Bit <short>());
+            AreEqual(typeof(short), () => ConfigWishes.As16Bit <float>());
+            AreEqual(typeof(float), () => ConfigWishes.As32Bit  <byte>());
+            AreEqual(typeof(float), () => ConfigWishes.As32Bit <short>());
+            AreEqual(typeof(float), () => ConfigWishes.As32Bit <float>());
+            AreEqual(typeof(byte),  () => ConfigWishes.Set8Bit  <byte>());
+            AreEqual(typeof(byte),  () => ConfigWishes.Set8Bit  <short>());
+            AreEqual(typeof(byte),  () => ConfigWishes.Set8Bit  <float>());
+            AreEqual(typeof(short), () => ConfigWishes.Set16Bit  <byte>());
+            AreEqual(typeof(short), () => ConfigWishes.Set16Bit <short>());
+            AreEqual(typeof(short), () => ConfigWishes.Set16Bit <float>());
+            AreEqual(typeof(float), () => ConfigWishes.Set32Bit  <byte>());
+            AreEqual(typeof(float), () => ConfigWishes.Set32Bit <short>());
+            AreEqual(typeof(float), () => ConfigWishes.Set32Bit <float>());
         }
         
         [TestMethod]
@@ -523,179 +750,215 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(ConfigTestEntities x, int sizeOfBitDepth)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.SynthBound);
-            IsNotNull(() => x.SynthBound.SynthWishes);
-            IsNotNull(() => x.SynthBound.FlowNode);
-            IsNotNull(() => x.SynthBound.ConfigResolver);
-
-            AreEqual(sizeOfBitDepth, () => x.SynthBound.SynthWishes .SizeOfBitDepth() );
-            AreEqual(sizeOfBitDepth, () => x.SynthBound.FlowNode    .SizeOfBitDepth() );
-            AreEqual(sizeOfBitDepth, () => x.SynthBound.ConfigResolver.SizeOfBitDepth() );
-            
-            AreEqual(sizeOfBitDepth, x.SynthBound.SynthWishes .Bits()  / 8);
-            AreEqual(sizeOfBitDepth, x.SynthBound.SynthWishes .GetBits / 8);
-            AreEqual(sizeOfBitDepth, x.SynthBound.FlowNode    .Bits()  / 8);
-            AreEqual(sizeOfBitDepth, x.SynthBound.FlowNode    .GetBits / 8);
-            AreEqual(sizeOfBitDepth, x.SynthBound.ConfigResolver.Bits()  / 8);
-            AreEqual(sizeOfBitDepth, x.SynthBound.ConfigResolver.GetBits / 8);
-            
-            AreEqual(sizeOfBitDepth == 1, () => x.SynthBound.SynthWishes.Is8Bit());
-            AreEqual(sizeOfBitDepth == 1, () => x.SynthBound.SynthWishes.Is8Bit);
-            AreEqual(sizeOfBitDepth == 1, () => x.SynthBound.FlowNode.Is8Bit());
-            AreEqual(sizeOfBitDepth == 1, () => x.SynthBound.FlowNode.Is8Bit);
-            AreEqual(sizeOfBitDepth == 1, () => x.SynthBound.ConfigResolver.Is8Bit());
-            AreEqual(sizeOfBitDepth == 1, () => x.SynthBound.ConfigResolver.Is8Bit);
-            
-            AreEqual(sizeOfBitDepth == 2, () => x.SynthBound.SynthWishes.Is16Bit());
-            AreEqual(sizeOfBitDepth == 2, () => x.SynthBound.SynthWishes.Is16Bit);
-            AreEqual(sizeOfBitDepth == 2, () => x.SynthBound.FlowNode.Is16Bit());
-            AreEqual(sizeOfBitDepth == 2, () => x.SynthBound.FlowNode.Is16Bit);
-            AreEqual(sizeOfBitDepth == 2, () => x.SynthBound.ConfigResolver.Is16Bit());
-            AreEqual(sizeOfBitDepth == 2, () => x.SynthBound.ConfigResolver.Is16Bit);
-            
-            AreEqual(sizeOfBitDepth == 4, () => x.SynthBound.SynthWishes.Is32Bit());
-            AreEqual(sizeOfBitDepth == 4, () => x.SynthBound.SynthWishes.Is32Bit);
-            AreEqual(sizeOfBitDepth == 4, () => x.SynthBound.FlowNode.Is32Bit());
-            AreEqual(sizeOfBitDepth == 4, () => x.SynthBound.FlowNode.Is32Bit);
-            AreEqual(sizeOfBitDepth == 4, () => x.SynthBound.ConfigResolver.Is32Bit());
-            AreEqual(sizeOfBitDepth == 4, () => x.SynthBound.ConfigResolver.Is32Bit);
+            IsNotNull(               () => x);
+            IsNotNull(               () => x.SynthBound);
+            IsNotNull(               () => x.SynthBound.SynthWishes);
+            IsNotNull(               () => x.SynthBound.FlowNode);
+            IsNotNull(               () => x.SynthBound.ConfigResolver);
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.SynthWishes   .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.FlowNode      .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.ConfigResolver.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.SynthWishes   .GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.FlowNode      .GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.ConfigResolver.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.SynthWishes   ));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.FlowNode      ));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.ConfigResolver));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.SynthBound.SynthWishes   ));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.SynthBound.FlowNode      ));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.SynthBound.ConfigResolver));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes        .SizeOfBitDepth   (x.SynthBound.SynthWishes   ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes        .SizeOfBitDepth   (x.SynthBound.FlowNode      ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishesAccessor.SizeOfBitDepth   (x.SynthBound.ConfigResolver));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes        .GetSizeOfBitDepth(x.SynthBound.SynthWishes   ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes        .GetSizeOfBitDepth(x.SynthBound.FlowNode      ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishesAccessor.GetSizeOfBitDepth(x.SynthBound.ConfigResolver));
         }
         
         private void Assert_TapeBound_Getters(ConfigTestEntities x, int sizeOfBitDepth)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.TapeBound);
-            IsNotNull(() => x.TapeBound.Tape);
-            IsNotNull(() => x.TapeBound.TapeConfig);
-            IsNotNull(() => x.TapeBound.TapeActions);
-            IsNotNull(() => x.TapeBound.TapeAction);
-
-            AreEqual(sizeOfBitDepth, () => x.TapeBound.Tape.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeConfig.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeActions.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeAction.SizeOfBitDepth());
-            
-            AreEqual(sizeOfBitDepth, x.TapeBound.Tape       .Bits() / 8);
-            AreEqual(sizeOfBitDepth, x.TapeBound.TapeConfig .Bits() / 8);
-            AreEqual(sizeOfBitDepth, x.TapeBound.TapeConfig .Bits   / 8);
-            AreEqual(sizeOfBitDepth, x.TapeBound.TapeActions.Bits() / 8);
-            AreEqual(sizeOfBitDepth, x.TapeBound.TapeAction .Bits() / 8);
-            
-            AreEqual(sizeOfBitDepth == 1, () => x.TapeBound.Tape.Is8Bit());
-            AreEqual(sizeOfBitDepth == 1, () => x.TapeBound.TapeConfig.Is8Bit());
-            AreEqual(sizeOfBitDepth == 1, () => x.TapeBound.TapeActions.Is8Bit());
-            AreEqual(sizeOfBitDepth == 1, () => x.TapeBound.TapeAction.Is8Bit());
-        
-            AreEqual(sizeOfBitDepth == 2, () => x.TapeBound.Tape.Is16Bit());
-            AreEqual(sizeOfBitDepth == 2, () => x.TapeBound.TapeConfig.Is16Bit());
-            AreEqual(sizeOfBitDepth == 2, () => x.TapeBound.TapeActions.Is16Bit());
-            AreEqual(sizeOfBitDepth == 2, () => x.TapeBound.TapeAction.Is16Bit());
-        
-            AreEqual(sizeOfBitDepth == 4, () => x.TapeBound.Tape.Is32Bit());
-            AreEqual(sizeOfBitDepth == 4, () => x.TapeBound.TapeConfig.Is32Bit());
-            AreEqual(sizeOfBitDepth == 4, () => x.TapeBound.TapeActions.Is32Bit());
-            AreEqual(sizeOfBitDepth == 4, () => x.TapeBound.TapeAction.Is32Bit());
+            IsNotNull(               () => x);
+            IsNotNull(               () => x.TapeBound);
+            IsNotNull(               () => x.TapeBound.Tape);
+            IsNotNull(               () => x.TapeBound.TapeConfig);
+            IsNotNull(               () => x.TapeBound.TapeActions);
+            IsNotNull(               () => x.TapeBound.TapeAction);
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.Tape       .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeConfig .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeActions.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeAction .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.Tape       .GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeConfig .GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeActions.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => x.TapeBound.TapeAction .GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.TapeBound.Tape       ));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.TapeBound.TapeConfig ));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.TapeBound.TapeActions));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.TapeBound.TapeAction ));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.TapeBound.Tape       ));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.TapeBound.TapeConfig ));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.TapeBound.TapeActions));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.TapeBound.TapeAction ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (x.TapeBound.Tape       ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (x.TapeBound.TapeConfig ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (x.TapeBound.TapeActions));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (x.TapeBound.TapeAction ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(x.TapeBound.Tape       ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(x.TapeBound.TapeConfig ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(x.TapeBound.TapeActions));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(x.TapeBound.TapeAction ));
         }
         
         private void Assert_BuffBound_Getters(ConfigTestEntities x, int sizeOfBitDepth)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.BuffBound);
-            IsNotNull(() => x.BuffBound.Buff);
-
-            AreEqual(sizeOfBitDepth, () => x.BuffBound.Buff.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth, () => x.BuffBound.AudioFileOutput.SizeOfBitDepth());
-            
-            AreEqual(sizeOfBitDepth * 8, () => x.BuffBound.Buff.Bits());
-            AreEqual(sizeOfBitDepth * 8, () => x.BuffBound.AudioFileOutput.Bits());
-            
-            AreEqual(sizeOfBitDepth == 1, () => x.BuffBound.Buff.Is8Bit());
-            AreEqual(sizeOfBitDepth == 1, () => x.BuffBound.AudioFileOutput.Is8Bit());
-            
-            AreEqual(sizeOfBitDepth == 2, () => x.BuffBound.Buff.Is16Bit());
-            AreEqual(sizeOfBitDepth == 2, () => x.BuffBound.AudioFileOutput.Is16Bit());
-            
-            AreEqual(sizeOfBitDepth == 4, () => x.BuffBound.Buff.Is32Bit());
-            AreEqual(sizeOfBitDepth == 4, () => x.BuffBound.AudioFileOutput.Is32Bit());
+            IsNotNull(               () => x);
+            IsNotNull(               () => x.BuffBound);
+            IsNotNull(               () => x.BuffBound.Buff);
+            AreEqual(sizeOfBitDepth, () => x.BuffBound.Buff           .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.BuffBound.AudioFileOutput.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.BuffBound.Buff           .GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => x.BuffBound.AudioFileOutput.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.BuffBound.Buff           ));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.BuffBound.AudioFileOutput));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.BuffBound.Buff           ));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.BuffBound.AudioFileOutput));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (x.BuffBound.Buff           ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (x.BuffBound.AudioFileOutput));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(x.BuffBound.Buff           ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(x.BuffBound.AudioFileOutput));
         }
                 
         private void Assert_Independent_Getters(Sample sample, int sizeOfBitDepth)
         {
-            IsNotNull(                    () => sample);
-            AreEqual(sizeOfBitDepth,      () => sample.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth * 8,  () => sample.Bits());
-            AreEqual(sizeOfBitDepth == 1, () => sample.Is8Bit());
-            AreEqual(sizeOfBitDepth == 2, () => sample.Is16Bit());
-            AreEqual(sizeOfBitDepth == 4, () => sample.Is32Bit());
+            IsNotNull(               () => sample);
+            AreEqual(sizeOfBitDepth, () => sample.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => sample.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (sample));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(sample));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (sample));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(sample));
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int sizeOfBitDepth)
         {
-            IsNotNull(                    () => audioInfoWish);
-            AreEqual(sizeOfBitDepth,      () => audioInfoWish.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth * 8,  () => audioInfoWish.Bits);
-            AreEqual(sizeOfBitDepth * 8,  () => audioInfoWish.Bits());
-            AreEqual(sizeOfBitDepth == 1, () => audioInfoWish.Is8Bit());
-            AreEqual(sizeOfBitDepth == 2, () => audioInfoWish.Is16Bit());
-            AreEqual(sizeOfBitDepth == 4, () => audioInfoWish.Is32Bit());
+            IsNotNull(               () => audioInfoWish);
+            AreEqual(sizeOfBitDepth, () => audioInfoWish.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => audioInfoWish.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (audioInfoWish));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(audioInfoWish));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (audioInfoWish));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(audioInfoWish));
         }
         
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int sizeOfBitDepth)
         {
-            IsNotNull(                    () => audioFileInfo);
-            AreEqual(sizeOfBitDepth,      () => audioFileInfo.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth * 8,  () => audioFileInfo.Bits());
-            AreEqual(sizeOfBitDepth == 1, () => audioFileInfo.Is8Bit());
-            AreEqual(sizeOfBitDepth == 2, () => audioFileInfo.Is16Bit());
-            AreEqual(sizeOfBitDepth == 4, () => audioFileInfo.Is32Bit());
+            IsNotNull(               () => audioFileInfo);
+            AreEqual(sizeOfBitDepth, () => audioFileInfo.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => audioFileInfo.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (audioFileInfo));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(audioFileInfo));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (audioFileInfo));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(audioFileInfo));
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int sizeOfBitDepth)
         {
-            AreEqual(sizeOfBitDepth,      () => wavHeader.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth * 8,  () => wavHeader.BitsPerValue);
-            AreEqual(sizeOfBitDepth * 8,  () => wavHeader.Bits());
-            AreEqual(sizeOfBitDepth == 1, () => wavHeader.Is8Bit());
-            AreEqual(sizeOfBitDepth == 2, () => wavHeader.Is16Bit());
-            AreEqual(sizeOfBitDepth == 4, () => wavHeader.Is32Bit());
+            AreEqual(sizeOfBitDepth, () => wavHeader.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => wavHeader.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (wavHeader));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(wavHeader));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (wavHeader));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(wavHeader));
         }
         
         private void Assert_Immutable_Getters(SampleDataTypeEnum sampleDataTypeEnum, int sizeOfBitDepth)
         {
-            AreEqual(sizeOfBitDepth,      () => sampleDataTypeEnum.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth * 8,  () => sampleDataTypeEnum.Bits());
-            AreEqual(sizeOfBitDepth * 8,  () => sampleDataTypeEnum.EnumToBits());
-            AreEqual(sizeOfBitDepth == 1, () => sampleDataTypeEnum.Is8Bit());
-            AreEqual(sizeOfBitDepth == 2, () => sampleDataTypeEnum.Is16Bit());
-            AreEqual(sizeOfBitDepth == 4, () => sampleDataTypeEnum.Is32Bit());
+            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.ToSizeOfBitDepth ());
+            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.AsSizeOfBitDepth ());
+            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, () => ToSizeOfBitDepth (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, () => AsSizeOfBitDepth (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(sampleDataTypeEnum));
         }
         
         private void Assert_Immutable_Getters(SampleDataType sampleDataType, int sizeOfBitDepth)
         {
-            IsNotNull(                    () => sampleDataType);
-            AreEqual(sizeOfBitDepth,      () => sampleDataType.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth * 8,  () => sampleDataType.Bits());
-            AreEqual(sizeOfBitDepth * 8,  () => sampleDataType.EntityToBits());
-            AreEqual(sizeOfBitDepth == 1, () => sampleDataType.Is8Bit());
-            AreEqual(sizeOfBitDepth == 2, () => sampleDataType.Is16Bit());
-            AreEqual(sizeOfBitDepth == 4, () => sampleDataType.Is32Bit());
+            IsNotNull(               () => sampleDataType);
+            AreEqual(sizeOfBitDepth, () => sampleDataType.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => sampleDataType.ToSizeOfBitDepth ());
+            AreEqual(sizeOfBitDepth, () => sampleDataType.AsSizeOfBitDepth ());
+            AreEqual(sizeOfBitDepth, () => sampleDataType.GetSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (sampleDataType));
+            AreEqual(sizeOfBitDepth, () => ToSizeOfBitDepth (sampleDataType));
+            AreEqual(sizeOfBitDepth, () => AsSizeOfBitDepth (sampleDataType));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(sampleDataType));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth   (sampleDataType));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth (sampleDataType));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth (sampleDataType));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(sampleDataType));
         }
         
         private void Assert_Immutable_Getters(Type type, int sizeOfBitDepth)
         {
-            IsNotNull(                    () => type);
-            AreEqual(sizeOfBitDepth,      () => type.SizeOfBitDepth());
-            AreEqual(sizeOfBitDepth * 8,  () => type.Bits());
-            AreEqual(sizeOfBitDepth * 8,  () => type.TypeToBits());
-            AreEqual(sizeOfBitDepth == 1, () => type.Is8Bit());
-            AreEqual(sizeOfBitDepth == 2, () => type.Is16Bit());
-            AreEqual(sizeOfBitDepth == 4, () => type.Is32Bit());
+            IsNotNull(               () => type);
+            AreEqual(sizeOfBitDepth, () => type.SizeOfBitDepth      ());
+            AreEqual(sizeOfBitDepth, () => type.AsSizeOfBitDepth    ());
+            AreEqual(sizeOfBitDepth, () => type.ToSizeOfBitDepth    ());
+            AreEqual(sizeOfBitDepth, () => type.GetSizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => type.TypeToSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth      (type));
+            AreEqual(sizeOfBitDepth, () => AsSizeOfBitDepth    (type));
+            AreEqual(sizeOfBitDepth, () => ToSizeOfBitDepth    (type));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth   (type));
+            AreEqual(sizeOfBitDepth, () => TypeToSizeOfBitDepth(type));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth      (type));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth    (type));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth    (type));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth   (type));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.TypeToSizeOfBitDepth(type));
         }
         
         private void Assert_Immutable_Getters(int bits, int sizeOfBitDepth)
         {
-            AreEqual(sizeOfBitDepth, () => bits.SizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => bits.SizeOfBitDepth      ());
+            AreEqual(sizeOfBitDepth, () => bits.GetSizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => bits.AsSizeOfBitDepth    ());
+            AreEqual(sizeOfBitDepth, () => bits.ToSizeOfBitDepth    ());
+            AreEqual(sizeOfBitDepth, () => bits.BitsToSizeOfBitDepth());
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth      (bits));
+            AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth   (bits));
+            AreEqual(sizeOfBitDepth, () => AsSizeOfBitDepth    (bits));
+            AreEqual(sizeOfBitDepth, () => ToSizeOfBitDepth    (bits));
+            AreEqual(sizeOfBitDepth, () => BitsToSizeOfBitDepth(bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth      (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth   (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth    (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth    (bits));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes.BitsToSizeOfBitDepth(bits));
+
+            int? nullyBits = bits;
+            int? nullySizeOfBitDepth = sizeOfBitDepth;
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.SizeOfBitDepth      ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.GetSizeOfBitDepth   ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.AsSizeOfBitDepth    ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.ToSizeOfBitDepth    ());
+            AreEqual(nullySizeOfBitDepth, () => nullyBits.BitsToSizeOfBitDepth());
+            AreEqual(nullySizeOfBitDepth, () => SizeOfBitDepth      (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => GetSizeOfBitDepth   (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => AsSizeOfBitDepth    (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ToSizeOfBitDepth    (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => BitsToSizeOfBitDepth(nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.SizeOfBitDepth      (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth   (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.AsSizeOfBitDepth    (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.ToSizeOfBitDepth    (nullyBits));
+            AreEqual(nullySizeOfBitDepth, () => ConfigWishes.BitsToSizeOfBitDepth(nullyBits));
         }
          
         // Data Helpers
