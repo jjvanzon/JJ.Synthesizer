@@ -15,6 +15,7 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
@@ -582,7 +583,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
         
         private ConfigTestEntities CreateTestEntities((string fileExtension, AudioFileFormatEnum? audioFormat) init) 
-            => new ConfigTestEntities(x => x.AudioFormat(init.audioFormat));
+            => new ConfigTestEntities(x => x.AudioFormat(init.audioFormat).SamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         

@@ -11,6 +11,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable UnusedMember.Local
 #pragma warning disable CS0618
@@ -386,7 +387,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
 
         private static ConfigTestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default) 
-            => new ConfigTestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels));
+            => new ConfigTestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels).SamplingRate(HighPerfHz));
 
         // ncrunch: no coverage start
         

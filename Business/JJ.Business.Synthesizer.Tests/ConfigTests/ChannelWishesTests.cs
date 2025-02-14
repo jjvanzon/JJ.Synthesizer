@@ -17,6 +17,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Wishes.Testing;
 using static JJ.Business.Synthesizer.Tests.docs;
 using JJ.Framework.Wishes.Common;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0618 
@@ -3930,7 +3932,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
         private ConfigTestEntities CreateTestEntities(int? channels = null, int? channel = null)
             => new ConfigTestEntities(x => x.WithChannels(channels)
-                                            .WithChannel (channel));
+                                            .WithChannel (channel)
+                                            .SamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         

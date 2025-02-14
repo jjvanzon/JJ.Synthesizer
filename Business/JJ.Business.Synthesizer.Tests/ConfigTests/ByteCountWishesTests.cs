@@ -14,6 +14,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable MSTEST0018
@@ -93,7 +94,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
             // Change bit depth first, or it'll change the byte count.
-            => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init));
+            => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz));
 
         static ConfigTestEntities CreateTestEntities(Case val) 
             => new ConfigTestEntities(synth => 

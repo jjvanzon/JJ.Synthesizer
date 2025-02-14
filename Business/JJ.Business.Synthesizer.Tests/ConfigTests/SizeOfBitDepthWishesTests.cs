@@ -11,9 +11,11 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0618 
 #pragma warning disable MSTEST0018 
@@ -1019,7 +1021,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
          
         // Data Helpers
 
-        private ConfigTestEntities CreateTestEntities(int? sizeOfBitDepth) => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth));
+        private ConfigTestEntities CreateTestEntities(int? sizeOfBitDepth) => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth).SamplingRate(HighPerfHz));
 
         // ncrunch: no coverage start
         

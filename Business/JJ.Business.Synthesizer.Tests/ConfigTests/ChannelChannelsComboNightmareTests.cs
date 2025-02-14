@@ -12,6 +12,7 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
@@ -103,7 +104,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             => new ConfigTestEntities(x => x.WithChannels(channels).WithChannel(channel));
         
         private ConfigTestEntities CreateTestEntities(int channels, int? channel, IContext context) 
-            => new ConfigTestEntities(x => x.WithChannels(channels).WithChannel(channel), context);
+            => new ConfigTestEntities(x => x.WithChannels(channels).WithChannel(channel).SamplingRate(HighPerfHz), context);
 
         private void Assert_Channels_Getters(ChannelEnum channelEnum, int? channels)
         {

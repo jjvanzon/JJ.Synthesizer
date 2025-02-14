@@ -13,6 +13,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable PossibleLossOfFraction
 #pragma warning disable CS0618
@@ -608,7 +609,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
          // Test Data Helpers
 
-        private ConfigTestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new ConfigTestEntities(x => x.Bits(init.bits));
+        private ConfigTestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new ConfigTestEntities(x => x.Bits(init.bits).SamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         

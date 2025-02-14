@@ -15,6 +15,8 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0611 
@@ -802,7 +804,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
         
         private ConfigTestEntities CreateTestEntities(InterpolationTypeEnum? interpolation) 
-            => new ConfigTestEntities(x => x.WithInterpolation(interpolation));
+            => new ConfigTestEntities(x => x.WithInterpolation(interpolation).SamplingRate(HighPerfHz));
         
         static object TestParametersWithEmpty => new [] // ncrunch: no coverage
         {

@@ -98,6 +98,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
     
     internal class ConfigTestEntities : TapeEntities
     {   
+        public const int HighPerfHz = 8;
+        
         public override string     ToString() => DebuggerDisplay(this);
         public SynthBoundEntities  SynthBound { get; set; } = new SynthBoundEntities();
         public IList<TapeEntities> ChannelEntities { get; private set; } // Tape-Bound
@@ -138,6 +140,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Bits                   = DefaultBits,
                 Channels               = DefaultChannels,
                 SamplingRate           = DefaultSamplingRate,
+                //SamplingRate           = 20,
                 AudioFormat            = DefaultAudioFormat,
                 Interpolation          = DefaultInterpolation,
                 CourtesyFrames         = DefaultCourtesyFrames,
