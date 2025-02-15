@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
@@ -15,7 +14,6 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.WavHeaderWishes;
 
 #pragma warning disable CS0618
 // ReSharper disable InvokeAsExtensionMethod

@@ -121,3 +121,27 @@
                                       .AudioLength(audioLength));
 
             public CaseProp<double> AudioLength { get; set; }
+            
+            AudioInfoWish wish = x.SynthBound.SynthWishes.ToWish();
+            Assert(test, wish);
+            
+            AreEqual<int>(test.Bits,         () => x.SynthBound.SynthWishes.ToWish().Bits);
+            AreEqual<int>(test.Channels,     () => x.SynthBound.SynthWishes.ToWish().Channels);
+            AreEqual<int>(test.SamplingRate, () => x.SynthBound.SynthWishes.ToWish().SamplingRate);
+            AreEqual<int>(test.FrameCount,   () => x.SynthBound.SynthWishes.ToWish().FrameCount);
+
+        private void Assert(Case testCase, AudioInfoWish wish)
+        {
+            IsNotNull(() => testCase);
+            IsNotNull(() => wish);
+            
+            int samplingRate = testCase.SamplingRate;
+            int frameCount   = testCase.FrameCount;
+            int bits         = testCase.Bits;
+            int channels     = testCase.Channels;
+            
+            AreEqual(bits,         () => wish.Bits);
+            AreEqual(channels,     () => wish.Channels);
+            AreEqual(samplingRate, () => wish.SamplingRate);
+            AreEqual(frameCount,   () => wish.FrameCount);
+        }
