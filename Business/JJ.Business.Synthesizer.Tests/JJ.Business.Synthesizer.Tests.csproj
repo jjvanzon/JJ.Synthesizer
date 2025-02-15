@@ -135,6 +135,7 @@
     <Compile Include="Accessors\TapeAccessor.cs" />
     <Compile Include="Accessors\TapeCollectionAccessor.cs" />
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
+    <Compile Include="Accessors\ToWishExtensionsAccessor.cs" />
     <Compile Include="ConfigTests\ByteCountWishesTests.cs" />
     <Compile Include="Helpers\TestEntityEnum.cs" />
     <Compile Include="docs.cs" />
