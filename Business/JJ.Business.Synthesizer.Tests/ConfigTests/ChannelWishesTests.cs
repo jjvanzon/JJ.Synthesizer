@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Tests.Helpers;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
@@ -17,7 +18,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Wishes.Testing;
 using static JJ.Business.Synthesizer.Tests.docs;
 using JJ.Framework.Wishes.Common;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 

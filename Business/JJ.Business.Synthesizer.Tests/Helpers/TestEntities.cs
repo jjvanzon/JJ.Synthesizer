@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
@@ -21,7 +20,7 @@ using static JJ.Framework.Testing.AssertHelper;
 
 #pragma warning disable CS0618
 
-namespace JJ.Business.Synthesizer.Tests.ConfigTests
+namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     internal class SynthBoundEntities
     {

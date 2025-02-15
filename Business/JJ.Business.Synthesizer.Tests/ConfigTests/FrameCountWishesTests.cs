@@ -13,14 +13,14 @@ using JJ.Framework.Testing;
 using JJ.Framework.Wishes.Testing;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntityEnum;
+using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
+using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
