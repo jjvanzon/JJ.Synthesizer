@@ -88,6 +88,14 @@ namespace JJ.Business.Synthesizer.Wishes
             FrameCount   = entity.FrameCount(synthWishes)
         };
 
+        internal static AudioInfoWish ToWish(this ConfigSection entity) => new AudioInfoWish
+        {
+            Bits         = entity.Bits        ().CoalesceBits        (),
+            Channels     = entity.Channels    ().CoalesceChannels    (),
+            SamplingRate = entity.SamplingRate().CoalesceSamplingRate(),
+            FrameCount   = entity.FrameCount  ().CoalesceFrameCount  ()
+        };
+
         public static AudioInfoWish ToWish(this Tape entity) => new AudioInfoWish
         {
             Bits         = entity.Bits(),
@@ -169,28 +177,46 @@ namespace JJ.Business.Synthesizer.Wishes
         
     public static class ToWavHeaderExtensions
     {
-        public static WavHeaderStruct ToWavHeader(this Sample entity)
+        public static WavHeaderStruct ToWavHeader(this SynthWishes entity)
             => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this FlowNode entity)
+            => entity.ToWish().ToWavHeader();
+        
+        internal static WavHeaderStruct ToWavHeader(this ConfigResolver entity, SynthWishes synthWishes)
+            => entity.ToWish(synthWishes).ToWavHeader();
+        
+        internal static WavHeaderStruct ToWavHeader(this ConfigSection entity)
+            => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this Tape entity)
+            => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this TapeConfig entity)
+            => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this TapeActions entity)
+            => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this TapeAction entity)
+            => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this Buff entity, int frameCount)
+            => entity.ToWish(frameCount).ToWavHeader();
         
         public static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int frameCount)
             => entity.ToWish(frameCount).ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this Sample entity)
+            => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this AudioFileInfo entity)
+            => entity.ToWish().ToWavHeader();
 
         public static WavHeaderStruct ToWavHeader(this AudioInfoWish entity)
             => WavHeaderManager.CreateWavHeaderStruct(entity.FromWish());
     }
-        
-    public static class ReadAudioInfoExtensions
-    {
-        public static AudioInfoWish ReadAudioInfo(this string filePath)
-            => filePath.ReadWavHeader().ToWish();
-        
-        public static AudioInfoWish ReadAudioInfo(this Stream stream)
-            => stream.ReadWavHeader().ToWish();
-        
-        public static AudioInfoWish ReadAudioInfo(this BinaryReader reader)
-            => reader.ReadWavHeader().ToWish();
-    }
-    
+            
     public static class ReadWavHeaderExtensions
     {
         public static WavHeaderStruct ReadWavHeader(this string filePath)
@@ -205,8 +231,20 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct ReadWavHeader(this BinaryReader reader)
             => reader.ReadStruct<WavHeaderStruct>();
     }
+
+    public static class ReadAudioInfoExtensions
+    {
+        public static AudioInfoWish ReadAudioInfo(this string filePath)
+            => filePath.ReadWavHeader().ToWish();
+        
+        public static AudioInfoWish ReadAudioInfo(this Stream stream)
+            => stream.ReadWavHeader().ToWish();
+        
+        public static AudioInfoWish ReadAudioInfo(this BinaryReader reader)
+            => reader.ReadWavHeader().ToWish();
+    }
     
-    public static class WriteWavHeaderExtensions_FromValues
+    public static class WriteWavHeaderExtensions
     {
         // With BinaryWriter
         
