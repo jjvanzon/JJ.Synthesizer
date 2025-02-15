@@ -11,7 +11,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable UnusedMember.Local
 #pragma warning disable CS0618
@@ -188,20 +188,20 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Getter Helpers
         
-        private void Assert_All_Getters(ConfigTestEntities x, int courtesyBytes)
+        private void Assert_All_Getters(TestEntities x, int courtesyBytes)
         {
             Assert_Bound_Getters(x, courtesyBytes);
             Assert_Immutable_Getters(x.Immutable.CourtesyFrames, x.Immutable.FrameSize, courtesyBytes);
             Assert_Immutable_Getters(x.Immutable.CourtesyFrames, x.Immutable.Bits, x.Immutable.Channels, courtesyBytes);
         }
 
-        private void Assert_Bound_Getters(ConfigTestEntities x, int courtesyBytes)
+        private void Assert_Bound_Getters(TestEntities x, int courtesyBytes)
         {
             Assert_SynthBound_Getters(x, courtesyBytes);
             Assert_TapeBound_Getters(x, courtesyBytes);
         }
         
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, int courtesyBytes)
+        private void Assert_SynthBound_Getters(TestEntities x, int courtesyBytes)
         {
             AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .CourtesyBytes   ());
             AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .CourtesyBytes   ());
@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(courtesyBytes, () => ConfigWishesAccessor.GetCourtesyBytes(x.SynthBound.ConfigResolver));
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, int courtesyBytes)
+        private void Assert_TapeBound_Getters(TestEntities x, int courtesyBytes)
         {
             AreEqual(courtesyBytes, () => x.TapeBound.Tape       .CourtesyBytes   ());
             AreEqual(courtesyBytes, () => x.TapeBound.TapeConfig .CourtesyBytes   ());
@@ -386,8 +386,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
 
-        private static ConfigTestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default) 
-            => new ConfigTestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels).SamplingRate(HighPerfHz));
+        private static TestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default) 
+            => new TestEntities(x => x.CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels).SamplingRate(HighPerfHz));
 
         // ncrunch: no coverage start
         

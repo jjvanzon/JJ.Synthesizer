@@ -17,7 +17,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Wishes.Testing;
 using static JJ.Business.Synthesizer.Tests.docs;
 using JJ.Framework.Wishes.Common;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -2324,7 +2324,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
 
-        private void Assert_All_Getters(ConfigTestEntities x, (int?, int?) values)
+        private void Assert_All_Getters(TestEntities x, (int?, int?) values)
         {
             Assert_SynthBound_Getters(x, values);
             Assert_TapeBound_Getters_Complete(x, values);
@@ -2334,7 +2334,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // NOTE: Test ChannelS alongside Channel since shorthand can change both.
 
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, (int? channels, int? channel) c)
+        private void Assert_SynthBound_Getters(TestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.SynthBound);
@@ -2482,7 +2482,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         /// <inheritdoc cref="docs._singletapeassertion" />
-        private void Assert_TapeBound_Getters_Single(ConfigTestEntities x, (int? channels, int? channel) c)
+        private void Assert_TapeBound_Getters_Single(TestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound.Tape);
@@ -2653,7 +2653,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == 2, () => ConfigWishes.IsStereo      (x.TapeBound.TapeAction ));
         }
         
-        private void Assert_TapeBound_Getters_Complete(ConfigTestEntities x, (int? channels, int? channel) c)
+        private void Assert_TapeBound_Getters_Complete(TestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
             AreEqual(c.channels, x.ChannelEntities.Count);
@@ -3358,7 +3358,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         /// <inheritdoc cref="docs._singletapeassertion" />
-        private void Assert_BuffBound_Getters_Single(ConfigTestEntities x, (int? channels, int? channel) c)
+        private void Assert_BuffBound_Getters_Single(TestEntities x, (int? channels, int? channel) c)
         { 
             if (c == (1,0))
             {
@@ -3383,7 +3383,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
         
         /// <inheritdoc cref="docs._singletapeassertion" />
-        private void Assert_BuffBound_Getters_Complete(ConfigTestEntities x, (int? channels, int? channel) c)
+        private void Assert_BuffBound_Getters_Complete(TestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);
             AreEqual(c.channels, x.ChannelEntities.Count);
@@ -3719,7 +3719,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                        IsFalse(() => ConfigWishes.IsMono        (x.BuffBound.AudioFileOutput));
         }
 
-        private void Assert_Immutable_Getters(ConfigTestEntities x, (int?, int?) c)
+        private void Assert_Immutable_Getters(TestEntities x, (int?, int?) c)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
@@ -3924,14 +3924,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Test Data Helpers
 
-        private ConfigTestEntities CreateTestEntities((int? channels, int? channel) c)
+        private TestEntities CreateTestEntities((int? channels, int? channel) c)
             => CreateTestEntities(c.channels, c.channel);
 
-        private ConfigTestEntities CreateTestEntities((int? channels, int? channel)? c)
+        private TestEntities CreateTestEntities((int? channels, int? channel)? c)
             => CreateTestEntities(c?.channels, c?.channel);
             
-        private ConfigTestEntities CreateTestEntities(int? channels = null, int? channel = null)
-            => new ConfigTestEntities(x => x.WithChannels(channels)
+        private TestEntities CreateTestEntities(int? channels = null, int? channel = null)
+            => new TestEntities(x => x.WithChannels(channels)
                                             .WithChannel (channel)
                                             .SamplingRate(HighPerfHz));
         

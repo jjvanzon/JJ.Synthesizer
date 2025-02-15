@@ -12,7 +12,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0611
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParametersWithEmpty))]
         public void SynthBound_SamplingRate(int? init, int? value)
         {            
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, Coalesce(init));
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void TapeBound_SamplingRate(int init, int value)
         {
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void BuffBound_SamplingRate(int init, int value)
         {
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -197,7 +197,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -230,7 +230,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -263,7 +263,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void Immutable_SamplingRate(int init, int value)
         {
-            ConfigTestEntities x = CreateTestEntities(init);
+            TestEntities x = CreateTestEntities(init);
 
             // WavHeader
             
@@ -361,21 +361,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(ConfigTestEntities x, int samplingRate)
+        private void Assert_All_Getters(TestEntities x, int samplingRate)
         {
             Assert_Bound_Getters(x, samplingRate);
             Assert_Independent_Getters(x, samplingRate);
             Assert_Immutable_Getters(x, samplingRate);
         }
 
-        private void Assert_Bound_Getters(ConfigTestEntities x, int samplingRate)
+        private void Assert_Bound_Getters(TestEntities x, int samplingRate)
         {
             Assert_SynthBound_Getters(x, samplingRate);
             Assert_TapeBound_Getters(x, samplingRate);
             Assert_BuffBound_Getters(x, samplingRate);
         }
         
-        private void Assert_Independent_Getters(ConfigTestEntities x, int samplingRate)
+        private void Assert_Independent_Getters(TestEntities x, int samplingRate)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample, samplingRate);
@@ -383,12 +383,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, samplingRate);
         }
 
-        private void Assert_Immutable_Getters(ConfigTestEntities x, int samplingRate)
+        private void Assert_Immutable_Getters(TestEntities x, int samplingRate)
         {
             Assert_Immutable_Getters(x.Immutable.WavHeader, samplingRate);
         }
 
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, int samplingRate)
+        private void Assert_SynthBound_Getters(TestEntities x, int samplingRate)
         {
             AreEqual(samplingRate, () => x.SynthBound.SynthWishes   .GetSamplingRate);
             AreEqual(samplingRate, () => x.SynthBound.FlowNode      .GetSamplingRate);
@@ -413,7 +413,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishesAccessor.GetSamplingRate(x.SynthBound.ConfigResolver));
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, int samplingRate)
+        private void Assert_TapeBound_Getters(TestEntities x, int samplingRate)
         {
             AreEqual(samplingRate, () => x.TapeBound.TapeConfig .SamplingRate);
             AreEqual(samplingRate, () => x.TapeBound.Tape       .SamplingRate   ());
@@ -442,7 +442,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters(ConfigTestEntities x, int samplingRate)
+        private void Assert_BuffBound_Getters(TestEntities x, int samplingRate)
         {
             AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.SamplingRate);
             AreEqual(samplingRate, () => x.BuffBound.Buff           .SamplingRate   ());
@@ -504,11 +504,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
         
-        private ConfigTestEntities CreateTestEntities(int? samplingRate)
+        private TestEntities CreateTestEntities(int? samplingRate)
         {
             double audioLength = DefaultAudioLength;
             if (samplingRate > 100) audioLength = 0.001; // Tame audio length in case of larger sampling rates for performance.
-            return new ConfigTestEntities(x =>
+            return new TestEntities(x =>
             {
                 x.WithSamplingRate(samplingRate);
                 x.WithAudioLength(audioLength);

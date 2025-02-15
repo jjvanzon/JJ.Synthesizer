@@ -14,7 +14,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable MSTEST0018
@@ -92,12 +92,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400 + 12 + WavHeaderLength } }
         );
 
-        static ConfigTestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
+        static TestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
             // Change bit depth first, or it'll change the byte count.
-            => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz));
+            => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz));
 
-        static ConfigTestEntities CreateTestEntities(Case val) 
-            => new ConfigTestEntities(synth => 
+        static TestEntities CreateTestEntities(Case val) 
+            => new TestEntities(synth => 
             {
                 // Change primary properties before ByteCount, or they will change the byte count.
                 
@@ -186,13 +186,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod]
-        public void ByteCount_Basic_Init() => new ConfigTestEntities(x => x.ByteCount(100));
+        public void ByteCount_Basic_Init() => new TestEntities(x => x.ByteCount(100));
         
         [TestMethod]
         public void ByteCount_Basic_Getters()
         {
             int byteCount = 100;
-            var entities = new ConfigTestEntities(x => x.ByteCount(byteCount));
+            var entities = new TestEntities(x => x.ByteCount(byteCount));
             
             AreEqual(DefaultByteCount, entities.SynthBound.ConfigSection.GetByteCount());
             
@@ -383,7 +383,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
             var courtesyFrames = testCase.CourtesyFrames;
 
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init);
@@ -486,7 +486,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
             var courtesyFrames = testCase.CourtesyFrames;
 
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init);
@@ -770,7 +770,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public void ConfigSection_ByteCount()
         {
             // Get-only
-            var configSection = new ConfigTestEntities().SynthBound.ConfigSection;
+            var configSection = new TestEntities().SynthBound.ConfigSection;
             AreEqual(DefaultByteCount, () => configSection.ByteCount());
             AreEqual(DefaultByteCount, () => configSection.GetByteCount());
         }
@@ -789,7 +789,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
 
-        private void Assert_All_Getters(ConfigTestEntities x, int byteCount, int sizeOfBitDepth, NullyPair<int> courtesyFrames)
+        private void Assert_All_Getters(TestEntities x, int byteCount, int sizeOfBitDepth, NullyPair<int> courtesyFrames)
         {
             Assert_SynthBound_Getters (x, byteCount);
             Assert_TapeBound_Getters  (x, byteCount);
@@ -799,7 +799,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Bitness_Getters    (x, sizeOfBitDepth);
         }
         
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, int byteCount)
+        private void Assert_SynthBound_Getters(TestEntities x, int byteCount)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.SynthBound);
@@ -827,7 +827,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => ConfigWishesAccessor.GetByteCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, int byteCount)
+        private void Assert_TapeBound_Getters(TestEntities x, int byteCount)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound);
@@ -861,13 +861,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters(ConfigTestEntities x, int byteCount, NullyPair<int> courtesyFrames)
+        private void Assert_BuffBound_Getters(TestEntities x, int byteCount, NullyPair<int> courtesyFrames)
         {
             Assert_Buff_Getters           (x, byteCount, courtesyFrames);
             Assert_AudioFileOutput_Getters(x, byteCount, courtesyFrames);
         }
 
-        private void Assert_AudioFileOutput_Getters(ConfigTestEntities x, int byteCount, NullyPair<int> courtesyFrames)
+        private void Assert_AudioFileOutput_Getters(TestEntities x, int byteCount, NullyPair<int> courtesyFrames)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
@@ -903,7 +903,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         }
         
-        private void Assert_Buff_Getters(ConfigTestEntities x, int byteCount, NullyPair<int> courtesyFrames)
+        private void Assert_Buff_Getters(TestEntities x, int byteCount, NullyPair<int> courtesyFrames)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
@@ -924,7 +924,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff, courtesyFrames.Coalesced));
         }
         
-        private void Assert_Independent_Getters(ConfigTestEntities x, int byteCount)
+        private void Assert_Independent_Getters(TestEntities x, int byteCount)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Independent);
@@ -937,7 +937,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.Independent.Sample));
         }
         
-        private void Assert_Immutable_Getters(ConfigTestEntities x, int byteCount)
+        private void Assert_Immutable_Getters(TestEntities x, int byteCount)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
@@ -955,7 +955,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => ConfigWishes.GetByteCount(wavHeader));
         }
 
-        private void Assert_Bitness_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_Bitness_Getters(TestEntities x, int sizeOfBitDepth)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);

@@ -11,11 +11,11 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0618 
 #pragma warning disable MSTEST0018 
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParametersWithEmpty))]
         public void SynthBound_SizeOfBitDepth(int? init, int? value)
         {
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters        (x, CoalesceSizeOfBitDepth(init ));
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void TapeBound_SizeOfBitDepth(int init, int value)
         {
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -209,7 +209,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -243,7 +243,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -280,7 +280,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -698,21 +698,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_All_Getters(TestEntities x, int sizeOfBitDepth)
         {
             Assert_Bound_Getters(x, sizeOfBitDepth);
             Assert_Independent_Getters(x, sizeOfBitDepth);
             Assert_Immutable_Getters(x, sizeOfBitDepth);
         }
 
-        private void Assert_Bound_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_Bound_Getters(TestEntities x, int sizeOfBitDepth)
         {
             Assert_SynthBound_Getters(x, sizeOfBitDepth);
             Assert_TapeBound_Getters(x, sizeOfBitDepth);
             Assert_BuffBound_Getters(x, sizeOfBitDepth);
         }
         
-        private void Assert_Independent_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_Independent_Getters(TestEntities x, int sizeOfBitDepth)
         {
             // Independent after Taping
             IsNotNull(() => x);
@@ -722,7 +722,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, sizeOfBitDepth);
         }
 
-        private void Assert_Immutable_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_Immutable_Getters(TestEntities x, int sizeOfBitDepth)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
@@ -733,7 +733,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.Bits, sizeOfBitDepth);
         }
 
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_SynthBound_Getters(TestEntities x, int sizeOfBitDepth)
         {
             IsNotNull(               () => x);
             IsNotNull(               () => x.SynthBound);
@@ -760,7 +760,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(sizeOfBitDepth, () => ConfigWishesAccessor.GetSizeOfBitDepth(x.SynthBound.ConfigResolver));
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_TapeBound_Getters(TestEntities x, int sizeOfBitDepth)
         {
             IsNotNull(               () => x);
             IsNotNull(               () => x.TapeBound);
@@ -794,7 +794,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(sizeOfBitDepth, () => ConfigWishes.GetSizeOfBitDepth(x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters(ConfigTestEntities x, int sizeOfBitDepth)
+        private void Assert_BuffBound_Getters(TestEntities x, int sizeOfBitDepth)
         {
             IsNotNull(               () => x);
             IsNotNull(               () => x.BuffBound);
@@ -1021,7 +1021,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
          
         // Data Helpers
 
-        private ConfigTestEntities CreateTestEntities(int? sizeOfBitDepth) => new ConfigTestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? sizeOfBitDepth) => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepth).SamplingRate(HighPerfHz));
 
         // ncrunch: no coverage start
         

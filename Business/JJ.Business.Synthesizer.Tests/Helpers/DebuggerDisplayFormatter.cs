@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         internal static string DebuggerDisplay(TapeEntities obj) 
             => nameof(TapeEntities) + ": " + obj?.TapeBound.Coalesce("<null>");
 
-        internal static string DebuggerDisplay(ConfigTestEntities obj) 
-            => nameof(ConfigTestEntities) + ": " + obj?.SynthBound?.SynthWishes.Coalesce("<null>");
+        internal static string DebuggerDisplay(TestEntities obj) 
+            => nameof(TestEntities) + ": " + obj?.SynthBound?.SynthWishes.Coalesce("<null>");
     }
 }

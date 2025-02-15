@@ -20,7 +20,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0611
 #pragma warning disable MSTEST0018
@@ -306,11 +306,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // ncrunch: no coverage end
         
-        private ConfigTestEntities CreateTestEntities(Case testCase = default)
+        private TestEntities CreateTestEntities(Case testCase = default)
         {
             testCase = testCase ?? new Case();
             
-            return new ConfigTestEntities(x =>
+            return new TestEntities(x =>
             {
                 // Stop tooling configurations for interfering.
                 x.IsUnderNCrunch = x.IsUnderAzurePipelines = false;
@@ -424,7 +424,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init  = testCase.From;
             var value = testCase.To;
             
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init.Coalesced);
@@ -505,7 +505,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init  = testCase.From;
             int value = testCase.To;
 
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
@@ -577,7 +577,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int value = testCase.To;
             
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
@@ -650,7 +650,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int value = testCase.To;
          
-            void AssertProp(ConfigEntityEnum change, Action<ConfigTestEntities> setter)
+            void AssertProp(ConfigEntityEnum change, Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);
@@ -703,7 +703,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int value = testCase.To;
             
-            ConfigTestEntities x = CreateTestEntities(testCase);
+            TestEntities x = CreateTestEntities(testCase);
 
             // WavHeader
             
@@ -774,21 +774,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_All_Getters(TestEntities x, int frameCount)
         {
             Assert_Bound_Getters      (x, frameCount);
             Assert_Independent_Getters(x, frameCount);
             Assert_Immutable_Getters  (x, frameCount);
         }
 
-        private void Assert_Bound_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_Bound_Getters(TestEntities x, int frameCount)
         {
             Assert_SynthBound_Getters(x, frameCount);
             Assert_TapeBound_Getters (x, frameCount);
             Assert_BuffBound_Getters (x, frameCount);
         }
         
-        private void Assert_Independent_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_Independent_Getters(TestEntities x, int frameCount)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample       , frameCount);
@@ -796,12 +796,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, frameCount);
         }
 
-        private void Assert_Immutable_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_Immutable_Getters(TestEntities x, int frameCount)
         {
             Assert_Immutable_Getters(x.Immutable.WavHeader, frameCount);
         }
 
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_SynthBound_Getters(TestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.SynthBound.SynthWishes   .FrameCount   (), Tolerance);
             AreEqual(frameCount, () => x.SynthBound.FlowNode      .FrameCount   (), Tolerance);
@@ -823,7 +823,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(frameCount, () => ConfigWishesAccessor.GetFrameCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_TapeBound_Getters(TestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.TapeBound.Tape       .FrameCount   (), Tolerance);
             AreEqual(frameCount, () => x.TapeBound.TapeConfig .FrameCount   (), Tolerance);
@@ -851,13 +851,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.TapeBound.TapeAction ), Tolerance);
         }
         
-        private void Assert_BuffBound_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_BuffBound_Getters(TestEntities x, int frameCount)
         {
             Assert_Buff_Getters           (x, frameCount);
             Assert_AudioFileOutput_Getters(x, frameCount);
         }
 
-        private void Assert_AudioFileOutput_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_AudioFileOutput_Getters(TestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount                 (x.Immutable.CourtesyFrames), Tolerance);
             AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.GetFrameCount              (x.Immutable.CourtesyFrames), Tolerance);
@@ -867,7 +867,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.BuffBound.AudioFileOutput, x.Immutable.CourtesyFrames), Tolerance);
         }
         
-        private void Assert_Buff_Getters(ConfigTestEntities x, int frameCount)
+        private void Assert_Buff_Getters(TestEntities x, int frameCount)
         {
             AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount                 (x.Immutable.CourtesyFrames), Tolerance);
             AreEqual(frameCount, () => x.BuffBound.Buff.GetFrameCount              (x.Immutable.CourtesyFrames), Tolerance);

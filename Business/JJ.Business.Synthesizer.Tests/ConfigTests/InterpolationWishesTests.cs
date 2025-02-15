@@ -15,7 +15,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var init  = (InterpolationTypeEnum)initAsInt;
             var value = (InterpolationTypeEnum)valueAsInt;
 
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -599,32 +599,32 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(ConfigTestEntities x, InterpolationTypeEnum interpolation)
+        private void Assert_All_Getters(TestEntities x, InterpolationTypeEnum interpolation)
         {
             Assert_Bound_Getters(x, interpolation);
             Assert_Independent_Getters(x, interpolation);
             Assert_Immutable_Getters(x, interpolation);
         }
 
-        private void Assert_Bound_Getters(ConfigTestEntities x, InterpolationTypeEnum interpolation)
+        private void Assert_Bound_Getters(TestEntities x, InterpolationTypeEnum interpolation)
         {
             Assert_SynthBound_Getters(x, interpolation);
             Assert_TapeBound_Getters(x, interpolation);
         }
         
-        private void Assert_Independent_Getters(ConfigTestEntities x, InterpolationTypeEnum interpolation)
+        private void Assert_Independent_Getters(TestEntities x, InterpolationTypeEnum interpolation)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample, interpolation);
         }
 
-        private void Assert_Immutable_Getters(ConfigTestEntities x, InterpolationTypeEnum interpolation)
+        private void Assert_Immutable_Getters(TestEntities x, InterpolationTypeEnum interpolation)
         {
             Assert_Independent_Getters(x.Immutable.Interpolation, interpolation);
             Assert_Independent_Getters(x.Immutable.InterpolationEntity, interpolation);
         }
 
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, InterpolationTypeEnum interpolation)
+        private void Assert_SynthBound_Getters(TestEntities x, InterpolationTypeEnum interpolation)
         {
             AreEqual(interpolation,          () => x.SynthBound.SynthWishes   .GetInterpolation);
             AreEqual(interpolation,          () => x.SynthBound.FlowNode      .GetInterpolation);
@@ -673,7 +673,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(interpolation == Line,  () => ConfigWishesAccessor.IsLinear        (x.SynthBound.ConfigResolver));
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, InterpolationTypeEnum interpolation)
+        private void Assert_TapeBound_Getters(TestEntities x, InterpolationTypeEnum interpolation)
         {
             AreEqual(interpolation, () => x.TapeBound.TapeConfig.Interpolation);
 
@@ -803,8 +803,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
         
-        private ConfigTestEntities CreateTestEntities(InterpolationTypeEnum? interpolation) 
-            => new ConfigTestEntities(x => x.WithInterpolation(interpolation).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(InterpolationTypeEnum? interpolation) 
+            => new TestEntities(x => x.WithInterpolation(interpolation).SamplingRate(HighPerfHz));
         
         static object TestParametersWithEmpty => new [] // ncrunch: no coverage
         {

@@ -15,7 +15,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using JJ.Framework.Persistence;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -501,7 +501,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
             // Sample
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
                 
                 void AssertProp(Action setter)
                 {
@@ -563,7 +563,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             // AudioInfoWish
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -626,7 +626,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         
             // AudioFileInfo
             {
-                ConfigTestEntities x = default;
+                TestEntities x = default;
 
                 void AssertProp(Action setter)
                 {
@@ -1085,21 +1085,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Getter Helpers
 
-        private void Assert_All_Getters(ConfigTestEntities x, int bits)
+        private void Assert_All_Getters(TestEntities x, int bits)
         {
             Assert_Bound_Getters(x, bits);
             Assert_Independent_Getters(x, bits);
             Assert_Immutable_Getters(x, bits);
         }
 
-        private void Assert_Bound_Getters(ConfigTestEntities x, int bits)
+        private void Assert_Bound_Getters(TestEntities x, int bits)
         {
             Assert_SynthBound_Getters(x, bits);
             Assert_TapeBound_Getters(x, bits);
             Assert_BuffBound_Getters(x, bits);
         }
         
-        private void Assert_Independent_Getters(ConfigTestEntities x, int bits)
+        private void Assert_Independent_Getters(TestEntities x, int bits)
         {
             // Independent after Taping
             IsNotNull(() => x);
@@ -1109,7 +1109,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, bits);
         }
 
-        private void Assert_Immutable_Getters(ConfigTestEntities x, int bits)
+        private void Assert_Immutable_Getters(TestEntities x, int bits)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.Immutable);
@@ -1120,7 +1120,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Immutable_Getters(x.Immutable.SizeOfBitDepth, bits);
         }
 
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, int bits)
+        private void Assert_SynthBound_Getters(TestEntities x, int bits)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.SynthBound);
@@ -1186,7 +1186,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(bits == 32, () => ConfigWishesAccessor.Is32Bit(x.SynthBound.ConfigResolver));
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, int bits)
+        private void Assert_TapeBound_Getters(TestEntities x, int bits)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.TapeBound);
@@ -1257,7 +1257,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(bits == 32, () => ConfigWishes.Is32Bit(x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters(ConfigTestEntities x, int bits)
+        private void Assert_BuffBound_Getters(TestEntities x, int bits)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
@@ -1526,7 +1526,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
 
-        private ConfigTestEntities CreateTestEntities(int? bits) => new ConfigTestEntities(x => x.Bits(bits).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? bits) => new TestEntities(x => x.Bits(bits).SamplingRate(HighPerfHz));
                 
         static object TestParametersInit => new[] // ncrunch: no coverage
         { 

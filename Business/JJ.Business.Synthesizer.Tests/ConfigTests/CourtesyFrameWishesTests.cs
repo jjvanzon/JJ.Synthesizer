@@ -9,7 +9,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigTestEntities;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0618
 #pragma warning disable MSTEST0018
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParametersWithEmpty))]
         public void SynthBound_CourtesyFrames(int? init, int? value)
         {
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, CoalesceDefault(init));
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(TestParameters))]
         public void TapeBound_CourtesyFrames(int init, int value)
         {
-            void AssertProp(Action<ConfigTestEntities> setter)
+            void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(init);
                 Assert_All_Getters(x, init);
@@ -155,18 +155,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Getter Helpers
         
-        private void Assert_All_Getters(ConfigTestEntities x, int courtesyFrames)
+        private void Assert_All_Getters(TestEntities x, int courtesyFrames)
         {
             Assert_Bound_Getters(x, courtesyFrames);
         }
 
-        private void Assert_Bound_Getters(ConfigTestEntities x, int courtesyFrames)
+        private void Assert_Bound_Getters(TestEntities x, int courtesyFrames)
         {
             Assert_SynthBound_Getters(x, courtesyFrames);
             Assert_TapeBound_Getters(x, courtesyFrames);
         }
         
-        private void Assert_SynthBound_Getters(ConfigTestEntities x, int courtesyFrames)
+        private void Assert_SynthBound_Getters(TestEntities x, int courtesyFrames)
         {
             AreEqual(courtesyFrames, () => x.SynthBound.SynthWishes   .GetCourtesyFrames);
             AreEqual(courtesyFrames, () => x.SynthBound.FlowNode      .GetCourtesyFrames);
@@ -191,7 +191,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(courtesyFrames, () => ConfigWishesAccessor.GetCourtesyFrames(x.SynthBound.ConfigResolver));
         }
         
-        private void Assert_TapeBound_Getters(ConfigTestEntities x, int courtesyFrames)
+        private void Assert_TapeBound_Getters(TestEntities x, int courtesyFrames)
         {
             AreEqual(courtesyFrames, () => x.TapeBound.TapeConfig .CourtesyFrames);
             AreEqual(courtesyFrames, () => x.TapeBound.Tape       .CourtesyFrames   ());
@@ -222,7 +222,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
 
-        private ConfigTestEntities CreateTestEntities(int? courtesyFrames = default) => new ConfigTestEntities(x => x.CourtesyFrames(courtesyFrames).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? courtesyFrames = default) => new TestEntities(x => x.CourtesyFrames(courtesyFrames).SamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         

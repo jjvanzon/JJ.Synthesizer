@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public ImmutableEntities   Immutable   { get; set; } = new ImmutableEntities();
     }
     
-    internal class ConfigTestEntities : TapeEntities
+    internal class TestEntities : TapeEntities
     {   
         public const int HighPerfHz = 8;
         
@@ -104,9 +104,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public SynthBoundEntities  SynthBound { get; set; } = new SynthBoundEntities();
         public IList<TapeEntities> ChannelEntities { get; private set; } // Tape-Bound
 
-        public ConfigTestEntities(IContext context = null) => Initialize(null, context);
+        public TestEntities(IContext context = null) => Initialize(null, context);
         
-        public ConfigTestEntities(Action<SynthWishes> initialize, IContext context = null) => Initialize(initialize, context);
+        public TestEntities(Action<SynthWishes> initialize, IContext context = null) => Initialize(initialize, context);
         
         public void Initialize(Action<SynthWishes> initialize, IContext context = null)
         {
