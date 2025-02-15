@@ -145,7 +145,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public static int FrameCount             (this int byteCount, int frameSize, int headerLength) 
             => ConfigWishes.FrameCount(byteCount, frameSize, headerLength);
-        public static int GetFrameCount           (this int byteCount, int frameSize, int headerLength) 
+        public static int GetFrameCount          (this int byteCount, int frameSize, int headerLength) 
             => ConfigWishes.GetFrameCount(byteCount, frameSize, headerLength);
         public static int ToFrameCount           (this int byteCount, int frameSize, int headerLength) 
             => ConfigWishes.ToFrameCount(byteCount, frameSize, headerLength);
@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         public static int FrameCount             (this int byteCount, int bits, int channels, int headerLength) 
             => ConfigWishes.FrameCount(byteCount, bits, channels, headerLength);
-        public static int GetFrameCount           (this int byteCount, int bits, int channels, int headerLength) 
+        public static int GetFrameCount          (this int byteCount, int bits, int channels, int headerLength) 
             => ConfigWishes.GetFrameCount(byteCount, bits, channels, headerLength);
         public static int ToFrameCount           (this int byteCount, int bits, int channels, int headerLength) 
             => ConfigWishes.ToFrameCount(byteCount, bits, channels, headerLength);
