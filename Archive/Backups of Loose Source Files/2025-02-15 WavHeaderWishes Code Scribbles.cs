@@ -110,3 +110,14 @@
             => entity.ReadWavHeader(source, courtesyFrames, context);
         public static void ReadAudioInfo(this Buff entity, BinaryReader source, int courtesyFrames, IContext context) 
             => entity.ReadWavHeader(source, courtesyFrames, context);
+
+
+        
+        private TestEntities CreateEntities(Case testCase, int frameCount,double audioLength) 
+            => new TestEntities(x => x.Bits(testCase.Bits)
+                                      .Channels(testCase.Channels)
+                                      .SamplingRate(testCase.SamplingRate)
+                                      .CourtesyFrames(testCase.CourtesyFrames)
+                                      .AudioLength(audioLength));
+
+            public CaseProp<double> AudioLength { get; set; }

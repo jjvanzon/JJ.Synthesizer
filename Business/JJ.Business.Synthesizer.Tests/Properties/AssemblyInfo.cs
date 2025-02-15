@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics.CodeAnalysis;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -10,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("JJ.Business.Synthesizer.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © 2015 - 2025 Jan Joost van Zon")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -36,3 +37,5 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)] 
+[assembly: SuppressMessage(
+    "MSTest", "MSTEST0018", Justification = "CaseCollection can be used as DynamicData.")]
