@@ -11,11 +11,13 @@ using JJ.Framework.Wishes.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class WavHeaderWishesTests
     {
         // TODO: CaseBase without MainProp to omit the <int> type argument?
@@ -28,10 +30,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public CaseProp<int> FrameCount     { get; set; }
         }
         
-        static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>(new Case
-        {
-            SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100
-        });
+        static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>().FromTemplate(new Case
+        
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100 },
+            new Case {           },
+            new Case { Bits = 16 },
+            new Case { Bits = 8  }
+        );
 
         [TestMethod]
         [DynamicData(nameof(Cases))]
@@ -42,10 +47,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int frameCount = test.FrameCount;
             int courtesyFrames = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
-            var intTuple    = (x.Immutable.Bits,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
-            var typeTuple   = (x.Immutable.Type,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
-            var enumTuple   = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, x.Immutable.SamplingRate, frameCount);
-            var entityTuple = (x.Immutable.SampleDataType,     x.Immutable.SpeakerSetup,     x.Immutable.SamplingRate, frameCount);
+            
+            var intTuple      = (x.Immutable.Bits,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            var typeTuple     = (x.Immutable.Type,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            var typelessTuple = (                                x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            var enumTuple     = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, x.Immutable.SamplingRate, frameCount);
+            var entityTuple   = (x.Immutable.SampleDataType,     x.Immutable.SpeakerSetup,     x.Immutable.SamplingRate, frameCount);
             
             AreEqual(test.Bits,           () => x.SynthBound .SynthWishes    .ToWish().Bits                                );
             AreEqual(test.Channels,       () => x.SynthBound .SynthWishes    .ToWish().Channels                            );
@@ -128,6 +135,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.SamplingRate,   () => entityTuple                  .ToWish().SamplingRate                        );
             AreEqual(test.FrameCount,     () => entityTuple                  .ToWish().FrameCount                          );
             
+            if (test.Bits ==  8)
+            {
+                AreEqual(test.Bits,         () => typelessTuple.ToWish<byte>().Bits        );
+                AreEqual(test.Channels,     () => typelessTuple.ToWish<byte>().Channels    );
+                AreEqual(test.SamplingRate, () => typelessTuple.ToWish<byte>().SamplingRate);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<byte>().FrameCount  );
+            }
+            else if (test.Bits == 16)
+            {
+                AreEqual(test.Bits,         () => typelessTuple.ToWish<short>().Bits        );
+                AreEqual(test.Channels,     () => typelessTuple.ToWish<short>().Channels    );
+                AreEqual(test.SamplingRate, () => typelessTuple.ToWish<short>().SamplingRate);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<short>().FrameCount  );
+            }
+            else if (test.Bits == 32)
+            {
+                AreEqual(test.Bits,         () => typelessTuple.ToWish<float>().Bits        );
+                AreEqual(test.Channels,     () => typelessTuple.ToWish<float>().Channels    );
+                AreEqual(test.SamplingRate, () => typelessTuple.ToWish<float>().SamplingRate);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<float>().FrameCount  );
+            }
+            else
+            {   // ncrunch: no coverage start
+                throw new Exception(NotSupportedMessage(nameof(test.Bits), test.Bits, ValidBits));
+                // ncrunch: no coverage end
+            }
         }
         
         [TestMethod]

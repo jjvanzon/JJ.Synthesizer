@@ -194,10 +194,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             throw NotSupportedException(name, value, validValues);
         }
         
-        private static Exception NotSupportedException<T>(string name, object value, IEnumerable<T> validValues) 
-            => new Exception($"{name} = {value} not valid. Supported values: " + Join(", ", validValues));
-
-                        
+        public static Exception NotSupportedException<T>(string name, object value, IEnumerable<T> validValues) 
+            => new Exception(NotSupportedMessage(name, value, validValues));
+        
+        public static string NotSupportedMessage<T>(string name, object value, IEnumerable<T> validValues) 
+            => $"{name} = {value} not valid. Supported values: " + Join(", ", validValues);
+        
         private static T? AssertNullyBottom<T>(string name, T? value, T min, bool strict = true)
             where T : struct, IComparable<T>
         {
