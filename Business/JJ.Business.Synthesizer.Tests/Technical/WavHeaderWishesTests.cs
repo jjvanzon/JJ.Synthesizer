@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Tests.ConfigTests;
+using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -11,9 +13,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     public class WavHeaderWishesTests
     {
         [TestMethod]
-        public void WavHeader_Basics()
+        public void WavHeader_ToWish()
         { 
-            //WavHeaderWishes.
+            //WavHeaderWishes
         }
+        
+        //private TestEntities
     }
 }
