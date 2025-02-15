@@ -13,7 +13,7 @@ using JJ.Framework.Testing;
 using JJ.Framework.Wishes.Testing;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.ConfigEntityEnum;
+using static JJ.Business.Synthesizer.Tests.ConfigTests.TestEntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -650,7 +650,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.From;
             int value = testCase.To;
          
-            void AssertProp(ConfigEntityEnum change, Action<TestEntities> setter)
+            void AssertProp(TestEntityEnum change, Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
                 Assert_All_Getters(x, init);

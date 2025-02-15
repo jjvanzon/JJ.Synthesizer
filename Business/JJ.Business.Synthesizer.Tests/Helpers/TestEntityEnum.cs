@@ -6,7 +6,7 @@ using System.Text;
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
     #pragma warning disable CS0611
-    internal enum ConfigEntityEnum
+    internal enum TestEntityEnum
     {
         Undefined,
         ForAudioInfoWish,
