@@ -260,7 +260,16 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetSamplingRate(infoWish.SamplingRate);
             // TODO: FrameCount not settable, but this might be the one time that the byte buffer should be scalable.
         }
-                
+
+        public static void FromWish(this AudioFileInfo entity, AudioInfoWish infoWish) 
+        {
+            if (infoWish == null) throw new NullException(() => infoWish);
+            entity.SetBits        (infoWish.Bits        );
+            entity.SetChannels    (infoWish.Channels    );
+            entity.SetSamplingRate(infoWish.SamplingRate);
+            entity.SetFrameCount  (infoWish.FrameCount  );
+        }
+
         public static AudioFileInfo FromWish(this AudioInfoWish wish) => new AudioFileInfo
         {
             BytesPerValue = wish.SizeOfBitDepth(),
@@ -312,7 +321,41 @@ namespace JJ.Business.Synthesizer.Wishes
             => entity.ToWish().ToWavHeader();
     }
     
-    // TODO: FromWavHeader Extensions
+    public static class FromWavHeaderExtensions
+    { 
+        public static void FromWavHeader(this SynthWishes entity, WavHeaderStruct wavHeader) 
+            => entity.FromWish(wavHeader.ToWish());
+        
+        public static void FromWavHeader(this FlowNode entity, WavHeaderStruct wavHeader) 
+            => entity.FromWish(wavHeader.ToWish());
+        
+        internal static void FromWavHeader(this ConfigResolver entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
+            => entity.FromWish(wavHeader.ToWish(), synthWishes);
+        
+        public static void FromWavHeader(this Tape entity, WavHeaderStruct wavHeader) 
+            => entity.FromWish(wavHeader.ToWish());
+        
+        public static void FromWavHeader(this TapeConfig entity, WavHeaderStruct wavHeader) 
+            => entity.FromWish(wavHeader.ToWish());
+        
+        public static void FromWavHeader(this TapeActions entity, WavHeaderStruct wavHeader) 
+            => entity.FromWish(wavHeader.ToWish());
+        
+        public static void FromWavHeader(this TapeAction entity, WavHeaderStruct wavHeader) 
+            => entity.FromWish(wavHeader.ToWish());
+        
+        public static void FromWavHeader(this Buff entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context) 
+            => entity.FromWish(wavHeader.ToWish(), courtesyFrames, context);
+        
+        public static void FromWavHeader(this AudioFileOutput entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context) 
+            => entity.FromWish(wavHeader.ToWish(), courtesyFrames, context);
+        
+        public static void FromWavHeader(this Sample entity, WavHeaderStruct wavHeader, IContext context) 
+            => entity.FromWish(wavHeader.ToWish(), context);
+        
+        public static void FromWavHeader(this AudioFileInfo entity, WavHeaderStruct wavHeader) 
+            => entity.FromWish(wavHeader.ToWish());
+    }
             
     public static class ReadWavHeaderExtensions
     {
