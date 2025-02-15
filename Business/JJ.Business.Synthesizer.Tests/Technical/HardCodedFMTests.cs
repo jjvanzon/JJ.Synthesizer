@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 
 // ReSharper disable LocalizableElement
 
@@ -37,7 +38,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 			{
 				using (var writer = new BinaryWriter(fileStream))
 				{
-					writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+					writer.WriteWavHeader<Int16>(MonoChannels, sampleRate, sampleCount);
 
 					// Generate samples
 					for (int i = 0; i < sampleCount; i++)
@@ -80,7 +81,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 			{
 				using (var writer = new BinaryWriter(fileStream))
 				{
-					writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+					writer.WriteWavHeader<Int16>(MonoChannels, sampleRate, sampleCount);
 
 					// Generate samples
 					for (int i = 0; i < sampleCount; i++)
@@ -123,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 			{
 				using (var writer = new BinaryWriter(fileStream))
 				{
-					writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+					writer.WriteWavHeader<Int16>(MonoChannels, sampleRate, sampleCount);
 
 					// Generate samples
 					float carrierPhase = 0f;
@@ -175,7 +176,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 			{
 				using (var writer = new BinaryWriter(fileStream))
 				{
-					writer.WriteWavHeader<Int16>(SpeakerSetupEnum.Mono, sampleRate, sampleCount);
+					writer.WriteWavHeader<Int16>(MonoChannels, sampleRate, sampleCount);
 
 					// Generate samples
 					double carrierPhase = 0f;

@@ -23,27 +23,27 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // With BinaryWriter
         
-        public static void WriteWavHeader<TBits>(
-            this BinaryWriter writer, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => writer.WriteWavHeader(ToWish(typeof(TBits), channelsEnum, samplingRate, frameCount));
+        public static void WriteWavHeader(
+            this BinaryWriter writer, int bits, int channels, int samplingRate, int frameCount)
+            => writer.WriteWavHeader(ToWish(bits, channels, samplingRate, frameCount));
         
         public static void WriteWavHeader<TBits>(
             this BinaryWriter writer, int channels, int samplingRate, int frameCount)
-            => writer.WriteWavHeader(ToWish(typeof(TBits), channels, samplingRate, frameCount));
+            => writer.WriteWavHeader(ToWish<TBits>(channels, samplingRate, frameCount));
+        
+        public static void WriteWavHeader(
+            this BinaryWriter writer, Type bitsType, int channels, int samplingRate, int frameCount)
+            => writer.WriteWavHeader(ToWish(bitsType, channels, samplingRate, frameCount));
         
         public static void WriteWavHeader(
             this BinaryWriter writer, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
             => writer.WriteWavHeader(ToWish(bitsEnum, channelsEnum, samplingRate, frameCount));
         
         public static void WriteWavHeader(
-            this BinaryWriter writer, SampleDataTypeEnum bitsEnum, int channels, int samplingRate, int frameCount)
-            => writer.WriteWavHeader(ToWish(bitsEnum, channels, samplingRate, frameCount));
+            this BinaryWriter writer, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
+            => writer.WriteWavHeader(ToWish(bitsEntity, channelsEntity, samplingRate, frameCount));
         
         // With Stream
-        
-        public static void WriteWavHeader<TBits>(
-            this Stream stream, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => stream.WriteWavHeader(ToWish<TBits>(channelsEnum, samplingRate, frameCount));
         
         public static void WriteWavHeader<TBits>(
             this Stream stream, int channels, int samplingRate, int frameCount)
@@ -54,15 +54,7 @@ namespace JJ.Business.Synthesizer.Wishes
             SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
             => stream.WriteWavHeader(ToWish(bitsEnum, channelsEnum, samplingRate, frameCount));
         
-        public static void WriteWavHeader(
-            this Stream stream, SampleDataTypeEnum bitsEnum, int channels, int samplingRate, int frameCount)
-            => stream.WriteWavHeader(ToWish(bitsEnum, channels, samplingRate, frameCount));
-        
         // With FilePath
-        
-        public static void WriteWavHeader<TBits>(
-            this string filePath, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => filePath.WriteWavHeader(ToWish(typeof(TBits), channelsEnum, samplingRate, frameCount));
         
         public static void WriteWavHeader<TBits>(
             this string filePath, int channels, int samplingRate, int frameCount)
@@ -72,11 +64,6 @@ namespace JJ.Business.Synthesizer.Wishes
             this string filePath,
             SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
             => filePath.WriteWavHeader(ToWish(bitsEnum, channelsEnum, samplingRate, frameCount));
-        
-        public static void WriteWavHeader(
-            this string filePath,
-            SampleDataTypeEnum bitsEnum, int channels, int samplingRate, int frameCount)
-            => filePath.WriteWavHeader(ToWish(bitsEnum, channels, samplingRate, frameCount));
     }
     
     public static class WriteWavHeader_FromObjects
@@ -173,8 +160,50 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class ToAudioInfoWishExtensions
     {
-        // Create Wish Version
+        // From Loose Values
         
+        public static AudioInfoWish ToWish(int bits, int channels, int samplingRate, int frameCount) => new AudioInfoWish
+        {
+            Bits         = bits        .AssertBits        (),
+            Channels     = channels    .AssertChannels    (),
+            SamplingRate = samplingRate.AssertSamplingRate(),
+            FrameCount   = frameCount  .AssertFrameCount  ()
+        };
+
+        public static AudioInfoWish ToWish<TBits>(int channels, int samplingRate, int frameCount) => new AudioInfoWish
+        {
+            Bits         = TypeToBits<TBits>(),
+            Channels     = channels    .AssertChannels    (),
+            SamplingRate = samplingRate.AssertSamplingRate(),
+            FrameCount   = frameCount  .AssertFrameCount  ()
+        };
+
+        public static AudioInfoWish ToWish(Type bitsType, int channels, int samplingRate, int frameCount) => new AudioInfoWish
+        {
+            Bits         = bitsType    .ToBits            (),
+            Channels     = channels    .AssertChannels    (),
+            SamplingRate = samplingRate.AssertSamplingRate(),
+            FrameCount   = frameCount  .AssertFrameCount  ()
+        };
+        
+        public static AudioInfoWish ToWish(SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) => new AudioInfoWish
+        {
+            Bits         = bitsEnum    .ToBits            (),
+            Channels     = channelsEnum.ToChannels        (),
+            SamplingRate = samplingRate.AssertSamplingRate(),
+            FrameCount   = frameCount  .AssertFrameCount  ()
+        };
+        
+        public static AudioInfoWish ToWish(SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) => new AudioInfoWish
+        {
+            Bits         = bitsEntity    .ToBits            (),
+            Channels     = channelsEntity.ToChannels        (),
+            SamplingRate = samplingRate  .AssertSamplingRate(),
+            FrameCount   = frameCount    .AssertFrameCount  ()
+        };
+        
+        // From Objects
+
         public static AudioInfoWish ToWish(this AudioFileInfo info) => new AudioInfoWish
         {
             Bits         = info.Bits(),
@@ -190,71 +219,7 @@ namespace JJ.Business.Synthesizer.Wishes
             SampleCount   = infoWish.FrameCount(),
             SamplingRate  = infoWish.SamplingRate()
         };
-        
-        // From Loose Values
-        
-        public static AudioInfoWish ToWish
-            <TSampleDataType>(SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => new AudioInfoWish
-            {
-                Bits         = TypeToBits<TSampleDataType>(),
-                Channels     = channelsEnum.ToChannels(),
-                SamplingRate = samplingRate,
-                FrameCount   = frameCount
-            };
-        
-        public static AudioInfoWish ToWish
-            <TSampleDataType>(int channels, int samplingRate, int frameCount)
-            => new AudioInfoWish
-            {
-                Bits         = TypeToBits<TSampleDataType>(),
-                Channels     = channels,
-                SamplingRate = samplingRate,
-                FrameCount   = frameCount
-            };
-        
-        public static AudioInfoWish ToWish(
-            Type bitsType, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => new AudioInfoWish
-            {
-                Bits         = bitsType.ToBits(),
-                Channels     = channelsEnum.ToChannels(),
-                SamplingRate = samplingRate,
-                FrameCount   = frameCount
-            };
-        
-        public static AudioInfoWish ToWish(
-            SampleDataTypeEnum bitsEnum, int channels, int samplingRate, int frameCount)
-            => new AudioInfoWish
-            {
-                Bits         = bitsEnum.ToBits(),
-                Channels     = channels,
-                SamplingRate = samplingRate,
-                FrameCount   = frameCount
-            };
-        
-        public static AudioInfoWish ToWish(
-            Type bitsType, int channels, int samplingRate, int frameCount)
-            => new AudioInfoWish
-            {
-                Bits         = bitsType.Bits(),
-                Channels     = channels,
-                SamplingRate = samplingRate,
-                FrameCount   = frameCount
-            };
-        
-        public static AudioInfoWish ToWish(
-            SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => new AudioInfoWish
-            {
-                Bits         = bitsEnum.ToBits(),
-                Channels     = channelsEnum.ToChannels(),
-                SamplingRate = samplingRate,
-                FrameCount   = frameCount
-            };
-        
-        // From Objects
-        
+
         public static AudioInfoWish ToWish(this WavHeaderStruct wavHeader)
             => WavHeaderManager.GetAudioFileInfoFromWavHeaderStruct(wavHeader).ToWish();
         
@@ -271,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Bits         = entity.Bits(),
             Channels     = entity.Channels(),
             SamplingRate = entity.SamplingRate(),
-            FrameCount   = frameCount
+            FrameCount   = frameCount.AssertFrameCount()
         };
     }
 }
