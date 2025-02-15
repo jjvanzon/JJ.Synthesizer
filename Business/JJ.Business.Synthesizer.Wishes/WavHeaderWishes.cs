@@ -13,98 +13,98 @@ using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public static class WavHeaderExtensionWishes_WriteFromValues
+    public static class WriteWavHeaderExtensions_FromValues
     {
         // With BinaryWriter
 
         // With TSampleDataType and SpeakerSetupEnum
-        public static void WriteWavHeader<TDataType>(
+        public static void WriteWavHeader<TBits>(
             this BinaryWriter writer, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetAudioInfo.ToWish(typeof(TDataType), speakerSetup, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                writer, ToAudioInfoWishExtensions.ToWish(typeof(TBits), speakerSetup, samplingRate, frameCount));
 
         // With TDataType
-        public static void WriteWavHeader<TDataType>(
+        public static void WriteWavHeader<TBits>(
             this BinaryWriter writer, int channels, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetAudioInfo.ToWish(typeof(TDataType), channels, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                writer, ToAudioInfoWishExtensions.ToWish(typeof(TBits), channels, samplingRate, frameCount));
 
         // With SpeakerSetup
         public static void WriteWavHeader(
             this BinaryWriter writer,
             SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetAudioInfo.ToWish(sampleDataTypeEnum, speakerSetup, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                writer, ToAudioInfoWishExtensions.ToWish(sampleDataTypeEnum, speakerSetup, samplingRate, frameCount));
 
         // With flat values
         public static void WriteWavHeader(
             this BinaryWriter writer, SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                writer, WavHeaderExtensionWishes_GetAudioInfo.ToWish(sampleDataTypeEnum, channels, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                writer, ToAudioInfoWishExtensions.ToWish(sampleDataTypeEnum, channels, samplingRate, frameCount));
 
         // With Stream
 
         // With TDataType and SpeakerSetup
-        public static void WriteWavHeader<TDataType>(
+        public static void WriteWavHeader<TBits>(
             this Stream stream, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetAudioInfo.ToWish<TDataType>(speakerSetup, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                stream, ToAudioInfoWishExtensions.ToWish<TBits>(speakerSetup, samplingRate, frameCount));
             
         // With TDataType
-        public static void WriteWavHeader<TDataType>(
+        public static void WriteWavHeader<TBits>(
             this Stream stream, int channels, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetAudioInfo.ToWish<TDataType>(channels, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                stream, ToAudioInfoWishExtensions.ToWish<TBits>(channels, samplingRate, frameCount));
 
         // With SpeakerSetup
         public static void WriteWavHeader(
             this Stream stream,
             SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetAudioInfo.ToWish(sampleDataTypeEnum, speakerSetup, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                stream, ToAudioInfoWishExtensions.ToWish(sampleDataTypeEnum, speakerSetup, samplingRate, frameCount));
 
         // With flat values
         public static void WriteWavHeader(
             this Stream stream, SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                stream, WavHeaderExtensionWishes_GetAudioInfo.ToWish(sampleDataTypeEnum, channels, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                stream, ToAudioInfoWishExtensions.ToWish(sampleDataTypeEnum, channels, samplingRate, frameCount));
 
         // With FilePath
 
         // With TDataType and SpeakerSetup
-        public static void WriteWavHeader<TDataType>(
+        public static void WriteWavHeader<TBits>(
             this string filePath, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetAudioInfo.ToWish(typeof(TDataType), speakerSetup, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                filePath, ToAudioInfoWishExtensions.ToWish(typeof(TBits), speakerSetup, samplingRate, frameCount));
 
         // With TDataType
-        public static void WriteWavHeader<TDataType>(
+        public static void WriteWavHeader<TBits>(
             this string filePath, int channels, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetAudioInfo.ToWish(typeof(TDataType), channels, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                filePath, ToAudioInfoWishExtensions.ToWish(typeof(TBits), channels, samplingRate, frameCount));
 
         // With SpeakerSetup
         public static void WriteWavHeader(
             this string filePath,
             SampleDataTypeEnum sampleDataTypeEnum, SpeakerSetupEnum speakerSetup, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetAudioInfo.ToWish(sampleDataTypeEnum, speakerSetup, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                filePath, ToAudioInfoWishExtensions.ToWish(sampleDataTypeEnum, speakerSetup, samplingRate, frameCount));
 
         // With flat values
         public static void WriteWavHeader(
             this string filePath,
             SampleDataTypeEnum sampleDataTypeEnum, int channels, int samplingRate, int frameCount)
-            => WavHeaderExtensionWishes_WriteFromObjects.WriteWavHeader(
-                filePath, WavHeaderExtensionWishes_GetAudioInfo.ToWish(sampleDataTypeEnum, channels, samplingRate, frameCount));
+            => WriteWavHeader_FromObjects.WriteWavHeader(
+                filePath, ToAudioInfoWishExtensions.ToWish(sampleDataTypeEnum, channels, samplingRate, frameCount));
     }
 
-    public static class WavHeaderExtensionWishes_WriteFromObjects
+    public static class WriteWavHeader_FromObjects
     { 
         public static void WriteWavHeader(this BinaryWriter writer, AudioFileOutput entity, int frameCount)
-            => WriteWavHeader(writer, WavHeaderExtensionWishes_GetAudioInfo.ToWish(entity, frameCount));
+            => WriteWavHeader(writer, ToAudioInfoWishExtensions.ToWish(entity, frameCount));
 
         public static void WriteWavHeader(this BinaryWriter writer, AudioInfoWish info)
-            => BinaryWriterExtensions.WriteStruct(writer, WavHeaderExtensionWishes_HeaderFromObjects.ToWavHeader(info));
+            => BinaryWriterExtensions.WriteStruct(writer, ToWavHeaderExtensions.ToWavHeader(info));
 
         public static void WriteWavHeader(this BinaryWriter writer, WavHeaderStruct wavHeader)
             => BinaryWriterExtensions.WriteStruct(writer, wavHeader);
@@ -119,10 +119,10 @@ namespace JJ.Business.Synthesizer.Wishes
             => WriteWavHeader(new BinaryWriter(stream), wavHeader);
         
         public static void WriteWavHeader(this string filePath, AudioFileOutput entity, int frameCount)
-            => WriteWavHeader(filePath, WavHeaderExtensionWishes_HeaderFromObjects.ToWavHeader(entity, frameCount));
+            => WriteWavHeader(filePath, ToWavHeaderExtensions.ToWavHeader(entity, frameCount));
 
         public static void WriteWavHeader(this string filePath, AudioInfoWish info)
-            => WriteWavHeader(filePath, WavHeaderExtensionWishes_HeaderFromObjects.ToWavHeader(info));
+            => WriteWavHeader(filePath, ToWavHeaderExtensions.ToWavHeader(info));
 
         public static void WriteWavHeader(this string filePath, WavHeaderStruct wavHeader)
         {
@@ -151,19 +151,19 @@ namespace JJ.Business.Synthesizer.Wishes
             => WriteWavHeader(filePath, audioInfo);
     }
 
-    public static class WavHeaderExtensionWishes_ReadInfo
+    public static class ReadAudioInfoExtensions
     {
         public static AudioInfoWish ReadAudioInfo(this string filePath)
-            => WavHeaderExtensionWishes_ReadHeader.ReadWavHeader(filePath).ToWish();
+            => ReadWavHeaderExtensions.ReadWavHeader(filePath).ToWish();
 
         public static AudioInfoWish ReadAudioInfo(this Stream stream)
-            => WavHeaderExtensionWishes_ReadHeader.ReadWavHeader(stream).ToWish();
+            => ReadWavHeaderExtensions.ReadWavHeader(stream).ToWish();
 
         public static AudioInfoWish ReadAudioInfo(this BinaryReader reader)
-            => WavHeaderExtensionWishes_ReadHeader.ReadWavHeader(reader).ToWish();
+            => ReadWavHeaderExtensions.ReadWavHeader(reader).ToWish();
     }
 
-    public static class WavHeaderExtensionWishes_ReadHeader
+    public static class ReadWavHeaderExtensions
     { 
         public static WavHeaderStruct ReadWavHeader(this string filePath)
         {
@@ -178,19 +178,19 @@ namespace JJ.Business.Synthesizer.Wishes
             => BinaryWriterExtensions.ReadStruct<WavHeaderStruct>(reader);
     }
 
-    public static class WavHeaderExtensionWishes_HeaderFromObjects
+    public static class ToWavHeaderExtensions
     { 
         public static WavHeaderStruct ToWavHeader(this AudioInfoWish info)
             => WavHeaderManager.CreateWavHeaderStruct(info.FromWish());
 
         public static WavHeaderStruct ToWavHeader(this Sample sample)
-            => WavHeaderExtensionWishes_GetAudioInfo.ToWish(sample).ToWavHeader();
+            => ToAudioInfoWishExtensions.ToWish(sample).ToWavHeader();
 
         public static WavHeaderStruct ToWavHeader(this AudioFileOutput audioFileOutput, int frameCount)
-            => WavHeaderExtensionWishes_GetAudioInfo.ToWish(audioFileOutput, frameCount).ToWavHeader();
+            => ToAudioInfoWishExtensions.ToWish(audioFileOutput, frameCount).ToWavHeader();
     }
 
-    public static class WavHeaderExtensionWishes_GetAudioInfo
+    public static class ToAudioInfoWishExtensions
     {
         // Create Wish Version
         
