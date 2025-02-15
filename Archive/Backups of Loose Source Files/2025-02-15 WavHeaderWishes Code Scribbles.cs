@@ -145,3 +145,31 @@
             AreEqual(samplingRate, () => wish.SamplingRate);
             AreEqual(frameCount,   () => wish.FrameCount);
         }
+
+            //AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWishWithFrameCount(frameCount).Bits         );
+            //AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWishWithFrameCount(frameCount).Channels     );
+            //AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWishWithFrameCount(frameCount).SamplingRate );
+            //AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWishWithFrameCount(frameCount).FrameCount   );
+
+            
+            //AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWishWithCourtesyFrames(courtesyFrames).Bits         );
+            //AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWishWithCourtesyFrames(courtesyFrames).Channels     );
+            //AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWishWithCourtesyFrames(courtesyFrames).SamplingRate );
+            //AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWishWithCourtesyFrames(courtesyFrames).FrameCount   );
+
+        
+        //public static AudioInfoWish ToWish(this Buff entity, int frameCount) => new AudioInfoWish
+        //{
+        //    Bits         = entity.Bits(),
+        //    Channels     = entity.Channels(),
+        //    SamplingRate = entity.SamplingRate(),
+        //    FrameCount   = frameCount.AssertFrameCount()
+        //};
+                
+        //public static AudioInfoWish ToWish(this AudioFileOutput entity, int frameCount) => new AudioInfoWish
+        //{
+        //    Bits         = entity.Bits(),
+        //    Channels     = entity.Channels(),
+        //    SamplingRate = entity.SamplingRate(),
+        //    FrameCount   = frameCount.AssertFrameCount()
+        //};

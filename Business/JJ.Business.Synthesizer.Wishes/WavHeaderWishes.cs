@@ -139,21 +139,37 @@ namespace JJ.Business.Synthesizer.Wishes
             SamplingRate = entity.SamplingRate(),
             FrameCount   = entity.FrameCount()
         };
-                
-        public static AudioInfoWish ToWish(this Buff entity, int frameCount) => new AudioInfoWish
+
+        public static AudioInfoWish ToWish(this Buff entity) => new AudioInfoWish
         {
             Bits         = entity.Bits(),
             Channels     = entity.Channels(),
             SamplingRate = entity.SamplingRate(),
-            FrameCount   = frameCount.AssertFrameCount()
+            FrameCount   = default
         };
                 
-        public static AudioInfoWish ToWish(this AudioFileOutput entity, int frameCount) => new AudioInfoWish
+        public static AudioInfoWish ToWish(this Buff entity, int courtesyFrames) => new AudioInfoWish
         {
             Bits         = entity.Bits(),
             Channels     = entity.Channels(),
             SamplingRate = entity.SamplingRate(),
-            FrameCount   = frameCount.AssertFrameCount()
+            FrameCount   = entity.FrameCount(courtesyFrames)
+        };                
+                
+        public static AudioInfoWish ToWish(this AudioFileOutput entity) => new AudioInfoWish
+        {
+            Bits         = entity.Bits(),
+            Channels     = entity.Channels(),
+            SamplingRate = entity.SamplingRate(),
+            FrameCount   = default
+        };
+                
+        public static AudioInfoWish ToWish(this AudioFileOutput entity, int courtesyFrames) => new AudioInfoWish
+        {
+            Bits         = entity.Bits(),
+            Channels     = entity.Channels(),
+            SamplingRate = entity.SamplingRate(),
+            FrameCount   = entity.FrameCount(courtesyFrames)
         };
         
         public static AudioInfoWish ToWish(this Sample entity) => new AudioInfoWish

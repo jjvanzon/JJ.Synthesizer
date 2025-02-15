@@ -485,6 +485,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             AssertFrameSize(frameSize);
             
             int byteCount  = ByteCountFromBuff(bytes, filePath);
+            
+            if (!Has(byteCount)) return 0;
+            
             int frameCount = (byteCount - headerLength) / frameSize;
             
             AssertFrameCount(frameCount);
