@@ -173,3 +173,6 @@
         //    SamplingRate = entity.SamplingRate(),
         //    FrameCount   = frameCount.AssertFrameCount()
         //};
+
+
+// By Design: Use From value; FrameCount doesn't change for Tape when it's Buff.
