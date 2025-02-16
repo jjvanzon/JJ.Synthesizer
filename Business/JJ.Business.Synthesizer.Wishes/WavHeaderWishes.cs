@@ -387,7 +387,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct ToWavHeader(this AudioFileInfo entity)
             => entity.ToWish().ToWavHeader();
         
-        // TODO: Tuples.
+        public static WavHeaderStruct ToWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x) 
+            => x.ToWish<TBits>().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+
     }
     
     public static class FromWavHeaderExtensions
