@@ -176,3 +176,5 @@
 
 
 // By Design: Use From value; FrameCount doesn't change for Tape when it's Buff.
+
+            AssertProp((x, info) => { x.SynthBound.ConfigSection   .FromWish(info)                         ; Assert(x.SynthBound .ConfigSection,   test); });
