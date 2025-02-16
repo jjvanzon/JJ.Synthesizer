@@ -11,15 +11,13 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
-using JJ.Framework.Testing;
 using JJ.Framework.Wishes.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using JJ.Framework.Wishes.Testing;
 using JJ.Persistence.Synthesizer;
+// ReSharper disable RedundantEmptyObjectOrCollectionInitializer
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -431,7 +429,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             AssertProp((x, wav) => { x.SynthBound .SynthWishes    .FromWavHeader(wav)                   ; Assert(x.SynthBound .SynthWishes,     test); });
             AssertProp((x, wav) => { x.SynthBound .FlowNode       .FromWavHeader(wav)                   ; Assert(x.SynthBound .FlowNode,        test); });
-            //AssertProp((x, wav) => { x.SynthBound .ConfigResolver .FromWavHeader(wav, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            AssertProp((x, wav) => { x.SynthBound .ConfigResolver .FromWavHeader(wav, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
             AssertProp((x, wav) => { x.TapeBound  .Tape           .FromWavHeader(wav)                   ; Assert(x.TapeBound  .Tape,            test); });
             AssertProp((x, wav) => { x.TapeBound  .TapeConfig     .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
             AssertProp((x, wav) => { x.TapeBound  .TapeActions    .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeActions,     test); });
@@ -443,7 +441,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertProp((x, wav) => { x.Independent.AudioInfoWish  .FromWavHeader(wav)                   ; Assert(x.Independent.AudioInfoWish,   test); });
             AssertProp((x, wav) => { wav.ApplyTo(x.SynthBound .SynthWishes)                        ; Assert(x.SynthBound .SynthWishes,     test); });
             AssertProp((x, wav) => { wav.ApplyTo(x.SynthBound .FlowNode)                           ; Assert(x.SynthBound .FlowNode,        test); });
-            //AssertProp((x, wav) => { wav.ApplyTo(x.SynthBound .ConfigResolver, synthWishes)        ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            AssertProp((x, wav) => { wav.ApplyTo(x.SynthBound .ConfigResolver, synthWishes)        ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
             AssertProp((x, wav) => { wav.ApplyTo(x.TapeBound  .Tape)                               ; Assert(x.TapeBound  .Tape,            test); });
             AssertProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeConfig)                         ; Assert(x.TapeBound  .TapeConfig,      test); });
             AssertProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeActions)                        ; Assert(x.TapeBound  .TapeActions,     test); });
