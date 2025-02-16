@@ -366,11 +366,17 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct ToWavHeader(this TapeAction entity)
             => entity.ToWish().ToWavHeader();
         
-        public static WavHeaderStruct ToWavHeader(this Buff entity, int frameCount)
-            => entity.ToWish(frameCount).ToWavHeader();
+        public static WavHeaderStruct ToWavHeader(this Buff entity)
+            => entity.ToWish().ToWavHeader();
         
-        public static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int frameCount)
-            => entity.ToWish(frameCount).ToWavHeader();
+        public static WavHeaderStruct ToWavHeader(this Buff entity, int courtesyFrames)
+            => entity.ToWish(courtesyFrames).ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this AudioFileOutput entity)
+            => entity.ToWish().ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int courtesyFrames)
+            => entity.ToWish(courtesyFrames).ToWavHeader();
         
         public static WavHeaderStruct ToWavHeader(this Sample entity)
             => entity.ToWish().ToWavHeader();
