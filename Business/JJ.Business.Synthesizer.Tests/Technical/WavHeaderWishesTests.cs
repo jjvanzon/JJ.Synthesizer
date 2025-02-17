@@ -478,28 +478,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.GetBits        );
-            AreEqual(test.Channels,     () => entity.GetChannels    );
+            AreEqual(test.Bits,         () => entity.GetBits);
+            AreEqual(test.Channels,     () => entity.GetChannels);
             AreEqual(test.SamplingRate, () => entity.GetSamplingRate);
-            AreEqual(test.FrameCount,   () => entity.GetFrameCount());
+            AreEqual(test.FrameCount,   () => entity.GetFrameCount(), -test.CourtesyFrames);
         }
 
         private void Assert(FlowNode entity, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.GetBits        );
-            AreEqual(test.Channels,     () => entity.GetChannels    );
+            AreEqual(test.Bits,         () => entity.GetBits);
+            AreEqual(test.Channels,     () => entity.GetChannels);
             AreEqual(test.SamplingRate, () => entity.GetSamplingRate);
-            AreEqual(test.FrameCount,   () => entity.FrameCount()   );
+            AreEqual(test.FrameCount,   () => entity.FrameCount()   , -test.CourtesyFrames);
         }
 
         private void Assert(ConfigResolverAccessor entity, Case test, SynthWishes synthWishes)
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.GetBits        );
-            AreEqual(test.Channels,     () => entity.GetChannels    );
+            AreEqual(test.Bits,         () => entity.GetBits);
+            AreEqual(test.Channels,     () => entity.GetChannels);
             AreEqual(test.SamplingRate, () => entity.GetSamplingRate);
             AreEqual(test.FrameCount,   () => entity.FrameCount(synthWishes));
         }
@@ -508,40 +508,40 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.Bits()        );
-            AreEqual(test.Channels,     () => entity.Channels()    );
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
         }
 
         private void Assert(TapeConfig entity, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.Bits        );
-            AreEqual(test.Channels,     () => entity.Channels    );
+            AreEqual(test.Bits,         () => entity.Bits);
+            AreEqual(test.Channels,     () => entity.Channels);
             AreEqual(test.SamplingRate, () => entity.SamplingRate);
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
         }
 
         private void Assert(TapeActions entity, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.Bits()        );
-            AreEqual(test.Channels,     () => entity.Channels()    );
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
         }
 
         private void Assert(TapeAction entity, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.Bits()        );
-            AreEqual(test.Channels,     () => entity.Channels()    );
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
         }
 
         private void Assert(Buff entity, Case test)
@@ -549,10 +549,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => test);
             IsNotNull(() => entity);
             int courtesyFrames = test.CourtesyFrames;
-            AreEqual(test.Bits,         () => entity.Bits()        );
-            AreEqual(test.Channels,     () => entity.Channels()    );
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), Tolerance);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), -courtesyFrames);
         }
 
         private void Assert(AudioFileOutput entity, Case test)
@@ -560,18 +560,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(() => test);
             IsNotNull(() => entity);
             int courtesyFrames = test.CourtesyFrames;
-            AreEqual(test.Bits,         () => entity.Bits()        );
-            AreEqual(test.Channels,     () => entity.Channels()    );
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), Tolerance);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), -courtesyFrames);
         }
         
         private void Assert(Sample entity, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.Bits()        );
-            AreEqual(test.Channels,     () => entity.Channels()    );
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
             // Sample ignores FrameCount changes—either its own value or 0.
             //AreEqual(test.FrameCount, () => entity.FrameCount(), Tolerance);
@@ -581,20 +581,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.Bits()        );
-            AreEqual(test.Channels,     () => entity.Channels()    );
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount()  );
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
         }
 
         private void Assert(AudioInfoWish entity, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => entity);
-            AreEqual(test.Bits,         () => entity.Bits        );
-            AreEqual(test.Channels,     () => entity.Channels    );
+            AreEqual(test.Bits,         () => entity.Bits);
+            AreEqual(test.Channels,     () => entity.Channels);
             AreEqual(test.SamplingRate, () => entity.SamplingRate);
-            AreEqual(test.FrameCount,   () => entity.FrameCount  );
+            AreEqual(test.FrameCount,   () => entity.FrameCount, -test.CourtesyFrames);
         }
 
         [TestMethod]
