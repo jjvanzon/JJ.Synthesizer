@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
@@ -11,6 +12,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
+using JJ.Framework.Wishes.Collections;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
@@ -50,6 +52,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public override string ToString() => DebuggerDisplay(this);
         public Buff            Buff                { get; set; }
         public AudioFileOutput AudioFileOutput     { get; set; }
+        public string          FilePath            { get; set; }
+        public byte[]          Bytes               { get; set; }
+        public Stream          Stream              { get; set; }
+        public BinaryReader    BinaryReader        { get; set; }
     }
             
     internal class IndependentEntities
@@ -204,7 +210,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           BuffBound = new BuffBoundEntities
                           {
                               Buff            = t.Buff,
-                              AudioFileOutput = t.UnderlyingAudioFileOutput
+                              AudioFileOutput = t.UnderlyingAudioFileOutput,
                           };
                           
                           Independent = new IndependentEntities
@@ -253,16 +259,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           
                           e.BuffBound = new BuffBoundEntities
                           {
-                              Buff               = t.Buff,
-                              AudioFileOutput    = t.UnderlyingAudioFileOutput
+                              Buff            = t.Buff,
+                              AudioFileOutput = t.UnderlyingAudioFileOutput,
                           };
                           
                           // Independent after Taping Channel
                           e.Independent = new IndependentEntities
                           {
-                              Sample             = t.UnderlyingSample,
-                              AudioInfoWish      = t.UnderlyingSample.ToWish(),
-                              AudioFileInfo      = t.UnderlyingSample.ToWish().FromWish()
+                              Sample        = t.UnderlyingSample,
+                              AudioInfoWish = t.UnderlyingSample.ToWish(),
+                              AudioFileInfo = t.UnderlyingSample.ToWish().FromWish()
                           };
                           
                           // Immutables for Channel
@@ -339,8 +345,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Immutable.FileExtension       = ResolveFileExtension(SynthBound.SynthWishes.GetAudioFormat);
             Immutable.CourtesyFrames      = SynthBound.SynthWishes.GetCourtesyFrames;
             Immutable.FrameSize           = SynthBound.SynthWishes.FrameSize();
+            
+            foreach (var buffEntities in BuffBound.Concat(ChannelEntities.Select(x => x.BuffBound)))
+            {
+                buffEntities.FilePath     = buffEntities.Buff.FilePath;
+                buffEntities.Bytes        = buffEntities.Buff.Bytes;
+                buffEntities.Stream       = new MemoryStream(buffEntities.Buff.Bytes);
+                buffEntities.BinaryReader = new BinaryReader(buffEntities.Stream);
+            }
         }
     }
+    
+
+    // TODO: Move to its own file.
     
     /// <inheritdoc cref="docs._synthwishesderived" />
     internal class SynthWishesDerived : SynthWishes
