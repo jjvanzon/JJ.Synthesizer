@@ -128,42 +128,42 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var enumTuple     = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, x.Immutable.SamplingRate, frameCount);
             var entityTuple   = (x.Immutable.SampleDataType,     x.Immutable.SpeakerSetup,     x.Immutable.SamplingRate, frameCount);
             
-            AreEqual(test.Bits,           () => x.SynthBound .SynthWishes    .ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.SynthBound .SynthWishes    .ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.SynthBound .SynthWishes    .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.SynthBound .SynthWishes    .ToWish().FrameCount,   -Tolerance);
-            AreEqual(test.Bits,           () => x.SynthBound .FlowNode       .ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.SynthBound .FlowNode       .ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.SynthBound .FlowNode       .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.SynthBound .FlowNode       .ToWish().FrameCount,   -Tolerance);
+            AreEqual(test.Bits,           () => x.SynthBound .SynthWishes    .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.SynthBound .SynthWishes    .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.SynthBound .SynthWishes    .ToWish().SamplingRate          );
+            AreEqual(test.FrameCount,     () => x.SynthBound .SynthWishes    .ToWish().FrameCount, -Tolerance);
+            AreEqual(test.Bits,           () => x.SynthBound .FlowNode       .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.SynthBound .FlowNode       .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.SynthBound .FlowNode       .ToWish().SamplingRate          );
+            AreEqual(test.FrameCount,     () => x.SynthBound .FlowNode       .ToWish().FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.SynthBound .ConfigResolver .ToWish(synthWishes).Bits        );
             AreEqual(test.Channels,       () => x.SynthBound .ConfigResolver .ToWish(synthWishes).Channels    );
             AreEqual(test.SamplingRate,   () => x.SynthBound .ConfigResolver .ToWish(synthWishes).SamplingRate);
             AreEqual(test.FrameCount,     () => x.SynthBound .ConfigResolver .ToWish(synthWishes).FrameCount, -Tolerance);
-            AreEqual(DefaultBits,         () => x.SynthBound .ConfigSection  .ToWish().Bits                   );
-            AreEqual(DefaultChannels,     () => x.SynthBound .ConfigSection  .ToWish().Channels               );
-            AreEqual(DefaultSamplingRate, () => x.SynthBound .ConfigSection  .ToWish().SamplingRate           );
-            AreEqual(DefaultFrameCount,   () => x.SynthBound .ConfigSection  .ToWish().FrameCount,   -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound  .Tape           .ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.TapeBound  .Tape           .ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.TapeBound  .Tape           .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .Tape           .ToWish().FrameCount  , -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound  .TapeConfig     .ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.TapeBound  .TapeConfig     .ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeConfig     .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeConfig     .ToWish().FrameCount  , -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound  .TapeActions    .ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.TapeBound  .TapeActions    .ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeActions    .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeActions    .ToWish().FrameCount  , -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound  .TapeAction     .ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.TapeBound  .TapeAction     .ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeAction     .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeAction     .ToWish().FrameCount  , -Tolerance);
-            AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWish().SamplingRate           );
-            AreEqual(0,                   () => x.BuffBound  .Buff           .ToWish().FrameCount  , -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
+            AreEqual(DefaultBits,         () => x.SynthBound .ConfigSection  .ToWish().Bits                  );
+            AreEqual(DefaultChannels,     () => x.SynthBound .ConfigSection  .ToWish().Channels              );
+            AreEqual(DefaultSamplingRate, () => x.SynthBound .ConfigSection  .ToWish().SamplingRate          );
+            AreEqual(DefaultFrameCount,   () => x.SynthBound .ConfigSection  .ToWish().FrameCount, -Tolerance);
+            AreEqual(test.Bits,           () => x.TapeBound  .Tape           .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.TapeBound  .Tape           .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.TapeBound  .Tape           .ToWish().SamplingRate          );
+            AreEqual(test.FrameCount,     () => x.TapeBound  .Tape           .ToWish().FrameCount, -Tolerance);
+            AreEqual(test.Bits,           () => x.TapeBound  .TapeConfig     .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.TapeBound  .TapeConfig     .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeConfig     .ToWish().SamplingRate          );
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeConfig     .ToWish().FrameCount, -Tolerance);
+            AreEqual(test.Bits,           () => x.TapeBound  .TapeActions    .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.TapeBound  .TapeActions    .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeActions    .ToWish().SamplingRate          );
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeActions    .ToWish().FrameCount, -Tolerance);
+            AreEqual(test.Bits,           () => x.TapeBound  .TapeAction     .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.TapeBound  .TapeAction     .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeAction     .ToWish().SamplingRate          );
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeAction     .ToWish().FrameCount, -Tolerance);
+            AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWish().SamplingRate          );
+            AreEqual(0,                   () => x.BuffBound  .Buff           .ToWish().FrameCount, -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
             AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWish(courtesyFrames).Bits     );
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWish(courtesyFrames).Channels );
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWish(courtesyFrames).SamplingRate);
@@ -172,45 +172,45 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).Channels);
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).SamplingRate);
             AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish().Bits                   );
-            AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish().Channels               );
-            AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWish().SamplingRate           );
-            AreEqual(0,                   () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount  , -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
-            AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).Bits     );
-            AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).Channels );
+            AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWish().SamplingRate          );
+            AreEqual(0,                   () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount, -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
+            AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).Bits    );
+            AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).Channels);
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).SamplingRate);
             AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).Bits);
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).Channels);
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).SamplingRate);
             AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Independent.Sample         .ToWish().Bits                 );
-            AreEqual(test.Channels,       () => x.Independent.Sample         .ToWish().Channels             );
-            AreEqual(test.SamplingRate,   () => x.Independent.Sample         .ToWish().SamplingRate         );
+            AreEqual(test.Bits,           () => x.Independent.Sample         .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.Independent.Sample         .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.Independent.Sample         .ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => x.Independent.Sample         .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Independent.AudioFileInfo  .ToWish().Bits                 );
-            AreEqual(test.Channels,       () => x.Independent.AudioFileInfo  .ToWish().Channels             );
-            AreEqual(test.SamplingRate,   () => x.Independent.AudioFileInfo  .ToWish().SamplingRate         );
+            AreEqual(test.Bits,           () => x.Independent.AudioFileInfo  .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.Independent.AudioFileInfo  .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.Independent.AudioFileInfo  .ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => x.Independent.AudioFileInfo  .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Immutable  .WavHeader      .ToWish().Bits                 );
-            AreEqual(test.Channels,       () => x.Immutable  .WavHeader      .ToWish().Channels             );
-            AreEqual(test.SamplingRate,   () => x.Immutable  .WavHeader      .ToWish().SamplingRate         );
+            AreEqual(test.Bits,           () => x.Immutable  .WavHeader      .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => x.Immutable  .WavHeader      .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => x.Immutable  .WavHeader      .ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => x.Immutable  .WavHeader      .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => intTuple                     .ToWish().Bits                 );
-            AreEqual(test.Channels,       () => intTuple                     .ToWish().Channels             );
-            AreEqual(test.SamplingRate,   () => intTuple                     .ToWish().SamplingRate         );
+            AreEqual(test.Bits,           () => intTuple                     .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => intTuple                     .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => intTuple                     .ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => intTuple                     .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => typeTuple                    .ToWish().Bits                 );
-            AreEqual(test.Channels,       () => typeTuple                    .ToWish().Channels             );
-            AreEqual(test.SamplingRate,   () => typeTuple                    .ToWish().SamplingRate         );
+            AreEqual(test.Bits,           () => typeTuple                    .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => typeTuple                    .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => typeTuple                    .ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => typeTuple                    .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => enumTuple                    .ToWish().Bits                 );
-            AreEqual(test.Channels,       () => enumTuple                    .ToWish().Channels             );
-            AreEqual(test.SamplingRate,   () => enumTuple                    .ToWish().SamplingRate         );
+            AreEqual(test.Bits,           () => enumTuple                    .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => enumTuple                    .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => enumTuple                    .ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => enumTuple                    .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => entityTuple                  .ToWish().Bits                 );
-            AreEqual(test.Channels,       () => entityTuple                  .ToWish().Channels             );
-            AreEqual(test.SamplingRate,   () => entityTuple                  .ToWish().SamplingRate         );
+            AreEqual(test.Bits,           () => entityTuple                  .ToWish().Bits                  );
+            AreEqual(test.Channels,       () => entityTuple                  .ToWish().Channels              );
+            AreEqual(test.SamplingRate,   () => entityTuple                  .ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => entityTuple                  .ToWish().FrameCount, -Tolerance);
             
             if (test.Bits == 8)
@@ -250,7 +250,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IContext context;
             int courtesy = test.CourtesyFrames;
 
-            void AssertProp(Action<TestEntities, AudioInfoWish> setter)
+            void TestProp(Action<TestEntities, AudioInfoWish> setter)
             {
                 TestEntities  x = CreateEntities(test);
                 synthWishes = x.SynthBound.SynthWishes;
@@ -269,30 +269,30 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 setter(x, infoWish);
             }
             
-            AssertProp((x, info) => { x.SynthBound .SynthWishes    .FromWish(info)                   ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, info) => { x.SynthBound .FlowNode       .FromWish(info)                   ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, info) => { x.SynthBound .ConfigResolver .FromWish(info, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, info) => { x.TapeBound  .Tape           .FromWish(info)                   ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, info) => { x.TapeBound  .TapeConfig     .FromWish(info)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, info) => { x.TapeBound  .TapeActions    .FromWish(info)                   ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, info) => { x.TapeBound  .TapeAction     .FromWish(info)                   ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, info) => { x.BuffBound  .Buff           .FromWish(info, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, info) => { x.BuffBound  .AudioFileOutput.FromWish(info, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, info) => { x.Independent.Sample         .FromWish(info,           context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, info) => { x.Independent.AudioFileInfo  .FromWish(info)                   ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, info) => { x.Independent.AudioInfoWish  .FromWish(info)                   ; Assert(x.Independent.AudioInfoWish,   test); });
-            AssertProp((x, info) => { info.ApplyTo(x.SynthBound .SynthWishes)                        ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, info) => { info.ApplyTo(x.SynthBound .FlowNode)                           ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, info) => { info.ApplyTo(x.SynthBound .ConfigResolver, synthWishes)        ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, info) => { info.ApplyTo(x.TapeBound  .Tape)                               ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, info) => { info.ApplyTo(x.TapeBound  .TapeConfig)                         ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, info) => { info.ApplyTo(x.TapeBound  .TapeActions)                        ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, info) => { info.ApplyTo(x.TapeBound  .TapeAction)                         ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, info) => { info.ApplyTo(x.BuffBound  .Buff,             courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, info) => { info.ApplyTo(x.BuffBound  .AudioFileOutput,  courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, info) => { info.ApplyTo(x.Independent.Sample,                     context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, info) => { info.ApplyTo(x.Independent.AudioFileInfo)                      ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, info) => { info.ApplyTo(x.Independent.AudioInfoWish)                      ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, info) => { x.SynthBound .SynthWishes    .FromWish(info)                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, info) => { x.SynthBound .FlowNode       .FromWish(info)                   ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, info) => { x.SynthBound .ConfigResolver .FromWish(info, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, info) => { x.TapeBound  .Tape           .FromWish(info)                   ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, info) => { x.TapeBound  .TapeConfig     .FromWish(info)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, info) => { x.TapeBound  .TapeActions    .FromWish(info)                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, info) => { x.TapeBound  .TapeAction     .FromWish(info)                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, info) => { x.BuffBound  .Buff           .FromWish(info, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, info) => { x.BuffBound  .AudioFileOutput.FromWish(info, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, info) => { x.Independent.Sample         .FromWish(info,           context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, info) => { x.Independent.AudioFileInfo  .FromWish(info)                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, info) => { x.Independent.AudioInfoWish  .FromWish(info)                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, info) => { info.ApplyTo(x.SynthBound .SynthWishes)                        ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, info) => { info.ApplyTo(x.SynthBound .FlowNode)                           ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, info) => { info.ApplyTo(x.SynthBound .ConfigResolver, synthWishes)        ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, info) => { info.ApplyTo(x.TapeBound  .Tape)                               ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, info) => { info.ApplyTo(x.TapeBound  .TapeConfig)                         ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, info) => { info.ApplyTo(x.TapeBound  .TapeActions)                        ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, info) => { info.ApplyTo(x.TapeBound  .TapeAction)                         ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, info) => { info.ApplyTo(x.BuffBound  .Buff,             courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, info) => { info.ApplyTo(x.BuffBound  .AudioFileOutput,  courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, info) => { info.ApplyTo(x.Independent.Sample,                     context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, info) => { info.ApplyTo(x.Independent.AudioFileInfo)                      ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, info) => { info.ApplyTo(x.Independent.AudioInfoWish)                      ; Assert(x.Independent.AudioInfoWish,   test); });
         }
 
         [TestMethod]
@@ -433,7 +433,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IContext context;
             int courtesy = test.CourtesyFrames;
 
-            void AssertProp(Action<TestEntities, WavHeaderStruct> setter)
+            void TestProp(Action<TestEntities, WavHeaderStruct> setter)
             {
                 TestEntities  x = CreateEntities(test);
                 synthWishes = x.SynthBound.SynthWishes;
@@ -452,30 +452,30 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 setter(x, wavHeader);
             }
             
-            AssertProp((x, wav) => { x.SynthBound .SynthWishes    .FromWavHeader(wav)                   ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, wav) => { x.SynthBound .FlowNode       .FromWavHeader(wav)                   ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, wav) => { x.SynthBound .ConfigResolver .FromWavHeader(wav, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, wav) => { x.TapeBound  .Tape           .FromWavHeader(wav)                   ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, wav) => { x.TapeBound  .TapeConfig     .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, wav) => { x.TapeBound  .TapeActions    .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, wav) => { x.TapeBound  .TapeAction     .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, wav) => { x.BuffBound  .Buff           .FromWavHeader(wav, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, wav) => { x.BuffBound  .AudioFileOutput.FromWavHeader(wav, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, wav) => { x.Independent.Sample         .FromWavHeader(wav,           context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, wav) => { x.Independent.AudioFileInfo  .FromWavHeader(wav)                   ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, wav) => { x.Independent.AudioInfoWish  .FromWavHeader(wav)                   ; Assert(x.Independent.AudioInfoWish,   test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.SynthBound .SynthWishes)                        ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.SynthBound .FlowNode)                           ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.SynthBound .ConfigResolver, synthWishes)        ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.TapeBound  .Tape)                               ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeConfig)                         ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeActions)                        ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeAction)                         ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.BuffBound  .Buff,             courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.BuffBound  .AudioFileOutput,  courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.Independent.Sample,                     context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.Independent.AudioFileInfo)                      ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, wav) => { wav.ApplyTo(x.Independent.AudioInfoWish)                      ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, wav) => { x.SynthBound .SynthWishes    .FromWavHeader(wav)                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, wav) => { x.SynthBound .FlowNode       .FromWavHeader(wav)                   ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, wav) => { x.SynthBound .ConfigResolver .FromWavHeader(wav, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, wav) => { x.TapeBound  .Tape           .FromWavHeader(wav)                   ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, wav) => { x.TapeBound  .TapeConfig     .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, wav) => { x.TapeBound  .TapeActions    .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, wav) => { x.TapeBound  .TapeAction     .FromWavHeader(wav)                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, wav) => { x.BuffBound  .Buff           .FromWavHeader(wav, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, wav) => { x.BuffBound  .AudioFileOutput.FromWavHeader(wav, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, wav) => { x.Independent.Sample         .FromWavHeader(wav,           context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, wav) => { x.Independent.AudioFileInfo  .FromWavHeader(wav)                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, wav) => { x.Independent.AudioInfoWish  .FromWavHeader(wav)                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.SynthBound .SynthWishes)                        ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.SynthBound .FlowNode)                           ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.SynthBound .ConfigResolver, synthWishes)        ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, wav) => { wav.ApplyTo(x.TapeBound  .Tape)                               ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeConfig)                         ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeActions)                        ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.TapeBound  .TapeAction)                         ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.BuffBound  .Buff,             courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.BuffBound  .AudioFileOutput,  courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.Independent.Sample,                     context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.Independent.AudioFileInfo)                      ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, wav) => { wav.ApplyTo(x.Independent.AudioInfoWish)                      ; Assert(x.Independent.AudioInfoWish,   test); });
         }
 
         [TestMethod]
@@ -487,7 +487,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IContext context = null;
             int courtesy = test.CourtesyFrames;
 
-            void AssertProp(Action<TestEntities, BuffBoundEntities> setter)
+            void TestProp(Action<TestEntities, BuffBoundEntities> setter)
             {
                 TestEntities  x = CreateEntities(test);
                 synthWishes = x.SynthBound.SynthWishes;
@@ -500,54 +500,54 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 // TODO: Assert init values?
             }
             
-            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .SynthWishes,     test); });
-            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .FlowNode,        test); });
-            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.FilePath    , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Bytes       , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Stream      , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.BinaryReader, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .Tape,            test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeActions,     test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeAction,      test); });
-            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.FilePath    ,           context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Bytes       ,           context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Stream      ,           context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.BinaryReader,           context); Assert(x.Independent.Sample,          test); });
-            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioFileInfo,   test); });
-            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioInfoWish,   test); });
-            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioInfoWish,   test); });
-            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioInfoWish,   test); });
-            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            TestProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .FlowNode,        test); });
+            TestProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.FilePath    , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Bytes       , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Stream      , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.BinaryReader, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            TestProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .Tape,            test); });
+            TestProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            TestProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            TestProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            TestProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            TestProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            TestProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.FilePath    ,           context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Bytes       ,           context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Stream      ,           context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.BinaryReader,           context); Assert(x.Independent.Sample,          test); });
+            TestProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            TestProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            TestProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioInfoWish,   test); });
         }
         
         [TestMethod]
