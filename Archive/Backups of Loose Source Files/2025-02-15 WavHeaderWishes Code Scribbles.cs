@@ -178,3 +178,34 @@
 // By Design: Use From value; FrameCount doesn't change for Tape when it's Buff.
 
             AssertProp((x, info) => { x.SynthBound.ConfigSection   .FromWish(info)                         ; Assert(x.SynthBound .ConfigSection,   test); });
+
+
+                                          FilePath        = t.Buff.FilePath, // TODO: Save the file too.
+                              Bytes           = t.Buff.Bytes,
+                              Stream          = new MemoryStream(t.Buff.Bytes),
+                              BinaryReader    = new BinaryReader(new MemoryStream(t.Buff.Bytes))
+
+        
+        //public static string GetNumberedFilePathSafe(
+        //    string originalFilePath,
+        //    string numberPrefix = " (",
+        //    string numberSuffix = ")",
+        //    bool mustNumberFirstFile = false,
+        //    int maxExtensionLength = DEFAULT_MAX_EXTENSION_LENGTH)
+        //{
+        //    CreateSafeFileStream(originalFilePath, numberPrefix, numberSuffix, mustNumberFirstFile, maxExtensionLength);
+        //}
+
+            //var testEntities = new TestEntities(x => x.WithBits(test.Bits.Init)
+            //                                          .WithChannels(test.Channels.Init)
+            //                                          .WithSamplingRate(test.SamplingRate.Init)
+            //                                          .WithFrameCount(test.FrameCount.Init)
+            //                                          .WithCourtesyFrames(test.CourtesyFrames.Init));
+
+
+private void Assert(AudioFileOutput entity, Case test/*, int? courtesyFrames = null*/)
+            //int courtesyFramesCoalesced = courtesyFrames ?? test.CourtesyFrames;
+            //AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFramesCoalesced), Tolerance);
+            //AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), Tolerance);
+
+            //string filePathResolved = ResolveFilePath(buff.AudioFormat(), filePath, buff.FilePath, callerMemberName); // Resolve to use AudioFormat

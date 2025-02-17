@@ -473,7 +473,80 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertProp((x, wav) => { wav.ApplyTo(x.Independent.AudioInfoWish)                      ; Assert(x.Independent.AudioInfoWish,   test); });
         }
 
-        
+        [TestMethod]
+        [DynamicData(nameof(TransitionCases))]
+        public void WavHeader_ReadWavHeader(string caseKey)
+        { 
+            Case test = Cases[caseKey];
+            SynthWishes synthWishes = null;
+            IContext context = null;
+            int courtesy = test.CourtesyFrames;
+
+            void AssertProp(Action<TestEntities, BuffBoundEntities> setter)
+            {
+                TestEntities  x = CreateInitEntities(test);
+                synthWishes = x.SynthBound.SynthWishes;
+                context     = x.SynthBound.Context;
+
+                //TestEntities y = CreateChangedEntities(test, saveBuff: true);
+                TestEntities y = CreateChangedEntities(test, saveBuff: false);
+                //TestEntities y = x; // HACK to simplify debugging.
+                
+                setter(x, y.BuffBound);
+                
+                // TODO: Assert init values?
+            }
+            
+            //AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            //AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .FlowNode,        test); });
+            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .FlowNode,        test); });
+            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .FlowNode,        test); });
+            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .FlowNode,        test); });
+            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.FilePath    , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Bytes       , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Stream      , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.BinaryReader, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            //AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .Tape,            test); });
+            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .Tape,            test); });
+            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .Tape,            test); });
+            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .Tape,            test); });
+            //AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            //AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            //AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            //AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            //AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            //AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.FilePath    ,           context); Assert(x.Independent.Sample,          test); });
+            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Bytes       ,           context); Assert(x.Independent.Sample,          test); });
+            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Stream      ,           context); Assert(x.Independent.Sample,          test); });
+            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.BinaryReader,           context); Assert(x.Independent.Sample,          test); });
+            //AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            //AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioInfoWish,   test); });
+        }
+
         private void Assert(SynthWishes entity, Case test)
         {
             IsNotNull(() => test);
