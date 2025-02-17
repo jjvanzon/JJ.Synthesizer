@@ -585,10 +585,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class ReadAudioInfoExtensions
     {
-        public static AudioInfoWish ReadAudioInfo(this string       source) => source.ReadWavHeader().ToWish();
-        public static AudioInfoWish ReadAudioInfo(this byte[]       source) => source.ReadWavHeader().ToWish();
-        public static AudioInfoWish ReadAudioInfo(this Stream       source) => source.ReadWavHeader().ToWish();
-        public static AudioInfoWish ReadAudioInfo(this BinaryReader source) => source.ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(this string       filePath) => filePath.ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(this byte[]       source  ) => source  .ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(this Stream       source  ) => source  .ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(this BinaryReader source)   => source  .ReadWavHeader().ToWish();
     }
     
     public static class WriteWavHeaderExtensions

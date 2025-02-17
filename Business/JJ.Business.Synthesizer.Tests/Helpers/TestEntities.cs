@@ -351,7 +351,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 buffEntities.FilePath     = buffEntities.Buff.FilePath;
                 buffEntities.Bytes        = buffEntities.Buff.Bytes;
                 buffEntities.Stream       = new MemoryStream(buffEntities.Buff.Bytes);
-                buffEntities.BinaryReader = new BinaryReader(buffEntities.Stream);
+                buffEntities.BinaryReader = new BinaryReader(new MemoryStream(buffEntities.Buff.Bytes));
             }
         }
     }

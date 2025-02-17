@@ -70,21 +70,19 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             new Case { CourtesyFrames = { To =     4 } }
         );
 
-        private TestEntities CreateInitEntities(Case test, bool wipeBuff = true)
+        private TestEntities CreateEntities(Case test, bool wipeBuff = true, bool saveBuff = false)
         {
             var testEntities = new TestEntities(x => x.WithBits(test.Bits.Init)
                                                       .WithChannels(test.Channels.Init)
                                                       .WithSamplingRate(test.SamplingRate.Init)
                                                       .WithCourtesyFrames(test.CourtesyFrames.Init)
                                                       .WithFrameCount(test.FrameCount.Init));
-            if (wipeBuff)
-            {
-                testEntities.BuffBound.Buff.Bytes = null; // Unbuff it so FrameCounts can be set and not calculated from Buff.
-            }
+            
+            AdjustBufferState(testEntities, wipeBuff, saveBuff);
             
             return testEntities;
         }
-
+        
         private TestEntities CreateChangedEntities(Case test, bool wipeBuff = true, bool saveBuff = false)
         {
             var testEntities = new TestEntities(x => x.WithBits(test.Bits.To)
@@ -92,9 +90,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                                       .WithSamplingRate(test.SamplingRate.To)
                                                       .WithCourtesyFrames(test.CourtesyFrames.To)
                                                       .WithFrameCount(test.FrameCount.To));
+            
+            AdjustBufferState(testEntities, wipeBuff, saveBuff);
+            
+            return testEntities;
+        }
+        
+        private static void AdjustBufferState(TestEntities testEntities, bool wipeBuff, bool saveBuff)
+        {
             if (saveBuff)
             {
-                
                 testEntities.BuffBound.Buff.Save();
                 testEntities.BuffBound.FilePath = testEntities.BuffBound.Buff.FilePath;
             }
@@ -103,8 +108,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 testEntities.BuffBound.Buff.Bytes = null; // Unbuff it so FrameCounts can be set and not calculated from Buff.
             }
-            
-            return testEntities;
         }
         
         // Test Code
@@ -114,7 +117,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void WavHeader_ToWish(string caseKey)
         { 
             Case test = Cases[caseKey];
-            TestEntities x = CreateInitEntities(test);
+            TestEntities x = CreateEntities(test);
             int frameCount = test.FrameCount;
             int courtesyFrames = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
@@ -249,7 +252,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             void AssertProp(Action<TestEntities, AudioInfoWish> setter)
             {
-                TestEntities  x = CreateInitEntities(test);
+                TestEntities  x = CreateEntities(test);
                 synthWishes = x.SynthBound.SynthWishes;
                 context     = x.SynthBound.Context;
                 
@@ -297,7 +300,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void WavHeader_ToWavHeader(string caseKey)
         { 
             Case test = Cases[caseKey];
-            TestEntities x = CreateInitEntities(test);
+            TestEntities x = CreateEntities(test);
             int frameCount = test.FrameCount;
             int courtesyFrames = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
@@ -432,7 +435,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             void AssertProp(Action<TestEntities, WavHeaderStruct> setter)
             {
-                TestEntities  x = CreateInitEntities(test);
+                TestEntities  x = CreateEntities(test);
                 synthWishes = x.SynthBound.SynthWishes;
                 context     = x.SynthBound.Context;
                 
@@ -486,13 +489,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             void AssertProp(Action<TestEntities, BuffBoundEntities> setter)
             {
-                TestEntities  x = CreateInitEntities(test);
+                TestEntities  x = CreateEntities(test);
                 synthWishes = x.SynthBound.SynthWishes;
                 context     = x.SynthBound.Context;
 
                 TestEntities y = CreateChangedEntities(test, saveBuff: true);
-                //TestEntities y = CreateChangedEntities(test, saveBuff: false);
-                //TestEntities y = x; // HACK to simplify debugging.
                 
                 setter(x, y.BuffBound);
                 
@@ -548,7 +549,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioInfoWish,   test); });
             AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioInfoWish,   test); });
         }
-
+        
+        [TestMethod]
+        [DynamicData(nameof(SimpleCases))]
+        public void WavHeader_ReadAudioInfo(string caseKey)
+        { 
+            Case test = Cases[caseKey];
+            TestEntities x = CreateEntities(test, saveBuff: true);
+            Assert(x.BuffBound.FilePath    .ReadAudioInfo(), test);
+            Assert(x.BuffBound.Bytes       .ReadAudioInfo(), test);
+            Assert(x.BuffBound.Stream      .ReadAudioInfo(), test);
+            Assert(x.BuffBound.BinaryReader.ReadAudioInfo(), test);
+        }
+        
+        // Getter Assertions
+        
         private void Assert(SynthWishes entity, Case test)
         {
             IsNotNull(() => test);
@@ -676,7 +691,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void WavHeader_EdgeCases()
         {
             var test = new Case { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100 };
-            var x = CreateInitEntities(test, wipeBuff: false);
+            var x = CreateEntities(test, wipeBuff: false);
             int frameCount = test.FrameCount;
             int courtesyFrames = test.CourtesyFrames;
 
