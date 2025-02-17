@@ -39,11 +39,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             public CaseProp<int> FrameCount     { get; set; }
         }
         
-        static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
+        static CaseCollection<Case> Cases { get; } = new CaseCollection<Case> 
+        
+            { AllowDuplicates = true };
         
         static CaseCollection<Case> SimpleCases { get; } = Cases.FromTemplate(new Case
         
-            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100 },
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
             
             new Case {                        },
             new Case { Bits           =    16 },
@@ -56,14 +58,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         static CaseCollection<Case> TransitionCases { get; } = Cases.FromTemplate(new Case
         
-            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100 },
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
             
             new Case { Bits           = { To =    16 } },
             new Case { Bits           = { To =     8 } },
             new Case { SamplingRate   = { To = 96000 } },
             new Case { Channels       = { To =     1 } },
             new Case { FrameCount     = { To =   256 } },
-            new Case { CourtesyFrames = { To =     4 } }
+            new Case { CourtesyFrames = { To =     4 } },
+            new Case { Channels       = { From = 1, To = 2 } },
+            new Case { Channels = 1 }
         );
 
         private TestEntities CreateEntities(Case test, bool wipeBuff = true)
