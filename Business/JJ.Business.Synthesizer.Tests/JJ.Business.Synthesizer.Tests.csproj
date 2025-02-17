@@ -130,6 +130,7 @@
     <Compile Include="Accessors\ConfigWishesAccessor.cs" />
     <Compile Include="Accessors\ConfigWishesHelperAccessor.cs" />
     <Compile Include="Accessors\FlowNodeAccessor.cs" />
+    <Compile Include="Accessors\ReadWavHeaderExtensionsAccessor.cs" />
     <Compile Include="Accessors\FromWishExtensionsAccessor.cs" />
     <Compile Include="Accessors\ModulationTestsAccessor.cs" />
     <Compile Include="Accessors\FMTestsAccessor.cs" />

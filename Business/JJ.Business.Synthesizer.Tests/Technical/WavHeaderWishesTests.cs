@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
     {
         // Test Data
         
-        private int Tolerance { get; } = -1;
+        private int Tolerance { get; } = 1;
         
         // TODO: CaseBase without MainProp to omit the <int> type argument?
         private class Case : CaseBase<int>
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         static CaseCollection<Case> SimpleCases { get; } = Cases.FromTemplate(new Case
         
-            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 2, FrameCount = 100+2 },
             
             new Case {                        },
             new Case { Bits           =    16 },
@@ -58,16 +58,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         static CaseCollection<Case> TransitionCases { get; } = Cases.FromTemplate(new Case
         
-            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 2, FrameCount = 100+2 },
             
-            new Case { Bits           = { To =    16 } },
             new Case { Bits           = { To =     8 } },
-            new Case { SamplingRate   = { To = 96000 } },
+            new Case { Bits           = { To =    16 } },
             new Case { Channels       = { To =     1 } },
+            new Case { Channels       = { From =   1 } },
+            new Case { Channels       =            1   },
+            new Case { SamplingRate   = { To = 96000 } },
             new Case { FrameCount     = { To =   256 } },
-            new Case { CourtesyFrames = { To =     4 } },
-            new Case { Channels       = { From = 1, To = 2 } },
-            new Case { Channels = 1 }
+            new Case { CourtesyFrames = { To =     4 } }
         );
 
         private TestEntities CreateInitEntities(Case test, bool wipeBuff = true)
@@ -94,7 +94,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                                       .WithFrameCount(test.FrameCount.To));
             if (saveBuff)
             {
-                testEntities.BuffBound.Buff.Save(testEntities.BuffBound.FilePath);
+                
+                testEntities.BuffBound.Buff.Save();
+                testEntities.BuffBound.FilePath = testEntities.BuffBound.Buff.FilePath;
             }
             
             if (wipeBuff)
@@ -126,108 +128,108 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,           () => x.SynthBound .SynthWishes    .ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.SynthBound .SynthWishes    .ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.SynthBound .SynthWishes    .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.SynthBound .SynthWishes    .ToWish().FrameCount,   Tolerance);
+            AreEqual(test.FrameCount,     () => x.SynthBound .SynthWishes    .ToWish().FrameCount,   -Tolerance);
             AreEqual(test.Bits,           () => x.SynthBound .FlowNode       .ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.SynthBound .FlowNode       .ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.SynthBound .FlowNode       .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.SynthBound .FlowNode       .ToWish().FrameCount,   Tolerance);
+            AreEqual(test.FrameCount,     () => x.SynthBound .FlowNode       .ToWish().FrameCount,   -Tolerance);
             AreEqual(test.Bits,           () => x.SynthBound .ConfigResolver .ToWish(synthWishes).Bits        );
             AreEqual(test.Channels,       () => x.SynthBound .ConfigResolver .ToWish(synthWishes).Channels    );
             AreEqual(test.SamplingRate,   () => x.SynthBound .ConfigResolver .ToWish(synthWishes).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.SynthBound .ConfigResolver .ToWish(synthWishes).FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.SynthBound .ConfigResolver .ToWish(synthWishes).FrameCount, -Tolerance);
             AreEqual(DefaultBits,         () => x.SynthBound .ConfigSection  .ToWish().Bits                   );
             AreEqual(DefaultChannels,     () => x.SynthBound .ConfigSection  .ToWish().Channels               );
             AreEqual(DefaultSamplingRate, () => x.SynthBound .ConfigSection  .ToWish().SamplingRate           );
-            AreEqual(DefaultFrameCount,   () => x.SynthBound .ConfigSection  .ToWish().FrameCount,   Tolerance);
+            AreEqual(DefaultFrameCount,   () => x.SynthBound .ConfigSection  .ToWish().FrameCount,   -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .Tape           .ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.TapeBound  .Tape           .ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .Tape           .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .Tape           .ToWish().FrameCount  , Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .Tape           .ToWish().FrameCount  , -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .TapeConfig     .ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.TapeBound  .TapeConfig     .ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeConfig     .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeConfig     .ToWish().FrameCount  , Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeConfig     .ToWish().FrameCount  , -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .TapeActions    .ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.TapeBound  .TapeActions    .ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeActions    .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeActions    .ToWish().FrameCount  , Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeActions    .ToWish().FrameCount  , -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .TapeAction     .ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.TapeBound  .TapeAction     .ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeAction     .ToWish().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeAction     .ToWish().FrameCount  , Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeAction     .ToWish().FrameCount  , -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWish().SamplingRate           );
-            AreEqual(0,                   () => x.BuffBound  .Buff           .ToWish().FrameCount  , Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
+            AreEqual(0,                   () => x.BuffBound  .Buff           .ToWish().FrameCount  , -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
             AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWish(courtesyFrames).Bits     );
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWish(courtesyFrames).Channels );
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWish(courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWish(courtesyFrames).FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWish(courtesyFrames).FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).Bits);
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).Channels);
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWish().FrameCount(frameCount).FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish().Bits                   );
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish().Channels               );
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWish().SamplingRate           );
-            AreEqual(0,                   () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount  , Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
+            AreEqual(0,                   () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount  , -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).Bits     );
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).Channels );
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWish(courtesyFrames).FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).Bits);
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).Channels);
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWish().FrameCount(frameCount).FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.Independent.Sample         .ToWish().Bits                 );
             AreEqual(test.Channels,       () => x.Independent.Sample         .ToWish().Channels             );
             AreEqual(test.SamplingRate,   () => x.Independent.Sample         .ToWish().SamplingRate         );
-            AreEqual(test.FrameCount,     () => x.Independent.Sample         .ToWish().FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.Independent.Sample         .ToWish().FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.Independent.AudioFileInfo  .ToWish().Bits                 );
             AreEqual(test.Channels,       () => x.Independent.AudioFileInfo  .ToWish().Channels             );
             AreEqual(test.SamplingRate,   () => x.Independent.AudioFileInfo  .ToWish().SamplingRate         );
-            AreEqual(test.FrameCount,     () => x.Independent.AudioFileInfo  .ToWish().FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.Independent.AudioFileInfo  .ToWish().FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => x.Immutable  .WavHeader      .ToWish().Bits                 );
             AreEqual(test.Channels,       () => x.Immutable  .WavHeader      .ToWish().Channels             );
             AreEqual(test.SamplingRate,   () => x.Immutable  .WavHeader      .ToWish().SamplingRate         );
-            AreEqual(test.FrameCount,     () => x.Immutable  .WavHeader      .ToWish().FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => x.Immutable  .WavHeader      .ToWish().FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => intTuple                     .ToWish().Bits                 );
             AreEqual(test.Channels,       () => intTuple                     .ToWish().Channels             );
             AreEqual(test.SamplingRate,   () => intTuple                     .ToWish().SamplingRate         );
-            AreEqual(test.FrameCount,     () => intTuple                     .ToWish().FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => intTuple                     .ToWish().FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => typeTuple                    .ToWish().Bits                 );
             AreEqual(test.Channels,       () => typeTuple                    .ToWish().Channels             );
             AreEqual(test.SamplingRate,   () => typeTuple                    .ToWish().SamplingRate         );
-            AreEqual(test.FrameCount,     () => typeTuple                    .ToWish().FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => typeTuple                    .ToWish().FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => enumTuple                    .ToWish().Bits                 );
             AreEqual(test.Channels,       () => enumTuple                    .ToWish().Channels             );
             AreEqual(test.SamplingRate,   () => enumTuple                    .ToWish().SamplingRate         );
-            AreEqual(test.FrameCount,     () => enumTuple                    .ToWish().FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => enumTuple                    .ToWish().FrameCount, -Tolerance);
             AreEqual(test.Bits,           () => entityTuple                  .ToWish().Bits                 );
             AreEqual(test.Channels,       () => entityTuple                  .ToWish().Channels             );
             AreEqual(test.SamplingRate,   () => entityTuple                  .ToWish().SamplingRate         );
-            AreEqual(test.FrameCount,     () => entityTuple                  .ToWish().FrameCount, Tolerance);
+            AreEqual(test.FrameCount,     () => entityTuple                  .ToWish().FrameCount, -Tolerance);
             
             if (test.Bits == 8)
             {
                 AreEqual(test.Bits,         () => typelessTuple.ToWish<byte> ().Bits                 );
                 AreEqual(test.Channels,     () => typelessTuple.ToWish<byte> ().Channels             );
                 AreEqual(test.SamplingRate, () => typelessTuple.ToWish<byte> ().SamplingRate         );
-                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<byte> ().FrameCount, Tolerance);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<byte> ().FrameCount, -Tolerance);
             }
             else if (test.Bits == 16)
             {
                 AreEqual(test.Bits,         () => typelessTuple.ToWish<short>().Bits                 );
                 AreEqual(test.Channels,     () => typelessTuple.ToWish<short>().Channels             );
                 AreEqual(test.SamplingRate, () => typelessTuple.ToWish<short>().SamplingRate         );
-                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<short>().FrameCount, Tolerance);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<short>().FrameCount, -Tolerance);
             }
             else if (test.Bits == 32)
             {
                 AreEqual(test.Bits,         () => typelessTuple.ToWish<float>().Bits                 );
                 AreEqual(test.Channels,     () => typelessTuple.ToWish<float>().Channels             );
                 AreEqual(test.SamplingRate, () => typelessTuple.ToWish<float>().SamplingRate         );
-                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<float>().FrameCount, Tolerance);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWish<float>().FrameCount, -Tolerance);
             }
             else
             {   // ncrunch: no coverage start
@@ -309,108 +311,108 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,           () => x.SynthBound .SynthWishes    .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.SynthBound .SynthWishes    .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.SynthBound .SynthWishes    .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.SynthBound .SynthWishes    .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.SynthBound .SynthWishes    .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.SynthBound .FlowNode       .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.SynthBound .FlowNode       .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.SynthBound .FlowNode       .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.SynthBound .FlowNode       .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.SynthBound .FlowNode       .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.SynthBound .ConfigResolver .ToWavHeader(synthWishes).BitsPerValue);
             AreEqual(test.Channels,       () => x.SynthBound .ConfigResolver .ToWavHeader(synthWishes).ChannelCount);
             AreEqual(test.SamplingRate,   () => x.SynthBound .ConfigResolver .ToWavHeader(synthWishes).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.SynthBound .ConfigResolver .ToWavHeader(synthWishes).FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.SynthBound .ConfigResolver .ToWavHeader(synthWishes).FrameCount(), -Tolerance);
             AreEqual(DefaultBits,         () => x.SynthBound .ConfigSection  .ToWavHeader().BitsPerValue           );
             AreEqual(DefaultChannels,     () => x.SynthBound .ConfigSection  .ToWavHeader().ChannelCount           );
             AreEqual(DefaultSamplingRate, () => x.SynthBound .ConfigSection  .ToWavHeader().SamplingRate           );
-            AreEqual(DefaultFrameCount,   () => x.SynthBound .ConfigSection  .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(DefaultFrameCount,   () => x.SynthBound .ConfigSection  .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .Tape           .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.TapeBound  .Tape           .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .Tape           .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .Tape           .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .Tape           .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .TapeConfig     .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.TapeBound  .TapeConfig     .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeConfig     .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeConfig     .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeConfig     .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .TapeActions    .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.TapeBound  .TapeActions    .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeActions    .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeActions    .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeActions    .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.TapeBound  .TapeAction     .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.TapeBound  .TapeAction     .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.TapeBound  .TapeAction     .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeAction     .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.TapeBound  .TapeAction     .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWavHeader().SamplingRate           );
-            AreEqual(0,                   () => x.BuffBound  .Buff           .ToWavHeader().FrameCount(), Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
+            AreEqual(0,                   () => x.BuffBound  .Buff           .ToWavHeader().FrameCount(), -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
             AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWavHeader(courtesyFrames).Bits()   );
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWavHeader(courtesyFrames).Channels());
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWavHeader(courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWavHeader(courtesyFrames).FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWavHeader(courtesyFrames).FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .Buff           .ToWavHeader().FrameCount(frameCount, courtesyFrames).Bits()); // TODO: Why is courtesyFrames needed here?
             AreEqual(test.Channels,       () => x.BuffBound  .Buff           .ToWavHeader().FrameCount(frameCount, courtesyFrames).Channels());
             AreEqual(test.SamplingRate,   () => x.BuffBound  .Buff           .ToWavHeader().FrameCount(frameCount, courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWavHeader().FrameCount(frameCount, courtesyFrames).FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .Buff           .ToWavHeader().FrameCount(frameCount, courtesyFrames).FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWavHeader().SamplingRate           );
-            AreEqual(0,                   () => x.BuffBound  .AudioFileOutput.ToWavHeader().FrameCount(), Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
+            AreEqual(0,                   () => x.BuffBound  .AudioFileOutput.ToWavHeader().FrameCount(), -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).Bits()   );
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).Channels());
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWavHeader().FrameCount(frameCount, courtesyFrames).Bits()); // TODO: Why is courtesyFrames needed here?
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWavHeader().FrameCount(frameCount, courtesyFrames).Channels());
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWavHeader().FrameCount(frameCount, courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWavHeader().FrameCount(frameCount, courtesyFrames).FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWavHeader().FrameCount(frameCount, courtesyFrames).FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).Bits()   );
             AreEqual(test.Channels,       () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).Channels());
             AreEqual(test.SamplingRate,   () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.BuffBound  .AudioFileOutput.ToWavHeader(courtesyFrames).FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.Independent.Sample         .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.Independent.Sample         .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.Independent.Sample         .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.Independent.Sample         .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.Independent.Sample         .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => x.Independent.AudioFileInfo  .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => x.Independent.AudioFileInfo  .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => x.Independent.AudioFileInfo  .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => x.Independent.AudioFileInfo  .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => x.Independent.AudioFileInfo  .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => intTuple                     .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => intTuple                     .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => intTuple                     .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => intTuple                     .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => intTuple                     .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => typeTuple                    .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => typeTuple                    .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => typeTuple                    .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => typeTuple                    .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => typeTuple                    .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => enumTuple                    .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => enumTuple                    .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => enumTuple                    .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => enumTuple                    .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => enumTuple                    .ToWavHeader().FrameCount(), -Tolerance);
             AreEqual(test.Bits,           () => entityTuple                  .ToWavHeader().BitsPerValue           );
             AreEqual(test.Channels,       () => entityTuple                  .ToWavHeader().ChannelCount           );
             AreEqual(test.SamplingRate,   () => entityTuple                  .ToWavHeader().SamplingRate           );
-            AreEqual(test.FrameCount,     () => entityTuple                  .ToWavHeader().FrameCount(), Tolerance);
+            AreEqual(test.FrameCount,     () => entityTuple                  .ToWavHeader().FrameCount(), -Tolerance);
             
             if (test.Bits == 8)
             {
                 AreEqual(test.Bits,         () => typelessTuple.ToWavHeader<byte> ().BitsPerValue           );
                 AreEqual(test.Channels,     () => typelessTuple.ToWavHeader<byte> ().ChannelCount           );
                 AreEqual(test.SamplingRate, () => typelessTuple.ToWavHeader<byte> ().SamplingRate           );
-                AreEqual(test.FrameCount,   () => typelessTuple.ToWavHeader<byte> ().FrameCount(), Tolerance);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWavHeader<byte> ().FrameCount(), -Tolerance);
             }
             else if (test.Bits == 16)
             {
                 AreEqual(test.Bits,         () => typelessTuple.ToWavHeader<short>().BitsPerValue           );
                 AreEqual(test.Channels,     () => typelessTuple.ToWavHeader<short>().ChannelCount           );
                 AreEqual(test.SamplingRate, () => typelessTuple.ToWavHeader<short>().SamplingRate           );
-                AreEqual(test.FrameCount,   () => typelessTuple.ToWavHeader<short>().FrameCount(), Tolerance);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWavHeader<short>().FrameCount(), -Tolerance);
             }
             else if (test.Bits == 32)
             {
                 AreEqual(test.Bits,         () => typelessTuple.ToWavHeader<float>().BitsPerValue           );
                 AreEqual(test.Channels,     () => typelessTuple.ToWavHeader<float>().ChannelCount           );
                 AreEqual(test.SamplingRate, () => typelessTuple.ToWavHeader<float>().SamplingRate           );
-                AreEqual(test.FrameCount,   () => typelessTuple.ToWavHeader<float>().FrameCount(), Tolerance);
+                AreEqual(test.FrameCount,   () => typelessTuple.ToWavHeader<float>().FrameCount(), -Tolerance);
             }
             else
             {   // ncrunch: no coverage start
@@ -488,8 +490,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 synthWishes = x.SynthBound.SynthWishes;
                 context     = x.SynthBound.Context;
 
-                //TestEntities y = CreateChangedEntities(test, saveBuff: true);
-                TestEntities y = CreateChangedEntities(test, saveBuff: false);
+                TestEntities y = CreateChangedEntities(test, saveBuff: true);
+                //TestEntities y = CreateChangedEntities(test, saveBuff: false);
                 //TestEntities y = x; // HACK to simplify debugging.
                 
                 setter(x, y.BuffBound);
@@ -497,51 +499,51 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 // TODO: Assert init values?
             }
             
-            //AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .SynthWishes,     test); });
+            AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .SynthWishes,     test); });
             AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .SynthWishes,     test); });
             AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .SynthWishes,     test); });
             AssertProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .SynthWishes,     test); });
-            //AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .FlowNode,        test); });
+            AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.FilePath    )                   ; Assert(x.SynthBound .FlowNode,        test); });
             AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Bytes       )                   ; Assert(x.SynthBound .FlowNode,        test); });
             AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.Stream      )                   ; Assert(x.SynthBound .FlowNode,        test); });
             AssertProp((x, y) => { x.SynthBound .FlowNode       .ReadWavHeader(y.BinaryReader)                   ; Assert(x.SynthBound .FlowNode,        test); });
-            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.FilePath    , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Bytes       , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Stream      , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            //AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.BinaryReader, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
-            //AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .Tape,            test); });
+            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.FilePath    , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Bytes       , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.Stream      , synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            AssertProp((x, y) => { x.SynthBound .ConfigResolver .ReadWavHeader(y.BinaryReader, synthWishes)      ; Assert(x.SynthBound .ConfigResolver,  test, synthWishes); });
+            AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .Tape,            test); });
             AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .Tape,            test); });
             AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .Tape,            test); });
             AssertProp((x, y) => { x.TapeBound  .Tape           .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .Tape,            test); });
-            //AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
             AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
             AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeConfig,      test); });
             AssertProp((x, y) => { x.TapeBound  .TapeConfig     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeConfig,      test); });
-            //AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeActions,     test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeActions,     test); });
             AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeActions,     test); });
             AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeActions,     test); });
             AssertProp((x, y) => { x.TapeBound  .TapeActions    .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeActions,     test); });
-            //AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeAction,      test); });
+            AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.FilePath    )                   ; Assert(x.TapeBound  .TapeAction,      test); });
             AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Bytes       )                   ; Assert(x.TapeBound  .TapeAction,      test); });
             AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.Stream      )                   ; Assert(x.TapeBound  .TapeAction,      test); });
             AssertProp((x, y) => { x.TapeBound  .TapeAction     .ReadWavHeader(y.BinaryReader)                   ; Assert(x.TapeBound  .TapeAction,      test); });
-            //AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
+            AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
             AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
             AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .Buff,            test); });
             AssertProp((x, y) => { x.BuffBound  .Buff           .ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .Buff,            test); });
-            //AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
+            AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.FilePath    , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
             AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Bytes       , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
             AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.Stream      , courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
             AssertProp((x, y) => { x.BuffBound  .AudioFileOutput.ReadWavHeader(y.BinaryReader, courtesy, context); Assert(x.BuffBound  .AudioFileOutput, test); });
-            //AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.FilePath    ,           context); Assert(x.Independent.Sample,          test); });
+            AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.FilePath    ,           context); Assert(x.Independent.Sample,          test); });
             AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Bytes       ,           context); Assert(x.Independent.Sample,          test); });
             AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.Stream      ,           context); Assert(x.Independent.Sample,          test); });
             AssertProp((x, y) => { x.Independent.Sample         .ReadWavHeader(y.BinaryReader,           context); Assert(x.Independent.Sample,          test); });
-            //AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioFileInfo,   test); });
+            AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioFileInfo,   test); });
             AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioFileInfo,   test); });
             AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioFileInfo,   test); });
             AssertProp((x, y) => { x.Independent.AudioFileInfo  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioFileInfo,   test); });
-            //AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioInfoWish,   test); });
+            AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.FilePath    )                   ; Assert(x.Independent.AudioInfoWish,   test); });
             AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Bytes       )                   ; Assert(x.Independent.AudioInfoWish,   test); });
             AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.Stream      )                   ; Assert(x.Independent.AudioInfoWish,   test); });
             AssertProp((x, y) => { x.Independent.AudioInfoWish  .ReadWavHeader(y.BinaryReader)                   ; Assert(x.Independent.AudioInfoWish,   test); });
@@ -554,7 +556,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.GetBits);
             AreEqual(test.Channels,     () => entity.GetChannels);
             AreEqual(test.SamplingRate, () => entity.GetSamplingRate);
-            AreEqual(test.FrameCount,   () => entity.GetFrameCount(), -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.GetFrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(FlowNode entity, Case test)
@@ -564,7 +566,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.GetBits);
             AreEqual(test.Channels,     () => entity.GetChannels);
             AreEqual(test.SamplingRate, () => entity.GetSamplingRate);
-            AreEqual(test.FrameCount,   () => entity.FrameCount()   , -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.GetFrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(ConfigResolverAccessor entity, Case test, SynthWishes synthWishes)
@@ -574,7 +576,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.GetBits);
             AreEqual(test.Channels,     () => entity.GetChannels);
             AreEqual(test.SamplingRate, () => entity.GetSamplingRate);
-            AreEqual(test.FrameCount,   () => entity.FrameCount(synthWishes));
+            AreEqual(test.FrameCount,   () => entity.GetFrameCount(synthWishes), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(Tape entity, Case test)
@@ -584,7 +586,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits());
             AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(TapeConfig entity, Case test)
@@ -594,7 +596,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits);
             AreEqual(test.Channels,     () => entity.Channels);
             AreEqual(test.SamplingRate, () => entity.SamplingRate);
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(TapeActions entity, Case test)
@@ -604,7 +606,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits());
             AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(TapeAction entity, Case test)
@@ -614,7 +616,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits());
             AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(Buff entity, Case test)
@@ -625,7 +627,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits());
             AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), -courtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(AudioFileOutput entity, Case test)
@@ -636,7 +638,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits());
             AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), -courtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), - Tolerance - test.CourtesyFrames);
         }
         
         private void Assert(Sample entity, Case test)
@@ -647,7 +649,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
             // Sample ignores FrameCount changes—either its own value or 0.
-            //AreEqual(test.FrameCount, () => entity.FrameCount(), Tolerance);
+            //AreEqual(test.FrameCount, () => entity.FrameCount(), -Tolerance);
         }
 
         private void Assert(AudioFileInfo entity, Case test)
@@ -657,7 +659,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits());
             AreEqual(test.Channels,     () => entity.Channels());
             AreEqual(test.SamplingRate, () => entity.SamplingRate());
-            AreEqual(test.FrameCount,   () => entity.FrameCount(), -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         private void Assert(AudioInfoWish entity, Case test)
@@ -667,7 +669,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Bits,         () => entity.Bits);
             AreEqual(test.Channels,     () => entity.Channels);
             AreEqual(test.SamplingRate, () => entity.SamplingRate);
-            AreEqual(test.FrameCount,   () => entity.FrameCount, -test.CourtesyFrames);
+            AreEqual(test.FrameCount,   () => entity.FrameCount, - Tolerance - test.CourtesyFrames);
         }
 
         [TestMethod]
@@ -681,16 +683,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Weird Buff case
                         
             // Buff's too Buff to budge: always returns fixed FrameCount instead of using parameterization.
-            AreEqual(100, () => x.BuffBound.Buff.ToWish(courtesyFrames).FrameCount, Tolerance);
-            AreEqual(100, () => x.BuffBound.Buff.ToWish(frameCount    ).FrameCount, Tolerance);
-            AreEqual(100, () => x.BuffBound.Buff.ToWish(123           ).FrameCount, Tolerance);
+            AreEqual(100, () => x.BuffBound.Buff.ToWish(courtesyFrames).FrameCount, -Tolerance);
+            AreEqual(100, () => x.BuffBound.Buff.ToWish(frameCount    ).FrameCount, -Tolerance);
+            AreEqual(100, () => x.BuffBound.Buff.ToWish(123           ).FrameCount, -Tolerance);
             
             // Unbuff the Buff; loosens him up and he'll budge.
             x.BuffBound.Buff.Bytes = null;
             
-                                    AreEqual(100, () => x.BuffBound.Buff.ToWish(courtesyFrames).FrameCount, Tolerance);
-            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(frameCount    ).FrameCount, Tolerance); });
-            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(123           ).FrameCount, Tolerance); });
+                                    AreEqual(100, () => x.BuffBound.Buff.ToWish(courtesyFrames).FrameCount, -Tolerance);
+            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(frameCount    ).FrameCount, -Tolerance); });
+            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(123           ).FrameCount, -Tolerance); });
         }
         
         // Helpers

@@ -457,6 +457,8 @@ namespace JJ.Business.Synthesizer.Wishes
             
     public static class ReadWavHeaderExtensions
     {
+        // TODO: Overloads that start with the streamy type, and then the entity.
+        
         public static void ReadWavHeader(this SynthWishes entity, string filePath)
             => filePath.ReadWavHeader().ApplyTo(entity);
         public static void ReadWavHeader(this SynthWishes entity, byte[] source)
