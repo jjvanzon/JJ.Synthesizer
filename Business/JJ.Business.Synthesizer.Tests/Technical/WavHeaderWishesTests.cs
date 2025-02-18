@@ -553,7 +553,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        [DynamicData(nameof(SimpleCases))]
+        [DynamicData(nameof(InvariantCases))]
         public void WavHeader_ReadAudioInfo(string caseKey)
         { 
             Case test = Cases[caseKey];
