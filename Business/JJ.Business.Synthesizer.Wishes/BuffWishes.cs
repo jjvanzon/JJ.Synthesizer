@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Framework.Reflection.ExpressionHelper;
@@ -23,6 +24,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ParameterHidesMember
@@ -41,7 +43,18 @@ namespace JJ.Business.Synthesizer.Wishes
         
         /// <inheritdoc cref="docs._buffbytes"/>
         public byte[] Bytes { get; set; }
-        public string FilePath { get; set; }
+        
+        private string _filePath;
+        
+        public string FilePath
+        {
+            get => Coalesce(UnderlyingAudioFileOutput?.FilePath, _filePath);
+            set
+            {
+                if (UnderlyingAudioFileOutput != null) UnderlyingAudioFileOutput.FilePath = value;
+                _filePath = value;
+            }
+        }
         public AudioFileOutput UnderlyingAudioFileOutput { get; internal set; }
 
         public string Name => ResolveName(UnderlyingAudioFileOutput, FilePath);
@@ -146,8 +159,8 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 // Inject an in-memory stream
                 bytes = new byte[audioFileOutput.BytesNeeded(tape.Config.CourtesyFrames)];
-                
                 calculatorAccessor._stream = new MemoryStream(bytes);
+                audioFileOutput.FilePath = default; // FilePath has no meaning anymore.
             }
             else 
             {
@@ -175,7 +188,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
 
             // Result
-            tape.FilePathResolved = resolvedFilePath;
             tape.Bytes = bytes;
             tape.UnderlyingAudioFileOutput = audioFileOutput;
 

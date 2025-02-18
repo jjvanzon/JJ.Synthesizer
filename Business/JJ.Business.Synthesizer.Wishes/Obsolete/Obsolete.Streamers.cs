@@ -171,6 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 // Inject an in-memory stream
                 bytes = new byte[audioFileOutput.BytesNeeded(courtesyFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
+                audioFileOutput.FilePath = default; // FilePath has no meaning anymore.
             }
             else 
             {
@@ -197,7 +198,6 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             var buff = new Buff
             {
                 Bytes = bytes, 
-                FilePath = resolvedFilePath, 
                 UnderlyingAudioFileOutput = audioFileOutput, 
             };
 
