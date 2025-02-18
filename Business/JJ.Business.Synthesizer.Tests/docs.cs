@@ -17,26 +17,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// <inheritdoc cref="wishdocs._audioplayback" />
         public struct _audioplayback { }
         
-        /// <summary>
-        /// Can function as a single collection, but also as a collection of collections, <br/>
-        /// and a helper for using structured test Cases. <br/>
-        /// Provides integration with MSTest using DynamicData for parameterized data-driven testing. <br/><br/>
-        ///
-        /// Helps define a store the test cases into memory,
-        /// retrieving them by key, conversion to DynamicData
-        /// and Case templating.
-        /// </summary>
-        public struct _casecollection { }
-        
-        /// <summary>
-        /// Creates new cases based on the specified template, applying its properties to the provided cases.
-        /// </summary>
-        /// <param name="template">The template case to apply.</param>
-        /// <param name="cases">The cases to which the template is applied.</param>
-        /// <param name="destCases">The cases to which the template is applied.</param>
-        /// <returns>A collection of cases derived from the template.</returns>
-        public struct _casetemplate { }
-        
         /// <inheritdoc cref="wishdocs._channeltoaudiofileoutput "/>
         public struct _channeltoaudiofileoutput { }
             
