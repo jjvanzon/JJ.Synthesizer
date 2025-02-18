@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         static CaseCollection<Case> SimpleCases { get; } = Cases.FromTemplate(new Case
         
-            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 2, FrameCount = 100+2 },
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
             
             new Case {                        },
             new Case { Bits           =    16 },
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
         static CaseCollection<Case> TransitionCases { get; } = Cases.FromTemplate(new Case
         
-            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 2, FrameCount = 100+2 },
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
             
             new Case { Bits           = { To =     8 } },
             new Case { Bits           = { To =    16 } },
@@ -569,16 +569,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        [DynamicData(nameof(TransitionCases))]
+        [DynamicData(nameof(SimpleCases))]
         public void WavHeader_WriteWavHeader(string caseKey)
         {
             Case test = Cases[caseKey];
+            SynthWishes synthWishes = null;
             
             void AssertBytes(Action<TestEntities, BuffBoundEntities> setter)
             {
                 var source = CreateEntities(test);
                 AssertInit(source, test);
-                
+                synthWishes = source.SynthBound.SynthWishes;
+
                 using (var dest = CreateChangedEntities(test, withDisk: true))
                 {
                     AssertDest(dest, test);
@@ -591,7 +593,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             AssertBytes((source, dest) => source.SynthBound .SynthWishes    .WriteWavHeader(dest.DestBytes));
             AssertBytes((source, dest) => source.SynthBound .FlowNode       .WriteWavHeader(dest.DestBytes));
-            //AssertBytes((source, dest) => source.SynthBound .ConfigResolver .WriteWavHeader(dest.DestBytes)); // TODO: Program an Accessor.
+            AssertBytes((source, dest) => source.SynthBound .ConfigResolver .WriteWavHeader(dest.DestBytes, synthWishes));
+            AssertBytes((source, dest) => source.SynthBound .ConfigSection  .WriteWavHeader(dest.DestBytes)); // TODO: Was expecting exception, since ConfigSection should return defaults.
             AssertBytes((source, dest) => source.TapeBound  .Tape           .WriteWavHeader(dest.DestBytes));
             AssertBytes((source, dest) => source.TapeBound  .TapeConfig     .WriteWavHeader(dest.DestBytes));
             AssertBytes((source, dest) => source.TapeBound  .TapeActions    .WriteWavHeader(dest.DestBytes));

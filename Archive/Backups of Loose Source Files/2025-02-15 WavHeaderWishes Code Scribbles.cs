@@ -215,3 +215,5 @@ private void Assert(AudioFileOutput entity, Case test/*, int? courtesyFrames = n
                 
                 //(_, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
                 //buffEntities.BinaryWriter    = new BinaryWriter(buffEntities.DestStream);
+
+            new Case { FrameCount     = { From = 256, To = 100+3 } },
