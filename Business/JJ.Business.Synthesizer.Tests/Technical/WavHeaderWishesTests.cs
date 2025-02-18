@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Tests.ConfigTests;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
+using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using JJ.Persistence.Synthesizer;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
+
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -112,6 +117,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         { 
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
+            AssertInit(x, test);
+            
             int frameCount = test.FrameCount;
             int courtesyFrames = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
@@ -122,6 +129,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var enumTuple     = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, x.Immutable.SamplingRate, frameCount);
             var entityTuple   = (x.Immutable.SampleDataType,     x.Immutable.SpeakerSetup,     x.Immutable.SamplingRate, frameCount);
             
+            // TODO: Use existing getter assertion helper to check 4 props at once?
             AreEqual(test.Bits,           () => x.SynthBound .SynthWishes    .ToWish().Bits                  );
             AreEqual(test.Channels,       () => x.SynthBound .SynthWishes    .ToWish().Channels              );
             AreEqual(test.SamplingRate,   () => x.SynthBound .SynthWishes    .ToWish().SamplingRate          );
@@ -247,11 +255,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             void TestProp(Action<TestEntities, AudioInfoWish> setter)
             {
                 TestEntities  x = CreateEntities(test);
+                AssertInit(x, test);
                 synthWishes = x.SynthBound.SynthWishes;
                 context     = x.SynthBound.Context;
                 
-                // TODO: Assert init values?
-
                 var infoWish = new AudioInfoWish
                 {
                     Bits         = test.Bits,
@@ -295,6 +302,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         { 
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
+            AssertInit(x, test);
             int frameCount = test.FrameCount;
             int courtesyFrames = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
@@ -429,11 +437,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             void TestProp(Action<TestEntities, WavHeaderStruct> setter)
             {
-                TestEntities  x = CreateEntities(test);
+                TestEntities x = CreateEntities(test);
+                AssertInit(x, test);
                 synthWishes = x.SynthBound.SynthWishes;
                 context     = x.SynthBound.Context;
-                
-                // TODO: Assert init values?
 
                 var wavHeader = new AudioInfoWish
                 {
@@ -483,16 +490,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             void TestProp(Action<TestEntities, BuffBoundEntities> setter)
             {
-                var  x = CreateEntities(test);
+                var x = CreateEntities(test);
+                AssertInit(x, test);
                 synthWishes = x.SynthBound.SynthWishes;
                 context = x.SynthBound.Context;
 
                 using (var y = CreateChangedEntities(test, withDisk: true))
                 {
+                    AssertDest(y, test);
                     setter(x, y.BuffBound);
                 }
-                
-                // TODO: Assert init values?
             }
             
             TestProp((x, y) => { x.SynthBound .SynthWishes    .ReadWavHeader(y.SourceFilePath)                   ; Assert(x.SynthBound .SynthWishes,     test); });
@@ -553,6 +560,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             using (var x = CreateEntities(test, withDisk: true))
             {
+                AssertInit(x, test);
                 Assert(x.BuffBound.SourceFilePath.ReadAudioInfo(), test);
                 Assert(x.BuffBound.SourceBytes   .ReadAudioInfo(), test);
                 Assert(x.BuffBound.SourceStream  .ReadAudioInfo(), test);
@@ -561,22 +569,73 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        [DynamicData(nameof(SimpleCases))]
+        [DynamicData(nameof(TransitionCases))]
         public void WavHeader_WriteWavHeader(string caseKey)
         {
             Case test = Cases[caseKey];
             
+            void AssertBytes(Action<TestEntities, BuffBoundEntities> setter)
+            {
+                var source = CreateEntities(test);
+                AssertInit(source, test);
+                
+                using (var dest = CreateChangedEntities(test, withDisk: true))
+                {
+                    AssertDest(dest, test);
+                    
+                    setter(source, dest.BuffBound);
+                    
+                    Assert(dest.BuffBound.SourceBytes, test);
+                }
+            }
+
+            AssertBytes((source, dest) => source.SynthBound .SynthWishes    .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.SynthBound .FlowNode       .WriteWavHeader(dest.DestBytes));
+            //AssertBytes((source, dest) => source.SynthBound .ConfigResolver .WriteWavHeader(dest.DestBytes)); // TODO: Program an Accessor.
+            AssertBytes((source, dest) => source.TapeBound  .Tape           .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.TapeBound  .TapeConfig     .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.TapeBound  .TapeActions    .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.TapeBound  .TapeAction     .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.BuffBound  .Buff           .WriteWavHeader(dest.DestBytes, test.FrameCount));
+            AssertBytes((source, dest) => source.BuffBound  .AudioFileOutput.WriteWavHeader(dest.DestBytes, test.FrameCount));
+            AssertBytes((source, dest) => source.Independent.Sample         .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.Independent.AudioInfoWish  .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.Independent.AudioFileInfo  .WriteWavHeader(dest.DestBytes));
+            AssertBytes((source, dest) => source.Immutable  .WavHeader      .WriteWavHeader(dest.DestBytes));
+                                 
+            AssertBytes((source, dest) => dest.DestBytes                  .WriteWavHeader(source.Immutable.WavHeader));
+            AssertBytes((source, dest) => source.Immutable.WavHeader      .Write(dest.DestBytes));
+            AssertBytes((source, dest) => dest.DestBytes                  .Write(source.Immutable.WavHeader));
+
             using (var x = CreateEntities(test, withDisk: true))
             {
-                x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.DestBytes   );
+                //x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.DestBytes   );
                 x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.DestFilePath);
                 x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.DestStream  );
                 x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.BinaryWriter);
-                x.BuffBound.DestBytes   .WriteWavHeader(x.Immutable.WavHeader   );
+                //x.BuffBound.DestBytes   .WriteWavHeader(x.Immutable.WavHeader   );
                 x.BuffBound.DestFilePath.WriteWavHeader(x.Immutable.WavHeader   );
                 x.BuffBound.DestStream  .WriteWavHeader(x.Immutable.WavHeader   );
                 x.BuffBound.BinaryWriter.WriteWavHeader(x.Immutable.WavHeader   );
             }
+        }
+
+        private static void AssertInit(TestEntities source, Case test)
+        {
+            // TODO: Maybe I want these assert methods to test only one synonym per entity.
+            SamplingRateWishesTests.Assert_All_Getters(source, test.SamplingRate.Init);
+            BitWishesTests         .Assert_All_Getters(source, test.Bits        .Init);
+            ChannelsWishesTests    .Assert_All_Getters(source, test.Channels    .Init);
+            FrameCountWishesTests  .Assert_All_Getters(source, test.FrameCount  .Init);
+        }
+
+        private static void AssertDest(TestEntities source, Case test)
+        {
+            // TODO: Maybe I want these assert methods to test only one synonym per entity.
+            SamplingRateWishesTests.Assert_All_Getters(source, test.SamplingRate.Dest);
+            BitWishesTests         .Assert_All_Getters(source, test.Bits        .Dest);
+            ChannelsWishesTests    .Assert_All_Getters(source, test.Channels    .Dest);
+            FrameCountWishesTests  .Assert_All_Getters(source, test.FrameCount  .Dest);
         }
         
         [TestMethod]
@@ -725,6 +784,44 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(test.Channels,     () => entity.Channels);
             AreEqual(test.SamplingRate, () => entity.SamplingRate);
             AreEqual(test.FrameCount,   () => entity.FrameCount, - Tolerance - test.CourtesyFrames);
+        }
+
+        private void Assert(WavHeaderStruct entity, Case test)
+        {
+            IsNotNull(() => test);
+            AreEqual(test.Bits,         () => entity.Bits());
+            AreEqual(test.Channels,     () => entity.Channels());
+            AreEqual(test.SamplingRate, () => entity.SamplingRate);
+            AreEqual(test.FrameCount,   () => entity.FrameCount(), - Tolerance - test.CourtesyFrames);
+        }
+        
+        void Assert(string entity, Case test)
+        {
+            if (!Has(test)) throw new NullException(() => test);
+            if (entity == null) throw new NullException(() => entity);
+            Assert(entity.ReadWavHeader(), test);
+        }
+        
+        void Assert(byte[] entity, Case test)
+        {
+            if (test  == null) throw new NullException(() => test);
+            if (entity == null) throw new NullException(() => entity);
+            Assert(entity.ReadWavHeader(), test);
+        }
+        
+        void Assert(Stream entity, Case test)
+        {
+            if (test  == null) throw new NullException(() => test);
+            if (entity == null) throw new NullException(() => entity);
+            Assert(entity.ReadWavHeader(), test);
+        }
+        
+        void Assert(BinaryWriter entity, Case test)
+        {
+            if (test  == null) throw new NullException(() => test);
+            if (entity == null) throw new NullException(() => entity);
+            if (entity.BaseStream == null) throw new NullException(() => entity.BaseStream);
+            Assert(entity.BaseStream.ReadWavHeader(), test);
         }
         
         // Helpers

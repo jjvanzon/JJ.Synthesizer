@@ -362,21 +362,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
         
-        private void Assert_All_Getters(TestEntities x, int samplingRate)
+        internal static void Assert_All_Getters(TestEntities x, int samplingRate)
         {
             Assert_Bound_Getters(x, samplingRate);
             Assert_Independent_Getters(x, samplingRate);
             Assert_Immutable_Getters(x, samplingRate);
         }
 
-        private void Assert_Bound_Getters(TestEntities x, int samplingRate)
+        private static void Assert_Bound_Getters(TestEntities x, int samplingRate)
         {
             Assert_SynthBound_Getters(x, samplingRate);
             Assert_TapeBound_Getters(x, samplingRate);
             Assert_BuffBound_Getters(x, samplingRate);
         }
         
-        private void Assert_Independent_Getters(TestEntities x, int samplingRate)
+        private static void Assert_Independent_Getters(TestEntities x, int samplingRate)
         {
             // Independent after Taping
             Assert_Independent_Getters(x.Independent.Sample, samplingRate);
@@ -384,12 +384,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             Assert_Independent_Getters(x.Independent.AudioFileInfo, samplingRate);
         }
 
-        private void Assert_Immutable_Getters(TestEntities x, int samplingRate)
+        private static void Assert_Immutable_Getters(TestEntities x, int samplingRate)
         {
             Assert_Immutable_Getters(x.Immutable.WavHeader, samplingRate);
         }
 
-        private void Assert_SynthBound_Getters(TestEntities x, int samplingRate)
+        private static void Assert_SynthBound_Getters(TestEntities x, int samplingRate)
         {
             AreEqual(samplingRate, () => x.SynthBound.SynthWishes   .GetSamplingRate);
             AreEqual(samplingRate, () => x.SynthBound.FlowNode      .GetSamplingRate);
@@ -414,7 +414,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishesAccessor.GetSamplingRate(x.SynthBound.ConfigResolver));
         }
         
-        private void Assert_TapeBound_Getters(TestEntities x, int samplingRate)
+        private static void Assert_TapeBound_Getters(TestEntities x, int samplingRate)
         {
             AreEqual(samplingRate, () => x.TapeBound.TapeConfig .SamplingRate);
             AreEqual(samplingRate, () => x.TapeBound.Tape       .SamplingRate   ());
@@ -443,7 +443,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int samplingRate)
+        private static void Assert_BuffBound_Getters(TestEntities x, int samplingRate)
         {
             AreEqual(samplingRate, () => x.BuffBound.AudioFileOutput.SamplingRate);
             AreEqual(samplingRate, () => x.BuffBound.Buff           .SamplingRate   ());
@@ -460,7 +460,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(x.BuffBound.AudioFileOutput));
         }
         
-        private void Assert_Independent_Getters(Sample sample, int samplingRate)
+        private static void Assert_Independent_Getters(Sample sample, int samplingRate)
         {
             AreEqual(samplingRate, () => sample.SamplingRate);
             AreEqual(samplingRate, () => sample.SamplingRate   ());
@@ -471,7 +471,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(sample));
         }
         
-        private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int samplingRate)
+        private static void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int samplingRate)
         {
             AreEqual(samplingRate, () => audioFileInfo.SamplingRate);
             AreEqual(samplingRate, () => audioFileInfo.SamplingRate   ());
@@ -481,7 +481,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishes.SamplingRate   (audioFileInfo));
             AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(audioFileInfo));
         }
-        private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int samplingRate)
+        private static void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int samplingRate)
         {
             AreEqual(samplingRate, () => audioInfoWish.SamplingRate);
             AreEqual(samplingRate, () => audioInfoWish.SamplingRate   ());
@@ -492,7 +492,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(samplingRate, () => ConfigWishes.GetSamplingRate(audioInfoWish));
         }
 
-        private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int samplingRate)
+        private static void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int samplingRate)
         {
             AreEqual(samplingRate, () => wavHeader.SamplingRate);
             AreEqual(samplingRate, () => wavHeader.SamplingRate   ());
