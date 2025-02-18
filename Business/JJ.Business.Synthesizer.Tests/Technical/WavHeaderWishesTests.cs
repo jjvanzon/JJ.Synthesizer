@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
             { AllowDuplicates = true };
         
-        static CaseCollection<Case> SimpleCases { get; } = Cases.FromTemplate(new Case
+        static CaseCollection<Case> InvariantCases { get; } = Cases.FromTemplate(new Case
         
             { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
             
@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         // Test Code
         
         [TestMethod]
-        [DynamicData(nameof(SimpleCases))]
+        [DynamicData(nameof(InvariantCases))]
         public void WavHeader_ToWish(string caseKey)
         { 
             Case test = Cases[caseKey];
@@ -297,7 +297,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         [TestMethod]
-        [DynamicData(nameof(SimpleCases))]
+        [DynamicData(nameof(InvariantCases))]
         public void WavHeader_ToWavHeader(string caseKey)
         { 
             Case test = Cases[caseKey];
@@ -569,7 +569,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        [DynamicData(nameof(SimpleCases))]
+        [DynamicData(nameof(InvariantCases))]
         public void WavHeader_WriteWavHeader(string caseKey)
         {
             Case test = Cases[caseKey];
