@@ -50,15 +50,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         static CaseCollection<Case> InvariantCases { get; } = Cases.FromTemplate(new Case
         
-            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
+            { SamplingRate = 48000, Bits = 32, Channels = 1, CourtesyFrames = 3, FrameCount = 100+3 },
             
             new Case {                        },
             new Case { Bits           =    16 },
             new Case { Bits           =     8 },
             new Case { SamplingRate   = 96000 },
-            new Case { Channels       =     1 },
+            new Case { Channels       =     2 },
             new Case { FrameCount     =   256 },
-            new Case { CourtesyFrames =     4 }
+            new Case { CourtesyFrames =     5 }) .FromTemplate(new Case
+        
+            { SamplingRate = 44100, Bits = 16, Channels = 2, CourtesyFrames = 5, FrameCount = 256 },
+            
+            new Case {                        },
+            new Case { Bits           =    32 },
+            new Case { SamplingRate   = 48000 },
+            new Case { Channels       =     1 },
+            new Case { FrameCount     = 100+5 },
+            new Case { CourtesyFrames =     3 }
         );
                 
         static CaseCollection<Case> TransitionCases { get; } = Cases.FromTemplate(new Case
