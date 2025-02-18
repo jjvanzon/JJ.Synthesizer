@@ -622,28 +622,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 x.BuffBound.BinaryWriter.WriteWavHeader(x.Immutable.WavHeader   );
             }
         }
-
-        private static void AssertInvariant(TestEntities source, Case test)
-        {
-            AssertIsInit(source, test);
-            AssertIsDest(source, test);
-        }
-
-        private static void AssertIsInit(TestEntities source, Case test)
-        {
-            SamplingRateWishesTests.Assert_All_Getters(source, test.SamplingRate.From);
-            BitWishesTests         .Assert_All_Getters(source, test.Bits        .From);
-            ChannelsWishesTests    .Assert_All_Getters(source, test.Channels    .From);
-            FrameCountWishesTests  .Assert_All_Getters(source, test.FrameCount  .From);
-        }
-
-        private static void AssertIsDest(TestEntities source, Case test)
-        {
-            SamplingRateWishesTests.Assert_All_Getters(source, test.SamplingRate.To);
-            BitWishesTests         .Assert_All_Getters(source, test.Bits        .To);
-            ChannelsWishesTests    .Assert_All_Getters(source, test.Channels    .To);
-            FrameCountWishesTests  .Assert_All_Getters(source, test.FrameCount  .To);
-        }
         
         [TestMethod]
         public void WavHeader_EdgeCases()
@@ -670,6 +648,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         // Getter Assertions
         
+        private static void AssertInvariant(TestEntities source, Case test)
+        {
+            AssertIsInit(source, test);
+            AssertIsDest(source, test);
+        }
+
+        private static void AssertIsInit(TestEntities source, Case test)
+        {
+            SamplingRateWishesTests.Assert_All_Getters(source, test.SamplingRate.From);
+            BitWishesTests         .Assert_All_Getters(source, test.Bits        .From);
+            ChannelsWishesTests    .Assert_All_Getters(source, test.Channels    .From);
+            FrameCountWishesTests  .Assert_All_Getters(source, test.FrameCount  .From);
+        }
+
+        private static void AssertIsDest(TestEntities source, Case test)
+        {
+            SamplingRateWishesTests.Assert_All_Getters(source, test.SamplingRate.To);
+            BitWishesTests         .Assert_All_Getters(source, test.Bits        .To);
+            ChannelsWishesTests    .Assert_All_Getters(source, test.Channels    .To);
+            FrameCountWishesTests  .Assert_All_Getters(source, test.FrameCount  .To);
+        }
+
         private void Assert(SynthWishes entity, Case test)
         {
             IsNotNull(() => test);
