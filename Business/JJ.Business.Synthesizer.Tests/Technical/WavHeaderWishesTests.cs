@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             new Case { FrameCount     = 100+5 },
             new Case { CourtesyFrames =     3 }
         );
-                
+        
         static CaseCollection<Case> TransitionCases { get; } = Cases.FromTemplate(new Case
         
             { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
@@ -582,42 +582,46 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void WavHeader_WriteWavHeader(string caseKey)
         {
             Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
             SynthWishes synthWishes = null;
+            TestEntities entities = null;
+            BuffBoundEntities binaries = null;
             
-            void AssertBytes(Action<TestEntities, BuffBoundEntities> setter)
+            void AssertBytes(Action setter)
             {
-                var entities = CreateEntities(test);
-                AssertInvariant(entities, test);
+                entities = CreateEntities(test);
                 synthWishes = entities.SynthBound.SynthWishes;
+                AssertInvariant(entities, test);
 
-                using (var binaries = CreateChangedEntities(test, withDisk: true))
+                using (var changedEntities = CreateChangedEntities(test, withDisk: true))
                 {
-                    AssertInvariant(binaries, test);
+                    binaries = changedEntities.BuffBound;
+                    AssertInvariant(changedEntities, test);
                     
-                    setter(entities, binaries.BuffBound);
+                    setter();
                     
-                    Assert(binaries.BuffBound.SourceBytes, test);
+                    Assert(binaries.SourceBytes, test);
                 }
             }
 
-            AssertBytes((ent, bin) => ent.SynthBound .SynthWishes    .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.SynthBound .FlowNode       .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.SynthBound .ConfigResolver .WriteWavHeader(bin.DestBytes, synthWishes));
-            AssertBytes((ent, bin) => ent.SynthBound .ConfigSection  .WriteWavHeader(bin.DestBytes)); // TODO: Was expecting exception, since ConfigSection should return defaults.
-            AssertBytes((ent, bin) => ent.TapeBound  .Tape           .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.TapeBound  .TapeConfig     .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.TapeBound  .TapeActions    .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.TapeBound  .TapeAction     .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.BuffBound  .Buff           .WriteWavHeader(bin.DestBytes, test.FrameCount));
-            AssertBytes((ent, bin) => ent.BuffBound  .AudioFileOutput.WriteWavHeader(bin.DestBytes, test.FrameCount));
-            AssertBytes((ent, bin) => ent.Independent.Sample         .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.Independent.AudioInfoWish  .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.Independent.AudioFileInfo  .WriteWavHeader(bin.DestBytes));
-            AssertBytes((ent, bin) => ent.Immutable  .WavHeader      .WriteWavHeader(bin.DestBytes));
+            AssertBytes(() => entities.SynthBound .SynthWishes    .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.SynthBound .FlowNode       .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.DestBytes, synthWishes));
+            AssertBytes(() => entities.SynthBound .ConfigSection  .WriteWavHeader(binaries.DestBytes)); // TODO: Was expecting exception, since ConfigSection should return defaults.
+            AssertBytes(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.TapeBound  .TapeConfig     .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.TapeBound  .TapeActions    .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.TapeBound  .TapeAction     .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.BuffBound  .Buff           .WriteWavHeader(binaries.DestBytes, frameCount));
+            AssertBytes(() => entities.BuffBound  .AudioFileOutput.WriteWavHeader(binaries.DestBytes, frameCount));
+            AssertBytes(() => entities.Independent.Sample         .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.Independent.AudioInfoWish  .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.Independent.AudioFileInfo  .WriteWavHeader(binaries.DestBytes));
+            AssertBytes(() => entities.Immutable  .WavHeader      .WriteWavHeader(binaries.DestBytes));
                                  
-            AssertBytes((ent, bin) => bin.DestBytes                  .WriteWavHeader(ent.Immutable.WavHeader));
-            AssertBytes((ent, bin) => ent.Immutable.WavHeader      .Write(bin.DestBytes));
-            AssertBytes((ent, bin) => bin.DestBytes                  .Write(ent.Immutable.WavHeader));
+            AssertBytes(() => binaries.DestBytes                  .WriteWavHeader(entities.Immutable.WavHeader));
+            AssertBytes(() => entities.Immutable.WavHeader        .Write(binaries.DestBytes));
+            AssertBytes(() => binaries.DestBytes                  .Write(entities.Immutable.WavHeader));
 
             using (var x = CreateEntities(test, withDisk: true))
             {
