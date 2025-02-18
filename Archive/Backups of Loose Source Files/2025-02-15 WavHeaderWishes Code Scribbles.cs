@@ -217,3 +217,71 @@ private void Assert(AudioFileOutput entity, Case test/*, int? courtesyFrames = n
                 //buffEntities.BinaryWriter    = new BinaryWriter(buffEntities.DestStream);
 
             new Case { FrameCount     = { From = 256, To = 100+3 } },
+
+) .FromTemplate(new Case
+        
+            { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100+3 },
+            
+            new Case { Bits           = { To =     8 } },
+            new Case { Bits           = { To =    16 } },
+            new Case { Channels       = { To =     1 } },
+            new Case { Channels       = { From =   1 } },
+            new Case { Channels       =            1   },
+            new Case { SamplingRate   = { To = 96000 } },
+            new Case { FrameCount     = { To =   256 } },
+            new Case { CourtesyFrames = { To =     4 } }
+
+            //subCollection._rootCollection = _rootCollection ?? this;
+
+            //var rootCollection = _rootCollection ?? this;
+            //subCollection._rootCollection = rootCollection;
+
+            bool isRoot = _parentCollection == null;
+
+            var rootCollection = this;
+            while (rootCollection._parentCollection != null)
+            {
+                rootCollection = rootCollection._parentCollection;
+            }
+
+public CaseCollection<TCase> Concat(CaseCollection<TCase> otherCases)
+{
+    if (otherCases == null) throw new NullException(() => otherCases);
+    return new CaseCollection<TCase>(otherCases.GetAll().Concat(Parent.GetAll()).ToArray());
+}
+
+internal CaseCollection<TCase> ConcatWithParent()
+{
+
+    return new CaseCollection<TCase>(this.GetAll().Concat(Parent.GetAll()).ToArray());
+}
+        
+
+        //internal CaseCollection<TCase> Root
+        //{
+        //    get
+        //    {
+        //        var root = this;
+        //        while (root.Parent != null)
+        //        {
+        //            root = root.Parent;
+        //        }
+        //        return root;
+        //    }
+        //}
+
+                
+                //if (!AllowDuplicates && _caseDictionary.ContainsKey(newCase.Key))
+                //{
+                //    throw new Exception($"Duplicate key '{key}' found while adding Cases.");
+                //}
+
+            
+            if (IsRoot)
+            {
+                return subCollection;
+            }
+            else
+            {
+                return new CaseCollection<TCase>(GetAll().Union(subCases));
+            }
