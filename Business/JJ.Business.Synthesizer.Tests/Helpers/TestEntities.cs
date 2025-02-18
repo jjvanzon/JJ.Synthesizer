@@ -14,11 +14,13 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Wishes.Collections;
 using JJ.Persistence.Synthesizer;
+using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Wishes.IO.FileWishes;
 
 #pragma warning disable CS0618
 
@@ -52,10 +54,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public override string ToString() => DebuggerDisplay(this);
         public Buff            Buff                { get; set; }
         public AudioFileOutput AudioFileOutput     { get; set; }
-        public string          FilePath            { get; set; }
-        public byte[]          Bytes               { get; set; }
-        public Stream          Stream              { get; set; }
+        public string          SourceFilePath      { get; set; }
+        public byte[]          SourceBytes         { get; set; }
+        public Stream          SourceStream        { get; set; }
         public BinaryReader    BinaryReader        { get; set; }
+        public string          DestFilePath        { get; set; }
+        public byte[]          DestBytes           { get; set; }
+        public Stream          DestStream          { get; set; }
+        public BinaryWriter    BinaryWriter        { get; set; }
     }
             
     internal class IndependentEntities
@@ -101,19 +107,48 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public ImmutableEntities   Immutable   { get; set; } = new ImmutableEntities();
     }
     
-    internal class TestEntities : TapeEntities
+    internal class TestEntities : TapeEntities, IDisposable
     {   
         public const int HighPerfHz = 8;
         
-        public override string     ToString() => DebuggerDisplay(this);
+        public override string ToString() => DebuggerDisplay(this);
         public SynthBoundEntities  SynthBound { get; set; } = new SynthBoundEntities();
         public IList<TapeEntities> ChannelEntities { get; private set; } // Tape-Bound
 
-        public TestEntities(IContext context = null) => Initialize(null, context);
+        public bool Disposed { get; private set; }
         
-        public TestEntities(Action<SynthWishes> initialize, IContext context = null) => Initialize(initialize, context);
+        public void Dispose()
+        {
+            if (Disposed) return;
+            Disposed = true;
+            
+            BuffBound?.DestStream?.Dispose();
+            BuffBound?.BinaryWriter?.Dispose();
         
-        public void Initialize(Action<SynthWishes> initialize, IContext context = null)
+            if (ChannelEntities != null)
+            {
+                foreach (var tapeEntities in ChannelEntities)
+                {
+                    tapeEntities?.BuffBound?.DestStream?.Dispose();
+                    tapeEntities?.BuffBound?.BinaryWriter?.Dispose();
+                }
+            }
+            
+            SuppressFinalize(this);
+        }
+
+        ~TestEntities()
+        {
+            Dispose();
+        }
+
+        public TestEntities(bool withDisk = false)                                                   => Initialize(default, default, withDisk);
+        public TestEntities(bool withDisk, Action<SynthWishes> initialize)                           => Initialize(initialize, default, withDisk);
+        public TestEntities(Action<SynthWishes> initialize, bool withDisk = false)                   => Initialize(initialize, default, withDisk);
+        public TestEntities(Action<SynthWishes> initialize, IContext context, bool withDisk = false) => Initialize(initialize, context, withDisk);
+        public TestEntities(IContext context, bool withDisk = false)                                 => Initialize(default, context, withDisk);
+
+        public void Initialize(Action<SynthWishes> initialize, IContext context = null, bool withDisk = false)
         {
             var synthWishes = new SynthWishes(context);
             var synthWishesInherited = new SynthWishesDerived(synthWishes);
@@ -135,7 +170,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // Initialize
             initialize?.Invoke(SynthBound.SynthWishes);
             
-            Record();
+            Record(withDisk);
         }
         
         private ConfigSectionAccessor CreateConfigSectionWithDefaults()
@@ -183,7 +218,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return configSection;
         }
         
-        public void Record()
+        public void Record(bool withDisk = false)
         {
             int channelCount = SynthBound.SynthWishes.GetChannels;
             //if (TapeBound.Tape != null) channelCount = TapeBound.Tape.Config.Channels;
@@ -306,6 +341,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             
             IsNotNull(() => BuffBound);
             IsNotNull(() => BuffBound.Buff);
+            IsNotNull(() => BuffBound.Buff.Bytes);
             IsNotNull(() => BuffBound.AudioFileOutput);
             
             IsNotNull(() => Independent);
@@ -323,7 +359,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // TODO: Assert other types of being filled in.
             
             Immutable.Bits                = SynthBound.SynthWishes.GetBits;
-            Immutable.SizeOfBitDepth      = SynthBound.SynthWishes.SizeOfBitDepth();
+            Immutable.SizeOfBitDepth      = SynthBound.SynthWishes.GetSizeOfBitDepth();
             Immutable.SampleDataTypeEnum  = SynthBound.SynthWishes.GetBits.BitsToEnum();
             Immutable.SampleDataType      = SynthBound.SynthWishes.GetBits.BitsToEntity(SynthBound.Context);
             Immutable.SamplingRate        = SynthBound.SynthWishes.GetSamplingRate;
@@ -339,23 +375,45 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Immutable.AudioFormat         = SynthBound.SynthWishes.GetAudioFormat;
             Immutable.AudioFormatEntity   = SynthBound.SynthWishes.GetAudioFormat.ToEntity(SynthBound.Context);
             Immutable.AudioLength         = SynthBound.SynthWishes.GetAudioLength.Value;
-            // TODO: Revisit after adding more WavHeaderWishes
-            //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWavHeader() : default;
-            //Immutable.WavHeader          = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWish().ToWavHeader() : default;
+            Immutable.WavHeader           = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWavHeader() : default;
             Immutable.FileExtension       = ResolveFileExtension(SynthBound.SynthWishes.GetAudioFormat);
             Immutable.CourtesyFrames      = SynthBound.SynthWishes.GetCourtesyFrames;
-            Immutable.FrameSize           = SynthBound.SynthWishes.FrameSize();
+            Immutable.FrameSize           = SynthBound.SynthWishes.GetFrameSize();
             
-            foreach (var buffEntities in BuffBound.Concat(ChannelEntities.Select(x => x.BuffBound)))
+            
+            
+            //foreach (TapeEntities tapeEntities in this.Concat(ChannelEntities))
             {
-                buffEntities.FilePath     = buffEntities.Buff.FilePath;
-                buffEntities.Bytes        = buffEntities.Buff.Bytes;
-                buffEntities.Stream       = new MemoryStream(buffEntities.Buff.Bytes);
-                buffEntities.BinaryReader = new BinaryReader(new MemoryStream(buffEntities.Buff.Bytes));
+                //BuffBoundEntities buffEntities = tapeEntities.BuffBound;
+                TapeEntities tapeEntities = this;
+                BuffBoundEntities buffEntities = BuffBound;
+
+                buffEntities.SourceBytes    = buffEntities.Buff.Bytes;
+                buffEntities.SourceStream   = new MemoryStream(buffEntities.Buff.Bytes);
+                buffEntities.BinaryReader   = new BinaryReader(new MemoryStream(buffEntities.Buff.Bytes));
+                
+                if (withDisk)
+                {
+                    string filePathBase = tapeEntities.TapeBound.Tape.GetFilePath(buffEntities.Buff.FilePath);
+                    
+                    buffEntities.Buff.Save(filePathBase);
+                    buffEntities.SourceFilePath = buffEntities.Buff.FilePath;
+                     
+                    buffEntities.DestBytes = new byte[buffEntities.Buff.Bytes.Length];
+                    
+                    (buffEntities.DestFilePath, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
+                    buffEntities.DestStream.Dispose(); // Just for file creation.
+
+                    (_, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
+                    
+                     //(_, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
+                    //buffEntities.BinaryWriter    = new BinaryWriter(buffEntities.DestStream);
+                }
+                
             }
         }
     }
-    
+
 
     // TODO: Move to its own file.
     
@@ -376,7 +434,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public bool Is32Bit_Call => Is32Bit;
         public int  Bits_Call()  => Bits();
         public int  GetBits_Call => GetBits;
-
+        
         public SynthWishes With8Bit_Call ()          { _other.With8Bit ();     return With8Bit ();     }
         public SynthWishes With16Bit_Call()          { _other.With16Bit();     return With16Bit();     }
         public SynthWishes With32Bit_Call()          { _other.With32Bit();     return With32Bit();     }
@@ -400,7 +458,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public bool IsStereo_Call       => IsStereo;
         public int  Channels_Call()     => Channels();
         public int  GetChannels_Call    => GetChannels;
-
+        
         public   SynthWishes Mono_Call        ()              { _other.Mono        ();         return Mono();                 }
         public   SynthWishes Stereo_Call      ()              { _other.Stereo      ();         return Stereo();               }
         public   SynthWishes Channels_Call    (int? channels) { _other.Channels    (channels); return Channels(channels);     }
@@ -448,7 +506,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes SetChannel_Call   (int? channel) { _other.SetChannel   (channel); return SetChannel   (channel);}
         
         // SamplingRate
-     
+        
         /// <inheritdoc cref="docs._getsamplingrate" />
         public int SamplingRate_Call()  => SamplingRate();
         /// <inheritdoc cref="docs._getsamplingrate" />
@@ -459,7 +517,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes WithSamplingRate_Call(int? value) => WithSamplingRate(value);
         /// <inheritdoc cref="docs._withsamplingrate"/>
         public SynthWishes SetSamplingRate_Call (int? value) => SetSamplingRate (value);
-
+        
         // AudioFormat
         
         public bool                IsWav_Call          => IsWav;
@@ -477,14 +535,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes  WithAudioFormat_Call(AudioFileFormatEnum? audioFormat) { _other.WithAudioFormat(audioFormat); return WithAudioFormat(audioFormat); }
         public SynthWishes  AsAudioFormat_Call  (AudioFileFormatEnum? audioFormat) { _other.AsAudioFormat  (audioFormat); return AsAudioFormat  (audioFormat); }
         public SynthWishes  SetAudioFormat_Call (AudioFileFormatEnum? audioFormat) { _other.SetAudioFormat (audioFormat); return SetAudioFormat (audioFormat); }
-
+        
         // Interpolation
         
         public bool                  IsLinear_Call         => IsLinear;
         public bool                  IsBlocky_Call         => IsBlocky;
         public InterpolationTypeEnum Interpolation_Call()  => Interpolation();
         public InterpolationTypeEnum GetInterpolation_Call => GetInterpolation;
-                
+        
         public SynthWishes Linear_Call           () { _other.Linear    (); return Linear    (); }
         public SynthWishes Blocky_Call           () { _other.Blocky    (); return Blocky    (); }
         public SynthWishes WithLinear_Call       () { _other.WithLinear(); return WithLinear(); }
@@ -497,9 +555,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes WithInterpolation_Call(InterpolationTypeEnum? interpolation) { _other.WithInterpolation(interpolation); return WithInterpolation(interpolation); }
         public SynthWishes AsInterpolation_Call  (InterpolationTypeEnum? interpolation) { _other.AsInterpolation  (interpolation); return AsInterpolation  (interpolation); }
         public SynthWishes SetInterpolation_Call (InterpolationTypeEnum? interpolation) { _other.SetInterpolation (interpolation); return SetInterpolation (interpolation); }
-
+        
         // Durations
-
+        
         /// <inheritdoc cref="docs._notelength" />
         public FlowNode NoteLength_Call           ()                                              => NoteLength();
         /// <inheritdoc cref="docs._notelength" />
@@ -518,7 +576,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public FlowNode GetNoteLengthSnapShot_Call(FlowNode noteLength, double time)              => GetNoteLengthSnapShot(noteLength, time);
         /// <inheritdoc cref="docs._notelength" />
         public FlowNode GetNoteLengthSnapShot_Call(FlowNode noteLength, double time, int channel) => GetNoteLengthSnapShot(noteLength, time, channel);
-
+        
         
         /// <inheritdoc cref="docs._notelength" />
         public SynthWishes WithNoteLength_Call (FlowNode seconds) { _other.WithNoteLength (seconds); return WithNoteLength (seconds); }
@@ -534,7 +592,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes NoteLength_Call     (double   seconds) { _other.NoteLength     (seconds); return NoteLength     (seconds); }
         /// <inheritdoc cref="docs._notelength" />
         public SynthWishes ResetNoteLength_Call()                 { _other.ResetNoteLength();        return ResetNoteLength();        }
-
+        
         public FlowNode BarLength_Call()  => BarLength();
         public FlowNode GetBarLength_Call => GetBarLength;
         public SynthWishes WithBarLength_Call (FlowNode seconds) { _other.WithBarLength (seconds); return WithBarLength (seconds); }
@@ -555,7 +613,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes SetBeatLength_Call  (double   seconds) { _other.SetBeatLength  (seconds); return SetBeatLength  (seconds); }
         public SynthWishes BeatLength_Call     (double   seconds) { _other.BeatLength     (seconds); return BeatLength     (seconds); }
         public SynthWishes ResetBeatLength_Call()                 { _other.ResetBeatLength();        return ResetBeatLength();        }
-
+        
         /// <inheritdoc cref="docs._audiolength" />
         public FlowNode AudioLength_Call()  => AudioLength();
         /// <inheritdoc cref="docs._audiolength" />
@@ -587,7 +645,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes EnsureAudioLength_Call(FlowNode audioLengthNeeded) { _other.EnsureAudioLength(audioLengthNeeded); return EnsureAudioLength(audioLengthNeeded); }
         /// <inheritdoc cref="docs._audiolength" />
         public SynthWishes ResetAudioLength_Call () { _other.ResetAudioLength(); return ResetAudioLength(); }
-
+        
         /// <inheritdoc cref="docs._padding"/>
         public FlowNode LeadingSilence_Call()  => LeadingSilence();
         /// <inheritdoc cref="docs._padding"/>
@@ -625,7 +683,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes TrailingSilence_Call     (FlowNode seconds) { _other.TrailingSilence     (seconds); return TrailingSilence    (seconds); }
         /// <inheritdoc cref="docs._padding"/>
         public SynthWishes ResetTrailingSilence_Call()                 { _other.ResetTrailingSilence();        return ResetTrailingSilence();       }
-
+        
         /// <inheritdoc cref="docs._padding"/>
         public FlowNode PaddingOrNull_Call()  => PaddingOrNull();
         /// <inheritdoc cref="docs._padding"/>
@@ -657,7 +715,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes SetAudioPlayback_Call (bool? enabled = true) { _other.SetAudioPlayback (enabled);       return SetAudioPlayback (enabled);       }
         /// <inheritdoc cref="docs._audioplayback" />
         public SynthWishes AudioPlayback_Call    (bool? enabled = true) { _other.AudioPlayback    (enabled);       return AudioPlayback    (enabled);       }
-
+        
         // TODO: Feature Toggles without a prefix look like they should turn the feature on, not get the Boolean. Consider making them setters.
         
         /// <inheritdoc cref="docs._diskcache" />
@@ -670,13 +728,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes SetDiskCache_Call (bool? enabled = true) { _other.SetDiskCache (enabled); return SetDiskCache (enabled); }
         /// <inheritdoc cref="docs._diskcache" />
         public SynthWishes DiskCache_Call    (bool? enabled       ) { _other.DiskCache    (enabled); return DiskCache    (enabled); }
-
+        
         public bool MathBoost_Call()  => MathBoost();
         public bool GetMathBoost_Call => GetMathBoost;
         public SynthWishes WithMathBoost_Call(bool? enabled = true) { _other.WithMathBoost(enabled); return WithMathBoost(enabled); }
         public SynthWishes SetMathBoost_Call (bool? enabled = true) { _other.SetMathBoost (enabled); return SetMathBoost (enabled); }
         public SynthWishes MathBoost_Call    (bool? enabled       ) { _other.MathBoost    (enabled); return MathBoost    (enabled); }
-
+        
         /// <inheritdoc cref="docs._parallelprocessing" />
         public bool ParallelProcessing_Call()  => ParallelProcessing();
         /// <inheritdoc cref="docs._parallelprocessing" />
@@ -687,7 +745,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes SetParallelProcessing_Call (bool? enabled = true) { _other.SetParallelProcessing (enabled); return SetParallelProcessing (enabled); }
         /// <inheritdoc cref="docs._parallelprocessing" />
         public SynthWishes ParallelProcessing_Call    (bool? enabled       ) { _other.ParallelProcessing    (enabled); return ParallelProcessing    (enabled); }
-
+        
         /// <inheritdoc cref="docs._playalltapes" />
         public bool PlayAllTapes_Call()  => PlayAllTapes();
         /// <inheritdoc cref="docs._playalltapes" />
@@ -725,7 +783,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes AsFileExtension_Call  (string value) { _other.AsFileExtension  (value); return AsFileExtension  (value); }
         /// <inheritdoc cref="docs._fileextension" />
         public SynthWishes SetFileExtension_Call (string value) { _other.SetFileExtension (value); return SetFileExtension (value); }
-                
+        
         public int FrameCount_Call   () => FrameCount();
         public int GetFrameCount_Call() => GetFrameCount();
         public SynthWishes FrameCount_Call    (int? value) { _other.FrameCount    (value); return FrameCount    (value); }
@@ -734,19 +792,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         public int FrameSize_Call   () => FrameSize();
         public int GetFrameSize_Call() => GetFrameSize();
-
+        
         /// <inheritdoc cref="docs._headerlength"/>
         public int HeaderLength_Call   () => HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
         public int GetHeaderLength_Call() => GetHeaderLength();
-
+        
         /// <inheritdoc cref="docs._headerlength"/>
         public SynthWishes HeaderLength_Call    (int? headerLength) { _other.HeaderLength    (headerLength); return HeaderLength    (headerLength); }
         /// <inheritdoc cref="docs._headerlength"/>
         public SynthWishes WithHeaderLength_Call(int? headerLength) { _other.WithHeaderLength(headerLength); return WithHeaderLength(headerLength); }
         /// <inheritdoc cref="docs._headerlength"/>
         public SynthWishes SetHeaderLength_Call (int? headerLength) { _other.SetHeaderLength (headerLength); return SetHeaderLength (headerLength); }
-
+        
         public double MaxAmplitude_Call   () => MaxAmplitude();
         public double GetMaxAmplitude_Call() => GetMaxAmplitude();
         
@@ -755,9 +813,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes SizeOfBitDepth_Call    (int? sizeOfBitDepth) { _other.SizeOfBitDepth    (sizeOfBitDepth); return SizeOfBitDepth    (sizeOfBitDepth); }
         public SynthWishes WithSizeOfBitDepth_Call(int? sizeOfBitDepth) { _other.WithSizeOfBitDepth(sizeOfBitDepth); return WithSizeOfBitDepth(sizeOfBitDepth); }
         public SynthWishes SetSizeOfBitDepth_Call (int? sizeOfBitDepth) { _other.SetSizeOfBitDepth (sizeOfBitDepth); return SetSizeOfBitDepth (sizeOfBitDepth); }
-
+        
         // Misc Settings
-
+        
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public double LeafCheckTimeOut_Call()  => LeafCheckTimeOut();
         /// <inheritdoc cref="docs._leafchecktimeout" />
@@ -768,7 +826,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes SetLeafCheckTimeOut_Call (double? seconds) { _other.SetLeafCheckTimeOut (seconds); return SetLeafCheckTimeOut (seconds); }
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public SynthWishes LeafCheckTimeOut_Call    (double? seconds) { _other.LeafCheckTimeOut    (seconds); return LeafCheckTimeOut    (seconds); }
-
+        
         /// <inheritdoc cref="docs._leafchecktimeout" />
         public TimeOutActionEnum TimeOutAction_Call()  => TimeOutAction();
         /// <inheritdoc cref="docs._leafchecktimeout" />
@@ -785,7 +843,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public SynthWishes CourtesyFrames_Call    (int? value) { _other.CourtesyFrames    (value); return CourtesyFrames    (value); }
         public SynthWishes WithCourtesyFrames_Call(int? value) { _other.WithCourtesyFrames(value); return WithCourtesyFrames(value); }
         public SynthWishes SetCourtesyFrames_Call (int? value) { _other.SetCourtesyFrames (value); return SetCourtesyFrames (value); }
-
+        
         public int GetFileExtensionMaxLength_Call => GetFileExtensionMaxLength;
         
         public bool IsUnderNCrunch_Call
@@ -799,5 +857,5 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             get => IsUnderAzurePipelines;
             set => _other.IsUnderAzurePipelines = IsUnderAzurePipelines = value;
         }
-     }
+    }
 }
