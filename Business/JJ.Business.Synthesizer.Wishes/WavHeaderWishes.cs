@@ -715,7 +715,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void Write(this WavHeaderStruct wavHeader, byte[]          dest    ) => new MemoryStream(dest).Write(wavHeader);
         public static void Write(this WavHeaderStruct wavHeader, string          filePath)
         {
-            using (var fileStream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
+            using (var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
                 fileStream.Write(wavHeader);
         }
         public static void WriteWavHeader(this WavHeaderStruct wavHeader, BinaryWriter dest     ) => wavHeader.Write(dest    );
