@@ -380,36 +380,24 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Immutable.CourtesyFrames      = SynthBound.SynthWishes.GetCourtesyFrames;
             Immutable.FrameSize           = SynthBound.SynthWishes.GetFrameSize();
             
+            BuffBound.SourceBytes  = BuffBound.Buff.Bytes;
+            BuffBound.SourceStream = new MemoryStream(BuffBound.Buff.Bytes);
+            BuffBound.BinaryReader = new BinaryReader(new MemoryStream(BuffBound.Buff.Bytes));
+
+            BuffBound.DestBytes = new byte[BuffBound.Buff.Bytes.Length];
+            BuffBound.DestStream = new MemoryStream();
+            BuffBound.BinaryWriter = new BinaryWriter(new MemoryStream());
             
-            
-            //foreach (TapeEntities tapeEntities in this.Concat(ChannelEntities))
+            if (withDisk)
             {
-                //BuffBoundEntities buffEntities = tapeEntities.BuffBound;
-                TapeEntities tapeEntities = this;
-                BuffBoundEntities buffEntities = BuffBound;
-
-                buffEntities.SourceBytes    = buffEntities.Buff.Bytes;
-                buffEntities.SourceStream   = new MemoryStream(buffEntities.Buff.Bytes);
-                buffEntities.BinaryReader   = new BinaryReader(new MemoryStream(buffEntities.Buff.Bytes));
+                string filePathBase = TapeBound.Tape.GetFilePath(BuffBound.Buff.FilePath);
                 
-                if (withDisk)
-                {
-                    string filePathBase = tapeEntities.TapeBound.Tape.GetFilePath(buffEntities.Buff.FilePath);
-                    
-                    buffEntities.Buff.Save(filePathBase);
-                    buffEntities.SourceFilePath = buffEntities.Buff.FilePath;
-                     
-                    buffEntities.DestBytes = new byte[buffEntities.Buff.Bytes.Length];
-                    
-                    (buffEntities.DestFilePath, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
-                    buffEntities.DestStream.Dispose(); // Just for file creation.
-
-                    (_, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
-                    
-                     //(_, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
-                    //buffEntities.BinaryWriter    = new BinaryWriter(buffEntities.DestStream);
-                }
+                BuffBound.Buff.Save(filePathBase);
+                BuffBound.SourceFilePath = BuffBound.Buff.FilePath;
                 
+                Stream tempStream;
+                (BuffBound.DestFilePath, tempStream) = CreateSafeFileStream(filePathBase);
+                tempStream.Dispose(); // Just for file creation.
             }
         }
     }

@@ -209,3 +209,9 @@ private void Assert(AudioFileOutput entity, Case test/*, int? courtesyFrames = n
             //AreEqual(test.FrameCount,   () => entity.FrameCount(courtesyFrames), Tolerance);
 
             //string filePathResolved = ResolveFilePath(buff.AudioFormat(), filePath, buff.FilePath, callerMemberName); // Resolve to use AudioFormat
+
+                
+                //(_, BuffBound.DestStream) = CreateSafeFileStream(filePathBase);
+                
+                //(_, buffEntities.DestStream) = CreateSafeFileStream(filePathBase);
+                //buffEntities.BinaryWriter    = new BinaryWriter(buffEntities.DestStream);

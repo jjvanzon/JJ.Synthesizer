@@ -571,9 +571,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.DestBytes   );
                 x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.DestFilePath);
                 x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.DestStream  );
+                x.Immutable.WavHeader   .WriteWavHeader(x.BuffBound.BinaryWriter);
                 x.BuffBound.DestBytes   .WriteWavHeader(x.Immutable.WavHeader   );
                 x.BuffBound.DestFilePath.WriteWavHeader(x.Immutable.WavHeader   );
                 x.BuffBound.DestStream  .WriteWavHeader(x.Immutable.WavHeader   );
+                x.BuffBound.BinaryWriter.WriteWavHeader(x.Immutable.WavHeader   );
             }
         }
         
