@@ -10,6 +10,8 @@ using static System.String;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -48,10 +50,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             {
                 lines.Add($"  {PrettyByteCount(buff.Bytes.Length)} written to memory.");
             }
-            if (File.Exists(buff.FilePath))
-            {
-                lines.Add(FormatOutputFile(GetFullPath(buff.FilePath)));
-            }
+
+            string formattedFilePath = FormatOutputFile(buff.FilePath);
+            if (Has(formattedFilePath)) lines.Add(formattedFilePath);
             
             lines.Add("");
             

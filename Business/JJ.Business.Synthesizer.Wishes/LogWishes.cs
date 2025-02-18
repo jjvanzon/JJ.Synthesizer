@@ -173,19 +173,19 @@ namespace JJ.Business.Synthesizer.Wishes
             lines.Add("");
         
             byte[] bytes = tape.Bytes;
-            bool fileExists = Exists(tape.FilePathResolved);
             
             if (Has(bytes))
             {
                 lines.Add(FormatOutputBytes(bytes));
             }
 
-            if (fileExists)
+            string formattedFilePath = FormatOutputFile(tape.FilePathResolved);
+            if (Has(formattedFilePath))
             {
-                lines.Add(FormatOutputFile(tape.FilePathResolved));
+                lines.Add(formattedFilePath);
             }
 
-            if (!fileExists && !Has(bytes))
+            if (!Has(formattedFilePath) && !Has(bytes))
             {
                 lines.Add("⚠ Tape not recorded!");
             }
@@ -1079,14 +1079,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static void LogOutputFile(string filePath, string sourceFilePath = null)
         {
-            if (Exists(filePath))
-            {
-                Log(FormatOutputFile(filePath, sourceFilePath));
-            }
+            Log(FormatOutputFile(filePath, sourceFilePath));
         }
 
         internal static string FormatOutputFile(string filePath, string sourceFilePath = null)
         {
+            if (!Has(filePath)) return default;
+            if (!Exists(filePath)) return default;
+            
             string prefix = "  ";
             string sourceFileString = default;
             if (Has(sourceFilePath)) sourceFileString += $" (copied {sourceFilePath})";
