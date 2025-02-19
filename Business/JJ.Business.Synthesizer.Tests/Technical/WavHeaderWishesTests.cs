@@ -724,39 +724,49 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void WavHeader_WriteWavHeader_WithConfigSection()
         {
-            var test = new Case
+            var defaultValues = new Case
             {
-                SamplingRate   = DefaultSamplingRate,
-                Bits           = DefaultBits,
-                Channels       = DefaultChannels,
-                CourtesyFrames = DefaultCourtesyFrames,
-                FrameCount     = DefaultFrameCount
+                SamplingRate   = 48000,
+                Bits           = 32,
+                Channels       = 1,
+                CourtesyFrames = 4,
+                FrameCount     = 48000+4
             };
-
-            var entities = CreateEntities(test);
-            var configSection = entities.SynthBound.ConfigSection;
             
-            AssertInvariant(entities, test);
-            
-            void TestSetter(Action<BuffBoundEntities> setter)
+            var nonDefaultValues = new Case
             {
-                using (var binaries = CreateEntities(test, withDisk: true))
-                {
-                    AssertInvariant(binaries, test);
+                SamplingRate   = 44100,
+                Bits           = 16,
+                Channels       = 2,
+                CourtesyFrames = 5,
+                FrameCount     = 100
+            };
+            
+            ConfigSectionAccessor configSection = null;
+            BuffBoundEntities binaries = null;
 
-                    setter(binaries.BuffBound);
+            void TestSetter(Action action)
+            {
+                using (var entities = CreateEntities(nonDefaultValues, withDisk: true))
+                {
+                    AssertInvariant(entities, nonDefaultValues);
+
+                    configSection = entities.SynthBound.ConfigSection;
+                    binaries = entities.BuffBound;
+
+                    action();
                 }
             }
             
 
-            TestSetter(binaries => { configSection.WriteWavHeader(binaries.DestFilePath); Assert(binaries.DestFilePath, test); });
-            TestSetter(binaries => { configSection.WriteWavHeader(binaries.DestBytes   ); Assert(binaries.DestBytes,    test); });
-            TestSetter(binaries => { configSection.WriteWavHeader(binaries.DestStream  ); Assert(binaries.DestStream,   test); });
-            TestSetter(binaries => { configSection.WriteWavHeader(binaries.BinaryWriter); Assert(binaries.BinaryWriter, test); });
-            TestSetter(binaries => { binaries.DestFilePath.WriteWavHeader(configSection); Assert(binaries.DestFilePath, test); });
-            TestSetter(binaries => { binaries.DestBytes   .WriteWavHeader(configSection); Assert(binaries.DestBytes,    test); });
-            TestSetter(binaries => { binaries.DestStream  .WriteWavHeader(configSection); Assert(binaries.DestStream,   test); });
-            TestSetter(binaries => { binaries.BinaryWriter.WriteWavHeader(configSection); Assert(binaries.BinaryWriter, test); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestFilePath); Assert(binaries.DestFilePath, defaultValues); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestBytes   ); Assert(binaries.DestBytes,    defaultValues); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestStream  ); Assert(binaries.DestStream,   defaultValues); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.BinaryWriter); Assert(binaries.BinaryWriter, defaultValues); });
+            TestSetter(() => { binaries.DestFilePath.WriteWavHeader(configSection); Assert(binaries.DestFilePath, defaultValues); });
+            TestSetter(() => { binaries.DestBytes   .WriteWavHeader(configSection); Assert(binaries.DestBytes,    defaultValues); });
+            TestSetter(() => { binaries.DestStream  .WriteWavHeader(configSection); Assert(binaries.DestStream,   defaultValues); });
+            TestSetter(() => { binaries.BinaryWriter.WriteWavHeader(configSection); Assert(binaries.BinaryWriter, defaultValues); });
         }
         
         [TestMethod]
