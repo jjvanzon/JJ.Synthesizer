@@ -430,3 +430,18 @@ internal CaseCollection<TCase> ConcatWithParent()
             AreEqual(test.Channels,       () => x.Immutable.InfoTupleWithEntities.ToWish().Channels              );
             AreEqual(test.SamplingRate,   () => x.Immutable.InfoTupleWithEntities.ToWish().SamplingRate          );
             AreEqual(test.FrameCount,     () => x.Immutable.InfoTupleWithEntities.ToWish().FrameCount, -Tolerance);
+                AreEqual(test.Bits,         () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().Bits                 );
+                AreEqual(test.Channels,     () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().Channels             );
+                AreEqual(test.SamplingRate, () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().SamplingRate         );
+                AreEqual(test.FrameCount,   () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().FrameCount, -Tolerance);
+                AreEqual(test.Bits,         () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().Bits                 );
+                AreEqual(test.Channels,     () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().Channels             );
+                AreEqual(test.SamplingRate, () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().SamplingRate         );
+                AreEqual(test.FrameCount,   () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().FrameCount, -Tolerance);
+                AreEqual(test.Bits,         () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().Bits                 );
+                AreEqual(test.Channels,     () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().Channels             );
+                AreEqual(test.SamplingRate, () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().SamplingRate         );
+                AreEqual(test.FrameCount,   () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().FrameCount, -Tolerance);
+
+        
+        private void ThrowBitsNotSupported(int bits) => throw new Exception(NotSupportedMessage(nameof(bits), bits, ValidBits));
