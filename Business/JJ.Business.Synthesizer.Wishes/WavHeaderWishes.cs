@@ -562,25 +562,22 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class WavHeaderWishes
     {
-        // TODO: Overloads that start with the streamy type, and then the entity.
-        
-        public static void ReadWavHeader(SynthWishes entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(SynthWishes entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(SynthWishes entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(SynthWishes entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        
-        public static void ReadWavHeader(FlowNode entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(FlowNode entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(FlowNode entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(FlowNode entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(SynthWishes  entity,   string       filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(SynthWishes  entity,   byte[]       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(SynthWishes  entity,   Stream       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(SynthWishes  entity,   BinaryReader source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string       filePath, SynthWishes  entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]       source,   SynthWishes  entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream       source,   SynthWishes  entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader source,   SynthWishes  entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(FlowNode     entity,   string       filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(FlowNode     entity,   byte[]       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(FlowNode     entity,   Stream       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(FlowNode     entity,   BinaryReader source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string       filePath, FlowNode     entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]       source,   FlowNode     entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream       source,   FlowNode     entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader source,   FlowNode     entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
         
         internal static void ReadWavHeader(ConfigResolver entity, string filePath, SynthWishes synthWishes)
             => filePath.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
@@ -590,42 +587,47 @@ namespace JJ.Business.Synthesizer.Wishes
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
         internal static void ReadWavHeader(ConfigResolver entity, BinaryReader source, SynthWishes synthWishes)
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        
-        public static void ReadWavHeader(Tape entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(Tape entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(Tape entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(Tape entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        
-        public static void ReadWavHeader(TapeConfig entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeConfig entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeConfig entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeConfig entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-                
-        public static void ReadWavHeader(TapeActions entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeActions entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeActions entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeActions entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-                
-        public static void ReadWavHeader(TapeAction entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeAction entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeAction entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(TapeAction entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
+        internal static void ReadWavHeader(string filePath, ConfigResolver entity, SynthWishes synthWishes)
+            => filePath.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
+        internal static void ReadWavHeader(byte[] source, ConfigResolver entity, SynthWishes synthWishes)
+            => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
+        internal static void ReadWavHeader(Stream source, ConfigResolver entity, SynthWishes synthWishes)
+            => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
+        internal static void ReadWavHeader(BinaryReader source, ConfigResolver entity, SynthWishes synthWishes)
+            => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
+
+        public static void ReadWavHeader(Tape         entity,   string       filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Tape         entity,   byte[]       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Tape         entity,   Stream       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Tape         entity,   BinaryReader source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string       filePath, Tape         entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]       source,   Tape         entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream       source,   Tape         entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader source,   Tape         entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeConfig   entity,   string       filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeConfig   entity,   byte[]       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeConfig   entity,   Stream       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeConfig   entity,   BinaryReader source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string       filePath, TapeConfig   entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]       source,   TapeConfig   entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream       source,   TapeConfig   entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader source,   TapeConfig   entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeActions  entity,   string       filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeActions  entity,   byte[]       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeActions  entity,   Stream       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeActions  entity,   BinaryReader source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string       filePath, TapeActions  entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]       source,   TapeActions  entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream       source,   TapeActions  entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader source,   TapeActions  entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeAction   entity,   string       filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeAction   entity,   byte[]       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeAction   entity,   Stream       source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(TapeAction   entity,   BinaryReader source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string       filePath, TapeAction   entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]       source,   TapeAction   entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream       source,   TapeAction   entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader source,   TapeAction   entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
                 
         public static void ReadWavHeader(Buff entity, string filePath, int courtesyFrames, IContext context)
             => filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
@@ -635,14 +637,30 @@ namespace JJ.Business.Synthesizer.Wishes
             => source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context);
         public static void ReadWavHeader(Buff entity, BinaryReader source, int courtesyFrames, IContext context)
             => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
+        public static void ReadWavHeader(string filePath, Buff entity, int courtesyFrames, IContext context)
+            => filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
+        public static void ReadWavHeader(byte[] source, Buff entity, int courtesyFrames, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
+        public static void ReadWavHeader(Stream source, Buff entity, int courtesyFrames, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context);
+        public static void ReadWavHeader(BinaryReader source, Buff entity, int courtesyFrames, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
                 
         public static void ReadWavHeader(AudioFileOutput entity, string filePath, int courtesyFrames, IContext context)
             => filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
         public static void ReadWavHeader(AudioFileOutput entity, byte[] source, int courtesyFrames, IContext context)
             => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
         public static void ReadWavHeader(AudioFileOutput entity, Stream source, int courtesyFrames, IContext context)
-            => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
+            => source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context);
         public static void ReadWavHeader(AudioFileOutput entity, BinaryReader source, int courtesyFrames, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
+        public static void ReadWavHeader(string filePath, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
+        public static void ReadWavHeader(byte[] source, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
+        public static void ReadWavHeader(Stream source, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context);
+        public static void ReadWavHeader(BinaryReader source, AudioFileOutput entity, int courtesyFrames, IContext context)
             => source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context);
                 
         public static void ReadWavHeader(Sample entity, string filePath, IContext context)
@@ -653,53 +671,62 @@ namespace JJ.Business.Synthesizer.Wishes
             => source.ReadWavHeader().ApplyWavHeader(entity, context);
         public static void ReadWavHeader(Sample entity, BinaryReader source, IContext context)
             => source.ReadWavHeader().ApplyWavHeader(entity, context);
-                
-        public static void ReadWavHeader(AudioFileInfo entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(AudioFileInfo entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(AudioFileInfo entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(AudioFileInfo entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string filePath, Sample entity, IContext context)
+            => filePath.ReadWavHeader().ApplyWavHeader(entity, context);
+        public static void ReadWavHeader(byte[] source, Sample entity, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity, context);
+        public static void ReadWavHeader(Stream source, Sample entity, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity, context);
+        public static void ReadWavHeader(BinaryReader source, Sample entity, IContext context)
+            => source.ReadWavHeader().ApplyWavHeader(entity, context);
 
-        public static void ReadWavHeader(AudioInfoWish entity, string filePath)
-            => filePath.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(AudioInfoWish entity, byte[] source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(AudioInfoWish entity, Stream source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
-        public static void ReadWavHeader(AudioInfoWish entity, BinaryReader source)
-            => source.ReadWavHeader().ApplyWavHeader(entity);
+        
+        public static void ReadWavHeader(AudioFileInfo entity,   string        filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(AudioFileInfo entity,   byte[]        source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(AudioFileInfo entity,   Stream        source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(AudioFileInfo entity,   BinaryReader  source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string        filePath, AudioFileInfo entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]        source,   AudioFileInfo entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream        source,   AudioFileInfo entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader  source,   AudioFileInfo entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+                
+        public static void ReadWavHeader(AudioInfoWish entity,   string        filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(AudioInfoWish entity,   byte[]        source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(AudioInfoWish entity,   Stream        source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(AudioInfoWish entity,   BinaryReader  source  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(string        filePath, AudioInfoWish entity  ) => filePath.ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(byte[]        source,   AudioInfoWish entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(Stream        source,   AudioInfoWish entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
+        public static void ReadWavHeader(BinaryReader  source,   AudioInfoWish entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
 
         public static WavHeaderStruct ReadWavHeader(string filePath)
         {
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                return ReadWavHeader(fileStream);
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)) return ReadWavHeader(fileStream);
         }
         
-        public static WavHeaderStruct ReadWavHeader(byte[] bytes)
-            => new MemoryStream(bytes).ReadWavHeader();
-        
-        public static WavHeaderStruct ReadWavHeader(Stream stream)
-            => new BinaryReader(stream).ReadWavHeader();
-        
-        public static WavHeaderStruct ReadWavHeader(BinaryReader reader)
-            => reader.ReadStruct<WavHeaderStruct>();
+        public static WavHeaderStruct ReadWavHeader(byte[]       bytes)  => new MemoryStream(bytes).ReadWavHeader();
+        public static WavHeaderStruct ReadWavHeader(Stream       stream) => new BinaryReader(stream).ReadWavHeader();
+        public static WavHeaderStruct ReadWavHeader(BinaryReader reader) => reader.ReadStruct<WavHeaderStruct>();
     }
     
     public static class ReadWavHeaderExtensions
     {
-        // TODO: Overloads that start with the streamy type, and then the entity.
-        
-        public static void ReadWavHeader(this SynthWishes entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this SynthWishes entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this SynthWishes entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this SynthWishes entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this FlowNode entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this FlowNode entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this FlowNode entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this FlowNode entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
+        public static void ReadWavHeader(this SynthWishes  entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this SynthWishes  entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this SynthWishes  entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this SynthWishes  entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this FlowNode     entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this FlowNode     entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this FlowNode     entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this FlowNode     entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
         
         internal static void ReadWavHeader(this ConfigResolver entity, string filePath, SynthWishes synthWishes)
             => WavHeaderWishes.ReadWavHeader(entity, filePath, synthWishes);
@@ -709,24 +736,48 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavHeaderWishes.ReadWavHeader(entity, source, synthWishes);
         internal static void ReadWavHeader(this ConfigResolver entity, BinaryReader source, SynthWishes synthWishes)
             => WavHeaderWishes.ReadWavHeader(entity, source, synthWishes);
+        internal static void ReadWavHeader(this string filePath, ConfigResolver entity, SynthWishes synthWishes)
+            => WavHeaderWishes.ReadWavHeader(filePath, entity, synthWishes);
+        internal static void ReadWavHeader(this byte[] source, ConfigResolver entity, SynthWishes synthWishes)
+            => WavHeaderWishes.ReadWavHeader(source, entity, synthWishes);
+        internal static void ReadWavHeader(this Stream source, ConfigResolver entity, SynthWishes synthWishes)
+            => WavHeaderWishes.ReadWavHeader(source, entity, synthWishes);
+        internal static void ReadWavHeader(this BinaryReader source, ConfigResolver entity, SynthWishes synthWishes)
+            => WavHeaderWishes.ReadWavHeader(source, entity, synthWishes);
         
-        public static void ReadWavHeader(this Tape entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this Tape entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this Tape entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this Tape entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeConfig entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this TapeConfig entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeConfig entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeConfig entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeActions entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this TapeActions entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeActions entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeActions entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeAction entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this TapeAction entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeAction entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this TapeAction entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
-                
+        public static void ReadWavHeader(this Tape         entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this Tape         entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this Tape         entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this Tape         entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, Tape         entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   Tape         entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   Tape         entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   Tape         entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this TapeConfig   entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this TapeConfig   entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeConfig   entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeConfig   entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this TapeActions  entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this TapeActions  entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeActions  entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeActions  entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this TapeAction   entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this TapeAction   entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeAction   entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeAction   entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        
         public static void ReadWavHeader(this Buff entity, string filePath, int courtesyFrames, IContext context)
             => WavHeaderWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
         public static void ReadWavHeader(this Buff entity, byte[] source, int courtesyFrames, IContext context)
@@ -735,7 +786,15 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this Buff entity, BinaryReader source, int courtesyFrames, IContext context)
             => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-                
+        public static void ReadWavHeader(this string filePath, Buff entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
+        public static void ReadWavHeader(this byte[] source, Buff entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+        public static void ReadWavHeader(this Stream source, Buff entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+        public static void ReadWavHeader(this BinaryReader source, Buff entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+        
         public static void ReadWavHeader(this AudioFileOutput entity, string filePath, int courtesyFrames, IContext context)
             => WavHeaderWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
         public static void ReadWavHeader(this AudioFileOutput entity, byte[] source, int courtesyFrames, IContext context)
@@ -744,19 +803,41 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this AudioFileOutput entity, BinaryReader source, int courtesyFrames, IContext context)
             => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-                
-        public static void ReadWavHeader(this Sample entity, string filePath, IContext context) => WavHeaderWishes.ReadWavHeader(entity, filePath, context);
-        public static void ReadWavHeader(this Sample entity, byte[] source, IContext context) => WavHeaderWishes.ReadWavHeader(entity, source, context);
-        public static void ReadWavHeader(this Sample entity, Stream source, IContext context) => WavHeaderWishes.ReadWavHeader(entity, source, context);
-        public static void ReadWavHeader(this Sample entity, BinaryReader source, IContext context) => WavHeaderWishes.ReadWavHeader(entity, source, context);
-        public static void ReadWavHeader(this AudioFileInfo entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this AudioFileInfo entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this AudioFileInfo entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this AudioFileInfo entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this AudioInfoWish entity, string filePath) => WavHeaderWishes.ReadWavHeader(entity, filePath);
-        public static void ReadWavHeader(this AudioInfoWish entity, byte[] source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this AudioInfoWish entity, Stream source) => WavHeaderWishes.ReadWavHeader(entity, source);
-        public static void ReadWavHeader(this AudioInfoWish entity, BinaryReader source) => WavHeaderWishes.ReadWavHeader(entity, source);
+        public static void ReadWavHeader(this string filePath, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
+        public static void ReadWavHeader(this byte[] source, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+        public static void ReadWavHeader(this Stream source, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+        public static void ReadWavHeader(this BinaryReader source, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+
+        public static void ReadWavHeader(this Sample       entity,   string filePath,     IContext context) => WavHeaderWishes.ReadWavHeader(entity, filePath, context);
+        public static void ReadWavHeader(this Sample       entity,   byte[] source,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this Sample       entity,   Stream source,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this Sample       entity,   BinaryReader source, IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this string       filePath, Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, filePath, context);
+        public static void ReadWavHeader(this byte[]       source,   Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this Stream       source,   Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this BinaryReader source,   Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
+        
+        public static void ReadWavHeader(this AudioInfoWish entity,   string        filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this AudioInfoWish entity,   byte[]        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioInfoWish entity,   Stream        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioInfoWish entity,   BinaryReader  source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string        filePath, AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]        source,   AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream        source,   AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader  source,   AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this AudioFileInfo entity,   string        filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this AudioFileInfo entity,   byte[]        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioFileInfo entity,   Stream        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioFileInfo entity,   BinaryReader  source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string        filePath, AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]        source,   AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream        source,   AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader  source,   AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        
         public static WavHeaderStruct ReadWavHeader(this string filePath) => WavHeaderWishes.ReadWavHeader(filePath);
         public static WavHeaderStruct ReadWavHeader(this byte[] bytes) => WavHeaderWishes.ReadWavHeader(bytes);
         public static WavHeaderStruct ReadWavHeader(this Stream stream) => WavHeaderWishes.ReadWavHeader(stream);
