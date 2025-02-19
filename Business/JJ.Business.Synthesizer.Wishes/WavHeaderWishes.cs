@@ -398,64 +398,64 @@ namespace JJ.Business.Synthesizer.Wishes
         public static AudioFileInfo FromWish(this AudioInfoWish wish) => WavHeaderWishes.FromWish(wish);
     }
     
+    public partial class WavHeaderWishes
+    {
+        public   static WavHeaderStruct ToWavHeader(SynthWishes     entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(FlowNode        entity)                          => entity.ToWish()              .ToWavHeader();
+        internal static WavHeaderStruct ToWavHeader(ConfigResolver  entity, SynthWishes synthWishes) => entity.ToWish(synthWishes)   .ToWavHeader();
+        internal static WavHeaderStruct ToWavHeader(ConfigSection   entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(Tape            entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(TapeConfig      entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(TapeActions     entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(TapeAction      entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(Buff            entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(Buff            entity, int courtesyFrames)      => entity.ToWish(courtesyFrames).ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(AudioFileOutput entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(AudioFileOutput entity, int courtesyFrames)      => entity.ToWish(courtesyFrames).ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(Sample          entity)                          => entity.ToWish()              .ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(AudioInfoWish   entity)                          => WavHeaderManager.CreateWavHeaderStruct(entity.FromWish());
+        public   static WavHeaderStruct ToWavHeader(AudioFileInfo   entity)                          => entity.ToWish()              .ToWavHeader();
+        
+        public static WavHeaderStruct ToWavHeader((int bits, int channels, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader<TBits>((int channels, int samplingRate, int frameCount) x) 
+            => x.ToWish<TBits>().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader((Type bitsType, int channels, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader((SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader((SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) 
+            => x.ToWish().ToWavHeader();
+    }
+    
     public static class ToWavHeaderExtensions
     {
-        public static WavHeaderStruct ToWavHeader(this SynthWishes entity)
-            => entity.ToWish().ToWavHeader();
+        public   static WavHeaderStruct ToWavHeader(this SynthWishes     entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this FlowNode        entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        internal static WavHeaderStruct ToWavHeader(this ConfigResolver  entity, SynthWishes synthWishes) => WavHeaderWishes.ToWavHeader(entity, synthWishes);
+        internal static WavHeaderStruct ToWavHeader(this ConfigSection   entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this Tape            entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this TapeConfig      entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this TapeActions     entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this TapeAction      entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this Buff            entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this Buff            entity, int courtesyFrames)      => WavHeaderWishes.ToWavHeader(entity, courtesyFrames);
+        public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int courtesyFrames)      => WavHeaderWishes.ToWavHeader(entity, courtesyFrames);
+        public   static WavHeaderStruct ToWavHeader(this Sample          entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this AudioInfoWish   entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this AudioFileInfo   entity)                          => WavHeaderWishes.ToWavHeader(entity);
         
-        public static WavHeaderStruct ToWavHeader(this FlowNode entity)
-            => entity.ToWish().ToWavHeader();
-        
-        internal static WavHeaderStruct ToWavHeader(this ConfigResolver entity, SynthWishes synthWishes)
-            => entity.ToWish(synthWishes).ToWavHeader();
-        
-        internal static WavHeaderStruct ToWavHeader(this ConfigSection entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this Tape entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this TapeConfig entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this TapeActions entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this TapeAction entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this Buff entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this Buff entity, int courtesyFrames)
-            => entity.ToWish(courtesyFrames).ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this AudioFileOutput entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int courtesyFrames)
-            => entity.ToWish(courtesyFrames).ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this Sample entity)
-            => entity.ToWish().ToWavHeader();
-
-        public static WavHeaderStruct ToWavHeader(this AudioInfoWish entity)
-            => WavHeaderManager.CreateWavHeaderStruct(entity.FromWish());
-        
-        public static WavHeaderStruct ToWavHeader(this AudioFileInfo entity)
-            => entity.ToWish().ToWavHeader();
-        
-        public static WavHeaderStruct ToWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x) 
-            => x.ToWish().ToWavHeader();
+        public static WavHeaderStruct ToWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x)
+            => WavHeaderWishes.ToWavHeader(x);
         public static WavHeaderStruct ToWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x) 
-            => x.ToWish<TBits>().ToWavHeader();
+            => WavHeaderWishes.ToWavHeader<TBits>(x);
         public static WavHeaderStruct ToWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x) 
-            => x.ToWish().ToWavHeader();
+            => WavHeaderWishes.ToWavHeader(x);
         public static WavHeaderStruct ToWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) 
-            => x.ToWish().ToWavHeader();
+            => WavHeaderWishes.ToWavHeader(x);
         public static WavHeaderStruct ToWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) 
-            => x.ToWish().ToWavHeader();
-
+            => WavHeaderWishes.ToWavHeader(x);
     }
     
     public static class FromWavHeaderExtensions
