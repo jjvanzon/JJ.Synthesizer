@@ -14,12 +14,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static class FromWavHeaderExtensionsAccessor
     {
-        private static readonly AccessorEx _accessor = new AccessorEx(typeof(FromWavHeaderExtensions));
+        private static readonly AccessorEx _accessor = new AccessorEx(typeof(ApplyWavHeaderExtensions));
         
-        internal static void FromWavHeader(this ConfigResolverAccessor entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
+        internal static void ApplyWavHeader(this ConfigResolverAccessor entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
             => _accessor.InvokeMethod(entity?.Obj, wavHeader, synthWishes);
         
-        internal static void ApplyTo(this WavHeaderStruct wavHeader, ConfigResolverAccessor entity, SynthWishes synthWishes)
+        internal static void ApplyWavHeader(this WavHeaderStruct wavHeader, ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod(wavHeader, entity?.Obj, synthWishes);
 
     }
