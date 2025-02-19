@@ -22,7 +22,6 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using JJ.Business.Synthesizer.Enums;
 
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer
 
@@ -154,126 +153,49 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [DynamicData(nameof(InvariantCases))]
         public void WavHeader_ToWish(string caseKey)
         { 
-            Case test = Cases[caseKey];
+            var test = Cases[caseKey];
+            var zeroFramesCase = new Case
+            {
+                SamplingRate   = test.SamplingRate,
+                Bits           = test.Bits,
+                Channels       = test.Channels,
+                CourtesyFrames = test.CourtesyFrames,
+                FrameCount     = 0
+            };
+            
             TestEntities x = CreateEntities(test);
             AssertInvariant(x, test);
             
             int frameCount = test.FrameCount;
-            int courtesyFrames = test.CourtesyFrames;
+            int courtesy = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
             
-            // TODO: Use existing getter assertion helper to check 4 props at once?
-            AreEqual(test.Bits,           () => x.SynthBound.SynthWishes         .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.SynthBound.SynthWishes         .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.SynthBound.SynthWishes         .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.SynthBound.SynthWishes         .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.SynthBound.FlowNode            .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.SynthBound.FlowNode            .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.SynthBound.FlowNode            .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.SynthBound.FlowNode            .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.SynthBound.ConfigResolver      .ToWish(synthWishes).Bits        );
-            AreEqual(test.Channels,       () => x.SynthBound.ConfigResolver      .ToWish(synthWishes).Channels    );
-            AreEqual(test.SamplingRate,   () => x.SynthBound.ConfigResolver      .ToWish(synthWishes).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.SynthBound.ConfigResolver      .ToWish(synthWishes).FrameCount, -Tolerance);
-            AreEqual(DefaultBits,         () => x.SynthBound.ConfigSection       .ToWish().Bits                  );
-            AreEqual(DefaultChannels,     () => x.SynthBound.ConfigSection       .ToWish().Channels              );
-            AreEqual(DefaultSamplingRate, () => x.SynthBound.ConfigSection       .ToWish().SamplingRate          );
-            AreEqual(DefaultFrameCount,   () => x.SynthBound.ConfigSection       .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound.Tape                 .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.TapeBound.Tape                 .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.TapeBound.Tape                 .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.TapeBound.Tape                 .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound.TapeConfig           .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.TapeBound.TapeConfig           .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.TapeBound.TapeConfig           .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.TapeBound.TapeConfig           .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound.TapeActions          .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.TapeBound.TapeActions          .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.TapeBound.TapeActions          .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.TapeBound.TapeActions          .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.TapeBound.TapeAction           .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.TapeBound.TapeAction           .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.TapeBound.TapeAction           .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.TapeBound.TapeAction           .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.BuffBound.Buff                 .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.BuffBound.Buff                 .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.BuffBound.Buff                 .ToWish().SamplingRate          );
-            AreEqual(0,                   () => x.BuffBound.Buff                 .ToWish().FrameCount, -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
-            AreEqual(test.Bits,           () => x.BuffBound.Buff                 .ToWish(courtesyFrames).Bits     );
-            AreEqual(test.Channels,       () => x.BuffBound.Buff                 .ToWish(courtesyFrames).Channels );
-            AreEqual(test.SamplingRate,   () => x.BuffBound.Buff                 .ToWish(courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound.Buff                 .ToWish(courtesyFrames).FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.BuffBound.Buff                 .ToWish().FrameCount(frameCount).Bits);
-            AreEqual(test.Channels,       () => x.BuffBound.Buff                 .ToWish().FrameCount(frameCount).Channels);
-            AreEqual(test.SamplingRate,   () => x.BuffBound.Buff                 .ToWish().FrameCount(frameCount).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound.Buff                 .ToWish().FrameCount(frameCount).FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.BuffBound.AudioFileOutput      .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.BuffBound.AudioFileOutput      .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.BuffBound.AudioFileOutput      .ToWish().SamplingRate          );
-            AreEqual(0,                   () => x.BuffBound.AudioFileOutput      .ToWish().FrameCount, -Tolerance); // By Design: FrameCount stays 0 without courtesyBytes
-            AreEqual(test.Bits,           () => x.BuffBound.AudioFileOutput      .ToWish(courtesyFrames).Bits    );
-            AreEqual(test.Channels,       () => x.BuffBound.AudioFileOutput      .ToWish(courtesyFrames).Channels);
-            AreEqual(test.SamplingRate,   () => x.BuffBound.AudioFileOutput      .ToWish(courtesyFrames).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound.AudioFileOutput      .ToWish(courtesyFrames).FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.BuffBound.AudioFileOutput      .ToWish().FrameCount(frameCount).Bits);
-            AreEqual(test.Channels,       () => x.BuffBound.AudioFileOutput      .ToWish().FrameCount(frameCount).Channels);
-            AreEqual(test.SamplingRate,   () => x.BuffBound.AudioFileOutput      .ToWish().FrameCount(frameCount).SamplingRate);
-            AreEqual(test.FrameCount,     () => x.BuffBound.AudioFileOutput      .ToWish().FrameCount(frameCount).FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Independent.Sample             .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.Independent.Sample             .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.Independent.Sample             .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.Independent.Sample             .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Independent.AudioFileInfo      .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.Independent.AudioFileInfo      .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.Independent.AudioFileInfo      .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.Independent.AudioFileInfo      .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Immutable.WavHeader            .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.Immutable.WavHeader            .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.Immutable.WavHeader            .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.Immutable.WavHeader            .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Immutable.InfoTupleWithInts    .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.Immutable.InfoTupleWithInts    .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.Immutable.InfoTupleWithInts    .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.Immutable.InfoTupleWithInts    .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Immutable.InfoTupleWithType    .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.Immutable.InfoTupleWithType    .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.Immutable.InfoTupleWithType    .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.Immutable.InfoTupleWithType    .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Immutable.InfoTupleWithEnums   .ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.Immutable.InfoTupleWithEnums   .ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.Immutable.InfoTupleWithEnums   .ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.Immutable.InfoTupleWithEnums   .ToWish().FrameCount, -Tolerance);
-            AreEqual(test.Bits,           () => x.Immutable.InfoTupleWithEntities.ToWish().Bits                  );
-            AreEqual(test.Channels,       () => x.Immutable.InfoTupleWithEntities.ToWish().Channels              );
-            AreEqual(test.SamplingRate,   () => x.Immutable.InfoTupleWithEntities.ToWish().SamplingRate          );
-            AreEqual(test.FrameCount,     () => x.Immutable.InfoTupleWithEntities.ToWish().FrameCount, -Tolerance);
+            Assert(x.SynthBound.SynthWishes         .ToWish(),                        test);
+            Assert(x.SynthBound.FlowNode            .ToWish(),                        test);
+            Assert(x.SynthBound.ConfigResolver      .ToWish(synthWishes),             test);
+            Assert(x.SynthBound.ConfigSection       .ToWish(),                 DefaultCase);
+            Assert(x.TapeBound.Tape                 .ToWish(),                        test);
+            Assert(x.TapeBound.TapeConfig           .ToWish(),                        test);
+            Assert(x.TapeBound.TapeActions          .ToWish(),                        test);
+            Assert(x.TapeBound.TapeAction           .ToWish(),                        test);
+            Assert(x.BuffBound.Buff                 .ToWish(),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(x.BuffBound.AudioFileOutput      .ToWish(),              zeroFramesCase);
+            Assert(x.BuffBound.Buff                 .ToWish(courtesy),                test);
+            Assert(x.BuffBound.AudioFileOutput      .ToWish(courtesy),                test);
+            Assert(x.BuffBound.Buff                 .ToWish().FrameCount(frameCount), test);
+            Assert(x.BuffBound.AudioFileOutput      .ToWish().FrameCount(frameCount), test);
+            Assert(x.Independent.Sample             .ToWish(),                        test);
+            Assert(x.Independent.AudioFileInfo      .ToWish(),                        test);
+            Assert(x.Immutable.WavHeader            .ToWish(),                        test);
+            Assert(x.Immutable.InfoTupleWithInts    .ToWish(),                        test);
+            Assert(x.Immutable.InfoTupleWithType    .ToWish(),                        test);
+            Assert(x.Immutable.InfoTupleWithEnums   .ToWish(),                        test);
+            Assert(x.Immutable.InfoTupleWithEntities.ToWish(),                        test);
             
-            if (test.Bits == 8)
-            {
-                AreEqual(test.Bits,         () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().Bits                 );
-                AreEqual(test.Channels,     () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().Channels             );
-                AreEqual(test.SamplingRate, () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().SamplingRate         );
-                AreEqual(test.FrameCount,   () => x.Immutable.InfoTupleWithoutBits.ToWish<byte> ().FrameCount, -Tolerance);
-            }
-            else if (test.Bits == 16)
-            {
-                AreEqual(test.Bits,         () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().Bits                 );
-                AreEqual(test.Channels,     () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().Channels             );
-                AreEqual(test.SamplingRate, () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().SamplingRate         );
-                AreEqual(test.FrameCount,   () => x.Immutable.InfoTupleWithoutBits.ToWish<short>().FrameCount, -Tolerance);
-            }
-            else if (test.Bits == 32)
-            {
-                AreEqual(test.Bits,         () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().Bits                 );
-                AreEqual(test.Channels,     () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().Channels             );
-                AreEqual(test.SamplingRate, () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().SamplingRate         );
-                AreEqual(test.FrameCount,   () => x.Immutable.InfoTupleWithoutBits.ToWish<float>().FrameCount, -Tolerance);
-            }
-            else
-            {   // ncrunch: no coverage start
-                throw new Exception(NotSupportedMessage(nameof(test.Bits), test.Bits, ValidBits));
-                // ncrunch: no coverage end
-            }
+            if      (test.Bits ==  8) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<byte> (), test);
+            else if (test.Bits == 16) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<short>(), test);
+            else if (test.Bits == 32) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<float>(), test);
+            else throw new Exception(NotSupportedMessage(nameof(test.Bits), test.Bits, ValidBits)); // ncrunch: no coverage 
         }
 
         [TestMethod]
@@ -782,6 +704,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 throw new Exception(NotSupportedMessage(nameof(test.Bits), test.Bits, ValidBits));
                 // ncrunch: no coverage end
             }
+            
+            // TODO: Test BuffBound overloads without courtesyFrames.
         }
         
         [TestMethod]
