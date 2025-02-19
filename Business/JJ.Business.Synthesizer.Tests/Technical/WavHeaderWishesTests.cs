@@ -86,6 +86,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             new Case { CourtesyFrames = { To =     4 } }
         );
 
+        static Case DefaultCase { get; } = new Case
+        {
+            SamplingRate   = 48000,
+            Bits           = 32,
+            Channels       = 1,
+            CourtesyFrames = 4,
+            FrameCount     = 48000+4
+        };
+                
+        static Case NonDefaultCase { get; } = new Case
+        {
+            SamplingRate   = 44100,
+            Bits           = 16,
+            Channels       = 2,
+            CourtesyFrames = 5,
+            FrameCount     = 100
+        };
+        
+        static Case EdgeCase { get; } = new Case
+        {
+            SamplingRate   = 48000,
+            Bits           = 32,
+            Channels       = 2,
+            CourtesyFrames = 3,
+            FrameCount     = 100
+        };
+            
+
         private TestEntities CreateEntities(Case test, bool wipeBuff = true, bool withDisk = false)
         {
             var testEntities = new TestEntities(withDisk, x => x.WithBits(test.Bits.Init)
@@ -759,32 +787,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         [TestMethod]
         public void WavHeader_WriteWavHeader_WithConfigSection()
         {
-            var defaultValues = new Case
-            {
-                SamplingRate   = 48000,
-                Bits           = 32,
-                Channels       = 1,
-                CourtesyFrames = 4,
-                FrameCount     = 48000+4
-            };
-            
-            var nonDefaultValues = new Case
-            {
-                SamplingRate   = 44100,
-                Bits           = 16,
-                Channels       = 2,
-                CourtesyFrames = 5,
-                FrameCount     = 100
-            };
-            
             ConfigSectionAccessor configSection = null;
             BuffBoundEntities binaries = null;
 
             void TestSetter(Action action)
             {
-                using (var entities = CreateEntities(nonDefaultValues, withDisk: true))
+                using (var entities = CreateEntities(NonDefaultCase, withDisk: true))
                 {
-                    AssertInvariant(entities, nonDefaultValues);
+                    AssertInvariant(entities, NonDefaultCase);
 
                     configSection = entities.SynthBound.ConfigSection;
                     binaries = entities.BuffBound;
@@ -794,20 +804,21 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             
 
-            TestSetter(() => { configSection.WriteWavHeader(binaries.DestFilePath); Assert(binaries.DestFilePath, defaultValues); });
-            TestSetter(() => { configSection.WriteWavHeader(binaries.DestBytes   ); Assert(binaries.DestBytes,    defaultValues); });
-            TestSetter(() => { configSection.WriteWavHeader(binaries.DestStream  ); Assert(binaries.DestStream,   defaultValues); });
-            TestSetter(() => { configSection.WriteWavHeader(binaries.BinaryWriter); Assert(binaries.BinaryWriter, defaultValues); });
-            TestSetter(() => { binaries.DestFilePath.WriteWavHeader(configSection); Assert(binaries.DestFilePath, defaultValues); });
-            TestSetter(() => { binaries.DestBytes   .WriteWavHeader(configSection); Assert(binaries.DestBytes,    defaultValues); });
-            TestSetter(() => { binaries.DestStream  .WriteWavHeader(configSection); Assert(binaries.DestStream,   defaultValues); });
-            TestSetter(() => { binaries.BinaryWriter.WriteWavHeader(configSection); Assert(binaries.BinaryWriter, defaultValues); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestFilePath); Assert(binaries.DestFilePath, DefaultCase); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestBytes   ); Assert(binaries.DestBytes,    DefaultCase); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestStream  ); Assert(binaries.DestStream,   DefaultCase); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.BinaryWriter); Assert(binaries.BinaryWriter, DefaultCase); });
+            TestSetter(() => { binaries.DestFilePath.WriteWavHeader(configSection); Assert(binaries.DestFilePath, DefaultCase); });
+            TestSetter(() => { binaries.DestBytes   .WriteWavHeader(configSection); Assert(binaries.DestBytes,    DefaultCase); });
+            TestSetter(() => { binaries.DestStream  .WriteWavHeader(configSection); Assert(binaries.DestStream,   DefaultCase); });
+            TestSetter(() => { binaries.BinaryWriter.WriteWavHeader(configSection); Assert(binaries.BinaryWriter, DefaultCase); });
         }
+        
         
         [TestMethod]
         public void WavHeader_EdgeCases()
         {
-            var test = new Case { SamplingRate = 48000, Bits = 32, Channels = 2, CourtesyFrames = 3, FrameCount = 100 };
+            var test = EdgeCase;
             var x = CreateEntities(test, wipeBuff: false);
             int frameCount = test.FrameCount;
             int courtesyFrames = test.CourtesyFrames;
