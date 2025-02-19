@@ -34,5 +34,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         internal static WavHeaderStruct ToWavHeader(ConfigSectionAccessor entity)
             => _accessor.InvokeMethod<WavHeaderStruct>(entity.Obj);
+
+        internal static void FromWavHeader(ConfigResolverAccessor entity, WavHeaderStruct wav, SynthWishes synthWishes)
+            => _accessor.InvokeMethod(entity.Obj, wav, synthWishes);
+
+        internal static void ApplyTo(WavHeaderStruct wav, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod(wav, entity.Obj, synthWishes);
     }
 }
