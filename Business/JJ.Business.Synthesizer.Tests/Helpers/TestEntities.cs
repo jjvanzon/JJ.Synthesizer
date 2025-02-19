@@ -218,6 +218,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return configSection;
         }
         
+        private static readonly object _lockAroundFileIOJustInCase = new object();
+        
         public void Record(bool withDisk = false)
         {
             int channelCount = SynthBound.SynthWishes.GetChannels;
@@ -390,14 +392,23 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             
             if (withDisk)
             {
-                string filePathBase = TapeBound.Tape.GetFilePath(BuffBound.Buff.FilePath);
-                
-                BuffBound.Buff.Save(filePathBase);
-                BuffBound.SourceFilePath = BuffBound.Buff.FilePath;
-                
-                Stream tempStream;
-                (BuffBound.DestFilePath, tempStream) = CreateSafeFileStream(filePathBase);
-                tempStream.Dispose(); // Just for file creation.
+                lock (_lockAroundFileIOJustInCase)
+                {
+                    string filePathBase = TapeBound.Tape.GetFilePath(BuffBound.Buff.FilePath);
+                    
+                    BuffBound.Buff.Save(filePathBase);
+                    BuffBound.SourceFilePath = BuffBound.Buff.FilePath;
+                    
+                    Stream tempStream = null;
+                    try
+                    {
+                        (BuffBound.DestFilePath, tempStream) = CreateSafeFileStream(filePathBase);
+                    }
+                    finally
+                    {
+                        tempStream?.Dispose(); // Just for file creation.
+                    }
+                }
             }
         }
     }
