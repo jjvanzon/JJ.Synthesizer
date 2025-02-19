@@ -619,10 +619,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSetter(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.DestBytes,    synthWishes), ForDestBytes   );
             AssertSetter(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.DestStream,   synthWishes), ForDestStream  );
             AssertSetter(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.BinaryWriter, synthWishes), ForBinaryWriter);
-            //AssertSetter(() => entities.SynthBound .ConfigSection  .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            //AssertSetter(() => entities.SynthBound .ConfigSection  .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            //AssertSetter(() => entities.SynthBound .ConfigSection  .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            //AssertSetter(() => entities.SynthBound .ConfigSection  .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
             AssertSetter(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
             AssertSetter(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
             AssertSetter(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
@@ -679,10 +675,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestBytes   );
             AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestStream  );
             AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForBinaryWriter);
-            //AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.SynthBound .ConfigSection              ), ForDestFilePath);
-            //AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.SynthBound .ConfigSection              ), ForDestBytes   );
-            //AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.SynthBound .ConfigSection              ), ForDestStream  );
-            //AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.SynthBound .ConfigSection              ), ForBinaryWriter);
             AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.TapeBound  .Tape                       ), ForDestFilePath);
             AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.TapeBound  .Tape                       ), ForDestBytes   );
             AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.TapeBound  .Tape                       ), ForDestStream  );
@@ -727,6 +719,44 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSetter(() => binaries.DestBytes     .Write         (entities.Immutable  .WavHeader                  ), ForDestBytes   );
             AssertSetter(() => binaries.DestStream    .Write         (entities.Immutable  .WavHeader                  ), ForDestStream  );
             AssertSetter(() => binaries.BinaryWriter  .Write         (entities.Immutable  .WavHeader                  ), ForBinaryWriter);
+        }
+        
+        [TestMethod]
+        public void WavHeader_WriteWavHeader_WithConfigSection()
+        {
+            var test = new Case
+            {
+                SamplingRate   = DefaultSamplingRate,
+                Bits           = DefaultBits,
+                Channels       = DefaultChannels,
+                CourtesyFrames = DefaultCourtesyFrames,
+                FrameCount     = DefaultFrameCount
+            };
+
+            var entities = CreateEntities(test);
+            var configSection = entities.SynthBound.ConfigSection;
+            
+            AssertInvariant(entities, test);
+            
+            void TestSetter(Action<BuffBoundEntities> setter)
+            {
+                using (var binaries = CreateEntities(test, withDisk: true))
+                {
+                    AssertInvariant(binaries, test);
+
+                    setter(binaries.BuffBound);
+                }
+            }
+            
+
+            TestSetter(binaries => { configSection.WriteWavHeader(binaries.DestFilePath); Assert(binaries.DestFilePath, test); });
+            TestSetter(binaries => { configSection.WriteWavHeader(binaries.DestBytes   ); Assert(binaries.DestBytes,    test); });
+            TestSetter(binaries => { configSection.WriteWavHeader(binaries.DestStream  ); Assert(binaries.DestStream,   test); });
+            TestSetter(binaries => { configSection.WriteWavHeader(binaries.BinaryWriter); Assert(binaries.BinaryWriter, test); });
+            TestSetter(binaries => { binaries.DestFilePath.WriteWavHeader(configSection); Assert(binaries.DestFilePath, test); });
+            TestSetter(binaries => { binaries.DestBytes   .WriteWavHeader(configSection); Assert(binaries.DestBytes,    test); });
+            TestSetter(binaries => { binaries.DestStream  .WriteWavHeader(configSection); Assert(binaries.DestStream,   test); });
+            TestSetter(binaries => { binaries.BinaryWriter.WriteWavHeader(configSection); Assert(binaries.BinaryWriter, test); });
         }
         
         [TestMethod]

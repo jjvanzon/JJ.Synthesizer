@@ -324,3 +324,6 @@ internal CaseCollection<TCase> ConcatWithParent()
             //    x.BuffBound.DestStream  .WriteWavHeader(x.Immutable.WavHeader   );
             //    x.BuffBound.BinaryWriter.WriteWavHeader(x.Immutable.WavHeader   );
             //}
+
+        //static CaseCollection<int> ConfigSectionCase = Cases.Add(new Case(
+            //Case test = Cases[caseKey];

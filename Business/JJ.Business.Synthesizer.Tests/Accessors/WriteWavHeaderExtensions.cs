@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // With ConfigSection
         
         internal static void WriteWavHeader(this ConfigSectionAccessor entity, string filePath)
-            => _accessor.InvokeMethod(entity?.Obj, filePath);
+            => _accessor.InvokeMethod(new [] { entity?.Obj, filePath });
         
         internal static void WriteWavHeader(this ConfigSectionAccessor entity, byte[] dest)
             => _accessor.InvokeMethod(entity?.Obj, dest);
