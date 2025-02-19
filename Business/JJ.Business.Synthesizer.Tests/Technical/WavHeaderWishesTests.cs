@@ -390,8 +390,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert(x.Immutable.InfoTupleWithEntities.ToWavHeader(),                                  test);
             Assert(ToWavHeader(x.SynthBound.SynthWishes          ),                                  test);
             Assert(ToWavHeader(x.SynthBound.FlowNode             ),                                  test);
-            //Assert(ToWavHeader(x.SynthBound.ConfigResolver     ,synthWishes),                      test);
-            //Assert(ToWavHeader(x.SynthBound.ConfigSection      ),                          DefaultsCase); // By Design: Mocked ConfigSection has default settings.
+            Assert(ToWavHeader(x.SynthBound.ConfigResolver       ,synthWishes),                      test);
+            Assert(ToWavHeader(x.SynthBound.ConfigSection        ),                          DefaultsCase); // By Design: Mocked ConfigSection has default settings.
             Assert(ToWavHeader(x.TapeBound.Tape                  ),                                  test);
             Assert(ToWavHeader(x.TapeBound.TapeConfig            ),                                  test);
             Assert(ToWavHeader(x.TapeBound.TapeActions           ),                                  test);
@@ -408,26 +408,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert(ToWavHeader(x.Immutable.InfoTupleWithType     ),                                  test);
             Assert(ToWavHeader(x.Immutable.InfoTupleWithEnums    ),                                  test);
             Assert(ToWavHeader(x.Immutable.InfoTupleWithEntities ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.SynthBound.SynthWishes         ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.SynthBound.FlowNode            ),                                  test);
-            //Assert(WavHeaderWishesAccessor.ToWavHeader(x.SynthBound.ConfigResolver    ,synthWishes),                      test);
-            //Assert(WavHeaderWishesAccessor.ToWavHeader(x.SynthBound.ConfigSection     ),                          DefaultsCase); // By Design: Mocked ConfigSection has default settings.
-            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.Tape                 ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.TapeConfig           ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.TapeActions          ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.TapeAction           ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.Buff                 ),                        zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.Buff                 ,courtesy),                         test);
-            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.Buff                 ).FrameCount(frameCount, courtesy), test);
-            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.AudioFileOutput      ),                        zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.AudioFileOutput      ,courtesy),                         test);
-            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.AudioFileOutput      ).FrameCount(frameCount, courtesy), test);
-            Assert(WavHeaderWishes.ToWavHeader(x.Independent.Sample             ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.Independent.AudioFileInfo      ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithInts    ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithType    ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithEnums   ),                                  test);
-            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithEntities),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.SynthBound.SynthWishes           ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.SynthBound.FlowNode              ),                                  test);
+            Assert(WavHeaderWishesAccessor.ToWavHeader(x.SynthBound.ConfigResolver, synthWishes),                     test);
+            Assert(WavHeaderWishesAccessor.ToWavHeader(x.SynthBound.ConfigSection ),                          DefaultsCase); // By Design: Mocked ConfigSection has default settings.
+            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.Tape                   ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.TapeConfig             ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.TapeActions            ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.TapeBound.TapeAction             ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.Buff                   ),                        zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.Buff                   ,courtesy),                         test);
+            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.Buff                   ).FrameCount(frameCount, courtesy), test);
+            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.AudioFileOutput        ),                        zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.AudioFileOutput        ,courtesy),                         test);
+            Assert(WavHeaderWishes.ToWavHeader(x.BuffBound.AudioFileOutput        ).FrameCount(frameCount, courtesy), test);
+            Assert(WavHeaderWishes.ToWavHeader(x.Independent.Sample               ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.Independent.AudioFileInfo        ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithInts      ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithType      ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithEnums     ),                                  test);
+            Assert(WavHeaderWishes.ToWavHeader(x.Immutable.InfoTupleWithEntities  ),                                  test);
             if      (test.Bits ==  8) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<byte> (), test);
             else if (test.Bits == 16) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<short>(), test);
             else if (test.Bits == 32) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<float>(), test);

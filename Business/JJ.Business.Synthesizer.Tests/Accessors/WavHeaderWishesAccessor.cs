@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
@@ -29,6 +28,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         internal static AudioInfoWish ToWish(ConfigSectionAccessor entity)
             => _accessor.InvokeMethod<AudioInfoWish>(entity.Obj);
+        
+        public static WavHeaderStruct ToWavHeader(ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<WavHeaderStruct>(entity.Obj, synthWishes);
 
+        internal static WavHeaderStruct ToWavHeader(ConfigSectionAccessor entity)
+            => _accessor.InvokeMethod<WavHeaderStruct>(entity.Obj);
     }
 }
