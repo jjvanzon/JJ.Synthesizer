@@ -15,9 +15,6 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable UnusedMember.Local
-#pragma warning disable CS0618
-#pragma warning disable MSTEST0018
-#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {

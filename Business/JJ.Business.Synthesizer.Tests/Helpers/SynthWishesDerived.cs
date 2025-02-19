@@ -1,9 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
-
-#pragma warning disable CS0618
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

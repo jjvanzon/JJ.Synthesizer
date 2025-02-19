@@ -12,18 +12,14 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
-using JJ.Framework.Wishes.Collections;
 using JJ.Persistence.Synthesizer;
 using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.IO.FileWishes;
-
-#pragma warning disable CS0618
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

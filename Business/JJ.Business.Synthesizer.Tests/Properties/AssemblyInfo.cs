@@ -37,5 +37,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: Parallelize(Workers = 0, Scope = ExecutionScope.MethodLevel)] 
-[assembly: SuppressMessage(
-    "MSTest", "MSTEST0018", Justification = "CaseCollection can be used as DynamicData.")]
+[assembly: SuppressMessage("MSTest", "MSTEST0018", Justification = "CaseCollection can be used as DynamicData.")]
+[assembly: SuppressMessage("IDE", "IDE0002", Justification = "Static and using static syntax both considered equally valid.")]

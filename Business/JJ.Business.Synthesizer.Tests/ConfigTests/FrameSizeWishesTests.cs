@@ -19,9 +19,6 @@ using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0611 
-#pragma warning disable CS0618 
-#pragma warning disable MSTEST0018 
-#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
