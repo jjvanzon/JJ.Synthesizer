@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => _accessor.InvokeMethod(entity?.Obj, dest, synthWishes);
         
         internal static void WriteWavHeader(this string filePath, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(filePath, entity?.Obj, synthWishes);
+            => _accessor.InvokeMethod(new[]{ filePath, entity?.Obj, synthWishes });
         
         internal static void WriteWavHeader(this byte[] dest, ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod(dest, entity?.Obj, synthWishes);
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => _accessor.InvokeMethod(entity?.Obj, dest);
         
         internal static void WriteWavHeader(this string filePath, ConfigSectionAccessor entity)
-            => _accessor.InvokeMethod(filePath, entity?.Obj);
+            => _accessor.InvokeMethod(new[] { filePath, entity?.Obj });
         
         internal static void WriteWavHeader(this byte[] dest, ConfigSectionAccessor entity)
             => _accessor.InvokeMethod(dest, entity?.Obj);

@@ -676,7 +676,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.SynthBound .FlowNode                   ), ForDestBytes   );
             AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.SynthBound .FlowNode                   ), ForDestStream  );
             AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.SynthBound .FlowNode                   ), ForBinaryWriter);
-            //AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestFilePath);
+            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestFilePath);
             AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestBytes   );
             AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestStream  );
             AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForBinaryWriter);
