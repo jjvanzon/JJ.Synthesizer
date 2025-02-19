@@ -18,6 +18,7 @@ using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Wishes.IO.FileWishes;
@@ -96,6 +97,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public string                FileExtension       { get; set; }
         public int                   CourtesyFrames      { get; set; }
         public int                   FrameSize           { get; set; }
+        public (int bits,      int channels, int samplingRate, int frameCount) InfoTupleWithInts    { get; set; }
+        public (Type bitsType, int channels, int samplingRate, int frameCount) InfoTupleWithType    { get; set; }
+        public (               int channels, int samplingRate, int frameCount) InfoTupleWithoutBits { get; set; }
+        public (SampleDataTypeEnum bitsEnum,   SpeakerSetupEnum channelsEnum,   int samplingRate, int frameCount) InfoTupleWithEnums    { get; set; }
+        public (SampleDataType     bitsEntity, SpeakerSetup     channelsEntity, int samplingRate, int frameCount) InfoTupleWithEntities { get; set; }
     }
 
     internal class TapeEntities
@@ -259,28 +265,34 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           
                           Immutable = new ImmutableEntities
                           {
-                              Bits                = t.Config.Bits,
-                              SizeOfBitDepth      = t.Config.SizeOfBitDepth(),
-                              SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
-                              SampleDataType      = t.UnderlyingSample.SampleDataType,
-                              SamplingRate        = t.Config.SamplingRate,
-                              Channels            = t.Config.Channels,
-                              SpeakerSetupEnum    = t.UnderlyingSample.GetSpeakerSetupEnum(),
-                              SpeakerSetup        = t.UnderlyingSample.SpeakerSetup,
-                              Channel             = t.Config.Channel,
-                              ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
-                              ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
-                              Type                = t.Config.Bits.BitsToType(),
-                              Interpolation       = t.Config.Interpolation,
-                              InterpolationEntity = t.UnderlyingSample.InterpolationType,
-                              AudioFormat         = t.Config.AudioFormat,
-                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat,
-                              AudioLength         = t.Duration,
-                              WavHeader           = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
-                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat),
-                              CourtesyFrames      = t.Config.CourtesyFrames,
-                              FrameSize           = t.Config.FrameSize()
+                              Bits                  = t.Config.Bits,
+                              SizeOfBitDepth        = t.Config.SizeOfBitDepth(),
+                              SampleDataTypeEnum    = t.UnderlyingSample.GetSampleDataTypeEnum(),
+                              SampleDataType        = t.UnderlyingSample.SampleDataType,
+                              SamplingRate          = t.Config.SamplingRate,
+                              Channels              = t.Config.Channels,
+                              SpeakerSetupEnum      = t.UnderlyingSample.GetSpeakerSetupEnum(),
+                              SpeakerSetup          = t.UnderlyingSample.SpeakerSetup,
+                              Channel               = t.Config.Channel,
+                              ChannelEnum           = t.Config.Channel.ChannelToEnum(t.Config.Channels),
+                              ChannelEntity         = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
+                              Type                  = t.Config.Bits.BitsToType(),
+                              Interpolation         = t.Config.Interpolation,
+                              InterpolationEntity   = t.UnderlyingSample.InterpolationType,
+                              AudioFormat           = t.Config.AudioFormat,
+                              AudioFormatEntity     = t.UnderlyingSample.AudioFileFormat,
+                              AudioLength           = t.Duration,
+                              WavHeader             = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
+                              FileExtension         = ResolveFileExtension(t.Config.AudioFormat),
+                              CourtesyFrames        = t.Config.CourtesyFrames,
+                              FrameSize             = t.Config.FrameSize(),
+                              InfoTupleWithInts     = (t.Config.Bits,              t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithType     = (t.Config.Bits.BitsToType(), t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithoutBits  = (                            t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithEnums    = (t.UnderlyingSample.GetSampleDataTypeEnum(), t.UnderlyingSample.GetSpeakerSetupEnum(), t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithEntities = (t.UnderlyingSample.SampleDataType, t.UnderlyingSample.SpeakerSetup, t.Config.SamplingRate, t.Config.FrameCount())
                           };
+
                       })
                       .AfterRecordChannel(t =>
                       {
@@ -311,27 +323,32 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           // Immutables for Channel
                           e.Immutable = new ImmutableEntities
                           {
-                              Bits                = t.Config.Bits,
-                              SizeOfBitDepth      = t.Config.SizeOfBitDepth(),
-                              SampleDataTypeEnum  = t.UnderlyingSample.GetSampleDataTypeEnum(),
-                              SampleDataType      = t.UnderlyingSample.SampleDataType,
-                              SamplingRate        = t.Config.SamplingRate,
-                              Channels            = t.Config.Channels,
-                              SpeakerSetupEnum    = t.UnderlyingSample.GetSpeakerSetupEnum(),
-                              SpeakerSetup        = t.UnderlyingSample.SpeakerSetup,
-                              Channel             = t.Config.Channel,
-                              ChannelEnum         = t.Config.Channel.ChannelToEnum(t.Config.Channels),
-                              ChannelEntity       = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
-                              Type                = t.Config.Bits.BitsToType(),
-                              Interpolation       = t.Config.Interpolation,
-                              InterpolationEntity = t.UnderlyingSample.InterpolationType,
-                              AudioFormat         = t.Config.AudioFormat,
-                              AudioFormatEntity   = t.UnderlyingSample.AudioFileFormat,
-                              AudioLength         = t.Duration,
-                              WavHeader           = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
-                              FileExtension       = ResolveFileExtension(t.Config.AudioFormat),
-                              CourtesyFrames      = t.Config.CourtesyFrames,
-                              FrameSize           = t.Config.FrameSize()
+                              Bits                  = t.Config.Bits,
+                              SizeOfBitDepth        = t.Config.SizeOfBitDepth(),
+                              SampleDataTypeEnum    = t.UnderlyingSample.GetSampleDataTypeEnum(),
+                              SampleDataType        = t.UnderlyingSample.SampleDataType,
+                              SamplingRate          = t.Config.SamplingRate,
+                              Channels              = t.Config.Channels,
+                              SpeakerSetupEnum      = t.UnderlyingSample.GetSpeakerSetupEnum(),
+                              SpeakerSetup          = t.UnderlyingSample.SpeakerSetup,
+                              Channel               = t.Config.Channel,
+                              ChannelEnum           = t.Config.Channel.ChannelToEnum(t.Config.Channels),
+                              ChannelEntity         = t.Config.Channel.ChannelToEntity(t.Config.Channels, SynthBound.Context),
+                              Type                  = t.Config.Bits.BitsToType(),
+                              Interpolation         = t.Config.Interpolation,
+                              InterpolationEntity   = t.UnderlyingSample.InterpolationType,
+                              AudioFormat           = t.Config.AudioFormat,
+                              AudioFormatEntity     = t.UnderlyingSample.AudioFileFormat,
+                              AudioLength           = t.Duration,
+                              WavHeader             = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
+                              FileExtension         = ResolveFileExtension(t.Config.AudioFormat),
+                              CourtesyFrames        = t.Config.CourtesyFrames,
+                              FrameSize             = t.Config.FrameSize(),
+                              InfoTupleWithInts     = (t.Config.Bits,              t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithType     = (t.Config.Bits.BitsToType(), t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithoutBits  = (                            t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithEnums    = (t.UnderlyingSample.GetSampleDataTypeEnum(), t.UnderlyingSample.GetSpeakerSetupEnum(), t.Config.SamplingRate, t.Config.FrameCount()),
+                              InfoTupleWithEntities = (t.UnderlyingSample.SampleDataType, t.UnderlyingSample.SpeakerSetup, t.Config.SamplingRate, t.Config.FrameCount())
                           };
                       }));
             
@@ -381,7 +398,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Immutable.FileExtension       = ResolveFileExtension(SynthBound.SynthWishes.GetAudioFormat);
             Immutable.CourtesyFrames      = SynthBound.SynthWishes.GetCourtesyFrames;
             Immutable.FrameSize           = SynthBound.SynthWishes.GetFrameSize();
-            
+            Immutable.InfoTupleWithInts = (SynthBound.SynthWishes.GetBits, SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.GetSamplingRate, SynthBound.SynthWishes.FrameCount());
+            Immutable.InfoTupleWithType = (SynthBound.SynthWishes.GetBits.BitsToType(), SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.GetSamplingRate, SynthBound.SynthWishes.FrameCount());
+            Immutable.InfoTupleWithoutBits = (SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.GetSamplingRate, SynthBound.SynthWishes.FrameCount());
+            Immutable.InfoTupleWithEnums = (SynthBound.SynthWishes.GetBits.BitsToEnum(), SynthBound.SynthWishes.GetChannels.ChannelsToEnum(), SynthBound.SynthWishes.GetSamplingRate, SynthBound.SynthWishes.FrameCount());
+            Immutable.InfoTupleWithEntities = (SynthBound.SynthWishes.GetBits.BitsToEntity(SynthBound.Context), SynthBound.SynthWishes.GetChannels.ChannelsToEntity(SynthBound.Context), SynthBound.SynthWishes.GetSamplingRate, SynthBound.SynthWishes.FrameCount());
+
             BuffBound.SourceBytes  = BuffBound.Buff.Bytes;
             BuffBound.SourceStream = new MemoryStream(BuffBound.Buff.Bytes);
             BuffBound.BinaryReader = new BinaryReader(new MemoryStream(BuffBound.Buff.Bytes));

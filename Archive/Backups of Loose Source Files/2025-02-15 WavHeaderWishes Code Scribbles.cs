@@ -327,3 +327,17 @@ internal CaseCollection<TCase> ConcatWithParent()
 
         //static CaseCollection<int> ConfigSectionCase = Cases.Add(new Case(
             //Case test = Cases[caseKey];
+
+            
+            (int bits,      int channels, int samplingRate, int frameCount) infoTupleWithInts     = (x.Immutable.Bits,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            (Type bitsType, int channels, int samplingRate, int frameCount) infoTupleWithType     = (x.Immutable.Type,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            (               int channels, int samplingRate, int frameCount)  infoTupleWithoutBits  = (                                x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) infoTupleWithEnums    = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, x.Immutable.SamplingRate, frameCount);
+            (SampleDataType   bitsEntity, SpeakerSetup   channelsEntity, int samplingRate, int frameCount) infoTupleWithEntities = (x.Immutable.SampleDataType,     x.Immutable.SpeakerSetup,     x.Immutable.SamplingRate, frameCount);
+
+            
+            var InfoTupleWithInts      = (x.Immutable.Bits,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            var InfoTupleWithType     = (x.Immutable.Type,               x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            var InfoTupleWithoutBits = (                                x.Immutable.Channels,         x.Immutable.SamplingRate, frameCount);
+            var InfoTupleWithEnums     = (x.Immutable.SampleDataTypeEnum, x.Immutable.SpeakerSetupEnum, x.Immutable.SamplingRate, frameCount);
+            var InfoTuplesWithEntities   = (x.Immutable.SampleDataType,     x.Immutable.SpeakerSetup,     x.Immutable.SamplingRate, frameCount);
