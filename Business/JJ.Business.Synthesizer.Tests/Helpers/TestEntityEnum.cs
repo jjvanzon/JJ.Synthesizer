@@ -7,6 +7,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         Undefined,
         ForAudioInfoWish,
         ForAudioFileInfo,
-        ForSample
+        ForSample,
+        ForDestBytes,
+        ForDestFilePath,
+        ForDestStream,
+        ForBinaryWriter
     }
 }

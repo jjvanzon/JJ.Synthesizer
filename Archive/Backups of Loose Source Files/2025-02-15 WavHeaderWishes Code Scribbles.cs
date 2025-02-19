@@ -285,3 +285,42 @@ internal CaseCollection<TCase> ConcatWithParent()
             {
                 return new CaseCollection<TCase>(GetAll().Union(subCases));
             }
+
+
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.SynthBound .SynthWishes                ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.SynthBound .FlowNode                   ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.SynthBound .ConfigSection              ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.TapeBound  .Tape                       ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.TapeBound  .TapeConfig                 ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.TapeBound  .TapeActions                ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.TapeBound  .TapeAction                 ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.BuffBound  .Buff,            frameCount), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.BuffBound  .AudioFileOutput, frameCount), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.Independent.Sample                     ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.Independent.AudioInfoWish              ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.Independent.AudioFileInfo              ), ForDestBytes);
+            //AssertSetter(() => binaries.DestBytes.WriteWavHeader(entities.Immutable  .WavHeader                  ), ForDestBytes);
+
+            //AssertSetter(() => binaries.DestFilePath       .Write(entities.Immutable.WavHeader), ForDestFilePath);
+            //AssertSetter(() => binaries.DestBytes          .Write(entities.Immutable.WavHeader), ForDestBytes   );
+            //AssertSetter(() => binaries.DestStream         .Write(entities.Immutable.WavHeader), ForDestStream  );
+            //AssertSetter(() => binaries.BinaryWriter       .Write(entities.Immutable.WavHeader), ForBinaryWriter);
+
+            //using (var x = CreateEntities(test, withDisk: true))
+            //{
+            //    x.BuffBound.DestFilePath.WriteWavHeader(x.Immutable.WavHeader   );
+            //    x.BuffBound.DestStream  .WriteWavHeader(x.Immutable.WavHeader   );
+            //    x.BuffBound.BinaryWriter.WriteWavHeader(x.Immutable.WavHeader   );
+            //}
