@@ -583,17 +583,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void WavHeader_WriteWavHeader(string caseKey)
         {
             Case test = Cases[caseKey];
-            int courtesy = test.CourtesyFrames;
-            SynthWishes synthWishes = null;
-            TestEntities entities = null;
+            
+            TestEntities entities = CreateEntities(test);
+            AssertInvariant(entities, test);
+            
             BuffBoundEntities binaries = null;
+            var synthWishes = entities.SynthBound.SynthWishes;
+            int courtesy = test.CourtesyFrames;
             
             void AssertSetter(Action setter, TestEntityEnum entity)
             {
-                entities = CreateEntities(test);
-                synthWishes = entities.SynthBound.SynthWishes;
-                AssertInvariant(entities, test);
-                
                 using (var changedEntities = CreateChangedEntities(test, withDisk: entity == ForDestFilePath))
                 {
                     binaries = changedEntities.BuffBound;
