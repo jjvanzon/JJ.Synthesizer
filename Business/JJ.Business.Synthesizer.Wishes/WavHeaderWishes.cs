@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Managers;
@@ -611,23 +612,23 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void WriteWavHeader(this Stream       dest,     FlowNode     entity  ) => entity.ToWavHeader().Write(dest    );
         public static void WriteWavHeader(this BinaryWriter dest,     FlowNode     entity  ) => entity.ToWavHeader().Write(dest    );
         
-        internal static void WriteWavHeader(this ConfigResolver entity,   string         filePath, SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(filePath);
-        internal static void WriteWavHeader(this ConfigResolver entity,   byte[]         dest    , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
-        internal static void WriteWavHeader(this ConfigResolver entity,   BinaryWriter   dest    , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
-        internal static void WriteWavHeader(this ConfigResolver entity,   Stream         dest    , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
-        internal static void WriteWavHeader(this string         filePath, ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(filePath);
-        internal static void WriteWavHeader(this byte[]         dest,     ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
-        internal static void WriteWavHeader(this Stream         dest,     ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
-        internal static void WriteWavHeader(this BinaryWriter   dest,     ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   string         filePath, SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(filePath);
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   byte[]         dest    , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   BinaryWriter   dest    , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   Stream         dest    , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this string         filePath, ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(filePath);
+        [UsedImplicitly] internal static void WriteWavHeader(this byte[]         dest,     ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this Stream         dest,     ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this BinaryWriter   dest,     ConfigResolver entity  , SynthWishes synthWishes) => entity.ToWavHeader(synthWishes).Write(dest    );
         
-        internal static void WriteWavHeader(this ConfigSection entity,   string        filePath) => entity.ToWavHeader().Write(filePath);
-        internal static void WriteWavHeader(this ConfigSection entity,   byte[]        dest    ) => entity.ToWavHeader().Write(dest    );
-        internal static void WriteWavHeader(this ConfigSection entity,   BinaryWriter  dest    ) => entity.ToWavHeader().Write(dest    );
-        internal static void WriteWavHeader(this ConfigSection entity,   Stream        dest    ) => entity.ToWavHeader().Write(dest    );
-        internal static void WriteWavHeader(this string        filePath, ConfigSection entity  ) => entity.ToWavHeader().Write(filePath);
-        internal static void WriteWavHeader(this byte[]        dest,     ConfigSection entity  ) => entity.ToWavHeader().Write(dest    );
-        internal static void WriteWavHeader(this Stream        dest,     ConfigSection entity  ) => entity.ToWavHeader().Write(dest    );
-        internal static void WriteWavHeader(this BinaryWriter  dest,     ConfigSection entity  ) => entity.ToWavHeader().Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   string        filePath) => entity.ToWavHeader().Write(filePath);
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   byte[]        dest    ) => entity.ToWavHeader().Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   BinaryWriter  dest    ) => entity.ToWavHeader().Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   Stream        dest    ) => entity.ToWavHeader().Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this string        filePath, ConfigSection entity  ) => entity.ToWavHeader().Write(filePath);
+        [UsedImplicitly] internal static void WriteWavHeader(this byte[]        dest,     ConfigSection entity  ) => entity.ToWavHeader().Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this Stream        dest,     ConfigSection entity  ) => entity.ToWavHeader().Write(dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this BinaryWriter  dest,     ConfigSection entity  ) => entity.ToWavHeader().Write(dest    );
                 
         public static void WriteWavHeader(this Tape         entity,   string       filePath) => entity.ToWavHeader().Write(filePath);
         public static void WriteWavHeader(this Tape         entity,   byte[]       dest    ) => entity.ToWavHeader().Write(dest    );
