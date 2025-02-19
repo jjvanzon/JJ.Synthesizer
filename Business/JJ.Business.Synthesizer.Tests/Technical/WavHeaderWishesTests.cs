@@ -364,34 +364,33 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestEntities x = CreateEntities(test);
             AssertInvariant(x, test);
             
-            int frameCount = test.FrameCount;
-            int courtesy = test.CourtesyFrames;
+            int frameCount  = test.FrameCount;
+            int courtesy    = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
                  
-            Assert(x.SynthBound.SynthWishes         .ToWavHeader(), test);
-            Assert(x.SynthBound.FlowNode            .ToWavHeader(), test);
-            Assert(x.SynthBound.ConfigResolver      .ToWavHeader(synthWishes), test);
-            Assert(x.SynthBound.ConfigSection       .ToWavHeader(), DefaultsCase); // By Design: Mocked ConfigSection has default settings.
-            Assert(x.TapeBound.Tape                 .ToWavHeader(), test);
-            Assert(x.TapeBound.TapeConfig           .ToWavHeader(), test);
-            Assert(x.TapeBound.TapeActions          .ToWavHeader(), test);
-            Assert(x.TapeBound.TapeAction           .ToWavHeader(), test);
-            Assert(x.BuffBound.Buff                 .ToWavHeader(), zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(x.BuffBound.Buff                 .ToWavHeader(courtesy), test);
-            Assert(x.BuffBound.Buff                 .ToWavHeader().FrameCount(frameCount, courtesy), test); // TODO: Why is courtesyFrames needed here?
-            Assert(x.BuffBound.AudioFileOutput      .ToWavHeader(), zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(x.BuffBound.AudioFileOutput      .ToWavHeader(courtesy), test);
-            Assert(x.BuffBound.AudioFileOutput      .ToWavHeader().FrameCount(frameCount, courtesy), test); // TODO: Why is courtesyFrames needed here?
-            Assert(x.Independent.Sample             .ToWavHeader(), test);
-            Assert(x.Independent.AudioFileInfo      .ToWavHeader(), test);
-            Assert(x.Immutable.InfoTupleWithInts    .ToWavHeader(), test);
-            Assert(x.Immutable.InfoTupleWithType    .ToWavHeader(), test);
-            Assert(x.Immutable.InfoTupleWithEnums   .ToWavHeader(), test);
-            Assert(x.Immutable.InfoTupleWithEntities.ToWavHeader(), test);
-            
-            if      (test.Bits ==  8) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<byte> (), test);
-            else if (test.Bits == 16) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<short>(), test);
-            else if (test.Bits == 32) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<float>(), test);
+            Assert(x.SynthBound.SynthWishes         .ToWavHeader(),                                  test);
+            Assert(x.SynthBound.FlowNode            .ToWavHeader(),                                  test);
+            Assert(x.SynthBound.ConfigResolver      .ToWavHeader(synthWishes),                       test);
+            Assert(x.SynthBound.ConfigSection       .ToWavHeader(),                          DefaultsCase); // By Design: Mocked ConfigSection has default settings.
+            Assert(x.TapeBound.Tape                 .ToWavHeader(),                                  test);
+            Assert(x.TapeBound.TapeConfig           .ToWavHeader(),                                  test);
+            Assert(x.TapeBound.TapeActions          .ToWavHeader(),                                  test);
+            Assert(x.TapeBound.TapeAction           .ToWavHeader(),                                  test);
+            Assert(x.BuffBound.Buff                 .ToWavHeader(),                        zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(x.BuffBound.Buff                 .ToWavHeader(courtesy),                          test);
+            Assert(x.BuffBound.Buff                 .ToWavHeader().FrameCount(frameCount, courtesy), test);
+            Assert(x.BuffBound.AudioFileOutput      .ToWavHeader(),                        zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(x.BuffBound.AudioFileOutput      .ToWavHeader(courtesy),                          test);
+            Assert(x.BuffBound.AudioFileOutput      .ToWavHeader().FrameCount(frameCount, courtesy), test);
+            Assert(x.Independent.Sample             .ToWavHeader(),                                  test);
+            Assert(x.Independent.AudioFileInfo      .ToWavHeader(),                                  test);
+            Assert(x.Immutable.InfoTupleWithInts    .ToWavHeader(),                                  test);
+            Assert(x.Immutable.InfoTupleWithType    .ToWavHeader(),                                  test);
+            Assert(x.Immutable.InfoTupleWithEnums   .ToWavHeader(),                                  test);
+            Assert(x.Immutable.InfoTupleWithEntities.ToWavHeader(),                                  test);
+            if      (test.Bits ==  8) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<byte> (),  test);
+            else if (test.Bits == 16) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<short>(),  test);
+            else if (test.Bits == 32) Assert(x.Immutable.InfoTupleWithoutBits.ToWavHeader<float>(),  test);
             else AssertBits(test.Bits);
         }
         
