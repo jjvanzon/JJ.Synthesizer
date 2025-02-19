@@ -20,6 +20,7 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Tests.Accessors.WavHeaderWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavHeaderWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -122,7 +123,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                                                 .WithSamplingRate(test.SamplingRate.Init)
                                                                 .WithCourtesyFrames(test.CourtesyFrames.Init)
                                                                 .WithFrameCount(test.FrameCount.Init));
-            
             AdjustBufferState(testEntities, wipeBuff);
             
             return testEntities;
@@ -135,7 +135,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                                                 .WithSamplingRate(test.SamplingRate.To)
                                                                 .WithCourtesyFrames(test.CourtesyFrames.To)
                                                                 .WithFrameCount(test.FrameCount.To));
-            
             AdjustBufferState(testEntities, wipeBuff);
             
             return testEntities;
@@ -195,9 +194,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert(x.Immutable.InfoTupleWithEntities.ToWish(),                        test);
             Assert(ToWish(x.SynthBound.SynthWishes          ),                        test);
             Assert(ToWish(x.SynthBound.FlowNode             ),                        test);
-            // TODO: Write accessor code.
-            //Assert(ToWish(x.SynthBound.ConfigResolver,    synthWishes),             test);
-            //Assert(ToWish(x.SynthBound.ConfigSection      ),                 DefaultCase);
+            Assert(ToWish(x.SynthBound.ConfigResolver,      synthWishes),             test);
+            Assert(ToWish(x.SynthBound.ConfigSection        ),                 DefaultCase);
             Assert(ToWish(x.TapeBound.Tape                  ),                        test);
             Assert(ToWish(x.TapeBound.TapeConfig            ),                        test);
             Assert(ToWish(x.TapeBound.TapeActions           ),                        test);
@@ -215,29 +213,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Assert(ToWish(x.Immutable.InfoTupleWithType     ),                        test);
             Assert(ToWish(x.Immutable.InfoTupleWithEnums    ),                        test);
             Assert(ToWish(x.Immutable.InfoTupleWithEntities ),                        test);
-
-            Assert(WavHeaderWishes.ToWish(x.SynthBound.SynthWishes          ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.SynthBound.FlowNode             ),                        test);
-            // TODO: Write accessor code.
-            //Assert(ToWish(x.SynthBound.ConfigResolver,    synthWishes),             test);
-            //Assert(ToWish(x.SynthBound.ConfigSection      ),                 DefaultCase);
-            Assert(WavHeaderWishes.ToWish(x.TapeBound.Tape                  ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.TapeBound.TapeConfig            ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.TapeBound.TapeActions           ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.TapeBound.TapeAction            ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.BuffBound.Buff                  ),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(WavHeaderWishes.ToWish(x.BuffBound.AudioFileOutput       ),              zeroFramesCase);
-            Assert(WavHeaderWishes.ToWish(x.BuffBound.Buff,                 courtesy),                test);
-            Assert(WavHeaderWishes.ToWish(x.BuffBound.AudioFileOutput,      courtesy),                test);
-            Assert(WavHeaderWishes.ToWish(x.BuffBound.Buff                  ).FrameCount(frameCount), test);
-            Assert(WavHeaderWishes.ToWish(x.BuffBound.AudioFileOutput       ).FrameCount(frameCount), test);
-            Assert(WavHeaderWishes.ToWish(x.Independent.Sample              ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.Independent.AudioFileInfo       ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.Immutable.WavHeader             ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.Immutable.InfoTupleWithInts     ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.Immutable.InfoTupleWithType     ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.Immutable.InfoTupleWithEnums    ),                        test);
-            Assert(WavHeaderWishes.ToWish(x.Immutable.InfoTupleWithEntities ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.SynthBound.SynthWishes         ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.SynthBound.FlowNode            ),                        test);
+            Assert(WavHeaderWishesAccessor.ToWish(x.SynthBound.ConfigResolver,     synthWishes),             test);
+            Assert(WavHeaderWishesAccessor.ToWish(x.SynthBound.ConfigSection       ),                 DefaultCase);
+            Assert(WavHeaderWishes        .ToWish(x.TapeBound.Tape                 ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.TapeBound.TapeConfig           ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.TapeBound.TapeActions          ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.TapeBound.TapeAction           ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.BuffBound.Buff                 ),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(WavHeaderWishes        .ToWish(x.BuffBound.AudioFileOutput      ),              zeroFramesCase);
+            Assert(WavHeaderWishes        .ToWish(x.BuffBound.Buff,                courtesy),                test);
+            Assert(WavHeaderWishes        .ToWish(x.BuffBound.AudioFileOutput,     courtesy),                test);
+            Assert(WavHeaderWishes        .ToWish(x.BuffBound.Buff                 ).FrameCount(frameCount), test);
+            Assert(WavHeaderWishes        .ToWish(x.BuffBound.AudioFileOutput      ).FrameCount(frameCount), test);
+            Assert(WavHeaderWishes        .ToWish(x.Independent.Sample             ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.Independent.AudioFileInfo      ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.Immutable.WavHeader            ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.Immutable.InfoTupleWithInts    ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.Immutable.InfoTupleWithType    ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.Immutable.InfoTupleWithEnums   ),                        test);
+            Assert(WavHeaderWishes        .ToWish(x.Immutable.InfoTupleWithEntities),                        test);
             
             if      (test.Bits ==  8) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<byte> (), test);
             else if (test.Bits == 16) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<short>(), test);

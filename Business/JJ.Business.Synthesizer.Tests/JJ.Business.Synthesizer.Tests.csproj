@@ -138,6 +138,7 @@
     <Compile Include="Accessors\TapeCollectionAccessor.cs" />
     <Compile Include="Accessors\TapeRunnerAccessor.cs" />
     <Compile Include="Accessors\FromWavHeaderExtensions.cs" />
+    <Compile Include="Accessors\WavHeaderWishesAccessor.cs" />
     <Compile Include="Accessors\WriteWavHeaderExtensions.cs" />
     <Compile Include="Accessors\ToWavHeaderExtensions.cs" />
     <Compile Include="Accessors\ToWishExtensionsAccessor.cs" />
