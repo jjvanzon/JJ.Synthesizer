@@ -445,3 +445,9 @@ internal CaseCollection<TCase> ConcatWithParent()
 
         
         private void ThrowBitsNotSupported(int bits) => throw new Exception(NotSupportedMessage(nameof(bits), bits, ValidBits));
+
+// Duplicate
+AreEqual(test.Bits,           () => x.BuffBound.AudioFileOutput      .ToWavHeader(courtesy).Bits());
+AreEqual(test.Channels,       () => x.BuffBound.AudioFileOutput      .ToWavHeader(courtesy).Channels());
+AreEqual(test.SamplingRate,   () => x.BuffBound.AudioFileOutput      .ToWavHeader(courtesy).SamplingRate);
+AreEqual(test.FrameCount,     () => x.BuffBound.AudioFileOutput      .ToWavHeader(courtesy).FrameCount(), -Tolerance);
