@@ -412,11 +412,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             {
                 lock (_lockAroundFileIOJustInCase)
                 {
+                    // SourceFilePath
                     string filePathBase = TapeBound.Tape.GetFilePath(BuffBound.Buff.FilePath);
                     
                     BuffBound.Buff.Save(filePathBase);
                     BuffBound.SourceFilePath = BuffBound.Buff.FilePath;
                     
+                    // DestFilePath
                     Stream tempStream = null;
                     try
                     {
