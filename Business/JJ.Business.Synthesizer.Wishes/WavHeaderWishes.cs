@@ -844,12 +844,20 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct ReadWavHeader(this BinaryReader reader) => WavHeaderWishes.ReadWavHeader(reader);
     }
 
+    public partial class WavHeaderWishes
+    {
+        public static AudioInfoWish ReadAudioInfo(string       filePath) => filePath.ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(byte[]       source  ) => source  .ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(Stream       source  ) => source  .ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(BinaryReader source)   => source  .ReadWavHeader().ToWish();
+    }
+    
     public static class ReadAudioInfoExtensions
     {
-        public static AudioInfoWish ReadAudioInfo(this string       filePath) => filePath.ReadWavHeader().ToWish();
-        public static AudioInfoWish ReadAudioInfo(this byte[]       source  ) => source  .ReadWavHeader().ToWish();
-        public static AudioInfoWish ReadAudioInfo(this Stream       source  ) => source  .ReadWavHeader().ToWish();
-        public static AudioInfoWish ReadAudioInfo(this BinaryReader source)   => source  .ReadWavHeader().ToWish();
+        public static AudioInfoWish ReadAudioInfo(this string       filePath) => WavHeaderWishes.ReadAudioInfo(filePath);
+        public static AudioInfoWish ReadAudioInfo(this byte[]       source  ) => WavHeaderWishes.ReadAudioInfo(source  );
+        public static AudioInfoWish ReadAudioInfo(this Stream       source  ) => WavHeaderWishes.ReadAudioInfo(source  );
+        public static AudioInfoWish ReadAudioInfo(this BinaryReader source)   => WavHeaderWishes.ReadAudioInfo(source  );
     }
     
     public static class WriteWavHeaderExtensions

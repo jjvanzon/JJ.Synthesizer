@@ -22,13 +22,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => _accessor.InvokeMethod(entity?.Obj, source, synthWishes);
         
         internal static void ReadWavHeader(this string filePath, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, filePath, synthWishes);
+            => _accessor.InvokeMethod(new[]{ filePath, entity?.Obj, synthWishes });
         internal static void ReadWavHeader(this byte[] source, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, source, synthWishes);
+            => _accessor.InvokeMethod(source, entity?.Obj, synthWishes);
         internal static void ReadWavHeader(this Stream source, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, source, synthWishes);
+            => _accessor.InvokeMethod(source, entity?.Obj, synthWishes);
         internal static void ReadWavHeader(this BinaryReader source, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, source, synthWishes);
+            => _accessor.InvokeMethod(source, entity?.Obj, synthWishes);
     }
 }
 

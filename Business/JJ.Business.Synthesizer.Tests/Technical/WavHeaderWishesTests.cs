@@ -872,10 +872,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             using (var x = CreateEntities(test, withDisk: true))
             {
                 AssertInvariant(x, test);
-                Assert(x.BuffBound.SourceFilePath.ReadAudioInfo(), test);
-                Assert(x.BuffBound.SourceBytes   .ReadAudioInfo(), test);
-                Assert(x.BuffBound.SourceStream  .ReadAudioInfo(), test);
-                Assert(x.BuffBound.BinaryReader  .ReadAudioInfo(), test);
+                
+                void AssertRead(Func<AudioInfoWish> getter)
+                {
+                    AudioInfoWish info = getter();
+                    Assert(info, test);
+                    
+                    x.BuffBound.SourceStream.Position = 0;
+                    x.BuffBound.BinaryReader.BaseStream.Position = 0;
+                }
+                
+                AssertRead(() => x.BuffBound.SourceFilePath.ReadAudioInfo());
+                AssertRead(() => x.BuffBound.SourceBytes   .ReadAudioInfo());
+                AssertRead(() => x.BuffBound.SourceStream  .ReadAudioInfo());
+                AssertRead(() => x.BuffBound.BinaryReader  .ReadAudioInfo());
+                AssertRead(() => ReadAudioInfo(x.BuffBound.SourceFilePath));
+                AssertRead(() => ReadAudioInfo(x.BuffBound.SourceBytes   ));
+                AssertRead(() => ReadAudioInfo(x.BuffBound.SourceStream  ));
+                AssertRead(() => ReadAudioInfo(x.BuffBound.BinaryReader  ));
+                AssertRead(() => WavHeaderWishes.ReadAudioInfo(x.BuffBound.SourceFilePath));
+                AssertRead(() => WavHeaderWishes.ReadAudioInfo(x.BuffBound.SourceBytes   ));
+                AssertRead(() => WavHeaderWishes.ReadAudioInfo(x.BuffBound.SourceStream  ));
+                AssertRead(() => WavHeaderWishes.ReadAudioInfo(x.BuffBound.BinaryReader  ));
             }
         }
         
