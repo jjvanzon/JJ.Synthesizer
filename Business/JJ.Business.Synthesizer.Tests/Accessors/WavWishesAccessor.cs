@@ -20,10 +20,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         internal static AudioInfoWish ToWish(ConfigResolverAccessor entity, SynthWishes synthWishes) 
             => _accessor.InvokeMethod<AudioInfoWish>(entity.Obj, synthWishes);
 
-        internal static void ApplyTo(AudioInfoWish infoWish, ConfigResolverAccessor entity, SynthWishes synthWishes) 
+        internal static void ApplyInfo(AudioInfoWish infoWish, ConfigResolverAccessor entity, SynthWishes synthWishes) 
             => _accessor.InvokeMethod(infoWish, entity.Obj, synthWishes);
 
-        internal static void FromWish(ConfigResolverAccessor entity, AudioInfoWish infoWish, SynthWishes synthWishes)
+        internal static void ApplyInfo(ConfigResolverAccessor entity, AudioInfoWish infoWish, SynthWishes synthWishes)
             => _accessor.InvokeMethod(entity.Obj, infoWish, synthWishes);
         
         // With ConfigSection

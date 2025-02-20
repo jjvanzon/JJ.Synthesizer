@@ -192,8 +192,8 @@ namespace JJ.Business.Synthesizer.Wishes
         public static AudioInfoWish ToWish((SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
             => ToWish(x.bitsEntity, x.channelsEntity, x.samplingRate, x.frameCount);
 
-        public static void ApplyTo(AudioInfoWish infoWish, SynthWishes entity) => entity.FromWish(infoWish);
-        public static void FromWish(SynthWishes entity, AudioInfoWish infoWish)
+        public static void ApplyInfo(AudioInfoWish infoWish, SynthWishes entity) => entity.ApplyInfo(infoWish);
+        public static void ApplyInfo(SynthWishes entity, AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -202,8 +202,8 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount  );
         }
         
-        public static void ApplyTo(AudioInfoWish infoWish, FlowNode entity) => entity.FromWish(infoWish);
-        public static void FromWish(FlowNode entity, AudioInfoWish infoWish)
+        public static void ApplyInfo(AudioInfoWish infoWish, FlowNode entity) => entity.ApplyInfo(infoWish);
+        public static void ApplyInfo(FlowNode entity, AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -212,9 +212,9 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount  );
         }
         
-        internal static void ApplyTo(AudioInfoWish infoWish, ConfigResolver entity, SynthWishes synthWishes) 
-            => entity.FromWish(infoWish, synthWishes);
-        internal static void FromWish(ConfigResolver entity, AudioInfoWish infoWish, SynthWishes synthWishes)
+        internal static void ApplyInfo(AudioInfoWish infoWish, ConfigResolver entity, SynthWishes synthWishes) 
+            => entity.ApplyInfo(infoWish, synthWishes);
+        internal static void ApplyInfo(ConfigResolver entity, AudioInfoWish infoWish, SynthWishes synthWishes)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -223,8 +223,8 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount, synthWishes);
         }
                 
-        public static void ApplyTo(AudioInfoWish infoWish, Tape entity) => entity.FromWish(infoWish);
-        public static void FromWish(Tape entity, AudioInfoWish infoWish)
+        public static void ApplyInfo(AudioInfoWish infoWish, Tape entity) => entity.ApplyInfo(infoWish);
+        public static void ApplyInfo(Tape entity, AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -233,8 +233,8 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount  );
         }
                 
-        public static void ApplyTo(AudioInfoWish infoWish, TapeConfig entity) => entity.FromWish(infoWish);
-        public static void FromWish(TapeConfig entity, AudioInfoWish infoWish)
+        public static void ApplyInfo(AudioInfoWish infoWish, TapeConfig entity) => entity.ApplyInfo(infoWish);
+        public static void ApplyInfo(TapeConfig entity, AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -243,8 +243,8 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount  );
         }
                 
-        public static void ApplyTo(AudioInfoWish infoWish, TapeActions entity) => entity.FromWish(infoWish);
-        public static void FromWish(TapeActions entity, AudioInfoWish infoWish)
+        public static void ApplyInfo(AudioInfoWish infoWish, TapeActions entity) => entity.ApplyInfo(infoWish);
+        public static void ApplyInfo(TapeActions entity, AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -253,8 +253,8 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount  );
         }
                 
-        public static void ApplyTo(AudioInfoWish infoWish, TapeAction entity) => entity.FromWish(infoWish);
-        public static void FromWish(TapeAction entity, AudioInfoWish infoWish)
+        public static void ApplyInfo(AudioInfoWish infoWish, TapeAction entity) => entity.ApplyInfo(infoWish);
+        public static void ApplyInfo(TapeAction entity, AudioInfoWish infoWish)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -263,9 +263,9 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount  );
         }
                         
-        public static void ApplyTo(AudioInfoWish infoWish, Buff entity, int courtesyFrames, IContext context) 
-            => entity.FromWish(infoWish, courtesyFrames, context);
-        public static void FromWish(Buff entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
+        public static void ApplyInfo(AudioInfoWish infoWish, Buff entity, int courtesyFrames, IContext context) 
+            => entity.ApplyInfo(infoWish, courtesyFrames, context);
+        public static void ApplyInfo(Buff entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits, context);
@@ -274,9 +274,9 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount, courtesyFrames);
         }
                         
-        public static void ApplyTo(AudioInfoWish infoWish, AudioFileOutput entity, int courtesyFrames, IContext context) 
-            => entity.FromWish(infoWish, courtesyFrames, context);
-        public static void FromWish(AudioFileOutput entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
+        public static void ApplyInfo(AudioInfoWish infoWish, AudioFileOutput entity, int courtesyFrames, IContext context) 
+            => entity.ApplyInfo(infoWish, courtesyFrames, context);
+        public static void ApplyInfo(AudioFileOutput entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits, context);
@@ -285,9 +285,9 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount, courtesyFrames);
         }
                         
-        public static void ApplyTo(AudioInfoWish infoWish, Sample entity, IContext context) 
-            => entity.FromWish(infoWish, context);
-        public static void FromWish(Sample entity, AudioInfoWish infoWish, IContext context)
+        public static void ApplyInfo(AudioInfoWish infoWish, Sample entity, IContext context) 
+            => entity.ApplyInfo(infoWish, context);
+        public static void ApplyInfo(Sample entity, AudioInfoWish infoWish, IContext context)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits, context);
@@ -296,8 +296,8 @@ namespace JJ.Business.Synthesizer.Wishes
             // TODO: FrameCount not settable, but this might be the one time that the byte buffer should be scalable.
         }
 
-        public static void ApplyTo(AudioInfoWish infoWish, AudioFileInfo entity) => entity.FromWish(infoWish);
-        public static void FromWish(AudioFileInfo entity, AudioInfoWish infoWish) 
+        public static void ApplyInfo(AudioInfoWish infoWish, AudioFileInfo entity) => entity.ApplyInfo(infoWish);
+        public static void ApplyInfo(AudioFileInfo entity, AudioInfoWish infoWish) 
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits        );
@@ -306,8 +306,8 @@ namespace JJ.Business.Synthesizer.Wishes
             entity.SetFrameCount  (infoWish.FrameCount  );
         }
 
-        public static void ApplyTo(AudioInfoWish source, AudioInfoWish dest) => dest.FromWish(source);
-        public static void FromWish(AudioInfoWish dest, AudioInfoWish source) 
+        public static void ApplyTo(AudioInfoWish source, AudioInfoWish dest) => dest.ApplyInfo(source);
+        public static void ApplyInfo(AudioInfoWish dest, AudioInfoWish source) 
         {
             if (source == null) throw new NullException(() => source);
             dest.SetBits        (source.Bits        );
@@ -316,10 +316,10 @@ namespace JJ.Business.Synthesizer.Wishes
             dest.SetFrameCount  (source.FrameCount  );
         }
 
-        public static AudioFileInfo FromWish(AudioInfoWish wish) 
+        public static AudioFileInfo ApplyInfo(AudioInfoWish wish) 
         {
             var dest = new AudioFileInfo();
-            dest.FromWish(wish);
+            dest.ApplyInfo(wish);
             return dest;
         }
 
@@ -336,7 +336,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static WavHeaderStruct ToWavHeader(AudioFileOutput entity)                          => entity.ToWish()              .ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(AudioFileOutput entity, int courtesyFrames)      => entity.ToWish(courtesyFrames).ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(Sample          entity)                          => entity.ToWish()              .ToWavHeader();
-        public   static WavHeaderStruct ToWavHeader(AudioInfoWish   entity)                          => WavHeaderManager.CreateWavHeaderStruct(entity.FromWish());
+        public   static WavHeaderStruct ToWavHeader(AudioInfoWish   entity)                          => WavHeaderManager.CreateWavHeaderStruct(entity.ApplyInfo());
         public   static WavHeaderStruct ToWavHeader(AudioFileInfo   entity)                          => entity.ToWish()              .ToWavHeader();
         
         public static WavHeaderStruct ToWavHeader((int bits, int channels, int samplingRate, int frameCount) x) 
@@ -352,51 +352,51 @@ namespace JJ.Business.Synthesizer.Wishes
 
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, SynthWishes entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(SynthWishes entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().ApplyTo(entity);
+            => wavHeader.ToWish().ApplyInfo(entity);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, FlowNode entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(FlowNode entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().ApplyTo(entity);
+            => wavHeader.ToWish().ApplyInfo(entity);
         
         internal static void ApplyWavHeader(WavHeaderStruct wavHeader, ConfigResolver entity, SynthWishes synthWishes) 
             => entity.ApplyWavHeader(wavHeader, synthWishes);
         internal static void ApplyWavHeader(ConfigResolver entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
-            => wavHeader.ToWish().ApplyTo(entity, synthWishes);
+            => wavHeader.ToWish().ApplyInfo(entity, synthWishes);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, Tape entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(Tape entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().ApplyTo(entity);
+            => wavHeader.ToWish().ApplyInfo(entity);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, TapeConfig entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(TapeConfig entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().ApplyTo(entity);
+            => wavHeader.ToWish().ApplyInfo(entity);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, TapeActions entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(TapeActions entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().ApplyTo(entity);
+            => wavHeader.ToWish().ApplyInfo(entity);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, TapeAction entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(TapeAction entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().ApplyTo(entity);
+            => wavHeader.ToWish().ApplyInfo(entity);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, Buff entity, int courtesyFrames, IContext context) 
             => entity.ApplyWavHeader(wavHeader, courtesyFrames, context);
         public static void ApplyWavHeader(Buff entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context) 
-            => wavHeader.ToWish().ApplyTo(entity, courtesyFrames, context);
+            => wavHeader.ToWish().ApplyInfo(entity, courtesyFrames, context);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, AudioFileOutput entity, int courtesyFrames, IContext context) 
             => entity.ApplyWavHeader(wavHeader, courtesyFrames, context);
         public static void ApplyWavHeader(AudioFileOutput entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context) 
-            => wavHeader.ToWish().ApplyTo(entity, courtesyFrames, context);
+            => wavHeader.ToWish().ApplyInfo(entity, courtesyFrames, context);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, Sample entity, IContext context) 
             => entity.ApplyWavHeader(wavHeader, context);
         public static void ApplyWavHeader(Sample entity, WavHeaderStruct wavHeader, IContext context) 
-            => wavHeader.ToWish().ApplyTo(entity, context);
+            => wavHeader.ToWish().ApplyInfo(entity, context);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, AudioFileInfo entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(AudioFileInfo entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToWish().ApplyTo(entity);
+            => wavHeader.ToWish().ApplyInfo(entity);
         
         public static void ApplyWavHeader(WavHeaderStruct wavHeader, AudioInfoWish entity) => entity.ApplyWavHeader(wavHeader);
         public static void ApplyWavHeader(AudioInfoWish entity, WavHeaderStruct wavHeader) 
@@ -819,46 +819,46 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavWishes.ToWish(x);
     }
     
-    public static class FromWishExtensions
+    public static class ApplyInfoExtensions
     {
-        public static  void ApplyTo(this  AudioInfoWish infoWish, SynthWishes   entity  ) => WavWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this SynthWishes   entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, FlowNode      entity  ) => WavWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this FlowNode      entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, Tape          entity  ) => WavWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this Tape          entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeConfig    entity  ) => WavWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this TapeConfig    entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeActions   entity  ) => WavWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this TapeActions   entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeAction    entity  ) => WavWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this TapeAction    entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, AudioFileInfo entity  ) => WavWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this AudioFileInfo entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
+        public static  void ApplyInfo(this  AudioInfoWish infoWish, SynthWishes   entity  ) => WavWishes.ApplyInfo (infoWish, entity);
+        public static  void ApplyInfo(this SynthWishes   entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
+        public static  void ApplyInfo(this  AudioInfoWish infoWish, FlowNode      entity  ) => WavWishes.ApplyInfo (infoWish, entity);
+        public static  void ApplyInfo(this FlowNode      entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
+        public static  void ApplyInfo(this  AudioInfoWish infoWish, Tape          entity  ) => WavWishes.ApplyInfo (infoWish, entity);
+        public static  void ApplyInfo(this Tape          entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
+        public static  void ApplyInfo(this  AudioInfoWish infoWish, TapeConfig    entity  ) => WavWishes.ApplyInfo (infoWish, entity);
+        public static  void ApplyInfo(this TapeConfig    entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
+        public static  void ApplyInfo(this  AudioInfoWish infoWish, TapeActions   entity  ) => WavWishes.ApplyInfo (infoWish, entity);
+        public static  void ApplyInfo(this TapeActions   entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
+        public static  void ApplyInfo(this  AudioInfoWish infoWish, TapeAction    entity  ) => WavWishes.ApplyInfo (infoWish, entity);
+        public static  void ApplyInfo(this TapeAction    entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
+        public static  void ApplyInfo(this  AudioInfoWish infoWish, AudioFileInfo entity  ) => WavWishes.ApplyInfo (infoWish, entity);
+        public static  void ApplyInfo(this AudioFileInfo entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
         
-        internal static void ApplyTo(this AudioInfoWish infoWish, ConfigResolver entity, SynthWishes synthWishes)
-            => WavWishes.ApplyTo(infoWish, entity, synthWishes);
-        internal static void FromWish(this ConfigResolver entity, AudioInfoWish infoWish, SynthWishes synthWishes)
-            => WavWishes.FromWish(entity, infoWish, synthWishes);
+        internal static void ApplyInfo(this AudioInfoWish infoWish, ConfigResolver entity, SynthWishes synthWishes)
+            => WavWishes.ApplyInfo(infoWish, entity, synthWishes);
+        internal static void ApplyInfo(this ConfigResolver entity, AudioInfoWish infoWish, SynthWishes synthWishes)
+            => WavWishes.ApplyInfo(entity, infoWish, synthWishes);
         
-        public static void ApplyTo(this AudioInfoWish infoWish, Buff entity, int courtesyFrames, IContext context)
-            => WavWishes.ApplyTo(infoWish, entity, courtesyFrames, context);
-        public static void FromWish(this Buff entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
-            => WavWishes.FromWish(entity, infoWish, courtesyFrames, context);
+        public static void ApplyInfo(this AudioInfoWish infoWish, Buff entity, int courtesyFrames, IContext context)
+            => WavWishes.ApplyInfo(infoWish, entity, courtesyFrames, context);
+        public static void ApplyInfo(this Buff entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
+            => WavWishes.ApplyInfo(entity, infoWish, courtesyFrames, context);
         
-        public static void ApplyTo(this AudioInfoWish infoWish, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavWishes.ApplyTo(infoWish, entity, courtesyFrames, context);
-        public static void FromWish(this AudioFileOutput entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
-            => WavWishes.FromWish(entity, infoWish, courtesyFrames, context);
+        public static void ApplyInfo(this AudioInfoWish infoWish, AudioFileOutput entity, int courtesyFrames, IContext context)
+            => WavWishes.ApplyInfo(infoWish, entity, courtesyFrames, context);
+        public static void ApplyInfo(this AudioFileOutput entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
+            => WavWishes.ApplyInfo(entity, infoWish, courtesyFrames, context);
         
-        public static void ApplyTo(this AudioInfoWish infoWish, Sample entity, IContext context)
-            => WavWishes.ApplyTo(infoWish, entity, context);
-        public static void FromWish(this Sample entity, AudioInfoWish infoWish, IContext context)
-            => WavWishes.FromWish(entity, infoWish, context);
+        public static void ApplyInfo(this AudioInfoWish infoWish, Sample entity, IContext context)
+            => WavWishes.ApplyInfo(infoWish, entity, context);
+        public static void ApplyInfo(this Sample entity, AudioInfoWish infoWish, IContext context)
+            => WavWishes.ApplyInfo(entity, infoWish, context);
         
-        public static void          ApplyTo(this  AudioInfoWish source, AudioInfoWish dest)   => WavWishes.ApplyTo(source, dest);
-        public static void          FromWish(this AudioInfoWish dest,   AudioInfoWish source) => WavWishes.FromWish(dest, source);
-        public static AudioFileInfo FromWish(this AudioInfoWish wish) => WavWishes.FromWish(wish);
+        public static void          ApplyTo  (this AudioInfoWish source, AudioInfoWish dest)   => WavWishes.ApplyTo(source, dest);
+        public static void          ApplyInfo(this AudioInfoWish dest,   AudioInfoWish source) => WavWishes.ApplyInfo(dest, source);
+        public static AudioFileInfo ApplyInfo(this AudioInfoWish wish) => WavWishes.ApplyInfo(wish);
     }
     
     public static class ToWavHeaderExtensions

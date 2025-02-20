@@ -256,7 +256,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           {
                               Sample        = t.UnderlyingSample,
                               AudioInfoWish = t.UnderlyingSample.ToWish(),
-                              AudioFileInfo = t.UnderlyingSample.ToWish().FromWish()
+                              AudioFileInfo = t.UnderlyingSample.ToWish().ApplyInfo()
                           };
                           
                           Immutable = new ImmutableEntities
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           {
                               Sample        = t.UnderlyingSample,
                               AudioInfoWish = t.UnderlyingSample.ToWish(),
-                              AudioFileInfo = t.UnderlyingSample.ToWish().FromWish()
+                              AudioFileInfo = t.UnderlyingSample.ToWish().ApplyInfo()
                           };
                           
                           // Immutables for Channel

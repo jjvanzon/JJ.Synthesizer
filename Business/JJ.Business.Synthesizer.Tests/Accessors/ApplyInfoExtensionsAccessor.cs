@@ -9,13 +9,13 @@ using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class FromWishExtensionsAccessor
+    internal static class ApplyInfoExtensionsAccessor
     {
-        private static AccessorEx _accessor = new AccessorEx(typeof(FromWishExtensions));
+        private static AccessorEx _accessor = new AccessorEx(typeof(ApplyInfoExtensions));
         
-        internal static void FromWish(this ConfigResolverAccessor obj, AudioInfoWish infoWish, SynthWishes synthWishes)
+        internal static void ApplyInfo(this ConfigResolverAccessor obj, AudioInfoWish infoWish, SynthWishes synthWishes)
             => _accessor.InvokeMethod(obj.Obj, infoWish, synthWishes);
-        internal static void ApplyTo(this AudioInfoWish infoWish, ConfigResolverAccessor obj, SynthWishes synthWishes)
+        internal static void ApplyInfo(this AudioInfoWish infoWish, ConfigResolverAccessor obj, SynthWishes synthWishes)
             => _accessor.InvokeMethod(infoWish, obj.Obj, synthWishes);
     }
 }
