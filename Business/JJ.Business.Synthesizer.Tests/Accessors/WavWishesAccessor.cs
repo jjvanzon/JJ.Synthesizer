@@ -11,9 +11,9 @@ using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class WavHeaderWishesAccessor
+    internal static class WavWishesAccessor
     {
-        private static AccessorEx _accessor = new AccessorEx(typeof(WavHeaderWishes));
+        private static AccessorEx _accessor = new AccessorEx(typeof(WavWishes));
         
         // With ConfigResolver
         

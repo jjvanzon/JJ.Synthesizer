@@ -114,7 +114,7 @@
     <Compile Include="SampleWishes.cs" />
     <Compile Include="SaveWishes.cs" />
     <Compile Include="StringifyWishes.cs" />
-    <Compile Include="WavHeaderWishes.cs" />
+    <Compile Include="WavWishes.cs" />
     <Compile Include="CurveWishes.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="BuffWishes.cs" />

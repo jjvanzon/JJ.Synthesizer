@@ -563,7 +563,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
 
-    // From WavHeaderWishes
+    // From WavWishes
 
     [Obsolete(ObsoleteMessage)]
     public static class WavHeaderWrapperExtensions

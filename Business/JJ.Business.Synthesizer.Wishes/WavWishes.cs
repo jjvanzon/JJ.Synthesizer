@@ -21,7 +21,7 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public class WavHeaderWishes
+    public class WavWishes
     {
         public static AudioInfoWish ToWish(SynthWishes entity) => new AudioInfoWish
         {
@@ -792,500 +792,500 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class ToWishExtensions
     {
-        public static AudioInfoWish ToWish(this SynthWishes entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this FlowNode entity) => WavHeaderWishes.ToWish(entity);
-        internal static AudioInfoWish ToWish(this ConfigResolver entity, SynthWishes synthWishes) => WavHeaderWishes.ToWish(entity, synthWishes);
-        internal static AudioInfoWish ToWish(this ConfigSection entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this Tape entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this TapeConfig entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this TapeActions entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this TapeAction entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this Buff entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this Buff entity, int courtesyFrames) => WavHeaderWishes.ToWish(entity, courtesyFrames);
-        public static AudioInfoWish ToWish(this AudioFileOutput entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this AudioFileOutput entity, int courtesyFrames) => WavHeaderWishes.ToWish(entity, courtesyFrames);
-        public static AudioInfoWish ToWish(this Sample entity) => WavHeaderWishes.ToWish(entity);
-        public static AudioInfoWish ToWish(this AudioFileInfo info) => WavHeaderWishes.ToWish(info);
-        public static AudioInfoWish ToWish(this WavHeaderStruct wavHeader) => WavHeaderWishes.ToWish(wavHeader);
+        public static AudioInfoWish ToWish(this SynthWishes entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this FlowNode entity) => WavWishes.ToWish(entity);
+        internal static AudioInfoWish ToWish(this ConfigResolver entity, SynthWishes synthWishes) => WavWishes.ToWish(entity, synthWishes);
+        internal static AudioInfoWish ToWish(this ConfigSection entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this Tape entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this TapeConfig entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this TapeActions entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this TapeAction entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this Buff entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this Buff entity, int courtesyFrames) => WavWishes.ToWish(entity, courtesyFrames);
+        public static AudioInfoWish ToWish(this AudioFileOutput entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this AudioFileOutput entity, int courtesyFrames) => WavWishes.ToWish(entity, courtesyFrames);
+        public static AudioInfoWish ToWish(this Sample entity) => WavWishes.ToWish(entity);
+        public static AudioInfoWish ToWish(this AudioFileInfo info) => WavWishes.ToWish(info);
+        public static AudioInfoWish ToWish(this WavHeaderStruct wavHeader) => WavWishes.ToWish(wavHeader);
         public static AudioInfoWish ToWish(this (int bits, int channels, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWish(x);
+            => WavWishes.ToWish(x);
         public static AudioInfoWish ToWish<TBits>(this (int channels, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWish<TBits>(x);
+            => WavWishes.ToWish<TBits>(x);
         public static AudioInfoWish ToWish(this (Type bitsType, int channels, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWish(x);
+            => WavWishes.ToWish(x);
         public static AudioInfoWish ToWish(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWish(x);
+            => WavWishes.ToWish(x);
         public static AudioInfoWish ToWish(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWish(x);
+            => WavWishes.ToWish(x);
     }
     
     public static class FromWishExtensions
     {
-        public static  void ApplyTo(this  AudioInfoWish infoWish, SynthWishes   entity  ) => WavHeaderWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this SynthWishes   entity,   AudioInfoWish infoWish) => WavHeaderWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, FlowNode      entity  ) => WavHeaderWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this FlowNode      entity,   AudioInfoWish infoWish) => WavHeaderWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, Tape          entity  ) => WavHeaderWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this Tape          entity,   AudioInfoWish infoWish) => WavHeaderWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeConfig    entity  ) => WavHeaderWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this TapeConfig    entity,   AudioInfoWish infoWish) => WavHeaderWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeActions   entity  ) => WavHeaderWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this TapeActions   entity,   AudioInfoWish infoWish) => WavHeaderWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeAction    entity  ) => WavHeaderWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this TapeAction    entity,   AudioInfoWish infoWish) => WavHeaderWishes.FromWish(entity, infoWish);
-        public static  void ApplyTo(this  AudioInfoWish infoWish, AudioFileInfo entity  ) => WavHeaderWishes.ApplyTo (infoWish, entity);
-        public static  void FromWish(this AudioFileInfo entity,   AudioInfoWish infoWish) => WavHeaderWishes.FromWish(entity, infoWish);
+        public static  void ApplyTo(this  AudioInfoWish infoWish, SynthWishes   entity  ) => WavWishes.ApplyTo (infoWish, entity);
+        public static  void FromWish(this SynthWishes   entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
+        public static  void ApplyTo(this  AudioInfoWish infoWish, FlowNode      entity  ) => WavWishes.ApplyTo (infoWish, entity);
+        public static  void FromWish(this FlowNode      entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
+        public static  void ApplyTo(this  AudioInfoWish infoWish, Tape          entity  ) => WavWishes.ApplyTo (infoWish, entity);
+        public static  void FromWish(this Tape          entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
+        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeConfig    entity  ) => WavWishes.ApplyTo (infoWish, entity);
+        public static  void FromWish(this TapeConfig    entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
+        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeActions   entity  ) => WavWishes.ApplyTo (infoWish, entity);
+        public static  void FromWish(this TapeActions   entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
+        public static  void ApplyTo(this  AudioInfoWish infoWish, TapeAction    entity  ) => WavWishes.ApplyTo (infoWish, entity);
+        public static  void FromWish(this TapeAction    entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
+        public static  void ApplyTo(this  AudioInfoWish infoWish, AudioFileInfo entity  ) => WavWishes.ApplyTo (infoWish, entity);
+        public static  void FromWish(this AudioFileInfo entity,   AudioInfoWish infoWish) => WavWishes.FromWish(entity, infoWish);
         
         internal static void ApplyTo(this AudioInfoWish infoWish, ConfigResolver entity, SynthWishes synthWishes)
-            => WavHeaderWishes.ApplyTo(infoWish, entity, synthWishes);
+            => WavWishes.ApplyTo(infoWish, entity, synthWishes);
         internal static void FromWish(this ConfigResolver entity, AudioInfoWish infoWish, SynthWishes synthWishes)
-            => WavHeaderWishes.FromWish(entity, infoWish, synthWishes);
+            => WavWishes.FromWish(entity, infoWish, synthWishes);
         
         public static void ApplyTo(this AudioInfoWish infoWish, Buff entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ApplyTo(infoWish, entity, courtesyFrames, context);
+            => WavWishes.ApplyTo(infoWish, entity, courtesyFrames, context);
         public static void FromWish(this Buff entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
-            => WavHeaderWishes.FromWish(entity, infoWish, courtesyFrames, context);
+            => WavWishes.FromWish(entity, infoWish, courtesyFrames, context);
         
         public static void ApplyTo(this AudioInfoWish infoWish, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ApplyTo(infoWish, entity, courtesyFrames, context);
+            => WavWishes.ApplyTo(infoWish, entity, courtesyFrames, context);
         public static void FromWish(this AudioFileOutput entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
-            => WavHeaderWishes.FromWish(entity, infoWish, courtesyFrames, context);
+            => WavWishes.FromWish(entity, infoWish, courtesyFrames, context);
         
         public static void ApplyTo(this AudioInfoWish infoWish, Sample entity, IContext context)
-            => WavHeaderWishes.ApplyTo(infoWish, entity, context);
+            => WavWishes.ApplyTo(infoWish, entity, context);
         public static void FromWish(this Sample entity, AudioInfoWish infoWish, IContext context)
-            => WavHeaderWishes.FromWish(entity, infoWish, context);
+            => WavWishes.FromWish(entity, infoWish, context);
         
-        public static void          ApplyTo(this  AudioInfoWish source, AudioInfoWish dest)   => WavHeaderWishes.ApplyTo(source, dest);
-        public static void          FromWish(this AudioInfoWish dest,   AudioInfoWish source) => WavHeaderWishes.FromWish(dest, source);
-        public static AudioFileInfo FromWish(this AudioInfoWish wish) => WavHeaderWishes.FromWish(wish);
+        public static void          ApplyTo(this  AudioInfoWish source, AudioInfoWish dest)   => WavWishes.ApplyTo(source, dest);
+        public static void          FromWish(this AudioInfoWish dest,   AudioInfoWish source) => WavWishes.FromWish(dest, source);
+        public static AudioFileInfo FromWish(this AudioInfoWish wish) => WavWishes.FromWish(wish);
     }
     
     public static class ToWavHeaderExtensions
     {
-        public   static WavHeaderStruct ToWavHeader(this SynthWishes     entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this FlowNode        entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        internal static WavHeaderStruct ToWavHeader(this ConfigResolver  entity, SynthWishes synthWishes) => WavHeaderWishes.ToWavHeader(entity, synthWishes);
-        internal static WavHeaderStruct ToWavHeader(this ConfigSection   entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this Tape            entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this TapeConfig      entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this TapeActions     entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this TapeAction      entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this Buff            entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this Buff            entity, int courtesyFrames)      => WavHeaderWishes.ToWavHeader(entity, courtesyFrames);
-        public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int courtesyFrames)      => WavHeaderWishes.ToWavHeader(entity, courtesyFrames);
-        public   static WavHeaderStruct ToWavHeader(this Sample          entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this AudioInfoWish   entity)                          => WavHeaderWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this AudioFileInfo   entity)                          => WavHeaderWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this SynthWishes     entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this FlowNode        entity)                          => WavWishes.ToWavHeader(entity);
+        internal static WavHeaderStruct ToWavHeader(this ConfigResolver  entity, SynthWishes synthWishes) => WavWishes.ToWavHeader(entity, synthWishes);
+        internal static WavHeaderStruct ToWavHeader(this ConfigSection   entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this Tape            entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this TapeConfig      entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this TapeActions     entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this TapeAction      entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this Buff            entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this Buff            entity, int courtesyFrames)      => WavWishes.ToWavHeader(entity, courtesyFrames);
+        public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int courtesyFrames)      => WavWishes.ToWavHeader(entity, courtesyFrames);
+        public   static WavHeaderStruct ToWavHeader(this Sample          entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this AudioInfoWish   entity)                          => WavWishes.ToWavHeader(entity);
+        public   static WavHeaderStruct ToWavHeader(this AudioFileInfo   entity)                          => WavWishes.ToWavHeader(entity);
         
         public static WavHeaderStruct ToWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.ToWavHeader(x);
+            => WavWishes.ToWavHeader(x);
         public static WavHeaderStruct ToWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWavHeader<TBits>(x);
+            => WavWishes.ToWavHeader<TBits>(x);
         public static WavHeaderStruct ToWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWavHeader(x);
+            => WavWishes.ToWavHeader(x);
         public static WavHeaderStruct ToWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWavHeader(x);
+            => WavWishes.ToWavHeader(x);
         public static WavHeaderStruct ToWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) 
-            => WavHeaderWishes.ToWavHeader(x);
+            => WavWishes.ToWavHeader(x);
     }
     
     public static class ApplyWavHeaderExtensions
     { 
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, SynthWishes entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this SynthWishes entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, SynthWishes entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this SynthWishes entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
 
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, FlowNode entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this FlowNode entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, FlowNode entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this FlowNode entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
         internal static void ApplyWavHeader(this WavHeaderStruct wavHeader, ConfigResolver entity, SynthWishes synthWishes)
-            => WavHeaderWishes.ApplyWavHeader(wavHeader, entity, synthWishes);
+            => WavWishes.ApplyWavHeader(wavHeader, entity, synthWishes);
         internal static void ApplyWavHeader(this ConfigResolver entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
-            => WavHeaderWishes.ApplyWavHeader(entity, wavHeader, synthWishes);
+            => WavWishes.ApplyWavHeader(entity, wavHeader, synthWishes);
         
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, Tape entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this Tape entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, Tape entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this Tape entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, TapeConfig entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this TapeConfig entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, TapeConfig entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this TapeConfig entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, TapeActions entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this TapeActions entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, TapeActions entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this TapeActions entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, TapeAction entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this TapeAction entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, TapeAction entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this TapeAction entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
         public static void ApplyWavHeader(this WavHeaderStruct wavHeader, Buff entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ApplyWavHeader(wavHeader, entity, courtesyFrames, context);
+            => WavWishes.ApplyWavHeader(wavHeader, entity, courtesyFrames, context);
         public static void ApplyWavHeader(this Buff entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ApplyWavHeader(entity, wavHeader, courtesyFrames, context);
+            => WavWishes.ApplyWavHeader(entity, wavHeader, courtesyFrames, context);
 
         public static void ApplyWavHeader(this WavHeaderStruct wavHeader, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ApplyWavHeader(wavHeader, entity, courtesyFrames, context);
+            => WavWishes.ApplyWavHeader(wavHeader, entity, courtesyFrames, context);
         public static void ApplyWavHeader(this AudioFileOutput entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ApplyWavHeader(entity, wavHeader, courtesyFrames, context);
+            => WavWishes.ApplyWavHeader(entity, wavHeader, courtesyFrames, context);
 
         public static void ApplyWavHeader(this WavHeaderStruct wavHeader, Sample entity, IContext context)
-            => WavHeaderWishes.ApplyWavHeader(wavHeader, entity, context);
+            => WavWishes.ApplyWavHeader(wavHeader, entity, context);
         public static void ApplyWavHeader(this Sample entity, WavHeaderStruct wavHeader, IContext context)
-            => WavHeaderWishes.ApplyWavHeader(entity, wavHeader, context);
+            => WavWishes.ApplyWavHeader(entity, wavHeader, context);
 
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, AudioFileInfo entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this AudioFileInfo entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, AudioFileInfo entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this AudioFileInfo entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
-        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, AudioInfoWish entity) => WavHeaderWishes.ApplyWavHeader(wavHeader, entity);
-        public static void ApplyWavHeader(this AudioInfoWish entity, WavHeaderStruct wavHeader) => WavHeaderWishes.ApplyWavHeader(entity, wavHeader);
+        public static void ApplyWavHeader(this WavHeaderStruct wavHeader, AudioInfoWish entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
+        public static void ApplyWavHeader(this AudioInfoWish entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
     }
     
     public static class ReadWavHeaderExtensions
     {
-        public static void ReadWavHeader(this SynthWishes  entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this SynthWishes  entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this SynthWishes  entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this SynthWishes  entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string       filePath, SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]       source,   SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream       source,   SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader source,   SynthWishes  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this FlowNode     entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this FlowNode     entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this FlowNode     entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this FlowNode     entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string       filePath, FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]       source,   FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream       source,   FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader source,   FlowNode     entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this SynthWishes  entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this SynthWishes  entity,   byte[]       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this SynthWishes  entity,   Stream       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this SynthWishes  entity,   BinaryReader source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, SynthWishes  entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   SynthWishes  entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   SynthWishes  entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   SynthWishes  entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this FlowNode     entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this FlowNode     entity,   byte[]       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this FlowNode     entity,   Stream       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this FlowNode     entity,   BinaryReader source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, FlowNode     entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   FlowNode     entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   FlowNode     entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   FlowNode     entity  ) => WavWishes.ReadWavHeader(source,   entity  );
         
         internal static void ReadWavHeader(this ConfigResolver entity, string filePath, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(entity, filePath, synthWishes);
+            => WavWishes.ReadWavHeader(entity, filePath, synthWishes);
         internal static void ReadWavHeader(this ConfigResolver entity, byte[] source, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(entity, source, synthWishes);
+            => WavWishes.ReadWavHeader(entity, source, synthWishes);
         internal static void ReadWavHeader(this ConfigResolver entity, Stream source, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(entity, source, synthWishes);
+            => WavWishes.ReadWavHeader(entity, source, synthWishes);
         internal static void ReadWavHeader(this ConfigResolver entity, BinaryReader source, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(entity, source, synthWishes);
+            => WavWishes.ReadWavHeader(entity, source, synthWishes);
         internal static void ReadWavHeader(this string filePath, ConfigResolver entity, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(filePath, entity, synthWishes);
+            => WavWishes.ReadWavHeader(filePath, entity, synthWishes);
         internal static void ReadWavHeader(this byte[] source, ConfigResolver entity, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(source, entity, synthWishes);
+            => WavWishes.ReadWavHeader(source, entity, synthWishes);
         internal static void ReadWavHeader(this Stream source, ConfigResolver entity, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(source, entity, synthWishes);
+            => WavWishes.ReadWavHeader(source, entity, synthWishes);
         internal static void ReadWavHeader(this BinaryReader source, ConfigResolver entity, SynthWishes synthWishes)
-            => WavHeaderWishes.ReadWavHeader(source, entity, synthWishes);
+            => WavWishes.ReadWavHeader(source, entity, synthWishes);
         
-        public static void ReadWavHeader(this Tape         entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this Tape         entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this Tape         entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this Tape         entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string       filePath, Tape         entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]       source,   Tape         entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream       source,   Tape         entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader source,   Tape         entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this TapeConfig   entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this TapeConfig   entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this TapeConfig   entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this TapeConfig   entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string       filePath, TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]       source,   TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream       source,   TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader source,   TapeConfig   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this TapeActions  entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this TapeActions  entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this TapeActions  entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this TapeActions  entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string       filePath, TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]       source,   TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream       source,   TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader source,   TapeActions  entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this TapeAction   entity,   string       filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this TapeAction   entity,   byte[]       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this TapeAction   entity,   Stream       source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this TapeAction   entity,   BinaryReader source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string       filePath, TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]       source,   TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream       source,   TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader source,   TapeAction   entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Tape         entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this Tape         entity,   byte[]       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this Tape         entity,   Stream       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this Tape         entity,   BinaryReader source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, Tape         entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   Tape         entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   Tape         entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   Tape         entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this TapeConfig   entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this TapeConfig   entity,   byte[]       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeConfig   entity,   Stream       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeConfig   entity,   BinaryReader source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, TapeConfig   entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   TapeConfig   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   TapeConfig   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   TapeConfig   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this TapeActions  entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this TapeActions  entity,   byte[]       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeActions  entity,   Stream       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeActions  entity,   BinaryReader source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, TapeActions  entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   TapeActions  entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   TapeActions  entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   TapeActions  entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this TapeAction   entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this TapeAction   entity,   byte[]       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeAction   entity,   Stream       source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this TapeAction   entity,   BinaryReader source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string       filePath, TapeAction   entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]       source,   TapeAction   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream       source,   TapeAction   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader source,   TapeAction   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
         
         public static void ReadWavHeader(this Buff entity, string filePath, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
         public static void ReadWavHeader(this Buff entity, byte[] source, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this Buff entity, Stream source, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this Buff entity, BinaryReader source, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this string filePath, Buff entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
         public static void ReadWavHeader(this byte[] source, Buff entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
         public static void ReadWavHeader(this Stream source, Buff entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
         public static void ReadWavHeader(this BinaryReader source, Buff entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
         
         public static void ReadWavHeader(this AudioFileOutput entity, string filePath, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
         public static void ReadWavHeader(this AudioFileOutput entity, byte[] source, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this AudioFileOutput entity, Stream source, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this AudioFileOutput entity, BinaryReader source, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(entity, source, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
         public static void ReadWavHeader(this string filePath, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
         public static void ReadWavHeader(this byte[] source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
         public static void ReadWavHeader(this Stream source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
         public static void ReadWavHeader(this BinaryReader source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavHeaderWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
 
-        public static void ReadWavHeader(this Sample       entity,   string filePath,     IContext context) => WavHeaderWishes.ReadWavHeader(entity, filePath, context);
-        public static void ReadWavHeader(this Sample       entity,   byte[] source,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
-        public static void ReadWavHeader(this Sample       entity,   Stream source,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
-        public static void ReadWavHeader(this Sample       entity,   BinaryReader source, IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
-        public static void ReadWavHeader(this string       filePath, Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, filePath, context);
-        public static void ReadWavHeader(this byte[]       source,   Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
-        public static void ReadWavHeader(this Stream       source,   Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
-        public static void ReadWavHeader(this BinaryReader source,   Sample entity,       IContext context) => WavHeaderWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this Sample       entity,   string filePath,     IContext context) => WavWishes.ReadWavHeader(entity, filePath, context);
+        public static void ReadWavHeader(this Sample       entity,   byte[] source,       IContext context) => WavWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this Sample       entity,   Stream source,       IContext context) => WavWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this Sample       entity,   BinaryReader source, IContext context) => WavWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this string       filePath, Sample entity,       IContext context) => WavWishes.ReadWavHeader(entity, filePath, context);
+        public static void ReadWavHeader(this byte[]       source,   Sample entity,       IContext context) => WavWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this Stream       source,   Sample entity,       IContext context) => WavWishes.ReadWavHeader(entity, source,   context);
+        public static void ReadWavHeader(this BinaryReader source,   Sample entity,       IContext context) => WavWishes.ReadWavHeader(entity, source,   context);
         
-        public static void ReadWavHeader(this AudioInfoWish entity,   string        filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this AudioInfoWish entity,   byte[]        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this AudioInfoWish entity,   Stream        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this AudioInfoWish entity,   BinaryReader  source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string        filePath, AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]        source,   AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream        source,   AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader  source,   AudioInfoWish entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this AudioFileInfo entity,   string        filePath) => WavHeaderWishes.ReadWavHeader(entity,   filePath);
-        public static void ReadWavHeader(this AudioFileInfo entity,   byte[]        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this AudioFileInfo entity,   Stream        source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this AudioFileInfo entity,   BinaryReader  source  ) => WavHeaderWishes.ReadWavHeader(entity,   source  );
-        public static void ReadWavHeader(this string        filePath, AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(filePath, entity  );
-        public static void ReadWavHeader(this byte[]        source,   AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this Stream        source,   AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
-        public static void ReadWavHeader(this BinaryReader  source,   AudioFileInfo entity  ) => WavHeaderWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this AudioInfoWish entity,   string        filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this AudioInfoWish entity,   byte[]        source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioInfoWish entity,   Stream        source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioInfoWish entity,   BinaryReader  source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string        filePath, AudioInfoWish entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]        source,   AudioInfoWish entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream        source,   AudioInfoWish entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader  source,   AudioInfoWish entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this AudioFileInfo entity,   string        filePath) => WavWishes.ReadWavHeader(entity,   filePath);
+        public static void ReadWavHeader(this AudioFileInfo entity,   byte[]        source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioFileInfo entity,   Stream        source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this AudioFileInfo entity,   BinaryReader  source  ) => WavWishes.ReadWavHeader(entity,   source  );
+        public static void ReadWavHeader(this string        filePath, AudioFileInfo entity  ) => WavWishes.ReadWavHeader(filePath, entity  );
+        public static void ReadWavHeader(this byte[]        source,   AudioFileInfo entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this Stream        source,   AudioFileInfo entity  ) => WavWishes.ReadWavHeader(source,   entity  );
+        public static void ReadWavHeader(this BinaryReader  source,   AudioFileInfo entity  ) => WavWishes.ReadWavHeader(source,   entity  );
         
-        public static WavHeaderStruct ReadWavHeader(this string filePath) => WavHeaderWishes.ReadWavHeader(filePath);
-        public static WavHeaderStruct ReadWavHeader(this byte[] bytes) => WavHeaderWishes.ReadWavHeader(bytes);
-        public static WavHeaderStruct ReadWavHeader(this Stream stream) => WavHeaderWishes.ReadWavHeader(stream);
-        public static WavHeaderStruct ReadWavHeader(this BinaryReader reader) => WavHeaderWishes.ReadWavHeader(reader);
+        public static WavHeaderStruct ReadWavHeader(this string filePath) => WavWishes.ReadWavHeader(filePath);
+        public static WavHeaderStruct ReadWavHeader(this byte[] bytes) => WavWishes.ReadWavHeader(bytes);
+        public static WavHeaderStruct ReadWavHeader(this Stream stream) => WavWishes.ReadWavHeader(stream);
+        public static WavHeaderStruct ReadWavHeader(this BinaryReader reader) => WavWishes.ReadWavHeader(reader);
     }
     
     public static class ReadAudioInfoExtensions
     {
-        public static AudioInfoWish ReadAudioInfo(this string       filePath) => WavHeaderWishes.ReadAudioInfo(filePath);
-        public static AudioInfoWish ReadAudioInfo(this byte[]       source  ) => WavHeaderWishes.ReadAudioInfo(source  );
-        public static AudioInfoWish ReadAudioInfo(this Stream       source  ) => WavHeaderWishes.ReadAudioInfo(source  );
-        public static AudioInfoWish ReadAudioInfo(this BinaryReader source)   => WavHeaderWishes.ReadAudioInfo(source  );
+        public static AudioInfoWish ReadAudioInfo(this string       filePath) => WavWishes.ReadAudioInfo(filePath);
+        public static AudioInfoWish ReadAudioInfo(this byte[]       source  ) => WavWishes.ReadAudioInfo(source  );
+        public static AudioInfoWish ReadAudioInfo(this Stream       source  ) => WavWishes.ReadAudioInfo(source  );
+        public static AudioInfoWish ReadAudioInfo(this BinaryReader source)   => WavWishes.ReadAudioInfo(source  );
     }
 
     public static class WriteWavHeaderExtensions
     {
-        public static void WriteWavHeader(this SynthWishes  entity,   string       filePath) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this SynthWishes  entity,   byte[]       dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this SynthWishes  entity,   BinaryWriter dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this SynthWishes  entity,   Stream       dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string       filePath, SynthWishes  entity  ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]       dest,     SynthWishes  entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream       dest,     SynthWishes  entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter dest,     SynthWishes  entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this FlowNode     entity,   string       filePath) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this FlowNode     entity,   byte[]       dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this FlowNode     entity,   BinaryWriter dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this FlowNode     entity,   Stream       dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string       filePath, FlowNode     entity  ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]       dest,     FlowNode     entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream       dest,     FlowNode     entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter dest,     FlowNode     entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   string         filePath, SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(entity,   filePath, synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   byte[]         dest    , SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(entity,   dest    , synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   BinaryWriter   dest    , SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(entity,   dest    , synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   Stream         dest    , SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(entity,   dest    , synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this string         filePath, ConfigResolver entity  , SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(filePath, entity  , synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this byte[]         dest,     ConfigResolver entity  , SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(dest,     entity  , synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this Stream         dest,     ConfigResolver entity  , SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(dest,     entity  , synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this BinaryWriter   dest,     ConfigResolver entity  , SynthWishes synthWishes) => WavHeaderWishes.WriteWavHeader(dest,     entity  , synthWishes);
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   string        filePath) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   byte[]        dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   BinaryWriter  dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   Stream        dest    ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        [UsedImplicitly] internal static void WriteWavHeader(this string        filePath, ConfigSection entity  ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        [UsedImplicitly] internal static void WriteWavHeader(this byte[]        dest,     ConfigSection entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        [UsedImplicitly] internal static void WriteWavHeader(this Stream        dest,     ConfigSection entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        [UsedImplicitly] internal static void WriteWavHeader(this BinaryWriter  dest,     ConfigSection entity  ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Tape            entity,    string          filePath  ) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this Tape            entity,    byte[]          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this Tape            entity,    BinaryWriter    dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this Tape            entity,    Stream          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string          filePath,  Tape            entity    ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]          dest,      Tape            entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream          dest,      Tape            entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter    dest,      Tape            entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this TapeConfig      entity,    string          filePath  ) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this TapeConfig      entity,    byte[]          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this TapeConfig      entity,    BinaryWriter    dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this TapeConfig      entity,    Stream          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string          filePath,  TapeConfig      entity    ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]          dest,      TapeConfig      entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream          dest,      TapeConfig      entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter    dest,      TapeConfig      entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this TapeActions     entity,    string          filePath  ) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this TapeActions     entity,    byte[]          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this TapeActions     entity,    BinaryWriter    dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this TapeActions     entity,    Stream          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string          filePath,  TapeActions     entity    ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]          dest,      TapeActions     entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream          dest,      TapeActions     entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter    dest,      TapeActions     entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this TapeAction      entity,    string          filePath  ) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this TapeAction      entity,    byte[]          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this TapeAction      entity,    BinaryWriter    dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this TapeAction      entity,    Stream          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string          filePath,  TapeAction      entity    ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]          dest,      TapeAction      entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream          dest,      TapeAction      entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter    dest,      TapeAction      entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Buff            entity,    string          filePath  ) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this Buff            entity,    byte[]          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this Buff            entity,    BinaryWriter    dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this Buff            entity,    Stream          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string          filePath,  Buff            entity    ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]          dest,      Buff            entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream          dest,      Buff            entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter    dest,      Buff            entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this AudioFileOutput entity,    string          filePath  ) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
-        public static void WriteWavHeader(this AudioFileOutput entity,    byte[]          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this AudioFileOutput entity,    BinaryWriter    dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this AudioFileOutput entity,    Stream          dest      ) => WavHeaderWishes.WriteWavHeader(entity,   dest    );
-        public static void WriteWavHeader(this string          filePath,  AudioFileOutput entity    ) => WavHeaderWishes.WriteWavHeader(filePath, entity  );
-        public static void WriteWavHeader(this byte[]          dest,      AudioFileOutput entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Stream          dest,      AudioFileOutput entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this BinaryWriter    dest,      AudioFileOutput entity    ) => WavHeaderWishes.WriteWavHeader(dest,     entity  );
-        public static void WriteWavHeader(this Buff            entity,    string          filePath, int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   filePath, courtesyFrames);
-        public static void WriteWavHeader(this Buff            entity,    byte[]          dest,     int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static void WriteWavHeader(this Buff            entity,    BinaryWriter    dest,     int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static void WriteWavHeader(this Buff            entity,    Stream          dest,     int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static void WriteWavHeader(this string          filePath,  Buff            entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(filePath, entity,   courtesyFrames);
-        public static void WriteWavHeader(this byte[]          dest,      Buff            entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static void WriteWavHeader(this Stream          dest,      Buff            entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static void WriteWavHeader(this BinaryWriter    dest,      Buff            entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static void WriteWavHeader(this AudioFileOutput entity,    string          filePath, int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   filePath, courtesyFrames);
-        public static void WriteWavHeader(this AudioFileOutput entity,    byte[]          dest,     int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static void WriteWavHeader(this AudioFileOutput entity,    BinaryWriter    dest,     int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static void WriteWavHeader(this AudioFileOutput entity,    Stream          dest,     int courtesyFrames) => WavHeaderWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static void WriteWavHeader(this string          filePath,  AudioFileOutput entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(filePath, entity,   courtesyFrames);
-        public static void WriteWavHeader(this byte[]          dest,      AudioFileOutput entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static void WriteWavHeader(this Stream          dest,      AudioFileOutput entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static void WriteWavHeader(this BinaryWriter    dest,      AudioFileOutput entity,   int courtesyFrames) => WavHeaderWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static void WriteWavHeader(this Sample          entity,    string          filePath ) => WavHeaderWishes.WriteWavHeader(entity,    filePath );
-        public static void WriteWavHeader(this Sample          entity,    byte[]          dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this Sample          entity,    BinaryWriter    dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this Sample          entity,    Stream          dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this string          filePath,  Sample          entity   ) => WavHeaderWishes.WriteWavHeader(filePath,  entity   );
-        public static void WriteWavHeader(this byte[]          dest,      Sample          entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this Stream          dest,      Sample          entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this BinaryWriter    dest,      Sample          entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this AudioInfoWish   entity,    string          filePath ) => WavHeaderWishes.WriteWavHeader(entity,    filePath );
-        public static void WriteWavHeader(this AudioInfoWish   entity,    byte[]          dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this AudioInfoWish   entity,    Stream          dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this AudioInfoWish   entity,    BinaryWriter    dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this string          filePath,  AudioInfoWish   entity   ) => WavHeaderWishes.WriteWavHeader(filePath,  entity   );
-        public static void WriteWavHeader(this byte[]          dest,      AudioInfoWish   entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this Stream          dest,      AudioInfoWish   entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this BinaryWriter    dest,      AudioInfoWish   entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this AudioFileInfo   entity,    string          filePath ) => WavHeaderWishes.WriteWavHeader(entity,    filePath );
-        public static void WriteWavHeader(this AudioFileInfo   entity,    byte[]          dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this AudioFileInfo   entity,    Stream          dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this AudioFileInfo   entity,    BinaryWriter    dest     ) => WavHeaderWishes.WriteWavHeader(entity,    dest     );
-        public static void WriteWavHeader(this string          filePath,  AudioFileInfo   entity   ) => WavHeaderWishes.WriteWavHeader(filePath,  entity   );
-        public static void WriteWavHeader(this byte[]          dest,      AudioFileInfo   entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this Stream          dest,      AudioFileInfo   entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this BinaryWriter    dest,      AudioFileInfo   entity   ) => WavHeaderWishes.WriteWavHeader(dest,      entity   );
-        public static void WriteWavHeader(this WavHeaderStruct wavHeader, string          filePath ) => WavHeaderWishes.WriteWavHeader(wavHeader, filePath );
-        public static void WriteWavHeader(this WavHeaderStruct wavHeader, byte[]          dest     ) => WavHeaderWishes.WriteWavHeader(wavHeader, dest     );
-        public static void WriteWavHeader(this WavHeaderStruct wavHeader, Stream          dest     ) => WavHeaderWishes.WriteWavHeader(wavHeader, dest     );
-        public static void WriteWavHeader(this WavHeaderStruct wavHeader, BinaryWriter    dest     ) => WavHeaderWishes.WriteWavHeader(wavHeader, dest     );
-        public static void WriteWavHeader(this string           filePath, WavHeaderStruct wavHeader) => WavHeaderWishes.WriteWavHeader(filePath,  wavHeader);
-        public static void WriteWavHeader(this byte[]               dest, WavHeaderStruct wavHeader) => WavHeaderWishes.WriteWavHeader(dest,      wavHeader);
-        public static void WriteWavHeader(this Stream               dest, WavHeaderStruct wavHeader) => WavHeaderWishes.WriteWavHeader(dest,      wavHeader);
-        public static void WriteWavHeader(this BinaryWriter         dest, WavHeaderStruct wavHeader) => WavHeaderWishes.WriteWavHeader(dest,      wavHeader);
-        public static void Write         (this WavHeaderStruct wavHeader, string          filePath ) => WavHeaderWishes.Write         (wavHeader, filePath );
-        public static void Write         (this WavHeaderStruct wavHeader, byte[]          dest     ) => WavHeaderWishes.Write         (wavHeader, dest     );
-        public static void Write         (this WavHeaderStruct wavHeader, Stream          dest     ) => WavHeaderWishes.Write         (wavHeader, dest     );
-        public static void Write         (this WavHeaderStruct wavHeader, BinaryWriter    dest     ) => WavHeaderWishes.Write         (wavHeader, dest     );
-        public static void Write         (this string           filePath, WavHeaderStruct wavHeader) => WavHeaderWishes.Write         (filePath,  wavHeader);
-        public static void Write         (this byte[]               dest, WavHeaderStruct wavHeader) => WavHeaderWishes.Write         (dest,      wavHeader);
-        public static void Write         (this Stream               dest, WavHeaderStruct wavHeader) => WavHeaderWishes.Write         (dest,      wavHeader);
-        public static void Write         (this BinaryWriter         dest, WavHeaderStruct wavHeader) => WavHeaderWishes.Write         (dest,      wavHeader);
+        public static void WriteWavHeader(this SynthWishes  entity,   string       filePath) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this SynthWishes  entity,   byte[]       dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this SynthWishes  entity,   BinaryWriter dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this SynthWishes  entity,   Stream       dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string       filePath, SynthWishes  entity  ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]       dest,     SynthWishes  entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream       dest,     SynthWishes  entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter dest,     SynthWishes  entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this FlowNode     entity,   string       filePath) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this FlowNode     entity,   byte[]       dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this FlowNode     entity,   BinaryWriter dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this FlowNode     entity,   Stream       dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string       filePath, FlowNode     entity  ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]       dest,     FlowNode     entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream       dest,     FlowNode     entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter dest,     FlowNode     entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   string         filePath, SynthWishes synthWishes) => WavWishes.WriteWavHeader(entity,   filePath, synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   byte[]         dest    , SynthWishes synthWishes) => WavWishes.WriteWavHeader(entity,   dest    , synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   BinaryWriter   dest    , SynthWishes synthWishes) => WavWishes.WriteWavHeader(entity,   dest    , synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigResolver entity,   Stream         dest    , SynthWishes synthWishes) => WavWishes.WriteWavHeader(entity,   dest    , synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this string         filePath, ConfigResolver entity  , SynthWishes synthWishes) => WavWishes.WriteWavHeader(filePath, entity  , synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this byte[]         dest,     ConfigResolver entity  , SynthWishes synthWishes) => WavWishes.WriteWavHeader(dest,     entity  , synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this Stream         dest,     ConfigResolver entity  , SynthWishes synthWishes) => WavWishes.WriteWavHeader(dest,     entity  , synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this BinaryWriter   dest,     ConfigResolver entity  , SynthWishes synthWishes) => WavWishes.WriteWavHeader(dest,     entity  , synthWishes);
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   string        filePath) => WavWishes.WriteWavHeader(entity,   filePath);
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   byte[]        dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   BinaryWriter  dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this ConfigSection entity,   Stream        dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
+        [UsedImplicitly] internal static void WriteWavHeader(this string        filePath, ConfigSection entity  ) => WavWishes.WriteWavHeader(filePath, entity  );
+        [UsedImplicitly] internal static void WriteWavHeader(this byte[]        dest,     ConfigSection entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        [UsedImplicitly] internal static void WriteWavHeader(this Stream        dest,     ConfigSection entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        [UsedImplicitly] internal static void WriteWavHeader(this BinaryWriter  dest,     ConfigSection entity  ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Tape            entity,    string          filePath  ) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this Tape            entity,    byte[]          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this Tape            entity,    BinaryWriter    dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this Tape            entity,    Stream          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string          filePath,  Tape            entity    ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]          dest,      Tape            entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream          dest,      Tape            entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter    dest,      Tape            entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this TapeConfig      entity,    string          filePath  ) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this TapeConfig      entity,    byte[]          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this TapeConfig      entity,    BinaryWriter    dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this TapeConfig      entity,    Stream          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string          filePath,  TapeConfig      entity    ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]          dest,      TapeConfig      entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream          dest,      TapeConfig      entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter    dest,      TapeConfig      entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this TapeActions     entity,    string          filePath  ) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this TapeActions     entity,    byte[]          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this TapeActions     entity,    BinaryWriter    dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this TapeActions     entity,    Stream          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string          filePath,  TapeActions     entity    ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]          dest,      TapeActions     entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream          dest,      TapeActions     entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter    dest,      TapeActions     entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this TapeAction      entity,    string          filePath  ) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this TapeAction      entity,    byte[]          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this TapeAction      entity,    BinaryWriter    dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this TapeAction      entity,    Stream          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string          filePath,  TapeAction      entity    ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]          dest,      TapeAction      entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream          dest,      TapeAction      entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter    dest,      TapeAction      entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Buff            entity,    string          filePath  ) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this Buff            entity,    byte[]          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this Buff            entity,    BinaryWriter    dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this Buff            entity,    Stream          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string          filePath,  Buff            entity    ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]          dest,      Buff            entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream          dest,      Buff            entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter    dest,      Buff            entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this AudioFileOutput entity,    string          filePath  ) => WavWishes.WriteWavHeader(entity,   filePath);
+        public static void WriteWavHeader(this AudioFileOutput entity,    byte[]          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this AudioFileOutput entity,    BinaryWriter    dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this AudioFileOutput entity,    Stream          dest      ) => WavWishes.WriteWavHeader(entity,   dest    );
+        public static void WriteWavHeader(this string          filePath,  AudioFileOutput entity    ) => WavWishes.WriteWavHeader(filePath, entity  );
+        public static void WriteWavHeader(this byte[]          dest,      AudioFileOutput entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Stream          dest,      AudioFileOutput entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this BinaryWriter    dest,      AudioFileOutput entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
+        public static void WriteWavHeader(this Buff            entity,    string          filePath, int courtesyFrames) => WavWishes.WriteWavHeader(entity,   filePath, courtesyFrames);
+        public static void WriteWavHeader(this Buff            entity,    byte[]          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
+        public static void WriteWavHeader(this Buff            entity,    BinaryWriter    dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
+        public static void WriteWavHeader(this Buff            entity,    Stream          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
+        public static void WriteWavHeader(this string          filePath,  Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(filePath, entity,   courtesyFrames);
+        public static void WriteWavHeader(this byte[]          dest,      Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
+        public static void WriteWavHeader(this Stream          dest,      Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
+        public static void WriteWavHeader(this BinaryWriter    dest,      Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
+        public static void WriteWavHeader(this AudioFileOutput entity,    string          filePath, int courtesyFrames) => WavWishes.WriteWavHeader(entity,   filePath, courtesyFrames);
+        public static void WriteWavHeader(this AudioFileOutput entity,    byte[]          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
+        public static void WriteWavHeader(this AudioFileOutput entity,    BinaryWriter    dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
+        public static void WriteWavHeader(this AudioFileOutput entity,    Stream          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
+        public static void WriteWavHeader(this string          filePath,  AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(filePath, entity,   courtesyFrames);
+        public static void WriteWavHeader(this byte[]          dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
+        public static void WriteWavHeader(this Stream          dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
+        public static void WriteWavHeader(this BinaryWriter    dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
+        public static void WriteWavHeader(this Sample          entity,    string          filePath ) => WavWishes.WriteWavHeader(entity,    filePath );
+        public static void WriteWavHeader(this Sample          entity,    byte[]          dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this Sample          entity,    BinaryWriter    dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this Sample          entity,    Stream          dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this string          filePath,  Sample          entity   ) => WavWishes.WriteWavHeader(filePath,  entity   );
+        public static void WriteWavHeader(this byte[]          dest,      Sample          entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this Stream          dest,      Sample          entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this BinaryWriter    dest,      Sample          entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this AudioInfoWish   entity,    string          filePath ) => WavWishes.WriteWavHeader(entity,    filePath );
+        public static void WriteWavHeader(this AudioInfoWish   entity,    byte[]          dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this AudioInfoWish   entity,    Stream          dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this AudioInfoWish   entity,    BinaryWriter    dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this string          filePath,  AudioInfoWish   entity   ) => WavWishes.WriteWavHeader(filePath,  entity   );
+        public static void WriteWavHeader(this byte[]          dest,      AudioInfoWish   entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this Stream          dest,      AudioInfoWish   entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this BinaryWriter    dest,      AudioInfoWish   entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this AudioFileInfo   entity,    string          filePath ) => WavWishes.WriteWavHeader(entity,    filePath );
+        public static void WriteWavHeader(this AudioFileInfo   entity,    byte[]          dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this AudioFileInfo   entity,    Stream          dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this AudioFileInfo   entity,    BinaryWriter    dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
+        public static void WriteWavHeader(this string          filePath,  AudioFileInfo   entity   ) => WavWishes.WriteWavHeader(filePath,  entity   );
+        public static void WriteWavHeader(this byte[]          dest,      AudioFileInfo   entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this Stream          dest,      AudioFileInfo   entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this BinaryWriter    dest,      AudioFileInfo   entity   ) => WavWishes.WriteWavHeader(dest,      entity   );
+        public static void WriteWavHeader(this WavHeaderStruct wavHeader, string          filePath ) => WavWishes.WriteWavHeader(wavHeader, filePath );
+        public static void WriteWavHeader(this WavHeaderStruct wavHeader, byte[]          dest     ) => WavWishes.WriteWavHeader(wavHeader, dest     );
+        public static void WriteWavHeader(this WavHeaderStruct wavHeader, Stream          dest     ) => WavWishes.WriteWavHeader(wavHeader, dest     );
+        public static void WriteWavHeader(this WavHeaderStruct wavHeader, BinaryWriter    dest     ) => WavWishes.WriteWavHeader(wavHeader, dest     );
+        public static void WriteWavHeader(this string           filePath, WavHeaderStruct wavHeader) => WavWishes.WriteWavHeader(filePath,  wavHeader);
+        public static void WriteWavHeader(this byte[]               dest, WavHeaderStruct wavHeader) => WavWishes.WriteWavHeader(dest,      wavHeader);
+        public static void WriteWavHeader(this Stream               dest, WavHeaderStruct wavHeader) => WavWishes.WriteWavHeader(dest,      wavHeader);
+        public static void WriteWavHeader(this BinaryWriter         dest, WavHeaderStruct wavHeader) => WavWishes.WriteWavHeader(dest,      wavHeader);
+        public static void Write         (this WavHeaderStruct wavHeader, string          filePath ) => WavWishes.Write         (wavHeader, filePath );
+        public static void Write         (this WavHeaderStruct wavHeader, byte[]          dest     ) => WavWishes.Write         (wavHeader, dest     );
+        public static void Write         (this WavHeaderStruct wavHeader, Stream          dest     ) => WavWishes.Write         (wavHeader, dest     );
+        public static void Write         (this WavHeaderStruct wavHeader, BinaryWriter    dest     ) => WavWishes.Write         (wavHeader, dest     );
+        public static void Write         (this string           filePath, WavHeaderStruct wavHeader) => WavWishes.Write         (filePath,  wavHeader);
+        public static void Write         (this byte[]               dest, WavHeaderStruct wavHeader) => WavWishes.Write         (dest,      wavHeader);
+        public static void Write         (this Stream               dest, WavHeaderStruct wavHeader) => WavWishes.Write         (dest,      wavHeader);
+        public static void Write         (this BinaryWriter         dest, WavHeaderStruct wavHeader) => WavWishes.Write         (dest,      wavHeader);
         
         // With Values
         
-        public static void WriteWavHeader(this string   filePath,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this string   filePath, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[]       dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[]       dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this Stream       dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream       dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this BinaryWriter dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
-        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this string   filePath,  int bits, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(filePath, bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (int bits, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, string   filePath) => WavWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, Stream       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavWishes.WriteWavHeader(x, dest    );
         
 
-        public static void WriteWavHeader<TBits>(this string   filePath,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(filePath, channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this string   filePath, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(filePath, x);
-        public static void WriteWavHeader<TBits>(this byte[]       dest,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this byte[]       dest, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     x);
-        public static void WriteWavHeader<TBits>(this Stream       dest,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this Stream       dest, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     x);
-        public static void WriteWavHeader<TBits>(this BinaryWriter dest,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this BinaryWriter dest, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     x);
-        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader<TBits>(x, filePath);
-        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader<TBits>(x, dest    );
-        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader<TBits>(x, dest    );
-        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader<TBits>(x, dest    );
+        public static void WriteWavHeader<TBits>(this string   filePath,  int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader<TBits>(filePath, channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this string   filePath, (int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader<TBits>(filePath, x);
+        public static void WriteWavHeader<TBits>(this byte[]       dest,  int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this byte[]       dest, (int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader<TBits>(dest,     x);
+        public static void WriteWavHeader<TBits>(this Stream       dest,  int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this Stream       dest, (int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader<TBits>(dest,     x);
+        public static void WriteWavHeader<TBits>(this BinaryWriter dest,  int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this BinaryWriter dest, (int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader<TBits>(dest,     x);
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, string   filePath) => WavWishes.WriteWavHeader<TBits>(x, filePath);
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavWishes.WriteWavHeader<TBits>(x, dest    );
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, Stream       dest) => WavWishes.WriteWavHeader<TBits>(x, dest    );
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavWishes.WriteWavHeader<TBits>(x, dest    );
 
-        public static void WriteWavHeader(this string   filePath,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this string   filePath, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[]       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[]       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this Stream       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this BinaryWriter dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
-        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this string   filePath,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(filePath, bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, string   filePath) => WavWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, Stream       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavWishes.WriteWavHeader(x, dest    );
 
-        public static void WriteWavHeader(this string   filePath,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this string   filePath, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[]       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[]       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this Stream       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this BinaryWriter dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
-        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this string   filePath,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(filePath, bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, string   filePath) => WavWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, byte[]       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, Stream       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, BinaryWriter dest) => WavWishes.WriteWavHeader(x, dest    );
 
-        public static void WriteWavHeader(this string   filePath,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this string   filePath, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[]       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[]       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this Stream       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this BinaryWriter dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
-        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
-        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
-        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this string   filePath,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(filePath, bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, string   filePath) => WavWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, byte[]       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, Stream       dest) => WavWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, BinaryWriter dest) => WavWishes.WriteWavHeader(x, dest    );
     }
 }
