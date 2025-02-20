@@ -24,8 +24,6 @@ using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static System.Threading.Thread;
-using static System.Net.Mime.MediaTypeNames;
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer
 
@@ -153,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WavWishes_ToInfo_Test(string caseKey)
+        public void ToInfo_Test(string caseKey)
         { 
             var test = Cases[caseKey];
             var zeroFramesCase = new Case
@@ -249,7 +247,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         [DynamicData(nameof(TransitionCases))]
-        public void WavWishes_ApplyInfo_Test(string caseKey)
+        public void ApplyInfo_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
             int courtesy = test.CourtesyFrames;
@@ -445,7 +443,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(TransitionCases))]
-        public void FromWavHeader_Test(string caseKey)
+        public void ApplyWavHeader_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
             SynthWishes synthWishes;
