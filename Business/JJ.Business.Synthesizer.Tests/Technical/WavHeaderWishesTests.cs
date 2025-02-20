@@ -909,6 +909,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             BuffBoundEntities binaries = null;
             var synthWishes = entities.SynthBound.SynthWishes;
             int courtesy = test.CourtesyFrames;
+            int frameCount = test.FrameCount;
             
             void AssertSetter(Action setter, TestEntityEnum entity)
             {
@@ -926,42 +927,42 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
 
-            AssertSetter(() => entities.SynthBound .SynthWishes    .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.SynthBound .SynthWishes    .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.SynthBound .SynthWishes    .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.SynthBound .SynthWishes    .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.SynthBound .FlowNode       .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.SynthBound .FlowNode       .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.SynthBound .FlowNode       .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.SynthBound .FlowNode       .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.DestFilePath, synthWishes), ForDestFilePath);
-            AssertSetter(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.DestBytes,    synthWishes), ForDestBytes   );
-            AssertSetter(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.DestStream,   synthWishes), ForDestStream  );
-            AssertSetter(() => entities.SynthBound .ConfigResolver .WriteWavHeader(binaries.BinaryWriter, synthWishes), ForBinaryWriter);
-            AssertSetter(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.TapeBound  .Tape           .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.TapeBound  .TapeConfig     .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.TapeBound  .TapeConfig     .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.TapeBound  .TapeConfig     .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.TapeBound  .TapeConfig     .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.TapeBound  .TapeActions    .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.TapeBound  .TapeActions    .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.TapeBound  .TapeActions    .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.TapeBound  .TapeActions    .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.TapeBound  .TapeAction     .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.TapeBound  .TapeAction     .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.TapeBound  .TapeAction     .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.TapeBound  .TapeAction     .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.BuffBound  .Buff           .WriteWavHeader(binaries.DestFilePath, courtesy   ), ForDestFilePath);
-            AssertSetter(() => entities.BuffBound  .Buff           .WriteWavHeader(binaries.DestBytes,    courtesy   ), ForDestBytes   );
-            AssertSetter(() => entities.BuffBound  .Buff           .WriteWavHeader(binaries.DestStream,   courtesy   ), ForDestStream  );
-            AssertSetter(() => entities.BuffBound  .Buff           .WriteWavHeader(binaries.BinaryWriter, courtesy   ), ForBinaryWriter);
-            AssertSetter(() => entities.BuffBound  .AudioFileOutput.WriteWavHeader(binaries.DestFilePath, courtesy   ), ForDestFilePath);
-            AssertSetter(() => entities.BuffBound  .AudioFileOutput.WriteWavHeader(binaries.DestBytes,    courtesy   ), ForDestBytes   );
-            AssertSetter(() => entities.BuffBound  .AudioFileOutput.WriteWavHeader(binaries.DestStream,   courtesy   ), ForDestStream  );
-            AssertSetter(() => entities.BuffBound  .AudioFileOutput.WriteWavHeader(binaries.BinaryWriter, courtesy   ), ForBinaryWriter);
+            AssertSetter(() => entities.SynthBound.SynthWishes     .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.SynthBound.SynthWishes     .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.SynthBound.SynthWishes     .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.SynthBound.SynthWishes     .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => entities.SynthBound.FlowNode        .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.SynthBound.FlowNode        .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.SynthBound.FlowNode        .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.SynthBound.FlowNode        .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => entities.SynthBound.ConfigResolver  .WriteWavHeader(binaries.DestFilePath, synthWishes), ForDestFilePath);
+            AssertSetter(() => entities.SynthBound.ConfigResolver  .WriteWavHeader(binaries.DestBytes,    synthWishes), ForDestBytes   );
+            AssertSetter(() => entities.SynthBound.ConfigResolver  .WriteWavHeader(binaries.DestStream,   synthWishes), ForDestStream  );
+            AssertSetter(() => entities.SynthBound.ConfigResolver  .WriteWavHeader(binaries.BinaryWriter, synthWishes), ForBinaryWriter);
+            AssertSetter(() => entities.TapeBound.Tape             .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.TapeBound.Tape             .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.TapeBound.Tape             .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.TapeBound.Tape             .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => entities.TapeBound.TapeConfig       .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.TapeBound.TapeConfig       .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.TapeBound.TapeConfig       .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.TapeBound.TapeConfig       .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => entities.TapeBound.TapeActions      .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.TapeBound.TapeActions      .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.TapeBound.TapeActions      .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.TapeBound.TapeActions      .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => entities.TapeBound.TapeAction       .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.TapeBound.TapeAction       .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.TapeBound.TapeAction       .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.TapeBound.TapeAction       .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => entities.BuffBound.Buff             .WriteWavHeader(binaries.DestFilePath,    courtesy), ForDestFilePath);
+            AssertSetter(() => entities.BuffBound.Buff             .WriteWavHeader(binaries.DestBytes,       courtesy), ForDestBytes   );
+            AssertSetter(() => entities.BuffBound.Buff             .WriteWavHeader(binaries.DestStream,      courtesy), ForDestStream  );
+            AssertSetter(() => entities.BuffBound.Buff             .WriteWavHeader(binaries.BinaryWriter,    courtesy), ForBinaryWriter);
+            AssertSetter(() => entities.BuffBound.AudioFileOutput  .WriteWavHeader(binaries.DestFilePath,    courtesy), ForDestFilePath);
+            AssertSetter(() => entities.BuffBound.AudioFileOutput  .WriteWavHeader(binaries.DestBytes,       courtesy), ForDestBytes   );
+            AssertSetter(() => entities.BuffBound.AudioFileOutput  .WriteWavHeader(binaries.DestStream,      courtesy), ForDestStream  );
+            AssertSetter(() => entities.BuffBound.AudioFileOutput  .WriteWavHeader(binaries.BinaryWriter,    courtesy), ForBinaryWriter);
             AssertSetter(() => entities.Independent.Sample         .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
             AssertSetter(() => entities.Independent.Sample         .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
             AssertSetter(() => entities.Independent.Sample         .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
@@ -974,116 +975,114 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSetter(() => entities.Independent.AudioFileInfo  .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
             AssertSetter(() => entities.Independent.AudioFileInfo  .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
             AssertSetter(() => entities.Independent.AudioFileInfo  .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.Immutable  .WavHeader      .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.Immutable  .WavHeader      .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.Immutable  .WavHeader      .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.Immutable  .WavHeader      .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => entities.Immutable  .WavHeader      .Write         (binaries.DestFilePath             ), ForDestFilePath);
-            AssertSetter(() => entities.Immutable  .WavHeader      .Write         (binaries.DestBytes                ), ForDestBytes   );
-            AssertSetter(() => entities.Immutable  .WavHeader      .Write         (binaries.DestStream               ), ForDestStream  );
-            AssertSetter(() => entities.Immutable  .WavHeader      .Write         (binaries.BinaryWriter             ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.SynthBound .SynthWishes                ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.SynthBound .SynthWishes                ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.SynthBound .SynthWishes                ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.SynthBound .SynthWishes                ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.SynthBound .FlowNode                   ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.SynthBound .FlowNode                   ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.SynthBound .FlowNode                   ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.SynthBound .FlowNode                   ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.SynthBound .ConfigResolver, synthWishes), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.TapeBound  .Tape                       ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.TapeBound  .Tape                       ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.TapeBound  .Tape                       ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.TapeBound  .Tape                       ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.TapeBound  .TapeConfig                 ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.TapeBound  .TapeConfig                 ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.TapeBound  .TapeConfig                 ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.TapeBound  .TapeConfig                 ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.TapeBound  .TapeActions                ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.TapeBound  .TapeActions                ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.TapeBound  .TapeActions                ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.TapeBound  .TapeActions                ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.TapeBound  .TapeAction                 ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.TapeBound  .TapeAction                 ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.TapeBound  .TapeAction                 ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.TapeBound  .TapeAction                 ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.BuffBound  .Buff,            courtesy  ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.BuffBound  .Buff,            courtesy  ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.BuffBound  .Buff,            courtesy  ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.BuffBound  .Buff,            courtesy  ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.BuffBound  .AudioFileOutput, courtesy  ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.BuffBound  .AudioFileOutput, courtesy  ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.BuffBound  .AudioFileOutput, courtesy  ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.BuffBound  .AudioFileOutput, courtesy  ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.Independent.Sample                     ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.Independent.Sample                     ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.Independent.Sample                     ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.Independent.Sample                     ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.Independent.AudioInfoWish              ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.Independent.AudioInfoWish              ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.Independent.AudioInfoWish              ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.Independent.AudioInfoWish              ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.Independent.AudioFileInfo              ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.Independent.AudioFileInfo              ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.Independent.AudioFileInfo              ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.Independent.AudioFileInfo              ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(entities.Immutable  .WavHeader                  ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(entities.Immutable  .WavHeader                  ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(entities.Immutable  .WavHeader                  ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(entities.Immutable  .WavHeader                  ), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .Write         (entities.Immutable  .WavHeader                  ), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .Write         (entities.Immutable  .WavHeader                  ), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .Write         (entities.Immutable  .WavHeader                  ), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .Write         (entities.Immutable  .WavHeader                  ), ForBinaryWriter);
+            AssertSetter(() => entities.Immutable.WavHeader        .WriteWavHeader(binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.Immutable.WavHeader        .WriteWavHeader(binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.Immutable.WavHeader        .WriteWavHeader(binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.Immutable.WavHeader        .WriteWavHeader(binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => entities.Immutable.WavHeader        .Write         (binaries.DestFilePath             ), ForDestFilePath);
+            AssertSetter(() => entities.Immutable.WavHeader        .Write         (binaries.DestBytes                ), ForDestBytes   );
+            AssertSetter(() => entities.Immutable.WavHeader        .Write         (binaries.DestStream               ), ForDestStream  );
+            AssertSetter(() => entities.Immutable.WavHeader        .Write         (binaries.BinaryWriter             ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.SynthBound.SynthWishes                  ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.SynthBound.SynthWishes                  ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.SynthBound.SynthWishes                  ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.SynthBound.SynthWishes                  ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.SynthBound.FlowNode                     ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.SynthBound.FlowNode                     ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.SynthBound.FlowNode                     ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.SynthBound.FlowNode                     ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.SynthBound.ConfigResolver,   synthWishes), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.SynthBound.ConfigResolver,   synthWishes), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.SynthBound.ConfigResolver,   synthWishes), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.SynthBound.ConfigResolver,   synthWishes), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.TapeBound.Tape                          ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.TapeBound.Tape                          ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.TapeBound.Tape                          ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.TapeBound.Tape                          ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.TapeBound.TapeConfig                    ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.TapeBound.TapeConfig                    ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.TapeBound.TapeConfig                    ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.TapeBound.TapeConfig                    ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.TapeBound.TapeActions                   ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.TapeBound.TapeActions                   ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.TapeBound.TapeActions                   ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.TapeBound.TapeActions                   ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.TapeBound.TapeAction                    ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.TapeBound.TapeAction                    ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.TapeBound.TapeAction                    ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.TapeBound.TapeAction                    ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.BuffBound.Buff,                 courtesy), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.BuffBound.Buff,                 courtesy), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.BuffBound.Buff,                 courtesy), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.BuffBound.Buff,                 courtesy), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.BuffBound.AudioFileOutput,      courtesy), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.BuffBound.AudioFileOutput,      courtesy), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.BuffBound.AudioFileOutput,      courtesy), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.BuffBound.AudioFileOutput,      courtesy), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.Independent.Sample                      ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.Independent.Sample                      ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.Independent.Sample                      ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.Independent.Sample                      ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.Independent.AudioInfoWish               ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.Independent.AudioInfoWish               ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.Independent.AudioInfoWish               ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.Independent.AudioInfoWish               ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.Independent.AudioFileInfo               ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.Independent.AudioFileInfo               ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.Independent.AudioFileInfo               ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.Independent.AudioFileInfo               ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(entities.Immutable.WavHeader                     ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(entities.Immutable.WavHeader                     ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(entities.Immutable.WavHeader                     ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(entities.Immutable.WavHeader                     ), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.Write         (entities.Immutable.WavHeader                     ), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .Write         (entities.Immutable.WavHeader                     ), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .Write         (entities.Immutable.WavHeader                     ), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.Write         (entities.Immutable.WavHeader                     ), ForBinaryWriter);
+            
+            // Loose Values
             
             var x = entities.Immutable;
             
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(x.Bits, x.Channels, x.SamplingRate, test.FrameCount), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(x.Bits, x.Channels, x.SamplingRate, test.FrameCount), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(x.Bits, x.Channels, x.SamplingRate, test.FrameCount), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(x.Bits, x.Channels, x.SamplingRate, test.FrameCount), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(x.Type, x.Channels, x.SamplingRate, test.FrameCount), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(x.Type, x.Channels, x.SamplingRate, test.FrameCount), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(x.Type, x.Channels, x.SamplingRate, test.FrameCount), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(x.Type, x.Channels, x.SamplingRate, test.FrameCount), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, test.FrameCount), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, test.FrameCount), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, test.FrameCount), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, test.FrameCount), ForBinaryWriter);
-            AssertSetter(() => binaries.DestFilePath  .WriteWavHeader(x.SampleDataType, x.SpeakerSetup, x.SamplingRate, test.FrameCount), ForDestFilePath);
-            AssertSetter(() => binaries.DestBytes     .WriteWavHeader(x.SampleDataType, x.SpeakerSetup, x.SamplingRate, test.FrameCount), ForDestBytes   );
-            AssertSetter(() => binaries.DestStream    .WriteWavHeader(x.SampleDataType, x.SpeakerSetup, x.SamplingRate, test.FrameCount), ForDestStream  );
-            AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader(x.SampleDataType, x.SpeakerSetup, x.SamplingRate, test.FrameCount), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(x.Bits,               x.Channels,         x.SamplingRate, frameCount), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(x.Bits,               x.Channels,         x.SamplingRate, frameCount), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(x.Bits,               x.Channels,         x.SamplingRate, frameCount), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(x.Bits,               x.Channels,         x.SamplingRate, frameCount), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(x.Type,               x.Channels,         x.SamplingRate, frameCount), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(x.Type,               x.Channels,         x.SamplingRate, frameCount), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(x.Type,               x.Channels,         x.SamplingRate, frameCount), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(x.Type,               x.Channels,         x.SamplingRate, frameCount), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), ForBinaryWriter);
+            AssertSetter(() => binaries.DestFilePath.WriteWavHeader(x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), ForDestFilePath);
+            AssertSetter(() => binaries.DestBytes   .WriteWavHeader(x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), ForDestBytes   );
+            AssertSetter(() => binaries.DestStream  .WriteWavHeader(x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), ForDestStream  );
+            AssertSetter(() => binaries.BinaryWriter.WriteWavHeader(x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), ForBinaryWriter);
 
             if (test.Bits == 8)
             {
-                AssertSetter(() => binaries.DestFilePath  .WriteWavHeader<byte>(x.Channels, x.SamplingRate, test.FrameCount), ForDestFilePath);
-                AssertSetter(() => binaries.DestBytes     .WriteWavHeader<byte>(x.Channels, x.SamplingRate, test.FrameCount), ForDestBytes   );
-                AssertSetter(() => binaries.DestStream    .WriteWavHeader<byte>(x.Channels, x.SamplingRate, test.FrameCount), ForDestStream  );
-                AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader<byte>(x.Channels, x.SamplingRate, test.FrameCount), ForBinaryWriter);
+                AssertSetter(() => binaries.DestFilePath.WriteWavHeader<byte> (x.Channels, x.SamplingRate, frameCount), ForDestFilePath);
+                AssertSetter(() => binaries.DestBytes   .WriteWavHeader<byte> (x.Channels, x.SamplingRate, frameCount), ForDestBytes   );
+                AssertSetter(() => binaries.DestStream  .WriteWavHeader<byte> (x.Channels, x.SamplingRate, frameCount), ForDestStream  );
+                AssertSetter(() => binaries.BinaryWriter.WriteWavHeader<byte> (x.Channels, x.SamplingRate, frameCount), ForBinaryWriter);
             }
             else if (test.Bits == 16)
             {
-                AssertSetter(() => binaries.DestFilePath  .WriteWavHeader<short>(x.Channels, x.SamplingRate, test.FrameCount), ForDestFilePath);
-                AssertSetter(() => binaries.DestBytes     .WriteWavHeader<short>(x.Channels, x.SamplingRate, test.FrameCount), ForDestBytes   );
-                AssertSetter(() => binaries.DestStream    .WriteWavHeader<short>(x.Channels, x.SamplingRate, test.FrameCount), ForDestStream  );
-                AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader<short>(x.Channels, x.SamplingRate, test.FrameCount), ForBinaryWriter);
+                AssertSetter(() => binaries.DestFilePath.WriteWavHeader<short>(x.Channels, x.SamplingRate, frameCount), ForDestFilePath);
+                AssertSetter(() => binaries.DestBytes   .WriteWavHeader<short>(x.Channels, x.SamplingRate, frameCount), ForDestBytes   );
+                AssertSetter(() => binaries.DestStream  .WriteWavHeader<short>(x.Channels, x.SamplingRate, frameCount), ForDestStream  );
+                AssertSetter(() => binaries.BinaryWriter.WriteWavHeader<short>(x.Channels, x.SamplingRate, frameCount), ForBinaryWriter);
             }
             else if (test.Bits == 32)
             {
-                AssertSetter(() => binaries.DestFilePath  .WriteWavHeader<float>(x.Channels, x.SamplingRate, test.FrameCount), ForDestFilePath);
-                AssertSetter(() => binaries.DestBytes     .WriteWavHeader<float>(x.Channels, x.SamplingRate, test.FrameCount), ForDestBytes   );
-                AssertSetter(() => binaries.DestStream    .WriteWavHeader<float>(x.Channels, x.SamplingRate, test.FrameCount), ForDestStream  );
-                AssertSetter(() => binaries.BinaryWriter  .WriteWavHeader<float>(x.Channels, x.SamplingRate, test.FrameCount), ForBinaryWriter);
+                AssertSetter(() => binaries.DestFilePath.WriteWavHeader<float>(x.Channels, x.SamplingRate, frameCount), ForDestFilePath);
+                AssertSetter(() => binaries.DestBytes   .WriteWavHeader<float>(x.Channels, x.SamplingRate, frameCount), ForDestBytes   );
+                AssertSetter(() => binaries.DestStream  .WriteWavHeader<float>(x.Channels, x.SamplingRate, frameCount), ForDestStream  );
+                AssertSetter(() => binaries.BinaryWriter.WriteWavHeader<float>(x.Channels, x.SamplingRate, frameCount), ForBinaryWriter);
             }
-            else
-            {   // ncrunch: no coverage start
-                throw new Exception(NotSupportedMessage(nameof(test.Bits), test.Bits, ValidBits));
-                // ncrunch: no coverage end
-            }
+            else AssertBits(test.Bits);
             
             // TODO: Test BuffBound overloads without courtesyFrames.
         }
