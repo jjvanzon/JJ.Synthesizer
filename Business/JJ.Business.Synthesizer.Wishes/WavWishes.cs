@@ -419,21 +419,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void ReadWavHeader(Stream       source,   FlowNode     entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
         public static void ReadWavHeader(BinaryReader source,   FlowNode     entity  ) => source  .ReadWavHeader().ApplyWavHeader(entity);
         
-        internal static void ReadWavHeader(ConfigResolver entity, string filePath, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(ConfigResolver entity, string filePath, SynthWishes synthWishes)
             => filePath.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        internal static void ReadWavHeader(ConfigResolver entity, byte[] source, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(ConfigResolver entity, byte[] source, SynthWishes synthWishes)
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        internal static void ReadWavHeader(ConfigResolver entity, Stream source, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(ConfigResolver entity, Stream source, SynthWishes synthWishes)
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        internal static void ReadWavHeader(ConfigResolver entity, BinaryReader source, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(ConfigResolver entity, BinaryReader source, SynthWishes synthWishes)
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        internal static void ReadWavHeader(string filePath, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(string filePath, ConfigResolver entity, SynthWishes synthWishes)
             => filePath.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        internal static void ReadWavHeader(byte[] source, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(byte[] source, ConfigResolver entity, SynthWishes synthWishes)
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        internal static void ReadWavHeader(Stream source, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(Stream source, ConfigResolver entity, SynthWishes synthWishes)
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
-        internal static void ReadWavHeader(BinaryReader source, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(BinaryReader source, ConfigResolver entity, SynthWishes synthWishes)
             => source.ReadWavHeader().ApplyWavHeader(entity, synthWishes);
 
         public static void ReadWavHeader(Tape         entity,   string       filePath) => filePath.ReadWavHeader().ApplyWavHeader(entity);
@@ -957,21 +957,21 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void ReadWavHeader(this Stream       source,   FlowNode     entity  ) => WavWishes.ReadWavHeader(source,   entity  );
         public static void ReadWavHeader(this BinaryReader source,   FlowNode     entity  ) => WavWishes.ReadWavHeader(source,   entity  );
         
-        internal static void ReadWavHeader(this ConfigResolver entity, string filePath, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(this ConfigResolver entity, string filePath, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(entity, filePath, synthWishes);
-        internal static void ReadWavHeader(this ConfigResolver entity, byte[] source, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(this ConfigResolver entity, byte[] source, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(entity, source, synthWishes);
-        internal static void ReadWavHeader(this ConfigResolver entity, Stream source, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(this ConfigResolver entity, Stream source, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(entity, source, synthWishes);
-        internal static void ReadWavHeader(this ConfigResolver entity, BinaryReader source, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(this ConfigResolver entity, BinaryReader source, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(entity, source, synthWishes);
-        internal static void ReadWavHeader(this string filePath, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(this string filePath, ConfigResolver entity, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(filePath, entity, synthWishes);
-        internal static void ReadWavHeader(this byte[] source, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(this byte[] source, ConfigResolver entity, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(source, entity, synthWishes);
-        internal static void ReadWavHeader(this Stream source, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly]internal static void ReadWavHeader(this Stream source, ConfigResolver entity, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(source, entity, synthWishes);
-        internal static void ReadWavHeader(this BinaryReader source, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static void ReadWavHeader(this BinaryReader source, ConfigResolver entity, SynthWishes synthWishes)
             => WavWishes.ReadWavHeader(source, entity, synthWishes);
         
         public static void ReadWavHeader(this Tape         entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
