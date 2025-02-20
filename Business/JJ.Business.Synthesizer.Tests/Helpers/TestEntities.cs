@@ -255,8 +255,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           Independent = new IndependentEntities
                           {
                               Sample        = t.UnderlyingSample,
-                              AudioInfoWish = t.UnderlyingSample.ToWish(),
-                              AudioFileInfo = t.UnderlyingSample.ToWish().ApplyInfo()
+                              AudioInfoWish = t.UnderlyingSample.ToInfo(),
+                              AudioFileInfo = t.UnderlyingSample.ToInfo().ApplyInfo()
                           };
                           
                           Immutable = new ImmutableEntities
@@ -312,8 +312,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           e.Independent = new IndependentEntities
                           {
                               Sample        = t.UnderlyingSample,
-                              AudioInfoWish = t.UnderlyingSample.ToWish(),
-                              AudioFileInfo = t.UnderlyingSample.ToWish().ApplyInfo()
+                              AudioInfoWish = t.UnderlyingSample.ToInfo(),
+                              AudioFileInfo = t.UnderlyingSample.ToInfo().ApplyInfo()
                           };
                           
                           // Immutables for Channel

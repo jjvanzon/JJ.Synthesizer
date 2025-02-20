@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int FrameCount(WavHeaderStruct obj) => GetFrameCount(obj);
         public static int GetFrameCount(WavHeaderStruct obj)
         {
-            return obj.ToWish().FrameCount();
+            return obj.ToInfo().FrameCount();
         }
         
         public static WavHeaderStruct FrameCount(WavHeaderStruct obj, int value, int courtesyFrames)

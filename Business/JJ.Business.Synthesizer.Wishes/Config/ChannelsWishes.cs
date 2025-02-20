@@ -773,7 +773,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct SetMono(WavHeaderStruct obj) => SetChannels(obj, MonoChannels);
         public static WavHeaderStruct SetStereo(WavHeaderStruct obj) => SetChannels(obj, StereoChannels);
         public static WavHeaderStruct SetChannels(WavHeaderStruct obj, int value) 
-            => obj.ToWish().Channels(value).ToWavHeader();
+            => obj.ToInfo().Channels(value).ToWavHeader();
 
         [Obsolete(ObsoleteMessage)] public static bool IsMono(SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Mono;
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(SpeakerSetupEnum obj) => obj == SpeakerSetupEnum.Stereo;

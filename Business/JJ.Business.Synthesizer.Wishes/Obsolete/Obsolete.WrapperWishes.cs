@@ -579,7 +579,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static AudioInfoWish GetInfo(this SampleOperatorWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return wrapper.Sample.ToWish();
+            return wrapper.Sample.ToInfo();
         }
     }
 }

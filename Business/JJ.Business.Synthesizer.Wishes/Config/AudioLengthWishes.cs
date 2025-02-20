@@ -489,7 +489,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static double AudioLength(AudioFileInfo info, int courtesyFrames) => GetAudioLength(info, courtesyFrames);
         public static double GetAudioLength(AudioFileInfo info, int courtesyFrames)
         {
-            return info.ToWish().AudioLength(courtesyFrames);
+            return info.ToInfo().AudioLength(courtesyFrames);
         }
         
         public static AudioFileInfo AudioLength(AudioFileInfo info, double value, int courtesyFrames) => SetAudioLength(info, value, courtesyFrames);
@@ -506,14 +506,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static double AudioLength(WavHeaderStruct obj, int courtesyFrames) => GetAudioLength(obj, courtesyFrames);
         public static double GetAudioLength(WavHeaderStruct obj, int courtesyFrames)
         {
-            return obj.ToWish().AudioLength(courtesyFrames);
+            return obj.ToInfo().AudioLength(courtesyFrames);
         }
         
         public static WavHeaderStruct AudioLength(WavHeaderStruct obj, double value, int courtesyFrames) => SetAudioLength(obj, value, courtesyFrames);
         public static WavHeaderStruct WithAudioLength(WavHeaderStruct obj, double value, int courtesyFrames) => SetAudioLength(obj, value, courtesyFrames);
         public static WavHeaderStruct SetAudioLength(WavHeaderStruct obj, double value, int courtesyFrames)
         {
-            return obj.ToWish().AudioLength(value, courtesyFrames).ToWavHeader();
+            return obj.ToInfo().AudioLength(value, courtesyFrames).ToWavHeader();
         }
 
         // Conversion Formula

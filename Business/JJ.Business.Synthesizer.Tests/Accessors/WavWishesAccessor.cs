@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // With ConfigResolver
         
-        internal static AudioInfoWish ToWish(ConfigResolverAccessor entity, SynthWishes synthWishes) 
+        internal static AudioInfoWish ToInfo(ConfigResolverAccessor entity, SynthWishes synthWishes) 
             => _accessor.InvokeMethod<AudioInfoWish>(entity.Obj, synthWishes);
 
         internal static void ApplyInfo(AudioInfoWish infoWish, ConfigResolverAccessor entity, SynthWishes synthWishes) 
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // With ConfigSection
         
-        internal static AudioInfoWish ToWish(ConfigSectionAccessor entity)
+        internal static AudioInfoWish ToInfo(ConfigSectionAccessor entity)
             => _accessor.InvokeMethod<AudioInfoWish>(entity.Obj);
         
         public static WavHeaderStruct ToWavHeader(ConfigResolverAccessor entity, SynthWishes synthWishes)

@@ -358,7 +358,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct WithSamplingRate(WavHeaderStruct obj, int value) => SetSamplingRate(obj, value);
         public static WavHeaderStruct SetSamplingRate(WavHeaderStruct obj, int value)
         {
-            return obj.ToWish().SamplingRate(value).ToWavHeader();
+            return obj.ToInfo().SamplingRate(value).ToWavHeader();
         }
     }
 }

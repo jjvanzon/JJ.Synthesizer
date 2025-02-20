@@ -846,7 +846,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct AsBits(WavHeaderStruct obj, int value) => SetBits(obj, value);
         public static WavHeaderStruct SetBits(WavHeaderStruct obj, int value)
         {
-            return obj.ToWish().Bits(value).ToWavHeader();
+            return obj.ToInfo().Bits(value).ToWavHeader();
         }
 
         [Obsolete(ObsoleteMessage)] public static bool Is8Bit(SampleDataTypeEnum  obj) => EnumToBits(obj) == 8;

@@ -430,7 +430,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static WavHeaderStruct SetByteCount(WavHeaderStruct wavHeader, int value)
         {
             if (!Has(wavHeader)) throw new Exception("No WAV header.");
-            var wish = wavHeader.ToWish();
+            var wish = wavHeader.ToInfo();
             double audioLength = AudioLengthFromByteCount(value, wish.FrameSize(), wish.SamplingRate(), Wav.HeaderLength(), DefaultCourtesyFrames);
             return wish.AudioLength(audioLength, DefaultCourtesyFrames).ToWavHeader();
         }

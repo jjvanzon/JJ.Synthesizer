@@ -141,7 +141,7 @@
     <Compile Include="Accessors\WavWishesAccessor.cs" />
     <Compile Include="Accessors\WriteWavHeaderExtensions.cs" />
     <Compile Include="Accessors\ToWavHeaderExtensions.cs" />
-    <Compile Include="Accessors\ToWishExtensionsAccessor.cs" />
+    <Compile Include="Accessors\ToInfoExtensionsAccessor.cs" />
     <Compile Include="ConfigTests\ByteCountWishesTests.cs" />
     <Compile Include="Helpers\SynthWishesDerived.cs" />
     <Compile Include="Helpers\TestEntityEnum.cs" />

@@ -153,7 +153,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WavWishes_ToWish_Test(string caseKey)
+        public void WavWishes_ToInfo_Test(string caseKey)
         { 
             var test = Cases[caseKey];
             var zeroFramesCase = new Case
@@ -172,79 +172,79 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             int courtesy = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
             
-            Assert(x.SynthBound.SynthWishes         .ToWish(),                        test);
-            Assert(x.SynthBound.FlowNode            .ToWish(),                        test);
-            Assert(x.SynthBound.ConfigResolver      .ToWish(synthWishes),             test);
-            Assert(x.SynthBound.ConfigSection       .ToWish(),                DefaultsCase); // By Design: Mocked ConfigSection has default settings.
-            Assert(x.TapeBound.Tape                 .ToWish(),                        test);
-            Assert(x.TapeBound.TapeConfig           .ToWish(),                        test);
-            Assert(x.TapeBound.TapeActions          .ToWish(),                        test);
-            Assert(x.TapeBound.TapeAction           .ToWish(),                        test);
-            Assert(x.BuffBound.Buff                 .ToWish(),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(x.BuffBound.AudioFileOutput      .ToWish(),              zeroFramesCase);
-            Assert(x.BuffBound.Buff                 .ToWish(courtesy),                test);
-            Assert(x.BuffBound.AudioFileOutput      .ToWish(courtesy),                test);
-            Assert(x.BuffBound.Buff                 .ToWish().FrameCount(frameCount), test);
-            Assert(x.BuffBound.AudioFileOutput      .ToWish().FrameCount(frameCount), test);
-            Assert(x.Independent.Sample             .ToWish(),                        test);
-            Assert(x.Independent.AudioFileInfo      .ToWish(),                        test);
-            Assert(x.Immutable.WavHeader            .ToWish(),                        test);
-            Assert(x.Immutable.InfoTupleWithInts    .ToWish(),                        test);
-            Assert(x.Immutable.InfoTupleWithType    .ToWish(),                        test);
-            Assert(x.Immutable.InfoTupleWithEnums   .ToWish(),                        test);
-            Assert(x.Immutable.InfoTupleWithEntities.ToWish(),                        test);
-            Assert(ToWish(x.SynthBound.SynthWishes          ),                        test);
-            Assert(ToWish(x.SynthBound.FlowNode             ),                        test);
-            Assert(ToWish(x.SynthBound.ConfigResolver,      synthWishes),             test);
-            Assert(ToWish(x.SynthBound.ConfigSection        ),                DefaultsCase); // By Design: Mocked ConfigSection has default settings.
-            Assert(ToWish(x.TapeBound.Tape                  ),                        test);
-            Assert(ToWish(x.TapeBound.TapeConfig            ),                        test);
-            Assert(ToWish(x.TapeBound.TapeActions           ),                        test);
-            Assert(ToWish(x.TapeBound.TapeAction            ),                        test);
-            Assert(ToWish(x.BuffBound.Buff                  ),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(ToWish(x.BuffBound.AudioFileOutput       ),              zeroFramesCase);
-            Assert(ToWish(x.BuffBound.Buff,                 courtesy),                test);
-            Assert(ToWish(x.BuffBound.AudioFileOutput,      courtesy),                test);
-            Assert(ToWish(x.BuffBound.Buff                  ).FrameCount(frameCount), test);
-            Assert(ToWish(x.BuffBound.AudioFileOutput       ).FrameCount(frameCount), test);
-            Assert(ToWish(x.Independent.Sample              ),                        test);
-            Assert(ToWish(x.Independent.AudioFileInfo       ),                        test);
-            Assert(ToWish(x.Immutable.WavHeader             ),                        test);
-            Assert(ToWish(x.Immutable.InfoTupleWithInts     ),                        test);
-            Assert(ToWish(x.Immutable.InfoTupleWithType     ),                        test);
-            Assert(ToWish(x.Immutable.InfoTupleWithEnums    ),                        test);
-            Assert(ToWish(x.Immutable.InfoTupleWithEntities ),                        test);
-            Assert(WavWishes.ToWish(x.SynthBound.SynthWishes         ),                        test);
-            Assert(WavWishes.ToWish(x.SynthBound.FlowNode            ),                        test);
-            Assert(WavWishesAccessor.ToWish(x.SynthBound.ConfigResolver,synthWishes),          test);
-            Assert(WavWishesAccessor.ToWish(x.SynthBound.ConfigSection),                DefaultsCase);// By Design: Mocked ConfigSection has default settings.
-            Assert(WavWishes.ToWish(x.TapeBound.Tape                 ),                        test);
-            Assert(WavWishes.ToWish(x.TapeBound.TapeConfig           ),                        test);
-            Assert(WavWishes.ToWish(x.TapeBound.TapeActions          ),                        test);
-            Assert(WavWishes.ToWish(x.TapeBound.TapeAction           ),                        test);
-            Assert(WavWishes.ToWish(x.BuffBound.Buff                 ),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
-            Assert(WavWishes.ToWish(x.BuffBound.AudioFileOutput      ),              zeroFramesCase);
-            Assert(WavWishes.ToWish(x.BuffBound.Buff,                courtesy),                test);
-            Assert(WavWishes.ToWish(x.BuffBound.AudioFileOutput,     courtesy),                test);
-            Assert(WavWishes.ToWish(x.BuffBound.Buff                 ).FrameCount(frameCount), test);
-            Assert(WavWishes.ToWish(x.BuffBound.AudioFileOutput      ).FrameCount(frameCount), test);
-            Assert(WavWishes.ToWish(x.Independent.Sample             ),                        test);
-            Assert(WavWishes.ToWish(x.Independent.AudioFileInfo      ),                        test);
-            Assert(WavWishes.ToWish(x.Immutable.WavHeader            ),                        test);
-            Assert(WavWishes.ToWish(x.Immutable.InfoTupleWithInts    ),                        test);
-            Assert(WavWishes.ToWish(x.Immutable.InfoTupleWithType    ),                        test);
-            Assert(WavWishes.ToWish(x.Immutable.InfoTupleWithEnums   ),                        test);
-            Assert(WavWishes.ToWish(x.Immutable.InfoTupleWithEntities),                        test);
+            Assert(x.SynthBound.SynthWishes         .ToInfo(),                        test);
+            Assert(x.SynthBound.FlowNode            .ToInfo(),                        test);
+            Assert(x.SynthBound.ConfigResolver      .ToInfo(synthWishes),             test);
+            Assert(x.SynthBound.ConfigSection       .ToInfo(),                DefaultsCase); // By Design: Mocked ConfigSection has default settings.
+            Assert(x.TapeBound.Tape                 .ToInfo(),                        test);
+            Assert(x.TapeBound.TapeConfig           .ToInfo(),                        test);
+            Assert(x.TapeBound.TapeActions          .ToInfo(),                        test);
+            Assert(x.TapeBound.TapeAction           .ToInfo(),                        test);
+            Assert(x.BuffBound.Buff                 .ToInfo(),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(x.BuffBound.AudioFileOutput      .ToInfo(),              zeroFramesCase);
+            Assert(x.BuffBound.Buff                 .ToInfo(courtesy),                test);
+            Assert(x.BuffBound.AudioFileOutput      .ToInfo(courtesy),                test);
+            Assert(x.BuffBound.Buff                 .ToInfo().FrameCount(frameCount), test);
+            Assert(x.BuffBound.AudioFileOutput      .ToInfo().FrameCount(frameCount), test);
+            Assert(x.Independent.Sample             .ToInfo(),                        test);
+            Assert(x.Independent.AudioFileInfo      .ToInfo(),                        test);
+            Assert(x.Immutable.WavHeader            .ToInfo(),                        test);
+            Assert(x.Immutable.InfoTupleWithInts    .ToInfo(),                        test);
+            Assert(x.Immutable.InfoTupleWithType    .ToInfo(),                        test);
+            Assert(x.Immutable.InfoTupleWithEnums   .ToInfo(),                        test);
+            Assert(x.Immutable.InfoTupleWithEntities.ToInfo(),                        test);
+            Assert(ToInfo(x.SynthBound.SynthWishes          ),                        test);
+            Assert(ToInfo(x.SynthBound.FlowNode             ),                        test);
+            Assert(ToInfo(x.SynthBound.ConfigResolver,      synthWishes),             test);
+            Assert(ToInfo(x.SynthBound.ConfigSection        ),                DefaultsCase); // By Design: Mocked ConfigSection has default settings.
+            Assert(ToInfo(x.TapeBound.Tape                  ),                        test);
+            Assert(ToInfo(x.TapeBound.TapeConfig            ),                        test);
+            Assert(ToInfo(x.TapeBound.TapeActions           ),                        test);
+            Assert(ToInfo(x.TapeBound.TapeAction            ),                        test);
+            Assert(ToInfo(x.BuffBound.Buff                  ),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(ToInfo(x.BuffBound.AudioFileOutput       ),              zeroFramesCase);
+            Assert(ToInfo(x.BuffBound.Buff,                 courtesy),                test);
+            Assert(ToInfo(x.BuffBound.AudioFileOutput,      courtesy),                test);
+            Assert(ToInfo(x.BuffBound.Buff                  ).FrameCount(frameCount), test);
+            Assert(ToInfo(x.BuffBound.AudioFileOutput       ).FrameCount(frameCount), test);
+            Assert(ToInfo(x.Independent.Sample              ),                        test);
+            Assert(ToInfo(x.Independent.AudioFileInfo       ),                        test);
+            Assert(ToInfo(x.Immutable.WavHeader             ),                        test);
+            Assert(ToInfo(x.Immutable.InfoTupleWithInts     ),                        test);
+            Assert(ToInfo(x.Immutable.InfoTupleWithType     ),                        test);
+            Assert(ToInfo(x.Immutable.InfoTupleWithEnums    ),                        test);
+            Assert(ToInfo(x.Immutable.InfoTupleWithEntities ),                        test);
+            Assert(WavWishes.ToInfo(x.SynthBound.SynthWishes         ),                        test);
+            Assert(WavWishes.ToInfo(x.SynthBound.FlowNode            ),                        test);
+            Assert(WavWishesAccessor.ToInfo(x.SynthBound.ConfigResolver,synthWishes),          test);
+            Assert(WavWishesAccessor.ToInfo(x.SynthBound.ConfigSection),                DefaultsCase);// By Design: Mocked ConfigSection has default settings.
+            Assert(WavWishes.ToInfo(x.TapeBound.Tape                 ),                        test);
+            Assert(WavWishes.ToInfo(x.TapeBound.TapeConfig           ),                        test);
+            Assert(WavWishes.ToInfo(x.TapeBound.TapeActions          ),                        test);
+            Assert(WavWishes.ToInfo(x.TapeBound.TapeAction           ),                        test);
+            Assert(WavWishes.ToInfo(x.BuffBound.Buff                 ),              zeroFramesCase); // By Design: FrameCount stays 0 without courtesyBytes
+            Assert(WavWishes.ToInfo(x.BuffBound.AudioFileOutput      ),              zeroFramesCase);
+            Assert(WavWishes.ToInfo(x.BuffBound.Buff,                courtesy),                test);
+            Assert(WavWishes.ToInfo(x.BuffBound.AudioFileOutput,     courtesy),                test);
+            Assert(WavWishes.ToInfo(x.BuffBound.Buff                 ).FrameCount(frameCount), test);
+            Assert(WavWishes.ToInfo(x.BuffBound.AudioFileOutput      ).FrameCount(frameCount), test);
+            Assert(WavWishes.ToInfo(x.Independent.Sample             ),                        test);
+            Assert(WavWishes.ToInfo(x.Independent.AudioFileInfo      ),                        test);
+            Assert(WavWishes.ToInfo(x.Immutable.WavHeader            ),                        test);
+            Assert(WavWishes.ToInfo(x.Immutable.InfoTupleWithInts    ),                        test);
+            Assert(WavWishes.ToInfo(x.Immutable.InfoTupleWithType    ),                        test);
+            Assert(WavWishes.ToInfo(x.Immutable.InfoTupleWithEnums   ),                        test);
+            Assert(WavWishes.ToInfo(x.Immutable.InfoTupleWithEntities),                        test);
 
-            if      (test.Bits ==  8) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<byte> (), test);
-            else if (test.Bits == 16) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<short>(), test);
-            else if (test.Bits == 32) Assert(x.Immutable.InfoTupleWithoutBits.ToWish<float>(), test); else AssertBits(test.Bits);
-            if      (test.Bits ==  8) Assert(ToWish<byte> (x.Immutable.InfoTupleWithoutBits), test);
-            else if (test.Bits == 16) Assert(ToWish<short>(x.Immutable.InfoTupleWithoutBits), test);
-            else if (test.Bits == 32) Assert(ToWish<float>(x.Immutable.InfoTupleWithoutBits), test); else AssertBits(test.Bits);
-            if      (test.Bits ==  8) Assert(WavWishes.ToWish<byte> (x.Immutable.InfoTupleWithoutBits), test);
-            else if (test.Bits == 16) Assert(WavWishes.ToWish<short>(x.Immutable.InfoTupleWithoutBits), test);
-            else if (test.Bits == 32) Assert(WavWishes.ToWish<float>(x.Immutable.InfoTupleWithoutBits), test); else AssertBits(test.Bits);
+            if      (test.Bits ==  8) Assert(x.Immutable.InfoTupleWithoutBits.ToInfo<byte> (), test);
+            else if (test.Bits == 16) Assert(x.Immutable.InfoTupleWithoutBits.ToInfo<short>(), test);
+            else if (test.Bits == 32) Assert(x.Immutable.InfoTupleWithoutBits.ToInfo<float>(), test); else AssertBits(test.Bits);
+            if      (test.Bits ==  8) Assert(ToInfo<byte> (x.Immutable.InfoTupleWithoutBits), test);
+            else if (test.Bits == 16) Assert(ToInfo<short>(x.Immutable.InfoTupleWithoutBits), test);
+            else if (test.Bits == 32) Assert(ToInfo<float>(x.Immutable.InfoTupleWithoutBits), test); else AssertBits(test.Bits);
+            if      (test.Bits ==  8) Assert(WavWishes.ToInfo<byte> (x.Immutable.InfoTupleWithoutBits), test);
+            else if (test.Bits == 16) Assert(WavWishes.ToInfo<short>(x.Immutable.InfoTupleWithoutBits), test);
+            else if (test.Bits == 32) Assert(WavWishes.ToInfo<float>(x.Immutable.InfoTupleWithoutBits), test); else AssertBits(test.Bits);
         }
 
         [TestMethod]
@@ -1740,16 +1740,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Weird Buff case
                         
             // Buff's too Buff to budge: always returns fixed FrameCount instead of using parameterization.
-            AreEqual(100, () => x.BuffBound.Buff.ToWish(courtesyFrames).FrameCount, - Tolerance);
-            AreEqual(100, () => x.BuffBound.Buff.ToWish(frameCount    ).FrameCount, - Tolerance);
-            AreEqual(100, () => x.BuffBound.Buff.ToWish(123           ).FrameCount, - Tolerance);
+            AreEqual(100, () => x.BuffBound.Buff.ToInfo(courtesyFrames).FrameCount, - Tolerance);
+            AreEqual(100, () => x.BuffBound.Buff.ToInfo(frameCount    ).FrameCount, - Tolerance);
+            AreEqual(100, () => x.BuffBound.Buff.ToInfo(123           ).FrameCount, - Tolerance);
             
             // Unbuff the Buff; loosens him up and he'll budge.
             x.BuffBound.Buff.Bytes = null;
             
-                                    AreEqual(100, () => x.BuffBound.Buff.ToWish(courtesyFrames).FrameCount, - Tolerance - test.CourtesyFrames);
-            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(frameCount    ).FrameCount, - Tolerance - test.CourtesyFrames); });
-            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(123           ).FrameCount, - Tolerance - test.CourtesyFrames); });
+                                    AreEqual(100, () => x.BuffBound.Buff.ToInfo(courtesyFrames).FrameCount, - Tolerance - test.CourtesyFrames);
+            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToInfo(frameCount    ).FrameCount, - Tolerance - test.CourtesyFrames); });
+            ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToInfo(123           ).FrameCount, - Tolerance - test.CourtesyFrames); });
         }
          
         // Assertions Helpers

@@ -11,14 +11,14 @@ using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class ToWishExtensionsAccessor
+    internal static class ToInfoExtensionsAccessor
     {
-        private static readonly AccessorEx _accessor = new AccessorEx(typeof(ToWishExtensions));
+        private static readonly AccessorEx _accessor = new AccessorEx(typeof(ToInfoExtensions));
         
-        internal static AudioInfoWish ToWish(this ConfigResolverAccessor entity, SynthWishes synthWishes)
+        internal static AudioInfoWish ToInfo(this ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod<AudioInfoWish>(entity?.Obj, synthWishes);
         
-        internal static AudioInfoWish ToWish(this ConfigSectionAccessor entity)            
+        internal static AudioInfoWish ToInfo(this ConfigSectionAccessor entity)            
             => _accessor.InvokeMethod<AudioInfoWish>(entity?.Obj);
     }
 }
