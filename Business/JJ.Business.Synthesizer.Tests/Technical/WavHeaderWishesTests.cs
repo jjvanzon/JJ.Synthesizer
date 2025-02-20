@@ -153,7 +153,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WavHeader_ToWish(string caseKey)
+        public void WavHeaderWishes_ToWish_Test(string caseKey)
         { 
             var test = Cases[caseKey];
             var zeroFramesCase = new Case
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         [DynamicData(nameof(TransitionCases))]
-        public void WavHeader_FromWish(string caseKey)
+        public void WavHeaderWishes_FromWish_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
             int courtesy = test.CourtesyFrames;
@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WavHeader_ToWavHeader(string caseKey)
+        public void ToWavHeader_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
             var zeroFramesCase = new Case
@@ -445,7 +445,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(TransitionCases))]
-        public void WavHeader_FromWavHeader(string caseKey)
+        public void FromWavHeader_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
             SynthWishes synthWishes;
@@ -546,7 +546,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         [TestMethod]
         [DynamicData(nameof(TransitionCases))]
-        public void WavHeader_ReadWavHeader(string caseKey)
+        public void ReadWavHeader_Test(string caseKey)
         {
             Case              test        = Cases[caseKey];
             int               courtesy    = test.CourtesyFrames;
@@ -866,7 +866,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WavHeader_ReadAudioInfo(string caseKey)
+        public void ReadAudioInfo_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
             
@@ -916,7 +916,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WavHeader_WriteWavHeader(string caseKey)
+        public void WriteWavHeader_Test(string caseKey)
         {
             Case test = Cases[caseKey];
             
@@ -1268,7 +1268,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WavHeader_WriteWavHeader_LooseValues(string caseKey)
+        public void WriteWavHeader_Test_WithLooseValues(string caseKey)
         {
             Case test = Cases[caseKey];
             int frameCount = test.FrameCount;
@@ -1599,7 +1599,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
         
         [TestMethod]
-        public void WavHeader_WriteWavHeader_WithConfigSection()
+        public void WriteWavHeader_Test_WithConfigSection()
         {
             ConfigSectionAccessor configSection = null;
             BuffBoundEntities binaries = null;
@@ -1646,7 +1646,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         
         [TestMethod]
-        public void WavHeader_EdgeCases()
+        public void WavHeader_EdgeCase_Test()
         {
             var test = EdgeCase;
             var x = CreateEntities(test, wipeBuff: false);
