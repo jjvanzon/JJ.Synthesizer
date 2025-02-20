@@ -898,22 +898,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
         }
         
-        private void AssertWrite(Action<BuffBoundEntities> setter, TestEntityEnum entity, Case test)
-        {
-            using (var changedEntities = CreateModifiedEntities(test, withDisk: entity == ForDestFilePath))
-            {
-                var binaries = changedEntities.BuffBound;
-                AssertInvariant(changedEntities, test);
-                
-                setter(binaries);
-                
-                if (entity == ForDestFilePath) Assert(binaries.DestFilePath, test);
-                if (entity == ForDestBytes)    Assert(binaries.DestBytes,    test);
-                if (entity == ForDestStream)   Assert(binaries.DestStream,   test);
-                if (entity == ForBinaryWriter) Assert(binaries.BinaryWriter, test);
-            }
-        }
-        
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
         public void WriteWavHeader_Test(string caseKey)
@@ -1667,8 +1651,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(frameCount    ).FrameCount, - Tolerance - test.CourtesyFrames); });
             ThrowsException(() => { AreEqual(100, () => x.BuffBound.Buff.ToWish(123           ).FrameCount, - Tolerance - test.CourtesyFrames); });
         }
-
-        // Getter Assertions
+         
+        // Assertions Helpers
+       
+        private void AssertWrite(Action<BuffBoundEntities> setter, TestEntityEnum entity, Case test)
+        {
+            using (var changedEntities = CreateModifiedEntities(test, withDisk: entity == ForDestFilePath))
+            {
+                var binaries = changedEntities.BuffBound;
+                AssertInvariant(changedEntities, test);
+                
+                setter(binaries);
+                
+                if (entity == ForDestFilePath) Assert(binaries.DestFilePath, test);
+                if (entity == ForDestBytes)    Assert(binaries.DestBytes,    test);
+                if (entity == ForDestStream)   Assert(binaries.DestStream,   test);
+                if (entity == ForBinaryWriter) Assert(binaries.BinaryWriter, test);
+            }
+        }
         
         private static void AssertInvariant(TestEntities source, Case test)
         {
@@ -1854,8 +1854,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             writer.BaseStream.Position = 0;
             Assert(writer.BaseStream.ReadWavHeader(), test);
         }
-        
-        // Helpers
         
         private static void AreEqual(int expected, Expression<Func<int>> actualExpression) => AreEqual<int>(expected, actualExpression);
         private static void AreEqual(int expected, Expression<Func<int>> actualExpression, int delta) => AssertWishes.AreEqual(expected, actualExpression, delta);
