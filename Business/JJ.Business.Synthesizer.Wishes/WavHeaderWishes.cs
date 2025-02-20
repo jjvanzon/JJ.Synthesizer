@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
+using System.Security.Cryptography;
 using System.Text;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
@@ -16,7 +16,6 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.docs;
 
 #pragma warning disable CS0618
 // ReSharper disable InvokeAsExtensionMethod
@@ -996,95 +995,95 @@ namespace JJ.Business.Synthesizer.Wishes
         public static void Write(byte[]       dest,      WavHeaderStruct wavHeader) => wavHeader.Write(dest    );
         public static void Write(Stream       dest,      WavHeaderStruct wavHeader) => wavHeader.Write(dest    );
         public static void Write(BinaryWriter dest,      WavHeaderStruct wavHeader) => wavHeader.Write(dest    );
-        
-        // With Values
-        
-        public static void WriteWavHeader(string filePath, int bits, int channels, int samplingRate, int frameCount)
-            => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(string filePath, (int bits, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(byte[] dest, int bits, int channels, int samplingRate, int frameCount)
-            => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(byte[] dest, (int bits, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(Stream dest, int bits, int channels, int samplingRate, int frameCount)
-            => WriteWavHeader(dest, (bits, channels, samplingRate, frameCount));
-        public static void WriteWavHeader(Stream dest, (int bits, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, int bits, int channels, int samplingRate, int frameCount)
-            => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, (int bits, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        
-        public static void WriteWavHeader<TBits>(string filePath, int channels, int samplingRate, int frameCount)
-            => (typeof(TBits), channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader<TBits>(string filePath, (int channels, int samplingRate, int frameCount) x)
-            => x.ToWish<TBits>().WriteWavHeader(filePath);
-        public static void WriteWavHeader<TBits>(byte[] dest, int channels, int samplingRate, int frameCount)
-            => (typeof(TBits), channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader<TBits>(byte[] dest, (int channels, int samplingRate, int frameCount) x)
-            => x.ToWish<TBits>().WriteWavHeader(dest);
-        public static void WriteWavHeader<TBits>(Stream dest, int channels, int samplingRate, int frameCount)
-            => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest);
-        public static void WriteWavHeader<TBits>(Stream dest, (int channels, int samplingRate, int frameCount) x)
-            => x.ToWish<TBits>().WriteWavHeader(dest);
-        public static void WriteWavHeader<TBits>(BinaryWriter dest, int channels, int samplingRate, int frameCount)
-            => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest);
-        public static void WriteWavHeader<TBits>(BinaryWriter dest, (int channels, int samplingRate, int frameCount) x)
-            => x.ToWish<TBits>().WriteWavHeader(dest);
-            
-        public static void WriteWavHeader(string filePath, Type bitsType, int channels, int samplingRate, int frameCount)
-            => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(string filePath, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(byte[] dest, Type bitsType, int channels, int samplingRate, int frameCount)
-            => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(byte[] dest, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(Stream dest, Type bitsType, int channels, int samplingRate, int frameCount)
-            => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(Stream dest, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, Type bitsType, int channels, int samplingRate, int frameCount)
-            => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-            
-        public static void WriteWavHeader(string filePath, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(string filePath, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(byte[] dest, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(byte[] dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(Stream dest, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(Stream dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
 
-        public static void WriteWavHeader(string filePath, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(string filePath, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(filePath);
-        public static void WriteWavHeader(byte[] dest, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(byte[] dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(Stream dest, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(Stream dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest);
-        public static void WriteWavHeader(BinaryWriter dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => x.ToWish().WriteWavHeader(dest);
+        // With Values
+
+        public static void WriteWavHeader(string   filePath,  int bits, int channels, int samplingRate, int frameCount)    => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(string   filePath, (int bits, int channels, int samplingRate, int frameCount) x) => x                                         .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(byte[]       dest,  int bits, int channels, int samplingRate, int frameCount)    => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(byte[]       dest, (int bits, int channels, int samplingRate, int frameCount) x) => x                                         .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest,  int bits, int channels, int samplingRate, int frameCount)    => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest, (int bits, int channels, int samplingRate, int frameCount) x) => x                                         .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest,  int bits, int channels, int samplingRate, int frameCount)    => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest, (int bits, int channels, int samplingRate, int frameCount) x) => x                                         .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( int bits, int channels, int samplingRate, int frameCount,    string   filePath) => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader((int bits, int channels, int samplingRate, int frameCount) x, string   filePath) => x                                         .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader( int bits, int channels, int samplingRate, int frameCount,    byte[]       dest) => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((int bits, int channels, int samplingRate, int frameCount) x, byte[]       dest) => x                                         .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( int bits, int channels, int samplingRate, int frameCount,    Stream       dest) => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((int bits, int channels, int samplingRate, int frameCount) x, Stream       dest) => x                                         .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( int bits, int channels, int samplingRate, int frameCount,    BinaryWriter dest) => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((int bits, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => x                                         .ToWish().WriteWavHeader(dest    );
+
+        public static void WriteWavHeader<TBits>(string   filePath,  int channels, int samplingRate, int frameCount   ) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(filePath);
+        public static void WriteWavHeader<TBits>(string   filePath, (int channels, int samplingRate, int frameCount) x) =>  x                                  .ToWish<TBits>().WriteWavHeader(filePath);
+        public static void WriteWavHeader<TBits>(byte[]       dest,  int channels, int samplingRate, int frameCount   ) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>(byte[]       dest, (int channels, int samplingRate, int frameCount) x) =>  x                                  .ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>(Stream       dest,  int channels, int samplingRate, int frameCount   ) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>(Stream       dest, (int channels, int samplingRate, int frameCount) x) => x                                   .ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>(BinaryWriter dest,  int channels, int samplingRate, int frameCount   ) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>(BinaryWriter dest, (int channels, int samplingRate, int frameCount) x) => x                                   .ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>( int channels, int samplingRate, int frameCount,    string   filePath) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(filePath);
+        public static void WriteWavHeader<TBits>((int channels, int samplingRate, int frameCount) x, string   filePath) => x                                   .ToWish<TBits>().WriteWavHeader(filePath);
+        public static void WriteWavHeader<TBits>( int channels, int samplingRate, int frameCount,    byte[]       dest) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>((int channels, int samplingRate, int frameCount) x, byte[]       dest) => x                                   .ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>( int channels, int samplingRate, int frameCount,    Stream       dest) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>((int channels, int samplingRate, int frameCount) x, Stream       dest) => x                                   .ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>( int channels, int samplingRate, int frameCount,    BinaryWriter dest) => (channels, samplingRate, frameCount).ToWish<TBits>().WriteWavHeader(dest    );
+        public static void WriteWavHeader<TBits>((int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => x                                   .ToWish<TBits>().WriteWavHeader(dest    );
+        
+        public static void WriteWavHeader(string   filePath,  Type bitsType, int channels, int samplingRate, int frameCount   ) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(string   filePath, (Type bitsType, int channels, int samplingRate, int frameCount) x) => x                                             .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(byte[]       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(byte[]       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => x                                             .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => x                                             .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => x                                             .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( Type bitsType, int channels, int samplingRate, int frameCount,    string   filePath) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader((Type bitsType, int channels, int samplingRate, int frameCount) x, string   filePath) => x                                             .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader( Type bitsType, int channels, int samplingRate, int frameCount,    byte[]       dest) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((Type bitsType, int channels, int samplingRate, int frameCount) x, byte[]       dest) => x                                             .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( Type bitsType, int channels, int samplingRate, int frameCount,    Stream       dest) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((Type bitsType, int channels, int samplingRate, int frameCount) x, Stream       dest) => x                                             .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( Type bitsType, int channels, int samplingRate, int frameCount,    BinaryWriter dest) => (bitsType, channels, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((Type bitsType, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => x                                             .ToWish().WriteWavHeader(dest    );
+
+        public static void WriteWavHeader(string   filePath,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(string   filePath, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => x                                                 .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(byte[]       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(byte[]       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => x                                                 .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => x                                                 .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => x                                                 .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount,    string   filePath) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader((SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, string   filePath) => x                                                 .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader( SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount,    byte[]       dest) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, byte[]       dest) => x                                                 .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount,    Stream       dest) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, Stream       dest) => x                                                 .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount,    BinaryWriter dest) => (bitsEnum, channelsEnum, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, BinaryWriter dest) => x                                                 .ToWish().WriteWavHeader(dest    );
+
+        public static void WriteWavHeader(string   filePath,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(string   filePath, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => x                                                     .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader(byte[]       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(byte[]       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => x                                                     .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(Stream       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => x                                                     .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader(BinaryWriter dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => x                                                     .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount,    string   filePath) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader((SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, string   filePath) => x                                                     .ToWish().WriteWavHeader(filePath);
+        public static void WriteWavHeader( SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount,    byte[]       dest) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, byte[]       dest) => x                                                     .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount,    Stream       dest) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, Stream       dest) => x                                                     .ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader( SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount,    BinaryWriter dest) => (bitsEntity, channelsEntity, samplingRate, frameCount).ToWish().WriteWavHeader(dest    );
+        public static void WriteWavHeader((SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, BinaryWriter dest) => x                                                     .ToWish().WriteWavHeader(dest    );
     }
-    
+
     public static class WriteWavHeaderExtensions
     {
         public static void WriteWavHeader(this SynthWishes  entity,   string       filePath) => WavHeaderWishes.WriteWavHeader(entity,   filePath);
@@ -1210,91 +1209,70 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // With Values
         
-        // TODO: Tuple as this arguments (switch arguments).
-
-        public static void WriteWavHeader(this string filePath, int bits, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(filePath, bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this string filePath, (int bits, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[] dest, int bits, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[] dest, (int bits, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this Stream dest, int bits, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream dest, (int bits, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this BinaryWriter dest, int bits, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bits, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (int bits, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
+        public static void WriteWavHeader(this string   filePath,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  int bits, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bits, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (int bits, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (int bits, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
         
-        public static void WriteWavHeader<TBits>(this string filePath, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader<TBits>(filePath, channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this string filePath, (int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader<TBits>(filePath, x);
-        public static void WriteWavHeader<TBits>(this byte[] dest, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader<TBits>(dest, channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this byte[] dest, (int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader<TBits>(dest, x);
-        public static void WriteWavHeader<TBits>(this Stream dest, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader<TBits>(dest, channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this Stream dest, (int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader<TBits>(dest, x);
-        public static void WriteWavHeader<TBits>(this BinaryWriter dest, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader<TBits>(dest, channels, samplingRate, frameCount);
-        public static void WriteWavHeader<TBits>(this BinaryWriter dest, (int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader<TBits>(dest, x);
-        
-        public static void WriteWavHeader(this string filePath, Type bitsType, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(filePath, bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this string filePath, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[] dest, Type bitsType, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[] dest, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this Stream dest, Type bitsType, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream dest, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this BinaryWriter dest, Type bitsType, int channels, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsType, channels, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (Type bitsType, int channels, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
 
-        public static void WriteWavHeader(this string filePath, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(filePath, bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this string filePath, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[] dest, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[] dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this Stream dest, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this BinaryWriter dest, SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsEnum, channelsEnum, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
+        public static void WriteWavHeader<TBits>(this string   filePath,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(filePath, channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this string   filePath, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(filePath, x);
+        public static void WriteWavHeader<TBits>(this byte[]       dest,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this byte[]       dest, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     x);
+        public static void WriteWavHeader<TBits>(this Stream       dest,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this Stream       dest, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     x);
+        public static void WriteWavHeader<TBits>(this BinaryWriter dest,  int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     channels, samplingRate, frameCount);
+        public static void WriteWavHeader<TBits>(this BinaryWriter dest, (int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader<TBits>(dest,     x);
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader<TBits>(x, filePath);
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader<TBits>(x, dest    );
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader<TBits>(x, dest    );
+        public static void WriteWavHeader<TBits>(this (int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader<TBits>(x, dest    );
 
-        public static void WriteWavHeader(this string filePath, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(filePath, bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this string filePath, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(filePath, x);
-        public static void WriteWavHeader(this byte[] dest, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this byte[] dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this Stream dest, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this Stream dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
-        public static void WriteWavHeader(this BinaryWriter dest, SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount)
-            => WavHeaderWishes.WriteWavHeader(dest, bitsEntity, channelsEntity, samplingRate, frameCount);
-        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x)
-            => WavHeaderWishes.WriteWavHeader(dest, x);
+        public static void WriteWavHeader(this string   filePath,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  Type bitsType, int channels, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsType, channels, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (Type bitsType, int channels, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (Type bitsType, int channels, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+
+        public static void WriteWavHeader(this string   filePath,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEnum, channelsEnum, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataTypeEnum bitsEnum, SpeakerSetupEnum channelsEnum, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+
+        public static void WriteWavHeader(this string   filePath,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(filePath, bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this string   filePath, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(filePath, x);
+        public static void WriteWavHeader(this byte[]       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this byte[]       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this Stream       dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this Stream       dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this BinaryWriter dest,  SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount   ) => WavHeaderWishes.WriteWavHeader(dest,     bitsEntity, channelsEntity, samplingRate, frameCount);
+        public static void WriteWavHeader(this BinaryWriter dest, (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) => WavHeaderWishes.WriteWavHeader(dest,     x);
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, string   filePath) => WavHeaderWishes.WriteWavHeader(x, filePath);
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, byte[]       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, Stream       dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
+        public static void WriteWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, BinaryWriter dest) => WavHeaderWishes.WriteWavHeader(x, dest    );
     }
 }

@@ -1296,6 +1296,22 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 }
             }
             
+            AssertSetter(() => (x.Bits,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.DestFilePath ), ForDestFilePath);
+            AssertSetter(() => (x.Bits,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.DestBytes    ), ForDestBytes   );
+            AssertSetter(() => (x.Bits,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.DestStream   ), ForDestStream  );
+            AssertSetter(() => (x.Bits,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.BinaryWriter ), ForBinaryWriter);
+            AssertSetter(() => (x.Type,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.DestFilePath ), ForDestFilePath);
+            AssertSetter(() => (x.Type,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.DestBytes    ), ForDestBytes   );
+            AssertSetter(() => (x.Type,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.DestStream   ), ForDestStream  );
+            AssertSetter(() => (x.Type,               x.Channels,         x.SamplingRate, frameCount).WriteWavHeader(binaries.BinaryWriter ), ForBinaryWriter);
+            AssertSetter(() => (x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount).WriteWavHeader(binaries.DestFilePath ), ForDestFilePath);
+            AssertSetter(() => (x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount).WriteWavHeader(binaries.DestBytes    ), ForDestBytes   );
+            AssertSetter(() => (x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount).WriteWavHeader(binaries.DestStream   ), ForDestStream  );
+            AssertSetter(() => (x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount).WriteWavHeader(binaries.BinaryWriter ), ForBinaryWriter);
+            AssertSetter(() => (x.SampleDataType    , x.SpeakerSetup    , x.SamplingRate, frameCount).WriteWavHeader(binaries.DestFilePath ), ForDestFilePath);
+            AssertSetter(() => (x.SampleDataType    , x.SpeakerSetup    , x.SamplingRate, frameCount).WriteWavHeader(binaries.DestBytes    ), ForDestBytes   );
+            AssertSetter(() => (x.SampleDataType    , x.SpeakerSetup    , x.SamplingRate, frameCount).WriteWavHeader(binaries.DestStream   ), ForDestStream  );
+            AssertSetter(() => (x.SampleDataType    , x.SpeakerSetup    , x.SamplingRate, frameCount).WriteWavHeader(binaries.BinaryWriter ), ForBinaryWriter);
             AssertSetter(() => binaries.DestFilePath.WriteWavHeader(  x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestFilePath);
             AssertSetter(() => binaries.DestBytes   .WriteWavHeader(  x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestBytes   );
             AssertSetter(() => binaries.DestStream  .WriteWavHeader(  x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestStream  );
@@ -1328,6 +1344,38 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSetter(() => binaries.DestBytes   .WriteWavHeader( (x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestBytes   );
             AssertSetter(() => binaries.DestStream  .WriteWavHeader( (x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestStream  );
             AssertSetter(() => binaries.BinaryWriter.WriteWavHeader( (x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
             AssertSetter(() => WriteWavHeader(binaries.DestFilePath,  x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestFilePath);
             AssertSetter(() => WriteWavHeader(binaries.DestBytes,     x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestBytes   );
             AssertSetter(() => WriteWavHeader(binaries.DestStream,    x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestStream  );
@@ -1360,6 +1408,38 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertSetter(() => WriteWavHeader(binaries.DestBytes,    (x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestBytes   );
             AssertSetter(() => WriteWavHeader(binaries.DestStream,   (x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestStream  );
             AssertSetter(() => WriteWavHeader(binaries.BinaryWriter, (x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount,  binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount,  binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount,  binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount,  binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Bits,               x.Channels,         x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount,  binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount,  binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount,  binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.Type,               x.Channels,         x.SamplingRate, frameCount,  binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.Type,               x.Channels,         x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount,  binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount,  binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount,  binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount,  binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataTypeEnum, x.SpeakerSetupEnum, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount,  binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount,  binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount,  binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount,  binaries.BinaryWriter), ForBinaryWriter);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+            AssertSetter(() => WavHeaderWishes.WriteWavHeader((x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
             AssertSetter(() => WavHeaderWishes.WriteWavHeader(binaries.DestFilePath,  x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestFilePath);
             AssertSetter(() => WavHeaderWishes.WriteWavHeader(binaries.DestBytes,     x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestBytes   );
             AssertSetter(() => WavHeaderWishes.WriteWavHeader(binaries.DestStream,    x.Bits,               x.Channels,         x.SamplingRate, frameCount ), ForDestStream  );
@@ -1395,6 +1475,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             if (test.Bits == 8)
             {
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<byte>  (binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<byte>  (binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<byte>  (binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<byte>  (binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => binaries.DestFilePath.WriteWavHeader<byte>  ( x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => binaries.DestBytes   .WriteWavHeader<byte>  ( x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => binaries.DestStream  .WriteWavHeader<byte>  ( x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1403,6 +1487,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertSetter(() => binaries.DestBytes   .WriteWavHeader<byte>  ((x.Channels, x.SamplingRate, frameCount)), ForDestBytes   );
                 AssertSetter(() => binaries.DestStream  .WriteWavHeader<byte>  ((x.Channels, x.SamplingRate, frameCount)), ForDestStream  );
                 AssertSetter(() => binaries.BinaryWriter.WriteWavHeader<byte>  ((x.Channels, x.SamplingRate, frameCount)), ForBinaryWriter);
+                AssertSetter(() => WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+                AssertSetter(() => WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => WriteWavHeader<byte> (binaries.DestFilePath,  x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => WriteWavHeader<byte> (binaries.DestBytes,     x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => WriteWavHeader<byte> (binaries.DestStream,    x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1411,6 +1503,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertSetter(() => WriteWavHeader<byte> (binaries.DestBytes,    (x.Channels, x.SamplingRate, frameCount)), ForDestBytes   );
                 AssertSetter(() => WriteWavHeader<byte> (binaries.DestStream,   (x.Channels, x.SamplingRate, frameCount)), ForDestStream  );
                 AssertSetter(() => WriteWavHeader<byte> (binaries.BinaryWriter, (x.Channels, x.SamplingRate, frameCount)), ForBinaryWriter);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ( x.Channels, x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> ((x.Channels, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> (binaries.DestFilePath,  x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> (binaries.DestBytes,     x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<byte> (binaries.DestStream,    x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1422,6 +1522,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             else if (test.Bits == 16)
             {
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<short> (binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<short> (binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<short> (binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<short> (binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => binaries.DestFilePath.WriteWavHeader<short> ( x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => binaries.DestBytes   .WriteWavHeader<short> ( x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => binaries.DestStream  .WriteWavHeader<short> ( x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1430,6 +1534,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertSetter(() => binaries.DestBytes   .WriteWavHeader<short> ((x.Channels, x.SamplingRate, frameCount)), ForDestBytes   );
                 AssertSetter(() => binaries.DestStream  .WriteWavHeader<short> ((x.Channels, x.SamplingRate, frameCount)), ForDestStream  );
                 AssertSetter(() => binaries.BinaryWriter.WriteWavHeader<short> ((x.Channels, x.SamplingRate, frameCount)), ForBinaryWriter);
+                AssertSetter(() => WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+                AssertSetter(() => WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => WriteWavHeader<short>(binaries.DestFilePath,  x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => WriteWavHeader<short>(binaries.DestBytes,     x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => WriteWavHeader<short>(binaries.DestStream,    x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1438,6 +1550,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertSetter(() => WriteWavHeader<short>(binaries.DestBytes,    (x.Channels, x.SamplingRate, frameCount)), ForDestBytes   );
                 AssertSetter(() => WriteWavHeader<short>(binaries.DestStream,   (x.Channels, x.SamplingRate, frameCount)), ForDestStream  );
                 AssertSetter(() => WriteWavHeader<short>(binaries.BinaryWriter, (x.Channels, x.SamplingRate, frameCount)), ForBinaryWriter);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>( x.Channels, x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>((x.Channels, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>(binaries.DestFilePath,  x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>(binaries.DestBytes,     x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<short>(binaries.DestStream,    x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1449,6 +1569,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             else if (test.Bits == 32)
             {
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<float> (binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<float> (binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<float> (binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => (x.Channels, x.SamplingRate, frameCount).WriteWavHeader<float> (binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => binaries.DestFilePath.WriteWavHeader<float> ( x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => binaries.DestBytes   .WriteWavHeader<float> ( x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => binaries.DestStream  .WriteWavHeader<float> ( x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1457,6 +1581,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertSetter(() => binaries.DestBytes   .WriteWavHeader<float> ((x.Channels, x.SamplingRate, frameCount)), ForDestBytes   );
                 AssertSetter(() => binaries.DestStream  .WriteWavHeader<float> ((x.Channels, x.SamplingRate, frameCount)), ForDestStream  );
                 AssertSetter(() => binaries.BinaryWriter.WriteWavHeader<float> ((x.Channels, x.SamplingRate, frameCount)), ForBinaryWriter);
+                AssertSetter(() => WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+                AssertSetter(() => WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => WriteWavHeader<float>(binaries.DestFilePath,  x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => WriteWavHeader<float>(binaries.DestBytes,     x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => WriteWavHeader<float>(binaries.DestStream,    x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1465,6 +1597,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertSetter(() => WriteWavHeader<float>(binaries.DestBytes,    (x.Channels, x.SamplingRate, frameCount)), ForDestBytes   );
                 AssertSetter(() => WriteWavHeader<float>(binaries.DestStream,   (x.Channels, x.SamplingRate, frameCount)), ForDestStream  );
                 AssertSetter(() => WriteWavHeader<float>(binaries.BinaryWriter, (x.Channels, x.SamplingRate, frameCount)), ForBinaryWriter);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>( x.Channels, x.SamplingRate, frameCount , binaries.BinaryWriter), ForBinaryWriter);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.DestFilePath), ForDestFilePath);
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.DestBytes   ), ForDestBytes   );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.DestStream  ), ForDestStream  );
+                AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>((x.Channels, x.SamplingRate, frameCount), binaries.BinaryWriter), ForBinaryWriter);
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>(binaries.DestFilePath,  x.Channels, x.SamplingRate, frameCount ), ForDestFilePath);
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>(binaries.DestBytes,     x.Channels, x.SamplingRate, frameCount ), ForDestBytes   );
                 AssertSetter(() => WavHeaderWishes.WriteWavHeader<float>(binaries.DestStream,    x.Channels, x.SamplingRate, frameCount ), ForDestStream  );
@@ -1495,16 +1635,32 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     action();
                 }
             }
-            
+                
             // By Design: Mocked ConfigSection has default settings.
-            TestSetter(() => { configSection.WriteWavHeader(binaries.DestFilePath); Assert(binaries.DestFilePath, DefaultsCase); });
-            TestSetter(() => { configSection.WriteWavHeader(binaries.DestBytes   ); Assert(binaries.DestBytes,    DefaultsCase); });
-            TestSetter(() => { configSection.WriteWavHeader(binaries.DestStream  ); Assert(binaries.DestStream,   DefaultsCase); });
-            TestSetter(() => { configSection.WriteWavHeader(binaries.BinaryWriter); Assert(binaries.BinaryWriter, DefaultsCase); });
-            TestSetter(() => { binaries.DestFilePath.WriteWavHeader(configSection); Assert(binaries.DestFilePath, DefaultsCase); });
-            TestSetter(() => { binaries.DestBytes   .WriteWavHeader(configSection); Assert(binaries.DestBytes,    DefaultsCase); });
-            TestSetter(() => { binaries.DestStream  .WriteWavHeader(configSection); Assert(binaries.DestStream,   DefaultsCase); });
-            TestSetter(() => { binaries.BinaryWriter.WriteWavHeader(configSection); Assert(binaries.BinaryWriter, DefaultsCase); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestFilePath ); Assert(binaries.DestFilePath, DefaultsCase); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestBytes    ); Assert(binaries.DestBytes,    DefaultsCase); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.DestStream   ); Assert(binaries.DestStream,   DefaultsCase); });
+            TestSetter(() => { configSection.WriteWavHeader(binaries.BinaryWriter ); Assert(binaries.BinaryWriter, DefaultsCase); });
+            TestSetter(() => { binaries.DestFilePath.WriteWavHeader(configSection ); Assert(binaries.DestFilePath, DefaultsCase); });
+            TestSetter(() => { binaries.DestBytes   .WriteWavHeader(configSection ); Assert(binaries.DestBytes,    DefaultsCase); });
+            TestSetter(() => { binaries.DestStream  .WriteWavHeader(configSection ); Assert(binaries.DestStream,   DefaultsCase); });
+            TestSetter(() => { binaries.BinaryWriter.WriteWavHeader(configSection ); Assert(binaries.BinaryWriter, DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(configSection, binaries.DestFilePath); Assert(binaries.DestFilePath, DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(configSection, binaries.DestBytes   ); Assert(binaries.DestBytes,    DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(configSection, binaries.DestStream  ); Assert(binaries.DestStream,   DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(configSection, binaries.BinaryWriter); Assert(binaries.BinaryWriter, DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(binaries.DestFilePath, configSection); Assert(binaries.DestFilePath, DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(binaries.DestBytes,    configSection); Assert(binaries.DestBytes,    DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(binaries.DestStream,   configSection); Assert(binaries.DestStream,   DefaultsCase); });
+            TestSetter(() => { WriteWavHeader(binaries.BinaryWriter, configSection); Assert(binaries.BinaryWriter, DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(configSection, binaries.DestFilePath); Assert(binaries.DestFilePath, DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(configSection, binaries.DestBytes   ); Assert(binaries.DestBytes,    DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(configSection, binaries.DestStream  ); Assert(binaries.DestStream,   DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(configSection, binaries.BinaryWriter); Assert(binaries.BinaryWriter, DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(binaries.DestFilePath, configSection); Assert(binaries.DestFilePath, DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(binaries.DestBytes,    configSection); Assert(binaries.DestBytes,    DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(binaries.DestStream,   configSection); Assert(binaries.DestStream,   DefaultsCase); });
+            TestSetter(() => { WavHeaderWishesAccessor.WriteWavHeader(binaries.BinaryWriter, configSection); Assert(binaries.BinaryWriter, DefaultsCase); });
         }
         
         
