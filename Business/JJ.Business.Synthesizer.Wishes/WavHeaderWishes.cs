@@ -998,7 +998,6 @@ namespace JJ.Business.Synthesizer.Wishes
         // With Values
         
         // TODO: Tuples
-        // TODO: Tuple as this arguments (switch arguments).
         
         public static void WriteWavHeader(string filePath, int bits, int channels, int samplingRate, int frameCount)
             => (bits, channels, samplingRate, frameCount).ToWish().WriteWavHeader(filePath);
