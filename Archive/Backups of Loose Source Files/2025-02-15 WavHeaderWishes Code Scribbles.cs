@@ -554,3 +554,22 @@ AreEqual(test.FrameCount,     () => x.BuffBound.AudioFileOutput      .ToWavHeade
             TestProp((x, y) => { y.SourceBytes        .ReadWavHeader(x.SynthBound.SynthWishes)                   ; Assert(x.SynthBound.SynthWishes,    test); });
             TestProp((x, y) => { y.SourceStream       .ReadWavHeader(x.SynthBound.SynthWishes)                   ; Assert(x.SynthBound.SynthWishes,    test); });
             TestProp((x, y) => { y.BinaryReader       .ReadWavHeader(x.SynthBound.SynthWishes)                   ; Assert(x.SynthBound.SynthWishes,    test); });
+
+
+            //BuffBoundEntities bin = null;
+            
+            //void AssertWrite(Action setter, TestEntityEnum entity)
+            //{
+            //    using (var changedEntities = CreateModifiedEntities(test, withDisk: entity == ForDestFilePath))
+            //    {
+            //        bin = changedEntities.BuffBound;
+            //        AssertInvariant(changedEntities, test);
+                    
+            //        setter();
+                    
+            //        if (entity == ForDestFilePath) Assert(bin.DestFilePath, test);
+            //        if (entity == ForDestBytes)    Assert(bin.DestBytes,    test);
+            //        if (entity == ForDestStream)   Assert(bin.DestStream,   test);
+            //        if (entity == ForBinaryWriter) Assert(bin.BinaryWriter, test);
+            //    }
+            //}
