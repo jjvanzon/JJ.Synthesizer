@@ -86,21 +86,13 @@ namespace JJ.Business.Synthesizer.Wishes
             SamplingRate = entity.SamplingRate(),
             FrameCount   = entity.FrameCount()
         };
-
+                
         public static AudioInfoWish ToInfo(Buff entity) => new AudioInfoWish
         {
             Bits         = entity.Bits(),
             Channels     = entity.Channels(),
             SamplingRate = entity.SamplingRate(),
-            FrameCount   = default
-        };
-                
-        public static AudioInfoWish ToInfo(Buff entity, int courtesyFrames) => new AudioInfoWish
-        {
-            Bits         = entity.Bits(),
-            Channels     = entity.Channels(),
-            SamplingRate = entity.SamplingRate(),
-            FrameCount   = entity.FrameCount(courtesyFrames)
+            FrameCount   = entity.FrameCount()
         };                
                 
         public static AudioInfoWish ToInfo(AudioFileOutput entity) => new AudioInfoWish
@@ -108,15 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Bits         = entity.Bits(),
             Channels     = entity.Channels(),
             SamplingRate = entity.SamplingRate(),
-            FrameCount   = default
-        };
-                
-        public static AudioInfoWish ToInfo(AudioFileOutput entity, int courtesyFrames) => new AudioInfoWish
-        {
-            Bits         = entity.Bits(),
-            Channels     = entity.Channels(),
-            SamplingRate = entity.SamplingRate(),
-            FrameCount   = entity.FrameCount(courtesyFrames)
+            FrameCount   = entity.FrameCount()
         };
         
         public static AudioInfoWish ToInfo(Sample entity) => new AudioInfoWish
@@ -270,27 +254,27 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
                         
-        public static AudioInfoWish ApplyInfo(AudioInfoWish infoWish, Buff entity, int courtesyFrames, IContext context) 
-            { entity.ApplyInfo(infoWish, courtesyFrames, context); return infoWish; }
-        public static Buff ApplyInfo(Buff entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
+        public static AudioInfoWish ApplyInfo(AudioInfoWish infoWish, Buff entity, IContext context) 
+            { entity.ApplyInfo(infoWish, context); return infoWish; }
+        public static Buff ApplyInfo(Buff entity, AudioInfoWish infoWish, IContext context)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits, context);
             entity.SetChannels    (infoWish.Channels, context);
             entity.SetSamplingRate(infoWish.SamplingRate);
-            entity.SetFrameCount  (infoWish.FrameCount, courtesyFrames);
+            entity.SetFrameCount  (infoWish.FrameCount);
             return entity;
         }
                         
-        public static AudioInfoWish ApplyInfo(AudioInfoWish infoWish, AudioFileOutput entity, int courtesyFrames, IContext context) 
-            { entity.ApplyInfo(infoWish, courtesyFrames, context); return infoWish; }
-        public static AudioFileOutput ApplyInfo(AudioFileOutput entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
+        public static AudioInfoWish ApplyInfo(AudioInfoWish infoWish, AudioFileOutput entity, IContext context) 
+            { entity.ApplyInfo(infoWish, context); return infoWish; }
+        public static AudioFileOutput ApplyInfo(AudioFileOutput entity, AudioInfoWish infoWish, IContext context)
         {
             if (infoWish == null) throw new NullException(() => infoWish);
             entity.SetBits        (infoWish.Bits, context);
             entity.SetChannels    (infoWish.Channels, context);
             entity.SetSamplingRate(infoWish.SamplingRate);
-            entity.SetFrameCount  (infoWish.FrameCount, courtesyFrames);
+            entity.SetFrameCount  (infoWish.FrameCount);
             return entity;
         }
                         
@@ -344,9 +328,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static WavHeaderStruct ToWavHeader(TapeActions     entity)                          => entity.ToInfo()              .ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(TapeAction      entity)                          => entity.ToInfo()              .ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(Buff            entity)                          => entity.ToInfo()              .ToWavHeader();
-        public   static WavHeaderStruct ToWavHeader(Buff            entity, int courtesyFrames)      => entity.ToInfo(courtesyFrames).ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(AudioFileOutput entity)                          => entity.ToInfo()              .ToWavHeader();
-        public   static WavHeaderStruct ToWavHeader(AudioFileOutput entity, int courtesyFrames)      => entity.ToInfo(courtesyFrames).ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(Sample          entity)                          => entity.ToInfo()              .ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(AudioInfoWish   entity)                          => WavHeaderManager.CreateWavHeaderStruct(entity.ApplyInfo());
         public   static WavHeaderStruct ToWavHeader(AudioFileInfo   entity)                          => entity.ToInfo()              .ToWavHeader();
@@ -385,15 +367,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct ApplyWavHeader(WavHeaderStruct wavHeader, TapeAction entity) { entity.ApplyWavHeader(wavHeader); return wavHeader; }
         public static TapeAction ApplyWavHeader(TapeAction entity, WavHeaderStruct wavHeader) { wavHeader.ToInfo().ApplyInfo(entity); return entity; }
         
-        public static WavHeaderStruct ApplyWavHeader(WavHeaderStruct wavHeader, Buff entity, int courtesyFrames, IContext context) 
-            { entity.ApplyWavHeader(wavHeader, courtesyFrames, context); return wavHeader; }
-        public static Buff ApplyWavHeader(Buff entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context) 
-            { wavHeader.ToInfo().ApplyInfo(entity, courtesyFrames, context); return entity; }
+        public static WavHeaderStruct ApplyWavHeader(WavHeaderStruct wavHeader, Buff entity, IContext context) 
+            { entity.ApplyWavHeader(wavHeader, context); return wavHeader; }
+        public static Buff ApplyWavHeader(Buff entity, WavHeaderStruct wavHeader, IContext context) 
+            { wavHeader.ToInfo().ApplyInfo(entity, context); return entity; }
         
-        public static WavHeaderStruct ApplyWavHeader(WavHeaderStruct wavHeader, AudioFileOutput entity, int courtesyFrames, IContext context) 
-            { entity.ApplyWavHeader(wavHeader, courtesyFrames, context); return wavHeader; }
-        public static AudioFileOutput ApplyWavHeader(AudioFileOutput entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context) 
-            { wavHeader.ToInfo().ApplyInfo(entity, courtesyFrames, context); return entity; }
+        public static WavHeaderStruct ApplyWavHeader(WavHeaderStruct wavHeader, AudioFileOutput entity, IContext context) 
+            { entity.ApplyWavHeader(wavHeader, context); return wavHeader; }
+        public static AudioFileOutput ApplyWavHeader(AudioFileOutput entity, WavHeaderStruct wavHeader, IContext context) 
+            { wavHeader.ToInfo().ApplyInfo(entity, context); return entity; }
         
         public static WavHeaderStruct ApplyWavHeader(WavHeaderStruct wavHeader, Sample entity, IContext context) 
             { entity.ApplyWavHeader(wavHeader, context); return wavHeader; }
@@ -475,39 +457,39 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Stream       ReadWavHeader(Stream       source,   TapeAction   entity  ) { source  .ReadWavHeader().ApplyWavHeader(entity); return source;   }
         public static BinaryReader ReadWavHeader(BinaryReader source,   TapeAction   entity  ) { source  .ReadWavHeader().ApplyWavHeader(entity); return source;   }
                 
-        public static Buff ReadWavHeader(Buff entity, string filePath, int courtesyFrames, IContext context)
-            { filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return entity; }
-        public static Buff ReadWavHeader(Buff entity, byte[] source, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return entity; }
-        public static Buff ReadWavHeader(Buff entity, Stream source, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context); return entity; }
-        public static Buff ReadWavHeader(Buff entity, BinaryReader source, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return entity; }
-        public static string ReadWavHeader(string filePath, Buff entity, int courtesyFrames, IContext context)
-            { filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return filePath; }
-        public static byte[] ReadWavHeader(byte[] source, Buff entity, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return source; }
-        public static Stream ReadWavHeader(Stream source, Buff entity, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context); return source; }
-        public static BinaryReader ReadWavHeader(BinaryReader source, Buff entity, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return source; }
+        public static Buff ReadWavHeader(Buff entity, string filePath, IContext context)
+            { filePath.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
+        public static Buff ReadWavHeader(Buff entity, byte[] source, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
+        public static Buff ReadWavHeader(Buff entity, Stream source, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
+        public static Buff ReadWavHeader(Buff entity, BinaryReader source, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
+        public static string ReadWavHeader(string filePath, Buff entity, IContext context)
+            { filePath.ReadWavHeader().ApplyWavHeader(entity, context); return filePath; }
+        public static byte[] ReadWavHeader(byte[] source, Buff entity, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return source; }
+        public static Stream ReadWavHeader(Stream source, Buff entity, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return source; }
+        public static BinaryReader ReadWavHeader(BinaryReader source, Buff entity, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return source; }
                 
-        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, string filePath, int courtesyFrames, IContext context)
-            { filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return entity; }
-        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, byte[] source, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return entity; }
-        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, Stream source, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context); return entity; }
-        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, BinaryReader source, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return entity; }
-        public static string ReadWavHeader(string filePath, AudioFileOutput entity, int courtesyFrames, IContext context)
-            { filePath.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return filePath; }
-        public static byte[] ReadWavHeader(byte[] source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return source; }
-        public static Stream ReadWavHeader(Stream source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity,courtesyFrames, context); return source; }
-        public static BinaryReader ReadWavHeader(BinaryReader source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            { source.ReadWavHeader().ApplyWavHeader(entity, courtesyFrames, context); return source; }
+        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, string filePath, IContext context)
+            { filePath.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
+        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, byte[] source, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
+        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, Stream source, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity,context); return entity; }
+        public static AudioFileOutput ReadWavHeader(AudioFileOutput entity, BinaryReader source, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
+        public static string ReadWavHeader(string filePath, AudioFileOutput entity, IContext context)
+            { filePath.ReadWavHeader().ApplyWavHeader(entity, context); return filePath; }
+        public static byte[] ReadWavHeader(byte[] source, AudioFileOutput entity, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return source; }
+        public static Stream ReadWavHeader(Stream source, AudioFileOutput entity, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity,context); return source; }
+        public static BinaryReader ReadWavHeader(BinaryReader source, AudioFileOutput entity, IContext context)
+            { source.ReadWavHeader().ApplyWavHeader(entity, context); return source; }
                 
         public static Sample ReadWavHeader(Sample entity, string filePath, IContext context)
             { filePath.ReadWavHeader().ApplyWavHeader(entity, context); return entity; }
@@ -639,22 +621,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static byte[]          WriteWavHeader(byte[]          dest,      AudioFileOutput entity  ) { entity.ToWavHeader().Write(dest    ); return dest; }
         public static Stream          WriteWavHeader(Stream          dest,      AudioFileOutput entity  ) { entity.ToWavHeader().Write(dest    ); return dest; }
         public static BinaryWriter    WriteWavHeader(BinaryWriter    dest,      AudioFileOutput entity  ) { entity.ToWavHeader().Write(dest    ); return dest; }
-        public static Buff            WriteWavHeader(Buff            entity,    string          filePath, int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(filePath); return entity; }
-        public static Buff            WriteWavHeader(Buff            entity,    byte[]          dest,     int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return entity; }
-        public static Buff            WriteWavHeader(Buff            entity,    BinaryWriter    dest,     int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return entity; }
-        public static Buff            WriteWavHeader(Buff            entity,    Stream          dest,     int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return entity; }
-        public static string          WriteWavHeader(string          filePath,  Buff            entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(filePath); return filePath; }
-        public static byte[]          WriteWavHeader(byte[]          dest,      Buff            entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return dest; }
-        public static Stream          WriteWavHeader(Stream          dest,      Buff            entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return dest; }
-        public static BinaryWriter    WriteWavHeader(BinaryWriter    dest,      Buff            entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return dest; }
-        public static AudioFileOutput WriteWavHeader(AudioFileOutput entity,    string          filePath, int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(filePath); return entity; }
-        public static AudioFileOutput WriteWavHeader(AudioFileOutput entity,    byte[]          dest,     int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return entity; }
-        public static AudioFileOutput WriteWavHeader(AudioFileOutput entity,    BinaryWriter    dest,     int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return entity; }
-        public static AudioFileOutput WriteWavHeader(AudioFileOutput entity,    Stream          dest,     int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return entity; }
-        public static string          WriteWavHeader(string          filePath,  AudioFileOutput entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(filePath); return filePath; }
-        public static byte[]          WriteWavHeader(byte[]          dest,      AudioFileOutput entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return dest; }
-        public static Stream          WriteWavHeader(Stream          dest,      AudioFileOutput entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return dest; }
-        public static BinaryWriter    WriteWavHeader(BinaryWriter    dest,      AudioFileOutput entity,   int courtesyFrames) { entity.ToWavHeader(courtesyFrames).Write(dest    ); return dest; }
         public static Sample          WriteWavHeader(Sample          entity,    string          filePath ) { entity.ToWavHeader().Write(filePath); return entity; }
         public static Sample          WriteWavHeader(Sample          entity,    byte[]          dest     ) { entity.ToWavHeader().Write(dest    ); return entity; }
         public static Sample          WriteWavHeader(Sample          entity,    BinaryWriter    dest     ) { entity.ToWavHeader().Write(dest    ); return entity; }
@@ -811,9 +777,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static AudioInfoWish ToInfo(this TapeActions entity) => WavWishes.ToInfo(entity);
         public static AudioInfoWish ToInfo(this TapeAction entity) => WavWishes.ToInfo(entity);
         public static AudioInfoWish ToInfo(this Buff entity) => WavWishes.ToInfo(entity);
-        public static AudioInfoWish ToInfo(this Buff entity, int courtesyFrames) => WavWishes.ToInfo(entity, courtesyFrames);
         public static AudioInfoWish ToInfo(this AudioFileOutput entity) => WavWishes.ToInfo(entity);
-        public static AudioInfoWish ToInfo(this AudioFileOutput entity, int courtesyFrames) => WavWishes.ToInfo(entity, courtesyFrames);
         public static AudioInfoWish ToInfo(this Sample entity) => WavWishes.ToInfo(entity);
         public static AudioInfoWish ToInfo(this AudioFileInfo info) => WavWishes.ToInfo(info);
         public static AudioInfoWish ToInfo(this WavHeaderStruct wavHeader) => WavWishes.ToInfo(wavHeader);
@@ -851,15 +815,15 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static ConfigResolver ApplyInfo(this ConfigResolver entity, AudioInfoWish infoWish, SynthWishes synthWishes)
             => WavWishes.ApplyInfo(entity, infoWish, synthWishes);
         
-        public static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, Buff entity, int courtesyFrames, IContext context)
-            => WavWishes.ApplyInfo(infoWish, entity, courtesyFrames, context);
-        public static Buff ApplyInfo(this Buff entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
-            => WavWishes.ApplyInfo(entity, infoWish, courtesyFrames, context);
+        public static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, Buff entity, IContext context)
+            => WavWishes.ApplyInfo(infoWish, entity, context);
+        public static Buff ApplyInfo(this Buff entity, AudioInfoWish infoWish, IContext context)
+            => WavWishes.ApplyInfo(entity, infoWish, context);
         
-        public static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavWishes.ApplyInfo(infoWish, entity, courtesyFrames, context);
-        public static AudioFileOutput ApplyInfo(this AudioFileOutput entity, AudioInfoWish infoWish, int courtesyFrames, IContext context)
-            => WavWishes.ApplyInfo(entity, infoWish, courtesyFrames, context);
+        public static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, AudioFileOutput entity, IContext context)
+            => WavWishes.ApplyInfo(infoWish, entity, context);
+        public static AudioFileOutput ApplyInfo(this AudioFileOutput entity, AudioInfoWish infoWish, IContext context)
+            => WavWishes.ApplyInfo(entity, infoWish, context);
         
         public static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, Sample entity, IContext context)
             => WavWishes.ApplyInfo(infoWish, entity, context);
@@ -882,9 +846,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static WavHeaderStruct ToWavHeader(this TapeActions     entity)                          => WavWishes.ToWavHeader(entity);
         public   static WavHeaderStruct ToWavHeader(this TapeAction      entity)                          => WavWishes.ToWavHeader(entity);
         public   static WavHeaderStruct ToWavHeader(this Buff            entity)                          => WavWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this Buff            entity, int courtesyFrames)      => WavWishes.ToWavHeader(entity, courtesyFrames);
         public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity)                          => WavWishes.ToWavHeader(entity);
-        public   static WavHeaderStruct ToWavHeader(this AudioFileOutput entity, int courtesyFrames)      => WavWishes.ToWavHeader(entity, courtesyFrames);
         public   static WavHeaderStruct ToWavHeader(this Sample          entity)                          => WavWishes.ToWavHeader(entity);
         public   static WavHeaderStruct ToWavHeader(this AudioInfoWish   entity)                          => WavWishes.ToWavHeader(entity);
         public   static WavHeaderStruct ToWavHeader(this AudioFileInfo   entity)                          => WavWishes.ToWavHeader(entity);
@@ -926,15 +888,15 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, TapeAction entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
         public static TapeAction ApplyWavHeader(this TapeAction entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
-        public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, Buff entity, int courtesyFrames, IContext context)
-            => WavWishes.ApplyWavHeader(wavHeader, entity, courtesyFrames, context);
-        public static Buff ApplyWavHeader(this Buff entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context)
-            => WavWishes.ApplyWavHeader(entity, wavHeader, courtesyFrames, context);
+        public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, Buff entity, IContext context)
+            => WavWishes.ApplyWavHeader(wavHeader, entity, context);
+        public static Buff ApplyWavHeader(this Buff entity, WavHeaderStruct wavHeader, IContext context)
+            => WavWishes.ApplyWavHeader(entity, wavHeader, context);
 
-        public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavWishes.ApplyWavHeader(wavHeader, entity, courtesyFrames, context);
-        public static AudioFileOutput ApplyWavHeader(this AudioFileOutput entity, WavHeaderStruct wavHeader, int courtesyFrames, IContext context)
-            => WavWishes.ApplyWavHeader(entity, wavHeader, courtesyFrames, context);
+        public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, AudioFileOutput entity, IContext context)
+            => WavWishes.ApplyWavHeader(wavHeader, entity, context);
+        public static AudioFileOutput ApplyWavHeader(this AudioFileOutput entity, WavHeaderStruct wavHeader, IContext context)
+            => WavWishes.ApplyWavHeader(entity, wavHeader, context);
 
         public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, Sample entity, IContext context)
             => WavWishes.ApplyWavHeader(wavHeader, entity, context);
@@ -1017,39 +979,39 @@ namespace JJ.Business.Synthesizer.Wishes
         public static Stream       ReadWavHeader(this Stream       source,   TapeAction   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
         public static BinaryReader ReadWavHeader(this BinaryReader source,   TapeAction   entity  ) => WavWishes.ReadWavHeader(source,   entity  );
         
-        public static Buff ReadWavHeader(this Buff entity, string filePath, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
-        public static Buff ReadWavHeader(this Buff entity, byte[] source, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-        public static Buff ReadWavHeader(this Buff entity, Stream source, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-        public static Buff ReadWavHeader(this Buff entity, BinaryReader source, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-        public static string ReadWavHeader(this string filePath, Buff entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
-        public static byte[] ReadWavHeader(this byte[] source, Buff entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
-        public static Stream ReadWavHeader(this Stream source, Buff entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
-        public static BinaryReader ReadWavHeader(this BinaryReader source, Buff entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+        public static Buff ReadWavHeader(this Buff entity, string filePath, IContext context)
+            => WavWishes.ReadWavHeader(entity, filePath, context);
+        public static Buff ReadWavHeader(this Buff entity, byte[] source, IContext context)
+            => WavWishes.ReadWavHeader(entity, source, context);
+        public static Buff ReadWavHeader(this Buff entity, Stream source, IContext context)
+            => WavWishes.ReadWavHeader(entity, source, context);
+        public static Buff ReadWavHeader(this Buff entity, BinaryReader source, IContext context)
+            => WavWishes.ReadWavHeader(entity, source, context);
+        public static string ReadWavHeader(this string filePath, Buff entity, IContext context)
+            => WavWishes.ReadWavHeader(filePath, entity, context);
+        public static byte[] ReadWavHeader(this byte[] source, Buff entity, IContext context)
+            => WavWishes.ReadWavHeader(source, entity, context);
+        public static Stream ReadWavHeader(this Stream source, Buff entity, IContext context)
+            => WavWishes.ReadWavHeader(source, entity, context);
+        public static BinaryReader ReadWavHeader(this BinaryReader source, Buff entity, IContext context)
+            => WavWishes.ReadWavHeader(source, entity, context);
         
-        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, string filePath, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, filePath, courtesyFrames, context);
-        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, byte[] source, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, Stream source, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, BinaryReader source, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(entity, source, courtesyFrames, context);
-        public static string ReadWavHeader(this string filePath, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(filePath, entity, courtesyFrames, context);
-        public static byte[] ReadWavHeader(this byte[] source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
-        public static Stream ReadWavHeader(this Stream source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
-        public static BinaryReader ReadWavHeader(this BinaryReader source, AudioFileOutput entity, int courtesyFrames, IContext context)
-            => WavWishes.ReadWavHeader(source, entity, courtesyFrames, context);
+        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, string filePath, IContext context)
+            => WavWishes.ReadWavHeader(entity, filePath, context);
+        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, byte[] source, IContext context)
+            => WavWishes.ReadWavHeader(entity, source, context);
+        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, Stream source, IContext context)
+            => WavWishes.ReadWavHeader(entity, source, context);
+        public static AudioFileOutput ReadWavHeader(this AudioFileOutput entity, BinaryReader source, IContext context)
+            => WavWishes.ReadWavHeader(entity, source, context);
+        public static string ReadWavHeader(this string filePath, AudioFileOutput entity, IContext context)
+            => WavWishes.ReadWavHeader(filePath, entity, context);
+        public static byte[] ReadWavHeader(this byte[] source, AudioFileOutput entity, IContext context)
+            => WavWishes.ReadWavHeader(source, entity, context);
+        public static Stream ReadWavHeader(this Stream source, AudioFileOutput entity, IContext context)
+            => WavWishes.ReadWavHeader(source, entity, context);
+        public static BinaryReader ReadWavHeader(this BinaryReader source, AudioFileOutput entity, IContext context)
+            => WavWishes.ReadWavHeader(source, entity, context);
 
         public static Sample       ReadWavHeader(this Sample       entity,   string filePath,     IContext context) => WavWishes.ReadWavHeader(entity,   filePath, context);
         public static Sample       ReadWavHeader(this Sample       entity,   byte[] source,       IContext context) => WavWishes.ReadWavHeader(entity,   source,   context);
@@ -1173,22 +1135,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public static byte[]          WriteWavHeader(this byte[]          dest,      AudioFileOutput entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
         public static Stream          WriteWavHeader(this Stream          dest,      AudioFileOutput entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
         public static BinaryWriter    WriteWavHeader(this BinaryWriter    dest,      AudioFileOutput entity    ) => WavWishes.WriteWavHeader(dest,     entity  );
-        public static Buff            WriteWavHeader(this Buff            entity,    string          filePath, int courtesyFrames) => WavWishes.WriteWavHeader(entity,   filePath, courtesyFrames);
-        public static Buff            WriteWavHeader(this Buff            entity,    byte[]          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static Buff            WriteWavHeader(this Buff            entity,    BinaryWriter    dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static Buff            WriteWavHeader(this Buff            entity,    Stream          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static string          WriteWavHeader(this string          filePath,  Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(filePath, entity,   courtesyFrames);
-        public static byte[]          WriteWavHeader(this byte[]          dest,      Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static Stream          WriteWavHeader(this Stream          dest,      Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static BinaryWriter    WriteWavHeader(this BinaryWriter    dest,      Buff            entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static AudioFileOutput WriteWavHeader(this AudioFileOutput entity,    string          filePath, int courtesyFrames) => WavWishes.WriteWavHeader(entity,   filePath, courtesyFrames);
-        public static AudioFileOutput WriteWavHeader(this AudioFileOutput entity,    byte[]          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static AudioFileOutput WriteWavHeader(this AudioFileOutput entity,    BinaryWriter    dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static AudioFileOutput WriteWavHeader(this AudioFileOutput entity,    Stream          dest,     int courtesyFrames) => WavWishes.WriteWavHeader(entity,   dest,     courtesyFrames);
-        public static string          WriteWavHeader(this string          filePath,  AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(filePath, entity,   courtesyFrames);
-        public static byte[]          WriteWavHeader(this byte[]          dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static Stream          WriteWavHeader(this Stream          dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
-        public static BinaryWriter    WriteWavHeader(this BinaryWriter    dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
         public static Sample          WriteWavHeader(this Sample          entity,    string          filePath ) => WavWishes.WriteWavHeader(entity,    filePath );
         public static Sample          WriteWavHeader(this Sample          entity,    byte[]          dest     ) => WavWishes.WriteWavHeader(entity,    dest     );
         public static Sample          WriteWavHeader(this Sample          entity,    BinaryWriter    dest     ) => WavWishes.WriteWavHeader(entity,    dest     );

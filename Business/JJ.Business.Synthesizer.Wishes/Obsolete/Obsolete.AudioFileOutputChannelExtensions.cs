@@ -168,19 +168,19 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class Obsolete_AudioFileOutputChannel_WavHeaderExtensionWishes
     {
         [Obsolete(ObsoleteMessage)]
-        public static WavHeaderStruct GetWavHeader(this AudioFileOutputChannel entity, int frameCount)
+        public static WavHeaderStruct GetWavHeader(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            return entity.AudioFileOutput.ToInfo(frameCount).ToWavHeader();
+            return entity.AudioFileOutput.ToInfo().ToWavHeader();
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static AudioInfoWish GetInfo(this AudioFileOutputChannel entity, int frameCount)
+        public static AudioInfoWish GetInfo(this AudioFileOutputChannel entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
-            var info = entity.AudioFileOutput.ToInfo(frameCount);
+            var info = entity.AudioFileOutput.ToInfo();
             info.Channels = 1;
             return info;
         }

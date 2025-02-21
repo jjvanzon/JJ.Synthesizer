@@ -5,6 +5,7 @@ using System.Text;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -70,6 +71,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static TapeAction CourtesyBytes(this TapeAction obj, int value) => ConfigWishes.CourtesyBytes(obj, value);
         public static TapeAction WithCourtesyBytes(this TapeAction obj, int value) => ConfigWishes.WithCourtesyBytes(obj, value);
         public static TapeAction SetCourtesyBytes(this TapeAction obj, int value) => ConfigWishes.SetCourtesyBytes(obj, value);
+        
+        public static int CourtesyBytes(this AudioFileOutput obj, int courtesyFrames) => ConfigWishes.CourtesyBytes(obj, courtesyFrames);
+        public static int GetCourtesyBytes(this AudioFileOutput obj, int courtesyFrames) => ConfigWishes.GetCourtesyBytes(obj, courtesyFrames);
+        
+        public static int CourtesyBytes(this Buff obj, int courtesyFrames) => ConfigWishes.CourtesyBytes(obj, courtesyFrames);
+        public static int GetCourtesyBytes(this Buff obj, int courtesyFrames) => ConfigWishes.GetCourtesyBytes(obj, courtesyFrames);
         
         // Conversion Formulas
         
@@ -212,6 +219,21 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (obj == null) throw new NullException(() => obj);
             obj.Tape.SetCourtesyBytes(value);
             return obj;
+        }
+        
+        public static int CourtesyBytes(AudioFileOutput obj, int courtesyFrames) => GetCourtesyBytes(obj, courtesyFrames);
+        public static int GetCourtesyBytes(AudioFileOutput obj, int courtesyFrames)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            AssertCourtesyFrames(courtesyFrames);
+            return courtesyFrames * obj.FrameSize();
+        }
+
+        public static int CourtesyBytes(Buff obj, int courtesyFrames) => GetCourtesyBytes(obj, courtesyFrames);
+        public static int GetCourtesyBytes(Buff obj, int courtesyFrames)
+        {
+            if (obj == null) throw new NullException(() => obj);
+            return GetCourtesyBytes(obj.UnderlyingAudioFileOutput, courtesyFrames);
         }
 
         // Conversion Formulas

@@ -169,7 +169,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             if (inMemory)
             {
                 // Inject an in-memory stream
-                bytes = new byte[audioFileOutput.BytesNeeded(courtesyFrames)];
+                bytes = new byte[audioFileOutput.BytesNeeded() + audioFileOutput.CourtesyBytes(courtesyFrames)];
                 calculatorAccessor._stream = new MemoryStream(bytes);
                 audioFileOutput.FilePath = default; // FilePath has no meaning anymore.
             }

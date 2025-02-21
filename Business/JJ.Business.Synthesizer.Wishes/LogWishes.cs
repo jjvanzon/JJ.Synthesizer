@@ -19,7 +19,6 @@ using static System.Environment;
 using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Framework.Wishes.Text.StringWishes;
@@ -49,24 +48,15 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string ConfigLog(this AudioInfoWish audioInfoWish) => LogWishes.ConfigLog(audioInfoWish);
         public static string ConfigLog(this AudioInfoWish audioInfoWish, string sep) => LogWishes.ConfigLog(audioInfoWish, sep);
-        public static string ConfigLog(this AudioInfoWish audioInfoWish, int courtesyFrames) => LogWishes.ConfigLog(audioInfoWish, courtesyFrames);
-        public static string ConfigLog(this AudioInfoWish audioInfoWish, int courtesyFrames, string sep) => LogWishes.ConfigLog(audioInfoWish, courtesyFrames, sep);
         public static string ConfigLog(this AudioInfoWish audioInfoWish, string title, string sep) => LogWishes.ConfigLog(title, audioInfoWish, sep);
-        public static string ConfigLog(this AudioInfoWish audioInfoWish, string title, int courtesyFrames, string sep = " | ") => LogWishes.ConfigLog(title, audioInfoWish, courtesyFrames, sep);
 
         public static string ConfigLog(this AudioFileInfo audioFileInfo) => LogWishes.ConfigLog(audioFileInfo);
         public static string ConfigLog(this AudioFileInfo audioFileInfo, string sep) => LogWishes.ConfigLog(audioFileInfo, sep);
-        public static string ConfigLog(this AudioFileInfo audioFileInfo, int courtesyFrames) => LogWishes.ConfigLog(audioFileInfo, courtesyFrames);
-        public static string ConfigLog(this AudioFileInfo audioFileInfo, int courtesyFrames, string sep) => LogWishes.ConfigLog(audioFileInfo, courtesyFrames, sep);
         public static string ConfigLog(this AudioFileInfo audioFileInfo, string title, string sep) => LogWishes.ConfigLog(title, audioFileInfo, sep);
-        public static string ConfigLog(this AudioFileInfo audioFileInfo, string title, int courtesyFrames, string sep = " | ") => LogWishes.ConfigLog(title, audioFileInfo, courtesyFrames, sep);
 
         public static string ConfigLog(this WavHeaderStruct wavHeader) => LogWishes.ConfigLog(wavHeader);
         public static string ConfigLog(this WavHeaderStruct wavHeader, string sep) => LogWishes.ConfigLog(wavHeader, sep);
-        public static string ConfigLog(this WavHeaderStruct wavHeader, int courtesyFrames) => LogWishes.ConfigLog(wavHeader, courtesyFrames);
-        public static string ConfigLog(this WavHeaderStruct wavHeader, int courtesyFrames, string sep) => LogWishes.ConfigLog(wavHeader, courtesyFrames, sep);
         public static string ConfigLog(this WavHeaderStruct wavHeader, string title, string sep) => LogWishes.ConfigLog(title, wavHeader, sep);
-        public static string ConfigLog(this WavHeaderStruct wavHeader, string title, int courtesyFrames, string sep = " | ") => LogWishes.ConfigLog(title, wavHeader, courtesyFrames, sep);
         
         internal static string ConfigLog(this ConfigResolver configWishes) => LogWishes.ConfigLog(configWishes);
         internal static string ConfigLog(this ConfigResolver configWishes, SynthWishes synthWishes) => LogWishes.ConfigLog(configWishes, synthWishes);
@@ -402,18 +392,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string ConfigLog(AudioInfoWish audioInfoWish) => ConfigLog("", audioInfoWish);
         public static string ConfigLog(AudioInfoWish audioInfoWish, string sep) => ConfigLog("", audioInfoWish, sep);
-        public static string ConfigLog(AudioInfoWish audioInfoWish, int courtesyFrames) => ConfigLog("", audioInfoWish, courtesyFrames);
-        public static string ConfigLog(AudioInfoWish audioInfoWish, int courtesyFrames, string sep) => ConfigLog("", audioInfoWish, courtesyFrames, sep);
-        public static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ") => ConfigLog(title, audioInfoWish, default, sep);
-        public static string ConfigLog(string title, AudioInfoWish audioInfoWish, int courtesyFrames, string sep = " | ")
+        public static string ConfigLog(string title, AudioInfoWish audioInfoWish, string sep = " | ")
         {
             if (audioInfoWish == null) throw new NullException(()  => audioInfoWish);
-            AssertCourtesyFrames(courtesyFrames);
             
             if (!Has(sep, false)) sep = NewLine;
             
             string durationsDescriptor = DurationsDescriptor(
-                audioInfoWish.AudioLength(courtesyFrames));
+                audioInfoWish.AudioLength());
             
             string audioFormatDescriptor = AudioFormatDescriptor(
                 audioInfoWish.SamplingRate,
@@ -429,18 +415,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static string ConfigLog(AudioFileInfo audioFileInfo) => ConfigLog("Audio Info", audioFileInfo);
         public static string ConfigLog(AudioFileInfo audioFileInfo, string sep) => ConfigLog("Audio Info", audioFileInfo, sep);
-        public static string ConfigLog(AudioFileInfo audioFileInfo, int courtesyFrames) => ConfigLog("Audio Info", audioFileInfo, courtesyFrames);
-        public static string ConfigLog(AudioFileInfo audioFileInfo, int courtesyFrames, string sep) => ConfigLog("Audio Info", audioFileInfo, courtesyFrames, sep);
-        public static string ConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ") => ConfigLog(title, audioFileInfo, default, sep);
-        public static string ConfigLog(string title, AudioFileInfo audioFileInfo, int courtesyFrames, string sep = " | ")
+        public static string ConfigLog(string title, AudioFileInfo audioFileInfo, string sep = " | ")
         {
             if (audioFileInfo == null) throw new NullException(() => audioFileInfo);
-            AssertCourtesyFrames(courtesyFrames);
             
             if (!Has(sep, false)) sep = NewLine;
             
             string durationsDescriptor = DurationsDescriptor(
-                audioFileInfo.AudioLength(courtesyFrames));
+                audioFileInfo.AudioLength());
             
             string audioFormatDescriptor = AudioFormatDescriptor(
                 audioFileInfo.SamplingRate,
@@ -455,18 +437,14 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         public static string ConfigLog(WavHeaderStruct wavHeader) => ConfigLog("WAV Header", wavHeader);
-        public static string ConfigLog(WavHeaderStruct wavHeader, int courtesyFrames) => ConfigLog("WAV Header", wavHeader, courtesyFrames);
         public static string ConfigLog(WavHeaderStruct wavHeader, string sep) => ConfigLog("WAV Header", wavHeader, sep);
-        public static string ConfigLog(WavHeaderStruct wavHeader, int courtesyFrames, string sep) => ConfigLog("WAV Header", wavHeader, courtesyFrames, sep);
-        public static string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ") => ConfigLog(title, wavHeader, default, sep);
-        public static string ConfigLog(string title, WavHeaderStruct wavHeader, int courtesyFrames, string sep = " | ")
+        public static string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
         {
-            AssertCourtesyFrames(courtesyFrames);
             
             if (!Has(sep, false)) sep = NewLine;
             
             string durationsDescriptor = DurationsDescriptor(
-                wavHeader.AudioLength(courtesyFrames));
+                wavHeader.AudioLength());
             
             string audioFormatDescriptor = AudioFormatDescriptor(
                 wavHeader.SamplingRate,

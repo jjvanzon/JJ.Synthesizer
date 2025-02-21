@@ -154,19 +154,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             const int byteCountExpected = frameCount * frameSize + headerLength;
             
-            AreEqual(byteCountExpected, audioLength .ByteCount               (             samplingRate, bits, channels, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected, audioLength .ByteCountFromAudioLength(             samplingRate, bits, channels, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected,              ByteCount               (audioLength, samplingRate, bits, channels, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected,              ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected, ConfigWishes.ByteCount               (audioLength, samplingRate, bits, channels, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected, ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength, courtesyFrames));
+            AreEqual(byteCountExpected, audioLength .ByteCount               (             samplingRate, bits, channels, headerLength));
+            AreEqual(byteCountExpected, audioLength .ByteCountFromAudioLength(             samplingRate, bits, channels, headerLength));
+            AreEqual(byteCountExpected,              ByteCount               (audioLength, samplingRate, bits, channels, headerLength));
+            AreEqual(byteCountExpected,              ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength));
+            AreEqual(byteCountExpected, ConfigWishes.ByteCount               (audioLength, samplingRate, bits, channels, headerLength));
+            AreEqual(byteCountExpected, ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength));
             
-            AreEqual(byteCountExpected, audioLength .ByteCount               (             samplingRate, frameSize, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected, audioLength .ByteCountFromAudioLength(             samplingRate, frameSize, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected,              ByteCount               (audioLength, samplingRate, frameSize, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected,              ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected, ConfigWishes.ByteCount               (audioLength, samplingRate, frameSize, headerLength, courtesyFrames));
-            AreEqual(byteCountExpected, ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength, courtesyFrames));
+            AreEqual(byteCountExpected, audioLength .ByteCount               (             samplingRate, frameSize, headerLength));
+            AreEqual(byteCountExpected, audioLength .ByteCountFromAudioLength(             samplingRate, frameSize, headerLength));
+            AreEqual(byteCountExpected,              ByteCount               (audioLength, samplingRate, frameSize, headerLength));
+            AreEqual(byteCountExpected,              ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength));
+            AreEqual(byteCountExpected, ConfigWishes.ByteCount               (audioLength, samplingRate, frameSize, headerLength));
+            AreEqual(byteCountExpected, ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength));
             
             AreEqual(byteCountExpected, frameCount  .ByteCount              (            bits, channels, headerLength));
             AreEqual(byteCountExpected, frameCount  .ByteCountFromFrameCount(            bits, channels, headerLength));
@@ -204,8 +204,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, entities.TapeBound.TapeActions    .GetByteCount());
             AreEqual(byteCount, entities.TapeBound.TapeAction     .GetByteCount());
             
-            AreEqual(byteCount, entities.BuffBound.Buff           .GetByteCount(DefaultCourtesyFrames));
-            AreEqual(byteCount, entities.BuffBound.AudioFileOutput.GetByteCount(DefaultCourtesyFrames));
+            AreEqual(byteCount, entities.BuffBound.Buff           .GetByteCount());
+            AreEqual(byteCount, entities.BuffBound.AudioFileOutput.GetByteCount());
             AreEqual(byteCount, entities.Independent.Sample       .GetByteCount());
             AreEqual(byteCount, entities.Immutable.WavHeader      .GetByteCount());
             
@@ -221,8 +221,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AreEqual(byteCount, channelEntities.TapeBound.TapeActions    .GetByteCount());
                 AreEqual(byteCount, channelEntities.TapeBound.TapeAction     .GetByteCount());
                 
-                AreEqual(byteCount, channelEntities.BuffBound.Buff           .GetByteCount(DefaultCourtesyFrames));
-                AreEqual(byteCount, channelEntities.BuffBound.AudioFileOutput.GetByteCount(DefaultCourtesyFrames));
+                AreEqual(byteCount, channelEntities.BuffBound.Buff           .GetByteCount());
+                AreEqual(byteCount, channelEntities.BuffBound.AudioFileOutput.GetByteCount());
                 AreEqual(byteCount, channelEntities.Independent.Sample       .GetByteCount());
                 AreEqual(byteCount, channelEntities.Immutable.WavHeader      .GetByteCount());
 
@@ -251,8 +251,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             x.TapeBound.TapeConfig        .SetByteCount(value);
             x.TapeBound.TapeActions       .SetByteCount(value);
             x.TapeBound.TapeAction        .SetByteCount(value);
-            x.BuffBound.Buff              .SetByteCount(value, DefaultCourtesyFrames);
-            x.BuffBound.AudioFileOutput   .SetByteCount(value, DefaultCourtesyFrames);
+            x.BuffBound.Buff              .SetByteCount(value);
+            x.BuffBound.AudioFileOutput   .SetByteCount(value);
             x.Immutable.WavHeader         .SetByteCount(value);
             x.Immutable.SampleDataType    .SetByteCount(sizeOfBitDepthValue, x.SynthBound.Context);
             x.Immutable.SampleDataTypeEnum.SetByteCount(sizeOfBitDepthValue);
@@ -265,8 +265,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 channelEntities.TapeBound.TapeConfig        .SetByteCount(value);
                 channelEntities.TapeBound.TapeActions       .SetByteCount(value);
                 channelEntities.TapeBound.TapeAction        .SetByteCount(value);
-                channelEntities.BuffBound.Buff              .SetByteCount(value, DefaultCourtesyFrames);
-                channelEntities.BuffBound.AudioFileOutput   .SetByteCount(value, DefaultCourtesyFrames);
+                channelEntities.BuffBound.Buff              .SetByteCount(value);
+                channelEntities.BuffBound.AudioFileOutput   .SetByteCount(value);
                 channelEntities.Immutable.WavHeader         .SetByteCount(value);
                 channelEntities.Immutable.Bits              .SetByteCount(sizeOfBitDepthValue);
                 channelEntities.Immutable.Type              .SetByteCount(sizeOfBitDepthValue);
@@ -288,19 +288,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             void AssertProp(Action<SynthBoundEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
-                Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x.SynthBound);
                 
                 Assert_SynthBound_Getters (x, value);
                 Assert_TapeBound_Getters  (x, init );
-                Assert_BuffBound_Getters  (x, init, courtesyFrames.Init);
+                Assert_BuffBound_Getters  (x, init );
                 Assert_Independent_Getters(x, init );
                 Assert_Immutable_Getters  (x, init );
                 Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
                 
                 x.Record();
-                Assert_All_Getters(x, value, sizeOfBitDepth.Init, courtesyFrames.Val); // By Design: Entities that represent bit-ness don't change their ByteCount in these tests.
+                Assert_All_Getters(x, value, sizeOfBitDepth.Init); // By Design: Entities that represent bit-ness don't change their ByteCount in these tests.
             }
 
             // Usually ByteCount or SizeOfBitDepth are asserted.
@@ -379,24 +379,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.Init;
             int value = testCase.Value;
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
-            var courtesyFrames = testCase.CourtesyFrames;
 
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
-                Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
                 Assert_SynthBound_Getters (x, init);
                 Assert_TapeBound_Getters  (x, init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
-                Assert_BuffBound_Getters  (x, init, courtesyFrames.Init);
+                Assert_BuffBound_Getters  (x, init);
                 Assert_Independent_Getters(x, init);
                 Assert_Immutable_Getters  (x, init);
                 Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
 
                 x.Record();
-                Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
             // In theory I'd need set CourtesyFrames too. (See SynthBound_ByteCount comments.)
@@ -482,68 +481,67 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.Init;
             int value = testCase.Value;
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
-            var courtesyFrames = testCase.CourtesyFrames;
 
             void AssertProp(Action<TestEntities> setter)
             {
                 var x = CreateTestEntities(testCase);
-                Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
                 
                 setter(x);
                 
                 Assert_SynthBound_Getters     (x, init);
                 Assert_TapeBound_Getters      (x, init);
-                Assert_Buff_Getters           (x, init, courtesyFrames.Init); // By Design: Buff's "too buff" to change! FrameCount will be based on bytes!
-                Assert_AudioFileOutput_Getters(x, value, courtesyFrames.Val); // By Design: "Out" will take on new properties when asked.
+                Assert_Buff_Getters           (x, init); // By Design: Buff's "too buff" to change! FrameCount will be based on bytes!
+                Assert_AudioFileOutput_Getters(x, value); // By Design: "Out" will take on new properties when asked.
                 Assert_Independent_Getters    (x, init);
                 Assert_Immutable_Getters      (x, init);
                 Assert_Bitness_Getters        (x, sizeOfBitDepth.Init);
 
                 x.Record();
-                Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyFrames.Init);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init);
             }
 
             // Buff and AudioFileOutput do not have CourtesyFrames,  
             // but ByteCount is determined through AudioLength adjustments.  
             // Since converting AudioLength to ByteCount requires CourtesyFrames, it is passed as a parameter.
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount    (value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SetByteCount (value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetByteCount (value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .WithByteCount(value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithByteCount(value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Nully)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Nully)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetByteCount (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithByteCount(value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ByteCount    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ByteCount    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , SetByteCount (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetByteCount (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , WithByteCount(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithByteCount(x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.ByteCount    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.ByteCount    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.SetByteCount (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value)));
             
             // Test nullable and non-nullable courtesyFrames separately.
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount    (value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SetByteCount (value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetByteCount (value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .WithByteCount(value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithByteCount(value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.ByteCount    (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.ByteCount    (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.SetByteCount (x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value, courtesyFrames.Coalesced)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value, courtesyFrames.Coalesced)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetByteCount (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithByteCount(value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ByteCount    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ByteCount    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , SetByteCount (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetByteCount (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , WithByteCount(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithByteCount(x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.ByteCount    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.ByteCount    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.SetByteCount (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value)));
 
             
             if (testCase.AudioLength.Changed)
@@ -554,8 +552,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             if (testCase.FrameCount.Changed)
             {
-                AssertProp(x => x.BuffBound.Buff           .SetFrameCount(testCase.FrameCount, courtesyFrames.Nully));
-                AssertProp(x => x.BuffBound.AudioFileOutput.SetFrameCount(testCase.FrameCount, courtesyFrames.Nully));
+                AssertProp(x => x.BuffBound.Buff           .SetFrameCount(testCase.FrameCount));
+                AssertProp(x => x.BuffBound.AudioFileOutput.SetFrameCount(testCase.FrameCount));
             }
 
             if (testCase.SamplingRate.Changed)
@@ -591,7 +589,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int init = testCase.Init;
             int value = testCase.Value;
             var sizeOfBitDepth = testCase.SizeOfBitDepth;
-            var courtesyFrames = testCase.CourtesyFrames;
 
             var x = CreateTestEntities(testCase);
 
@@ -623,8 +620,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(() => ConfigWishes.WithByteCount(x.Immutable.WavHeader, value));
                 AssertProp(() => ConfigWishes.SetByteCount (x.Immutable.WavHeader, value));
                 
-                if (testCase.FrameCount .Changed) AssertProp(() => x.Immutable.WavHeader.SetFrameCount (testCase.FrameCount, testCase.CourtesyFrames));
-                if (testCase.AudioLength.Changed) AssertProp(() => x.Immutable.WavHeader.SetAudioLength(testCase.AudioLength, testCase.CourtesyFrames));
+                if (testCase.FrameCount .Changed) AssertProp(() => x.Immutable.WavHeader.SetFrameCount (testCase.FrameCount));
+                if (testCase.AudioLength.Changed) AssertProp(() => x.Immutable.WavHeader.SetAudioLength(testCase.AudioLength));
                 if (testCase.Channels   .Changed) AssertProp(() => x.Immutable.WavHeader.SetChannels   (testCase.Channels));
                 if (testCase.Bits       .Changed) AssertProp(() => x.Immutable.WavHeader.SetBits       (testCase.Bits));
                 
@@ -751,7 +748,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // All is reset
             Assert_SynthBound_Getters (x, init);
             Assert_TapeBound_Getters  (x, init);
-            Assert_BuffBound_Getters  (x, init, courtesyFrames.Init);
+            Assert_BuffBound_Getters  (x, init);
             Assert_Independent_Getters(x, init);
             Assert_Immutable_Getters  (x, init);
             Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
@@ -787,11 +784,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Getter Helpers
 
-        private void Assert_All_Getters(TestEntities x, int byteCount, int sizeOfBitDepth, NullyPair<int> courtesyFrames)
+        private void Assert_All_Getters(TestEntities x, int byteCount, int sizeOfBitDepth)
         {
             Assert_SynthBound_Getters (x, byteCount);
             Assert_TapeBound_Getters  (x, byteCount);
-            Assert_BuffBound_Getters  (x, byteCount, courtesyFrames);
+            Assert_BuffBound_Getters  (x, byteCount);
             Assert_Independent_Getters(x, byteCount);
             Assert_Immutable_Getters  (x, byteCount);
             Assert_Bitness_Getters    (x, sizeOfBitDepth);
@@ -859,67 +856,67 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.TapeBound.TapeAction ));
         }
         
-        private void Assert_BuffBound_Getters(TestEntities x, int byteCount, NullyPair<int> courtesyFrames)
+        private void Assert_BuffBound_Getters(TestEntities x, int byteCount)
         {
-            Assert_Buff_Getters           (x, byteCount, courtesyFrames);
-            Assert_AudioFileOutput_Getters(x, byteCount, courtesyFrames);
+            Assert_Buff_Getters           (x, byteCount);
+            Assert_AudioFileOutput_Getters(x, byteCount);
         }
 
-        private void Assert_AudioFileOutput_Getters(TestEntities x, int byteCount, NullyPair<int> courtesyFrames)
+        private void Assert_AudioFileOutput_Getters(TestEntities x, int byteCount)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
             IsNotNull(() => x.BuffBound.AudioFileOutput);
             
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.ByteCount                 (courtesyFrames.Nully));
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetByteCount              (courtesyFrames.Nully));
-            AreEqual(byteCount, ByteCount   (x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
-            AreEqual(byteCount, GetByteCount(x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
-            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
-            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.ByteCount());
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetByteCount());
+            AreEqual(byteCount, ByteCount   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.AudioFileOutput));
 
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.ByteCount                 (courtesyFrames.Coalesced));
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetByteCount              (courtesyFrames.Coalesced));
-            AreEqual(byteCount, ByteCount   (x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
-            AreEqual(byteCount, GetByteCount(x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
-            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
-            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.ByteCount());
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetByteCount());
+            AreEqual(byteCount, ByteCount   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.AudioFileOutput));
             
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.BytesNeeded                 (courtesyFrames.Nully));
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetBytesNeeded              (courtesyFrames.Nully));
-            AreEqual(byteCount, BytesNeeded   (x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
-            AreEqual(byteCount, GetBytesNeeded(x.BuffBound.AudioFileOutput             , courtesyFrames.Nully));
-            AreEqual(byteCount, ConfigWishes.BytesNeeded   (x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
-            AreEqual(byteCount, ConfigWishes.GetBytesNeeded(x.BuffBound.AudioFileOutput, courtesyFrames.Nully));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.BytesNeeded());
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetBytesNeeded());
+            AreEqual(byteCount, BytesNeeded   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, GetBytesNeeded(x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.BytesNeeded   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.GetBytesNeeded(x.BuffBound.AudioFileOutput));
             
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.BytesNeeded                 (courtesyFrames.Coalesced));
-            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetBytesNeeded              (courtesyFrames.Coalesced));
-            AreEqual(byteCount, BytesNeeded   (x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
-            AreEqual(byteCount, GetBytesNeeded(x.BuffBound.AudioFileOutput             , courtesyFrames.Coalesced));
-            AreEqual(byteCount, ConfigWishes.BytesNeeded   (x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
-            AreEqual(byteCount, ConfigWishes.GetBytesNeeded(x.BuffBound.AudioFileOutput, courtesyFrames.Coalesced));
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.BytesNeeded());
+            AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetBytesNeeded());
+            AreEqual(byteCount, BytesNeeded   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, GetBytesNeeded(x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.BytesNeeded   (x.BuffBound.AudioFileOutput));
+            AreEqual(byteCount, ConfigWishes.GetBytesNeeded(x.BuffBound.AudioFileOutput));
 
         }
         
-        private void Assert_Buff_Getters(TestEntities x, int byteCount, NullyPair<int> courtesyFrames)
+        private void Assert_Buff_Getters(TestEntities x, int byteCount)
         {
             IsNotNull(() => x);
             IsNotNull(() => x.BuffBound);
             IsNotNull(() => x.BuffBound.Buff);
             
-            AreEqual(byteCount, x.BuffBound.Buff.ByteCount                 (courtesyFrames.Nully));
-            AreEqual(byteCount, x.BuffBound.Buff.GetByteCount              (courtesyFrames.Nully));
-            AreEqual(byteCount, ByteCount   (x.BuffBound.Buff             , courtesyFrames.Nully));
-            AreEqual(byteCount, GetByteCount(x.BuffBound.Buff             , courtesyFrames.Nully));
-            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.Buff, courtesyFrames.Nully));
-            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff, courtesyFrames.Nully));
+            AreEqual(byteCount, x.BuffBound.Buff.ByteCount());
+            AreEqual(byteCount, x.BuffBound.Buff.GetByteCount());
+            AreEqual(byteCount, ByteCount   (x.BuffBound.Buff));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.Buff));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.Buff));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff));
             
-            AreEqual(byteCount, x.BuffBound.Buff.ByteCount                 (courtesyFrames.Coalesced));
-            AreEqual(byteCount, x.BuffBound.Buff.GetByteCount              (courtesyFrames.Coalesced));
-            AreEqual(byteCount, ByteCount   (x.BuffBound.Buff             , courtesyFrames.Coalesced));
-            AreEqual(byteCount, GetByteCount(x.BuffBound.Buff             , courtesyFrames.Coalesced));
-            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.Buff, courtesyFrames.Coalesced));
-            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff, courtesyFrames.Coalesced));
+            AreEqual(byteCount, x.BuffBound.Buff.ByteCount());
+            AreEqual(byteCount, x.BuffBound.Buff.GetByteCount());
+            AreEqual(byteCount, ByteCount   (x.BuffBound.Buff));
+            AreEqual(byteCount, GetByteCount(x.BuffBound.Buff));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.Buff));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff));
         }
         
         private void Assert_Independent_Getters(TestEntities x, int byteCount)

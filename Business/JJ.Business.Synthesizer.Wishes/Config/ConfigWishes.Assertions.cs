@@ -110,31 +110,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public static int? AssertByteCount(int? byteCount, bool strict = false)
             => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict);
-
-        // FrameCount and CourtesyFrames
-
-        public static int AssertFrameCountMinusCourtesyFrames(int frameCount, int courtesyFrames, bool strict = true) => AssertFrameCountMinusCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict) ?? default;
-        public static int? AssertFrameCountMinusCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = false)
-        {
-            AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
-            return frameCount - courtesyFrames;
-        }
-        
-        public static void AssertFrameCountWithCourtesyFrames(int  frameCount, int  courtesyFrames, bool strict = true)  => AssertFrameCountWithCourtesyFrames((int?)frameCount, (int?)courtesyFrames, strict);
-        public static void AssertFrameCountWithCourtesyFrames(int  frameCount, int? courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames((int?)frameCount, courtesyFrames,       strict);
-        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int  courtesyFrames, bool strict = false) => AssertFrameCountWithCourtesyFrames(frameCount,       (int?)courtesyFrames, strict);
-        public static void AssertFrameCountWithCourtesyFrames(int? frameCount, int? courtesyFrames, bool strict = false)
-        {
-            AssertFrameCount(frameCount, strict);
-            AssertCourtesyFrames(courtesyFrames, strict);
-
-            if (frameCount < courtesyFrames)
-            {
-                throw new Exception(
-                    $"{nameof(FrameCountExtensionWishes.FrameCount)} = {frameCount} " +
-                    $"but should be a minimum of {courtesyFrames} {nameof(CourtesyFrames)}.");
-            }
-        }
         
         // CourtesyBytes with FrameSize
         
@@ -346,26 +321,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public static int? AssertByteCount(this int? byteCount, bool strict = false)
             => ConfigWishes.AssertByteCount(byteCount, strict);
-        
-        // FrameCount and CourtesyFrames
-
-        public static int AssertFrameCountMinusCourtesyFrames(this int frameCount, int courtesyFrames, bool strict = true)
-            => ConfigWishes.AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames, strict);
-        
-        public static int? AssertFrameCountMinusCourtesyFrames(this int? frameCount, int? courtesyFrames, bool strict = false)
-            => ConfigWishes.AssertFrameCountMinusCourtesyFrames(frameCount, courtesyFrames, strict);
-        
-        public static void AssertFrameCountWithCourtesyFrames(this int  frameCount, int  courtesyFrames, bool strict = true)
-            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
-        
-        public static void AssertFrameCountWithCourtesyFrames(this int  frameCount, int? courtesyFrames, bool strict = false)
-            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
-        
-        public static void AssertFrameCountWithCourtesyFrames(this int? frameCount, int  courtesyFrames, bool strict = false)
-            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
-        
-        public static void AssertFrameCountWithCourtesyFrames(this int? frameCount, int? courtesyFrames, bool strict = false)
-            => ConfigWishes.AssertFrameCountWithCourtesyFrames(frameCount, courtesyFrames, strict);
 
         // CourtesyBytes with FrameSize
 
