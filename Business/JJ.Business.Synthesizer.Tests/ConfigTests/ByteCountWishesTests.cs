@@ -35,28 +35,39 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             public CaseProp<int>    ByteCount      => MainProp;
             public CaseProp<double> AudioLength    { get; set; }
             public CaseProp<int>    FrameCount     { get; set; }
+            
             public CaseProp<int>    SamplingRate   { get; set; }
             public CaseProp<int>    Channels       { get; set; }
             public CaseProp<int>    Bits           { get; set; }
             public CaseProp<int>    SizeOfBitDepth { get; set; }
+            
             public CaseProp<int>    HeaderLength   { get; set; }
-            public CaseProp<int>    Plus           { get; set; }
             public CaseProp<int>    CourtesyFrames { get; set; }
+            public CaseProp<int>    Plus           { get; set; }
+            
+            public override IList<object> KeyElements => new object[] 
+            { 
+                Name, "~",
+                ByteCount, "byte", ("|", AudioLength, "s"), ("|", FrameCount, "f"), 
+                ("[", SamplingRate, "Hz"), Channels, ("x", Bits, "]"),
+                HeaderLength, ("{", CourtesyFrames, "f+"), Plus, "b+", "}"
+            };
         }
 
         static CaseCollection<Case> Cases { get; } = new CaseCollection<Case>();
         
+        [UsedImplicitly]
         static CaseCollection<Case> BasicCases { get; } = Cases.FromTemplate(new Case
             { 
                 Name = "Basic", 
                 CourtesyFrames = { Nully = null, Coalesced = DefaultCourtesyFrames }, // CourtesyFrames needed in BuffBound tests where methods take it as nullable or non-nullable parameter.
                 Plus  = { Nully = null, Coalesced = DefaultCourtesyBytes  }
             }, 
-            
             new Case { From = 100, To = 200, SizeOfBitDepth = { From = 4, To = 2 }  },
             new Case { From = 200, To = 100, SizeOfBitDepth = { From = 2, To = 4 }  }
         );
 
+        [UsedImplicitly]
         static CaseCollection<Case> DependencyCases { get; } = Cases.FromTemplate(new Case
             {
                 Name = "Dependency",
@@ -69,16 +80,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Plus = 8,
                 ByteCount = { From = 400, To = 800 }
             },
-            new Case { FrameCount = { From = 100, To = 200 } },
-            new Case { AudioLength = { To = 0.2 } },
-            new Case { SamplingRate = { To = 2000 } },
-            new Case { Channels = { To = 2  }, ByteCount = { To = 800 }, Plus = { To = 16 } },
-            new Case { Bits     = { To = 16 }, ByteCount = { To = 200 }, Plus = { To = 4  } },
-            new Case { HeaderLength = { To = WavHeaderLength }, ByteCount = { To = 400 + WavHeaderLength } },
-            new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400 }, Plus = { To = 12 } }
+            new Case { Name = "FrameCount", FrameCount = { From = 100, To = 200 } },
+            new Case { Name = "Len", AudioLength = { To = 0.2 } },
+            new Case { Name = "Hz", SamplingRate = { To = 2000 } },
+            new Case { Name = "Channels", Channels = { To = 2  }, ByteCount = { To = 800 }, Plus = { To = 16 } },
+            new Case { Name = "Bits", Bits = { To = 16 }, ByteCount = { To = 200 }, Plus = { To = 4  } },
+            new Case { Name = "Header", HeaderLength = { To = WavHeaderLength }, ByteCount = { To = 400 + WavHeaderLength } },
+            new Case { Name = "Courtesy", CourtesyFrames = { To = 3 }, ByteCount = { To = 400 }, Plus = { To = 12 } }
             // TODO: Add case where CourtesyFrames shrinks.
         );
 
+        [UsedImplicitly]
         static CaseCollection<Case> WavDependencyCases { get; } = Cases.FromTemplate(new Case
             {
                 Name = "Wav",
@@ -91,19 +103,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Plus = 8,
                 ByteCount = { From = 400 + WavHeaderLength, To = 800 + WavHeaderLength }
             },
-            new Case { FrameCount = { From = 100, To = 200 } },
-            new Case { AudioLength = { To = 0.2 } },
-            new Case { SamplingRate = { To = 2000 } },
-            new Case { Channels = { To = 2  }, ByteCount = { To = 800 + WavHeaderLength }, Plus = { To = 16 } },
-            new Case { Bits     = { To = 16 }, ByteCount = { To = 200 + WavHeaderLength }, Plus = { To = 4  } },
+            new Case { Name = "FrameCount+Wav", FrameCount = { From = 100, To = 200 } },
+            new Case { Name = "Len+Wav", AudioLength = { To = 0.2 } },
+            new Case { Name = "Hz+Wav", SamplingRate = { To = 2000 } },
+            new Case { Name = "Channels+Wav", Channels = { To = 2 }, ByteCount = { To = 800 + WavHeaderLength }, Plus = { To = 16 } },
+            new Case { Name = "Bits+Wav", Bits = { To = 16 }, ByteCount = { To = 200 + WavHeaderLength }, Plus = { To = 4  } },
             // TODO: { To = 0 } becomes (0,44). Separate test for case definition?
             //new Case { HeaderLength = { To = 0 }, ByteCount = { To = 400 + 8 } }, 
-            new Case { CourtesyFrames = { To = 3 }, ByteCount = { To = 400 + WavHeaderLength }, Plus = { To = 12 } }
+            new Case { Name = "Courtesy+Wav", CourtesyFrames = { To = 3 }, ByteCount = { To = 400 + WavHeaderLength }, Plus = { To = 12 } }
             // TODO: Add case where CourtesyFrames shrinks.
         );
         
-        //static object NoPlusCases { get; } = BasicCases.Concat(DependencyCases).Concat(WavDependencyCases);
-
         static TestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
             // Change bit depth first, or it'll change the byte count.
             => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz));
