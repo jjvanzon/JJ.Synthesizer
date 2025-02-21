@@ -84,3 +84,79 @@
         public static byte[]          WriteWavHeader(this byte[]          dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
         public static Stream          WriteWavHeader(this Stream          dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
         public static BinaryWriter    WriteWavHeader(this BinaryWriter    dest,      AudioFileOutput entity,   int courtesyFrames) => WavWishes.WriteWavHeader(dest,     entity,   courtesyFrames);
+
+            
+            AreEqual(byteCount, () => x.BuffBound.Buff.ByteCount   (                ), courtesyBytes, Up);
+            AreEqual(byteCount, () => x.BuffBound.Buff.GetByteCount(                ), courtesyBytes, Up);
+            AreEqual(byteCount, () =>                  ByteCount   (x.BuffBound.Buff), courtesyBytes, Up);
+            AreEqual(byteCount, () =>                  GetByteCount(x.BuffBound.Buff), courtesyBytes, Up);
+            AreEqual(byteCount, () => ConfigWishes    .ByteCount   (x.BuffBound.Buff), courtesyBytes, Up);
+            AreEqual(byteCount, () => ConfigWishes    .GetByteCount(x.BuffBound.Buff), courtesyBytes, Up);
+
+            // Test nullable and non-nullable courtesyFrames separately.
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.ByteCount    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetByteCount (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithByteCount(value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ByteCount    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ByteCount    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , SetByteCount (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetByteCount (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , WithByteCount(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithByteCount(x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.ByteCount    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.ByteCount    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.SetByteCount (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value)));
+
+
+        //static CaseCollection<Case> DependencyCasesPlus { get; } = Cases.FromTemplate(new Case
+        //    {
+        //        Name = "DependencyPlus",
+        //        Bits = 32,
+        //        Channels = 1,
+        //        SamplingRate = 1000, 
+        //        AudioLength = 0.1, 
+        //        HeaderLength = 0,
+        //        CourtesyFrames = 2,
+        //        Plus = 8,
+        //        ByteCount = { From = 400+8, To = 800+8 }
+        //    },
+        //    new Case { FrameCount = { From = 100+2, To = 200+2 } },
+        //    new Case { AudioLength = { To = 0.2 } },
+        //    new Case { SamplingRate = { To = 2000 } },
+        //    new Case { Channels = { To = 2 }, ByteCount = { To = 800+16 } },
+        //    new Case { Bits = { To = 16 }, ByteCount = { To = 200+4 } },
+        //    new Case { HeaderLength = { To = WavHeaderLength }, ByteCount = { To = 400+8 + WavHeaderLength } },
+        //    new Case { CourtesyFrames = { To = 3 }, Plus = { To = 12 }, ByteCount = { To = 400+12 } }
+        //);
+
+
+        //[UsedImplicitly]
+        //static CaseCollection<Case> WavDependencyCasesPlus { get; } = Cases.FromTemplate(new Case
+        //    {
+        //        Name = "WavPlus",
+        //        Bits = 32,
+        //        Channels = 1,
+        //        SamplingRate = 1000, 
+        //        AudioLength = 0.1, 
+        //        HeaderLength = WavHeaderLength,
+        //        CourtesyFrames = 2,
+        //        Plus = 8,
+        //        ByteCount = { From = 400+8 + WavHeaderLength, To = 800+8 + WavHeaderLength }
+        //    },
+        //    new Case { FrameCount = { From = 100+2, To = 200+2 } },
+        //    new Case { AudioLength = { To = 0.2 } },
+        //    new Case { SamplingRate = { To = 2000 } },
+        //    new Case { Channels = { To = 2 }, ByteCount = { To = 800 + 16 + WavHeaderLength } },
+        //    new Case { Bits = { To = 16 }, ByteCount = { To = 200 + 4 + WavHeaderLength } },
+        //    // TODO: { To = 0 } becomes (0,44). Separate test for case definition?
+        //    //new Case { HeaderLength = { To = 0 }, ByteCount = { To = 400 + 8 } }, 
+        //    new Case { CourtesyFrames = { To = 3 }, Plus = { To = 12 }, ByteCount = { To = 400 + 12 + WavHeaderLength } }
+        //);
+
+        //static object PlusCases { get; } = BasicCases.Concat(DependencyCasesPlus).Concat(WavDependencyCasesPlus);

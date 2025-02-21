@@ -92,6 +92,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public double                AudioLength         { get; set; }
         public string                FileExtension       { get; set; }
         public int                   CourtesyFrames      { get; set; }
+        public int                   CourtesyBytes       { get; set; }
         public int                   FrameSize           { get; set; }
         public (int bits,      int channels, int samplingRate, int frameCount) InfoTupleWithInts    { get; set; }
         public (Type bitsType, int channels, int samplingRate, int frameCount) InfoTupleWithType    { get; set; }
@@ -281,6 +282,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                               WavHeader             = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
                               FileExtension         = ResolveFileExtension(t.Config.AudioFormat),
                               CourtesyFrames        = t.Config.CourtesyFrames,
+                              CourtesyBytes         = t.Config.CourtesyBytes(),
                               FrameSize             = t.Config.FrameSize(),
                               InfoTupleWithInts     = (t.Config.Bits,              t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
                               InfoTupleWithType     = (t.Config.Bits.BitsToType(), t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
@@ -339,6 +341,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                               WavHeader             = t.Config.AudioFormat == Wav ? t.UnderlyingSample.ToWavHeader() : default,
                               FileExtension         = ResolveFileExtension(t.Config.AudioFormat),
                               CourtesyFrames        = t.Config.CourtesyFrames,
+                              CourtesyBytes         = t.Config.CourtesyBytes(),
                               FrameSize             = t.Config.FrameSize(),
                               InfoTupleWithInts     = (t.Config.Bits,              t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
                               InfoTupleWithType     = (t.Config.Bits.BitsToType(), t.Config.Channels, t.Config.SamplingRate, t.Config.FrameCount()),
@@ -393,6 +396,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Immutable.WavHeader           = SynthBound.SynthWishes.GetAudioFormat == Wav ? SynthBound.SynthWishes.ToWavHeader() : default;
             Immutable.FileExtension       = ResolveFileExtension(SynthBound.SynthWishes.GetAudioFormat);
             Immutable.CourtesyFrames      = SynthBound.SynthWishes.GetCourtesyFrames;
+            Immutable.CourtesyBytes       = SynthBound.SynthWishes.GetCourtesyBytes();
             Immutable.FrameSize           = SynthBound.SynthWishes.GetFrameSize();
             Immutable.InfoTupleWithInts = (SynthBound.SynthWishes.GetBits, SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.GetSamplingRate, SynthBound.SynthWishes.FrameCount());
             Immutable.InfoTupleWithType = (SynthBound.SynthWishes.GetBits.BitsToType(), SynthBound.SynthWishes.GetChannels, SynthBound.SynthWishes.GetSamplingRate, SynthBound.SynthWishes.FrameCount());
