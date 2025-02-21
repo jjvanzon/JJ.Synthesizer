@@ -317,8 +317,8 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
 
-        public static AudioInfoWish ApplyTo(AudioInfoWish source, AudioInfoWish dest) { dest.ApplyInfo(source); return source; }
-        public static AudioInfoWish ApplyInfo(AudioInfoWish dest, AudioInfoWish source) 
+        public static AudioInfoWish ApplyTo(AudioInfoWish source, AudioInfoWish dest) { ApplyFrom(dest, source); return source; }
+        public static AudioInfoWish ApplyFrom(AudioInfoWish dest, AudioInfoWish source) 
         {
             if (source == null) throw new NullException(() => source);
             dest.SetBits        (source.Bits        );
@@ -406,9 +406,8 @@ namespace JJ.Business.Synthesizer.Wishes
             { wavHeader.ToInfo().ApplyInfo(entity); return entity; }
         
         public static WavHeaderStruct ApplyWavHeader(WavHeaderStruct wavHeader, AudioInfoWish entity) { entity.ApplyWavHeader(wavHeader); return wavHeader; }
-        public static AudioInfoWish ApplyWavHeader(AudioInfoWish entity, WavHeaderStruct wavHeader) 
-            => wavHeader.ToInfo().ApplyTo(entity);
-
+        public static AudioInfoWish ApplyWavHeader(AudioInfoWish dest, WavHeaderStruct wavHeader) => dest.ApplyFrom(wavHeader.ToInfo());
+        
         public static SynthWishes  ReadWavHeader(SynthWishes  entity,   string       filePath) { filePath.ReadWavHeader().ApplyWavHeader(entity); return entity;   }
         public static SynthWishes  ReadWavHeader(SynthWishes  entity,   byte[]       source  ) { source  .ReadWavHeader().ApplyWavHeader(entity); return entity;   }
         public static SynthWishes  ReadWavHeader(SynthWishes  entity,   Stream       source  ) { source  .ReadWavHeader().ApplyWavHeader(entity); return entity;   }
@@ -868,7 +867,7 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavWishes.ApplyInfo(entity, infoWish, context);
         
         public static AudioInfoWish ApplyTo  (this AudioInfoWish source, AudioInfoWish dest)   => WavWishes.ApplyTo(source, dest);
-        public static AudioInfoWish ApplyInfo(this AudioInfoWish dest,   AudioInfoWish source) => WavWishes.ApplyInfo(dest, source);
+        public static AudioInfoWish ApplyFrom(this AudioInfoWish dest,   AudioInfoWish source) => WavWishes.ApplyFrom(dest, source);
         public static AudioFileInfo ApplyInfo(this AudioInfoWish wish) => WavWishes.ApplyInfo(wish);
     }
     

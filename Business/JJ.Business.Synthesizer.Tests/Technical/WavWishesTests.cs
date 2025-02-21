@@ -289,7 +289,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestSetter(x => { AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput .ApplyInfo(info, courtesy, context)); AssertEntity(x.BuffBound.AudioFileOutput, test             ); });
             TestSetter(x => { AreEqual(x.Independent.Sample       , () => x.Independent.Sample        .ApplyInfo(info,           context)); AssertEntity(x.Independent.Sample,        test             ); });
             TestSetter(x => { AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo .ApplyInfo(info                   )); AssertEntity(x.Independent.AudioFileInfo, test             ); });
-            TestSetter(x => { AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish .ApplyInfo(info                   )); AssertEntity(x.Independent.AudioInfoWish, test             ); });
+            TestSetter(x => { AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish .ApplyFrom(info                   )); AssertEntity(x.Independent.AudioInfoWish, test             ); });
             TestSetter(x => { AreEqual(x.SynthBound.SynthWishes,    () => ApplyInfo(x.SynthBound.SynthWishes,    info                   )); AssertEntity(x.SynthBound.SynthWishes,    test             ); });
             TestSetter(x => { AreEqual(x.SynthBound.FlowNode,       () => ApplyInfo(x.SynthBound.FlowNode,       info                   )); AssertEntity(x.SynthBound.FlowNode,       test             ); });
             TestSetter(x => { AreEqual(x.SynthBound.ConfigResolver, () => ApplyInfo(x.SynthBound.ConfigResolver, info,       synthWishes)); AssertEntity(x.SynthBound.ConfigResolver, test, synthWishes); });
@@ -301,7 +301,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestSetter(x => { AreEqual(x.BuffBound.AudioFileOutput, () => ApplyInfo(x.BuffBound.AudioFileOutput, info, courtesy, context)); AssertEntity(x.BuffBound.AudioFileOutput, test             ); });
             TestSetter(x => { AreEqual(x.Independent.Sample,        () => ApplyInfo(x.Independent.Sample,        info,           context)); AssertEntity(x.Independent.Sample,        test             ); });
             TestSetter(x => { AreEqual(x.Independent.AudioFileInfo, () => ApplyInfo(x.Independent.AudioFileInfo, info                   )); AssertEntity(x.Independent.AudioFileInfo, test             ); });
-            TestSetter(x => { AreEqual(x.Independent.AudioInfoWish, () => ApplyInfo(x.Independent.AudioInfoWish, info                   )); AssertEntity(x.Independent.AudioInfoWish, test             ); });
+            TestSetter(x => { AreEqual(x.Independent.AudioInfoWish, () => ApplyFrom(x.Independent.AudioInfoWish, info                   )); AssertEntity(x.Independent.AudioInfoWish, test             ); });
             TestSetter(x => { AreEqual(info, () => info.ApplyInfo (x.SynthBound.SynthWishes                      )); AssertEntity(x.SynthBound.SynthWishes,    test             ); });
             TestSetter(x => { AreEqual(info, () => info.ApplyInfo (x.SynthBound.FlowNode                         )); AssertEntity(x.SynthBound.FlowNode,       test             ); });
             TestSetter(x => { AreEqual(info, () => info.ApplyInfo (x.SynthBound.ConfigResolver,       synthWishes)); AssertEntity(x.SynthBound.ConfigResolver, test, synthWishes); });
@@ -337,7 +337,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestSetter(x => { AreEqual(x.BuffBound.AudioFileOutput, () => WavWishes        .ApplyInfo(x.BuffBound.AudioFileOutput, info, courtesy, context)); AssertEntity(x.BuffBound.AudioFileOutput, test             ); });
             TestSetter(x => { AreEqual(x.Independent.Sample,        () => WavWishes        .ApplyInfo(x.Independent.Sample,        info,           context)); AssertEntity(x.Independent.Sample,        test             ); });
             TestSetter(x => { AreEqual(x.Independent.AudioFileInfo, () => WavWishes        .ApplyInfo(x.Independent.AudioFileInfo, info)                   ); AssertEntity(x.Independent.AudioFileInfo, test             ); });
-            TestSetter(x => { AreEqual(x.Independent.AudioInfoWish, () => WavWishes        .ApplyInfo(x.Independent.AudioInfoWish, info)                   ); AssertEntity(x.Independent.AudioInfoWish, test             ); });
+            TestSetter(x => { AreEqual(x.Independent.AudioInfoWish, () => WavWishes        .ApplyFrom(x.Independent.AudioInfoWish, info)                   ); AssertEntity(x.Independent.AudioInfoWish, test             ); });
             TestSetter(x => { AreEqual(info, () => WavWishes        .ApplyInfo(info, x.SynthBound.SynthWishes   )                   ); AssertEntity(x.SynthBound.SynthWishes,    test             ); });
             TestSetter(x => { AreEqual(info, () => WavWishes        .ApplyInfo(info, x.SynthBound.FlowNode      )                   ); AssertEntity(x.SynthBound.FlowNode,       test             ); });
             TestSetter(x => { AreEqual(info, () => WavWishesAccessor.ApplyInfo(info, x.SynthBound.ConfigResolver,       synthWishes)); AssertEntity(x.SynthBound.ConfigResolver, test, synthWishes); });
@@ -485,7 +485,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestProp((x, wav) => { AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.ApplyWavHeader(wav,  courtesy, context)); AssertEntity(x.BuffBound.AudioFileOutput, test);              });
             TestProp((x, wav) => { AreEqual(x.Independent.Sample       , () => x.Independent.Sample       .ApplyWavHeader(wav,            context)); AssertEntity(x.Independent.Sample,        test);              });
             TestProp((x, wav) => { AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.ApplyWavHeader(wav)                    ); AssertEntity(x.Independent.AudioFileInfo, test);              });
-            //TestProp((x, wav) => { AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.ApplyWavHeader(wav)                    ); AssertEntity(x.Independent.AudioInfoWish, test); });
+            TestProp((x, wav) => { AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.ApplyWavHeader(wav)                    ); AssertEntity(x.Independent.AudioInfoWish, test);              });
             TestProp((x, wav) => { AreEqual(wav, () => wav.ApplyWavHeader(x.SynthBound.SynthWishes   )                   ); AssertEntity(x.SynthBound.SynthWishes,    test);              });
             TestProp((x, wav) => { AreEqual(wav, () => wav.ApplyWavHeader(x.SynthBound.FlowNode      )                   ); AssertEntity(x.SynthBound.FlowNode,       test);              });
             TestProp((x, wav) => { AreEqual(wav, () => wav.ApplyWavHeader(x.SynthBound.ConfigResolver,       synthWishes)); AssertEntity(x.SynthBound.ConfigResolver, test, synthWishes); });
@@ -509,7 +509,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestProp((x, wav) => { AreEqual(x.BuffBound.AudioFileOutput, () => ApplyWavHeader(x.BuffBound.AudioFileOutput, wav, courtesy, context)); AssertEntity(x.BuffBound.AudioFileOutput, test);              });
             TestProp((x, wav) => { AreEqual(x.Independent.Sample,        () => ApplyWavHeader(x.Independent.Sample,        wav,           context)); AssertEntity(x.Independent.Sample,        test);              });
             TestProp((x, wav) => { AreEqual(x.Independent.AudioFileInfo, () => ApplyWavHeader(x.Independent.AudioFileInfo, wav)                   ); AssertEntity(x.Independent.AudioFileInfo, test);              });
-            //TestProp((x, wav) => { AreEqual(x.Independent.AudioInfoWish, () => ApplyWavHeader(x.Independent.AudioInfoWish, wav)                   ); AssertEntity(x.Independent.AudioInfoWish, test); });
+            TestProp((x, wav) => { AreEqual(x.Independent.AudioInfoWish, () => ApplyWavHeader(x.Independent.AudioInfoWish, wav)                   ); AssertEntity(x.Independent.AudioInfoWish, test); });
             TestProp((x, wav) => { AreEqual(wav, () => ApplyWavHeader(wav, x.SynthBound.SynthWishes   )                   ); AssertEntity(x.SynthBound.SynthWishes,    test);              });
             TestProp((x, wav) => { AreEqual(wav, () => ApplyWavHeader(wav, x.SynthBound.FlowNode      )                   ); AssertEntity(x.SynthBound.FlowNode,       test);              });
             TestProp((x, wav) => { AreEqual(wav, () => ApplyWavHeader(wav, x.SynthBound.ConfigResolver, synthWishes)      ); AssertEntity(x.SynthBound.ConfigResolver, test, synthWishes); });
@@ -533,7 +533,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             TestProp((x, wav) => { AreEqual(x.BuffBound.AudioFileOutput, () => WavWishes.ApplyWavHeader(x.BuffBound.AudioFileOutput, wav,   courtesy, context)); AssertEntity(x.BuffBound.AudioFileOutput, test);              });
             TestProp((x, wav) => { AreEqual(x.Independent.Sample,        () => WavWishes.ApplyWavHeader(x.Independent.Sample,        wav,             context)); AssertEntity(x.Independent.Sample,        test);              });
             TestProp((x, wav) => { AreEqual(x.Independent.AudioFileInfo, () => WavWishes.ApplyWavHeader(x.Independent.AudioFileInfo, wav)                     ); AssertEntity(x.Independent.AudioFileInfo, test);              });
-            //TestProp((x, wav) => { AreEqual(x.Independent.AudioInfoWish, () => WavWishes.ApplyWavHeader(x.Independent.AudioInfoWish, wav)                     ); AssertEntity(x.Independent.AudioInfoWish, test); });
+            TestProp((x, wav) => { AreEqual(x.Independent.AudioInfoWish, () => WavWishes.ApplyWavHeader(x.Independent.AudioInfoWish, wav)                     ); AssertEntity(x.Independent.AudioInfoWish, test); });
             TestProp((x, wav) => { AreEqual(wav, () => WavWishes.ApplyWavHeader(wav, x.SynthBound.SynthWishes   )                     ); AssertEntity(x.SynthBound.SynthWishes,    test);              });
             TestProp((x, wav) => { AreEqual(wav, () => WavWishes.ApplyWavHeader(wav, x.SynthBound.FlowNode      )                     ); AssertEntity(x.SynthBound.FlowNode,       test);              });
             TestProp((x, wav) => { AreEqual(wav, () => WavWishesAccessor.ApplyWavHeader(wav, x.SynthBound.ConfigResolver, synthWishes)); AssertEntity(x.SynthBound.ConfigResolver, test, synthWishes); });
