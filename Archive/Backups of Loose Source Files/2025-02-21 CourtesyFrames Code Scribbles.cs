@@ -160,3 +160,71 @@
         //);
 
         //static object PlusCases { get; } = BasicCases.Concat(DependencyCasesPlus).Concat(WavDependencyCasesPlus);
+
+            // Usually ByteCount or SizeOfBitDepth are asserted.
+            // But CourtesyFrames is inadvertently being asserted too.
+            // Therefore must be kept in sync.
+            // (For the other tests CourtesyFrames is immutable.)
+
+        //static object NoPlusCases { get; } = BasicCases.Concat(DependencyCases).Concat(WavDependencyCases);
+
+x.SynthWishes    .CourtesyFrames    (courtesyFrames.To); 
+x.FlowNode       .CourtesyFrames    (courtesyFrames.To); 
+x.ConfigResolver .CourtesyFrames    (courtesyFrames.To); 
+x.SynthWishes    .WithCourtesyFrames(courtesyFrames.To); 
+x.FlowNode       .WithCourtesyFrames(courtesyFrames.To); 
+x.ConfigResolver .WithCourtesyFrames(courtesyFrames.To); 
+x.SynthWishes    .SetCourtesyFrames (courtesyFrames.To); 
+x.FlowNode       .SetCourtesyFrames (courtesyFrames.To); 
+x.ConfigResolver .SetCourtesyFrames (courtesyFrames.To); 
+CourtesyFrames    (x.SynthWishes   , courtesyFrames.To); 
+CourtesyFrames    (x.FlowNode      , courtesyFrames.To); 
+CourtesyFrames    (x.ConfigResolver, courtesyFrames.To); 
+WithCourtesyFrames(x.SynthWishes   , courtesyFrames.To); 
+WithCourtesyFrames(x.FlowNode      , courtesyFrames.To); 
+WithCourtesyFrames(x.ConfigResolver, courtesyFrames.To); 
+SetCourtesyFrames (x.SynthWishes   , courtesyFrames.To); 
+SetCourtesyFrames (x.FlowNode      , courtesyFrames.To); 
+SetCourtesyFrames (x.ConfigResolver, courtesyFrames.To); 
+
+ConfigWishes        .CourtesyFrames    (x.SynthWishes   , courtesyFrames.To); 
+ConfigWishes        .CourtesyFrames    (x.FlowNode      , courtesyFrames.To); 
+ConfigWishesAccessor.CourtesyFrames    (x.ConfigResolver, courtesyFrames.To); 
+ConfigWishes        .WithCourtesyFrames(x.SynthWishes   , courtesyFrames.To); 
+ConfigWishes        .WithCourtesyFrames(x.FlowNode      , courtesyFrames.To); 
+ConfigWishesAccessor.WithCourtesyFrames(x.ConfigResolver, courtesyFrames.To); 
+ConfigWishes        .SetCourtesyFrames (x.SynthWishes   , courtesyFrames.To); 
+ConfigWishes        .SetCourtesyFrames (x.FlowNode      , courtesyFrames.To); 
+ConfigWishesAccessor.SetCourtesyFrames (x.ConfigResolver, courtesyFrames.To); 
+
+
+        
+        /// <inheritdoc cref="docs._prepbytecountchange" />
+        private void PrepByteCountChange(SynthWishes x, Case test) => x/*.Bits(test.Bits).Channels(test.Channels)*/.CourtesyFrames(test.CourtesyFrames); // TODO: CourtesyFrames Might not be necessary anymore.
+        /// <inheritdoc cref="docs._prepbytecountchange" />
+        private void PrepByteCountChange(FlowNode x, Case test) => x/*.Bits(test.Bits).Channels(test.Channels)*/.CourtesyFrames(test.CourtesyFrames); // TODO: CourtesyFrames Might not be necessary anymore.
+        /// <inheritdoc cref="docs._prepbytecountchange" />
+        private void PrepByteCountChange(ConfigResolverAccessor x, Case test) => x/*.Bits(test.Bits).Channels(test.Channels)*/.CourtesyFrames(test.CourtesyFrames); // TODO: CourtesyFrames Might not be necessary anymore.
+        /// <inheritdoc cref="docs._prepbytecountchange" />
+        private void PrepByteCountChange(Tape x, Case test) => x/*.Bits(test.Bits).Channels(test.Channels)*/.CourtesyFrames(test.CourtesyFrames); // TODO: CourtesyFrames Might not be necessary anymore.
+        /// <inheritdoc cref="docs._prepbytecountchange" />
+        private void PrepByteCountChange(TapeConfig x, Case test) => x/*.Bits(test.Bits).Channels(test.Channels)*/.CourtesyFrames(test.CourtesyFrames); // TODO: CourtesyFrames Might not be necessary anymore.
+        /// <inheritdoc cref="docs._prepbytecountchange" />
+        private void PrepByteCountChange(TapeActions x, Case test) => x/*.Bits(test.Bits).Channels(test.Channels)*/.CourtesyFrames(test.CourtesyFrames); // TODO: CourtesyFrames Might not be necessary anymore.
+        /// <inheritdoc cref="docs._prepbytecountchange" />
+        private void PrepByteCountChange(TapeAction x, Case test) => x/*.Bits(test.Bits).Channels(test.Channels)*/.CourtesyFrames(test.CourtesyFrames); // TODO: CourtesyFrames Might not be necessary anymore.
+
+        /// <summary>
+        /// Some properties need to be set alongside a ByteCount mutation change,
+        /// because they can affect the outcome or evaluation.
+        /// 
+        /// Sets properties from the Case that can affect the outcome.
+        /// CourtesyBytes can be affected by FrameSize (Bits and Channels) affecting the delta tolerance
+        /// by which ByteCounts are evaluated.
+        /// </summary>
+        public struct _prepbytecountchange { }
+
+            // CourtesyFrames affects buffer sizes, upon which some ByteCounts are based.
+
+            // In theory I'd need set CourtesyFrames too. (See SynthBound_ByteCount comments.)
+            // But because everything stays init, it doesn't matter.

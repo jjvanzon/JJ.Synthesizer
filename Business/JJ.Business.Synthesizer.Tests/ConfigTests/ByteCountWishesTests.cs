@@ -303,16 +303,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(Cases))]
         public void SynthBound_ByteCount(string caseKey)
         {   
-            var testCase = Cases[caseKey];
-            int init = testCase.Init;
-            int value = testCase.Value;
-            var sizeOfBitDepth = testCase.SizeOfBitDepth;
-            var courtesyFrames = testCase.CourtesyFrames;
-            var courtesyBytes  = testCase.Plus;
+            var test = Cases[caseKey];
+            int init = test.Init;
+            int value = test.Value;
+            var sizeOfBitDepth = test.SizeOfBitDepth;
+            var courtesyBytes  = test.Plus;
             
             void AssertProp(Action<SynthBoundEntities> setter)
             {
-                var x = CreateTestEntities(testCase);
+                var x = CreateTestEntities(test);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyBytes.Init);
                 
                 setter(x.SynthBound);
@@ -328,190 +327,130 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, value, sizeOfBitDepth.Init, courtesyBytes.To); // By Design: Entities that represent bit-ness don't change their ByteCount in these tests.
             }
 
-            // Usually ByteCount or SizeOfBitDepth are asserted.
-            // But CourtesyFrames is inadvertently being asserted too.
-            // Therefore must be kept in sync.
-            // (For the other tests CourtesyFrames is immutable.)
-            AssertProp(x => { /*x.SynthWishes    .CourtesyFrames    (courtesyFrames);*/ AreEqual(x.SynthWishes,    x.SynthWishes   .ByteCount    (value)); });
-            AssertProp(x => { /*x.FlowNode       .CourtesyFrames    (courtesyFrames);*/ AreEqual(x.FlowNode,       x.FlowNode      .ByteCount    (value)); });
-            AssertProp(x => { /*x.ConfigResolver .CourtesyFrames    (courtesyFrames);*/ AreEqual(x.ConfigResolver, x.ConfigResolver.ByteCount    (value, x.SynthWishes)); });
-            AssertProp(x => { /*x.SynthWishes    .WithCourtesyFrames(courtesyFrames);*/ AreEqual(x.SynthWishes,    x.SynthWishes   .WithByteCount(value)); });
-            AssertProp(x => { /*x.FlowNode       .WithCourtesyFrames(courtesyFrames);*/ AreEqual(x.FlowNode,       x.FlowNode      .WithByteCount(value)); });
-            AssertProp(x => { /*x.ConfigResolver .WithCourtesyFrames(courtesyFrames);*/ AreEqual(x.ConfigResolver, x.ConfigResolver.WithByteCount(value, x.SynthWishes)); });
-            AssertProp(x => { /*x.SynthWishes    .SetCourtesyFrames (courtesyFrames);*/ AreEqual(x.SynthWishes,    x.SynthWishes   .SetByteCount (value)); });
-            AssertProp(x => { /*x.FlowNode       .SetCourtesyFrames (courtesyFrames);*/ AreEqual(x.FlowNode,       x.FlowNode      .SetByteCount (value)); });
-            AssertProp(x => { /*x.ConfigResolver .SetCourtesyFrames (courtesyFrames);*/ AreEqual(x.ConfigResolver, x.ConfigResolver.SetByteCount (value, x.SynthWishes)); });
-            AssertProp(x => { /*CourtesyFrames    (x.SynthWishes   , courtesyFrames);*/ AreEqual(x.SynthWishes,    ByteCount    (x.SynthWishes   , value)); });
-            AssertProp(x => { /*CourtesyFrames    (x.FlowNode      , courtesyFrames);*/ AreEqual(x.FlowNode,       ByteCount    (x.FlowNode      , value)); });
-            AssertProp(x => { /*CourtesyFrames    (x.ConfigResolver, courtesyFrames);*/ AreEqual(x.ConfigResolver, ByteCount    (x.ConfigResolver, value, x.SynthWishes)); });
-            AssertProp(x => { /*WithCourtesyFrames(x.SynthWishes   , courtesyFrames);*/ AreEqual(x.SynthWishes,    WithByteCount(x.SynthWishes   , value)); });
-            AssertProp(x => { /*WithCourtesyFrames(x.FlowNode      , courtesyFrames);*/ AreEqual(x.FlowNode,       WithByteCount(x.FlowNode      , value)); });
-            AssertProp(x => { /*WithCourtesyFrames(x.ConfigResolver, courtesyFrames);*/ AreEqual(x.ConfigResolver, WithByteCount(x.ConfigResolver, value, x.SynthWishes)); });
-            AssertProp(x => { /*SetCourtesyFrames (x.SynthWishes   , courtesyFrames);*/ AreEqual(x.SynthWishes,    SetByteCount (x.SynthWishes   , value)); });
-            AssertProp(x => { /*SetCourtesyFrames (x.FlowNode      , courtesyFrames);*/ AreEqual(x.FlowNode,       SetByteCount (x.FlowNode      , value)); });
-            AssertProp(x => { /*SetCourtesyFrames (x.ConfigResolver, courtesyFrames);*/ AreEqual(x.ConfigResolver, SetByteCount (x.ConfigResolver, value, x.SynthWishes)); });
-            AssertProp(x => { /*ConfigWishes        .CourtesyFrames    (x.SynthWishes   , courtesyFrames);*/ AreEqual(x.SynthWishes,    ConfigWishes        .ByteCount    (x.SynthWishes   , value)); });
-            AssertProp(x => { /*ConfigWishes        .CourtesyFrames    (x.FlowNode      , courtesyFrames);*/ AreEqual(x.FlowNode,       ConfigWishes        .ByteCount    (x.FlowNode      , value)); });
-            AssertProp(x => { /*ConfigWishesAccessor.CourtesyFrames    (x.ConfigResolver, courtesyFrames);*/ AreEqual(x.ConfigResolver, ConfigWishesAccessor.ByteCount    (x.ConfigResolver, value, x.SynthWishes)); });
-            AssertProp(x => { /*ConfigWishes        .WithCourtesyFrames(x.SynthWishes   , courtesyFrames);*/ AreEqual(x.SynthWishes,    ConfigWishes        .WithByteCount(x.SynthWishes   , value)); });
-            AssertProp(x => { /*ConfigWishes        .WithCourtesyFrames(x.FlowNode      , courtesyFrames);*/ AreEqual(x.FlowNode,       ConfigWishes        .WithByteCount(x.FlowNode      , value)); });
-            AssertProp(x => { /*ConfigWishesAccessor.WithCourtesyFrames(x.ConfigResolver, courtesyFrames);*/ AreEqual(x.ConfigResolver, ConfigWishesAccessor.WithByteCount(x.ConfigResolver, value, x.SynthWishes)); });
-            AssertProp(x => { /*ConfigWishes        .SetCourtesyFrames (x.SynthWishes   , courtesyFrames);*/ AreEqual(x.SynthWishes,    ConfigWishes        .SetByteCount (x.SynthWishes   , value)); });
-            AssertProp(x => { /*ConfigWishes        .SetCourtesyFrames (x.FlowNode      , courtesyFrames);*/ AreEqual(x.FlowNode,       ConfigWishes        .SetByteCount (x.FlowNode      , value)); });
-            AssertProp(x => { /*ConfigWishesAccessor.SetCourtesyFrames (x.ConfigResolver, courtesyFrames);*/ AreEqual(x.ConfigResolver, ConfigWishesAccessor.SetByteCount (x.ConfigResolver, value, x.SynthWishes)); });
+            if (test.Bits          .Changed) { AssertProp(x => x.SynthWishes.SetBits          (test.Bits          )); return; }
+            if (test.Channels      .Changed) { AssertProp(x => x.SynthWishes.SetChannels      (test.Channels      )); return; }
+            if (test.SamplingRate  .Changed) { AssertProp(x => x.SynthWishes.SetSamplingRate  (test.SamplingRate  )); return; }
+            if (test.FrameCount    .Changed) { AssertProp(x => x.SynthWishes.SetFrameCount    (test.FrameCount    )); return; }
+            if (test.AudioLength   .Changed) { AssertProp(x => x.SynthWishes.SetAudioLength   (test.AudioLength   )); return; }
+            if (test.HeaderLength  .Changed) { AssertProp(x => x.SynthWishes.SetHeaderLength  (test.HeaderLength  )); return; }
+            if (test.CourtesyFrames.Changed) { AssertProp(x => x.SynthWishes.SetCourtesyFrames(test.CourtesyFrames)); return; }
             
-            if (testCase.AudioLength.Changed)
-            {
-                AssertProp(x => x.SynthWishes.SetAudioLength(testCase.AudioLength));
-            }
-            
-            if (testCase.FrameCount.Changed)
-            {
-                AssertProp(x => x.SynthWishes.SetFrameCount(testCase.FrameCount));
-            }
-            
-            if (testCase.SamplingRate.Changed)
-            {
-                AssertProp(x => x.SynthWishes.SetSamplingRate(testCase.SamplingRate));
-            }
-            
-            if (testCase.Bits.Changed)
-            {
-                AssertProp(x => x.SynthWishes.SetBits(testCase.Bits));
-            }
-            
-            if (testCase.Channels.Changed)
-            {
-                AssertProp(x => x.SynthWishes.SetChannels(testCase.Channels));
-            }
-            
-            if (testCase.HeaderLength.Changed)
-            {
-                AssertProp(x => x.SynthWishes.SetHeaderLength(testCase.HeaderLength));
-            }
-            
-            if (testCase.CourtesyFrames.Changed)
-            {
-                AssertProp(x => x.SynthWishes.SetCourtesyFrames(testCase.CourtesyFrames));
-            }
+            AssertProp(x => { AreEqual(x.SynthWishes    , x.SynthWishes   .ByteCount    ( value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , x.FlowNode      .ByteCount    ( value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , x.ConfigResolver.ByteCount    ( value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , x.SynthWishes   .WithByteCount( value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , x.FlowNode      .WithByteCount( value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , x.ConfigResolver.WithByteCount( value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , x.SynthWishes   .SetByteCount ( value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , x.FlowNode      .SetByteCount ( value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , x.ConfigResolver.SetByteCount ( value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , ByteCount    (x.SynthWishes   , value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , ByteCount    (x.FlowNode      , value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , ByteCount    (x.ConfigResolver, value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , WithByteCount(x.SynthWishes   , value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , WithByteCount(x.FlowNode      , value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , WithByteCount(x.ConfigResolver, value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , SetByteCount (x.SynthWishes   , value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , SetByteCount (x.FlowNode      , value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , SetByteCount (x.ConfigResolver, value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , ConfigWishes        .ByteCount    (x.SynthWishes   , value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , ConfigWishes        .ByteCount    (x.FlowNode      , value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , ConfigWishesAccessor.ByteCount    (x.ConfigResolver, value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , ConfigWishes        .WithByteCount(x.SynthWishes   , value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , ConfigWishes        .WithByteCount(x.FlowNode      , value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , ConfigWishesAccessor.WithByteCount(x.ConfigResolver, value, x.SynthWishes)); });
+            AssertProp(x => { AreEqual(x.SynthWishes    , ConfigWishes        .SetByteCount (x.SynthWishes   , value               )); });
+            AssertProp(x => { AreEqual(x.FlowNode       , ConfigWishes        .SetByteCount (x.FlowNode      , value               )); });
+            AssertProp(x => { AreEqual(x.ConfigResolver , ConfigWishesAccessor.SetByteCount (x.ConfigResolver, value, x.SynthWishes)); });
         }
-
+        
         [TestMethod] 
         [DynamicData(nameof(Cases))]
         public void TapeBound_ByteCount(string caseKey)
         {
-            var testCase = Cases[caseKey];
-            int init = testCase.Init;
-            int value = testCase.Value;
-            var sizeOfBitDepth = testCase.SizeOfBitDepth;
-            var courtesyBytes = testCase.Plus;
+            var test = Cases[caseKey];
+            int init = test.Init;
+            int value = test.Value;
+            var sizeOfBitDepth = test.SizeOfBitDepth;
+            var courtesyBytes = test.Plus;
 
-            void AssertProp(Action<TestEntities> setter)
+            void AssertProp(Action<TapeBoundEntities> setter)
             {
-                var x = CreateTestEntities(testCase);
+                var x = CreateTestEntities(test);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyBytes.Init);
                 
-                setter(x);
+                setter(x.TapeBound);
                 
                 Assert_SynthBound_Getters (x, init);
-                Assert_TapeBound_Getters  (x, init, courtesyBytes); // By Design: Tape is too buff to change. FrameCount will be based on buff.
-                Assert_BuffBound_Getters  (x, init, courtesyBytes);
-                Assert_Independent_Getters(x, init, courtesyBytes);
+                Assert_TapeBound_Getters  (x, init, courtesyBytes.Init); // By Design: Tape is too buff to change. FrameCount will be based on buff.
+                Assert_BuffBound_Getters  (x, init, courtesyBytes.Init);
+                Assert_Independent_Getters(x, init, courtesyBytes.Init);
                 Assert_Immutable_Getters  (x, init);
                 Assert_Bitness_Getters    (x, sizeOfBitDepth.Init);
 
                 x.Record();
-                Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyBytes); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
-            }
-
-            // In theory I'd need set CourtesyFrames too. (See SynthBound_ByteCount comments.)
-            // But because everything stays init, it doesn't matter.
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .ByteCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .ByteCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.ByteCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .ByteCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithByteCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithByteCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithByteCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .WithByteCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetByteCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetByteCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetByteCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetByteCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ByteCount    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ByteCount    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ByteCount    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ByteCount    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => WithByteCount(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => WithByteCount(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => WithByteCount(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => WithByteCount(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SetByteCount (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SetByteCount (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SetByteCount (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SetByteCount (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.ByteCount    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.ByteCount    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.ByteCount    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.ByteCount    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.WithByteCount(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.WithByteCount(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.WithByteCount(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.WithByteCount(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SetByteCount (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetByteCount (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetByteCount (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetByteCount (x.TapeBound.TapeAction , value)));
-            
-            if (testCase.AudioLength.Changed)
-            {
-                AssertProp(x => x.TapeBound.Tape.Duration = testCase.AudioLength);
+                Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyBytes.Init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
             
-            if (testCase.FrameCount.Changed)
-            {
-                AssertProp(x => x.TapeBound.Tape.SetFrameCount(testCase.FrameCount));
-            }
+            if (test.AudioLength   .Changed) { AssertProp(x => x.Tape.SetAudioLength   (test.AudioLength   )); return; }
+            if (test.FrameCount    .Changed) { AssertProp(x => x.Tape.SetFrameCount    (test.FrameCount    )); return; }
+            if (test.SamplingRate  .Changed) { AssertProp(x => x.Tape.SetSamplingRate  (test.SamplingRate  )); return; }
+            if (test.Bits          .Changed) { AssertProp(x => x.Tape.SetBits          (test.Bits          )); return; }
+            if (test.Channels      .Changed) { AssertProp(x => x.Tape.SetChannels      (test.Channels      )); return; }
+            if (test.HeaderLength  .Changed) { AssertProp(x => x.Tape.SetHeaderLength  (test.HeaderLength  )); return; }
+            if (test.CourtesyFrames.Changed) { AssertProp(x => x.Tape.SetCourtesyFrames(test.CourtesyFrames)); return; }
             
-            if (testCase.SamplingRate.Changed)
-            {
-                AssertProp(x => x.TapeBound.TapeConfig.SamplingRate = testCase.SamplingRate);
-            }
-            
-            if (testCase.Bits.Changed)
-            {
-                AssertProp(x => x.TapeBound.TapeConfig.Bits = testCase.Bits);
-            }
-            
-            if (testCase.Channels.Changed)
-            {
-                AssertProp(x => x.TapeBound.TapeConfig.Channels = testCase.Channels);
-            }
-            
-            if (testCase.HeaderLength.Changed)
-            {
-                AssertProp(x => x.TapeBound.TapeConfig.SetHeaderLength(testCase.HeaderLength));
-            }
-            
-            if (testCase.CourtesyFrames.Changed)
-            {
-                AssertProp(x => x.TapeBound.TapeConfig.CourtesyFrames = testCase.CourtesyFrames);
-            }
+            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.ByteCount    (value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.WithByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.SetByteCount (value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.Tape,        () => ByteCount    (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => ByteCount    (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => ByteCount    (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => ByteCount    (x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        () => WithByteCount(x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => WithByteCount(x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => WithByteCount(x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => WithByteCount(x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        () => SetByteCount (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => SetByteCount (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => SetByteCount (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => SetByteCount (x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        () => ConfigWishes.ByteCount    (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => ConfigWishes.ByteCount    (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => ConfigWishes.ByteCount    (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => ConfigWishes.ByteCount    (x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        () => ConfigWishes.WithByteCount(x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => ConfigWishes.WithByteCount(x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => ConfigWishes.WithByteCount(x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => ConfigWishes.WithByteCount(x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        () => ConfigWishes.SetByteCount (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  () => ConfigWishes.SetByteCount (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, () => ConfigWishes.SetByteCount (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  () => ConfigWishes.SetByteCount (x.TapeAction , value)));
         }
 
         [TestMethod] 
         [DynamicData(nameof(Cases))]
         public void BuffBound_ByteCount(string caseKey)
         {
-            var testCase = Cases[caseKey];
-            int init = testCase.Init;
-            int value = testCase.Value;
-            var sizeOfBitDepth = testCase.SizeOfBitDepth;
-            var courtesyBytes = testCase.Plus;
+            var test = Cases[caseKey];
+            int init = test.Init;
+            int value = test.Value;
+            var sizeOfBitDepth = test.SizeOfBitDepth;
+            var courtesyBytes = test.Plus;
 
             void AssertProp(Action<TestEntities> setter)
             {
-                var x = CreateTestEntities(testCase);
+                var x = CreateTestEntities(test);
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyBytes.Init);
                 
                 setter(x);
@@ -527,6 +466,48 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 x.Record();
                 // TODO: Out and Buff might need a different courtesyBytes 'version'.
                 Assert_All_Getters(x, init, sizeOfBitDepth.Init, courtesyBytes.Init); 
+            }
+                        
+            if (test.AudioLength.Changed)
+            {
+                AssertProp(x => x.BuffBound.Buff           .SetAudioLength(test.AudioLength));
+                AssertProp(x => x.BuffBound.AudioFileOutput.SetAudioLength(test.AudioLength));
+                return;
+            }
+            
+            if (test.FrameCount.Changed)
+            {
+                AssertProp(x => x.BuffBound.Buff           .SetFrameCount(test.FrameCount));
+                AssertProp(x => x.BuffBound.AudioFileOutput.SetFrameCount(test.FrameCount));
+                return;
+            }
+
+            if (test.SamplingRate.Changed)
+            {
+                AssertProp(x => x.BuffBound.Buff           .SetSamplingRate(test.SamplingRate));
+                AssertProp(x => x.BuffBound.AudioFileOutput.SetSamplingRate(test.SamplingRate));
+                return;
+            }
+            
+            if (test.Bits.Changed)
+            {
+                AssertProp(x => x.BuffBound.Buff           .Bits(test.Bits, x.SynthBound.Context));
+                AssertProp(x => x.BuffBound.AudioFileOutput.Bits(test.Bits, x.SynthBound.Context));
+                return;
+            }
+            
+            if (test.Channels.Changed)
+            {
+                AssertProp(x => x.BuffBound.Buff           .Channels(test.Channels, x.SynthBound.Context));
+                AssertProp(x => x.BuffBound.AudioFileOutput.Channels(test.Channels, x.SynthBound.Context));
+                return;
+            }
+            
+            if (test.HeaderLength.Changed)
+            {
+                AssertProp(x => x.BuffBound.Buff           .HeaderLength(test.HeaderLength, x.SynthBound.Context));
+                AssertProp(x => x.BuffBound.AudioFileOutput.HeaderLength(test.HeaderLength, x.SynthBound.Context));
+                return;
             }
 
             AssertProp(x => AreEqual(x.BuffBound.Buff           , x.BuffBound.Buff           .ByteCount    (value)));
@@ -547,42 +528,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetByteCount (x.BuffBound.AudioFileOutput, value)));
             AssertProp(x => AreEqual(x.BuffBound.Buff           , ConfigWishes.WithByteCount(x.BuffBound.Buff           , value)));
             AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithByteCount(x.BuffBound.AudioFileOutput, value)));
-            
-            if (testCase.AudioLength.Changed)
-            {
-                AssertProp(x => x.BuffBound.Buff           .SetAudioLength(testCase.AudioLength));
-                AssertProp(x => x.BuffBound.AudioFileOutput.SetAudioLength(testCase.AudioLength));
-            }
-            
-            if (testCase.FrameCount.Changed)
-            {
-                AssertProp(x => x.BuffBound.Buff           .SetFrameCount(testCase.FrameCount));
-                AssertProp(x => x.BuffBound.AudioFileOutput.SetFrameCount(testCase.FrameCount));
-            }
-
-            if (testCase.SamplingRate.Changed)
-            {
-                AssertProp(x => x.BuffBound.Buff           .SetSamplingRate(testCase.SamplingRate));
-                AssertProp(x => x.BuffBound.AudioFileOutput.SetSamplingRate(testCase.SamplingRate));
-            }
-            
-            if (testCase.Bits.Changed)
-            {
-                AssertProp(x => x.BuffBound.Buff           .Bits(testCase.Bits, x.SynthBound.Context));
-                AssertProp(x => x.BuffBound.AudioFileOutput.Bits(testCase.Bits, x.SynthBound.Context));
-            }
-            
-            if (testCase.Channels.Changed)
-            {
-                AssertProp(x => x.BuffBound.Buff           .Channels(testCase.Channels, x.SynthBound.Context));
-                AssertProp(x => x.BuffBound.AudioFileOutput.Channels(testCase.Channels, x.SynthBound.Context));
-            }
-            
-            if (testCase.HeaderLength.Changed)
-            {
-                AssertProp(x => x.BuffBound.Buff           .HeaderLength(testCase.HeaderLength, x.SynthBound.Context));
-                AssertProp(x => x.BuffBound.AudioFileOutput.HeaderLength(testCase.HeaderLength, x.SynthBound.Context));
-            }
         }
         
         [TestMethod]
