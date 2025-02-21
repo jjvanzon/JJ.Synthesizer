@@ -573,3 +573,6 @@ AreEqual(test.FrameCount,     () => x.BuffBound.AudioFileOutput      .ToWavHeade
             //        if (entity == ForBinaryWriter) Assert(bin.BinaryWriter, test);
             //    }
             //}
+
+            //TestProp(x => { AreEqual(x.SynthBound.SynthWishes, x.SynthBound.SynthWishes    .ApplyInfo(info))                   ; AssertEntity(x.SynthBound.SynthWishes,    test             ); });
+            //TestProp(x => { x.SynthBound.SynthWishes    .ApplyInfo(info)                   ; AssertEntity(x.SynthBound.SynthWishes,    test             ); });

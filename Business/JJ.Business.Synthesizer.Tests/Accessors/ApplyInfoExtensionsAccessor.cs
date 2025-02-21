@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private static AccessorEx _accessor = new AccessorEx(typeof(ApplyInfoExtensions));
         
-        internal static void ApplyInfo(this ConfigResolverAccessor obj, AudioInfoWish infoWish, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(obj.Obj, infoWish, synthWishes);
-        internal static void ApplyInfo(this AudioInfoWish infoWish, ConfigResolverAccessor obj, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(infoWish, obj.Obj, synthWishes);
+        internal static ConfigResolverAccessor ApplyInfo(this ConfigResolverAccessor obj, AudioInfoWish infoWish, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj, infoWish, synthWishes));
+        internal static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, ConfigResolverAccessor obj, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<AudioInfoWish>(infoWish, obj.Obj, synthWishes);
     }
 }

@@ -16,6 +16,11 @@ namespace JJ.Business.Synthesizer.Tests
         
         /// <inheritdoc cref="wishdocs._audioplayback" />
         public struct _audioplayback { }
+
+        /// <summary>
+        /// Allows implicit conversion from CaseProp to int:
+        /// </summary>
+        public struct _areequalint { }
         
         /// <inheritdoc cref="wishdocs._channeltoaudiofileoutput "/>
         public struct _channeltoaudiofileoutput { }

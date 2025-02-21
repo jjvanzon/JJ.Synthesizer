@@ -16,11 +16,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private static readonly AccessorEx _accessor = new AccessorEx(typeof(ApplyWavHeaderExtensions));
         
-        internal static void ApplyWavHeader(this ConfigResolverAccessor entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, wavHeader, synthWishes);
+        internal static ConfigResolverAccessor ApplyWavHeader(this ConfigResolverAccessor entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, wavHeader, synthWishes));
         
-        internal static void ApplyWavHeader(this WavHeaderStruct wavHeader, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(wavHeader, entity?.Obj, synthWishes);
+        internal static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<WavHeaderStruct>(wavHeader, entity?.Obj, synthWishes);
 
     }
 }
