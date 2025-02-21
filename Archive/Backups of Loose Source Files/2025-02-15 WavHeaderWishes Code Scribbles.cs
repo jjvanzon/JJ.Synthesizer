@@ -576,3 +576,43 @@ AreEqual(test.FrameCount,     () => x.BuffBound.AudioFileOutput      .ToWavHeade
 
             //TestProp(x => { AreEqual(x.SynthBound.SynthWishes, x.SynthBound.SynthWishes    .ApplyInfo(info))                   ; AssertEntity(x.SynthBound.SynthWishes,    test             ); });
             //TestProp(x => { x.SynthBound.SynthWishes    .ApplyInfo(info)                   ; AssertEntity(x.SynthBound.SynthWishes,    test             ); });
+
+                AssertWrite(bin => AreEqual(bin.DestFilePath      , WriteWavHeader<byte>(bin.DestFilePath, x.Channels, x.SamplingRate, frameCount  )), ForDestFilePath, test);
+                AssertWrite(bin => AreEqual(bin.DestBytes         , WriteWavHeader<byte>(bin.DestBytes,    x.Channels, x.SamplingRate, frameCount  )), ForDestBytes,    test);
+                AssertWrite(bin => AreEqual(bin.DestStream        , WriteWavHeader<byte>(bin.DestStream,   x.Channels, x.SamplingRate, frameCount  )), ForDestStream,   test);
+                AssertWrite(bin => AreEqual(bin.BinaryWriter      , WriteWavHeader<byte>(bin.BinaryWriter, x.Channels, x.SamplingRate, frameCount  )), ForBinaryWriter, test);
+                AssertWrite(bin => AreEqual(bin.DestFilePath      , WriteWavHeader<byte>(bin.DestFilePath, x.Channels, x.SamplingRate, frameCount  )), ForDestFilePath, test);
+                AssertWrite(bin => AreEqual(bin.DestBytes         , WriteWavHeader<byte>(bin.DestBytes,    x.Channels, x.SamplingRate, frameCount  )), ForDestBytes,    test);
+                AssertWrite(bin => AreEqual(bin.DestStream        , WriteWavHeader<byte>(bin.DestStream,   x.Channels, x.SamplingRate, frameCount  )), ForDestStream,   test);
+                AssertWrite(bin => AreEqual(bin.BinaryWriter      , WriteWavHeader<byte>(bin.BinaryWriter, x.Channels, x.SamplingRate, frameCount  )), ForBinaryWriter, test);
+                AssertWrite(bin => AreEqual(x.InfoTupleWithoutBits, WriteWavHeader<byte>((x.Channels, x.SamplingRate, frameCount), bin.DestFilePath)), ForDestFilePath, test);
+                AssertWrite(bin => AreEqual(x.InfoTupleWithoutBits, WriteWavHeader<byte>((x.Channels, x.SamplingRate, frameCount), bin.DestBytes   )), ForDestBytes,    test);
+                AssertWrite(bin => AreEqual(x.InfoTupleWithoutBits, WriteWavHeader<byte>((x.Channels, x.SamplingRate, frameCount), bin.DestStream  )), ForDestStream,   test);
+                AssertWrite(bin => AreEqual(x.InfoTupleWithoutBits, WriteWavHeader<byte>((x.Channels, x.SamplingRate, frameCount), bin.BinaryWriter)), ForBinaryWriter, test);
+                AssertWrite(bin =>                                  WriteWavHeader<byte>( x.Channels, x.SamplingRate, frameCount,  bin.DestFilePath ), ForDestFilePath, test);
+                AssertWrite(bin =>                                  WriteWavHeader<byte>( x.Channels, x.SamplingRate, frameCount,  bin.DestBytes    ), ForDestBytes,    test);
+                AssertWrite(bin =>                                  WriteWavHeader<byte>( x.Channels, x.SamplingRate, frameCount,  bin.DestStream   ), ForDestStream,   test);
+                AssertWrite(bin =>                                  WriteWavHeader<byte>( x.Channels, x.SamplingRate, frameCount,  bin.BinaryWriter ), ForBinaryWriter, test);
+
+    
+    internal static class WavWishesTestExtensions
+    {
+
+        public static SynthWishes             AssertEntity(this SynthWishes            entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static FlowNode                AssertEntity(this FlowNode               entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static ConfigResolverAccessor  AssertEntity(this ConfigResolverAccessor entity,   WavWishesTests.Case test, SynthWishes synthWishes) { WavWishesTests.AssertEntity(entity, test, synthWishes); return entity;   }
+        public static Tape                    AssertEntity(this Tape                   entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static TapeConfig              AssertEntity(this TapeConfig             entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static TapeActions             AssertEntity(this TapeActions            entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static TapeAction              AssertEntity(this TapeAction             entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static Buff                    AssertEntity(this Buff                   entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static AudioFileOutput         AssertEntity(this AudioFileOutput        entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static Sample                  AssertEntity(this Sample                 entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static AudioFileInfo           AssertEntity(this AudioFileInfo          entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static AudioInfoWish           AssertEntity(this AudioInfoWish          entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static WavHeaderStruct         AssertEntity(this WavHeaderStruct        entity,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(entity,   test); return entity;   }
+        public static string                  AssertEntity(this string                 filePath, WavWishesTests.Case test) { WavWishesTests.AssertEntity(filePath, test); return filePath; }
+        public static byte[]                  AssertEntity(this byte[]                 bytes,    WavWishesTests.Case test) { WavWishesTests.AssertEntity(bytes,    test); return bytes;    }
+        public static Stream                  AssertEntity(this Stream                 stream,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(stream,   test); return stream;   }
+        public static BinaryWriter            AssertEntity(this BinaryWriter           writer,   WavWishesTests.Case test) { WavWishesTests.AssertEntity(writer,   test); return writer;   }
+    }

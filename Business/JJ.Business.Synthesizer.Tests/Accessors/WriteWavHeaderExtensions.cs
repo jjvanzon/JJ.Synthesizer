@@ -43,26 +43,26 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         internal static ConfigSectionAccessor WriteWavHeader(this ConfigSectionAccessor entity, string filePath)
             => new ConfigSectionAccessor(_accessor.InvokeMethod(new [] { entity?.Obj, filePath }));
         
-        internal static void WriteWavHeader(this ConfigSectionAccessor entity, byte[] dest)
-            => _accessor.InvokeMethod(entity?.Obj, dest);
+        internal static ConfigSectionAccessor WriteWavHeader(this ConfigSectionAccessor entity, byte[] dest)
+            => new ConfigSectionAccessor(_accessor.InvokeMethod(entity?.Obj, dest));
         
-        internal static void WriteWavHeader(this ConfigSectionAccessor entity, BinaryWriter dest)
-            => _accessor.InvokeMethod(entity?.Obj, dest);
+        internal static ConfigSectionAccessor WriteWavHeader(this ConfigSectionAccessor entity, BinaryWriter dest)
+            => new ConfigSectionAccessor(_accessor.InvokeMethod(entity?.Obj, dest));
         
-        internal static void WriteWavHeader(this ConfigSectionAccessor entity, Stream dest)
-            => _accessor.InvokeMethod(entity?.Obj, dest);
+        internal static ConfigSectionAccessor WriteWavHeader(this ConfigSectionAccessor entity, Stream dest)
+            => new ConfigSectionAccessor(_accessor.InvokeMethod(entity?.Obj, dest));
         
-        internal static void WriteWavHeader(this string filePath, ConfigSectionAccessor entity)
-            => _accessor.InvokeMethod(new[] { filePath, entity?.Obj });
+        internal static string WriteWavHeader(this string filePath, ConfigSectionAccessor entity)
+            => (string)_accessor.InvokeMethod(new[] { filePath, entity?.Obj });
         
-        internal static void WriteWavHeader(this byte[] dest, ConfigSectionAccessor entity)
-            => _accessor.InvokeMethod(dest, entity?.Obj);
+        internal static byte[] WriteWavHeader(this byte[] dest, ConfigSectionAccessor entity)
+            => _accessor.InvokeMethod<byte[]>(dest, entity?.Obj);
         
-        internal static void WriteWavHeader(this Stream dest, ConfigSectionAccessor entity)
-            => _accessor.InvokeMethod(dest, entity?.Obj);
+        internal static Stream WriteWavHeader(this Stream dest, ConfigSectionAccessor entity)
+            => _accessor.InvokeMethod<Stream>(dest, entity?.Obj);
         
-        internal static void WriteWavHeader(this BinaryWriter dest, ConfigSectionAccessor entity)
-            => _accessor.InvokeMethod(dest, entity?.Obj);
+        internal static BinaryWriter WriteWavHeader(this BinaryWriter dest, ConfigSectionAccessor entity)
+            => _accessor.InvokeMethod<BinaryWriter>(dest, entity?.Obj);
 
     }
 }

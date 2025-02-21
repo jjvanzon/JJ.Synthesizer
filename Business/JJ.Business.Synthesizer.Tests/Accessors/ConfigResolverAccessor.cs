@@ -32,19 +32,19 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             Obj = obj;
         }
         
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return Obj == null;
+            if (obj is ConfigResolverAccessor other) return Obj == other.Obj;
+            return false;
+        }
+        
         private static Type GetUnderlyingType()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
             string   typeName = "JJ.Business.Synthesizer.Wishes.Config.ConfigResolver";
             Type     type     = assembly.GetType(typeName, true);
             return   type;
-        }
-        
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return Obj == null;
-            if (obj is ConfigResolverAccessor other) return Obj == other.Obj;
-            return false;
         }
         
         public string DebuggerDisplay => _accessor.GetPropertyValue(() => DebuggerDisplay);

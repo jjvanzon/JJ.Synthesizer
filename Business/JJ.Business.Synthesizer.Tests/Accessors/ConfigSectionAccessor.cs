@@ -33,7 +33,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             Obj = obj;
             _accessor = new AccessorEx(obj, GetUnderlyingType());
         }
-        
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return Obj == null;
+            if (obj is ConfigSectionAccessor other) return Obj == other.Obj;
+            return false;
+        }
+
         private Type GetUnderlyingType()
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
