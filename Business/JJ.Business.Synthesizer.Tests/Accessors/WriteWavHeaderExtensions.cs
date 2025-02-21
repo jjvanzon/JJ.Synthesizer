@@ -14,34 +14,34 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // With ConfigResolver
         
-        internal static void WriteWavHeader(this ConfigResolverAccessor entity, string filePath, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, filePath, synthWishes);
+        internal static ConfigResolverAccessor WriteWavHeader(this ConfigResolverAccessor entity, string filePath, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, filePath, synthWishes));
         
-        internal static void WriteWavHeader(this ConfigResolverAccessor entity, byte[] dest, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, dest, synthWishes);
+        internal static ConfigResolverAccessor WriteWavHeader(this ConfigResolverAccessor entity, byte[] dest, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, dest, synthWishes));
         
-        internal static void WriteWavHeader(this ConfigResolverAccessor entity, BinaryWriter dest, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, dest, synthWishes);
+        internal static ConfigResolverAccessor WriteWavHeader(this ConfigResolverAccessor entity, BinaryWriter dest, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, dest, synthWishes));
         
-        internal static void WriteWavHeader(this ConfigResolverAccessor entity, Stream dest, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, dest, synthWishes);
+        internal static ConfigResolverAccessor WriteWavHeader(this ConfigResolverAccessor entity, Stream dest, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, dest, synthWishes));
         
-        internal static void WriteWavHeader(this string filePath, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(new[]{ filePath, entity?.Obj, synthWishes });
+        internal static string WriteWavHeader(this string filePath, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => (string)_accessor.InvokeMethod(new[]{ filePath, entity?.Obj, synthWishes });
         
-        internal static void WriteWavHeader(this byte[] dest, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(dest, entity?.Obj, synthWishes);
+        internal static byte[] WriteWavHeader(this byte[] dest, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<byte[]>(dest, entity?.Obj, synthWishes);
         
-        internal static void WriteWavHeader(this Stream dest, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(dest, entity?.Obj, synthWishes);
+        internal static Stream WriteWavHeader(this Stream dest, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<Stream>(dest, entity?.Obj, synthWishes);
         
-        internal static void WriteWavHeader(this BinaryWriter dest, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(dest, entity?.Obj, synthWishes);
+        internal static BinaryWriter WriteWavHeader(this BinaryWriter dest, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<BinaryWriter>(dest, entity?.Obj, synthWishes);
 
         // With ConfigSection
         
-        internal static void WriteWavHeader(this ConfigSectionAccessor entity, string filePath)
-            => _accessor.InvokeMethod(new [] { entity?.Obj, filePath });
+        internal static ConfigSectionAccessor WriteWavHeader(this ConfigSectionAccessor entity, string filePath)
+            => new ConfigSectionAccessor(_accessor.InvokeMethod(new [] { entity?.Obj, filePath }));
         
         internal static void WriteWavHeader(this ConfigSectionAccessor entity, byte[] dest)
             => _accessor.InvokeMethod(entity?.Obj, dest);

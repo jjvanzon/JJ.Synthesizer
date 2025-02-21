@@ -12,23 +12,23 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private static readonly AccessorEx _accessor = new AccessorEx(typeof(ReadWavHeaderExtensions));
         
-        internal static void ReadWavHeader(this ConfigResolverAccessor entity, string filePath, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, filePath, synthWishes);
-        internal static void ReadWavHeader(this ConfigResolverAccessor entity, byte[] source, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, source, synthWishes);
-        internal static void ReadWavHeader(this ConfigResolverAccessor entity, Stream source, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, source, synthWishes);
-        internal static void ReadWavHeader(this ConfigResolverAccessor entity, BinaryReader source, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(entity?.Obj, source, synthWishes);
+        internal static ConfigResolverAccessor ReadWavHeader(this ConfigResolverAccessor entity, string filePath, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, filePath, synthWishes));
+        internal static ConfigResolverAccessor ReadWavHeader(this ConfigResolverAccessor entity, byte[] source, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, source, synthWishes));
+        internal static ConfigResolverAccessor ReadWavHeader(this ConfigResolverAccessor entity, Stream source, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, source, synthWishes));
+        internal static ConfigResolverAccessor ReadWavHeader(this ConfigResolverAccessor entity, BinaryReader source, SynthWishes synthWishes)
+            => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, source, synthWishes));
         
-        internal static void ReadWavHeader(this string filePath, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(new[]{ filePath, entity?.Obj, synthWishes });
-        internal static void ReadWavHeader(this byte[] source, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(source, entity?.Obj, synthWishes);
-        internal static void ReadWavHeader(this Stream source, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(source, entity?.Obj, synthWishes);
-        internal static void ReadWavHeader(this BinaryReader source, ConfigResolverAccessor entity, SynthWishes synthWishes)
-            => _accessor.InvokeMethod(source, entity?.Obj, synthWishes);
+        internal static string ReadWavHeader(this string filePath, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => (string)_accessor.InvokeMethod(new[]{ filePath, entity?.Obj, synthWishes });
+        internal static byte[] ReadWavHeader(this byte[] source, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<byte[]>(source, entity?.Obj, synthWishes);
+        internal static Stream ReadWavHeader(this Stream source, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<Stream>(source, entity?.Obj, synthWishes);
+        internal static BinaryReader ReadWavHeader(this BinaryReader source, ConfigResolverAccessor entity, SynthWishes synthWishes)
+            => _accessor.InvokeMethod<BinaryReader>(source, entity?.Obj, synthWishes);
     }
 }
 
