@@ -312,7 +312,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return dest;
         }
 
-        public static AudioFileInfo ApplyInfo(AudioInfoWish wish) 
+        public static AudioFileInfo ToLegacy(AudioInfoWish wish) 
         {
             var dest = new AudioFileInfo();
             dest.ApplyInfo(wish);
@@ -330,7 +330,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   static WavHeaderStruct ToWavHeader(Buff            entity)                          => entity.ToInfo()              .ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(AudioFileOutput entity)                          => entity.ToInfo()              .ToWavHeader();
         public   static WavHeaderStruct ToWavHeader(Sample          entity)                          => entity.ToInfo()              .ToWavHeader();
-        public   static WavHeaderStruct ToWavHeader(AudioInfoWish   entity)                          => WavHeaderManager.CreateWavHeaderStruct(entity.ApplyInfo());
+        public   static WavHeaderStruct ToWavHeader(AudioInfoWish   entity)                          => WavHeaderManager.CreateWavHeaderStruct(entity.ToLegacy());
         public   static WavHeaderStruct ToWavHeader(AudioFileInfo   entity)                          => entity.ToInfo()              .ToWavHeader();
         
         public static WavHeaderStruct ToWavHeader((int bits, int channels, int samplingRate, int frameCount) x) 
@@ -832,7 +832,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static AudioInfoWish ApplyTo  (this AudioInfoWish source, AudioInfoWish dest)   => WavWishes.ApplyTo(source, dest);
         public static AudioInfoWish ApplyFrom(this AudioInfoWish dest,   AudioInfoWish source) => WavWishes.ApplyFrom(dest, source);
-        public static AudioFileInfo ApplyInfo(this AudioInfoWish wish) => WavWishes.ApplyInfo(wish);
+        public static AudioFileInfo ToLegacy(this AudioInfoWish wish) => WavWishes.ToLegacy(wish);
     }
     
     public static class ToWavHeaderExtensions
