@@ -14,12 +14,10 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
-using JJ.Framework.Testing;
 using JJ.Framework.Wishes.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
@@ -27,8 +25,6 @@ using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
-using static JJ.Business.Synthesizer.Tests.ConfigTests.FrameCountWishesTests;
-using System.Security.Cryptography;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer
@@ -348,7 +344,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertInvariant(x, test);
             
             int frameCount  = test.FrameCount;
-            int courtesy    = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
                  
             AssertEntity(x.SynthBound.SynthWishes         .ToWavHeader(),                        test);
@@ -1247,8 +1242,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes                     , () => WavWishes.WriteWavHeader(bin.DestBytes,    entities.BuffBound.AudioFileOutput)), ForDestBytes   , test);
             AssertWrite(bin => AreEqual(bin.DestStream                    , () => WavWishes.WriteWavHeader(bin.DestStream,   entities.BuffBound.AudioFileOutput)), ForDestStream  , test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => WavWishes.WriteWavHeader(bin.BinaryWriter, entities.BuffBound.AudioFileOutput)), ForBinaryWriter, test);
-            }
-
+        }
+        
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
         public void WriteWavHeader_Test_WithLooseValues(string caseKey)
