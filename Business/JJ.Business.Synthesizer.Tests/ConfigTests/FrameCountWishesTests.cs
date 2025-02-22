@@ -731,7 +731,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void Default_FrameCount()
         {
-            AreEqual(DefaultAudioLength * DefaultSamplingRate + DefaultCourtesyFrames, () => DefaultFrameCount);
+            AreEqual(DefaultAudioLength * DefaultSamplingRate, () => DefaultFrameCount);
         }
         
         [TestMethod]
