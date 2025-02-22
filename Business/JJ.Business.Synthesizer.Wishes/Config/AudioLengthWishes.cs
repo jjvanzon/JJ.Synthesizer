@@ -545,10 +545,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => AudioLengthFromFrameCount(frameCount, samplingRate);
         
         public static double? AudioLengthFromFrameCount(int? frameCount, int samplingRate) 
-            => (double?)frameCount / AssertSamplingRate(samplingRate);
+            => (double?)AssertFrameCount(frameCount) / AssertSamplingRate(samplingRate);
 
         public static double AudioLengthFromFrameCount(int frameCount, int samplingRate) 
-            => (double)frameCount / AssertSamplingRate(samplingRate);
+            => (double)AssertFrameCount(frameCount) / AssertSamplingRate(samplingRate);
 
         // From ByteCount
  
