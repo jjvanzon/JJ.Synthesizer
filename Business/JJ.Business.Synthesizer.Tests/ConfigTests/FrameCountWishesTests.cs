@@ -96,21 +96,21 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 PlusFrames = 3,
                 Strict = false
             },
-            new Case(  960+3 ),
-            new Case(  882+3 ),
-            new Case(  480+3 ),
-            new Case(  441+3 ),
-            new Case(  220+3 ),
-            new Case(  110+3 ),
-            new Case(    8+3 ),
-            new Case(   16+3 ),
-            new Case(   19+3 ),
-            new Case(   31+3 ),
-            new Case(   61+3 ),
-            new Case(  100+3 ),
-            new Case(  103+3 ), 
-            new Case(  123+3 ),
-            new Case( 1234+3 )
+            new Case(  960 ),
+            new Case(  882 ),
+            new Case(  480 ),
+            new Case(  441 ),
+            new Case(  220 ),
+            new Case(  110 ),
+            new Case(    8 ),
+            new Case(   16 ),
+            new Case(   19 ),
+            new Case(   31 ),
+            new Case(   61 ),
+            new Case(  100 ),
+            new Case(  103 ), 
+            new Case(  123 ),
+            new Case( 1234 )
         );
 
         /// <summary> Varies FrameCount and checks value consistency across entities. </summary>
@@ -120,23 +120,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 PlusFrames = 3,
                 Strict = false
             },
-            new Case ( 480+3,  960+3 ),
-            new Case ( 480+3,  882+3 ),
-            new Case ( 480+3,  441+3 ),
-            new Case ( 480+3,  220+3 ),
-            new Case ( 480+3,  110+3 ),
-            new Case ( 480+3,    1+3 ),
-            new Case ( 480+3,    3+3 ),
-            new Case ( 480+3,    6+3 ),
-            new Case ( 480+3,   10+3 ),
-            new Case ( 480+3,  100+3 ),
-            new Case ( 480+3,  123+3 ),
-            new Case (   8+3,  480+3 ),
-            new Case ( 110+3,  441+3 ),
-            new Case ( 220+3,  441+3 ),
-            new Case ( 441+3,  480+3 ),
-            new Case ( 882+3,  441+3 ),
-            new Case ( 960+3,  480+3 )
+            new Case ( 480,  960 ),
+            new Case ( 480,  882 ),
+            new Case ( 480,  441 ),
+            new Case ( 480,  220 ),
+            new Case ( 480,  110 ),
+            new Case ( 480,    1 ),
+            new Case ( 480,    3 ),
+            new Case ( 480,    6 ),
+            new Case ( 480,   10 ),
+            new Case ( 480,  100 ),
+            new Case ( 480,  123 ),
+            new Case (   8,  480 ),
+            new Case ( 110,  441 ),
+            new Case ( 220,  441 ),
+            new Case ( 441,  480 ),
+            new Case ( 882,  441 ),
+            new Case ( 960,  480 )
         );
 
         /// <summary> Cases where AudioLength adjustments should change FrameCount accordingly. </summary>
@@ -144,23 +144,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                                                            
             { Name = "AudioLength", Length = 0.01, Hz = DefaultHz, PlusFrames = 3 },
             
-            new Case ( 480+3,  480+3 ) { Length = { To   = 480.0 / Hz } },
-            new Case ( 480+3,  960+3 ) { Length = { To   = 960.0 / Hz } },
-            new Case ( 480+3,  882+3 ) { Length = { To   = 882.0 / Hz } },
-            new Case ( 480+3,  441+3 ) { Length = { To   = 441.0 / Hz } },
-            new Case ( 480+3,  220+3 ) { Length = { To   = 220.0 / Hz } },
-            new Case ( 480+3,  110+3 ) { Length = { To   = 110.0 / Hz } },
-            new Case ( 480+3,    8+3 ) { Length = { To   =   8.0 / Hz } },
-            new Case ( 480+3,   16+3 ) { Length = { To   =  16.0 / Hz } },
-            new Case ( 480+3,   19+3 ) { Length = { To   =  19.0 / Hz } },
-            new Case ( 480+3,   31+3 ) { Length = { To   =  31.0 / Hz } },
-            new Case ( 480+3,   61+3 ) { Length = { To   =  61.0 / Hz } },
-            new Case ( 480+3,  100+3 ) { Length = { To   = 100.0 / Hz } },
-            new Case (   8+3,  480+3 ) { Length = { From =   8.0 / Hz } },
-            new Case ( 441+3,  480+3 ) { Length = { From = 441.0 / Hz } },
-            new Case ( 110+3,  441+3 ) { Length = { From = 110.0 / Hz, To =  441.0 / Hz } },
-            new Case ( 330+3,  441+3 ) { Length = { From = 330.0 / Hz, To =  441.0 / Hz } },
-            new Case ( 220+3,  441+3 ) { Length = { From = 220.0 / Hz, To =  441.0 / Hz } }
+            new Case ( 480,  480 ) { Length = { To   = 480.0 / Hz } },
+            new Case ( 480,  960 ) { Length = { To   = 960.0 / Hz } },
+            new Case ( 480,  882 ) { Length = { To   = 882.0 / Hz } },
+            new Case ( 480,  441 ) { Length = { To   = 441.0 / Hz } },
+            new Case ( 480,  220 ) { Length = { To   = 220.0 / Hz } },
+            new Case ( 480,  110 ) { Length = { To   = 110.0 / Hz } },
+            new Case ( 480,    8 ) { Length = { To   =   8.0 / Hz } },
+            new Case ( 480,   16 ) { Length = { To   =  16.0 / Hz } },
+            new Case ( 480,   19 ) { Length = { To   =  19.0 / Hz } },
+            new Case ( 480,   31 ) { Length = { To   =  31.0 / Hz } },
+            new Case ( 480,   61 ) { Length = { To   =  61.0 / Hz } },
+            new Case ( 480,  100 ) { Length = { To   = 100.0 / Hz } },
+            new Case (   8,  480 ) { Length = { From =   8.0 / Hz } },
+            new Case ( 441,  480 ) { Length = { From = 441.0 / Hz } },
+            new Case ( 110,  441 ) { Length = { From = 110.0 / Hz, To =  441.0 / Hz } },
+            new Case ( 330,  441 ) { Length = { From = 330.0 / Hz, To =  441.0 / Hz } },
+            new Case ( 220,  441 ) { Length = { From = 220.0 / Hz, To =  441.0 / Hz } }
         );
 
         /// <summary> SamplingRate varying tests; should adjust FrameCount accordingly. </summary>
@@ -168,25 +168,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
             { Name = "SamplingRate", Hz = 48000, sec = 0.01, Plus = 3 },
             
-            new Case ( 480+3,  960+3 ) { Hertz = { To =  96000 } },
-            new Case ( 480+3,  882+3 ) { Hertz = { To =  88200 } },
-            new Case ( 480+3,  441+3 ) { Hertz = { To =  44100 } },
-            new Case ( 480+3,  220+3 ) { Hertz = { To =  22000 } },
-            new Case ( 480+3,  110+3 ) { Hertz = { To =  11000 } },
-            new Case ( 480+3,    8+3 ) { Hertz = { To =    800 } },
-            new Case ( 480+3,   16+3 ) { Hertz = { To =   1600 } },
-            new Case ( 480+3,   19+3 ) { Hertz = { To =   1900 } },
-            new Case ( 480+3,   31+3 ) { Hertz = { To =   3100 } },
-            new Case ( 480+3,   61+3 ) { Hertz = { To =   6100 } },
-            new Case ( 480+3,   10+3 ) { Hertz = { To =   1000 } },
-            new Case ( 480+3,  100+3 ) { Hertz = { To =  10000 } },
-            new Case ( 480+3,  123+3 ) { Hertz = { To =  12300 } },
-            new Case (   8+3,  480+3 ) { Hertz = { From =  800 } },
-            new Case ( 110+3,  441+3 ) { Hertz = { From = 11000, To = 44100 } },
-            new Case ( 220+3,  441+3 ) { Hertz = { From = 22000, To = 44100 } },
-            new Case ( 441+3,  480+3 ) { Hertz = { From = 44100 } },
-            new Case ( 882+3,  441+3 ) { Hertz = { From = 88200, To = 44100 } },
-            new Case ( 960+3,  480+3 ) { Hertz = { From = 96000 } }
+            new Case ( 480,  960 ) { Hertz = { To =  96000 } },
+            new Case ( 480,  882 ) { Hertz = { To =  88200 } },
+            new Case ( 480,  441 ) { Hertz = { To =  44100 } },
+            new Case ( 480,  220 ) { Hertz = { To =  22000 } },
+            new Case ( 480,  110 ) { Hertz = { To =  11000 } },
+            new Case ( 480,    8 ) { Hertz = { To =    800 } },
+            new Case ( 480,   16 ) { Hertz = { To =   1600 } },
+            new Case ( 480,   19 ) { Hertz = { To =   1900 } },
+            new Case ( 480,   31 ) { Hertz = { To =   3100 } },
+            new Case ( 480,   61 ) { Hertz = { To =   6100 } },
+            new Case ( 480,   10 ) { Hertz = { To =   1000 } },
+            new Case ( 480,  100 ) { Hertz = { To =  10000 } },
+            new Case ( 480,  123 ) { Hertz = { To =  12300 } },
+            new Case (   8,  480 ) { Hertz = { From =  800 } },
+            new Case ( 110,  441 ) { Hertz = { From = 11000, To = 44100 } },
+            new Case ( 220,  441 ) { Hertz = { From = 22000, To = 44100 } },
+            new Case ( 441,  480 ) { Hertz = { From = 44100 } },
+            new Case ( 882,  441 ) { Hertz = { From = 88200, To = 44100 } },
+            new Case ( 960,  480 ) { Hertz = { From = 96000 } }
         );
 
         /// <summary> Testing courtesy frames' adjustments effect on FrameCount. </summary>
@@ -194,10 +194,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
             { Name = "PlusFrames", SamplingRate = 100 },
             
-            new Case(102, 103) { PlusFrames = { From = 2, To =  3 }, sec = 1 },
-            new Case(203, 204) { PlusFrames = { From = 3, To =  4 }, sec = 2 },
-            new Case(305, 304) { PlusFrames = { From = 5, To =  4 }, sec = 3 },
-            new Case(402, 410) { PlusFrames = { From = 2, To = 10 }, sec = 4 }
+            new Case(100, 100) { PlusFrames = { From = 2, To =  3 }, sec = 1 },
+            new Case(200, 200) { PlusFrames = { From = 3, To =  4 }, sec = 2 },
+            new Case(300, 300) { PlusFrames = { From = 5, To =  4 }, sec = 3 },
+            new Case(400, 400) { PlusFrames = { From = 2, To = 10 }, sec = 4 }
         );
                 
         /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
@@ -205,19 +205,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             { Name = "NullyLen", Hz = 480, Plus = 3 },
             
-            new Case (480+3)       { Length = { From = (null, 1.0), To = (null, 1.0) } },
-            new Case (480+3)       { Length = { From = (null, 1.0), To = 1.0         } },
-            new Case (480+3)       { Length = { From = 1.0        , To = (null, 1.0) } },
-            new Case (480+3,240+3) { Length = { From = (null, 1.0), To = 0.5         } },
-            new Case (240+3,480+3) { Length = { From = 0.5        , To = (null, 1.0) } }
+            new Case (480)     { Length = { From = (null, 1.0), To = (null, 1.0) } },
+            new Case (480)     { Length = { From = (null, 1.0), To = 1.0         } },
+            new Case (480)     { Length = { From = 1.0        , To = (null, 1.0) } },
+            new Case (480,240) { Length = { From = (null, 1.0), To = 0.5         } },
+            new Case (240,480) { Length = { From = 0.5        , To = (null, 1.0) } }
             
             // These cases fail. 0 should not coalesce to 1 sec. 0 means 0 seconds.
-            //new Case (480+3)       { Length = { From = 1.0        , To = (0, 1.0)    } },
-            //new Case (480+3)       { Length = { From = (null, 1.0), To = (0, 1.0)    } },
+            //new Case (480)     { Length = { From = 1.0        , To = (0, 1.0)    } },
+            //new Case (480)     { Length = { From = (null, 1.0), To = (0, 1.0)    } },
             
             // These cases fail. 0 is not nully for AudioLength. 0 means 0 seconds, not to default to 1 second.
-            //new Case (480+3)       { Length = { From = (0, 1.0)   , To = 1.0         } },
-            //new Case (240+3,480+3) { Length = { From = 0.5        , To = (0, 1.0)    } },
+            //new Case (480)     { Length = { From = (0, 1.0)   , To = 1.0         } },
+            //new Case (240,480) { Length = { From = 0.5        , To = (0, 1.0)    } },
         );        
                 
         /// <summary> Ensures null Hertz resolves to 48000 Hz and FrameCounts adjust correctly. </summary>
@@ -225,23 +225,23 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             { Name = "NullyHz", AudioLength = 0.01, CourtesyFrames = 3 },
             
-            new Case (480+3)       { Hz = { From = (null,48000), To = (null,48000) } },
-            new Case (480+3)       { Hz = { From = (null,48000), To = 48000        } },
-            new Case (480+3)       { Hz = { From = (0,48000)   , To = 48000        } },
-            new Case (480+3)       { Hz = { From = 48000       , To = (null,48000) } },
-            new Case (480+3)       { Hz = { From = 48000       , To = (0,48000)    } },
-            new Case (480+3)       { Hz = { From = (null,48000), To = (0,48000)    } },
-            new Case (480+3,240+3) { Hz = { From = (null,48000), To = 24000        } },
-            new Case (240+3,480+3) { Hz = { From = 24000       , To = (0,48000)    } }
+            new Case (480)     { Hz = { From = (null,48000), To = (null,48000) } },
+            new Case (480)     { Hz = { From = (null,48000), To = 48000        } },
+            new Case (480)     { Hz = { From = (0,48000)   , To = 48000        } },
+            new Case (480)     { Hz = { From = 48000       , To = (null,48000) } },
+            new Case (480)     { Hz = { From = 48000       , To = (0,48000)    } },
+            new Case (480)     { Hz = { From = (null,48000), To = (0,48000)    } },
+            new Case (480,240) { Hz = { From = (null,48000), To = 24000        } },
+            new Case (240,480) { Hz = { From = 24000       , To = (0,48000)    } }
         );        
 
         static CaseCollection<Case> NullyCourtesyFramesCases = Cases.FromTemplate(new Case
         
             { Name = "PlusNullies", SamplingRate = 100 },
             
-            new Case(104, 104) { sec = 1, CourtesyFrames = { From = (null,4), To = (null,4) } },
-            new Case(203, 204) { sec = 2, CourtesyFrames = { From = 3       , To = (null,4) } },
-            new Case(304, 305) { sec = 3, CourtesyFrames = { From = (null,4), To = 5        } }
+            new Case(100, 100) { sec = 1, CourtesyFrames = { From = (null,4), To = (null,4) } },
+            new Case(200, 200) { sec = 2, CourtesyFrames = { From = 3       , To = (null,4) } },
+            new Case(300, 300) { sec = 3, CourtesyFrames = { From = (null,4), To = 5        } }
         );
 
         /// <summary> Nully FrameCount tests check the behavior of coalescing to default. </summary>
@@ -250,54 +250,36 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             { Name = "Nully", sec = 1, Hz = 480, Plus = 3 },
             
             // FrameCount null → AudioLength defaults to 1 sec. Then FrameCount calculates to:
-            // 4803 = 1 sec (default) * 4800 Hz (specified sampling rate) + 3 courtesy frames
+            // 4803 = 1 sec (default) * 4800 Hz (specified sampling rate)
             
             // Basic case of coalescing FrameCounts
-            new Case { From = (null,480+3), To= (null,480+3) },
-            new Case { From = (null,480+3), To= 480+3  },
-            new Case { From = 480+3, To = (null,480+3) },
+            new Case { From = (null,480), To= (null,480) },
+            new Case { From = (null,480), To= 480  },
+            new Case { From = 480, To = (null,480) },
             
             // FrameCount adjusts AudioLength
-            new Case { From = 2403, To = (null,480+3), sec = { From = 5.0 } },
-            new Case { From = (null,480+3), To = 2403, sec = { To = 5.0 } },
+            new Case { From = 2400, To = (null,480), sec = { From = 5.0 } },
+            new Case { From = (null,480), To = 2400, sec = { To = 5.0 } },
 
             // Edge case: Conflicting null/default and explicit AudioLength
             // Invalid: FrameCount cannot be null/default while AudioLength is explicitly set to non-default.
-            //new Case ( from: (null,480+3), to: 480+3 ) { Hz = 48000, sec = 0.01 },
-            //new Case ( from: 480+3, to: (null,480+3) ) { Hz = 48000, sec = 0.01 },
+            //new Case ( from: (null,480), to: 480 ) { Hz = 48000, sec = 0.01 },
+            //new Case ( from: 480, to: (null,480) ) { Hz = 48000, sec = 0.01 },
             
-            // FrameCount 0 is not nully. It means 0 seconds. Sort of, but you can't test it:
-            
-            // You need 3 courtesy frames to make AudioLength 0.
-            // FrameCount 0 would make AudioLength -3 frames, resulting in an exception.
-            //new Case ( from: (0,480+3), to: 480+3 ),
-            //new Case ( from: 480+3, to: (0,480+3) ),
-
-            // FrameCount 3 (courtesy frames) = AudioLength 0 sec.
-            // But here the exception is thrown: "Duration is not above 0."
-            //new Case ( from: 480+3, to: 3 ) { sec = { To = 0 } },
-            //new Case ( from: 3, to: 480+3 ) { sec = { From = 0 } },
-            
-            // Attempt to stay just above 0. Nope, exception:
-            // "Attempt to initialize FrameCount to 4 is inconsistent with FrameCount 3
-            // based on initial values for AudioLength (default 1), SamplingRate (4800) and CourtesyFrames (3)."
-            //new Case ( from: 4, to: 480+3 ) { sec = { From = 0 } },
-            //new Case ( from: 480+3, to: 4 ) { sec = { To = 0 } },
-
             // Reference case without nullies
-            new Case { From = 480+3, To = 480+3, Hz = 48000, sec = 0.01, Name = "NonNully" }
+            new Case { From = 480, To = 480, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
         
         static CaseCollection<Case> ConversionFormulaCases { get; } = Cases.FromTemplate(new Case
 
             { AudioLength = 0.01, Bits = 32, Channels = 2, FrameSize = 8, Hertz = 50000, Plus = 3, HeaderLength = WavHeaderLength },
 
-            new Case(frameCount:  500+3) { ByteCount = 4000+24 + WavHeaderLength },
-            new Case(frameCount:  550+3) { ByteCount = 4400+24 + WavHeaderLength, AudioLength = 0.011 },
-            new Case(frameCount: 1000+3) { ByteCount = 8000+24 + WavHeaderLength, Hertz = 100000 },
-            new Case(frameCount:  500+5) { ByteCount = 4000+40 + WavHeaderLength, Plus = 5 },
-            new Case(frameCount:  500+3) { ByteCount = 2000+12 + WavHeaderLength, Bits = 16,    FrameSize = 4 },
-            new Case(frameCount:  500+3) { ByteCount = 2000+12 + WavHeaderLength, Channels = 1, FrameSize = 4 }
+            new Case(frameCount:  500) { ByteCount = 4000 + WavHeaderLength },
+            new Case(frameCount:  550) { ByteCount = 4400 + WavHeaderLength, AudioLength = 0.011 },
+            new Case(frameCount: 1000) { ByteCount = 8000 + WavHeaderLength, Hertz = 100000 },
+            new Case(frameCount:  500) { ByteCount = 4000 + WavHeaderLength, Plus = 5 },
+            new Case(frameCount:  500) { ByteCount = 2000 + WavHeaderLength, Bits = 16,    FrameSize = 4 },
+            new Case(frameCount:  500) { ByteCount = 2000 + WavHeaderLength, Channels = 1, FrameSize = 4 }
             // TODO: Set HeaderLength to 0, but 0 gets overwritten by 44 from the template.
             // Add again when CaseCollection supports clean syntax for multiple templates in a single collection.
         );
