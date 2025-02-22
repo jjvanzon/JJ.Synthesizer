@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Wishes.Common;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
@@ -94,17 +95,35 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => AssertFileExtension(Has(fileExtension) ? fileExtension : Has(defaultValue) ? defaultValue : DefaultFileExtension);
         
         public static int CoalesceCourtesyBytes(int? courtesyBytes, int? defaultValue = default)
-            => Coalesce(courtesyBytes, defaultValue, DefaultCourtesyBytes).AssertCourtesyBytes();
+            => (courtesyBytes ?? defaultValue ?? DefaultCourtesyBytes).AssertCourtesyBytes();
  
         // Durations
         
         public static double CoalesceAudioLength(double? audioLength, double? defaultValue = default)
-            => Coalesce(audioLength, defaultValue, DefaultAudioLength).AssertAudioLength();
+            => (audioLength ?? defaultValue ?? DefaultAudioLength).AssertAudioLength();
  
         public static int CoalesceFrameCount(int? frameCount, int? defaultValue = default)
-            => Coalesce(frameCount, defaultValue, DefaultFrameCount).AssertFrameCount();
+            => (frameCount ?? defaultValue ?? DefaultFrameCount).AssertFrameCount();
  
         public static int CoalesceByteCount(int? byteCount, int? defaultValue = default)
-            => Coalesce(byteCount, defaultValue, DefaultByteCount).AssertByteCount();
-   }
+            => (byteCount ?? defaultValue ?? DefaultByteCount).AssertByteCount();
+
+        // Stringy Coalesces
+
+        public static string CoalesceBits           (int?    bits,           string defaultText) => $"{CoalesceBits          (bits)          }".Coalesce(defaultText);
+        public static string CoalesceChannels       (int?    channels,       string defaultText) => $"{CoalesceChannels      (channels)      }".Coalesce(defaultText);
+        public static string CoalesceSamplingRate   (int?    samplingRate,   string defaultText) => $"{CoalesceSamplingRate  (samplingRate)  }".Coalesce(defaultText);
+        public static string CoalesceCourtesyFrames (int?    courtesyFrames, string defaultText) => $"{CoalesceCourtesyFrames(courtesyFrames)}".Coalesce(defaultText);
+        public static string CoalesceSizeOfBitDepth (int?    sizeOfBitDepth, string defaultText) => $"{CoalesceSizeOfBitDepth(sizeOfBitDepth)}".Coalesce(defaultText);
+        public static string CoalesceMaxAmplitude   (double? maxAmplitude,   string defaultText) => $"{CoalesceMaxAmplitude  (maxAmplitude)  }".Coalesce(defaultText);
+        public static string CoalesceFrameSize      (int?    frameSize,      string defaultText) => $"{CoalesceFrameSize     (frameSize)     }".Coalesce(defaultText);
+        public static string CoalesceHeaderLength   (int?    headerLength,   string defaultText) => $"{CoalesceHeaderLength  (headerLength)  }".Coalesce(defaultText);
+        public static string CoalesceCourtesyBytes  (int?    courtesyBytes,  string defaultText) => $"{CoalesceCourtesyBytes (courtesyBytes) }".Coalesce(defaultText);
+        public static string CoalesceAudioLength    (double? audioLength,    string defaultText) => $"{CoalesceAudioLength   (audioLength)   }".Coalesce(defaultText);
+        public static string CoalesceFrameCount     (int?    frameCount,     string defaultText) => $"{CoalesceFrameCount    (frameCount)    }".Coalesce(defaultText);
+        public static string CoalesceByteCount      (int?    byteCount,      string defaultText) => $"{CoalesceByteCount     (byteCount)     }".Coalesce(defaultText);
+        public static string CoalesceAudioFormat    (AudioFileFormatEnum? audioFormat,         string defaultValue) => CoalesceAudioFormat   (audioFormat)              .Coalesce(defaultValue);
+        public static string CoalesceInterpolation  (InterpolationTypeEnum? interpolation,     string defaultValue) => CoalesceInterpolation (interpolation)            .Coalesce(defaultValue);
+        public static string CoalesceFrameSize      (int? frameSize, int? bits, int? channels, string defaultValue) => CoalesceFrameSize     (frameSize, bits, channels).Coalesce(defaultValue);
+    }
 }
