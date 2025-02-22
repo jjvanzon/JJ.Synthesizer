@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Testing;
 using JJ.Framework.Wishes.Testing;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
@@ -34,12 +33,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private const int Tolerance = -1;
         private const int Hz = DefaultSamplingRate;
         private const int DefaultHz = DefaultSamplingRate;
-        private const int DefaultHertz = DefaultSamplingRate;
 
         internal class Case : CaseBase<int>
         {
             public override IList<object> KeyElements 
-                => new object[] { Name, "~", Descriptor, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"),
+                => new object[] { Name, "~", FrameCount, "f", "(", SamplingRate, "Hz", "+", CourtesyFrames, (",", AudioLength, "s"),
                                   ByteCount, Bits, Channels, FrameSize, HeaderLength, ")" };
 
             // FrameCount: The main property being tested, adjusted directly or via dependencies.
