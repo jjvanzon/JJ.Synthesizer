@@ -35,14 +35,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int? AssertChannels(int? channels, bool strict = false) => AssertOptions(nameof(Channels), channels, ValidChannels, strict);
         public static int AssertChannel(int Channel, bool strict = true) => AssertOptions(nameof(Channel), Channel, ValidChannel, strict);
         public static int? AssertChannel(int? Channel, bool strict = false) => AssertOptions(nameof(Channel), Channel, ValidChannel, strict);
-        public static int AssertSamplingRate(int samplingRate, bool strict = true) => AssertNullyBottom(nameof(SamplingRate), samplingRate, 0, strict) ?? default;
-        public static int? AssertSamplingRate(int? samplingRate, bool strict = false) => AssertNullyBottom(nameof(SamplingRate), samplingRate, 0, strict);
+        public static int AssertSamplingRate(int samplingRate, bool strict = true) => AssertNullyMin(nameof(SamplingRate), samplingRate, 0, strict) ?? default;
+        public static int? AssertSamplingRate(int? samplingRate, bool strict = false) => AssertNullyMin(nameof(SamplingRate), samplingRate, 0, strict);
         
         public static int AssertCourtesyFrames(int courtesyFrames, bool strict = true) 
-            => AssertNullOrBottom(nameof(CourtesyFrames), courtesyFrames, 0, strict) ?? default;
+            => AssertNullOrMin(nameof(CourtesyFrames), courtesyFrames, 0, strict) ?? default;
         
         public static int? AssertCourtesyFrames(int? courtesyFrames, bool strict = false) 
-            => AssertNullOrBottom(nameof(CourtesyFrames), courtesyFrames, 0, strict);
+            => AssertNullOrMin(nameof(CourtesyFrames), courtesyFrames, 0, strict);
 
         public static AudioFileFormatEnum AssertAudioFormat(AudioFileFormatEnum audioFormat, bool strict = true)
             => AssertOptions(nameof(AudioFormat), audioFormat, ValidAudioFormats, strict);
@@ -74,16 +74,16 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => AssertOptions(nameof(HeaderLength), headerLength, ValidHeaderLengths, strict);
 
         public static int AssertFrameSize(int frameSize, bool strict = true)
-            => AssertNullyBottom(nameof(FrameSize), frameSize, 1, strict) ?? default;
+            => AssertNullyMin(nameof(FrameSize), frameSize, 1, strict) ?? default;
 
         public static int? AssertFrameSize(int? frameSize, bool strict = false)
-            => AssertNullyBottom(nameof(FrameSize), frameSize, 1, strict);
+            => AssertNullyMin(nameof(FrameSize), frameSize, 1, strict);
 
         public static int AssertCourtesyBytes(int courtesyBytes, bool strict = true)
-            => AssertNullOrBottom(nameof(CourtesyBytes), courtesyBytes, 0, strict) ?? default;
+            => AssertNullOrMin(nameof(CourtesyBytes), courtesyBytes, 0, strict) ?? default;
 
         public static int? AssertCourtesyBytes(int? courtesyBytes, bool strict = false)
-            => AssertNullOrBottom(nameof(CourtesyBytes), courtesyBytes, 0, strict);
+            => AssertNullOrMin(nameof(CourtesyBytes), courtesyBytes, 0, strict);
 
         public static int? AssertHeaderLength(int? headerLength, bool strict = false)
             => AssertOptions(nameof(HeaderLength), headerLength, ValidHeaderLengths, strict);
@@ -94,22 +94,22 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Durations
 
         public static double AssertAudioLength(double audioLength, bool strict = true)
-            => AssertNullOrBottom(nameof(AudioLength), audioLength, 0.0, strict) ?? default;
+            => AssertNullOrMin(nameof(AudioLength), audioLength, 0.0, strict) ?? default;
 
         public static double? AssertAudioLength(double? audioLength, bool strict = false)
-            => AssertNullOrBottom(nameof(AudioLength), audioLength, 0.0, strict);
+            => AssertNullOrMin(nameof(AudioLength), audioLength, 0.0, strict);
 
         public static int AssertFrameCount(int frameCount, bool strict = true)
-            => AssertNullOrBottom(nameof(FrameCount), frameCount, 0, strict) ?? default;
+            => AssertNullOrMin(nameof(FrameCount), frameCount, 0, strict) ?? default;
 
         public static int? AssertFrameCount(int? frameCount, bool strict = false)
-            => AssertNullOrBottom(nameof(FrameCount), frameCount, 0, strict);
+            => AssertNullOrMin(nameof(FrameCount), frameCount, 0, strict);
 
         public static int AssertByteCount(int byteCount, bool strict = true)
-            => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict) ?? default;
+            => AssertNullOrMin(nameof(ByteCount), byteCount, 0, strict) ?? default;
 
         public static int? AssertByteCount(int? byteCount, bool strict = false)
-            => AssertNullOrBottom(nameof(ByteCount), byteCount, 0, strict);
+            => AssertNullOrMin(nameof(ByteCount), byteCount, 0, strict);
         
         // CourtesyBytes with FrameSize
         
@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static string NotSupportedMessage<T>(string name, object value, IEnumerable<T> validValues) 
             => $"{name} = {value} not valid. Supported values: " + Join(", ", validValues);
         
-        private static T? AssertNullyBottom<T>(string name, T? value, T min, bool strict = true)
+        private static T? AssertNullyMin<T>(string name, T? value, T min, bool strict = true)
             where T : struct, IComparable<T>
         {
             if (!strict && !Has(value)) return value;
@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return value;
         }
         
-        private static T? AssertNullOrBottom<T>(string name, T? value, T min, bool strict = true)
+        private static T? AssertNullOrMin<T>(string name, T? value, T min, bool strict = true)
             where T : struct, IComparable<T>
         {
             if (!strict && value == null) return value;
