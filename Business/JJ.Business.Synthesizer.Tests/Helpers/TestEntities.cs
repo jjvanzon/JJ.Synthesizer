@@ -256,8 +256,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           Independent = new IndependentEntities
                           {
                               Sample        = t.UnderlyingSample,
-                              AudioInfoWish = t.UnderlyingSample.ToInfo(),
-                              AudioFileInfo = t.UnderlyingSample.ToInfo().ApplyInfo()
+                              AudioInfoWish = t.ToInfo(),
+                              AudioFileInfo = t.ToInfo().ToLegacy()
                           };
                           
                           Immutable = new ImmutableEntities
@@ -314,8 +314,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           e.Independent = new IndependentEntities
                           {
                               Sample        = t.UnderlyingSample,
-                              AudioInfoWish = t.UnderlyingSample.ToInfo(),
-                              AudioFileInfo = t.UnderlyingSample.ToInfo().ApplyInfo()
+                              AudioInfoWish = t.ToInfo(),
+                              AudioFileInfo = t.ToInfo().ToLegacy()
                           };
                           
                           // Immutables for Channel
@@ -375,6 +375,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IsNotNull(() => Immutable.InterpolationEntity);
             IsNotNull(() => Immutable.AudioFormatEntity);
             // TODO: Assert other types of being filled in.
+            
+            Independent.AudioInfoWish = SynthBound.SynthWishes.ToInfo();
+            Independent.AudioFileInfo = SynthBound.SynthWishes.ToInfo().ToLegacy();
             
             Immutable.Bits                = SynthBound.SynthWishes.GetBits;
             Immutable.SizeOfBitDepth      = SynthBound.SynthWishes.GetSizeOfBitDepth();
