@@ -264,7 +264,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Invalid: FrameCount cannot be null/default while AudioLength is explicitly set to non-default.
             //new Case ( from: (null,480), to: 480 ) { Hz = 48000, sec = 0.01 },
             //new Case ( from: 480, to: (null,480) ) { Hz = 48000, sec = 0.01 },
-            
+
             // Reference case without nullies
             new Case { From = 480, To = 480, Hz = 48000, sec = 0.01, Name = "NonNully" }
         );
@@ -285,30 +285,30 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // ncrunch: no coverage end
         
-        private TestEntities CreateTestEntities(Case testCase = default)
+        private TestEntities CreateTestEntities(Case test = default)
         {
-            testCase = testCase ?? new Case();
+            test = test ?? new Case();
             
             return new TestEntities(x =>
             {
                 // Stop tooling configurations for interfering.
                 x.IsUnderNCrunch = x.IsUnderAzurePipelines = false;
                 
-                x.AudioLength(testCase.AudioLength.Init.Nully);
-                x.SamplingRate(testCase.SamplingRate.Init.Nully);
-                x.CourtesyFrames(testCase.CourtesyFrames.Init.Nully);
-                x.Channels(2); // // Sneaky default verifies formula is unaffected.
+                x.AudioLength(test.AudioLength.Init.Nully);
+                x.SamplingRate(test.SamplingRate.Init.Nully);
+                x.CourtesyFrames(test.CourtesyFrames.Init.Nully);
+                x.Channels(2); // // Sneaky default verifies FrameCount is unaffected.
                 
                 int frameCountBefore = x.FrameCount();
-                x.FrameCount(testCase.FrameCount.Init.Nully);
+                x.FrameCount(test.FrameCount.Init.Nully);
                 int frameCountAfter = x.FrameCount();
                 
-                if (testCase.Strict && frameCountBefore != frameCountAfter)
+                if (test.Strict && frameCountBefore != frameCountAfter)
                 {   // ncrunch: no coverage start
-                    string formattedFrameCount     = Coalesce(testCase.FrameCount    .Init.Nully, "default " + DefaultFrameCount    );
-                    string formattedAudioLength    = Coalesce(testCase.AudioLength   .Init.Nully, "default " + DefaultAudioLength   );
-                    string formattedSamplingRate   = Coalesce(testCase.SamplingRate  .Init.Nully, "default " + DefaultSamplingRate  );
-                    string formattedCourtesyFrames = Coalesce(testCase.CourtesyFrames.Init.Nully, "default " + DefaultCourtesyFrames);
+                    string formattedFrameCount     = CoalesceFrameCount    (test.FrameCount    .Init.Nully, "default " + DefaultFrameCount    );
+                    string formattedAudioLength    = CoalesceAudioLength   (test.AudioLength   .Init.Nully, "default " + DefaultAudioLength   );
+                    string formattedSamplingRate   = CoalesceSamplingRate  (test.SamplingRate  .Init.Nully, "default " + DefaultSamplingRate  );
+                    string formattedCourtesyFrames = CoalesceCourtesyFrames(test.CourtesyFrames.Init.Nully, "default " + DefaultCourtesyFrames);
                     
                     throw new Exception(
                         $"Attempt to initialize {nameof(FrameCount)} to {formattedFrameCount} " +
@@ -326,9 +326,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [DynamicData(nameof(InitCases))]
         public void Init_FrameCount(string caseKey)
         {
-            Case testCase = Cases[caseKey];
-            var x = CreateTestEntities(testCase);
-            Assert_All_Getters(x, testCase);
+            Case test = Cases[caseKey];
+            var x = CreateTestEntities(test);
+            Assert_All_Getters(x, test, test.CourtesyFrames);
         }
 
         [TestMethod]
@@ -416,7 +416,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 x.Record();
                 Assert_All_Getters(x, test.To.Coalesced, test.PlusFrames.To);
             }
-
+                    
             if (test.AudioLength.Changed)
             {
                 AssertProp(x => x.SynthBound.SynthWishes   .SetAudioLength(test.AudioLength));
