@@ -419,35 +419,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, test.To.Coalesced, test.PlusFrames.To);
             }
 
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount    (value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount    (value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount    (value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithFrameCount(value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithFrameCount(value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithFrameCount(value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SetFrameCount (value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SetFrameCount (value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SetFrameCount (value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    FrameCount    (x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       FrameCount    (x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, FrameCount    (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    WithFrameCount(x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       WithFrameCount(x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, WithFrameCount(x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SetFrameCount (x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SetFrameCount (x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SetFrameCount (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .FrameCount    (x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .FrameCount    (x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.FrameCount    (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .WithFrameCount(x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .WithFrameCount(x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.WithFrameCount(x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetFrameCount (x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetFrameCount (x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetFrameCount (x.SynthBound.ConfigResolver, value, x.SynthBound.SynthWishes)));
-        
-            if (testCase.AudioLength.Changed)
+            if (test.AudioLength.Changed)
             {
                 AssertProp(x => x.SynthBound.SynthWishes   .SetAudioLength(test.AudioLength));
                 AssertProp(x => x.SynthBound.FlowNode      .SetAudioLength(test.AudioLength));
@@ -470,6 +442,34 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 AssertProp(x => x.SynthBound.ConfigResolver.SetCourtesyFrames(test.CourtesyFrames));
                 return;
             }
+
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .FrameCount    (test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .FrameCount    (test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.FrameCount    (test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .WithFrameCount(test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .WithFrameCount(test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.WithFrameCount(test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    x.SynthBound.SynthWishes   .SetFrameCount (test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       x.SynthBound.FlowNode      .SetFrameCount (test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, x.SynthBound.ConfigResolver.SetFrameCount (test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    FrameCount    (x.SynthBound.SynthWishes   , test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       FrameCount    (x.SynthBound.FlowNode      , test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, FrameCount    (x.SynthBound.ConfigResolver, test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    WithFrameCount(x.SynthBound.SynthWishes   , test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       WithFrameCount(x.SynthBound.FlowNode      , test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, WithFrameCount(x.SynthBound.ConfigResolver, test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SetFrameCount (x.SynthBound.SynthWishes   , test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SetFrameCount (x.SynthBound.FlowNode      , test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SetFrameCount (x.SynthBound.ConfigResolver, test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .FrameCount    (x.SynthBound.SynthWishes   , test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .FrameCount    (x.SynthBound.FlowNode      , test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.FrameCount    (x.SynthBound.ConfigResolver, test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .WithFrameCount(x.SynthBound.SynthWishes   , test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .WithFrameCount(x.SynthBound.FlowNode      , test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.WithFrameCount(x.SynthBound.ConfigResolver, test, x.SynthBound.SynthWishes)));
+            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetFrameCount (x.SynthBound.SynthWishes   , test)));
+            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetFrameCount (x.SynthBound.FlowNode      , test)));
+            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetFrameCount (x.SynthBound.ConfigResolver, test, x.SynthBound.SynthWishes)));
         }
 
         static object TapeBoundCases => Empty<object[]>() // ncrunch: no coverage
