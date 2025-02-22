@@ -742,13 +742,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             ThrowsException_OrInnerException<Exception>(
                 () => CreateTestEntities(
-                    new Case(frameCount:  0) { CourtesyFrames = 2 }), 
-                    "FrameCount = 0 but should be a minimum of 2 CourtesyFrames.");
-            
-            ThrowsException_OrInnerException<Exception>(
-                () => CreateTestEntities(
-                    new Case(frameCount:  2) { CourtesyFrames = 2, AudioLength = 0 }), 
+                    new Case(frameCount:  0) { CourtesyFrames = 2, Strict = false }), 
                     "Duration is not above 0.");
+            
+            // FrameCount does not need to include courtesy frames, so now frame count 2
+            // gets a duration > 0 and does not generate the message "Duration is not above 0."
+            CreateTestEntities(new Case(frameCount: 2) { CourtesyFrames = 2, AudioLength = 0, Strict = false });
         }
 
         // Getter Helpers
