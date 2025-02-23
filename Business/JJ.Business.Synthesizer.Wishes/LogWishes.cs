@@ -86,8 +86,87 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class LogWishes
     {
+        // Basics
+        
         private static readonly ILogger _logger = CreateLogger();
         private static ILogger CreateLogger() => LoggerFactory.CreateLoggerFromConfig();
+        
+        // NOTE: All the threading, locking and flushing helped
+        // Test Explorer in Visual Studio 2022
+        // avoid mangling blank lines, for the most part.
+        
+        private static readonly object _logLock = new object();
+        
+        private static readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
+
+        public static void Log(string message = default)
+        {
+            lock (_logLock)
+            {
+                message = message ?? "";
+               
+                if (!message.FilledIn())
+                {
+                    _blankLinePending.Value = true;
+                    return;
+                }
+                
+                if (_blankLinePending.Value)
+                {
+                    if (!message.StartsWithBlankLine())
+                    {
+                        message = NewLine + message;
+                    }
+                }
+
+                _blankLinePending.Value = EndsWithBlankLine(message);
+
+                _logger.Log(message.TrimEnd());
+                
+                //Console.WriteLine(message.TrimEnd());
+                
+                //Console.Out.Flush();
+            }
+        }
+                
+        public static void LogTitleStrong(string title)
+        {
+            string upperCase = (title ?? "").ToUpper();
+            
+            Log();
+            Log(PrettyTitle(upperCase, underlineChar: '='));
+            Log();
+        }
+
+        public static void LogTitle(string title)
+        {
+            Log();
+            Log(PrettyTitle(title));
+            Log();
+        }
+        
+        internal static void LogOutputFile(string filePath, string sourceFilePath = null)
+        {
+            Log(FormatOutputFile(filePath, sourceFilePath));
+        }
+
+        internal static string FormatOutputFile(string filePath, string sourceFilePath = null)
+        {
+            if (!Has(filePath)) return default;
+            if (!Exists(filePath)) return default;
+            
+            string prefix = "  ";
+            string sourceFileString = default;
+            if (Has(sourceFilePath)) sourceFileString += $" (copied {sourceFilePath})";
+            string message = prefix + filePath + sourceFileString;
+            return message;
+        }
+                
+        private static string FormatOutputBytes(byte[] bytes)
+        {
+            if (!Has(bytes)) return default;
+            return $"  {PrettyByteCount(bytes.Length)} written to memory.";
+        }
         
         // Pretty Calculation Graphs
         
@@ -1003,85 +1082,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             
             return text;
-        }
-
-        // Misc
-        
-        // NOTE: All the threading, locking and flushing helped
-        // Test Explorer in Visual Studio 2022
-        // avoid mangling blank lines, for the most part.
-        
-        private static readonly object _logLock = new object();
-        
-        private static readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
-
-        public static void Log(string message = default)
-        {
-            lock (_logLock)
-            {
-                message = message ?? "";
-               
-                if (!message.FilledIn())
-                {
-                    _blankLinePending.Value = true;
-                    return;
-                }
-                
-                if (_blankLinePending.Value)
-                {
-                    if (!message.StartsWithBlankLine())
-                    {
-                        message = NewLine + message;
-                    }
-                }
-
-                _blankLinePending.Value = EndsWithBlankLine(message);
-
-                _logger.Log(message.TrimEnd());
-                
-                //Console.WriteLine(message.TrimEnd());
-                
-                //Console.Out.Flush();
-            }
-        }
-                
-        public static void LogTitleStrong(string title)
-        {
-            string upperCase = (title ?? "").ToUpper();
-            
-            Log();
-            Log(PrettyTitle(upperCase, underlineChar: '='));
-            Log();
-        }
-
-        public static void LogTitle(string title)
-        {
-            Log();
-            Log(PrettyTitle(title));
-            Log();
-        }
-        
-        internal static void LogOutputFile(string filePath, string sourceFilePath = null)
-        {
-            Log(FormatOutputFile(filePath, sourceFilePath));
-        }
-
-        internal static string FormatOutputFile(string filePath, string sourceFilePath = null)
-        {
-            if (!Has(filePath)) return default;
-            if (!Exists(filePath)) return default;
-            
-            string prefix = "  ";
-            string sourceFileString = default;
-            if (Has(sourceFilePath)) sourceFileString += $" (copied {sourceFilePath})";
-            string message = prefix + filePath + sourceFileString;
-            return message;
-        }
-                
-        private static string FormatOutputBytes(byte[] bytes)
-        {
-            if (!Has(bytes)) return default;
-            return $"  {PrettyByteCount(bytes.Length)} written to memory.";
         }
 
         public static string Descriptor(AudioFileOutput audioFileOutput)
