@@ -14,6 +14,7 @@ using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Logging;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
@@ -85,6 +86,9 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class LogWishes
     {
+        private static readonly ILogger _logger = CreateLogger();
+        private static ILogger CreateLogger() => LoggerFactory.CreateLoggerFromConfig();
+        
         // Pretty Calculation Graphs
         
         public static string SynthLog(Tape tape, double? calculationDuration = null)
@@ -1033,9 +1037,11 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 _blankLinePending.Value = EndsWithBlankLine(message);
 
-                Console.WriteLine(message.TrimEnd());
+                _logger.Log(message.TrimEnd());
                 
-                Console.Out.Flush();
+                //Console.WriteLine(message.TrimEnd());
+                
+                //Console.Out.Flush();
             }
         }
                 
