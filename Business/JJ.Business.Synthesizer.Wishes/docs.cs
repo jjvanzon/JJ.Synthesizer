@@ -821,11 +821,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public struct _trygetnodetype { }
 
         /// <summary> 
-        /// This null-tolerant version is missing in JJ.Framework.Configuration for now.
-        /// </summary> 
-        public struct _trygetsection { }
-
-        /// <summary> 
         /// If this is a curve operator, this will return the underlying Curve entity,
         /// that contains specifics about the nodes and how they are connected.
         /// If it's called on something that isn't a Curve, an exception will be thrown.
