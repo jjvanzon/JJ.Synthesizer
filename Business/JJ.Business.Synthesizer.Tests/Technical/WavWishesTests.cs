@@ -163,7 +163,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertInvariant(x, test);
             
             int frameCount = test.FrameCount;
-            int courtesy = test.CourtesyFrames;
             var synthWishes = x.SynthBound.SynthWishes;
             
             AssertEntity(x.SynthBound.SynthWishes         .ToInfo(),                        test);
@@ -204,25 +203,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertEntity(ToInfo(x.Immutable.InfoTupleWithType     ),                        test);
             AssertEntity(ToInfo(x.Immutable.InfoTupleWithEnums    ),                        test);
             AssertEntity(ToInfo(x.Immutable.InfoTupleWithEntities ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.SynthBound.SynthWishes         ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.SynthBound.FlowNode            ),                        test);
-            AssertEntity(WavWishesAccessor.ToInfo(x.SynthBound.ConfigResolver,synthWishes),          test);
-            AssertEntity(WavWishesAccessor.ToInfo(x.SynthBound.ConfigSection),                DefaultsCase);// By Design: Mocked ConfigSection has default settings.
-            AssertEntity(WavWishes.ToInfo(x.TapeBound.Tape                 ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.TapeBound.TapeConfig           ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.TapeBound.TapeActions          ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.TapeBound.TapeAction           ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.BuffBound.Buff                 ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.BuffBound.AudioFileOutput      ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.BuffBound.Buff                 ).FrameCount(frameCount), test);
-            AssertEntity(WavWishes.ToInfo(x.BuffBound.AudioFileOutput      ).FrameCount(frameCount), test);
-            AssertEntity(WavWishes.ToInfo(x.Independent.Sample             ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.Independent.AudioFileInfo      ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.Immutable.WavHeader            ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.Immutable.InfoTupleWithInts    ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.Immutable.InfoTupleWithType    ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.Immutable.InfoTupleWithEnums   ),                        test);
-            AssertEntity(WavWishes.ToInfo(x.Immutable.InfoTupleWithEntities),                        test);
+            AssertEntity(WavWishes        .ToInfo(x.SynthBound.SynthWishes               ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.SynthBound.FlowNode                  ),         test);
+            AssertEntity(WavWishesAccessor.ToInfo(x.SynthBound.ConfigResolver,synthWishes),         test);
+            AssertEntity(WavWishesAccessor.ToInfo(x.SynthBound.ConfigSection             ), DefaultsCase);// By Design: Mocked ConfigSection has default settings.
+            AssertEntity(WavWishes        .ToInfo(x.TapeBound.Tape                       ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.TapeBound.TapeConfig                 ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.TapeBound.TapeActions                ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.TapeBound.TapeAction                 ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.BuffBound.Buff                       ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.BuffBound.AudioFileOutput            ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.Independent.Sample                   ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.Independent.AudioFileInfo            ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.Immutable.WavHeader                  ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.Immutable.InfoTupleWithInts          ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.Immutable.InfoTupleWithType          ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.Immutable.InfoTupleWithEnums         ),         test);
+            AssertEntity(WavWishes        .ToInfo(x.Immutable.InfoTupleWithEntities      ),         test);
 
             if      (test.Bits ==  8) AssertEntity(x.Immutable.InfoTupleWithoutBits.ToInfo<byte> (), test);
             else if (test.Bits == 16) AssertEntity(x.Immutable.InfoTupleWithoutBits.ToInfo<short>(), test);
@@ -240,7 +237,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void ApplyInfo_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
-            int courtesy = test.CourtesyFrames;
             var info = new AudioInfoWish
             {
                 Bits         = test.Bits,
@@ -341,7 +337,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void ToWavHeader_Test(string caseKey)
         { 
             Case test = Cases[caseKey];
-
             TestEntities x = CreateEntities(test);
             AssertInvariant(x, test);
             
@@ -423,7 +418,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Case test = Cases[caseKey];
             SynthWishes synthWishes;
             IContext context;
-            int courtesy = test.CourtesyFrames;
 
             void TestProp(Action<TestEntities, WavHeaderStruct> setter)
             {
@@ -522,10 +516,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         public void ReadWavHeader_Test(string caseKey)
         {
             Case              test        = Cases[caseKey];
-            int               courtesy    = test.CourtesyFrames;
             SynthWishes       synthWishes = null;
             IContext          context     = null;
-            BuffBoundEntities binaries        = null;
+            BuffBoundEntities binaries    = null;
             
             using (TestEntities modifiedEntities = CreateModifiedEntities(test, withDisk: true))
             {
@@ -873,7 +866,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_Extensions(string caseKey)
+        public void WriteWavHeader_Test_Extensions_EntityFirst(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -908,6 +901,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction     , () => x.TapeBound.TapeAction       .WriteWavHeader(bin.DestBytes                 )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction     , () => x.TapeBound.TapeAction       .WriteWavHeader(bin.DestStream                )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction     , () => x.TapeBound.TapeAction       .WriteWavHeader(bin.BinaryWriter              )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => x.BuffBound.Buff             .WriteWavHeader(bin.DestFilePath              )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => x.BuffBound.Buff             .WriteWavHeader(bin.DestBytes                 )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => x.BuffBound.Buff             .WriteWavHeader(bin.DestStream                )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => x.BuffBound.Buff             .WriteWavHeader(bin.BinaryWriter              )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput  .WriteWavHeader(bin.DestFilePath              )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput  .WriteWavHeader(bin.DestBytes                 )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput  .WriteWavHeader(bin.DestStream                )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput  .WriteWavHeader(bin.BinaryWriter              )), ForBinaryWriter, test);
             AssertWrite(bin => AreEqual(x.Independent.Sample       , () => x.Independent.Sample         .WriteWavHeader(bin.DestFilePath              )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(x.Independent.Sample       , () => x.Independent.Sample         .WriteWavHeader(bin.DestBytes                 )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.Independent.Sample       , () => x.Independent.Sample         .WriteWavHeader(bin.DestStream                )), ForDestStream,   test);
@@ -928,6 +929,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader      , () => x.Immutable.WavHeader        .Write         (bin.DestBytes                 )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader      , () => x.Immutable.WavHeader        .Write         (bin.DestStream                )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader      , () => x.Immutable.WavHeader        .Write         (bin.BinaryWriter              )), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_Extensions_StreamyFirst(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            TestEntities x = CreateEntities(test);
+            AssertInvariant(x, test);
+            var synthWishes = x.SynthBound.SynthWishes;
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath           , () => bin.DestFilePath.WriteWavHeader(x.SynthBound.SynthWishes                   )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes              , () => bin.DestBytes   .WriteWavHeader(x.SynthBound.SynthWishes                   )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream             , () => bin.DestStream  .WriteWavHeader(x.SynthBound.SynthWishes                   )), ForDestStream,   test);
@@ -956,6 +968,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes              , () => bin.DestBytes   .WriteWavHeader(x.TapeBound.TapeAction                     )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream             , () => bin.DestStream  .WriteWavHeader(x.TapeBound.TapeAction                     )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter           , () => bin.BinaryWriter.WriteWavHeader(x.TapeBound.TapeAction                     )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath           , () => bin.DestFilePath.WriteWavHeader(x.BuffBound.Buff                           )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes              , () => bin.DestBytes   .WriteWavHeader(x.BuffBound.Buff                           )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(bin.DestStream             , () => bin.DestStream  .WriteWavHeader(x.BuffBound.Buff                           )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter           , () => bin.BinaryWriter.WriteWavHeader(x.BuffBound.Buff                           )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath           , () => bin.DestFilePath.WriteWavHeader(x.BuffBound.AudioFileOutput                )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes              , () => bin.DestBytes   .WriteWavHeader(x.BuffBound.AudioFileOutput                )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(bin.DestStream             , () => bin.DestStream  .WriteWavHeader(x.BuffBound.AudioFileOutput                )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter           , () => bin.BinaryWriter.WriteWavHeader(x.BuffBound.AudioFileOutput                )), ForBinaryWriter, test);
             AssertWrite(bin => AreEqual(bin.DestFilePath           , () => bin.DestFilePath.WriteWavHeader(x.Independent.Sample                       )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes              , () => bin.DestBytes   .WriteWavHeader(x.Independent.Sample                       )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream             , () => bin.DestStream  .WriteWavHeader(x.Independent.Sample                       )), ForDestStream,   test);
@@ -980,13 +1000,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_ShortStatic(string caseKey)
+        public void WriteWavHeader_Test_ShortStatic_EntityFirst(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
             AssertInvariant(x, test);
             var synthWishes = x.SynthBound.SynthWishes;
-            
 
             AssertWrite(bin => AreEqual(x.SynthBound.SynthWishes,    () => WriteWavHeader(x.SynthBound.SynthWishes,      bin.DestFilePath             )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(x.SynthBound.SynthWishes,    () => WriteWavHeader(x.SynthBound.SynthWishes,      bin.DestBytes                )), ForDestBytes,    test);
@@ -1016,6 +1035,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction,      () => WriteWavHeader(x.TapeBound.TapeAction,        bin.DestBytes                )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction,      () => WriteWavHeader(x.TapeBound.TapeAction,        bin.DestStream               )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction,      () => WriteWavHeader(x.TapeBound.TapeAction,        bin.BinaryWriter             )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff,            () => WriteWavHeader(x.BuffBound.Buff,              bin.DestFilePath             )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff,            () => WriteWavHeader(x.BuffBound.Buff,              bin.DestBytes                )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff,            () => WriteWavHeader(x.BuffBound.Buff,              bin.DestStream               )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff,            () => WriteWavHeader(x.BuffBound.Buff,              bin.BinaryWriter             )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.DestFilePath             )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.DestBytes                )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.DestStream               )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.BinaryWriter             )), ForBinaryWriter, test);
             AssertWrite(bin => AreEqual(x.Independent.Sample,        () => WriteWavHeader(x.Independent.Sample,          bin.DestFilePath             )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(x.Independent.Sample,        () => WriteWavHeader(x.Independent.Sample,          bin.DestBytes                )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.Independent.Sample,        () => WriteWavHeader(x.Independent.Sample,          bin.DestStream               )), ForDestStream,   test);
@@ -1036,6 +1063,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader,       () => Write         (x.Immutable.WavHeader,         bin.DestBytes                )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader,       () => Write         (x.Immutable.WavHeader,         bin.DestStream               )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader,       () => Write         (x.Immutable.WavHeader,         bin.BinaryWriter             )), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_ShortStatic_StreamyFirst(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            TestEntities x = CreateEntities(test);
+            AssertInvariant(x, test);
+            var synthWishes = x.SynthBound.SynthWishes;
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WriteWavHeader(bin.DestFilePath, x.SynthBound.SynthWishes                  )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes,               () => WriteWavHeader(bin.DestBytes,    x.SynthBound.SynthWishes                  )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream,              () => WriteWavHeader(bin.DestStream,   x.SynthBound.SynthWishes                  )), ForDestStream,   test);
@@ -1064,6 +1102,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes,               () => WriteWavHeader(bin.DestBytes,    x.TapeBound.TapeAction                    )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream,              () => WriteWavHeader(bin.DestStream,   x.TapeBound.TapeAction                    )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter,            () => WriteWavHeader(bin.BinaryWriter, x.TapeBound.TapeAction                    )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WriteWavHeader(bin.DestFilePath, x.BuffBound.Buff                          )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,               () => WriteWavHeader(bin.DestBytes,    x.BuffBound.Buff                          )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(bin.DestStream,              () => WriteWavHeader(bin.DestStream,   x.BuffBound.Buff                          )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,            () => WriteWavHeader(bin.BinaryWriter, x.BuffBound.Buff                          )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WriteWavHeader(bin.DestFilePath, x.BuffBound.AudioFileOutput               )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,               () => WriteWavHeader(bin.DestBytes,    x.BuffBound.AudioFileOutput               )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(bin.DestStream,              () => WriteWavHeader(bin.DestStream,   x.BuffBound.AudioFileOutput               )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,            () => WriteWavHeader(bin.BinaryWriter, x.BuffBound.AudioFileOutput               )), ForBinaryWriter, test);
             AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WriteWavHeader(bin.DestFilePath, x.Independent.Sample                      )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes,               () => WriteWavHeader(bin.DestBytes,    x.Independent.Sample                      )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream,              () => WriteWavHeader(bin.DestStream,   x.Independent.Sample                      )), ForDestStream,   test);
@@ -1088,7 +1134,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_Static(string caseKey)
+        public void WriteWavHeader_Test_Static_EntityFirst(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -1123,6 +1169,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction,      () => WavWishes.WriteWavHeader(x.TapeBound.TapeAction,        bin.DestBytes   )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction,      () => WavWishes.WriteWavHeader(x.TapeBound.TapeAction,        bin.DestStream  )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.TapeBound.TapeAction,      () => WavWishes.WriteWavHeader(x.TapeBound.TapeAction,        bin.BinaryWriter)), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => WavWishes.WriteWavHeader(x.BuffBound.Buff,              bin.DestFilePath)), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => WavWishes.WriteWavHeader(x.BuffBound.Buff,              bin.DestBytes   )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => WavWishes.WriteWavHeader(x.BuffBound.Buff,              bin.DestStream  )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.Buff           , () => WavWishes.WriteWavHeader(x.BuffBound.Buff,              bin.BinaryWriter)), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.DestFilePath)), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.DestBytes   )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.DestStream  )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(x.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(x.BuffBound.AudioFileOutput,   bin.BinaryWriter)), ForBinaryWriter, test);
             AssertWrite(bin => AreEqual(x.Independent.Sample,        () => WavWishes.WriteWavHeader(x.Independent.Sample,          bin.DestFilePath)), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(x.Independent.Sample,        () => WavWishes.WriteWavHeader(x.Independent.Sample,          bin.DestBytes   )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.Independent.Sample,        () => WavWishes.WriteWavHeader(x.Independent.Sample,          bin.DestStream  )), ForDestStream,   test);
@@ -1143,6 +1197,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader,       () => WavWishes.Write         (x.Immutable.WavHeader,         bin.DestBytes   )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader,       () => WavWishes.Write         (x.Immutable.WavHeader,         bin.DestStream  )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.Immutable.WavHeader,       () => WavWishes.Write         (x.Immutable.WavHeader,         bin.BinaryWriter)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_Static_StreamyFirst(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            TestEntities x = CreateEntities(test);
+            AssertInvariant(x, test);
+            var synthWishes = x.SynthBound.SynthWishes;
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WavWishes.WriteWavHeader(bin.DestFilePath, x.SynthBound.SynthWishes     )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes,               () => WavWishes.WriteWavHeader(bin.DestBytes,    x.SynthBound.SynthWishes     )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream,              () => WavWishes.WriteWavHeader(bin.DestStream,   x.SynthBound.SynthWishes     )), ForDestStream,   test);
@@ -1171,6 +1236,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes,               () => WavWishes.WriteWavHeader(bin.DestBytes,    x.TapeBound.TapeAction       )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream,              () => WavWishes.WriteWavHeader(bin.DestStream,   x.TapeBound.TapeAction       )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter,            () => WavWishes.WriteWavHeader(bin.BinaryWriter, x.TapeBound.TapeAction       )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WavWishes.WriteWavHeader(bin.DestFilePath, x.BuffBound.Buff             )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,               () => WavWishes.WriteWavHeader(bin.DestBytes,    x.BuffBound.Buff             )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(bin.DestStream,              () => WavWishes.WriteWavHeader(bin.DestStream,   x.BuffBound.Buff             )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,            () => WavWishes.WriteWavHeader(bin.BinaryWriter, x.BuffBound.Buff             )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WavWishes.WriteWavHeader(bin.DestFilePath, x.BuffBound.AudioFileOutput  )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,               () => WavWishes.WriteWavHeader(bin.DestBytes,    x.BuffBound.AudioFileOutput  )), ForDestBytes   , test);
+            AssertWrite(bin => AreEqual(bin.DestStream,              () => WavWishes.WriteWavHeader(bin.DestStream,   x.BuffBound.AudioFileOutput  )), ForDestStream  , test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,            () => WavWishes.WriteWavHeader(bin.BinaryWriter, x.BuffBound.AudioFileOutput  )), ForBinaryWriter, test);
             AssertWrite(bin => AreEqual(bin.DestFilePath,            () => WavWishes.WriteWavHeader(bin.DestFilePath, x.Independent.Sample         )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes,               () => WavWishes.WriteWavHeader(bin.DestBytes,    x.Independent.Sample         )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream,              () => WavWishes.WriteWavHeader(bin.DestStream,   x.Independent.Sample         )), ForDestStream,   test);
@@ -1191,81 +1264,6 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes,               () => WavWishes.Write         (bin.DestBytes,    x.Immutable.WavHeader        )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream,              () => WavWishes.Write         (bin.DestStream,   x.Immutable.WavHeader        )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter,            () => WavWishes.Write         (bin.BinaryWriter, x.Immutable.WavHeader        )), ForBinaryWriter, test);
-        }
-        
-        [TestMethod]
-        [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_BuffBound(string caseKey)
-        {
-            Case test = Cases[caseKey];
-            
-            TestEntities entities = CreateEntities(test);
-            AssertInvariant(entities, test);
-            
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => entities.BuffBound.Buff           .WriteWavHeader(bin.DestFilePath )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => entities.BuffBound.Buff           .WriteWavHeader(bin.DestBytes    )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => entities.BuffBound.Buff           .WriteWavHeader(bin.DestStream   )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => entities.BuffBound.Buff           .WriteWavHeader(bin.BinaryWriter )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => entities.BuffBound.AudioFileOutput.WriteWavHeader(bin.DestFilePath )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => entities.BuffBound.AudioFileOutput.WriteWavHeader(bin.DestBytes    )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => entities.BuffBound.AudioFileOutput.WriteWavHeader(bin.DestStream   )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => entities.BuffBound.AudioFileOutput.WriteWavHeader(bin.BinaryWriter )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => bin.DestFilePath.WriteWavHeader(entities.BuffBound.Buff            )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => bin.DestBytes   .WriteWavHeader(entities.BuffBound.Buff            )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => bin.DestStream  .WriteWavHeader(entities.BuffBound.Buff            )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => bin.BinaryWriter.WriteWavHeader(entities.BuffBound.Buff            )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => bin.DestFilePath.WriteWavHeader(entities.BuffBound.AudioFileOutput )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => bin.DestBytes   .WriteWavHeader(entities.BuffBound.AudioFileOutput )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => bin.DestStream  .WriteWavHeader(entities.BuffBound.AudioFileOutput )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => bin.BinaryWriter.WriteWavHeader(entities.BuffBound.AudioFileOutput )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.DestBytes   )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.DestStream  )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestBytes   )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestStream  )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => WriteWavHeader(bin.DestFilePath, entities.BuffBound.Buff           )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => WriteWavHeader(bin.DestBytes,    entities.BuffBound.Buff           )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => WriteWavHeader(bin.DestStream,   entities.BuffBound.Buff           )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => WriteWavHeader(bin.BinaryWriter, entities.BuffBound.Buff           )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => WriteWavHeader(bin.DestFilePath, entities.BuffBound.AudioFileOutput)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => WriteWavHeader(bin.DestBytes,    entities.BuffBound.AudioFileOutput)), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => WriteWavHeader(bin.DestStream,   entities.BuffBound.AudioFileOutput)), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => WriteWavHeader(bin.BinaryWriter, entities.BuffBound.AudioFileOutput)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.DestBytes   )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.DestStream  )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WriteWavHeader(entities.BuffBound.Buff,            bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestBytes   )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestStream  )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => WriteWavHeader(bin.DestFilePath, entities.BuffBound.Buff           )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => WriteWavHeader(bin.DestBytes,    entities.BuffBound.Buff           )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => WriteWavHeader(bin.DestStream,   entities.BuffBound.Buff           )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => WriteWavHeader(bin.BinaryWriter, entities.BuffBound.Buff           )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => WriteWavHeader(bin.DestFilePath, entities.BuffBound.AudioFileOutput)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => WriteWavHeader(bin.DestBytes,    entities.BuffBound.AudioFileOutput)), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => WriteWavHeader(bin.DestStream,   entities.BuffBound.AudioFileOutput)), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => WriteWavHeader(bin.BinaryWriter, entities.BuffBound.AudioFileOutput)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WavWishes.WriteWavHeader(entities.BuffBound.Buff,            bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WavWishes.WriteWavHeader(entities.BuffBound.Buff,            bin.DestBytes   )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WavWishes.WriteWavHeader(entities.BuffBound.Buff,            bin.DestStream  )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.Buff           , () => WavWishes.WriteWavHeader(entities.BuffBound.Buff,            bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestBytes   )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.DestStream  )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(entities.BuffBound.AudioFileOutput, () => WavWishes.WriteWavHeader(entities.BuffBound.AudioFileOutput, bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => WavWishes.WriteWavHeader(bin.DestFilePath, entities.BuffBound.Buff           )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => WavWishes.WriteWavHeader(bin.DestBytes,    entities.BuffBound.Buff           )), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => WavWishes.WriteWavHeader(bin.DestStream,   entities.BuffBound.Buff           )), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => WavWishes.WriteWavHeader(bin.BinaryWriter, entities.BuffBound.Buff           )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath                  , () => WavWishes.WriteWavHeader(bin.DestFilePath, entities.BuffBound.AudioFileOutput)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes                     , () => WavWishes.WriteWavHeader(bin.DestBytes,    entities.BuffBound.AudioFileOutput)), ForDestBytes   , test);
-            AssertWrite(bin => AreEqual(bin.DestStream                    , () => WavWishes.WriteWavHeader(bin.DestStream,   entities.BuffBound.AudioFileOutput)), ForDestStream  , test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter                  , () => WavWishes.WriteWavHeader(bin.BinaryWriter, entities.BuffBound.AudioFileOutput)), ForBinaryWriter, test);
         }
         
         [TestMethod]
@@ -1611,7 +1609,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
             else AssertBits(test.Bits); // ncrunch: no coverage
         }
-        
+
         [TestMethod]
         public void WriteWavHeader_Test_WithConfigSection()
         {
