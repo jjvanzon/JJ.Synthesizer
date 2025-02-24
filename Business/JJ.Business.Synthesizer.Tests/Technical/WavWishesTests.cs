@@ -25,6 +25,7 @@ using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
+using static JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer
@@ -866,7 +867,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_Extensions_EntityFirst(string caseKey)
+        public void WriteWavHeader_Test_Extensions_EntityThenStreamy(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -933,7 +934,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_Extensions_StreamyFirst(string caseKey)
+        public void WriteWavHeader_Test_Extensions_StreamyThenEntity(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -1000,7 +1001,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_ShortStatic_EntityFirst(string caseKey)
+        public void WriteWavHeader_Test_ShortStatic_EntityThenStreamy(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -1067,7 +1068,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_ShortStatic_StreamyFirst(string caseKey)
+        public void WriteWavHeader_Test_ShortStatic_StreamyThenEntity(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -1134,7 +1135,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_Static_EntityFirst(string caseKey)
+        public void WriteWavHeader_Test_LongStatic_EntityThenStreamy(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -1201,7 +1202,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_Static_StreamyFirst(string caseKey)
+        public void WriteWavHeader_Test_LongStatic_StreamyThenEntity(string caseKey)
         {
             Case test = Cases[caseKey];
             TestEntities x = CreateEntities(test);
@@ -1268,11 +1269,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         [TestMethod]
         [DynamicData(nameof(InvariantCases))]
-        public void WriteWavHeader_Test_WithLooseValues(string caseKey)
+        public void WriteWavHeader_Test_Extensions_TupleThenStreamy(string caseKey)
         {
             Case test = Cases[caseKey];
-            int frameCount = test.FrameCount;
-            
             TestEntities entities = CreateEntities(test);
             var x = entities.Immutable;
             AssertInvariant(entities, test);
@@ -1293,6 +1292,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => x.InfoTupleWithEntities.WriteWavHeader(bin.DestBytes    )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => x.InfoTupleWithEntities.WriteWavHeader(bin.DestStream   )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => x.InfoTupleWithEntities.WriteWavHeader(bin.BinaryWriter )), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_Extensions_StreamyThenTuple(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            AssertInvariant(entities, test);
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath       , () => bin.DestFilePath.WriteWavHeader(x.InfoTupleWithInts     )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => bin.DestBytes   .WriteWavHeader(x.InfoTupleWithInts     )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => bin.DestStream  .WriteWavHeader(x.InfoTupleWithInts     )), ForDestStream,   test);
@@ -1309,38 +1320,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => bin.DestBytes   .WriteWavHeader(x.InfoTupleWithEntities )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => bin.DestStream  .WriteWavHeader(x.InfoTupleWithEntities )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter       , () => bin.BinaryWriter.WriteWavHeader(x.InfoTupleWithEntities )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.DestBytes   )), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.DestStream  )), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.DestBytes   )), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.DestStream  )), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.DestBytes   )), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.DestStream  )), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.DestFilePath)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.DestBytes   )), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.DestStream  )), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.BinaryWriter)), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithInts    )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithInts    )), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithInts    )), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithInts    )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithType    )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithType    )), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithType    )), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithType    )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithEnums   )), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithEnums   )), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithEnums   )), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithEnums   )), ForBinaryWriter, test);
-            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithEntities)), ForDestFilePath, test);
-            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithEntities)), ForDestBytes,    test);
-            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithEntities)), ForDestStream,   test);
-            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithEntities)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_Extensions_StreamyThenValues(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            AssertInvariant(entities, test);
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath       , () => bin.DestFilePath.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => bin.DestBytes   .WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => bin.DestStream  .WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestStream,   test);
@@ -1357,6 +1348,71 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => bin.DestBytes   .WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => bin.DestStream  .WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter       , () => bin.BinaryWriter.WriteWavHeader( x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_ShortStatic_TuplesThenStreamy(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            
+            AssertInvariant(entities, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.DestFilePath)), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.DestBytes   )), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.DestStream  )), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WriteWavHeader(x.InfoTupleWithInts    , bin.BinaryWriter)), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.DestFilePath)), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.DestBytes   )), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.DestStream  )), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithType    , () => WriteWavHeader(x.InfoTupleWithType    , bin.BinaryWriter)), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.DestFilePath)), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.DestBytes   )), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.DestStream  )), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEnums   , () => WriteWavHeader(x.InfoTupleWithEnums   , bin.BinaryWriter)), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.DestFilePath)), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.DestBytes   )), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.DestStream  )), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WriteWavHeader(x.InfoTupleWithEntities, bin.BinaryWriter)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_ShortStatic_StreamyThenTuples(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            
+            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithInts    )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithInts    )), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithInts    )), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithInts    )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithType    )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithType    )), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithType    )), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithType    )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithEnums   )), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithEnums   )), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithEnums   )), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithEnums   )), ForBinaryWriter, test);
+            AssertWrite(bin => AreEqual(bin.DestFilePath,        () => WriteWavHeader(bin.DestFilePath, x.InfoTupleWithEntities)), ForDestFilePath, test);
+            AssertWrite(bin => AreEqual(bin.DestBytes,           () => WriteWavHeader(bin.DestBytes   , x.InfoTupleWithEntities)), ForDestBytes,    test);
+            AssertWrite(bin => AreEqual(bin.DestStream,          () => WriteWavHeader(bin.DestStream  , x.InfoTupleWithEntities)), ForDestStream,   test);
+            AssertWrite(bin => AreEqual(bin.BinaryWriter,        () => WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithEntities)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_ShortStatic_StreamyThenValues(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath       , () => WriteWavHeader(bin.DestFilePath, x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => WriteWavHeader(bin.DestBytes   , x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => WriteWavHeader(bin.DestStream  , x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestStream,   test);
@@ -1373,6 +1429,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => WriteWavHeader(bin.DestBytes   , x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => WriteWavHeader(bin.DestStream  , x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter       , () => WriteWavHeader(bin.BinaryWriter, x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_ShortStatic_ValuesThenStreamy(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            
             AssertWrite(bin => WriteWavHeader(x.Bits,               x.Channels,         x.SamplingRate, frameCount,  bin.DestFilePath), ForDestFilePath, test);
             AssertWrite(bin => WriteWavHeader(x.Bits,               x.Channels,         x.SamplingRate, frameCount,  bin.DestBytes   ), ForDestBytes,    test);
             AssertWrite(bin => WriteWavHeader(x.Bits,               x.Channels,         x.SamplingRate, frameCount,  bin.DestStream  ), ForDestStream,   test);
@@ -1389,6 +1456,17 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => WriteWavHeader(x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount,  bin.DestBytes   ), ForDestBytes,    test);
             AssertWrite(bin => WriteWavHeader(x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount,  bin.DestStream  ), ForDestStream,   test);
             AssertWrite(bin => WriteWavHeader(x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount,  bin.BinaryWriter), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_LongStatic_TuplesThenStreamy(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            AssertInvariant(entities, test);
+            
             AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WavWishes.WriteWavHeader(x.InfoTupleWithInts    , bin.DestFilePath)), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WavWishes.WriteWavHeader(x.InfoTupleWithInts    , bin.DestBytes   )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.InfoTupleWithInts    , () => WavWishes.WriteWavHeader(x.InfoTupleWithInts    , bin.DestStream  )), ForDestStream,   test);
@@ -1405,6 +1483,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WavWishes.WriteWavHeader(x.InfoTupleWithEntities, bin.DestBytes   )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WavWishes.WriteWavHeader(x.InfoTupleWithEntities, bin.DestStream  )), ForDestStream,   test);
             AssertWrite(bin => AreEqual(x.InfoTupleWithEntities, () => WavWishes.WriteWavHeader(x.InfoTupleWithEntities, bin.BinaryWriter)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_LongStatic_StreamyThenTuples(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            AssertInvariant(entities, test);
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath       , () => WavWishes.WriteWavHeader(bin.DestFilePath, x.InfoTupleWithInts    )), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => WavWishes.WriteWavHeader(bin.DestBytes,    x.InfoTupleWithInts    )), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => WavWishes.WriteWavHeader(bin.DestStream,   x.InfoTupleWithInts    )), ForDestStream,   test);
@@ -1421,6 +1511,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => WavWishes.WriteWavHeader(bin.DestBytes,    x.InfoTupleWithEntities)), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => WavWishes.WriteWavHeader(bin.DestStream,   x.InfoTupleWithEntities)), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter       , () => WavWishes.WriteWavHeader(bin.BinaryWriter, x.InfoTupleWithEntities)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_LongStatic_StreamyThenValues(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            AssertInvariant(entities, test);
+            
             AssertWrite(bin => AreEqual(bin.DestFilePath       , () => WavWishes.WriteWavHeader(bin.DestFilePath,  x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestFilePath, test);
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => WavWishes.WriteWavHeader(bin.DestBytes,     x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => WavWishes.WriteWavHeader(bin.DestStream,    x.Bits,               x.Channels,         x.SamplingRate, frameCount)), ForDestStream,   test);
@@ -1437,6 +1539,18 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertWrite(bin => AreEqual(bin.DestBytes          , () => WavWishes.WriteWavHeader(bin.DestBytes,     x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestBytes,    test);
             AssertWrite(bin => AreEqual(bin.DestStream         , () => WavWishes.WriteWavHeader(bin.DestStream,    x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForDestStream,   test);
             AssertWrite(bin => AreEqual(bin.BinaryWriter       , () => WavWishes.WriteWavHeader(bin.BinaryWriter,  x.SampleDataType,     x.SpeakerSetup,     x.SamplingRate, frameCount)), ForBinaryWriter, test);
+        }
+        
+        [TestMethod]
+        [DynamicData(nameof(InvariantCases))]
+        public void WriteWavHeader_Test_LongStatic_ValuesThenStreamy(string caseKey)
+        {
+            Case test = Cases[caseKey];
+            int frameCount = test.FrameCount;
+            TestEntities entities = CreateEntities(test);
+            var x = entities.Immutable;
+            AssertInvariant(entities, test);
+            
             AssertWrite(bin => WavWishes.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount,  bin.DestFilePath), ForDestFilePath, test);
             AssertWrite(bin => WavWishes.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount,  bin.DestBytes   ), ForDestBytes,    test);
             AssertWrite(bin => WavWishes.WriteWavHeader( x.Bits,               x.Channels,         x.SamplingRate, frameCount,  bin.DestStream  ), ForDestStream,   test);
