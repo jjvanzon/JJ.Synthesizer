@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Reflection;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
@@ -203,7 +204,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             // Report
             string report = GetSynthLogOld(buff, calculationDuration);
-            Log(report);
+            Static.Log(report);
             
             return buff;
         }
@@ -246,7 +247,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                     throw new Exception($"Value not supported: {GetText(() => channelSignals.Count)} = {GetValue(() => channelSignals.Count)}");
             }
             
-            LogAction(audioFileOutput, "Create");
+            synthWishes.LogAction(audioFileOutput, "Create");
             
             return audioFileOutput;
         }
@@ -254,6 +255,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         [Obsolete(ObsoleteMessage)]
         public static void ApplyPaddingOld(SynthWishes synthWishes, IList<FlowNode> channelSignals)
         {
+            if (synthWishes    == null) throw new NullException(() => synthWishes);
+            if (channelSignals == null) throw new NullException(() => channelSignals);
+            
             FlowNode leadingSilence = synthWishes.GetLeadingSilence;
             FlowNode trailingSilence = synthWishes.GetTrailingSilence;
             
@@ -262,7 +266,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 return;
             }
             
-            Log($"{PrettyTime()} Pad: {leadingSilence} s before | {trailingSilence} s after");
+            synthWishes.Log($"{PrettyTime()} Pad: {leadingSilence} s before | {trailingSilence} s after");
             
             FlowNode originalAudioLength = synthWishes.GetAudioLength;
             
@@ -272,7 +276,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             FlowNode newAudioLength = synthWishes.GetAudioLength;
             
-            Log(
+            synthWishes.Log(
                 $"{PrettyTime()} Pad: AudioLength = {originalAudioLength} + " +
                 $"{leadingSilence} + {trailingSilence} = {newAudioLength}");
 
@@ -285,6 +289,9 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         [Obsolete(ObsoleteMessage)]
         public static FlowNode ApplyPaddingDelayOld(SynthWishes synthWishes, FlowNode outlet)
         {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            if (outlet      == null) throw new NullException(() => outlet);
+            
             FlowNode leadingSilence = synthWishes.GetLeadingSilence;
             
             if (leadingSilence.Value == 0)
@@ -293,7 +300,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             }
             else
             {
-                Log($"{PrettyTime()} Pad: Channel Delay + {leadingSilence} s");
+                synthWishes.Log($"{PrettyTime()} Pad: Channel Delay + {leadingSilence} s");
                 return synthWishes.Delay(outlet, leadingSilence);
             }
         }
@@ -351,7 +358,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             
             var channelSignals = synthWishes.GetChannelSignals(func);
 
-            LogConfig(synthWishes);
+            synthWishes.LogConfig();
             
             return synthWishes.MakeBuffLegacy(
                 channelSignals, duration, inMemory, mustPad, 
@@ -387,7 +394,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             dummyTape.FallbackName = name;
             dummyTape.FilePathSuggested = filePath;
 
-            LogAction(dummyTape, "Create", "AudioFileOutput Dummy");
+            synthWishes.LogAction(dummyTape, "Create", "AudioFileOutput Dummy");
             
             return synthWishes.ConfigureAudioFileOutput(dummyTape);
         }

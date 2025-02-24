@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Media;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.IO.Path;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -32,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (!mustPlay)
             {
-                LogWishes.Log("  ⚠ Audio disabled");
+                synthWishes.Log("  ⚠ Audio disabled");
             }
 
             if (mustPlay)
@@ -61,51 +62,58 @@ namespace JJ.Business.Synthesizer.Wishes
         
         internal static TapeAction InternalPlay(SynthWishes synthWishes, TapeAction action)
         {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-            LogAction(action);
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            if (action == null) throw new NullException(() => action);
+            synthWishes.LogAction(action);
             InternalPlayBase(synthWishes, action.Tape.FilePathResolved, action.Tape.Bytes, action.Tape.Config.AudioFormat.FileExtension());
             return action;
         }
 
         internal static Tape InternalPlay(SynthWishes synthWishes, Tape tape)
         {
-            if (tape == null) throw new ArgumentNullException(nameof(tape));
-            LogAction(tape, nameof(Play));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            if (tape == null) throw new NullException(() => tape);
+            synthWishes.LogAction(tape, nameof(Play));
             InternalPlayBase(synthWishes, tape.FilePathResolved, tape.Bytes, tape.Config.AudioFormat.FileExtension());
             return tape;
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, Buff buff)
         {
-            if (buff == null) throw new ArgumentNullException(nameof(buff));
-            LogAction(buff, nameof(Play));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            if (buff == null) throw new NullException(() => buff);
+            synthWishes.LogAction(buff, nameof(Play));
             InternalPlayBase(synthWishes, buff.FilePath, buff.Bytes);
             return buff;
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, AudioFileOutput entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogAction(entity, nameof(Play));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            if (entity == null) throw new NullException(() => entity);
+            synthWishes.LogAction(entity, nameof(Play));
             return InternalPlayBase(synthWishes, entity.FilePath, null, entity.FileExtension());
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, Sample entity)
         {
-            if (entity == null) throw new ArgumentNullException(nameof(entity));
-            LogAction(entity, nameof(Play));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            if (entity == null) throw new NullException(() => entity);
+            synthWishes.LogAction(entity, nameof(Play));
             return InternalPlayBase(synthWishes, entity.Location, entity.Bytes, entity.FileExtension());
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, byte[] bytes)
         {
-            LogAction("Memory", nameof(Play));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.LogAction("Memory", nameof(Play));
             return InternalPlayBase(synthWishes, null, bytes);
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
         {
-            LogAction("File", nameof(Play));
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.LogAction("File", nameof(Play));
             return InternalPlayBase(synthWishes, filePath, null, GetExtension(filePath));
         }
         // Play (Mid-Chain)

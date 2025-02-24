@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (action == null) throw new NullException(() => action);
-            LogAction(action);
+            action.Tape.SynthWishes.LogAction(action);
             InternalSave(action.Tape.Buff, action.GetFilePath(filePath, callerMemberName), callerMemberName);
             return action;
         }
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new NullException(() => tape);
-            LogAction(tape, MemberName());
+            tape.SynthWishes.LogAction(tape, MemberName());
             string filePathResolved = tape.GetFilePath(filePath, callerMemberName);
             InternalSave(tape.Buff, filePathResolved, callerMemberName);
             return tape;
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
-            LogAction(buff, MemberName());
+            Static.LogAction(buff, MemberName());
             string filePathResolved = ResolveFilePath(buff.AudioFormat(), filePath, callerMemberName); // Resolve to use AudioFormat
             buff.FilePath = InternalSave(buff, filePathResolved, callerMemberName);
             return buff;
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             
-            LogAction(audioFileOutput, MemberName());
+            Static.LogAction(audioFileOutput, MemberName());
             
             if (Exists(audioFileOutput.FilePath))
             {
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            LogAction(sample, MemberName());
+            Static.LogAction(sample, MemberName());
             string resolvedFilePath = ResolveFilePath(sample.AudioFormat(), filePath, ResolveName(sample, callerMemberName));
             return sample.Location = InternalSave(sample.Bytes, resolvedFilePath, callerMemberName);
         }
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            LogAction("Memory", MemberName());
+            Static.LogAction("Memory", MemberName());
             return InternalSave(bytes, filePath, callerMemberName);
         }
         
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string sourceFilePath, 
             string destFilePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            LogAction("File", MemberName());
+            Static.LogAction("File", MemberName());
             return InternalSave(sourceFilePath, destFilePath, callerMemberName);
         }
         
@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 fileStream.Write(bytes, 0, bytes.Length);
             }
 
-            LogWishes.LogOutputFile(numberedDestFilePath);
+            Static.LogOutputFile(numberedDestFilePath);
             
             return numberedDestFilePath;
         }
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sourceStream.CopyTo(destStream);
             }
             
-            LogWishes.LogOutputFile(numberedDestFilePath, sourceFilePath);
+            Static.LogOutputFile(numberedDestFilePath, sourceFilePath);
             
             return numberedDestFilePath;
         }

@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 WithInterpolation(interpolation);
                 WithAudioFormat(audioFormat);
                 WithSamplingRate(samplingRate);
-                LogConfig("", this);
+                LogConfig("");
             }
             
             WithAudioLength(signalDuration);

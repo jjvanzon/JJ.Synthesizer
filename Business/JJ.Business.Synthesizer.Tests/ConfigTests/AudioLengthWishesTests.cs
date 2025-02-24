@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -504,36 +505,38 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void LogTolerance(TestEntities x, double audioLength, string title = null)
         {
-            if (Has(title)) LogTitleStrong(title);
+            var synthWishes = x.SynthBound.SynthWishes;
+            
+            if (Has(title)) x.SynthBound.SynthWishes.LogTitleStrong(title);
             
             double tolerance = ToleranceByPercent(audioLength, _tolerancePercent);
             
-            LogTolerance(audioLength, x.Independent.AudioFileInfo.AudioLength(), tolerance, "audioFileInfo.AudioLength()");
-            LogTolerance(audioLength, x.Independent.AudioInfoWish.AudioLength(), tolerance, "audioInfoWish.AudioLength()");
-            LogTolerance(audioLength, x.Immutable  .WavHeader    .AudioLength(), tolerance,     "wavHeader.AudioLength()");
-            LogTolerance(audioLength, x.Independent.Sample       .AudioLength(), tolerance,        "sample.AudioLength()");
+            LogTolerance(synthWishes, audioLength, x.Independent.AudioFileInfo.AudioLength(), tolerance, "audioFileInfo.AudioLength()");
+            LogTolerance(synthWishes, audioLength, x.Independent.AudioInfoWish.AudioLength(), tolerance, "audioInfoWish.AudioLength()");
+            LogTolerance(synthWishes, audioLength, x.Immutable  .WavHeader    .AudioLength(), tolerance,     "wavHeader.AudioLength()");
+            LogTolerance(synthWishes, audioLength, x.Independent.Sample       .AudioLength(), tolerance,        "sample.AudioLength()");
         }
 
-        private static void LogTolerance(double expected, double actual, double tolerance, string title)
+        private static void LogTolerance(SynthWishes synthWishes, double expected, double actual, double tolerance, string title)
         {
             double toleranceRequired        = actual - expected;
             double tolerancePercent         = (expected + tolerance) / expected * 100 - 100;
             double tolerancePercentRequired = actual                 / expected * 100 - 100;
-                
-            LogTitle(title);
-            Log();
-            Log($"expected = {expected}");
-            Log($"  actual = {actual}");
-            Log();
-            Log("Tolerance:" );
-            Log();
-            Log($"    used = {tolerance:0.0000####}");
-            Log($"required = {toleranceRequired:0.0000####}");
-            Log();
-            Log();
-            Log($"    used = {tolerancePercent:0.###}%");
-            Log($"required = {tolerancePercentRequired:0.###}%");
-            Log();
+            
+            synthWishes.LogTitle(title);
+            synthWishes.Log();
+            synthWishes.Log($"expected = {expected}");
+            synthWishes.Log($"  actual = {actual}");
+            synthWishes.Log();
+            synthWishes.Log("Tolerance:" );
+            synthWishes.Log();
+            synthWishes.Log($"    used = {tolerance:0.0000####}");
+            synthWishes.Log($"required = {toleranceRequired:0.0000####}");
+            synthWishes.Log();
+            synthWishes.Log();
+            synthWishes.Log($"    used = {tolerancePercent:0.###}%");
+            synthWishes.Log($"required = {tolerancePercentRequired:0.###}%");
+            synthWishes.Log();
         }
  
         // Test Data Helpers

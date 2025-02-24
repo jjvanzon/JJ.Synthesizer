@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void Intercept(TapeAction action)
         {
             action.Callback(action.Tape);
-            LogAction(action);
+            action.SynthWishes.LogAction(action);
         }
     }
 

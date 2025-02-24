@@ -69,7 +69,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Config = new ConfigResolver();
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
-            _logger = CreateLogger();
             
             _ = this;
             bar = new BarIndexer(this);
@@ -127,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             RunChannelSignals(action);
 
-            LogConfig(this);
+            LogConfig();
             
             if (GetParallelProcessing)
             {

@@ -35,9 +35,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             Parallel.For(0, count, i =>
             {
-                LogAction(stereoTapes[i], "Start");
+                _synthWishes.LogAction(stereoTapes[i], "Start");
                 _synthWishes.Record(stereoTapes[i]);
-                LogAction(stereoTapes[i], "Stop");
+                _synthWishes.LogAction(stereoTapes[i], "Stop");
             });
             
             return stereoTapes;
@@ -55,7 +55,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             Tape stereoTape = CloneStereoTape(tapePair.Left);
             stereoTape.SetSignals(RecombineSignals(tapePair));
-            LogAction(stereoTape, "Create", "Stereo Recombined");
+            _synthWishes.LogAction(stereoTape, "Create", "Stereo Recombined");
             return stereoTape;
         }
         

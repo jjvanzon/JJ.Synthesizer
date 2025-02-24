@@ -30,39 +30,74 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        //private const bool DefaultLoggingEnabled = true;
+        private LogWishes _logWishes = new LogWishes();
+
+        public SynthWishes WithLogging(bool enabled = true) { _logWishes.LoggingEnabled = enabled; return this; }
         
-        private ILogger _logger;
+        // Basics
         
-        private ILogger CreateLogger() => CreateLoggerFromConfig(Config.LoggerConfig);
+        public void Log           (string message = null)                         => _logWishes.Log(message);
+        public void LogTitleStrong(string title)                                  => _logWishes.LogTitleStrong(title);
+        public void LogTitle      (string title)                                  => _logWishes.LogTitle(title);
+        public void LogOutputFile (string filePath, string sourceFilePath = null) => _logWishes.LogOutputFile(filePath, sourceFilePath);
         
-        private bool _loggingEnabled; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
+        // Config
         
-        public SynthWishes WithLogging(bool enabled = true) { _loggingEnabled = enabled; return this; }
-            
-        public void Log(string message = null)
-        {
-            if (!_loggingEnabled) return;
-            LogWishes.Log(_logger, message);
-        }
+        public void LogConfig     ()                                              => _logWishes.LogConfig(this);
+        public void LogConfig     (string title, string sep = default)            => _logWishes.LogConfig(title, this, sep);
+     
+        // Actions
         
-        public void LogTitleStrong(string title)
-        {
-            if (!_loggingEnabled) return;
-            LogWishes.LogTitleStrong(_logger, title);
-        }
+        internal void LogAction(TapeAction      action,   string message                             = null) => _logWishes.LogAction(action, message);
+        internal void LogAction(Tape            entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
+        internal void LogAction(Buff            entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
+        internal void LogAction(Sample          entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
+        internal void LogAction(AudioFileOutput entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
+        internal void LogAction(FlowNode        entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
+        public   void LogAction(object          entity,   string action, string name, string message = null) => _logWishes.LogAction(entity, action, name, message);
+        internal void LogAction(string          typeName, string message)                                    => _logWishes.LogAction(typeName, message);
+        internal void LogAction(string          typeName, string action, string message)                     => _logWishes.LogAction(typeName, action, message);
+        internal void LogAction(string          typeName, string action, string objectName, string message)  => _logWishes.LogAction(typeName, action, objectName, message);
         
-        public void LogTitle(string title)
-        {
-            if (!_loggingEnabled) return;
-            LogWishes.LogTitle(_logger, title);
-        }
+        // Math
         
-        public void LogOutputFile(string filePath, string sourceFilePath = null)
-        {
-            if (!_loggingEnabled) return;
-            LogWishes.LogOutputFile(_logger, filePath, sourceFilePath);
-        }
+        internal void LogMathBoostTitle(bool mathBoost) => _logWishes.LogMathBoostTitle(mathBoost);
+        internal void LogMathBoostDone(bool mathBoost) => _logWishes.LogMathBoostDone(mathBoost);
+        
+        internal void LogComputeConstant(
+            FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
+            [CallerMemberName] string opName = null) => _logWishes.LogComputeConstant(a, mathSymbol, b, result, opName);
+        
+        internal void LogIdentityOperation(
+            FlowNode a, string mathSymbol, FlowNode identityValue,
+            [CallerMemberName] string opName = null) => _logWishes.LogIdentityOperation(a, mathSymbol, identityValue, opName);
+        
+        internal void LogIdentityOperation(
+            FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
+            [CallerMemberName] string opName = null) => _logWishes.LogIdentityOperation(signal, dimension, mathSymbol, transform, opName);
+        
+        internal void LogAlwaysOneOptimization(
+            FlowNode a, string mathSymbol, FlowNode b,
+            [CallerMemberName] string opName = null) => _logWishes.LogAlwaysOneOptimization(a, mathSymbol, b, opName);
+        
+        internal void LogAlwaysOneOptimization(
+            FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
+            [CallerMemberName] string opName = null) => _logWishes.LogAlwaysOneOptimization(signal, dimension, mathSymbol, transform, opName);
+        
+        internal void LogInvariance(
+            FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
+            [CallerMemberName] string opName = null) => _logWishes.LogInvariance(signal, dimension, mathSymbol, transform, opName);
+        
+        internal void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result) => _logWishes.LogDivisionByMultiplication(a, b, result);
+        internal void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter) => _logWishes.LogDistributeMultiplyOverAddition(formulaBefore, formulaAfter);
+        
+        internal void LogAdditionOptimizations(
+            IList<FlowNode> terms, IList<FlowNode> flattenedTerms, IList<FlowNode> optimizedTerms,
+            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null) => _logWishes.LogAdditionOptimizations(terms, flattenedTerms, optimizedTerms, consts, constant, opName);
+        
+        internal void LogMultiplicationOptimizations(
+            IList<FlowNode> factors, IList<FlowNode> optimizedFactors,
+            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null) => _logWishes.LogMultiplicationOptimizations(factors, optimizedFactors, consts, constant, opName);
     }
 
     public static class LogExtensions
@@ -124,21 +159,27 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public class LogWishes
     {
+        public static LogWishes Static { get; } = new LogWishes();
+
         // Basics
         
-        private static readonly ILogger _staticLogger = CreateLoggerFromConfig(ConfigResolver.Static.LoggerConfig);
-        
+        private readonly ILogger _logger = CreateLoggerFromConfig(ConfigResolver.Static.LoggerConfig);
+
+            
+        public bool LoggingEnabled { get; set; } = true; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
+
         // NOTE: All the threading, locking and flushing helped
         // Test Explorer in Visual Studio 2022
         // avoid mangling blank lines, for the most part.
         
-        private static readonly object _logLock = new object();
-        
-        private static readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
+        private readonly object _logLock = new object();
+        private readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
 
-        public static void Log(string message = default) => Log(_staticLogger, message);
-        public static void Log(ILogger logger, string message = default)
+        //public void Log(string message = default) => Log(_staticLogger, message);
+        public void Log(string message = default)
         {
+            if (!LoggingEnabled) return;
+            
             lock (_logLock)
             {
                 message = message ?? "";
@@ -159,32 +200,32 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 _blankLinePending.Value = EndsWithBlankLine(message);
 
-                logger.Log(message.TrimEnd());
+                _logger.Log(message.TrimEnd());
             }
         }
                 
-        public static void LogTitleStrong(string title) => LogTitleStrong(_staticLogger, title);
-        public static void LogTitleStrong(ILogger logger, string title)
+        //public void LogTitleStrong(string title) => LogTitleStrong(_staticLogger, title);
+        public void LogTitleStrong(string title)
         {
             string upperCase = (title ?? "").ToUpper();
             
-            Log(logger);
-            Log(logger, PrettyTitle(upperCase, underlineChar: '='));
-            Log(logger);
+            Log();
+            Log(PrettyTitle(upperCase, underlineChar: '='));
+            Log();
         }
 
-        public static void LogTitle(string title) => LogTitle(_staticLogger, title);
-        public static void LogTitle(ILogger logger, string title)
+        //public void LogTitle(string title) => LogTitle(_staticLogger, title);
+        public void LogTitle(string title)
         {
-            Log(logger);
-            Log(logger, PrettyTitle(title));
-            Log(logger);
+            Log();
+            Log(PrettyTitle(title));
+            Log();
         }
         
-        internal static void LogOutputFile(string filePath, string sourceFilePath = null) => LogOutputFile(_staticLogger, filePath, sourceFilePath);
-        internal static void LogOutputFile(ILogger logger, string filePath, string sourceFilePath = null)
+        //internal void LogOutputFile(string filePath, string sourceFilePath = null) => LogOutputFile(_staticLogger, filePath, sourceFilePath);
+        internal void LogOutputFile(string filePath, string sourceFilePath = null)
         {
-            Log(logger, FormatOutputFile(filePath, sourceFilePath));
+            Log(FormatOutputFile(filePath, sourceFilePath));
         }
 
         internal static string FormatOutputFile(string filePath, string sourceFilePath = null)
@@ -464,21 +505,21 @@ namespace JJ.Business.Synthesizer.Wishes
             return descriptor;
         }
         
-        public static void LogConfig(SynthWishes synthWishes) 
+        public void LogConfig(SynthWishes synthWishes) 
         {
             Log();
             Log(ConfigLog(synthWishes));
             Log();
         }
         
-        public static void LogConfig(SynthWishes synthWishes, string sep) 
+        public void LogConfig(SynthWishes synthWishes, string sep) 
         {
             Log();
             Log(ConfigLog(synthWishes, sep));
             Log();
         }
         
-        public static void LogConfig(string title, SynthWishes synthWishes, string sep = default) 
+        public void LogConfig(string title, SynthWishes synthWishes, string sep = default) 
         {
             Log();
             Log(ConfigLog(title, synthWishes, sep));
@@ -1038,55 +1079,55 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Actions
 
-        internal static void LogAction(TapeAction action, string message = null)
+        internal void LogAction(TapeAction action, string message = null)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             Log(ActionMessage("Action", action.Type, action.Tape.Descriptor(), message));
         }
         
-        internal static void LogAction(Tape entity, string action, string message = null)
+        internal void LogAction(Tape entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Tape), action, entity.Descriptor(), message));
         }
 
-        internal static void LogAction(Buff entity, string action, string message = null)
+        internal void LogAction(Buff entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Buff), action, entity.Name, message));
         }
 
-        internal static void LogAction(Sample entity, string action, string message = null)
+        internal void LogAction(Sample entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Sample), action, entity.Name, message ?? ConfigLog(entity)));
         }
 
-        internal static void LogAction(AudioFileOutput entity, string action, string message = null)
+        internal void LogAction(AudioFileOutput entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage("Audio File Out", action, entity.Name, message ?? ConfigLog(entity)));
         }
         
-        internal static void LogAction(FlowNode entity, string action, string message = null)
+        internal void LogAction(FlowNode entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Operator), action, entity.Name, message));
         }
         
-        public static void LogAction(object entity, string action, string name, string message = null)
+        public void LogAction(object entity, string action, string name, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(entity.GetType().Name, action, name, message));
         }
 
-        internal static void LogAction(string typeName, string message) 
+        internal void LogAction(string typeName, string message) 
             => Log(ActionMessage(typeName, null, null, message));
         
-        internal static void LogAction(string typeName, string action, string message) 
+        internal void LogAction(string typeName, string action, string message) 
             => Log(ActionMessage(typeName, action, null, message));
         
-        internal static void LogAction(string typeName, string action, string objectName, string message) 
+        internal void LogAction(string typeName, string action, string objectName, string message) 
             => Log(ActionMessage(typeName, action, objectName, message));
 
         public static string ActionMessage(string typeName, ActionEnum action, string objectName, string message)
@@ -1141,57 +1182,57 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Math Boost
 
-        internal static void LogMathBoostTitle(bool mathBoost)
+        internal void LogMathBoostTitle(bool mathBoost)
         {
             if (!mathBoost) return;
             LogTitle("Math Boost");
         }
         
-        internal static void LogMathBoostDone(bool mathBoost)
+        internal void LogMathBoostDone(bool mathBoost)
         {
             if (!mathBoost) return;
             //LogLine("Done");
         }
 
-        internal static void LogComputeConstant(
+        internal void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
             [CallerMemberName] string opName = null)
             => Log(Pad("Compute const") + $" : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
         
-        internal static void LogIdentityOperation(
+        internal void LogIdentityOperation(
             FlowNode a, string mathSymbol, FlowNode identityValue,
             [CallerMemberName] string opName = null)
             => Log(Pad("Identity op") + $" : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
         
-        internal static void LogIdentityOperation(
+        internal void LogIdentityOperation(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
             => Log(Pad($"Identity op ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
-        internal static void LogAlwaysOneOptimization(
+        internal void LogAlwaysOneOptimization(
             FlowNode a, string mathSymbol, FlowNode b,
             [CallerMemberName] string opName = null)
             => Log(Pad("Always 1") + $" : {Stringify(opName, a, mathSymbol, b)} => 1");
         
-        internal static void LogAlwaysOneOptimization(
+        internal void LogAlwaysOneOptimization(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
             => Log(Pad($"Always 1 ({dimension})") + " : " +
                        $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
                        $"{Stringify(opName, signal, dimension, "=", 1)}");
         
-        internal static void LogInvariance(
+        internal void LogInvariance(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
             => Log(Pad($"Invariance ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
-        internal static void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result)
+        internal void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result)
             => Log(Pad("Div => mul") + $" : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
         
-        internal static void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter)
+        internal void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter)
             => Log(Pad("Distribute * over +") + $" : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
         
-        internal static void LogAdditionOptimizations(
+        internal void LogAdditionOptimizations(
             IList<FlowNode> terms, IList<FlowNode> flattenedTerms, IList<FlowNode> optimizedTerms,
             IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null)
         {
@@ -1228,7 +1269,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        internal static void LogMultiplicationOptimizations(
+        internal void LogMultiplicationOptimizations(
             IList<FlowNode> factors, IList<FlowNode> optimizedFactors,
             IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null)
         {

@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             tapes.Where(x => x.IsRoot).ForEach(x => Assert(x, "(Root)"));
 
-            Log(PlotTapeTree(tapes));
+            _synthWishes.Log(PlotTapeTree(tapes));
         }
         
         private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 {
                     waitCount++;
 
-                    LogAction(nameof(Tape), "No Leaf", "Wait ... " + waitCount);
+                    _synthWishes.LogAction(nameof(Tape), "No Leaf", "Wait ... " + waitCount);
                     bool triggered = _checkForNewLeavesReset.WaitOne(timeOutInMs);
                     if (!triggered)
                     {
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             Task.WaitAll(tasks);
 
-            LogAction(nameof(Tape), "Total Leaf Waits: " + waitCount);
+            _synthWishes.LogAction(nameof(Tape), "Total Leaf Waits: " + waitCount);
             return originalTapeCollection;
         }
         
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             try
             {
-                LogAction(tape, "Start", "Running ...");
+                _synthWishes.LogAction(tape, "Start", "Running ...");
                 
                 _versatileActionRunner.RunBeforeRecord(tape);
                 
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     }
                 }
                 
-                LogAction(tape, "Stop", "Checking Leaves ...");
+                _synthWishes.LogAction(tape, "Stop", "Checking Leaves ...");
             }
             finally
             {
@@ -168,11 +168,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             switch (timeOutAction)
             {
                 case Continue:
-                    Log(actionMessage);
+                    _synthWishes.Log(actionMessage);
                     break;
                     
                 case TimeOutActionEnum.Log:
-                    Log(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
+                    _synthWishes.Log(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
                     break;
                 
                 case Stop:
@@ -182,7 +182,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private void ExecutePostProcessing(Tape[] tapes)
         {
-            LogTitle("Post-Processing");
+            _synthWishes.LogTitle("Post-Processing");
             
             IList<Tape> relevantStereoChannelTapes
                 = tapes.Where(x => x.Config.IsStereo && x.Config.Channel.HasValue)

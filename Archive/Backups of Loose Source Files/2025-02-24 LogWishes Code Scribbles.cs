@@ -12,3 +12,9 @@
             {
                 tape.SynthWishes.Log(report);
             }
+
+        //private const bool DefaultLoggingEnabled = true;
+        
+        //private ILogger _logger;
+        
+        //private ILogger CreateLogger() => CreateLoggerFromConfig(Config.LoggerConfig);
