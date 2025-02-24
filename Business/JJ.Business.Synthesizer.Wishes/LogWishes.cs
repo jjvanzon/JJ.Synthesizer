@@ -36,68 +36,111 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Basics
         
-        public void Log           (string message = null)                         => _logWishes.Log(message);
-        public void LogTitleStrong(string title)                                  => _logWishes.LogTitleStrong(title);
-        public void LogTitle      (string title)                                  => _logWishes.LogTitle(title);
-        public void LogOutputFile (string filePath, string sourceFilePath = null) => _logWishes.LogOutputFile(filePath, sourceFilePath);
+        public void Log(string message = null)
+            => _logWishes.Log(message);
+        
+        public void LogTitleStrong(string title)
+            => _logWishes.LogTitleStrong(title);
+        
+        public void LogTitle(string title)
+            => _logWishes.LogTitle(title);
+        
+        public void LogOutputFile(string filePath, string sourceFilePath = null)
+            => _logWishes.LogOutputFile(filePath, sourceFilePath);
         
         // Config
         
-        public void LogConfig     ()                                              => _logWishes.LogConfig(this);
-        public void LogConfig     (string title, string sep = default)            => _logWishes.LogConfig(title, this, sep);
-     
+        public void LogConfig()
+            => _logWishes.LogConfig(this);
+        
+        public void LogConfig(string title, string sep = default)
+            => _logWishes.LogConfig(title, this, sep);
+        
         // Actions
         
-        internal void LogAction(TapeAction      action,   string message                             = null) => _logWishes.LogAction(action, message);
-        internal void LogAction(Tape            entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
-        internal void LogAction(Buff            entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
-        internal void LogAction(Sample          entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
-        internal void LogAction(AudioFileOutput entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
-        internal void LogAction(FlowNode        entity,   string action, string message              = null) => _logWishes.LogAction(entity, action, message);
-        public   void LogAction(object          entity,   string action, string name, string message = null) => _logWishes.LogAction(entity, action, name, message);
-        internal void LogAction(string          typeName, string message)                                    => _logWishes.LogAction(typeName, message);
-        internal void LogAction(string          typeName, string action, string message)                     => _logWishes.LogAction(typeName, action, message);
-        internal void LogAction(string          typeName, string action, string objectName, string message)  => _logWishes.LogAction(typeName, action, objectName, message);
+        internal void LogAction(TapeAction action, string message = null)
+            => _logWishes.LogAction(action, message);
+        
+        internal void LogAction(Tape entity, string action, string message = null)
+            => _logWishes.LogAction(entity, action, message);
+        
+        internal void LogAction(Buff entity, string action, string message = null)
+            => _logWishes.LogAction(entity, action, message);
+        
+        internal void LogAction(Sample entity, string action, string message = null)
+            => _logWishes.LogAction(entity, action, message);
+        
+        internal void LogAction(AudioFileOutput entity, string action, string message = null)
+            => _logWishes.LogAction(entity, action, message);
+        
+        internal void LogAction(FlowNode entity, string action, string message = null)
+            => _logWishes.LogAction(entity, action, message);
+        
+        public void LogAction(object entity, string action, string name, string message = null)
+            => _logWishes.LogAction(entity, action, name, message);
+        
+        internal void LogAction(string typeName, string message)
+            => _logWishes.LogAction(typeName, message);
+        
+        internal void LogAction(string typeName, string action, string message)
+            => _logWishes.LogAction(typeName, action, message);
+        
+        internal void LogAction(string typeName, string action, string objectName, string message)
+            => _logWishes.LogAction(typeName, action, objectName, message);
         
         // Math
         
-        internal void LogMathBoostTitle(bool mathBoost) => _logWishes.LogMathBoostTitle(mathBoost);
-        internal void LogMathBoostDone(bool mathBoost) => _logWishes.LogMathBoostDone(mathBoost);
+        internal void LogMathBoostTitle(bool mathBoost)
+            => _logWishes.LogMathBoostTitle(mathBoost);
+        
+        internal void LogMathBoostDone(bool mathBoost) 
+            => _logWishes.LogMathBoostDone(mathBoost);
         
         internal void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
-            [CallerMemberName] string opName = null) => _logWishes.LogComputeConstant(a, mathSymbol, b, result, opName);
+            [CallerMemberName] string opName = null)
+            => _logWishes.LogComputeConstant(a, mathSymbol, b, result, opName);
         
         internal void LogIdentityOperation(
             FlowNode a, string mathSymbol, FlowNode identityValue,
-            [CallerMemberName] string opName = null) => _logWishes.LogIdentityOperation(a, mathSymbol, identityValue, opName);
+            [CallerMemberName] string opName = null) 
+            => _logWishes.LogIdentityOperation(a, mathSymbol, identityValue, opName);
         
         internal void LogIdentityOperation(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
-            [CallerMemberName] string opName = null) => _logWishes.LogIdentityOperation(signal, dimension, mathSymbol, transform, opName);
+            [CallerMemberName] string opName = null) 
+            => _logWishes.LogIdentityOperation(signal, dimension, mathSymbol, transform, opName);
         
         internal void LogAlwaysOneOptimization(
             FlowNode a, string mathSymbol, FlowNode b,
-            [CallerMemberName] string opName = null) => _logWishes.LogAlwaysOneOptimization(a, mathSymbol, b, opName);
+            [CallerMemberName] string opName = null) 
+            => _logWishes.LogAlwaysOneOptimization(a, mathSymbol, b, opName);
         
         internal void LogAlwaysOneOptimization(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
-            [CallerMemberName] string opName = null) => _logWishes.LogAlwaysOneOptimization(signal, dimension, mathSymbol, transform, opName);
+            [CallerMemberName] string opName = null) 
+            => _logWishes.LogAlwaysOneOptimization(signal, dimension, mathSymbol, transform, opName);
         
         internal void LogInvariance(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
-            [CallerMemberName] string opName = null) => _logWishes.LogInvariance(signal, dimension, mathSymbol, transform, opName);
+            [CallerMemberName] string opName = null) 
+            => _logWishes.LogInvariance(signal, dimension, mathSymbol, transform, opName);
         
-        internal void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result) => _logWishes.LogDivisionByMultiplication(a, b, result);
-        internal void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter) => _logWishes.LogDistributeMultiplyOverAddition(formulaBefore, formulaAfter);
+        internal void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result) 
+            => _logWishes.LogDivisionByMultiplication(a, b, result);
+        
+        internal void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter) 
+            => _logWishes.LogDistributeMultiplyOverAddition(formulaBefore, formulaAfter);
         
         internal void LogAdditionOptimizations(
             IList<FlowNode> terms, IList<FlowNode> flattenedTerms, IList<FlowNode> optimizedTerms,
-            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null) => _logWishes.LogAdditionOptimizations(terms, flattenedTerms, optimizedTerms, consts, constant, opName);
+            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null)
+            => _logWishes.LogAdditionOptimizations(terms, flattenedTerms, optimizedTerms, consts, constant, opName);
         
         internal void LogMultiplicationOptimizations(
             IList<FlowNode> factors, IList<FlowNode> optimizedFactors,
-            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null) => _logWishes.LogMultiplicationOptimizations(factors, optimizedFactors, consts, constant, opName);
+            IList<FlowNode> consts, double constant, [CallerMemberName] string opName = null) 
+            => _logWishes.LogMultiplicationOptimizations(factors, optimizedFactors, consts, constant, opName);
     }
 
     public static class LogExtensions
