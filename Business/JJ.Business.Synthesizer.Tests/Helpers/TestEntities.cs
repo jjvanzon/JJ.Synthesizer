@@ -160,19 +160,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             SynthBound = new SynthBoundEntities
             {
-                SynthWishes          = synthWishes,
-                SynthWishesAccessor  = synthWishesAccessor,
-                Derived = synthWishesInherited,
-                Context              = synthWishes.Context,
-                ConfigResolver       = synthWishesAccessor.Config,
-                ConfigSection        = synthWishesAccessor.Config._section,
-                FlowNode             = synthWishes.Sine(),
-                FlowNode2            = synthWishes.Sine() / 2
+                SynthWishes         = synthWishes,
+                SynthWishesAccessor = synthWishesAccessor,
+                Derived             = synthWishesInherited,
+                Context             = synthWishes.Context,
+                ConfigResolver      = synthWishesAccessor.Config,
+                ConfigSection       = synthWishesAccessor.Config._section
             };
             
-            // Initialize
-            initialize?.Invoke(SynthBound.SynthWishes);
-            
+            initialize?.Invoke(synthWishes);
+
+            SynthBound.FlowNode  = synthWishes.Sine();
+            SynthBound.FlowNode2 = synthWishes.Sine() / 2;
+
             Record(withDisk);
         }
         
