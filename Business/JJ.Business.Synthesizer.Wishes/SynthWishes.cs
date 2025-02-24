@@ -15,6 +15,8 @@ using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
+using JJ.Framework.Wishes.Logging;
+using static JJ.Framework.Wishes.Logging.LoggingFactory;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -67,6 +69,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Config = new ConfigResolver();
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
+            _logger = CreateLogger();
             
             _ = this;
             bar = new BarIndexer(this);

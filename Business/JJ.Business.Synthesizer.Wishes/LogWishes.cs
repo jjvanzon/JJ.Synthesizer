@@ -24,20 +24,44 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.Logging.LoggerFactory;
+using static JJ.Framework.Wishes.Logging.LoggingFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        public void Log()
+        //private const bool DefaultLoggingEnabled = true;
+        
+        private ILogger _logger;
+        
+        private ILogger CreateLogger() => CreateLoggerFromConfig(Config.LoggerConfig);
+        
+        private bool _loggingEnabled; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
+        
+        public SynthWishes WithLogging(bool enabled = true) { _loggingEnabled = enabled; return this; }
+            
+        public void Log(string message = null)
         {
-            LogWishes.Log();
+            if (!_loggingEnabled) return;
+            LogWishes.Log(_logger, message);
         }
         
-        public void Log(string message)
+        public void LogTitleStrong(string title)
         {
-            LogWishes.Log(message);
+            if (!_loggingEnabled) return;
+            LogWishes.LogTitleStrong(_logger, title);
+        }
+        
+        public void LogTitle(string title)
+        {
+            if (!_loggingEnabled) return;
+            LogWishes.LogTitle(_logger, title);
+        }
+        
+        public void LogOutputFile(string filePath, string sourceFilePath = null)
+        {
+            if (!_loggingEnabled) return;
+            LogWishes.LogOutputFile(_logger, filePath, sourceFilePath);
         }
     }
 
@@ -102,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Basics
         
-        private static readonly ILogger _logger = CreateLoggerFromConfig(ConfigResolver.Static.LoggerConfig);
+        private static readonly ILogger _staticLogger = CreateLoggerFromConfig(ConfigResolver.Static.LoggerConfig);
         
         // NOTE: All the threading, locking and flushing helped
         // Test Explorer in Visual Studio 2022
@@ -112,7 +136,8 @@ namespace JJ.Business.Synthesizer.Wishes
         
         private static readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
 
-        public static void Log(string message = default)
+        public static void Log(string message = default) => Log(_staticLogger, message);
+        public static void Log(ILogger logger, string message = default)
         {
             lock (_logLock)
             {
@@ -134,29 +159,32 @@ namespace JJ.Business.Synthesizer.Wishes
 
                 _blankLinePending.Value = EndsWithBlankLine(message);
 
-                _logger.Log(message.TrimEnd());
+                logger.Log(message.TrimEnd());
             }
         }
                 
-        public static void LogTitleStrong(string title)
+        public static void LogTitleStrong(string title) => LogTitleStrong(_staticLogger, title);
+        public static void LogTitleStrong(ILogger logger, string title)
         {
             string upperCase = (title ?? "").ToUpper();
             
-            Log();
-            Log(PrettyTitle(upperCase, underlineChar: '='));
-            Log();
+            Log(logger);
+            Log(logger, PrettyTitle(upperCase, underlineChar: '='));
+            Log(logger);
         }
 
-        public static void LogTitle(string title)
+        public static void LogTitle(string title) => LogTitle(_staticLogger, title);
+        public static void LogTitle(ILogger logger, string title)
         {
-            Log();
-            Log(PrettyTitle(title));
-            Log();
+            Log(logger);
+            Log(logger, PrettyTitle(title));
+            Log(logger);
         }
         
-        internal static void LogOutputFile(string filePath, string sourceFilePath = null)
+        internal static void LogOutputFile(string filePath, string sourceFilePath = null) => LogOutputFile(_staticLogger, filePath, sourceFilePath);
+        internal static void LogOutputFile(ILogger logger, string filePath, string sourceFilePath = null)
         {
-            Log(FormatOutputFile(filePath, sourceFilePath));
+            Log(logger, FormatOutputFile(filePath, sourceFilePath));
         }
 
         internal static string FormatOutputFile(string filePath, string sourceFilePath = null)

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
@@ -25,8 +26,15 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             Actions = new TapeActions(this);
         }
         
-        internal SynthWishes SynthWishes { get; set; }
-
+        private SynthWishes _synthWishes;
+        
+        /// <summary> Throws if null. </summary>
+        internal SynthWishes SynthWishes
+        {
+            get => _synthWishes         ?? throw new NullException(() => SynthWishes);
+            set => _synthWishes = value ?? throw new NullException(() => SynthWishes);
+        }
+        
         #region Buff
         
         [Obsolete("Prefer Tape properties instead")]

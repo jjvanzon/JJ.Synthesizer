@@ -193,7 +193,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
             // Report
             string report = SynthLog(tape, calculationDuration);
-            LogWishes.Log(report);
+            
+            tape.SynthWishes.Log(report);
         }
 
         // MakeBuff Legacy

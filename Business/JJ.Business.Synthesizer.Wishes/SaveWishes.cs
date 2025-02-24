@@ -130,7 +130,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 fileStream.Write(bytes, 0, bytes.Length);
             }
 
-            LogOutputFile(numberedDestFilePath);
+            LogWishes.LogOutputFile(numberedDestFilePath);
             
             return numberedDestFilePath;
         }
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sourceStream.CopyTo(destStream);
             }
             
-            LogOutputFile(numberedDestFilePath, sourceFilePath);
+            LogWishes.LogOutputFile(numberedDestFilePath, sourceFilePath);
             
             return numberedDestFilePath;
         }
