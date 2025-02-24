@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
+using JJ.Framework.Wishes.Logging;
 using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
@@ -593,8 +594,29 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             set => _azurePipelinesImpersonationMode = value;
         }
         
+        public LoggingConfigSection GetLoggingConfig()
+        { 
+            LoggingConfigSection config = null;
+            
+            if (IsUnderNCrunch) 
+            {
+                config = _section.NCrunch.Logging;
+            }
+            else if (IsUnderAzurePipelines)
+            {
+                config = _section.AzurePipelines.Logging;
+            }
+            
+            if (config == null)
+            {
+                config = LoggingConfigFetcher.GetLoggingConfig();
+            }
+            
+            return config;
+        }
+
         // Persistence
-        
+
         public static PersistenceConfiguration PersistenceConfigurationOrDefault { get; }
             = TryGetSection<PersistenceConfiguration>() ?? GetDefaultInMemoryConfiguration();
         

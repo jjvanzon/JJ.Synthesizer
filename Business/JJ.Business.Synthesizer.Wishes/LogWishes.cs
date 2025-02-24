@@ -24,6 +24,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
+using static JJ.Framework.Wishes.Logging.LoggerFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -89,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
         // Basics
         
         private static readonly ILogger _logger = CreateLogger();
-        private static ILogger CreateLogger() => LoggerFactory.CreateLoggerFromConfig();
+        private static ILogger CreateLogger() => CreateLoggerFromConfig(ConfigResolver.Static.GetLoggingConfig());
         
         // NOTE: All the threading, locking and flushing helped
         // Test Explorer in Visual Studio 2022
