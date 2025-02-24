@@ -26,18 +26,18 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             lines.Add(PrettyTitle("Record:" + ResolveName(buff)));
             lines.Add("");
             
-            string realTimeComplexityMessage = FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());
+            string realTimeComplexityMessage = Static.FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
             
             lines.Add($"Calculation Time: {PrettyDuration(calculationDuration)}");
-            lines.Add("Audio Length: " + ConfigLog(buff));
+            lines.Add("Audio Length: " + Static.ConfigLog(buff));
             lines.Add("");
             
             int channels = buff.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count;
             foreach (var audioFileOutputChannel in buff.UnderlyingAudioFileOutput.AudioFileOutputChannels)
             {
-                string channelString = ChannelDescriptor(channels, audioFileOutputChannel.Channel());
+                string channelString = Static.ChannelDescriptor(channels, audioFileOutputChannel.Channel());
                 string calculationString = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                 
                 lines.Add($"Calculation {channelString}:");
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 lines.Add($"  {PrettyByteCount(buff.Bytes.Length)} written to memory.");
             }
 
-            string formattedFilePath = FormatOutputFile(buff.FilePath);
+            string formattedFilePath = Static.FormatOutputFile(buff.FilePath);
             if (Has(formattedFilePath)) lines.Add(formattedFilePath);
             
             lines.Add("");

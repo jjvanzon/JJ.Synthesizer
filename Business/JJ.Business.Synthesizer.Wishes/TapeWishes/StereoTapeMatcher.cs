@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             if (_unprocessedTapes.Count > 0)
             {
-                string unprocessedTapesString = Join(NewLine, _unprocessedTapes.Select(x => "- " + Descriptor(x) + " | " + x.Outlet));
+                string unprocessedTapesString = Join(NewLine, _unprocessedTapes.Select(x => "- " + x.Descriptor() + " | " + x.Outlet));
                 
                 string message = 
                     "Warning: " + NewLine +

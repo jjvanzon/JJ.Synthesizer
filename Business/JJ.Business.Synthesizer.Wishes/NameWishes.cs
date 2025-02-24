@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (Has(ids))
             {
-                string idDescriptor = IDDescriptor(ids);
+                string idDescriptor = Static.IDDescriptor(ids);
                 if (!name.EndsWith("(" + idDescriptor + ")")) // Prevent duplicate mentions of the ID.
                 {
                     name += " " + idDescriptor;

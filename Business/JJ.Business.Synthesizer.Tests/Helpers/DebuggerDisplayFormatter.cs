@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Tests.ConfigTests;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Wishes.Common;
 using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
@@ -30,8 +31,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
             else
             {
-                string audioFormatDescriptor = AudioFormatDescriptor(obj.SamplingRate, obj.Bits, obj.Channels, obj.Channel, obj.AudioFormat, obj.Interpolation);
-                descriptor = ConfigLog(title: "", audioFormatDescriptor, DurationsDescriptor(obj.AudioLength), sep: " | ");
+                string audioFormatDescriptor = Static.AudioFormatDescriptor(obj.SamplingRate, obj.Bits, obj.Channels, obj.Channel, obj.AudioFormat, obj.Interpolation);
+                descriptor = Static.ConfigLog(title: "", audioFormatDescriptor, Static.DurationsDescriptor(obj.AudioLength), sep: " | ");
             }
 
             return nameof(ImmutableEntities) + ": " + descriptor;

@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             tapes.Where(x => x.IsRoot).ForEach(x => Assert(x, "(Root)"));
 
-            _synthWishes.Log(PlotTapeTree(tapes));
+            _synthWishes.Log(Static.PlotTapeTree(tapes));
         }
         
         private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double timeOutInSec = timeOutInMs / 1000.0;
             string formattedTimeOut = PrettyDuration(timeOutInSec);
             
-            string actionMessage = ActionMessage(
+            string actionMessage = Static.ActionMessage(
                 nameof(Tape),
                 "Check for Leaves",
                 "", $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
@@ -172,11 +172,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     break;
                     
                 case TimeOutActionEnum.Log:
-                    _synthWishes.Log(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
+                    _synthWishes.Log(actionMessage + " " + Static.TapesLeftMessage(todoCount, tapesTODO));
                     break;
                 
                 case Stop:
-                    throw new Exception(actionMessage + " " + TapesLeftMessage(todoCount, tapesTODO));
+                    throw new Exception(actionMessage + " " + Static.TapesLeftMessage(todoCount, tapesTODO));
             }
         }
         

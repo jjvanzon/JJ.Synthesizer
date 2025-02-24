@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.UnderlyingAudioFileOutput = audioFileOutput;
 
             // Report
-            string report = SynthLog(tape, calculationDuration);
+            string report = tape.SynthWishes.Logging.SynthLog(tape, calculationDuration);
             
             tape.SynthWishes.Log(report);
         }

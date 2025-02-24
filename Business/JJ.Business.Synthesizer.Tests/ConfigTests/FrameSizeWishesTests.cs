@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -565,7 +566,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         static string GetParametersDescriptor(int? bits, int? channels)
         {
             string bitsFormatted = bits == null ? "null-bit" : bits == 0 ? "0-bit" : $"{bits}-bit";
-            string channelsDescriptor = channels == null ? "null-channels" : channels == 0 ? "0-channels" : ChannelDescriptor(channels).ToLower();
+            string channelsDescriptor = channels == null ? "null-channels" : channels == 0 ? "0-channels" : LogWishes.Static.ChannelDescriptor(channels).ToLower();
             return $"{bitsFormatted}-{channelsDescriptor} ";
         }
        

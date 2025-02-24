@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
@@ -482,7 +483,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             string formattedFrames   = frames   == null ? "(null)" : frames.ToString();
             string formattedBits     = bits     == null ? "(null)" : bits + "bit";
-            string formattedChannels = channels == null ? "(null)" : channels == 0 ? "0" : ChannelDescriptor(channels).ToLower();
+            string formattedChannels = channels == null ? "(null)" : channels == 0 ? "0" : LogWishes.Static.ChannelDescriptor(channels).ToLower();
             return $"{formattedFrames}x{formattedBits}x{formattedChannels} ";
         }
         
