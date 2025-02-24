@@ -89,8 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Basics
         
-        private static readonly ILogger _logger = CreateLogger();
-        private static ILogger CreateLogger() => CreateLoggerFromConfig(ConfigResolver.Static.GetLoggingConfig());
+        private static readonly ILogger _logger = CreateLoggerFromConfig(ConfigResolver.Static.LoggerConfig);
         
         // NOTE: All the threading, locking and flushing helped
         // Test Explorer in Visual Studio 2022

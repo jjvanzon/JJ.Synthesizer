@@ -30,6 +30,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
         
+        public ConfigResolver()
+        {
+            LoggerConfig = ResolveLoggerConfig();
+        }
+        
         // Audio Attributes
         
         // Bits
@@ -594,7 +599,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             set => _azurePipelinesImpersonationMode = value;
         }
         
-        public LoggingConfigSection GetLoggingConfig()
+        public LoggingConfigSection LoggerConfig { get; }
+        
+        private LoggingConfigSection ResolveLoggerConfig()
         { 
             LoggingConfigSection config = null;
             
