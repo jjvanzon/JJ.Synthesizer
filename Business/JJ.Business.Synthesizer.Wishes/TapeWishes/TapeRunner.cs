@@ -171,7 +171,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     _synthWishes.Log(actionMessage);
                     break;
                     
-                case TimeOutActionEnum.Log:
+                case Log:
                     _synthWishes.Log(actionMessage + " " + Static.TapesLeftMessage(todoCount, tapesTODO));
                     break;
                 
