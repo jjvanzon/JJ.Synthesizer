@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (!mustPlay)
             {
-                Log("  ⚠ Audio disabled");
+                LogWishes.Log("  ⚠ Audio disabled");
             }
 
             if (mustPlay)

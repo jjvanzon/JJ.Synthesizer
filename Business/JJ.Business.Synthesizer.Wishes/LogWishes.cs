@@ -28,6 +28,19 @@ using static JJ.Framework.Wishes.Logging.LoggerFactory;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
+    public partial class SynthWishes
+    {
+        public void Log()
+        {
+            LogWishes.Log();
+        }
+        
+        public void Log(string message)
+        {
+            LogWishes.Log(message);
+        }
+    }
+
     public static class LogExtensions
     {
         public static string SynthLog(this Tape tape, double? calculationDuration = null) => LogWishes.SynthLog(tape, calculationDuration);
@@ -85,7 +98,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public static string ConfigLog(this Sample sample, string title, string sep) => LogWishes.ConfigLog(title, sample, sep);
     }
     
-    public static class LogWishes
+    public class LogWishes
     {
         // Basics
         
@@ -122,10 +135,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 _blankLinePending.Value = EndsWithBlankLine(message);
 
                 _logger.Log(message.TrimEnd());
-                
-                //Console.WriteLine(message.TrimEnd());
-                
-                //Console.Out.Flush();
             }
         }
                 
