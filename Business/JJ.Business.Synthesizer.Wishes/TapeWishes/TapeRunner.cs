@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             try
             {
-                _synthWishes.LogAction(tape, "Start", "Running ...");
+                tape.LogAction("Start", "Running ...");
                 
                 _versatileActionRunner.RunBeforeRecord(tape);
                 
@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     }
                 }
                 
-                _synthWishes.LogAction(tape, "Stop", "Checking Leaves ...");
+                tape.LogAction("Stop", "Checking Leaves ...");
             }
             finally
             {

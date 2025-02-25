@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             dummyTape.Config.Channel = default; // ???
 
-            LogAction(dummyTape, "Create", "Sample Dummy");
+            dummyTape.LogAction("Create", "Sample Dummy");
 
             return SampleFromTape(dummyTape, bytesToSkip, stream);
         }

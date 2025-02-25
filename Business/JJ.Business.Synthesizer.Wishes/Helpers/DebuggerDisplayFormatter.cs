@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Reflection;
 using static System.IO.File;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -69,18 +70,19 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
         
         public static string GetDebuggerDisplay(SynthWishes synthWishes)
         {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
             string typeString = FormatTypeName(synthWishes) + " ";
             string tapesString = synthWishes.TapeCount + " Tapes | ";
-            string configString = Static.ConfigLog(title: "", synthWishes, sep: " | ");
+            string configString = synthWishes.ConfigLog(title: "", sep: " | ");
             string debuggerDisplay = typeString + tapesString + configString;
             return debuggerDisplay;
         }
 
-        public static string GetDebuggerDisplay(ConfigResolver configWishes) => FormatTypeName(configWishes) + " " + Static.ConfigLog(configWishes);
+        public static string GetDebuggerDisplay(ConfigResolver configResolver) => FormatTypeName(configResolver) + " " + configResolver.ConfigLog();
     
-        public static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + Static.ConfigLog(configSection);
+        public static string GetDebuggerDisplay(ConfigSection configSection) => FormatTypeName(configSection) + " " + configSection.ConfigLog();
 
-        public static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => FormatTypeName(audioInfoWish) + " " + Static.ConfigLog(audioInfoWish);
+        public static string GetDebuggerDisplay(AudioInfoWish audioInfoWish) => FormatTypeName(audioInfoWish) + " " + audioInfoWish.ConfigLog();
         
         public static string GetDebuggerDisplay(TapeAction action)
         {

@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (!_tapes.TryGetValue(signal, out Tape tape))
             {
                 isNew = true;
-                _tapes[signal] = tape = new Tape();
+                _tapes[signal] = tape = new Tape { SynthWishes = SynthWishes };
                 tape.Outlet = signal;
             }
             
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             tape.IsTape = actionType == ActionEnum.Tape;
 
-            SynthWishes.LogAction(tape, isNew ? "Create" : "Update");
+            tape.LogAction(isNew ? "Create" : "Update");
             
             return tape;
         }
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             _tapes.Remove(tape.Outlet);
             
-            SynthWishes.LogAction(tape, "Delete", "Replaced by padded");
+            tape.LogAction("Delete", "Replaced by padded");
         }
         
         public void Clear() => _tapes.Clear();

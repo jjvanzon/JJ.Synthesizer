@@ -59,34 +59,34 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Actions
         
-        internal void LogAction(TapeAction action, string message = null)
+        public void LogAction(TapeAction action, string message = null)
             => Logging.LogAction(action, message);
         
-        internal void LogAction(Tape entity, string action, string message = null)
+        public void LogAction(Tape entity, string action, string message = null)
             => Logging.LogAction(entity, action, message);
         
-        internal void LogAction(Buff entity, string action, string message = null)
+        public void LogAction(Buff entity, string action, string message = null)
             => Logging.LogAction(entity, action, message);
         
-        internal void LogAction(Sample entity, string action, string message = null)
+        public void LogAction(Sample entity, string action, string message = null)
             => Logging.LogAction(entity, action, message);
         
-        internal void LogAction(AudioFileOutput entity, string action, string message = null)
+        public void LogAction(AudioFileOutput entity, string action, string message = null)
             => Logging.LogAction(entity, action, message);
         
-        internal void LogAction(FlowNode entity, string action, string message = null)
+        public void LogAction(FlowNode entity, string action, string message = null)
             => Logging.LogAction(entity, action, message);
         
         public void LogAction(object entity, string action, string name, string message = null)
             => Logging.LogAction(entity, action, name, message);
         
-        internal void LogAction(string typeName, string message)
+        public void LogAction(string typeName, string message)
             => Logging.LogAction(typeName, message);
         
-        internal void LogAction(string typeName, string action, string message)
+        public void LogAction(string typeName, string action, string message)
             => Logging.LogAction(typeName, action, message);
         
-        internal void LogAction(string typeName, string action, string objectName, string message)
+        public void LogAction(string typeName, string action, string objectName, string message)
             => Logging.LogAction(typeName, action, objectName, message);
         
         // Math
@@ -146,41 +146,50 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class LogExtensions
     {
-        public   static void Log           (this FlowNode       entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
-        public   static void Log           (this Tape           entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
-        public   static void Log           (this TapeConfig     entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
-        public   static void Log           (this TapeActions    entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
-        public   static void Log           (this TapeAction     entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
-        public   static void Log           (this Buff           entity, string message = "") => (entity?.SynthWishes?.Logging ?? Static)                     .Log(message);
-        internal static void Log           (this ConfigResolver entity, string message = "") => (entity?.SynthWishes?.Logging ?? Static)                     .Log(message);
-        public   static void LogTitle      (this FlowNode       entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
-        public   static void LogTitle      (this Tape           entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
-        public   static void LogTitle      (this TapeConfig     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
-        public   static void LogTitle      (this TapeActions    entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
-        public   static void LogTitle      (this TapeAction     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
-        public   static void LogTitle      (this Buff           entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitle(title);
-        internal static void LogTitle      (this ConfigResolver entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitle(title);
-        public   static void LogTitleStrong(this FlowNode       entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
-        public   static void LogTitleStrong(this Tape           entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeConfig     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeActions    entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeAction     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
-        public   static void LogTitleStrong(this Buff           entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitleStrong(title);
-        internal static void LogTitleStrong(this ConfigResolver entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitleStrong(title);
-        public   static void LogOutputFile (this FlowNode       entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Tape           entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeConfig     entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeActions    entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeAction     entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Buff           entity, string filePath, string sourceFilePath = null) => (entity?.SynthWishes?.Logging ?? Static)                     .LogOutputFile(filePath, sourceFilePath);
-        internal static void LogOutputFile (this ConfigResolver entity, string filePath, string sourceFilePath = null) => (entity?.SynthWishes?.Logging ?? Static)                     .LogOutputFile(filePath, sourceFilePath);
+        public   static void Log           (this FlowNode       entity, string message = "") => GetLogWishes(entity, x => x.SynthWishes).Log(message);
+        public   static void Log           (this Tape           entity, string message = "") => GetLogWishes(entity, x => x.SynthWishes).Log(message);
+        public   static void Log           (this TapeConfig     entity, string message = "") => GetLogWishes(entity, x => x.SynthWishes).Log(message);
+        public   static void Log           (this TapeActions    entity, string message = "") => GetLogWishes(entity, x => x.SynthWishes).Log(message);
+        public   static void Log           (this TapeAction     entity, string message = "") => GetLogWishes(entity, x => x.SynthWishes).Log(message);
+        public   static void Log           (this Buff           entity, string message = "") => GetLogWishes(entity, x => x.SynthWishes).Log(message);
+        internal static void Log           (this ConfigResolver entity, string message = "") => GetLogWishes(entity, x => x.SynthWishes).Log(message);
+        public   static void LogTitle      (this FlowNode       entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitle(title);
+        public   static void LogTitle      (this Tape           entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitle(title);
+        public   static void LogTitle      (this TapeConfig     entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitle(title);
+        public   static void LogTitle      (this TapeActions    entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitle(title);
+        public   static void LogTitle      (this TapeAction     entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitle(title);
+        public   static void LogTitle      (this Buff           entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitle(title);
+        internal static void LogTitle      (this ConfigResolver entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitle(title);
+        public   static void LogTitleStrong(this FlowNode       entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitleStrong(title);
+        public   static void LogTitleStrong(this Tape           entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeConfig     entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeActions    entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeAction     entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitleStrong(title);
+        public   static void LogTitleStrong(this Buff           entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitleStrong(title);
+        internal static void LogTitleStrong(this ConfigResolver entity, string title) => GetLogWishes(entity, x => x.SynthWishes).LogTitleStrong(title);
+        public   static void LogOutputFile (this FlowNode       entity, string filePath, string sourceFilePath = null) => GetLogWishes(entity, x => x.SynthWishes).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Tape           entity, string filePath, string sourceFilePath = null) => GetLogWishes(entity, x => x.SynthWishes).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeConfig     entity, string filePath, string sourceFilePath = null) => GetLogWishes(entity, x => x.SynthWishes).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeActions    entity, string filePath, string sourceFilePath = null) => GetLogWishes(entity, x => x.SynthWishes).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeAction     entity, string filePath, string sourceFilePath = null) => GetLogWishes(entity, x => x.SynthWishes).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Buff           entity, string filePath, string sourceFilePath = null) => GetLogWishes(entity, x => x.SynthWishes).LogOutputFile(filePath, sourceFilePath);
+        internal static void LogOutputFile (this ConfigResolver entity, string filePath, string sourceFilePath = null) => GetLogWishes(entity, x => x.SynthWishes).LogOutputFile(filePath, sourceFilePath);
 
+        // TODO: More target entities
+        // TODO: Ones with optional synthWishes parameter where not available.
+        public static void LogAction(this TapeAction      action,                string message = null) => GetLogWishes(action, x => x.SynthWishes).LogAction(action, message);
+        public static void LogAction(this Tape            entity, string action, string message = null) => GetLogWishes(entity, x => x.SynthWishes).LogAction(entity, action, message);
+        public static void LogAction(this Buff            entity, string action, string message = null) => GetLogWishes(entity, x => x.SynthWishes).LogAction(entity, action, message);
+        //public static void LogAction(this Sample          entity, string action, string message = null) => GetLogWishes(entity                    ).LogAction(entity, action, message);
+        //public static void LogAction(this AudioFileOutput entity, string action, string message = null) => GetLogWishes(entity                    ).LogAction(entity, action, message);
+        public static void LogAction(this FlowNode        entity, string action, string message = null) => GetLogWishes(entity, x => x.SynthWishes).LogAction(entity, action, message);
+        
         private static LogWishes GetLogWishes<T>(T entity, Func<T, SynthWishes> getSynthWishes)
         {
             if (entity == null) throw new NullException(() => entity);
             if (getSynthWishes == null) throw new NullException(() => getSynthWishes);
-            SynthWishes synthWishes = getSynthWishes(entity);
-            return synthWishes?.Logging ?? Static;
+            SynthWishes synthWishes = getSynthWishes.Invoke(entity);
+            return synthWishes?.Logging ?? LogWishes.Static;
         }
         
         //public   static void LogConfig(this FlowNode       entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
@@ -256,7 +265,6 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly object _logLock = new object();
         private readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
 
-        //public void Log(string message = default) => Log(_staticLogger, message);
         public void Log(string message = default)
         {
             if (!LoggingEnabled) return;
@@ -285,7 +293,6 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
                 
-        //public void LogTitleStrong(string title) => LogTitleStrong(_staticLogger, title);
         public void LogTitleStrong(string title)
         {
             string upperCase = (title ?? "").ToUpper();
@@ -295,7 +302,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Log();
         }
 
-        //public void LogTitle(string title) => LogTitle(_staticLogger, title);
         public void LogTitle(string title)
         {
             Log();
@@ -303,7 +309,6 @@ namespace JJ.Business.Synthesizer.Wishes
             Log();
         }
         
-        //internal void LogOutputFile(string filePath, string sourceFilePath = null) => LogOutputFile(_staticLogger, filePath, sourceFilePath);
         internal void LogOutputFile(string filePath, string sourceFilePath = null)
         {
             Log(FormatOutputFile(filePath, sourceFilePath));
@@ -1187,7 +1192,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public void LogAction(AudioFileOutput entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
-            Log(ActionMessage("Audio File Out", action, entity.Name, message ?? ConfigLog(entity)));
+            Log(ActionMessage("Out", action, entity.Name, message ?? ConfigLog(entity)));
         }
         
         public void LogAction(FlowNode entity, string action, string message = null)

@@ -394,7 +394,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             dummyTape.FallbackName = name;
             dummyTape.FilePathSuggested = filePath;
 
-            synthWishes.LogAction(dummyTape, "Create", "AudioFileOutput Dummy");
+            dummyTape.LogAction("Create", "AudioFileOutput Dummy");
             
             return synthWishes.ConfigureAudioFileOutput(dummyTape);
         }

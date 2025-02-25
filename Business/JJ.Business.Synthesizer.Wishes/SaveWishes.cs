@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (action == null) throw new NullException(() => action);
-            action.Tape.SynthWishes.LogAction(action);
+            action.LogAction();
             InternalSave(action.Tape.Buff, action.GetFilePath(filePath, callerMemberName), callerMemberName);
             return action;
         }
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new NullException(() => tape);
-            tape.SynthWishes.LogAction(tape, MemberName());
+            tape.LogAction(MemberName());
             string filePathResolved = tape.GetFilePath(filePath, callerMemberName);
             InternalSave(tape.Buff, filePathResolved, callerMemberName);
             return tape;
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
-            Static.LogAction(buff, MemberName());
+            buff.LogAction(MemberName());
             string filePathResolved = ResolveFilePath(buff.AudioFormat(), filePath, callerMemberName); // Resolve to use AudioFormat
             buff.FilePath = InternalSave(buff, filePathResolved, callerMemberName);
             return buff;

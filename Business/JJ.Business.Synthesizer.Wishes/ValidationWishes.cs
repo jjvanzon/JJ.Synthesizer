@@ -28,14 +28,14 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static void Assert(Tape tape, string message)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
-            tape.SynthWishes.LogAction(tape, "Validate", message);
+            tape.LogAction("Validate", message);
             tape.Outlets.ForEach(x => x.Assert());
         }
         
         internal static void Assert(FlowNode flowNode)
         {
             if (flowNode == null) throw new ArgumentNullException(nameof(flowNode));
-            flowNode.SynthWishes.LogAction(flowNode, "Validate");
+            flowNode.LogAction("Validate");
             flowNode.Assert();
         }
     }

@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             lines.Add("");
             
             lines.Add($"Calculation Time: {PrettyDuration(calculationDuration)}");
-            lines.Add("Audio Length: " + Static.ConfigLog(buff));
+            lines.Add("Audio Length: " + buff.ConfigLog());
             lines.Add("");
             
             int channels = buff.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count;

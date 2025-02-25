@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes
             if (tape == null) throw new ArgumentNullException(nameof(tape));
             if (tape.IsBuff) return;
             MakeBuff(tape);
-            LogAction(tape, "Update");
+            tape.LogAction("Update");
         }
         
         /// <inheritdoc cref="docs._makebuff" />

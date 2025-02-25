@@ -201,9 +201,9 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.UnderlyingAudioFileOutput = audioFileOutput;
 
             // Report
-            string report = tape.SynthWishes.Logging.SynthLog(tape, calculationDuration);
+            string report = tape.SynthLog(calculationDuration);
             
-            tape.SynthWishes.Log(report);
+            tape.Log(report);
         }
 
         // MakeBuff Legacy
@@ -242,7 +242,7 @@ namespace JJ.Business.Synthesizer.Wishes
             dummyTape.FallbackName = ResolveName(name, callerMemberName);
             dummyTape.FilePathSuggested = filePath;
 
-            LogAction(dummyTape, "Create", "Buff Legacy");
+            dummyTape.LogAction("Create", "Buff Legacy");
             
             MakeBuff(dummyTape);
             

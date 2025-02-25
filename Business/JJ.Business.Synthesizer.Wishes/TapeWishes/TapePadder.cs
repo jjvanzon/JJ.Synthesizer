@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             var oldDuration = tape.Duration;
             paddedTape.Duration = oldDuration + padding;
             
-            _synthWishes.LogAction(paddedTape, "Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
+            paddedTape.LogAction("Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             // Remove original tape if it has no other purposes.
             bool hasIntercept = tape.Actions.BeforeRecord.On        || tape.Actions.BeforeRecord.Callback != null        ||
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             originalTape.Actions.PlayChannels.Clear();
             originalTape.Actions.SaveChannels.Clear();   
             
-            _synthWishes.LogAction(paddedTape, "Pad", $"Delay + {originalTape.LeadingSilence} s");
+            paddedTape.LogAction("Pad", $"Delay + {originalTape.LeadingSilence} s");
             
             return paddedTape;
         }
