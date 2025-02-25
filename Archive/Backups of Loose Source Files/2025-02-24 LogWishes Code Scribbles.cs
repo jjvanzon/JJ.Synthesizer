@@ -35,3 +35,10 @@
         public   static void Log(TapeActions        entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
         public   static void Log(TapeAction         entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
         public   static void Log(Buff               entity, string message = "") => (entity?.SynthWishes?.Logging ?? Static).Log(message);
+    
+    
+        //private T OrThrow<T>(T obj, Expression<Func<object>> expression)
+        //{
+        //    if (obj == null) throw new NullException(expression);
+        //    return obj;
+        //}

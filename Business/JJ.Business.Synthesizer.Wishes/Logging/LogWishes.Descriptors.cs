@@ -29,14 +29,6 @@ using static JJ.Framework.Wishes.Logging.LoggingFactory;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    public static partial class LogExtensions
-    {
-        public static string Descriptor(this Tape tape)                       => Static.Descriptor(tape);
-        public static string Descriptor(this TapeActions actions)             => Static.Descriptor(actions);
-        public static string Descriptor(this AudioFileOutput audioFileOutput) => Static.Descriptor(audioFileOutput);
-        public static string Descriptor(this IList<FlowNode> signals)         => Static.Descriptor(signals);
-    }
-
     public partial class LogWishes
     {
         internal string IDDescriptor(Tape tape)
@@ -198,10 +190,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 return prefix + "<none>";
             }
         }
-    }
 
-    public partial class LogWishes
-    {
         public string Descriptor(AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
@@ -219,5 +208,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             if (signals == null) throw new ArgumentNullException(nameof(signals));
             return signals.Count == 0 ? "<Signal=null>" : Join(" | ", signals.Select(x => $"{x}"));
         }
+    }
+
+    public static partial class LogExtensions
+    {
+        public static string Descriptor(this Tape tape)                       => Static.Descriptor(tape);
+        public static string Descriptor(this TapeActions actions)             => Static.Descriptor(actions);
+        public static string Descriptor(this AudioFileOutput audioFileOutput) => Static.Descriptor(audioFileOutput);
+        public static string Descriptor(this IList<FlowNode> signals)         => Static.Descriptor(signals);
     }
 }

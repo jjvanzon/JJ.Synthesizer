@@ -1,100 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
-using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Logging;
-using JJ.Persistence.Synthesizer;
 using static System.Environment;
-using static System.IO.File;
 using static System.String;
-using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using static JJ.Framework.Wishes.Text.StringWishes;
+using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.Logging.LoggingFactory;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
-// ReSharper disable once CheckNamespace
-namespace JJ.Business.Synthesizer.Wishes
-{
-    public partial class SynthWishes
-    {
-        public void LogConfig()
-            => LogWishes.LogConfig(this);
-        
-        public void LogConfig(string title, string sep = default)
-            => LogWishes.LogConfig(title, this, sep);
-    }
-}
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    public static partial class LogExtensions
-    {
-        public   static void LogConfig(this FlowNode       entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this Tape           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this TapeConfig     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this TapeActions    entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this TapeAction     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        //public   static void LogConfig(this Buff           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        //internal static void LogConfig(this ConfigResolver entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-
-        public   static string ConfigLog(this SynthWishes     synthWishes                              ) => Static.ConfigLog(synthWishes);
-        public   static string ConfigLog(this SynthWishes     synthWishes,     string title            ) => Static.ConfigLog(title, synthWishes);
-        public   static string ConfigLog(this SynthWishes     synthWishes,     string title, string sep) => Static.ConfigLog(title, synthWishes, sep);
-        public   static string ConfigLog(this FlowNode        flowNode                                 ) => Static.ConfigLog(flowNode);
-        public   static string ConfigLog(this FlowNode        flowNode,        string title            ) => Static.ConfigLog(title, flowNode);
-        public   static string ConfigLog(this FlowNode        flowNode,        string title, string sep) => Static.ConfigLog(title, flowNode, sep);
-        internal static string ConfigLog(this ConfigResolver  configWishes                                                              ) => Static.ConfigLog(configWishes);
-        internal static string ConfigLog(this ConfigResolver  configWishes,    SynthWishes synthWishes                                  ) => Static.ConfigLog(configWishes, synthWishes);
-        internal static string ConfigLog(this ConfigResolver  configWishes,    SynthWishes synthWishes,               string sep        ) => Static.ConfigLog(configWishes, synthWishes, sep);
-        internal static string ConfigLog(this ConfigResolver  configWishes,    string title,                          string sep = " | ") => Static.ConfigLog(title, configWishes, sep);
-        internal static string ConfigLog(this ConfigResolver  configWishes,    String title, SynthWishes synthWishes, string sep = " | ") => Static.ConfigLog(title, configWishes, synthWishes, sep);
-        internal static string ConfigLog(this ConfigSection   configSection                            ) => Static.ConfigLog(configSection);
-        internal static string ConfigLog(this ConfigSection   configSection,   string title            ) => Static.ConfigLog(title, configSection);
-        internal static string ConfigLog(this ConfigSection   configSection,   string title, string sep) => Static.ConfigLog(title, configSection, sep);
-        public   static string ConfigLog(this Tape            tape                                     ) => Static.ConfigLog(tape);
-        public   static string ConfigLog(this Tape            tape,            string title            ) => Static.ConfigLog(title, tape);
-        public   static string ConfigLog(this Tape            tape,            string title, string sep) => Static.ConfigLog(title, tape, sep);
-        public   static string ConfigLog(this TapeConfig      tapeConfig                               ) => Static.ConfigLog(tapeConfig);
-        public   static string ConfigLog(this Buff            buff                                     ) => Static.ConfigLog(buff);
-        public   static string ConfigLog(this Buff            buff,            string title            ) => Static.ConfigLog(title, buff);
-        public   static string ConfigLog(this Buff            buff,            string title, string sep) => Static.ConfigLog(title, buff, sep);
-        public   static string ConfigLog(this AudioFileOutput audioFileOutput                          ) => Static.ConfigLog(audioFileOutput);
-        public   static string ConfigLog(this AudioFileOutput audioFileOutput, string title            ) => Static.ConfigLog(title, audioFileOutput);
-        public   static string ConfigLog(this AudioFileOutput audioFileOutput, string title, string sep) => Static.ConfigLog(title, audioFileOutput, sep);
-        public   static string ConfigLog(this Sample          sample                                   ) => Static.ConfigLog(sample);
-        public   static string ConfigLog(this Sample          sample,          string title            ) => Static.ConfigLog(title, sample);
-        public   static string ConfigLog(this Sample          sample,          string title, string sep) => Static.ConfigLog(title, sample, sep);
-        public   static string ConfigLog(this AudioInfoWish   audioInfoWish                            ) => Static.ConfigLog(audioInfoWish);
-        public   static string ConfigLog(this AudioInfoWish   audioInfoWish,   string sep              ) => Static.ConfigLog(audioInfoWish, sep);
-        public   static string ConfigLog(this AudioInfoWish   audioInfoWish,   string title, string sep) => Static.ConfigLog(title, audioInfoWish, sep);
-        public   static string ConfigLog(this AudioFileInfo   audioFileInfo                            ) => Static.ConfigLog(audioFileInfo);
-        public   static string ConfigLog(this AudioFileInfo   audioFileInfo,   string sep              ) => Static.ConfigLog(audioFileInfo, sep);
-        public   static string ConfigLog(this AudioFileInfo   audioFileInfo,   string title, string sep) => Static.ConfigLog(title, audioFileInfo, sep);
-        public   static string ConfigLog(this WavHeaderStruct wavHeader                                ) => Static.ConfigLog(wavHeader);
-        public   static string ConfigLog(this WavHeaderStruct wavHeader,       string sep              ) => Static.ConfigLog(wavHeader, sep);
-        public   static string ConfigLog(this WavHeaderStruct wavHeader,       string title, string sep) => Static.ConfigLog(title, wavHeader, sep);
-    }
-
     public partial class LogWishes
     {
-
-        // Config Log
-                
         public string ConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
         {
             string titleElement = Has(title) ? PrettyTitle(title) + NewLine + NewLine : "";
@@ -377,12 +304,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             return configLog;
         }
-
-        //private T OrThrow<T>(T obj, Expression<Func<object>> expression)
-        //{
-        //    if (obj == null) throw new NullException(expression);
-        //    return obj;
-        //}
         
         public string ConfigLog(Buff buff) => ConfigLog("", buff);
         public string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
@@ -509,4 +430,64 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         }
     }
 
+    public static partial class LogExtensions
+    {
+        public   static void LogConfig(this FlowNode       entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this Tape           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeConfig     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeActions    entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeAction     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this Buff           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //internal static void LogConfig(this ConfigResolver entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+
+        public   static string ConfigLog(this SynthWishes     synthWishes                              ) => Static.ConfigLog(synthWishes);
+        public   static string ConfigLog(this SynthWishes     synthWishes,     string title            ) => Static.ConfigLog(title, synthWishes);
+        public   static string ConfigLog(this SynthWishes     synthWishes,     string title, string sep) => Static.ConfigLog(title, synthWishes, sep);
+        public   static string ConfigLog(this FlowNode        flowNode                                 ) => Static.ConfigLog(flowNode);
+        public   static string ConfigLog(this FlowNode        flowNode,        string title            ) => Static.ConfigLog(title, flowNode);
+        public   static string ConfigLog(this FlowNode        flowNode,        string title, string sep) => Static.ConfigLog(title, flowNode, sep);
+        internal static string ConfigLog(this ConfigResolver  configWishes                                                              ) => Static.ConfigLog(configWishes);
+        internal static string ConfigLog(this ConfigResolver  configWishes,    SynthWishes synthWishes                                  ) => Static.ConfigLog(configWishes, synthWishes);
+        internal static string ConfigLog(this ConfigResolver  configWishes,    SynthWishes synthWishes,               string sep        ) => Static.ConfigLog(configWishes, synthWishes, sep);
+        internal static string ConfigLog(this ConfigResolver  configWishes,    string title,                          string sep = " | ") => Static.ConfigLog(title, configWishes, sep);
+        internal static string ConfigLog(this ConfigResolver  configWishes,    String title, SynthWishes synthWishes, string sep = " | ") => Static.ConfigLog(title, configWishes, synthWishes, sep);
+        internal static string ConfigLog(this ConfigSection   configSection                            ) => Static.ConfigLog(configSection);
+        internal static string ConfigLog(this ConfigSection   configSection,   string title            ) => Static.ConfigLog(title, configSection);
+        internal static string ConfigLog(this ConfigSection   configSection,   string title, string sep) => Static.ConfigLog(title, configSection, sep);
+        public   static string ConfigLog(this Tape            tape                                     ) => Static.ConfigLog(tape);
+        public   static string ConfigLog(this Tape            tape,            string title            ) => Static.ConfigLog(title, tape);
+        public   static string ConfigLog(this Tape            tape,            string title, string sep) => Static.ConfigLog(title, tape, sep);
+        public   static string ConfigLog(this TapeConfig      tapeConfig                               ) => Static.ConfigLog(tapeConfig);
+        public   static string ConfigLog(this Buff            buff                                     ) => Static.ConfigLog(buff);
+        public   static string ConfigLog(this Buff            buff,            string title            ) => Static.ConfigLog(title, buff);
+        public   static string ConfigLog(this Buff            buff,            string title, string sep) => Static.ConfigLog(title, buff, sep);
+        public   static string ConfigLog(this AudioFileOutput audioFileOutput                          ) => Static.ConfigLog(audioFileOutput);
+        public   static string ConfigLog(this AudioFileOutput audioFileOutput, string title            ) => Static.ConfigLog(title, audioFileOutput);
+        public   static string ConfigLog(this AudioFileOutput audioFileOutput, string title, string sep) => Static.ConfigLog(title, audioFileOutput, sep);
+        public   static string ConfigLog(this Sample          sample                                   ) => Static.ConfigLog(sample);
+        public   static string ConfigLog(this Sample          sample,          string title            ) => Static.ConfigLog(title, sample);
+        public   static string ConfigLog(this Sample          sample,          string title, string sep) => Static.ConfigLog(title, sample, sep);
+        public   static string ConfigLog(this AudioInfoWish   audioInfoWish                            ) => Static.ConfigLog(audioInfoWish);
+        public   static string ConfigLog(this AudioInfoWish   audioInfoWish,   string sep              ) => Static.ConfigLog(audioInfoWish, sep);
+        public   static string ConfigLog(this AudioInfoWish   audioInfoWish,   string title, string sep) => Static.ConfigLog(title, audioInfoWish, sep);
+        public   static string ConfigLog(this AudioFileInfo   audioFileInfo                            ) => Static.ConfigLog(audioFileInfo);
+        public   static string ConfigLog(this AudioFileInfo   audioFileInfo,   string sep              ) => Static.ConfigLog(audioFileInfo, sep);
+        public   static string ConfigLog(this AudioFileInfo   audioFileInfo,   string title, string sep) => Static.ConfigLog(title, audioFileInfo, sep);
+        public   static string ConfigLog(this WavHeaderStruct wavHeader                                ) => Static.ConfigLog(wavHeader);
+        public   static string ConfigLog(this WavHeaderStruct wavHeader,       string sep              ) => Static.ConfigLog(wavHeader, sep);
+        public   static string ConfigLog(this WavHeaderStruct wavHeader,       string title, string sep) => Static.ConfigLog(title, wavHeader, sep);
+    }
+}
+
+// ReSharper disable once CheckNamespace
+namespace JJ.Business.Synthesizer.Wishes
+{
+    public partial class SynthWishes
+    {
+        public void LogConfig()
+            => LogWishes.LogConfig(this);
+        
+        public void LogConfig(string title, string sep = default)
+            => LogWishes.LogConfig(title, this, sep);
+    }
 }
