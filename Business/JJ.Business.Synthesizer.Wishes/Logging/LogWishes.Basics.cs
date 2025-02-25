@@ -25,8 +25,11 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         internal LogWishes LogWishes { get; } = new LogWishes();
 
+        // TODO: Synonyms
         public SynthWishes WithLogging(bool enabled = true) { LogWishes.LoggingEnabled = enabled; return this; }
-        
+        public SynthWishes WithLoggingEnabled() => WithLogging(true);
+        public SynthWishes WithLoggingDisabled() => WithLogging(false);
+
         public void Log            (string message = null)                         => LogWishes.Log(message);
         public void LogSpaced      (string message)                                => LogWishes.LogSpaced(message);
         public void LogTitle       (string title)                                  => LogWishes.LogTitle(title);

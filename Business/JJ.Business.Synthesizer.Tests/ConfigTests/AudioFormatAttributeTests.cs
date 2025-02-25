@@ -1160,7 +1160,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
         
         private TestEntities CreateTestEntities(AudioFileFormatEnum? audioFormat) 
-            => new TestEntities(x => x.WithAudioFormat(audioFormat).SamplingRate(HighPerfHz));
+            => new TestEntities(x => x.WithLoggingDisabled().WithAudioFormat(audioFormat).WithSamplingRate(HighPerfHz));
 
         static object TestParameters => new[] // ncrunch: no coverage
         {

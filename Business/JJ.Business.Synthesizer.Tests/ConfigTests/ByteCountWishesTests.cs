@@ -116,12 +116,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         static TestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
             // Change bit depth first, or it'll change the byte count.
-            => new TestEntities(x => x.SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz));
+            => new TestEntities(x => x.WithLoggingDisabled().SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz));
 
         static TestEntities CreateTestEntities(Case val) 
             => new TestEntities(synth => 
             {
                 // Change primary properties before ByteCount, or they will change the byte count.
+                
+                synth.WithLoggingDisabled();
                 
                 int?    bits           = val.Bits          .Init.Nully;
                 int?    sizeOfBitDepth = val.SizeOfBitDepth.Init.Nully;
@@ -207,13 +209,13 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
 
         [TestMethod]
-        public void ByteCount_Basic_Init() => new TestEntities(x => x.ByteCount(100));
+        public void ByteCount_Basic_Init() => new TestEntities(x => x.ByteCount(100).WithLoggingDisabled());
         
         [TestMethod]
         public void ByteCount_Basic_Getters()
         {
             int byteCount = 100;
-            var entities = new TestEntities(x => x.ByteCount(byteCount));
+            var entities = new TestEntities(x => x.ByteCount(byteCount).WithLoggingDisabled());
             int courtesy = entities.Immutable.CourtesyBytes;
             
             AreEqual(DefaultByteCount, entities.SynthBound.ConfigSection.GetByteCount());
@@ -715,7 +717,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         public void ConfigSection_ByteCount()
         {
             // Get-only
-            var configSection = new TestEntities().SynthBound.ConfigSection;
+            var configSection = new TestEntities(x => x.WithLoggingDisabled()).SynthBound.ConfigSection;
             AreEqual(DefaultByteCount, () => configSection.ByteCount());
             AreEqual(DefaultByteCount, () => configSection.GetByteCount());
         }

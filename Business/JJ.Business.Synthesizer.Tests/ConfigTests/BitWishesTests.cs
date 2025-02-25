@@ -1523,7 +1523,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities(int? bits) => new TestEntities(x => x.Bits(bits).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? bits) => new TestEntities(x => x.WithLoggingDisabled().Bits(bits).SamplingRate(HighPerfHz));
                 
         static object TestParametersInit => new[] // ncrunch: no coverage
         { 

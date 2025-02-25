@@ -489,7 +489,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
         
         private TestEntities CreateTestEntities((int frameSize, int? bits, int? channels) init) 
-            => new TestEntities(x => x.WithBits(init.bits).WithChannels(init.channels).SamplingRate(HighPerfHz));
+            => new TestEntities(x => x.WithLoggingDisabled().WithBits(init.bits).WithChannels(init.channels).SamplingRate(HighPerfHz));
                  
         private static readonly int [] _bitsValues = { 8, 16, 32 };
         private static readonly int?[] _bitsValuesWithEmpty = { null, 0, 8, 16, 32 };

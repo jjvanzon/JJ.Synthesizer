@@ -803,7 +803,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
         
         private TestEntities CreateTestEntities(InterpolationTypeEnum? interpolation) 
-            => new TestEntities(x => x.WithInterpolation(interpolation).SamplingRate(HighPerfHz));
+            => new TestEntities(x => x.WithLoggingDisabled().WithInterpolation(interpolation).SamplingRate(HighPerfHz));
         
         static object TestParametersWithEmpty => new [] // ncrunch: no coverage
         {

@@ -503,7 +503,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         // Test Data Helpers
         
         private TestEntities CreateTestEntities((int headerLength, AudioFileFormatEnum? audioFormat) init) 
-            => new TestEntities(x => x.AudioFormat(init.audioFormat).SamplingRate(HighPerfHz));
+            => new TestEntities(x => x.WithLoggingDisabled().AudioFormat(init.audioFormat).SamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         
