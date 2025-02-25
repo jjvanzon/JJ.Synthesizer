@@ -7,12 +7,13 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.Warnings.Entities;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 // ReSharper disable RedundantNameQualifier
 // ReSharper disable CheckNamespace

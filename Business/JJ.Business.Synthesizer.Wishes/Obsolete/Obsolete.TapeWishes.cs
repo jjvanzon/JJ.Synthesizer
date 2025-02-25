@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 // ReSharper disable UnusedMember.Local
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete

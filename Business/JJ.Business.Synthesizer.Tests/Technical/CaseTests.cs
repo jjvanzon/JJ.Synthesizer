@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Tests.ConfigTests;
 using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
@@ -18,7 +19,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         { 
             var    testCase = new FrameCountWishesTests.Case();
             string key      = testCase.Key;
-            Static.Log(key);
+            LogWishes.Static.Log(key);
             NotNullOrEmpty(() => key);
         }
     }

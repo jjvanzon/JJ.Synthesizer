@@ -81,6 +81,9 @@
     <Compile Include="Helpers\FilledInExtensions.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
     <Compile Include="Helpers\PropertyNameWishes.cs" />
+    <Compile Include="Logging\LogWishes.Basics.cs" />
+    <Compile Include="Logging\LogWishes.Config.cs" />
+    <Compile Include="Logging\LogWishes.Descriptors.cs" />
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
     <Compile Include="Obsolete\Obsolete.LogWishes.cs" />
     <Compile Include="Obsolete\Obsolete.Streamers.cs" />
@@ -89,7 +92,6 @@
     <Compile Include="CalculationWishes.cs" />
     <Compile Include="CommandWishes.cs" />
     <Compile Include="FlowNode.cs" />
-    <Compile Include="LogWishes.cs" />
     <Compile Include="Helpers\CloneWishes.cs" />
     <Compile Include="TapeWishes\TapeTreeBuilder.cs" />
     <Compile Include="TapeWishes\TapePadder.cs" />
@@ -195,6 +197,10 @@
     <Compile Include="ArithmeticWishes.cs" />
     <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
     <Compile Include="Config\ConfigWishes.Defaults.cs" />
+    <Compile Include="Logging\LogWishes.Math.cs" />
+    <Compile Include="Logging\LogWishes.Actions.cs" />
+    <Compile Include="Logging\LogWishes.SynthLog.cs" />
+    <Compile Include="Logging\LogWishes.TapeTree.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

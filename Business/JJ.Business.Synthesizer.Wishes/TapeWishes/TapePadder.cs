@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 // ReSharper disable AssignmentInsteadOfDiscard
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Math;

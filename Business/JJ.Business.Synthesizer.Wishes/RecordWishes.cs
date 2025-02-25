@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
 
 namespace JJ.Business.Synthesizer.Wishes

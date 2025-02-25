@@ -4,7 +4,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Tests.ConfigTests;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Wishes.Common;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

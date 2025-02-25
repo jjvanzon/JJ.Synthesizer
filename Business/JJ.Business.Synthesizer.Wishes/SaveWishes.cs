@@ -4,13 +4,14 @@ using System.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static System.IO.File;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {

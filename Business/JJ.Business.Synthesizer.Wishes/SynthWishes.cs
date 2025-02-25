@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using JJ.Framework.Wishes.Logging;

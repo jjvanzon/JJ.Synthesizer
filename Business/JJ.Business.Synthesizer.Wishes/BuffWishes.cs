@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;

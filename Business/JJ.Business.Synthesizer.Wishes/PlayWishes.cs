@@ -4,12 +4,13 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Media;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.IO.Path;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable once ParameterHidesMember

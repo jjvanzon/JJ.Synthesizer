@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using static System.IO.File;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {

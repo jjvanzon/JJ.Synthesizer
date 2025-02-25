@@ -16,7 +16,7 @@ using static System.IO.Path;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes

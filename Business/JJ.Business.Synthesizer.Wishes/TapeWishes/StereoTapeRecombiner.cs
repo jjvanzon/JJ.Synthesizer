@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes

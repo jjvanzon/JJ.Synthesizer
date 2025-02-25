@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.Environment;
 using static System.String;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
