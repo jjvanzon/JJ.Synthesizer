@@ -11,15 +11,12 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
-using static JJ.Business.Synthesizer.Enums.SpeakerSetupEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
@@ -45,7 +42,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public byte[] Bytes { get; set; }
         
         private string _filePath;
-        
         public string FilePath
         {
             get => Coalesce(UnderlyingAudioFileOutput?.FilePath, _filePath);
@@ -55,8 +51,21 @@ namespace JJ.Business.Synthesizer.Wishes
                 _filePath = value;
             }
         }
+        
         public AudioFileOutput UnderlyingAudioFileOutput { get; internal set; }
-
+        
+        /// <summary> Nullable </summary>
+        public Tape Tape { get; internal set; }
+        
+        private SynthWishes _synthWishes;
+        
+        /// <summary> Nullable </summary>
+        public SynthWishes SynthWishes 
+        {
+            get => _synthWishes ?? Tape?.SynthWishes; 
+            set => _synthWishes = value;
+        }
+        
         public string Name => ResolveName(UnderlyingAudioFileOutput, FilePath);
     }
 

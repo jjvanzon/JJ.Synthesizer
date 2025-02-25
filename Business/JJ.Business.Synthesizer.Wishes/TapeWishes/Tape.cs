@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
@@ -24,6 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             Config = new TapeConfig(this);
             Actions = new TapeActions(this);
+            Buff = new Buff { Tape = this };
         }
         
         private SynthWishes _synthWishes;
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         #region Buff
         
         [Obsolete("Prefer Tape properties instead")]
-        public Buff Buff { get; } = new Buff();
+        public Buff Buff { get; }
         
         public bool IsBuff => Has(Bytes) || Exists(FilePathResolved);
         

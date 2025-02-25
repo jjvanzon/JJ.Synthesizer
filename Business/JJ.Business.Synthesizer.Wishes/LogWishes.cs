@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        private LogWishes Logging { get; } = new LogWishes();
+        internal LogWishes Logging { get; } = new LogWishes();
 
         public SynthWishes WithLogging(bool enabled = true) { Logging.LoggingEnabled = enabled; return this; }
         
@@ -40,11 +40,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public void Log(string message = null)
             => Logging.Log(message);
         
-        public void LogTitleStrong(string title)
-            => Logging.LogTitleStrong(title);
-        
         public void LogTitle(string title)
             => Logging.LogTitle(title);
+        
+        public void LogTitleStrong(string title)
+            => Logging.LogTitleStrong(title);
         
         public void LogOutputFile(string filePath, string sourceFilePath = null)
             => Logging.LogOutputFile(filePath, sourceFilePath);
@@ -146,6 +146,53 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class LogExtensions
     {
+        public   static void Log           (this FlowNode       entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
+        public   static void Log           (this Tape           entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
+        public   static void Log           (this TapeConfig     entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
+        public   static void Log           (this TapeActions    entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
+        public   static void Log           (this TapeAction     entity, string message = "") => (entity ?? throw new NullException(() => entity)).SynthWishes.Log(message);
+        public   static void Log           (this Buff           entity, string message = "") => (entity?.SynthWishes?.Logging ?? Static)                     .Log(message);
+        internal static void Log           (this ConfigResolver entity, string message = "") => (entity?.SynthWishes?.Logging ?? Static)                     .Log(message);
+        public   static void LogTitle      (this FlowNode       entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
+        public   static void LogTitle      (this Tape           entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
+        public   static void LogTitle      (this TapeConfig     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
+        public   static void LogTitle      (this TapeActions    entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
+        public   static void LogTitle      (this TapeAction     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitle(title);
+        public   static void LogTitle      (this Buff           entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitle(title);
+        internal static void LogTitle      (this ConfigResolver entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitle(title);
+        public   static void LogTitleStrong(this FlowNode       entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
+        public   static void LogTitleStrong(this Tape           entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeConfig     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeActions    entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeAction     entity, string title) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogTitleStrong(title);
+        public   static void LogTitleStrong(this Buff           entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitleStrong(title);
+        internal static void LogTitleStrong(this ConfigResolver entity, string title) => (entity?.SynthWishes?.Logging ?? Static)                     .LogTitleStrong(title);
+        public   static void LogOutputFile (this FlowNode       entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Tape           entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeConfig     entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeActions    entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeAction     entity, string filePath, string sourceFilePath = null) => (entity ?? throw new NullException(() => entity)).SynthWishes.LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Buff           entity, string filePath, string sourceFilePath = null) => (entity?.SynthWishes?.Logging ?? Static)                     .LogOutputFile(filePath, sourceFilePath);
+        internal static void LogOutputFile (this ConfigResolver entity, string filePath, string sourceFilePath = null) => (entity?.SynthWishes?.Logging ?? Static)                     .LogOutputFile(filePath, sourceFilePath);
+
+        private static LogWishes GetLogWishes<T>(T entity, Func<T, SynthWishes> getSynthWishes)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (getSynthWishes == null) throw new NullException(() => getSynthWishes);
+            SynthWishes synthWishes = getSynthWishes(entity);
+            return synthWishes?.Logging ?? Static;
+        }
+        
+        //public   static void LogConfig(this FlowNode       entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this Tape           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this TapeConfig     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this TapeActions    entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this TapeAction     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this Buff           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //internal static void LogConfig(this ConfigResolver entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+    
+        
+        
         public static string SynthLog(this Tape tape, double? calculationDuration = null) => Static.SynthLog(tape, calculationDuration);
         
         public static string Descriptor(this Tape tape)                       => Static.Descriptor(tape);
@@ -824,7 +871,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Tapes
         
-        internal string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
+        public string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
             var sb = new StringBuilderWithIndentation_Adapted("   ", NewLine);
             PlotTapeTree(tapes, sb, includeCalculationGraphs);
@@ -1112,38 +1159,38 @@ namespace JJ.Business.Synthesizer.Wishes
         }
         
         // Actions
-
-        internal void LogAction(TapeAction action, string message = null)
+        
+        public void LogAction(TapeAction action, string message = null)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
             Log(ActionMessage("Action", action.Type, action.Tape.Descriptor(), message));
         }
         
-        internal void LogAction(Tape entity, string action, string message = null)
+        public void LogAction(Tape entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Tape), action, entity.Descriptor(), message));
         }
-
-        internal void LogAction(Buff entity, string action, string message = null)
+        
+        public void LogAction(Buff entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Buff), action, entity.Name, message));
         }
-
-        internal void LogAction(Sample entity, string action, string message = null)
+        
+        public void LogAction(Sample entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Sample), action, entity.Name, message ?? ConfigLog(entity)));
         }
-
-        internal void LogAction(AudioFileOutput entity, string action, string message = null)
+        
+        public void LogAction(AudioFileOutput entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage("Audio File Out", action, entity.Name, message ?? ConfigLog(entity)));
         }
         
-        internal void LogAction(FlowNode entity, string action, string message = null)
+        public void LogAction(FlowNode entity, string action, string message = null)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Operator), action, entity.Name, message));
@@ -1154,14 +1201,14 @@ namespace JJ.Business.Synthesizer.Wishes
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(entity.GetType().Name, action, name, message));
         }
-
-        internal void LogAction(string typeName, string message) 
+        
+        public void LogAction(string typeName, string message) 
             => Log(ActionMessage(typeName, null, null, message));
         
-        internal void LogAction(string typeName, string action, string message) 
+        public void LogAction(string typeName, string action, string message) 
             => Log(ActionMessage(typeName, action, null, message));
         
-        internal void LogAction(string typeName, string action, string objectName, string message) 
+        public void LogAction(string typeName, string action, string objectName, string message) 
             => Log(ActionMessage(typeName, action, objectName, message));
 
         public string ActionMessage(string typeName, ActionEnum action, string objectName, string message)
@@ -1351,14 +1398,13 @@ namespace JJ.Business.Synthesizer.Wishes
         private string Stringify(FlowNode operand)
             => operand.Stringify(true);
         
-        private string Stringify(
-            string opName, FlowNode signal, string dimension, string mathSymbol, FlowNode transform)
+        private string Stringify(string opName, FlowNode signal, string dimension, string mathSymbol, FlowNode transform)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {Stringify(transform)})";
         
-        private string Stringify(
-            string opName, FlowNode signal, string dimension, string mathSymbol, double value)
+        private string Stringify(string opName, FlowNode signal, string dimension, string mathSymbol, double value)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {value})";
  
-        private string Pad(string text) => (text ?? "").PadRight(19);
+        private string Pad(string text) 
+            => (text ?? "").PadRight(19);
     }
 }

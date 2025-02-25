@@ -56,6 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 Bytes = bytes,
                 FilePath = filePath,
+                SynthWishes = synthWishes
             };
         }
         

@@ -71,6 +71,8 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.Bytes = source.Bytes;
             dest.FilePath = source.FilePath;
             dest.UnderlyingAudioFileOutput = source.UnderlyingAudioFileOutput;
+            dest.Tape = source.Tape;
+            dest.SynthWishes = source.SynthWishes;
         }
 
         internal static void CloneConfig(TapeConfig source, TapeConfig dest)
