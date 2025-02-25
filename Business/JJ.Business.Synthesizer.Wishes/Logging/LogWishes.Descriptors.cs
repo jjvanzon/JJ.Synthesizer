@@ -208,6 +208,45 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             if (signals == null) throw new ArgumentNullException(nameof(signals));
             return signals.Count == 0 ? "<Signal=null>" : Join(" | ", signals.Select(x => $"{x}"));
         }
+
+        public string ChannelDescriptor(Tape tape)
+        {
+            if (tape == null) throw new ArgumentNullException(nameof(tape));
+            return ChannelDescriptor(tape.Config);
+        }
+
+        public string ChannelDescriptor(TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new ArgumentNullException(nameof(tapeConfig));
+            return ChannelDescriptor(tapeConfig.Channels, tapeConfig.Channel);
+        }
+
+        public string ChannelDescriptor(int? channelCount, int? channel = null)
+        {
+            if (!Has(channelCount) && channel == null)
+                return default;
+            
+            if (Has(channelCount) && channel == null)
+                return channelCount == 1 ? "Mono" : channelCount == 2 ? "Stereo" : $"{channelCount} Channels";
+            
+            if (!Has(channelCount) && channel != null)
+                return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Channel {channel}";
+            
+            if (Has(channelCount) && channel != null)
+            {
+                if (channelCount == 1)
+                    return channel == 0 ? "Mono" : $"Mono | ⚠ Channel {channel}";
+                
+                if (channelCount == 2)
+                    return channel == 0 ? "Left" : channel == 1 ? "Right" : $"Stereo | ⚠ Channel {channel}";
+                
+                return channel < channelCount
+                    ? $"{channelCount} Channels | Channel {channel}"
+                    : $"{channelCount} Channels | ⚠ Channel {channel}";
+            }
+            
+            return default;
+        }
     }
 
     public static partial class LogExtensions
