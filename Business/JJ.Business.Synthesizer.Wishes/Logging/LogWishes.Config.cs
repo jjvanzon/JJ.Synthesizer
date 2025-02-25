@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -103,31 +103,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return descriptor;
         }
         
-        public   void LogConfig(              SynthWishes    entity                      ) => LogSpaced(ConfigLog(entity));
-        public   void LogConfig(              SynthWishes    entity, string sep          ) => LogSpaced(ConfigLog(entity, sep)); 
-        public   void LogConfig(string title, SynthWishes    entity, string sep = default) => LogSpaced(ConfigLog(title, entity, sep));
-        public   void LogConfig(              FlowNode       entity                      ) => Log(ConfigLog(entity));
-        public   void LogConfig(              FlowNode       entity, string sep          ) => Log(ConfigLog(entity, sep)); 
-        public   void LogConfig(string title, FlowNode       entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
-        internal void LogConfig(              ConfigResolver entity, SynthWishes synthWishes                    ) => Log(ConfigLog(entity, synthWishes));
-        internal void LogConfig(              ConfigResolver entity, SynthWishes synthWishes, string sep        ) => Log(ConfigLog(entity, synthWishes, sep)); 
-        internal void LogConfig(string title, ConfigResolver entity, SynthWishes synthWishes, string sep = " | ") => Log(ConfigLog(title, entity, synthWishes, sep));
-        internal void LogConfig(              ConfigSection  entity                      ) => Log(ConfigLog(entity));
-        internal void LogConfig(              ConfigSection  entity, string sep          ) => Log(ConfigLog(entity, sep));
-        internal void LogConfig(string title, ConfigSection  entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              Tape           entity                      ) => Log(ConfigLog(entity));
-        public   void LogConfig(              Tape           entity, string sep          ) => Log(ConfigLog(entity, sep)); 
-        public   void LogConfig(string title, Tape           entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              TapeConfig     entity                      ) => Log(ConfigLog(entity)); // By Design: No sep; no parts to separate.
-        public   void LogConfig(              TapeActions    entity                      ) => LogConfig(       NoNull(() => entity).Tape     );
-        public   void LogConfig(              TapeActions    entity, string sep          ) => LogConfig(       NoNull(() => entity).Tape, sep); 
-        public   void LogConfig(string title, TapeActions    entity, string sep = " | "  ) => LogConfig(title, NoNull(() => entity).Tape, sep);
-        public   void LogConfig(              TapeAction     entity                      ) => LogConfig(       NoNull(() => entity).Tape     );
-        public   void LogConfig(              TapeAction     entity, string sep          ) => LogConfig(       NoNull(() => entity).Tape, sep); 
-        public   void LogConfig(string title, TapeAction     entity, string sep = " | "  ) => LogConfig(title, NoNull(() => entity).Tape, sep);
-        // TODO: Other entities
-        
-
         public string ConfigLog(SynthWishes synthWishes) => ConfigLog("Options", synthWishes, NewLine);
         public string ConfigLog(SynthWishes synthWishes, string sep) => ConfigLog("Options", synthWishes, sep);
         public string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
@@ -266,6 +241,42 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return configLog;
         }
         
+        public string ConfigLog(TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return ConfigLog("", tapeActions.Tape);
+        }
+
+        public string ConfigLog(TapeActions tapeActions, string sep)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return ConfigLog("", tapeActions.Tape, sep);
+        }
+
+        public string ConfigLog(string title, TapeActions tapeActions, string sep = " | ")
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return ConfigLog(title, tapeActions.Tape, sep);
+        }
+        
+        public string ConfigLog(TapeAction tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return ConfigLog("", tapeActions.Tape);
+        }
+
+        public string ConfigLog(TapeAction tapeAction, string sep)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return ConfigLog("", tapeAction.Tape, sep);
+        }
+
+        public string ConfigLog(string title, TapeAction tapeAction, string sep = " | ")
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return ConfigLog(title, tapeAction.Tape, sep);
+        }
+        
         public string ConfigLog(Buff buff) => ConfigLog("", buff);
         public string ConfigLog(Buff buff, string sep) => ConfigLog("", buff, sep);
         public string ConfigLog(string title, Buff buff, string sep = " | ")
@@ -389,18 +400,118 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 audioFormatDescriptor, 
                 sep: sep);
         }
-    }
 
+        // TODO: Make sep optional parameter and remove redundant overloads.
+        public   void LogConfig(              SynthWishes     entity                      ) => LogSpaced(ConfigLog(       entity     ));
+        public   void LogConfig(              SynthWishes     entity, string sep          ) => LogSpaced(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, SynthWishes     entity, string sep = default) => LogSpaced(ConfigLog(title, entity, sep));
+        public   void LogConfig(              FlowNode        entity                      ) => Log      (ConfigLog(       entity     ));
+        public   void LogConfig(              FlowNode        entity, string sep          ) => Log      (ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, FlowNode        entity, string sep = " | "  ) => Log      (ConfigLog(title, entity, sep));
+        internal void LogConfig(              ConfigResolver  entity, SynthWishes synthWishes                    ) => Log(ConfigLog(       entity, synthWishes     ));
+        internal void LogConfig(              ConfigResolver  entity, SynthWishes synthWishes, string sep        ) => Log(ConfigLog(       entity, synthWishes, sep)); 
+        internal void LogConfig(string title, ConfigResolver  entity, SynthWishes synthWishes, string sep = " | ") => Log(ConfigLog(title, entity, synthWishes, sep));
+        internal void LogConfig(              ConfigSection   entity                      ) => Log(ConfigLog(       entity     ));
+        internal void LogConfig(              ConfigSection   entity, string sep          ) => Log(ConfigLog(       entity, sep));
+        internal void LogConfig(string title, ConfigSection   entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              Tape            entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              Tape            entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, Tape            entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              TapeConfig      entity                      ) => Log(ConfigLog(       entity     )); // By Design: No sep; no parts to separate.
+        public   void LogConfig(              TapeActions     entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              TapeActions     entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, TapeActions     entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              TapeAction      entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              TapeAction      entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, TapeAction      entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              Buff            entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              Buff            entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, Buff            entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              AudioFileOutput entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              AudioFileOutput entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, AudioFileOutput entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              Sample          entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              Sample          entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, Sample          entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              AudioInfoWish   entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              AudioInfoWish   entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, AudioInfoWish   entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              AudioFileInfo   entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              AudioFileInfo   entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, AudioFileInfo   entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              WavHeaderStruct entity                      ) => Log(ConfigLog(       entity     ));
+        public   void LogConfig(              WavHeaderStruct entity, string sep          ) => Log(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, WavHeaderStruct entity, string sep = " | "  ) => Log(ConfigLog(title, entity, sep));
+    }
+}
+
+// ReSharper disable once CheckNamespace
+namespace JJ.Business.Synthesizer.Wishes
+{
+    public partial class SynthWishes
+    {
+        public   string ConfigLog(                                                                   ) => LogWishes.ConfigLog(       this                );
+        public   string ConfigLog(string title,                                  string sep = default) => LogWishes.ConfigLog(title, this,            sep);
+        public   string ConfigLog(              FlowNode        flowNode,        string sep = " | "  ) => LogWishes.ConfigLog(       flowNode,        sep);
+        public   string ConfigLog(string title, FlowNode        flowNode,        string sep = " | "  ) => LogWishes.ConfigLog(title, flowNode,        sep);
+        internal string ConfigLog(              ConfigResolver  configResolver,  string sep = " | "  ) => LogWishes.ConfigLog(       configResolver, this, sep);
+        internal string ConfigLog(string title, ConfigResolver  configResolver,  string sep = " | "  ) => LogWishes.ConfigLog(title, configResolver, this, sep);
+        internal string ConfigLog(              ConfigSection   configSection,   string sep = " | "  ) => LogWishes.ConfigLog(       configSection,   sep);
+        internal string ConfigLog(string title, ConfigSection   configSection,   string sep = " | "  ) => LogWishes.ConfigLog(title, configSection,   sep);
+        public   string ConfigLog(              Tape            tape,            string sep = " | "  ) => LogWishes.ConfigLog(       tape,            sep);
+        public   string ConfigLog(string title, Tape            tape,            string sep = " | "  ) => LogWishes.ConfigLog(title, tape,            sep);
+        public   string ConfigLog(              TapeConfig      tapeConfig                           ) => LogWishes.ConfigLog(       tapeConfig          );
+        public   string ConfigLog(              TapeActions     tapeActions,     string sep = " | "  ) => LogWishes.ConfigLog(       tapeActions,     sep);
+        public   string ConfigLog(string title, TapeActions     tapeActions,     string sep = " | "  ) => LogWishes.ConfigLog(title, tapeActions,     sep);
+        public   string ConfigLog(              TapeAction      tapeAction,      string sep = " | "  ) => LogWishes.ConfigLog(       tapeAction,      sep);
+        public   string ConfigLog(string title, TapeAction      tapeAction,      string sep = " | "  ) => LogWishes.ConfigLog(title, tapeAction,      sep);
+        public   string ConfigLog(              Buff            buff,            string sep = " | "  ) => LogWishes.ConfigLog(       buff,            sep);
+        public   string ConfigLog(string title, Buff            buff,            string sep = " | "  ) => LogWishes.ConfigLog(title, buff,            sep);
+        public   string ConfigLog(              AudioFileOutput audioFileOutput, string sep = " | "  ) => LogWishes.ConfigLog(       audioFileOutput, sep);
+        public   string ConfigLog(string title, AudioFileOutput audioFileOutput, string sep = " | "  ) => LogWishes.ConfigLog(title, audioFileOutput, sep);
+        public   string ConfigLog(              Sample          sample,          string sep = " | "  ) => LogWishes.ConfigLog(       sample,          sep);
+        public   string ConfigLog(string title, Sample          sample,          string sep = " | "  ) => LogWishes.ConfigLog(title, sample,          sep);
+        public   string ConfigLog(              AudioInfoWish   audioInfoWish,   string sep = " | "  ) => LogWishes.ConfigLog(       audioInfoWish,   sep);
+        public   string ConfigLog(string title, AudioInfoWish   audioInfoWish,   string sep = " | "  ) => LogWishes.ConfigLog(title, audioInfoWish,   sep);
+        public   string ConfigLog(              AudioFileInfo   audioFileInfo,   string sep = " | "  ) => LogWishes.ConfigLog(       audioFileInfo,   sep);
+        public   string ConfigLog(string title, AudioFileInfo   audioFileInfo,   string sep = " | "  ) => LogWishes.ConfigLog(title, audioFileInfo,   sep);
+        public   string ConfigLog(              WavHeaderStruct wavHeaderStruct, string sep = " | "  ) => LogWishes.ConfigLog(       wavHeaderStruct, sep);
+        public   string ConfigLog(string title, WavHeaderStruct wavHeaderStruct, string sep = " | "  ) => LogWishes.ConfigLog(title, wavHeaderStruct, sep);
+    
+        public   void   LogConfig(                                                                   ) => LogWishes.LogConfig(       this                );
+        public   void   LogConfig(string title,                                  string sep = default) => LogWishes.LogConfig(title, this,            sep);
+        public   void   LogConfig(              FlowNode        flowNode,        string sep = " | "  ) => LogWishes.LogConfig(       flowNode,        sep);
+        public   void   LogConfig(string title, FlowNode        flowNode,        string sep = " | "  ) => LogWishes.LogConfig(title, flowNode,        sep);
+        internal void   LogConfig(              ConfigResolver  configResolver,  string sep = " | "  ) => LogWishes.LogConfig(       configResolver, this, sep);
+        internal void   LogConfig(string title, ConfigResolver  configResolver,  string sep = " | "  ) => LogWishes.LogConfig(title, configResolver, this, sep);
+        internal void   LogConfig(              ConfigSection   configSection,   string sep = " | "  ) => LogWishes.LogConfig(       configSection,   sep);
+        internal void   LogConfig(string title, ConfigSection   configSection,   string sep = " | "  ) => LogWishes.LogConfig(title, configSection,   sep);
+        public   void   LogConfig(              Tape            tape,            string sep = " | "  ) => LogWishes.LogConfig(       tape,            sep);
+        public   void   LogConfig(string title, Tape            tape,            string sep = " | "  ) => LogWishes.LogConfig(title, tape,            sep);
+        public   void   LogConfig(              TapeConfig      tapeConfig                           ) => LogWishes.LogConfig(       tapeConfig          );
+        public   void   LogConfig(              TapeActions     tapeActions,     string sep = " | "  ) => LogWishes.LogConfig(       tapeActions,     sep);
+        public   void   LogConfig(string title, TapeActions     tapeActions,     string sep = " | "  ) => LogWishes.LogConfig(title, tapeActions,     sep);
+        public   void   LogConfig(              TapeAction      tapeAction,      string sep = " | "  ) => LogWishes.LogConfig(       tapeAction,      sep);
+        public   void   LogConfig(string title, TapeAction      tapeAction,      string sep = " | "  ) => LogWishes.LogConfig(title, tapeAction,      sep);
+        public   void   LogConfig(              Buff            buff,            string sep = " | "  ) => LogWishes.LogConfig(       buff,            sep);
+        public   void   LogConfig(string title, Buff            buff,            string sep = " | "  ) => LogWishes.LogConfig(title, buff,            sep);
+        public   void   LogConfig(              AudioFileOutput audioFileOutput, string sep = " | "  ) => LogWishes.LogConfig(       audioFileOutput, sep);
+        public   void   LogConfig(string title, AudioFileOutput audioFileOutput, string sep = " | "  ) => LogWishes.LogConfig(title, audioFileOutput, sep);
+        public   void   LogConfig(              Sample          sample,          string sep = " | "  ) => LogWishes.LogConfig(       sample,          sep);
+        public   void   LogConfig(string title, Sample          sample,          string sep = " | "  ) => LogWishes.LogConfig(title, sample,          sep);
+        public   void   LogConfig(              AudioInfoWish   audioInfoWish,   string sep = " | "  ) => LogWishes.LogConfig(       audioInfoWish,   sep);
+        public   void   LogConfig(string title, AudioInfoWish   audioInfoWish,   string sep = " | "  ) => LogWishes.LogConfig(title, audioInfoWish,   sep);
+        public   void   LogConfig(              AudioFileInfo   audioFileInfo,   string sep = " | "  ) => LogWishes.LogConfig(       audioFileInfo,   sep);
+        public   void   LogConfig(string title, AudioFileInfo   audioFileInfo,   string sep = " | "  ) => LogWishes.LogConfig(title, audioFileInfo,   sep);
+        public   void   LogConfig(              WavHeaderStruct wavHeaderStruct, string sep = " | "  ) => LogWishes.LogConfig(       wavHeaderStruct, sep);
+        public   void   LogConfig(string title, WavHeaderStruct wavHeaderStruct, string sep = " | "  ) => LogWishes.LogConfig(title, wavHeaderStruct, sep);
+    }
+}
+
+namespace JJ.Business.Synthesizer.Wishes.Logging
+{
     public static partial class LogExtensions
     {
-        public   static void LogConfig(this FlowNode       entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this Tape           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this TapeConfig     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this TapeActions    entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        public   static void LogConfig(this TapeAction     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        //public   static void LogConfig(this Buff           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-        //internal static void LogConfig(this ConfigResolver entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
-
         public   static string ConfigLog(this SynthWishes     synthWishes                              ) => Static.ConfigLog(synthWishes);
         public   static string ConfigLog(this SynthWishes     synthWishes,     string title            ) => Static.ConfigLog(title, synthWishes);
         public   static string ConfigLog(this SynthWishes     synthWishes,     string title, string sep) => Static.ConfigLog(title, synthWishes, sep);
@@ -437,18 +548,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static string ConfigLog(this WavHeaderStruct wavHeader                                ) => Static.ConfigLog(wavHeader);
         public   static string ConfigLog(this WavHeaderStruct wavHeader,       string sep              ) => Static.ConfigLog(wavHeader, sep);
         public   static string ConfigLog(this WavHeaderStruct wavHeader,       string title, string sep) => Static.ConfigLog(title, wavHeader, sep);
-    }
-}
-
-// ReSharper disable once CheckNamespace
-namespace JJ.Business.Synthesizer.Wishes
-{
-    public partial class SynthWishes
-    {
-        public void LogConfig()
-            => LogWishes.LogConfig(this);
         
-        public void LogConfig(string title, string sep = default)
-            => LogWishes.LogConfig(title, this, sep);
+        public   static void LogConfig(this FlowNode       entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this Tape           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeConfig     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeActions    entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeAction     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this Buff           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //internal static void LogConfig(this ConfigResolver entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
     }
 }
