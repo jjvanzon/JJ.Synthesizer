@@ -17,7 +17,6 @@ using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
-
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes

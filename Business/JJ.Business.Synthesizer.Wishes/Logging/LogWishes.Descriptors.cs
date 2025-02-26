@@ -1,31 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
-using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Logging;
 using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
 using static System.String;
-using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using static JJ.Framework.Wishes.Text.StringWishes;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.Logging.LoggingFactory;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
@@ -166,7 +150,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return prefix + nameDescriptor + flagDescriptor + idDescriptor;
         }
         
-        private string Descriptors(IList<Tape> tapes)
+        public string Descriptors(IList<Tape> tapes)
         {
            if (!Has(tapes)) return default;
            string[] tapeDescriptors = tapes.Where(x => x != null).Select(Descriptor).ToArray();
@@ -252,8 +236,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     public static partial class LogExtensions
     {
         public static string Descriptor(this Tape tape)                       => Static.Descriptor(tape);
+        public static string Descriptor(this IList<Tape> tapes)               => Static.Descriptors(tapes);
         public static string Descriptor(this TapeActions actions)             => Static.Descriptor(actions);
         public static string Descriptor(this AudioFileOutput audioFileOutput) => Static.Descriptor(audioFileOutput);
         public static string Descriptor(this IList<FlowNode> signals)         => Static.Descriptor(signals);
+        public static string ChannelDescriptor(this Tape tape)                => Static.ChannelDescriptor(tape);
+        public static string ChannelDescriptor(this TapeConfig tapeConfig)    => Static.ChannelDescriptor(tapeConfig);
     }
 }
