@@ -94,35 +94,71 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return $"  {PrettyByteCount(bytes.Length)} written to memory.";
         }
         
-        // Helper
-        
-        internal static LogWishes Resolve(FlowNode        entity                         ) => Resolve(entity, x => x.SynthWishes);
-        internal static LogWishes Resolve(ConfigResolver  entity                         ) => Resolve(entity, x => x.SynthWishes);
-        internal static LogWishes Resolve(ConfigSection   entity                         ) => Resolve(entity, x => null         );
-        internal static LogWishes Resolve(ConfigSection   entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
-        internal static LogWishes Resolve(Tape            entity                         ) => Resolve(entity, x => x.SynthWishes);
-        internal static LogWishes Resolve(TapeConfig      entity                         ) => Resolve(entity, x => x.SynthWishes);
-        internal static LogWishes Resolve(TapeActions     entity                         ) => Resolve(entity, x => x.SynthWishes);
-        internal static LogWishes Resolve(TapeAction      entity                         ) => Resolve(entity, x => x.SynthWishes);
-        internal static LogWishes Resolve(Buff            entity                         ) => Resolve(entity, x => x.SynthWishes);
-        internal static LogWishes Resolve(AudioFileOutput entity                         ) => Resolve(entity, x => null);
-        internal static LogWishes Resolve(AudioFileOutput entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
-        internal static LogWishes Resolve(Sample          entity                         ) => Resolve(entity, x => null);
-        internal static LogWishes Resolve(Sample          entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
-        internal static LogWishes Resolve(AudioInfoWish   entity                         ) => Resolve(entity, x => null);
-        internal static LogWishes Resolve(AudioInfoWish   entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
-        internal static LogWishes Resolve(AudioFileInfo   entity                         ) => Resolve(entity, x => null);
-        internal static LogWishes Resolve(AudioFileInfo   entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
-        internal static LogWishes Resolve(WavHeaderStruct entity                         ) => Resolve(entity, x => null);
-        internal static LogWishes Resolve(WavHeaderStruct entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
-        internal static LogWishes Resolve(IList<Tape>     tapes                          ) => Resolve(tapes , x => x.Where(y => y != null).Select(y => y.SynthWishes).FirstOrDefault());
-
-        private static LogWishes Resolve<T>(T entity, Func<T, SynthWishes> getSynthWishes)
+        internal static LogWishes Resolve(FlowNode flowNode)
         {
-            if (entity == null) throw new NullException(() => entity);
-            if (getSynthWishes == null) throw new NullException(() => getSynthWishes);
-            SynthWishes synthWishes = getSynthWishes.Invoke(entity);
-            return synthWishes?.Logging ?? Static;
+            if (flowNode == null) throw new NullException(() => flowNode);
+            return flowNode.SynthWishes.Logging;
+        }
+        
+        internal static LogWishes Resolve(ConfigResolver configResolver)
+        {
+            if (configResolver == null) throw new NullException(() => configResolver);
+            return configResolver.SynthWishes?.Logging ?? Static;
+        }
+        
+        internal static LogWishes Resolve(Tape tape )
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return tape.SynthWishes.Logging;
+        }
+        
+        internal static LogWishes Resolve(TapeConfig tapeConfig)
+        {
+            if (tapeConfig == null) throw new NullException(() => tapeConfig);
+            return tapeConfig.SynthWishes.Logging;
+        }
+        
+        internal static LogWishes Resolve(TapeActions tapeActions)
+        {
+            if (tapeActions == null) throw new NullException(() => tapeActions);
+            return tapeActions.SynthWishes.Logging;
+        }
+        
+        internal static LogWishes Resolve(TapeAction tapeAction)
+        {
+            if (tapeAction == null) throw new NullException(() => tapeAction);
+            return tapeAction.SynthWishes.Logging;
+        }
+        
+        internal static LogWishes Resolve(Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            return buff.SynthWishes?.Logging ?? Static;
+        }
+        
+        // ReSharper disable UnusedParameter.Global
+        
+        internal static LogWishes Resolve(ConfigSection   configSection                           ) =>                         Static;
+        internal static LogWishes Resolve(ConfigSection   configSection,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+        internal static LogWishes Resolve(AudioFileOutput audioFileOutput                         ) =>                         Static;
+        internal static LogWishes Resolve(AudioFileOutput audioFileOutput, SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+        internal static LogWishes Resolve(Sample          sample                                  ) =>                         Static;
+        internal static LogWishes Resolve(Sample          sample,          SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+        internal static LogWishes Resolve(AudioInfoWish   audioInfoWish                           ) =>                         Static;
+        internal static LogWishes Resolve(AudioInfoWish   audioInfoWish,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+        internal static LogWishes Resolve(AudioFileInfo   audioFileInfo                           ) =>                         Static;
+        internal static LogWishes Resolve(AudioFileInfo   audioFileInfo,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+        internal static LogWishes Resolve(WavHeaderStruct wavHeader                               ) =>                         Static;
+        internal static LogWishes Resolve(WavHeaderStruct wavHeader,       SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+        
+        // ReSharper restore UnusedParameter.Global
+
+        internal static LogWishes Resolve(IList<Tape> tapes)
+        {
+            if (tapes == null) throw new NullException(() => tapes);
+            if (tapes.Count == 0) return Static;
+            if (tapes[0] == null) return Static;
+            return tapes[0].SynthWishes.Logging;
         }
     }
 }
