@@ -78,3 +78,14 @@
         internal static void   LogConfig(this ConfigResolver  configResolver,  SynthWishes synthWishes                          ) => NotNull(() => synthWishes).LogConfig(       configResolver      );
         internal static void   LogConfig(this ConfigResolver  configResolver,  SynthWishes synthWishes, string title            ) => NotNull(() => synthWishes).LogConfig(title, configResolver      );
         internal static void   LogConfig(this ConfigResolver  configResolver,  SynthWishes synthWishes, string title, string sep) => NotNull(() => synthWishes).LogConfig(title, configResolver,  sep);
+
+            return Resolve(tapes, x => x.Where(y => y != null).Select(y => y.SynthWishes).FirstOrDefault());
+
+        
+        private static LogWishes Resolve<T>(T entity, Func<T, SynthWishes> getSynthWishes)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (getSynthWishes == null) throw new NullException(() => getSynthWishes);
+            SynthWishes synthWishes = getSynthWishes.Invoke(entity);
+            return synthWishes?.Logging ?? Static;
+        }
