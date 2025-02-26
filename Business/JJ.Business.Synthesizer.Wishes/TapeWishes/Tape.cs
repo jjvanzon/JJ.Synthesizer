@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private SynthWishes _synthWishes;
         
-        /// <summary> Not null. Might throw if not initialized. </summary>
+        /// <summary> Must be filled in. In edge-cases it can throw an error if not initialized. </summary>
         internal SynthWishes SynthWishes
         {
             get => _synthWishes         ?? throw new NullException(() => SynthWishes);
@@ -235,6 +235,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public SynthWishes SynthWishes => Tape.SynthWishes;
         internal LogWishes Logging => LogWishes.Resolve(this);
         
+        /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
 
         internal TapeConfig(Tape tape)

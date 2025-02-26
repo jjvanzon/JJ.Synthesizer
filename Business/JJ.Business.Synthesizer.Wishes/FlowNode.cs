@@ -20,11 +20,16 @@ namespace JJ.Business.Synthesizer.Wishes
         }
  
 
+        /// <summary> Always filled in. </summary>
         private readonly SynthWishes _synthWishes;
+        /// <summary> Always filled in. </summary>
         public SynthWishes SynthWishes => _synthWishes;
+        /// <summary> Always filled in. </summary>
         public SynthWishes _ => _synthWishes;
 
+        /// <summary> Always filled in. </summary>
         public Outlet UnderlyingOutlet => _underlyingOutlet;
+        /// <summary> Always filled in. </summary>
         private readonly Outlet _underlyingOutlet;
         
         public FluentOperandList Operands { get; }

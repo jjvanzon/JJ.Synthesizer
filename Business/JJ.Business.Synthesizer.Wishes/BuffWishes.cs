@@ -55,12 +55,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public AudioFileOutput UnderlyingAudioFileOutput { get; internal set; }
         
-        /// <summary> Nullable </summary>
+        /// <summary> Not always filled in. </summary>
         public Tape Tape { get; internal set; }
         
         private SynthWishes _synthWishes;
         
-        /// <summary> Nullable </summary>
+        /// <summary> Not always filled in.</summary>
         public SynthWishes SynthWishes 
         {
             get => _synthWishes ?? Tape?.SynthWishes; 
