@@ -42,3 +42,31 @@
         //    if (obj == null) throw new NullException(expression);
         //    return obj;
         //}
+
+        //public   static string ConfigLog(this SynthWishes     synthWishes                              ) => synthWishes.ConfigLog();
+        //public   static string ConfigLog(this SynthWishes     synthWishes,     string title            ) => synthWishes.ConfigLog(title);
+        //public   static string ConfigLog(this SynthWishes     synthWishes,     string title, string sep) => synthWishes.ConfigLog(title, sep);
+        //public   static string ConfigLog(this FlowNode        flowNode,        string title            ) => NoNull(() => flowNode).SynthWishes.ConfigLog(title, flowNode);
+
+        public   static string ConfigLog(this FlowNode        flowNode                                 ) => NotNull(() => flowNode  ).SynthWishes.ConfigLog(       flowNode     );
+        public   static string ConfigLog(this FlowNode        flowNode,        string title            ) => NotNull(() => flowNode  ).SynthWishes.ConfigLog(title, flowNode     );
+        public   static string ConfigLog(this FlowNode        flowNode,        string title, string sep) => NotNull(() => flowNode  ).SynthWishes.ConfigLog(title, flowNode, sep);
+
+        public   static string ConfigLog(this Tape            tape                                     ) => NotNull(() => tape      ).SynthWishes.ConfigLog(       tape     );
+        public   static string ConfigLog(this Tape            tape,            string title            ) => NotNull(() => tape      ).SynthWishes.ConfigLog(title, tape     );
+        public   static string ConfigLog(this Tape            tape,            string title, string sep) => NotNull(() => tape      ).SynthWishes.ConfigLog(title, tape, sep);
+        public   static void LogConfig(this FlowNode       entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this Tape           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeConfig     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //public   static void LogConfig(this Buff           entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        //internal static void LogConfig(this ConfigResolver entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+
+        public   static void LogConfig(this TapeActions    entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+        public   static void LogConfig(this TapeAction     entity) => GetLogWishes(entity, x => x.SynthWishes).LogConfig(entity);
+
+
+        internal static LogWishes GetLogWishes(object entity, SynthWishes synthWishes)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return synthWishes?.LogWishes ?? Static;
+        }
