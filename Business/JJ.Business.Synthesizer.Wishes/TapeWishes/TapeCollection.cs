@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             if (!_tapes.TryGetValue(signal, out Tape tape))
             {
                 isNew = true;
-                _tapes[signal] = tape = new Tape { SynthWishes = SynthWishes };
+                _tapes[signal] = tape = new Tape(SynthWishes);
                 tape.Outlet = signal;
             }
             

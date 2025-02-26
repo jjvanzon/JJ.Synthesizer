@@ -13,7 +13,6 @@ using JJ.Framework.Wishes.Logging;
 using static System.Environment;
 using static System.IO.File;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Logging.LoggingFactory;
@@ -97,33 +96,33 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         // Helper
         
-        internal static LogWishes GetLogWishes(FlowNode        entity                         ) => GetLogWishes(entity, x => x.SynthWishes);
-        internal static LogWishes GetLogWishes(ConfigResolver  entity                         ) => GetLogWishes(entity, x => x.SynthWishes);
-        internal static LogWishes GetLogWishes(ConfigSection   entity                         ) => GetLogWishes(entity, x => null         );
-        internal static LogWishes GetLogWishes(ConfigSection   entity, SynthWishes synthWishes) => GetLogWishes(entity, x => synthWishes);
-        internal static LogWishes GetLogWishes(Tape            entity                         ) => GetLogWishes(entity, x => x.SynthWishes);
-        internal static LogWishes GetLogWishes(TapeConfig      entity                         ) => GetLogWishes(entity, x => x.SynthWishes);
-        internal static LogWishes GetLogWishes(TapeActions     entity                         ) => GetLogWishes(entity, x => x.SynthWishes);
-        internal static LogWishes GetLogWishes(TapeAction      entity                         ) => GetLogWishes(entity, x => x.SynthWishes);
-        internal static LogWishes GetLogWishes(Buff            entity                         ) => GetLogWishes(entity, x => x.SynthWishes);
-        internal static LogWishes GetLogWishes(AudioFileOutput entity                         ) => GetLogWishes(entity, x => null);
-        internal static LogWishes GetLogWishes(AudioFileOutput entity, SynthWishes synthWishes) => GetLogWishes(entity, x => synthWishes);
-        internal static LogWishes GetLogWishes(Sample          entity                         ) => GetLogWishes(entity, x => null);
-        internal static LogWishes GetLogWishes(Sample          entity, SynthWishes synthWishes) => GetLogWishes(entity, x => synthWishes);
-        internal static LogWishes GetLogWishes(AudioInfoWish   entity                         ) => GetLogWishes(entity, x => null);
-        internal static LogWishes GetLogWishes(AudioInfoWish   entity, SynthWishes synthWishes) => GetLogWishes(entity, x => synthWishes);
-        internal static LogWishes GetLogWishes(AudioFileInfo   entity                         ) => GetLogWishes(entity, x => null);
-        internal static LogWishes GetLogWishes(AudioFileInfo   entity, SynthWishes synthWishes) => GetLogWishes(entity, x => synthWishes);
-        internal static LogWishes GetLogWishes(WavHeaderStruct entity                         ) => GetLogWishes(entity, x => null);
-        internal static LogWishes GetLogWishes(WavHeaderStruct entity, SynthWishes synthWishes) => GetLogWishes(entity, x => synthWishes);
-        internal static LogWishes GetLogWishes(IList<Tape>     tapes                          ) => GetLogWishes(tapes , x => x.Where(y => y != null).Select(y => y.SynthWishes).FirstOrDefault());
+        internal static LogWishes Resolve(FlowNode        entity                         ) => Resolve(entity, x => x.SynthWishes);
+        internal static LogWishes Resolve(ConfigResolver  entity                         ) => Resolve(entity, x => x.SynthWishes);
+        internal static LogWishes Resolve(ConfigSection   entity                         ) => Resolve(entity, x => null         );
+        internal static LogWishes Resolve(ConfigSection   entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
+        internal static LogWishes Resolve(Tape            entity                         ) => Resolve(entity, x => x.SynthWishes);
+        internal static LogWishes Resolve(TapeConfig      entity                         ) => Resolve(entity, x => x.SynthWishes);
+        internal static LogWishes Resolve(TapeActions     entity                         ) => Resolve(entity, x => x.SynthWishes);
+        internal static LogWishes Resolve(TapeAction      entity                         ) => Resolve(entity, x => x.SynthWishes);
+        internal static LogWishes Resolve(Buff            entity                         ) => Resolve(entity, x => x.SynthWishes);
+        internal static LogWishes Resolve(AudioFileOutput entity                         ) => Resolve(entity, x => null);
+        internal static LogWishes Resolve(AudioFileOutput entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
+        internal static LogWishes Resolve(Sample          entity                         ) => Resolve(entity, x => null);
+        internal static LogWishes Resolve(Sample          entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
+        internal static LogWishes Resolve(AudioInfoWish   entity                         ) => Resolve(entity, x => null);
+        internal static LogWishes Resolve(AudioInfoWish   entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
+        internal static LogWishes Resolve(AudioFileInfo   entity                         ) => Resolve(entity, x => null);
+        internal static LogWishes Resolve(AudioFileInfo   entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
+        internal static LogWishes Resolve(WavHeaderStruct entity                         ) => Resolve(entity, x => null);
+        internal static LogWishes Resolve(WavHeaderStruct entity, SynthWishes synthWishes) => Resolve(entity, x => synthWishes);
+        internal static LogWishes Resolve(IList<Tape>     tapes                          ) => Resolve(tapes , x => x.Where(y => y != null).Select(y => y.SynthWishes).FirstOrDefault());
 
-        private static LogWishes GetLogWishes<T>(T entity, Func<T, SynthWishes> getSynthWishes)
+        private static LogWishes Resolve<T>(T entity, Func<T, SynthWishes> getSynthWishes)
         {
             if (entity == null) throw new NullException(() => entity);
             if (getSynthWishes == null) throw new NullException(() => getSynthWishes);
             SynthWishes synthWishes = getSynthWishes.Invoke(entity);
-            return synthWishes?.LogWishes ?? Static;
+            return synthWishes?.Logging ?? Static;
         }
     }
 }
@@ -133,18 +132,25 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        internal LogWishes LogWishes { get; } = new LogWishes();
+        internal LogWishes Logging { get; } = new LogWishes();
 
         // TODO: Synonyms
-        public SynthWishes WithLogging(bool enabled = true) { LogWishes.LoggingEnabled = enabled; return this; }
+        
+        public SynthWishes WithLogging(bool enabled = true) { Logging.LoggingEnabled = enabled; return this; }
         public SynthWishes WithLoggingEnabled() => WithLogging(true);
         public SynthWishes WithLoggingDisabled() => WithLogging(false);
 
-        public void Log            (string message = null)                         => LogWishes.Log(message);
-        public void LogSpaced      (string message)                                => LogWishes.LogSpaced(message);
-        public void LogTitle       (string title)                                  => LogWishes.LogTitle(title);
-        public void LogTitleStrong (string title)                                  => LogWishes.LogTitleStrong(title);
-        public void LogOutputFile  (string filePath, string sourceFilePath = null) => LogWishes.LogOutputFile(filePath, sourceFilePath);
+        // TODO: Turn into extension methods and add more target types?
+        public void Log            (string message = null)                         => Logging.Log(message);
+        public void LogSpaced      (string message)                                => Logging.LogSpaced(message);
+        public void LogTitle       (string title)                                  => Logging.LogTitle(title);
+        public void LogTitleStrong (string title)                                  => Logging.LogTitleStrong(title);
+        public void LogOutputFile  (string filePath, string sourceFilePath = null) => Logging.LogOutputFile(filePath, sourceFilePath);
+    }
+
+    public partial class FlowNode
+    {
+        internal LogWishes Logging => LogWishes.Resolve(this);
     }
 }
 
@@ -152,65 +158,64 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static partial class LogExtensionWishes
     {
+        internal static LogWishes Logging(this FlowNode        entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this ConfigResolver  entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this ConfigSection   entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this ConfigSection   entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
+        internal static LogWishes Logging(this Tape            entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this TapeConfig      entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this TapeActions     entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this TapeAction      entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this Buff            entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this AudioFileOutput entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this AudioFileOutput entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
+        internal static LogWishes Logging(this Sample          entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this Sample          entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
+        internal static LogWishes Logging(this AudioInfoWish   entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this AudioInfoWish   entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
+        internal static LogWishes Logging(this AudioFileInfo   entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this AudioFileInfo   entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
+        internal static LogWishes Logging(this WavHeaderStruct entity                         ) => LogWishes.Resolve(entity);
+        internal static LogWishes Logging(this WavHeaderStruct entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
+        internal static LogWishes Logging(this IList<Tape>     tapes                          ) => LogWishes.Resolve(tapes);
+
         // The target objects aren't used for anything other than resolving a SynthWishes object,
         // and availability on multiple target types for convenience.
         
-        public   static void Log           (this FlowNode       entity, string message = "") => entity.GetLogWishes().Log(message);
-        public   static void Log           (this Tape           entity, string message = "") => entity.GetLogWishes().Log(message);
-        public   static void Log           (this TapeConfig     entity, string message = "") => entity.GetLogWishes().Log(message);
-        public   static void Log           (this TapeActions    entity, string message = "") => entity.GetLogWishes().Log(message);
-        public   static void Log           (this TapeAction     entity, string message = "") => entity.GetLogWishes().Log(message);
-        public   static void Log           (this Buff           entity, string message = "") => entity.GetLogWishes().Log(message);
-        internal static void Log           (this ConfigResolver entity, string message = "") => entity.GetLogWishes().Log(message);
-        public   static void LogSpaced     (this FlowNode       entity, string message = "") => entity.GetLogWishes().LogSpaced(message);
-        public   static void LogSpaced     (this Tape           entity, string message = "") => entity.GetLogWishes().LogSpaced(message);
-        public   static void LogSpaced     (this TapeConfig     entity, string message = "") => entity.GetLogWishes().LogSpaced(message);
-        public   static void LogSpaced     (this TapeActions    entity, string message = "") => entity.GetLogWishes().LogSpaced(message);
-        public   static void LogSpaced     (this TapeAction     entity, string message = "") => entity.GetLogWishes().LogSpaced(message);
-        public   static void LogSpaced     (this Buff           entity, string message = "") => entity.GetLogWishes().LogSpaced(message);
-        internal static void LogSpaced     (this ConfigResolver entity, string message = "") => entity.GetLogWishes().LogSpaced(message);
-        public   static void LogTitle      (this FlowNode       entity, string title) => entity.GetLogWishes().LogTitle(title);
-        public   static void LogTitle      (this Tape           entity, string title) => entity.GetLogWishes().LogTitle(title);
-        public   static void LogTitle      (this TapeConfig     entity, string title) => entity.GetLogWishes().LogTitle(title);
-        public   static void LogTitle      (this TapeActions    entity, string title) => entity.GetLogWishes().LogTitle(title);
-        public   static void LogTitle      (this TapeAction     entity, string title) => entity.GetLogWishes().LogTitle(title);
-        public   static void LogTitle      (this Buff           entity, string title) => entity.GetLogWishes().LogTitle(title);
-        internal static void LogTitle      (this ConfigResolver entity, string title) => entity.GetLogWishes().LogTitle(title);
-        public   static void LogTitleStrong(this FlowNode       entity, string title) => entity.GetLogWishes().LogTitleStrong(title);
-        public   static void LogTitleStrong(this Tape           entity, string title) => entity.GetLogWishes().LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeConfig     entity, string title) => entity.GetLogWishes().LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeActions    entity, string title) => entity.GetLogWishes().LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeAction     entity, string title) => entity.GetLogWishes().LogTitleStrong(title);
-        public   static void LogTitleStrong(this Buff           entity, string title) => entity.GetLogWishes().LogTitleStrong(title);
-        internal static void LogTitleStrong(this ConfigResolver entity, string title) => entity.GetLogWishes().LogTitleStrong(title);
-        public   static void LogOutputFile (this FlowNode       entity, string filePath, string sourceFilePath = null) => entity.GetLogWishes().LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Tape           entity, string filePath, string sourceFilePath = null) => entity.GetLogWishes().LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeConfig     entity, string filePath, string sourceFilePath = null) => entity.GetLogWishes().LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeActions    entity, string filePath, string sourceFilePath = null) => entity.GetLogWishes().LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeAction     entity, string filePath, string sourceFilePath = null) => entity.GetLogWishes().LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Buff           entity, string filePath, string sourceFilePath = null) => entity.GetLogWishes().LogOutputFile(filePath, sourceFilePath);
-        internal static void LogOutputFile (this ConfigResolver entity, string filePath, string sourceFilePath = null) => entity.GetLogWishes().LogOutputFile(filePath, sourceFilePath);
-
-        internal static LogWishes GetLogWishes(this FlowNode        entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this ConfigResolver  entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this ConfigSection   entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this ConfigSection   entity, SynthWishes synthWishes) => LogWishes.GetLogWishes(entity, synthWishes);
-        internal static LogWishes GetLogWishes(this Tape            entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this TapeConfig      entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this TapeActions     entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this TapeAction      entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this Buff            entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this AudioFileOutput entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this AudioFileOutput entity, SynthWishes synthWishes) => LogWishes.GetLogWishes(entity, synthWishes);
-        internal static LogWishes GetLogWishes(this Sample          entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this Sample          entity, SynthWishes synthWishes) => LogWishes.GetLogWishes(entity, synthWishes);
-        internal static LogWishes GetLogWishes(this AudioInfoWish   entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this AudioInfoWish   entity, SynthWishes synthWishes) => LogWishes.GetLogWishes(entity, synthWishes);
-        internal static LogWishes GetLogWishes(this AudioFileInfo   entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this AudioFileInfo   entity, SynthWishes synthWishes) => LogWishes.GetLogWishes(entity, synthWishes);
-        internal static LogWishes GetLogWishes(this WavHeaderStruct entity                         ) => LogWishes.GetLogWishes(entity);
-        internal static LogWishes GetLogWishes(this WavHeaderStruct entity, SynthWishes synthWishes) => LogWishes.GetLogWishes(entity, synthWishes);
-        internal static LogWishes GetLogWishes(this IList<Tape>     tapes                          ) => LogWishes.GetLogWishes(tapes);
-
+        public   static void Log           (this FlowNode       entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        public   static void Log           (this Tape           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        public   static void Log           (this TapeConfig     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        public   static void Log           (this TapeActions    entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        public   static void Log           (this TapeAction     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        public   static void Log           (this Buff           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        internal static void Log           (this ConfigResolver entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        public   static void LogSpaced     (this FlowNode       entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced     (this Tape           entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced     (this TapeConfig     entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced     (this TapeActions    entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced     (this TapeAction     entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced     (this Buff           entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        internal static void LogSpaced     (this ConfigResolver entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogTitle      (this FlowNode       entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        public   static void LogTitle      (this Tape           entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        public   static void LogTitle      (this TapeConfig     entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        public   static void LogTitle      (this TapeActions    entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        public   static void LogTitle      (this TapeAction     entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        public   static void LogTitle      (this Buff           entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        internal static void LogTitle      (this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        public   static void LogTitleStrong(this FlowNode       entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this Tape           entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeConfig     entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeActions    entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeAction     entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this Buff           entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        internal static void LogTitleStrong(this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        public   static void LogOutputFile (this FlowNode       entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Tape           entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeConfig     entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeActions    entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeAction     entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Buff           entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        internal static void LogOutputFile (this ConfigResolver entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
     }
 }

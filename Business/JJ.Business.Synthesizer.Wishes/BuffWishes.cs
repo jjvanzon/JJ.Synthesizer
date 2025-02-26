@@ -67,6 +67,8 @@ namespace JJ.Business.Synthesizer.Wishes
             set => _synthWishes = value;
         }
         
+        public LogWishes Logging => LogWishes.Resolve(this);
+        
         public string Name => ResolveName(UnderlyingAudioFileOutput, FilePath);
     }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
@@ -30,6 +31,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         /// <summary> Null for ConfigResolver.Static. Otherwise filled in. </summary>
         public SynthWishes SynthWishes { get; }
+        
+        internal LogWishes Logging => LogWishes.Resolve(this);
         
         private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
 

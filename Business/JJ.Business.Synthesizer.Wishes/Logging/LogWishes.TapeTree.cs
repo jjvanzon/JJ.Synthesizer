@@ -5,7 +5,6 @@ using System.Text;
 using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
@@ -14,7 +13,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            tapes.GetLogWishes().Log(GetTapeTree(tapes, includeCalculationGraphs));
+            tapes.Logging().Log(GetTapeTree(tapes, includeCalculationGraphs));
         }
         
         public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
@@ -148,6 +147,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     public static partial class LogExtensionWishes
     {
         public static string GetTapeTree(this IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => tapes.GetLogWishes().GetTapeTree(tapes, includeCalculationGraphs);
+            => tapes.Logging().GetTapeTree(tapes, includeCalculationGraphs);
     }
 }

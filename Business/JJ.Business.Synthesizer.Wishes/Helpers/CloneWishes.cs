@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     {
         internal static Tape DeepClone(Tape source) 
         {
-            var dest = new Tape();
+            var dest = new Tape(source.SynthWishes);
             DeepClone(source, dest);
             return dest;
         }
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
 
         internal static Tape CloneTape(SynthWishes source)
         {
-            var dest = new Tape();
+            var dest = new Tape(source);
             CloneTape(source, dest);
             return dest;
         }

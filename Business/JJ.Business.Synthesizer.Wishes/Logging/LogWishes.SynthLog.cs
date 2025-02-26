@@ -7,7 +7,6 @@ using JJ.Framework.Common;
 using static System.Environment;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
@@ -155,6 +154,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
     public static partial class LogExtensionWishes
     {
-        public static string SynthLog(this Tape tape, double? calculationDuration = null) => tape.GetLogWishes().SynthLog(tape, calculationDuration);
+        public static string SynthLog(this Tape tape, double? calculationDuration = null) => tape.Logging.SynthLog(tape, calculationDuration);
     }
 }

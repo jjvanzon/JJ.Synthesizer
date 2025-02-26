@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.IO.File;
@@ -19,6 +20,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
     {
         public override string ToString() => GetDebuggerDisplay(this);
 
+        public Tape(SynthWishes synthWishes) : this()
+        {
+            SynthWishes = synthWishes;
+        }
+
         public Tape()
         {
             Config = new TapeConfig(this);
@@ -28,12 +34,14 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         private SynthWishes _synthWishes;
         
-        /// <summary> Throws if null. </summary>
+        /// <summary> Not null. Might throw if not initialized. </summary>
         internal SynthWishes SynthWishes
         {
             get => _synthWishes         ?? throw new NullException(() => SynthWishes);
             set => _synthWishes = value ?? throw new NullException(() => SynthWishes);
         }
+        
+        internal LogWishes Logging => LogWishes.Resolve(this);
         
         #region Buff
         
@@ -225,7 +233,8 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public override string ToString() => GetDebuggerDisplay(this);
         
         public SynthWishes SynthWishes => Tape.SynthWishes;
-
+        internal LogWishes Logging => LogWishes.Resolve(this);
+        
         public Tape Tape { get; }
 
         internal TapeConfig(Tape tape)
@@ -329,6 +338,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
 
         public SynthWishes SynthWishes => Tape.SynthWishes;
+        internal LogWishes Logging => LogWishes.Resolve(this);
 
         /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
@@ -423,6 +433,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
         
         public SynthWishes SynthWishes => Tape.SynthWishes;
+        internal LogWishes Logging => LogWishes.Resolve(this);
         
         /// <summary> Parent. Always filled in. </summary>
         public Tape Tape { get; }
