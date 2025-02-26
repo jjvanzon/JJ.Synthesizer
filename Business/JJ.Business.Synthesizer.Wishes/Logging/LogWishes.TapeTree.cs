@@ -5,13 +5,19 @@ using System.Text;
 using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
-        public string PlotTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
+        public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
+        {
+            tapes.GetLogWishes().Log(GetTapeTree(tapes, includeCalculationGraphs));
+        }
+        
+        public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
             var sb = new StringBuilderWithIndentation_Adapted("   ", NewLine);
             PlotTapeTree(tapes, sb, includeCalculationGraphs);
@@ -137,5 +143,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 sb.Unindent();
             }
         }
+    }
+
+    public static partial class LogExtensionWishes
+    {
+        public static string GetTapeTree(this IList<Tape> tapes, bool includeCalculationGraphs = false)
+            => tapes.GetLogWishes().GetTapeTree(tapes, includeCalculationGraphs);
     }
 }

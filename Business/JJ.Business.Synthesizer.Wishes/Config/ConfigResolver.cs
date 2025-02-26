@@ -23,12 +23,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class ConfigResolver
     {
-        string             DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
+        string DebuggerDisplay => DebuggerDisplayFormatter.GetDebuggerDisplay(this);
         
         /// <summary> For static contexts use this. </summary>
         internal static ConfigResolver Static { get; } = new ConfigResolver();
 
-        /// <summary> Null for Statics. </summary>
+        /// <summary> Null for ConfigResolver.Static. Otherwise filled in. </summary>
         public SynthWishes SynthWishes { get; }
         
         private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();

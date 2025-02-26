@@ -96,17 +96,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return text;
         }
     }
-    
-    public static partial class LogExtensions
-    {
-        public static void LogAction(this FlowNode        entity, string action, string message = null) => GetLogWishes(entity, x => x.SynthWishes).LogAction(entity, action, message);
-        public static void LogAction(this Tape            entity, string action, string message = null) => GetLogWishes(entity, x => x.SynthWishes).LogAction(entity, action, message);
-        public static void LogAction(this TapeAction      action,                string message = null) => GetLogWishes(action, x => x.SynthWishes).LogAction(action, message);
-        public static void LogAction(this Buff            entity, string action, string message = null) => GetLogWishes(entity, x => x.SynthWishes).LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string action, string message = null) => GetLogWishes(entity, x => synthWishes).LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, SynthWishes synthWishes, string action, string message = null) => GetLogWishes(entity, x => synthWishes).LogAction(entity, action, message);
-    }
 }
+
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -122,5 +113,20 @@ namespace JJ.Business.Synthesizer.Wishes
         public void LogAction(string          typeName,                                   string message       ) => LogWishes.LogAction(typeName,                     message);
         public void LogAction(string          typeName, string action,                    string message       ) => LogWishes.LogAction(typeName, action,             message);
         public void LogAction(string          typeName, string action, string objectName, string message       ) => LogWishes.LogAction(typeName, action, objectName, message);
+    }
+}
+
+namespace JJ.Business.Synthesizer.Wishes.Logging
+{
+    public static partial class LogExtensionWishes
+    {
+        public static void LogAction(this FlowNode        entity, string action, string message = null) => entity.GetLogWishes().LogAction(entity, action, message);
+        public static void LogAction(this Tape            entity, string action, string message = null) => entity.GetLogWishes().LogAction(entity, action, message);
+        public static void LogAction(this TapeAction      action,                string message = null) => action.GetLogWishes().LogAction(action,         message);
+        public static void LogAction(this Buff            entity, string action, string message = null) => entity.GetLogWishes().LogAction(entity, action, message);
+        public static void LogAction(this AudioFileOutput entity, string action, string message = null) => entity.GetLogWishes().LogAction(entity, action, message);
+        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string action, string message = null) => entity.GetLogWishes(synthWishes).LogAction(entity, action, message);
+        public static void LogAction(this Sample          entity, string action, string message = null) => entity.GetLogWishes().LogAction(entity, action, message);
+        public static void LogAction(this Sample          entity, SynthWishes synthWishes, string action, string message = null) => entity.GetLogWishes(synthWishes).LogAction(entity, action, message);
     }
 }

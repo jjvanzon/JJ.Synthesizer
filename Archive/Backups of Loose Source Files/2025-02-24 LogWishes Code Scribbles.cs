@@ -70,3 +70,11 @@
             if (entity == null) throw new NullException(() => entity);
             return synthWishes?.LogWishes ?? Static;
         }
+
+        internal static string ConfigLog(this ConfigResolver  configResolver,  SynthWishes synthWishes                          ) => NotNull(() => synthWishes).ConfigLog(       configResolver      );
+        internal static string ConfigLog(this ConfigResolver  configResolver,  SynthWishes synthWishes, string title            ) => NotNull(() => synthWishes).ConfigLog(title, configResolver      );
+        internal static string ConfigLog(this ConfigResolver  configResolver,  SynthWishes synthWishes, string title, string sep) => NotNull(() => synthWishes).ConfigLog(title, configResolver,  sep);
+
+        internal static void   LogConfig(this ConfigResolver  configResolver,  SynthWishes synthWishes                          ) => NotNull(() => synthWishes).LogConfig(       configResolver      );
+        internal static void   LogConfig(this ConfigResolver  configResolver,  SynthWishes synthWishes, string title            ) => NotNull(() => synthWishes).LogConfig(title, configResolver      );
+        internal static void   LogConfig(this ConfigResolver  configResolver,  SynthWishes synthWishes, string title, string sep) => NotNull(() => synthWishes).LogConfig(title, configResolver,  sep);

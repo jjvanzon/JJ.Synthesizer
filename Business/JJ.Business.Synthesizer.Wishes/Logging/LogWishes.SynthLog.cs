@@ -153,8 +153,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         }
     }
 
-    public static partial class LogExtensions
+    public static partial class LogExtensionWishes
     {
-        public static string SynthLog(this Tape tape, double? calculationDuration = null) => Static.SynthLog(tape, calculationDuration);
+        public static string SynthLog(this Tape tape, double? calculationDuration = null) => tape.GetLogWishes().SynthLog(tape, calculationDuration);
     }
 }

@@ -233,7 +233,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         }
     }
 
-    public static partial class LogExtensions
+    public static partial class LogExtensionWishes
     {
         public static string Descriptor(this Tape tape)                       => Static.Descriptor(tape);
         public static string Descriptor(this IList<Tape> tapes)               => Static.Descriptors(tapes);

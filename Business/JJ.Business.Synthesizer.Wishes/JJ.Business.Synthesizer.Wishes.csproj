@@ -82,7 +82,7 @@
     <Compile Include="Helpers\FilledInHelper.cs" />
     <Compile Include="Helpers\PropertyNameWishes.cs" />
     <Compile Include="Logging\LogWishes.Basics.cs" />
-    <Compile Include="Logging\LogWishes.Config.cs" />
+    <Compile Include="Logging\LogWishes.ConfigLog.cs" />
     <Compile Include="Logging\LogWishes.Descriptors.cs" />
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
     <Compile Include="Obsolete\Obsolete.LogWishes.cs" />

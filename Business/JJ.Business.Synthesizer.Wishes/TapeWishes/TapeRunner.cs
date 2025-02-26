@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
             tapes.Where(x => x.IsRoot).ForEach(x => Assert(x, "(Root)"));
 
-            _synthWishes.Log(Static.PlotTapeTree(tapes));
+            _synthWishes.Log(Static.GetTapeTree(tapes));
         }
         
         private readonly AutoResetEvent _checkForNewLeavesReset = new AutoResetEvent(false);
