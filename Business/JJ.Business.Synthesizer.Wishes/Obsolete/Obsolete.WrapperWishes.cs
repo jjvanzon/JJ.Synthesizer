@@ -331,7 +331,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static NodeTypeEnum TryGetNodeType(this CurveInWrapper wrapper)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return EnumSpecialWishes.TryGetNodeType(wrapper.Curve);
+            return EnumExtensionWishes.TryGetNodeType(wrapper.Curve);
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -347,7 +347,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             this CurveInWrapper wrapper, NodeTypeEnum nodeTypeEnum, IContext context = null)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            EnumSpecialWishes.SetNodeType(wrapper.Curve, nodeTypeEnum, context);
+            EnumExtensionWishes.SetNodeType(wrapper.Curve, nodeTypeEnum, context);
         }
     }
 
