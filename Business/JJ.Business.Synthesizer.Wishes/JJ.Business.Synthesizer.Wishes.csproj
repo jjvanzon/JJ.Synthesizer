@@ -53,6 +53,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="NoteWishes\BarIndexer.cs" />
+    <Compile Include="NoteWishes\BarsIndexer.cs" />
+    <Compile Include="NoteWishes\BeatIndexer.cs" />
+    <Compile Include="NoteWishes\BeatsIndexer.cs" />
     <Compile Include="Config\ChannelChannelsComboNightmares.cs" />
     <Compile Include="Config\ConfigResolver.cs" />
     <Compile Include="Config\ConfigSection.cs" />
@@ -84,6 +88,7 @@
     <Compile Include="Logging\LogWishes.Basics.cs" />
     <Compile Include="Logging\LogWishes.ConfigLog.cs" />
     <Compile Include="Logging\LogWishes.Descriptors.cs" />
+    <Compile Include="NoteWishes\Notes.cs" />
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
     <Compile Include="Obsolete\Obsolete.LogWishes.cs" />
     <Compile Include="Obsolete\Obsolete.Streamers.cs" />
@@ -111,6 +116,7 @@
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
     <Compile Include="OperandWishes.cs" />
+    <Compile Include="NoteWishes\TimeIndexer.cs" />
     <Compile Include="UnderlyingWishes.cs" />
     <Compile Include="PlayWishes.cs" />
     <Compile Include="SampleWishes.cs" />
@@ -120,7 +126,7 @@
     <Compile Include="CurveWishes.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="BuffWishes.cs" />
-    <Compile Include="NoteWishes.cs" />
+    <Compile Include="NoteWishes\SynthWishes.Notes.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="Obsolete\Obsolete.OperatorWishes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -201,6 +207,7 @@
     <Compile Include="Logging\LogWishes.Actions.cs" />
     <Compile Include="Logging\LogWishes.SynthLog.cs" />
     <Compile Include="Logging\LogWishes.TapeTree.cs" />
+    <Compile Include="NoteWishes\FlowNode.Notes.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
