@@ -12,45 +12,42 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static partial class WavExtensionWishesAccessor
     {
+        private static AccessorEx _accessor = new AccessorEx(typeof(WavExtensionWishes));
+
+        // ToInfo
+        
         internal static AudioInfoWish ToInfo(this ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod<AudioInfoWish>(entity?.Obj, synthWishes);
         
         internal static AudioInfoWish ToInfo(this ConfigSectionAccessor entity)            
             => _accessor.InvokeMethod<AudioInfoWish>(entity?.Obj);
-    }
 
-    internal static partial class WavExtensionWishesAccessor
-    {
-        private static AccessorEx _accessor = new AccessorEx(typeof(WavExtensionWishes));
+        // ApplyInfo
         
         internal static ConfigResolverAccessor ApplyInfo(this ConfigResolverAccessor obj, AudioInfoWish infoWish, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj, infoWish, synthWishes));
+        
         internal static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, ConfigResolverAccessor obj, SynthWishes synthWishes)
             => _accessor.InvokeMethod<AudioInfoWish>(infoWish, obj.Obj, synthWishes);
-    }
 
-    internal static partial class WavExtensionWishesAccessor
-    {
+        // ToWavHeader
+        
         internal static WavHeaderStruct ToWavHeader(this ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod<WavHeaderStruct>(entity?.Obj, synthWishes);
         
         internal static WavHeaderStruct ToWavHeader(this ConfigSectionAccessor entity)            
             => _accessor.InvokeMethod<WavHeaderStruct>(entity?.Obj);
 
-    }
-
-    internal static partial class WavExtensionWishesAccessor
-    {
+        // ApplyWavHeader
+        
         internal static ConfigResolverAccessor ApplyWavHeader(this ConfigResolverAccessor entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, wavHeader, synthWishes));
         
         internal static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod<WavHeaderStruct>(wavHeader, entity?.Obj, synthWishes);
 
-    }
-    
-    internal static partial class WavExtensionWishesAccessor
-    {
+        // ReadWavHeader
+
         internal static ConfigResolverAccessor ReadWavHeader(this ConfigResolverAccessor entity, string filePath, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, filePath, synthWishes));
         internal static ConfigResolverAccessor ReadWavHeader(this ConfigResolverAccessor entity, byte[] source, SynthWishes synthWishes)
@@ -68,12 +65,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => _accessor.InvokeMethod<Stream>(source, entity?.Obj, synthWishes);
         internal static BinaryReader ReadWavHeader(this BinaryReader source, ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod<BinaryReader>(source, entity?.Obj, synthWishes);
-    }
 
-    internal static partial class WavExtensionWishesAccessor
-    {
-        // With ConfigResolver
+        // WriteWavHeader
         
+        // With ConfigResolver
+
         internal static ConfigResolverAccessor WriteWavHeader(this ConfigResolverAccessor entity, string filePath, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, filePath, synthWishes));
         
