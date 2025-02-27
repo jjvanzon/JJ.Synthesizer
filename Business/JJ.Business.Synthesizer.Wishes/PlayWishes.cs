@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Media;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static System.Environment;
 using static System.IO.Path;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable once ParameterHidesMember
@@ -121,13 +121,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Play (Mid-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Play(
             FlowNode signal, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => Play(signal, null, name, callerMemberName);
 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Play(
             FlowNode signal, FlowNode duration, 
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -138,13 +138,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // PlayChannels (Mid-Chain)
 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode PlayChannels(
             FlowNode signal, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => PlayChannels(signal, null, name, callerMemberName);
 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode PlayChannels(
             FlowNode signal, FlowNode duration, 
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -168,12 +168,12 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // FlowNode Play (Mid-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Play(
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Play(this, null, filePath, callerMemberName);
                 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Play(
             FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -181,12 +181,12 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // FlowNode PlayChannels (Mid-Chain)
 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode PlayChannels(
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.PlayChannels(this, filePath, callerMemberName);
 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode PlayChannels(
             FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Buff Extensions (End-of-Chain)
 
-    /// <inheritdoc cref="docs._makebuff" />
+    /// <inheritdoc cref="_makebuff" />
     public static class PlayExtensionWishes
     {
         // Extensions (End-of-Chain)

@@ -8,15 +8,15 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 // ReSharper disable ArrangeStaticMemberQualifier
-#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
     // FrameCount: A Duration Property
 
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class FrameCountExtensionWishes
     {
         // Synth-Bound

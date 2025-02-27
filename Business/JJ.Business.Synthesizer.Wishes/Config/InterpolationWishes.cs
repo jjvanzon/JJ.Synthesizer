@@ -10,8 +10,8 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 {
     // Interpolation: A Primary Audio Attribute
         
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class InterpolationExtensionWishes
     {
         // Synth-Bound
@@ -188,35 +188,35 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum obj) => ConfigWishes.Interpolation(obj);
         public static InterpolationTypeEnum GetInterpolation(this InterpolationTypeEnum obj) => ConfigWishes.GetInterpolation(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum Linear(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.Linear(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum Blocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.Blocky(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum WithLinear(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.WithLinear(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum WithBlocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.WithBlocky(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum AsLinear(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.AsLinear(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum AsBlocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.AsBlocky(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum ToLinear(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.ToLinear(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum ToBlocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.ToBlocky(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum SetLinear(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.SetLinear(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum SetBlocky(this InterpolationTypeEnum oldInterpolation) => ConfigWishes.SetBlocky(oldInterpolation);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum Interpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => ConfigWishes.Interpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum WithInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => ConfigWishes.WithInterpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum AsInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => ConfigWishes.AsInterpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum ToInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => ConfigWishes.ToInterpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum SetInterpolation(this InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue) => ConfigWishes.SetInterpolation(oldEnumValue, newEnumValue);
 
 
@@ -245,49 +245,49 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static InterpolationTypeEnum EntityToEnum(this InterpolationType obj) => ConfigWishes.EntityToEnum(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType Linear(this InterpolationType oldEntity, IContext context) => ConfigWishes.Linear(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType Blocky(this InterpolationType oldEntity, IContext context) => ConfigWishes.Blocky(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType WithLinear(this InterpolationType oldEntity, IContext context) => ConfigWishes.WithLinear(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType WithBlocky(this InterpolationType oldEntity, IContext context) => ConfigWishes.WithBlocky(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType AsLinear(this InterpolationType oldEntity, IContext context) => ConfigWishes.AsLinear(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType AsBlocky(this InterpolationType oldEntity, IContext context) => ConfigWishes.AsBlocky(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType ToLinear(this InterpolationType oldEntity, IContext context) => ConfigWishes.ToLinear(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType ToBlocky(this InterpolationType oldEntity, IContext context) => ConfigWishes.ToBlocky(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType SetLinear(this InterpolationType oldEntity, IContext context) => ConfigWishes.SetLinear(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType SetBlocky(this InterpolationType oldEntity, IContext context) => ConfigWishes.SetBlocky(oldEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType Interpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => ConfigWishes.Interpolation(oldEntity, newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType WithInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => ConfigWishes.WithInterpolation(oldEntity, newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType AsInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => ConfigWishes.AsInterpolation(oldEntity, newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType ToInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => ConfigWishes.ToInterpolation(oldEntity, newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType SetInterpolation(this InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => ConfigWishes.SetInterpolation(oldEntity, newEnumValue, context);
         [Obsolete(ObsoleteMessage)]
@@ -545,49 +545,49 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return AssertInterpolation(obj);
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum Linear(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Line);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum Blocky(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Block);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum WithLinear(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Line);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum WithBlocky(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Block);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum AsLinear(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Line);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum AsBlocky(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Block);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum ToLinear(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Line);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum ToBlocky(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Block);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum SetLinear(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Line);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum SetBlocky(InterpolationTypeEnum oldInterpolation)
             => SetInterpolation(oldInterpolation, Block);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum Interpolation(InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
             => SetInterpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum WithInterpolation(InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
             => SetInterpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum AsInterpolation(InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
             => SetInterpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum ToInterpolation(InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
             => SetInterpolation(oldEnumValue, newEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static InterpolationTypeEnum SetInterpolation(InterpolationTypeEnum oldEnumValue, InterpolationTypeEnum newEnumValue)
         {
             return AssertInterpolation(newEnumValue);
@@ -610,49 +610,49 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return (InterpolationTypeEnum)obj.ID;
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType Linear(InterpolationType oldEntity, IContext context) => EnumToEntity(Line, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType Blocky(InterpolationType oldEntity, IContext context) => EnumToEntity(Block, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType WithLinear(InterpolationType oldEntity, IContext context) => EnumToEntity(Line, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType WithBlocky(InterpolationType oldEntity, IContext context) => EnumToEntity(Block, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType AsLinear(InterpolationType oldEntity, IContext context) => EnumToEntity(Line, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType AsBlocky(InterpolationType oldEntity, IContext context) => EnumToEntity(Block, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType ToLinear(InterpolationType oldEntity, IContext context) => EnumToEntity(Line, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType ToBlocky(InterpolationType oldEntity, IContext context) => EnumToEntity(Block, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType SetLinear(InterpolationType oldEntity, IContext context) => EnumToEntity(Line, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static InterpolationType SetBlocky(InterpolationType oldEntity, IContext context) => EnumToEntity(Block, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType Interpolation(InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => EnumToEntity(newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType WithInterpolation(InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => EnumToEntity(newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType AsInterpolation(InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => EnumToEntity(newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType ToInterpolation(InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => EnumToEntity(newEnumValue, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] 
         public static InterpolationType SetInterpolation(InterpolationType oldEntity, InterpolationTypeEnum newEnumValue, IContext context) => EnumToEntity(newEnumValue, context);
         [Obsolete(ObsoleteMessage)] 

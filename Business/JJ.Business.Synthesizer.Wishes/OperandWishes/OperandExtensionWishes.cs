@@ -4,24 +4,25 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes.OperandWishes
 {
     // Operands on Entity Objects
 
-    /// <inheritdoc cref="docs._operand"/>
+    /// <inheritdoc cref="_operand"/>
     public static class OperandExtensionWishes
     {
         // A
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet A(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.Inlets.ElementAtOrDefault(0)?.Input;
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetA(this Operator entity, Outlet a)
         {
             if (entity              == null) throw new ArgumentNullException(nameof(entity));
@@ -29,14 +30,14 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
             entity.Inlets[0].LinkTo(a);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet A(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return A(entity.Operator);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetA(this Outlet entity, Outlet a)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -45,14 +46,14 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // B
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet B(this Operator entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return entity.Inlets.ElementAtOrDefault(1)?.Input;
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetB(this Operator entity, Outlet b)
         {
             if (entity              == null) throw new ArgumentNullException(nameof(entity));
@@ -60,14 +61,14 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
             entity.Inlets[1].LinkTo(b);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet B(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return B(entity.Operator);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetB(this Outlet entity, Outlet b)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -76,20 +77,20 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // Pitch
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Pitch(this Outlet entity) => PitchIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetPitch(this Outlet entity, Outlet b)
         {
             AssertPitchIsSupported(entity);
             SetB(entity, b);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Pitch(this Operator entity) => PitchIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetPitch(this Operator entity, Outlet b)
         {
             AssertPitchIsSupported(entity);
@@ -121,35 +122,35 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // Frequency
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Frequency(this Outlet entity) => Pitch(entity);
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetFrequency(this Outlet entity, Outlet b) => SetPitch(entity, b);
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Frequency(this Operator entity) => Pitch(entity);
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetFrequency(this Operator entity, Outlet b) => SetPitch(entity, b);
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static bool FrequencyIsSupported(this Outlet entity) => PitchIsSupported(entity);
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static bool FrequencyIsSupported(this Operator entity) => PitchIsSupported(entity);
         
         // Signal
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Signal(this Outlet entity) => SignalIsSupported(entity) ? A(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetSignal(this Outlet entity, Outlet a)
         {
             AssertSignalIsSupported(entity);
             SetA(entity, a);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Signal(this Operator entity) => SignalIsSupported(entity) ? A(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetSignal(this Operator entity, Outlet a)
         {
             AssertSignalIsSupported(entity);
@@ -185,20 +186,20 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // Base
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Base(this Outlet entity) => BaseIsSupported(entity) ? A(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetBase(this Outlet entity, Outlet a)
         {
             AssertBaseIsSupported(entity);
             SetA(entity, a);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Base(this Operator entity) => BaseIsSupported(entity) ? A(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetBase(this Operator entity, Outlet a)
         {
             AssertBaseIsSupported(entity);
@@ -230,20 +231,20 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // Exponent
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Exponent(this Outlet entity) => ExponentIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetExponent(this Outlet entity, Outlet b)
         {
             AssertExponentIsSupported(entity);
             SetB(entity, b);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Exponent(this Operator entity) => ExponentIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetExponent(this Operator entity, Outlet b)
         {
             AssertExponentIsSupported(entity);
@@ -276,20 +277,20 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // TimeDifference
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet TimeDifference(this Outlet entity) => TimeDifferenceIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetTimeDifference(this Outlet entity, Outlet b)
         {
             AssertTimeDifferenceIsSupported(entity);
             SetB(entity, b);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet TimeDifference(this Operator entity) => TimeDifferenceIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetTimeDifference(this Operator entity, Outlet b)
         {
             AssertTimeDifferenceIsSupported(entity);
@@ -322,21 +323,21 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // TimeScale
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet TimeScale(this Outlet entity)
             => TimeScaleIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetTimeScale(this Outlet entity, Outlet b)
         {
             AssertTimeScaleIsSupported(entity);
             SetB(entity, b);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet TimeScale(this Operator entity) => TimeScaleIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetTimeScale(this Operator entity, Outlet b)
         {
             AssertTimeScaleIsSupported(entity);
@@ -368,20 +369,20 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // SpeedFactor
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet SpeedFactor(this Outlet entity) => SpeedFactorIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetSpeedFactor(this Outlet entity, Outlet b)
         {
             AssertSpeedFactorIsSupported(entity);
             SetB(entity, b);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet SpeedFactor(this Operator entity) => SpeedFactorIsSupported(entity) ? B(entity) : null;
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static void SetSpeedFactor(this Operator entity, Outlet b)
         {
             AssertSpeedFactorIsSupported(entity);
@@ -413,29 +414,29 @@ namespace JJ.Business.Synthesizer.Wishes.OperandWishes
         
         // Result
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Result(this Operator entity) => entity.Outlets[0];
         
         // OperandsList
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static OperandList Operands(this Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return Operands(entity.Operator);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static OperandList Operands(this Operator entity) => new OperandList(entity);
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Operand(this Outlet entity, int index)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return Operand(entity.Operator, index);
         }
         
-        /// <inheritdoc cref="docs._operand"/>
+        /// <inheritdoc cref="_operand"/>
         public static Outlet Operand(this Operator entity, int index)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));

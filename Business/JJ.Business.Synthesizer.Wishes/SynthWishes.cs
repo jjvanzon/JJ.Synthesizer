@@ -12,12 +12,10 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.NoteWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
-using JJ.Framework.Wishes.Logging;
-using static JJ.Framework.Wishes.Logging.LoggingFactory;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard
@@ -45,7 +43,7 @@ namespace JJ.Business.Synthesizer.Wishes
             set => _config = value ?? throw new ArgumentException(nameof(Config));
         }
 
-        /// <inheritdoc cref="docs._captureindexer" />
+        /// <inheritdoc cref="_captureindexer" />
         public SynthWishes _ { get; }
 
         /// <summary>

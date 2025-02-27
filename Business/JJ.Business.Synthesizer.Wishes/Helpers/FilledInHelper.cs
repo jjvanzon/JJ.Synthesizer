@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Framework.Wishes.Common;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    /// <inheritdoc cref="docs._filledinhelper" />
+    /// <inheritdoc cref="_filledinhelper" />
     internal class FilledInHelper
     {
         // FlowNode

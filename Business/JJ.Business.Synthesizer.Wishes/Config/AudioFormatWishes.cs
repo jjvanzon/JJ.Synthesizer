@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -19,7 +20,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public partial class ConfigWishes
     {
         // AudioFormatL: A Primary Audio Attribute
@@ -371,31 +372,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             AssertFileExtension(fileExtension); return default;
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string WithWav(string oldFileExtension) => SetAudioFormat(oldFileExtension, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AsWav(string oldFileExtension) => SetAudioFormat(oldFileExtension, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string ToWav(string oldFileExtension) => SetAudioFormat(oldFileExtension, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string SetWav(string oldFileExtension) => SetAudioFormat(oldFileExtension, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string WithRaw(string oldFileExtension) => SetAudioFormat(oldFileExtension, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AsRaw(string oldFileExtension) => SetAudioFormat(oldFileExtension, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string ToRaw(string oldFileExtension) => SetAudioFormat(oldFileExtension, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string SetRaw(string oldFileExtension) => SetAudioFormat(oldFileExtension, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AudioFormat(string oldFileExtension, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string WithAudioFormat(string oldFileExtension, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AsAudioFormat(string oldFileExtension, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string ToAudioFormat(string oldFileExtension, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string SetAudioFormat(string oldFileExtension, AudioFileFormatEnum newAudioFormat)
         {
             return newAudioFormat.FileExtension();
@@ -411,31 +412,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum WithWav(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AsWav(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum ToWav(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum SetWav(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum WithRaw(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AsRaw(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum ToRaw(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum SetRaw(AudioFileFormatEnum oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AudioFormat(AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum WithAudioFormat(AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AsAudioFormat(AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum ToAudioFormat(AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum SetAudioFormat(AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat)
         {
             return newAudioFormat;
@@ -451,31 +452,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? WithWav(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AsWav(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? ToWav(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? SetWav(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Wav);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? WithRaw(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AsRaw(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? ToRaw(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? SetRaw(AudioFileFormatEnum? oldAudioFormat) => SetAudioFormat(oldAudioFormat, Raw);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AudioFormat(AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? WithAudioFormat(AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AsAudioFormat(AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? ToAudioFormat(AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => SetAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? SetAudioFormat(AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat)
         {
             return newAudioFormat;
@@ -517,43 +518,43 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return (AudioFileFormatEnum)(obj?.ID ?? 0);
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat WithWav(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Wav, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AsWav(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Wav, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat ToWav(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Wav, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat SetWav(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Wav, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat WithRaw(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Raw, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AsRaw(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Raw, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat ToRaw(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Raw, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat SetRaw(AudioFileFormat oldEnumEntity, IContext context) => AudioFormatEnumToEntity(Raw, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AudioFormat(AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => AudioFormatEnumToEntity(newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat WithAudioFormat(AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => AudioFormatEnumToEntity(newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AsAudioFormat(AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => AudioFormatEnumToEntity(newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat ToAudioFormat(AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => AudioFormatEnumToEntity(newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat SetAudioFormat(AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => AudioFormatEnumToEntity(newAudioFormat, context);
         [Obsolete(ObsoleteMessage)]
@@ -573,7 +574,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
     }
 
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class AudioFormatExtensionWishes
     {
         // A Primary Audio Attribute
@@ -824,31 +825,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileFormatEnum ToAudioFormat(this string fileExtension) => ConfigWishes.ToAudioFormat(fileExtension);
         public static AudioFileFormatEnum FileExtensionToAudioFormat(this string fileExtension) => ConfigWishes.FileExtensionToAudioFormat(fileExtension);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string WithWav(this string oldFileExtension) => ConfigWishes.WithWav(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AsWav(this string oldFileExtension) => ConfigWishes.AsWav(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string ToWav(this string oldFileExtension) => ConfigWishes.ToWav(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string SetWav(this string oldFileExtension) => ConfigWishes.SetWav(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string WithRaw(this string oldFileExtension) => ConfigWishes.WithRaw(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AsRaw(this string oldFileExtension) => ConfigWishes.AsRaw(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string ToRaw(this string oldFileExtension) => ConfigWishes.ToRaw(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string SetRaw(this string oldFileExtension) => ConfigWishes.SetRaw(oldFileExtension);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.AudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string WithAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.WithAudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string AsAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.AsAudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string ToAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.ToAudioFormat(oldFileExtension, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static string SetAudioFormat(this string oldFileExtension, AudioFileFormatEnum newAudioFormat) => ConfigWishes.SetAudioFormat(oldFileExtension, newAudioFormat);
 
         public static bool IsWav(this AudioFileFormatEnum obj) => ConfigWishes.IsWav(obj);
@@ -858,31 +859,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileFormatEnum ToAudioFormat(this AudioFileFormatEnum obj) => ConfigWishes.ToAudioFormat(obj);
         public static AudioFileFormatEnum GetAudioFormat(this AudioFileFormatEnum obj) => ConfigWishes.GetAudioFormat(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum WithWav(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.WithWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AsWav(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.AsWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum ToWav(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.ToWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum SetWav(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.SetWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum WithRaw(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.WithRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AsRaw(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.AsRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum ToRaw(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.ToRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum SetRaw(this AudioFileFormatEnum oldAudioFormat) => ConfigWishes.SetRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AudioFormat(this AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => ConfigWishes.AudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum WithAudioFormat(this AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => ConfigWishes.WithAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum AsAudioFormat(this AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => ConfigWishes.AsAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum ToAudioFormat(this AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => ConfigWishes.ToAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum SetAudioFormat(this AudioFileFormatEnum oldAudioFormat, AudioFileFormatEnum newAudioFormat) => ConfigWishes.SetAudioFormat(oldAudioFormat, newAudioFormat);
 
         public static bool IsWav(this AudioFileFormatEnum? obj) => ConfigWishes.IsWav(obj);
@@ -892,31 +893,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static AudioFileFormatEnum? ToAudioFormat(this AudioFileFormatEnum? obj) => ConfigWishes.ToAudioFormat(obj);
         public static AudioFileFormatEnum? GetAudioFormat(this AudioFileFormatEnum? obj) => ConfigWishes.GetAudioFormat(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? WithWav(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.WithWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AsWav(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.AsWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? ToWav(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.ToWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? SetWav(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.SetWav(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? WithRaw(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.WithRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AsRaw(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.AsRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? ToRaw(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.ToRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? SetRaw(this AudioFileFormatEnum? oldAudioFormat) => ConfigWishes.SetRaw(oldAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AudioFormat(this AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => ConfigWishes.AudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? WithAudioFormat(this AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => ConfigWishes.WithAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? AsAudioFormat(this AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => ConfigWishes.AsAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? ToAudioFormat(this AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => ConfigWishes.ToAudioFormat(oldAudioFormat, newAudioFormat);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static AudioFileFormatEnum? SetAudioFormat(this AudioFileFormatEnum? oldAudioFormat, AudioFileFormatEnum? newAudioFormat) => ConfigWishes.SetAudioFormat(oldAudioFormat, newAudioFormat);
 
         [Obsolete(ObsoleteMessage)]
@@ -952,43 +953,43 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormatEnum AudioFormatEntityToEnum(this AudioFileFormat obj) => ConfigWishes.AudioFormatEntityToEnum(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat WithWav(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.WithWav(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AsWav(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.AsWav(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat ToWav(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.ToWav(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat SetWav(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.SetWav(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat WithRaw(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.WithRaw(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AsRaw(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.AsRaw(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat ToRaw(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.ToRaw(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat SetRaw(this AudioFileFormat oldEnumEntity, IContext context) => ConfigWishes.SetRaw(oldEnumEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AudioFormat(this AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => ConfigWishes.AudioFormat(oldEnumEntity, newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat WithAudioFormat(this AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => ConfigWishes.WithAudioFormat(oldEnumEntity, newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat AsAudioFormat(this AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => ConfigWishes.AsAudioFormat(oldEnumEntity, newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat ToAudioFormat(this AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => ConfigWishes.ToAudioFormat(oldEnumEntity, newAudioFormat, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static AudioFileFormat SetAudioFormat(this AudioFileFormat oldEnumEntity, AudioFileFormatEnum newAudioFormat, IContext context) => ConfigWishes.SetAudioFormat(oldEnumEntity, newAudioFormat, context);
         [Obsolete(ObsoleteMessage)]

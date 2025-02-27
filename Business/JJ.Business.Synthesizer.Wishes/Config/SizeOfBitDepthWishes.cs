@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using JJ.Framework.Common;
+using JJ.Framework.Persistence;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
-using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Helpers.SampleDataTypeHelper;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
@@ -18,7 +19,7 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class SizeOfBitDepthExtensionWishes
     {
         // Derived from Bits
@@ -145,15 +146,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int AsSizeOfBitDepth(this SampleDataTypeEnum obj) => ConfigWishes.AsSizeOfBitDepth(obj);
         [Obsolete(ObsoleteMessage)] public static int GetSizeOfBitDepth(this SampleDataTypeEnum obj) => ConfigWishes.GetSizeOfBitDepth(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize)
             => ConfigWishes.SizeOfBitDepth(oldEnumValue, newByteSize);
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum WithSizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize)
             => ConfigWishes.WithSizeOfBitDepth(oldEnumValue, newByteSize);
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SetSizeOfBitDepth(this SampleDataTypeEnum oldEnumValue, int newByteSize)
             => ConfigWishes.SetSizeOfBitDepth(oldEnumValue, newByteSize);
         
@@ -162,25 +163,25 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int AsSizeOfBitDepth(this SampleDataType obj) => ConfigWishes.AsSizeOfBitDepth(obj);
         [Obsolete(ObsoleteMessage)] public static int GetSizeOfBitDepth(this SampleDataType obj) => ConfigWishes.GetSizeOfBitDepth(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType SizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context)
             => ConfigWishes.SizeOfBitDepth(oldSampleDataType, newByteSize, context);
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType WithSizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context)
             => ConfigWishes.WithSizeOfBitDepth(oldSampleDataType, newByteSize, context);
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType SetSizeOfBitDepth(this SampleDataType oldSampleDataType, int newByteSize, IContext context)
             => ConfigWishes.SetSizeOfBitDepth(oldSampleDataType, newByteSize, context);
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int SizeOfBitDepth(this int oldBits, int newByteSize) 
             => ConfigWishes.SizeOfBitDepth(oldBits, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int SetSizeOfBitDepth(this int oldBits, int newByteSize) 
             => ConfigWishes.SetSizeOfBitDepth(oldBits, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int WithSizeOfBitDepth(this int oldBits, int newByteSize) 
             => ConfigWishes.WithSizeOfBitDepth(oldBits, newByteSize);
         public static int SizeOfBitDepthToBits(this int sizeOfBitDepth) => ConfigWishes.SizeOfBitDepthToBits(sizeOfBitDepth);
@@ -203,17 +204,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int ToSizeOfBitDepth(this Type obj) => ConfigWishes.ToSizeOfBitDepth(obj);
         public static int TypeToSizeOfBitDepth(this Type obj) => ConfigWishes.TypeToSizeOfBitDepth(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SizeOfBitDepth(this Type oldType, int newByteSize) => ConfigWishes.SizeOfBitDepth(oldType, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SetSizeOfBitDepth(this Type oldType, int newByteSize) => ConfigWishes.SetSizeOfBitDepth(oldType, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithSizeOfBitDepth(this Type oldType, int newByteSize) => ConfigWishes.WithSizeOfBitDepth(oldType, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type AsSizeOfBitDepth(this Type oldType, int newByteSize) => ConfigWishes.AsSizeOfBitDepth(oldType, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type ToSizeOfBitDepth(this Type oldType, int newByteSize) => ConfigWishes.ToSizeOfBitDepth(oldType, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SizeOfBitDepthToType(this int value) => ConfigWishes.SizeOfBitDepthToType(value);
     }
 
@@ -418,13 +419,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return SizeOf(obj);
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SizeOfBitDepth(SampleDataTypeEnum oldEnumValue, int newByteSize)
             => SetSizeOfBitDepth(oldEnumValue, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum WithSizeOfBitDepth(SampleDataTypeEnum oldEnumValue, int newByteSize)
             => SetSizeOfBitDepth(oldEnumValue, newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SetSizeOfBitDepth(SampleDataTypeEnum oldEnumValue, int newByteSize)
         {
             return newByteSize.Bits().BitsToEnum();
@@ -438,13 +439,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return SizeOf(obj);
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType SizeOfBitDepth(SampleDataType oldSampleDataType, int newByteSize, IContext context)
             => SetSizeOfBitDepth(oldSampleDataType, newByteSize, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType WithSizeOfBitDepth(SampleDataType oldSampleDataType, int newByteSize, IContext context)
             => SetSizeOfBitDepth(oldSampleDataType, newByteSize, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType SetSizeOfBitDepth(SampleDataType oldSampleDataType, int newByteSize, IContext context)
         {
             return newByteSize.Bits().BitsToEntity(context);
@@ -461,11 +462,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int BitsToSizeOfBitDepth(int bits) => AssertBits(bits, strict: false) / 8;
         public static int? BitsToSizeOfBitDepth(int? bits) => AssertBits(bits, strict: false) / 8;
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int SizeOfBitDepth(int oldBits, int newByteSize) => SizeOfBitDepthToBits(newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int SetSizeOfBitDepth(int oldBits, int newByteSize) => SizeOfBitDepthToBits(newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int WithSizeOfBitDepth(int oldBits, int newByteSize) => SizeOfBitDepthToBits(newByteSize);
         public static int SizeOfBitDepthToBits(int sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth, strict: false) * 8;
         public static int? SizeOfBitDepthToBits(int? sizeOfBitDepth) => AssertSizeOfBitDepth(sizeOfBitDepth, strict: false) * 8;
@@ -482,15 +483,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
            throw new ValueNotSupportedException(obj);
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SizeOfBitDepth(Type oldType, int newByteSize) => ConfigWishes.SizeOfBitDepthToType(newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SetSizeOfBitDepth(Type oldType, int newByteSize) => ConfigWishes.SizeOfBitDepthToType(newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithSizeOfBitDepth(Type oldType, int newByteSize) => ConfigWishes.SizeOfBitDepthToType(newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type AsSizeOfBitDepth(Type oldType, int newByteSize) => ConfigWishes.SizeOfBitDepthToType(newByteSize);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type ToSizeOfBitDepth(Type oldType, int newByteSize) => ConfigWishes.SizeOfBitDepthToType(newByteSize);
         public static Type SizeOfBitDepthToType(int value)
         {
@@ -509,17 +510,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int ToSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth<TValueType>();
         public static int TypeToSizeOfBitDepth<TValueType>() => TypeToSizeOfBitDepth(typeof(TValueType));
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SetSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type AsSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type ToSizeOfBitDepth<TValueType>(int value) => SizeOfBitDepthToType<TValueType>(value);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SizeOfBitDepthToType<TValueType>(int value) => SizeOfBitDepthToType(value);
     }
 }

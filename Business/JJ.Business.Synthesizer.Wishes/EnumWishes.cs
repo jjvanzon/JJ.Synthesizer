@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -110,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // SetNodeType for whole Curve
 
-        /// <inheritdoc cref="docs._setnodetype"/>
+        /// <inheritdoc cref="_setnodetype"/>
         public static void SetNodeType(this Curve curve, NodeTypeEnum nodeTypeEnum, IContext context = null)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
@@ -118,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes
             curve.Nodes.ForEach(x => x.SetNodeTypeEnum(nodeTypeEnum, nodeTypeRepository));
         }
 
-        /// <inheritdoc cref="docs._trygetnodetype"/>
+        /// <inheritdoc cref="_trygetnodetype"/>
         public static NodeTypeEnum TryGetNodeType(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));

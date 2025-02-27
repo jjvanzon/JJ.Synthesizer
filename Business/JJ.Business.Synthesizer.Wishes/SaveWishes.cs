@@ -3,10 +3,11 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Runtime.CompilerServices;
+using JJ.Framework.Reflection;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Reflection;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static System.IO.File;
@@ -155,13 +156,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // SynthWishes Instance Save (Mid-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Save(
             FlowNode signal, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => Save(signal, null, filePath, callerMemberName);
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Save(
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -172,13 +173,13 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // SynthWishes Instance SaveChannels (Mid-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode SaveChannels(
             FlowNode signal, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => SaveChannels(signal, null, filePath, callerMemberName);
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode SaveChannels(
             FlowNode signal, FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -192,12 +193,12 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // FlowNode Save (Mid-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Save(
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.Save(this, filePath, callerMemberName);
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode Save(
             FlowNode duration,
             string filePath = null, [CallerMemberName] string callerMemberName = null)
@@ -205,12 +206,12 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // FlowNode SaveChannels (Mid-Chain)
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode SaveChannels(
             string filePath = null, [CallerMemberName] string callerMemberName = null)
             => _synthWishes.SaveChannels(this, filePath, callerMemberName);
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         public FlowNode SaveChannels(
             FlowNode duration, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)

@@ -7,12 +7,11 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.OperandWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static System.Environment;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-
-#pragma warning disable CS0618 // Type or member is obsolete
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -20,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public string Stringify(bool singleLine = false, bool canOmitNameForBasicMath = false) 
             => _underlyingOutlet.Stringify(singleLine, canOmitNameForBasicMath);
     }
@@ -29,15 +28,15 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class StringifyExtensionWishes
     { 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Outlet entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
             => new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
             => new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
         
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Tape tape, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
@@ -73,21 +72,21 @@ namespace JJ.Business.Synthesizer.Wishes
             return sb.ToString();
         }
         
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Buff buff, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (buff == null) throw new ArgumentNullException(nameof(buff));
             return Stringify(buff.UnderlyingAudioFileOutput, singleLine, canOmitNameForBasicMath);
         }
         
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this AudioFileOutput entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return Join(NewLine, entity.AudioFileOutputChannels.Select(x => x.Stringify(singleLine, canOmitNameForBasicMath)));
         }
         
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this AudioFileOutputChannel entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -97,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     // Stringifier
 
-    /// <inheritdoc cref="docs._stringify"/>
+    /// <inheritdoc cref="_stringify"/>
     internal class Stringifier
     {
         private readonly bool _singleLine;
@@ -112,7 +111,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Entry Points
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public string StringifyRecursive(Operator entity)
         {
             _sb = CreateStringBuilder();
@@ -120,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return RemoveOuterBraces(_sb.ToString());
         }
 
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public string StringifyRecursive(Outlet outlet)
         {
             _sb = CreateStringBuilder();

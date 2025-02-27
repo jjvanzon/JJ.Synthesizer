@@ -1,39 +1,40 @@
-﻿using JJ.Persistence.Synthesizer;
-using System;
+﻿using System;
 using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    /// <inheritdoc cref="docs._underlyingextensions"/>
+    /// <inheritdoc cref="_underlyingextensions"/>
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._underlyingextensions"/>
+        /// <inheritdoc cref="_underlyingextensions"/>
         public Operator UnderlyingOperator => _underlyingOutlet.Operator;
 
-        /// <inheritdoc cref="docs._underlyingcurve" />"/>
+        /// <inheritdoc cref="_underlyingcurve" />"/>
         public Curve UnderlyingCurve() => _underlyingOutlet.UnderlyingCurve();
 
-        /// <inheritdoc cref="docs._underlyingcurve" />"/>
+        /// <inheritdoc cref="_underlyingcurve" />"/>
         public FlowNode UnderlyingCurve(Curve curve) { _underlyingOutlet.UnderlyingCurve(curve); return this; }
 
-        /// <inheritdoc cref="docs._underlyingsample" />
+        /// <inheritdoc cref="_underlyingsample" />
         public Sample UnderlyingSample() => _underlyingOutlet.UnderlyingSample();
         
-        /// <inheritdoc cref="docs._underlyingsample" />
+        /// <inheritdoc cref="_underlyingsample" />
         public FlowNode UnderlyingSample(Sample sample) { _underlyingOutlet.UnderlyingSample(sample); return this; }
     }
 
-    /// <inheritdoc cref="docs._underlyingextensions"/>
+    /// <inheritdoc cref="_underlyingextensions"/>
     public static class UnderlyingExtensionWishes
     {
-        /// <inheritdoc cref="docs._underlyingcurve" />"/>
+        /// <inheritdoc cref="_underlyingcurve" />"/>
         public static Curve UnderlyingCurve(this Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
             return UnderlyingCurve(outlet.Operator);
         }
         
-        /// <inheritdoc cref="docs._underlyingcurve" />"/>
+        /// <inheritdoc cref="_underlyingcurve" />"/>
         public static Outlet UnderlyingCurve(this Outlet outlet, Curve curve)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
@@ -41,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return outlet;
         }
 
-        /// <inheritdoc cref="docs._underlyingsample" />
+        /// <inheritdoc cref="_underlyingsample" />
         public static Sample UnderlyingSample(this Outlet outlet)
         {
             if (outlet == null) throw new ArgumentNullException(nameof(outlet));
@@ -55,7 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return outlet;
         }
 
-        /// <inheritdoc cref="docs._underlyingcurve" />"/>
+        /// <inheritdoc cref="_underlyingcurve" />"/>
         public static Curve UnderlyingCurve(this Operator op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -63,7 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return op.AsCurveIn.Curve;
         }
         
-        /// <inheritdoc cref="docs._underlyingcurve" />
+        /// <inheritdoc cref="_underlyingcurve" />
         public static Operator UnderlyingCurve(this Operator op, Curve curve)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -72,7 +73,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return op;
         }
         
-        /// <inheritdoc cref="docs._underlyingsample" />
+        /// <inheritdoc cref="_underlyingsample" />
         public static Sample UnderlyingSample(this Operator op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -80,7 +81,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return op.AsSampleOperator.Sample;
         }
 
-        /// <inheritdoc cref="docs._underlyingsample" />
+        /// <inheritdoc cref="_underlyingsample" />
         public static Operator UnderlyingSample(this Operator op, Sample sample)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));

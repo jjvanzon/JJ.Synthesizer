@@ -10,7 +10,6 @@ using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
-// ReSharper disable InvokeAsExtensionMethod
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -92,7 +91,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
 
-    /// <inheritdoc cref="docs._setenumwishes"/>
+    /// <inheritdoc cref="_setenumwishes"/>
     [Obsolete(ObsoleteMessage)]
     public static class ObsoleteEnumSetterWishes
     {
@@ -203,14 +202,14 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
  
         // SetNodeType for whole Curve
     
-        /// <inheritdoc cref="docs._setnodetype"/>
+        /// <inheritdoc cref="_setnodetype"/>
         public static void SetNodeTypeEnumEntity(this Curve curve, NodeType nodeType)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));
             curve.Nodes.ForEach(x => x.NodeType = nodeType);
         }
     
-        /// <inheritdoc cref="docs._trygetnodetype"/>
+        /// <inheritdoc cref="_trygetnodetype"/>
         public static NodeType TryGetNodeTypeEnumEntity(this Curve curve)
         {
             if (curve == null) throw new ArgumentNullException(nameof(curve));

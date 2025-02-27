@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
@@ -39,7 +40,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         public override string ToString() => GetDebuggerDisplay(this);
         
-        /// <inheritdoc cref="docs._buffbytes"/>
+        /// <inheritdoc cref="_buffbytes"/>
         public byte[] Bytes { get; set; }
         
         private string _filePath;
@@ -78,7 +79,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // On Tape
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         internal void MakeBuff(Tape tape, [CallerMemberName] string callerMemberName = null)
         {
             if (tape == null) throw new ArgumentNullException(nameof(tape));
@@ -142,7 +143,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return audioFileOutput;
         }
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         internal static void InternalMakeBuff(
             Tape tape, [CallerMemberName] string callerMemberName = null)
         {
@@ -211,14 +212,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // MakeBuff Legacy
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         internal Buff MakeBuffLegacy(
             FlowNode signal, FlowNode duration, bool inMemory, bool mustPad,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
                 new[] { signal }, duration, inMemory, mustPad, name, filePath, callerMemberName);
 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         internal Buff MakeBuffLegacy(
             IList<FlowNode> channelSignals, FlowNode duration, bool inMemory, bool mustPad,
             string name, string filePath, [CallerMemberName] string callerMemberName = null)
@@ -271,7 +272,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Helpers
         
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         internal static SpeakerSetup GetSubstituteSpeakerSetup(int channels, IContext context)
         {
             switch (AssertChannels(channels))
@@ -282,13 +283,13 @@ namespace JJ.Business.Synthesizer.Wishes
             }
         }
         
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         private static readonly object _stereoSpeakerSetupSubstituteLock = new object();
         
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         private static SpeakerSetup _stereoSpeakerSetupSubstitute;
         
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         private static SpeakerSetup GetStereoSpeakerSetupSubstitute(IContext context)
         {
             if (_stereoSpeakerSetupSubstitute != null)
@@ -334,13 +335,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return stereo;
         }
         
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         private static readonly object _monoSpeakerSetupSubstituteLock = new object();
         
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         private static SpeakerSetup _monoSpeakerSetupSubstitute;
 
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         private static SpeakerSetup GetMonoSpeakerSetupSubstitute(IContext context)
         {
             if (_monoSpeakerSetupSubstitute != null)
@@ -378,7 +379,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return mono;
         }
         
-        /// <inheritdoc cref="docs._avoidspeakersetupsbackend" />
+        /// <inheritdoc cref="_avoidspeakersetupsbackend" />
         internal static void CreateOrRemoveChannels(AudioFileOutput audioFileOutput, int signalCount, IContext context)
         {
             // (using a lower abstraction layer, to circumvent error-prone syncing code in back-end).

@@ -6,10 +6,11 @@ using System.Text;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
-    /// <inheritdoc cref="docs._leafchecktimeout" />
+    /// <inheritdoc cref="_leafchecktimeout" />
     public enum TimeOutActionEnum
     {
         Undefined,
@@ -34,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Durations
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         [XmlAttribute] public double? NoteLength { get; set; }
         [XmlAttribute] public double? BarLength { get; set; }
         [XmlAttribute] public double? BeatLength { get; set; }
@@ -57,9 +58,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Misc
         
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         [XmlAttribute] public double? LeafCheckTimeOut { get; set; }
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         [XmlAttribute] public TimeOutActionEnum? TimeOutAction { get; set; }
         [XmlAttribute] public int? FileExtensionMaxLength { get; set; }
         [XmlAttribute] public string LongTestCategory { get; set; }

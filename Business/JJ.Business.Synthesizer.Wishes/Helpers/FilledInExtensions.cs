@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
-    /// <inheritdoc cref="docs._filledinhelper" />
+    /// <inheritdoc cref="_filledinhelper" />
     internal static class FilledInExtensions
     {
         public static bool IsNully(this  FlowNode flowNode) => FilledInHelper.IsNully(flowNode);

@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -18,11 +19,9 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 // ReSharper disable UnusedParameter.Global
 // ReSharper disable UnusedTypeParameter
 
-#pragma warning disable CS0618
-
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class BitExtensionWishes
     {
         // A Primary Audio Attribute
@@ -314,31 +313,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int  ToBits(this     SampleDataTypeEnum obj) => ConfigWishes.ToBits(obj);
         [Obsolete(ObsoleteMessage)] public static int  EnumToBits(this SampleDataTypeEnum obj) => ConfigWishes.EnumToBits(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With8Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.With8Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With16Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.With16Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.With32Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum As8Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.As8Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum As16Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.As16Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum As32Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.As32Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Set8Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.Set8Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Set16Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.Set16Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Set32Bit(this SampleDataTypeEnum oldEnumValue) => ConfigWishes.Set32Bit(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Bits(this SampleDataTypeEnum oldEnumValue, int newBits) => ConfigWishes.Bits(oldEnumValue, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum WithBits(this SampleDataTypeEnum oldEnumValue, int newBits) => ConfigWishes.WithBits(oldEnumValue, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum AsBits(this SampleDataTypeEnum oldEnumValue, int newBits) => ConfigWishes.AsBits(oldEnumValue, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SetBits(this SampleDataTypeEnum oldEnumValue, int newBits)=> ConfigWishes.SetBits(oldEnumValue, newBits);
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum BitsToEnum(this int newBits) => ConfigWishes.BitsToEnum(newBits);
 
@@ -351,43 +350,43 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int ToBits(this SampleDataType obj) => ConfigWishes.ToBits(obj);
         [Obsolete(ObsoleteMessage)] public static int EntityToBits(this SampleDataType obj) => ConfigWishes.EntityToBits(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With8Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.With8Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With16Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.With16Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With32Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.With32Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType As8Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.As8Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType As16Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.As16Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType As32Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.As32Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Set8Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.Set8Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Set16Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.Set16Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Set32Bit(this SampleDataType oldSampleDataType, IContext context) => ConfigWishes.Set32Bit(oldSampleDataType, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Bits(this SampleDataType oldSampleDataType, int newBits, IContext context) => ConfigWishes.Bits(oldSampleDataType, newBits, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType WithBits(this SampleDataType oldSampleDataType, int newBits, IContext context) => ConfigWishes.WithBits(oldSampleDataType, newBits, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType AsBits(this SampleDataType oldSampleDataType, int newBits, IContext context) => ConfigWishes.AsBits(oldSampleDataType, newBits, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType SetBits(this SampleDataType oldSampleDataType, int newBits, IContext context) => ConfigWishes.SetBits(oldSampleDataType, newBits, context);
         [Obsolete(ObsoleteMessage)]
@@ -402,17 +401,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int ToBits(this int sizeOfBitDepth) => ConfigWishes.ToBits(sizeOfBitDepth);
         public static int? ToBits(this int? sizeOfBitDepth) => ConfigWishes.ToBits(sizeOfBitDepth);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int Bits(this int oldSizeOfBitDepth, int newBits) => ConfigWishes.Bits(oldSizeOfBitDepth, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int? Bits(this int? oldSizeOfBitDepth, int? newBits) => ConfigWishes.Bits(oldSizeOfBitDepth, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int WithBits(this int oldSizeOfBitDepth, int newBits) => ConfigWishes.WithBits(oldSizeOfBitDepth, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int? WithBits(this int? oldSizeOfBitDepth, int? newBits) => ConfigWishes.WithBits(oldSizeOfBitDepth, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int SetBits(this int oldSizeOfBitDepth, int newBits) => ConfigWishes.SetBits(oldSizeOfBitDepth, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int? SetBits(this int? oldSizeOfBitDepth, int? newBits) => ConfigWishes.SetBits(oldSizeOfBitDepth, newBits);
         
         public static bool Is8Bit(this Type obj) => ConfigWishes.Is8Bit(obj);
@@ -423,31 +422,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int ToBits(this Type obj) => ConfigWishes.ToBits(obj);
         public static int TypeToBits(this Type obj) => ConfigWishes.TypeToBits(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With8Bit(this Type oldValueType) => ConfigWishes.With8Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With16Bit(this Type oldValueType) => ConfigWishes.With16Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With32Bit(this Type oldValueType) => ConfigWishes.With32Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As8Bit(this Type oldValueType) => ConfigWishes.As8Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As16Bit(this Type oldValueType) => ConfigWishes.As16Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As32Bit(this Type oldValueType) => ConfigWishes.As32Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set8Bit(this Type oldValueType) => ConfigWishes.Set8Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set16Bit(this Type oldValueType) => ConfigWishes.Set16Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set32Bit(this Type oldValueType) => ConfigWishes.Set32Bit(oldValueType);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Bits(this Type oldValueType, int newBits) => ConfigWishes.Bits(oldValueType, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithBits(this Type oldValueType, int newBits) => ConfigWishes.WithBits(oldValueType, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type AsBits(this Type oldValueType, int newBits) => ConfigWishes.AsBits(oldValueType, newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SetBits(this Type oldValueType, int newBits) => ConfigWishes.SetBits(oldValueType, newBits);
         public static Type BitsToType(this int value) => ConfigWishes.BitsToType(value);
     }
@@ -867,31 +866,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With8Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With16Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum With32Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum As8Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum As16Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum As32Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Set8Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Set16Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Set32Bit(SampleDataTypeEnum oldEnumValue) => BitsToEnum(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum Bits(SampleDataTypeEnum oldEnumValue, int newBits) => BitsToEnum(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum WithBits(SampleDataTypeEnum oldEnumValue, int newBits) => BitsToEnum(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum AsBits(SampleDataTypeEnum oldEnumValue, int newBits) => BitsToEnum(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SetBits(SampleDataTypeEnum oldEnumValue, int newBits) => BitsToEnum(newBits);
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum BitsToEnum(int bits)
         {
@@ -916,43 +915,43 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.ToEnum().EnumToBits();
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With8Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(8, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With16Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(16, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType With32Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(32, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType As8Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(8, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType As16Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(16, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType As32Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(32, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Set8Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(8, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Set16Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(16, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Set32Bit(SampleDataType oldSampleDataType, IContext context) => BitsToEntity(32, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType Bits(SampleDataType oldSampleDataType, int newBits, IContext context) => BitsToEntity(newBits, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType WithBits(SampleDataType oldSampleDataType, int newBits, IContext context) => BitsToEntity(newBits, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType AsBits(SampleDataType oldSampleDataType, int newBits, IContext context) => BitsToEntity(newBits, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)]
         public static SampleDataType SetBits(SampleDataType oldSampleDataType, int newBits, IContext context) => BitsToEntity(newBits, context);
         [Obsolete(ObsoleteMessage)]
@@ -970,17 +969,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int  ToBits  (int  sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
         public static int? ToBits  (int? sizeOfBitDepth) => SizeOfBitDepthToBits(sizeOfBitDepth);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int  Bits    (int  oldSizeOfBitDepth, int  newBits) => BitsToSizeOfBitDepth(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int? Bits    (int? oldSizeOfBitDepth, int? newBits) => BitsToSizeOfBitDepth(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int  WithBits(int  oldSizeOfBitDepth, int  newBits) => BitsToSizeOfBitDepth(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int? WithBits(int? oldSizeOfBitDepth, int? newBits) => BitsToSizeOfBitDepth(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int  SetBits (int  oldSizeOfBitDepth, int  newBits) => BitsToSizeOfBitDepth(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int? SetBits (int? oldSizeOfBitDepth, int? newBits) => BitsToSizeOfBitDepth(newBits);
 
         public static bool Is8Bit(Type obj) => TypeToBits(obj) == 8;
@@ -997,31 +996,31 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             throw new ValueNotSupportedException(valueType);
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With8Bit(Type oldValueType) => BitsToType(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With16Bit(Type oldValueType) => BitsToType(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With32Bit(Type oldValueType) => BitsToType(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As8Bit(Type oldValueType) => BitsToType(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As16Bit(Type oldValueType) => BitsToType(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As32Bit(Type oldValueType) => BitsToType(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set8Bit(Type oldValueType) => BitsToType(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set16Bit(Type oldValueType) => BitsToType(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set32Bit(Type oldValueType) => BitsToType(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Bits(Type oldValueType, int newBits) => BitsToType(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithBits(Type oldValueType, int newBits) => BitsToType(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type AsBits(Type oldValueType, int newBits) => BitsToType(newBits);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SetBits(Type oldValueType, int newBits) => BitsToType(newBits);
         public static Type BitsToType(int value)
         {
@@ -1047,27 +1046,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return TypeToBits(typeof(T));
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With8Bit<TOldValueType>() => BitsToType(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With16Bit<TOldValueType>() => BitsToType(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type With32Bit<TOldValueType>() => BitsToType(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As8Bit<TOldValueType>() => BitsToType(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As16Bit<TOldValueType>() => BitsToType(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type As32Bit<TOldValueType>() => BitsToType(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set8Bit<TOldValueType>() => BitsToType(8);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set16Bit<TOldValueType>() => BitsToType(16);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Set32Bit<TOldValueType>() => BitsToType(32);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type Bits<TOldValueType>(int value) => BitsToType(value);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithBits<TOldValueType>(int value) => BitsToType(value);
     }
 }

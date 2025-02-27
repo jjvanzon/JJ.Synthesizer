@@ -11,6 +11,7 @@ using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;
@@ -27,14 +28,14 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // ResolveName
 
-        /// <inheritdoc cref="docs._resolvename"/>
+        /// <inheritdoc cref="_resolvename"/>
         public static string ResolveName(
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
             object nameSource5 = null, object nameSource6 = null, object nameSource7 = null, object nameSource8 = null,
             [CallerMemberName] string callerMemberName = null)
             => ResolveName(null, nameSource1, nameSource2, nameSource3, nameSource4, nameSource5, nameSource6, nameSource7, nameSource8, callerMemberName);
 
-        /// <inheritdoc cref="docs._resolvename"/>
+        /// <inheritdoc cref="_resolvename"/>
         public static string ResolveName(
             IList<int> ids,
             object nameSource1 = null, object nameSource2 = null, object nameSource3 = null, object nameSource4 = null,
@@ -188,14 +189,14 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // For Entities
         
-        /// <inheritdoc cref="docs._operatorgetname" />
+        /// <inheritdoc cref="_operatorgetname" />
         public static string GetName(Outlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             return GetName(entity.Operator);
         }
 
-        /// <inheritdoc cref="docs._operatorgetname" />
+        /// <inheritdoc cref="_operatorgetname" />
         public static string GetName(Operator op)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -203,7 +204,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return op.Name;
         }
 
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Curve SetName(Curve entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -211,7 +212,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
 
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Sample SetName(Sample entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -219,7 +220,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
 
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static AudioFileOutput SetName(AudioFileOutput entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -227,7 +228,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
         
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Outlet SetName(Outlet entity, string name)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -235,7 +236,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return entity;
         }
 
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Operator SetName(Operator op, string name)
         {
             if (op == null) throw new ArgumentNullException(nameof(op));
@@ -339,7 +340,7 @@ namespace JJ.Business.Synthesizer.Wishes
         }
     
         // TODO: Move to Framework.
-        /// <inheritdoc cref="docs._membername"/>
+        /// <inheritdoc cref="_membername"/>
         public static string MemberName([CallerMemberName] string calledMemberName = null)
             => calledMemberName.CutLeft("get_").CutLeft("set_");
     }
@@ -348,19 +349,19 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public static class NameExtensionWishes
     {
-        /// <inheritdoc cref="docs._operatorgetname" />
+        /// <inheritdoc cref="_operatorgetname" />
         public static string GetName(this Outlet outlet) => NameWishes.GetName(outlet);
-        /// <inheritdoc cref="docs._operatorgetname" />
+        /// <inheritdoc cref="_operatorgetname" />
         public static string GetName(this Operator op) => NameWishes.GetName(op);
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Curve SetName(this Curve entity, string name) => NameWishes.SetName(entity, name);
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Sample SetName(this Sample entity, string name) => NameWishes.SetName(entity, name);
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static AudioFileOutput SetName(this AudioFileOutput entity, string name) => NameWishes.SetName(entity, name);
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Outlet SetName(this Outlet entity, string name) => NameWishes.SetName(entity, name);
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public static Operator SetName(this Operator op, string name) => NameWishes.SetName(op, name);
         public static string OperatorTypeName(this Operator op) => NameWishes.OperatorTypeName(op);
         public static string OperatorTypeName(this Outlet outlet) => NameWishes.OperatorTypeName(outlet);
@@ -383,14 +384,14 @@ namespace JJ.Business.Synthesizer.Wishes
     
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public FlowNode SetName(object nameSource = null, object fallBackNameSource = null, [CallerMemberName] string callerMemberName = null)
         {
             Name = ResolveName(nameSource, fallBackNameSource, callerMemberName);
             return this;
         }
 
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         public string Name
         {
             get => _underlyingOutlet.GetName();

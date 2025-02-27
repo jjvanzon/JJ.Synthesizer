@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -54,11 +55,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             => HasOperatorTypeName(entity, nameof(PropertyNames.SampleOperator));
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="docs._asconst" />
+        /// <inheritdoc cref="_asconst" />
         public static double? AsConst(this Inlet inlet) => inlet?.Input?.AsConst();
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="docs._asconst" />
+        /// <inheritdoc cref="_asconst" />
         public static bool IsConst(this Inlet inlet) => inlet?.AsConst() != null;
 
         [Obsolete(ObsoleteMessage)]
@@ -118,7 +119,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     [Obsolete(ObsoleteMessage)]
     public static class InletNameExtensions
     {
-        /// <inheritdoc cref="docs._names"/>
+        /// <inheritdoc cref="_names"/>
         [Obsolete(ObsoleteMessage)]
         public static Inlet SetName(this Inlet entity, string name)
         {
@@ -134,7 +135,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class UnderlyingInletExtensions 
     {
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="docs._getcurve" />"/>
+        /// <inheritdoc cref="_getcurve" />"/>
         public static Curve Curve(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -142,7 +143,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="docs._getsample" />
+        /// <inheritdoc cref="_getsample" />
         public static Sample Sample(this Inlet entity)
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
@@ -156,7 +157,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
     public static class InletStringifyExtensions
     {
         [Obsolete(ObsoleteMessage)]
-        /// <inheritdoc cref="docs._stringify"/>
+        /// <inheritdoc cref="_stringify"/>
         public static string Stringify(this Inlet entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
             => new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
 

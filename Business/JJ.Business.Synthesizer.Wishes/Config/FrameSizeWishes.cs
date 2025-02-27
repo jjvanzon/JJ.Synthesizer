@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
@@ -14,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 {
     // FrameSize: A Derived Attribute
         
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class FrameSizeExtensionWishes
     {
         // Synth-Bound

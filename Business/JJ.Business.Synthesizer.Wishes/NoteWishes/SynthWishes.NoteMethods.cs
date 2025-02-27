@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
@@ -14,7 +15,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Note Operator
         
-        /// <inheritdoc cref="docs._note" />
+        /// <inheritdoc cref="_note" />
         public FlowNode Note(
             FlowNode sound, FlowNode delay = default, FlowNode volume = default, FlowNode noteLength = default, 
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -51,13 +52,13 @@ namespace JJ.Business.Synthesizer.Wishes
             return sound.SetName(resolvedName);
         }
         
-        /// <inheritdoc cref="docs._note" />
+        /// <inheritdoc cref="_note" />
         public FlowNode Note(
             FlowNode sound, FlowNode delay, double volume, FlowNode noteLength, 
             string name = null, [CallerMemberName] string callerMemberName = null)
             => Note(sound, delay, _[volume], noteLength, name, callerMemberName);
         
-        /// <inheritdoc cref="docs._note" />
+        /// <inheritdoc cref="_note" />
         public FlowNode Note(
             FlowNode sound, FlowNode delay, double volume,
             string name = null, [CallerMemberName] string callerMemberName = null) 

@@ -9,23 +9,19 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
-// ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable UnusedParameter.Global
-#pragma warning disable CS0618
-#pragma warning disable IDE0002
-
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
     // Channels: A Primary Audio Attribute
 
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class ChannelsExtensionWishes
     {
         // Synth-Bound
@@ -273,27 +269,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int ToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.ToChannels(enumValue);
         [Obsolete(ObsoleteMessage)] public static int EnumToChannels(this SpeakerSetupEnum enumValue) => ConfigWishes.EnumToChannels(enumValue);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Mono(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.Mono(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Stereo(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.Stereo(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Channels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.Channels(oldEnumValue, newChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithMono(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.WithMono(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithStereo(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.WithStereo(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.WithChannels(oldEnumValue, newChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsMono(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.AsMono(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsStereo(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.AsStereo(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetMono(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.SetMono(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetStereo(this SpeakerSetupEnum oldEnumValue) => ConfigWishes.SetStereo(oldEnumValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetChannels(this SpeakerSetupEnum oldEnumValue, int newChannels) => ConfigWishes.SetChannels(oldEnumValue, newChannels);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(this int channels) => ConfigWishes.ChannelsToEnum(channels);
 
@@ -304,27 +300,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int ToChannels(this SpeakerSetup obj) => ConfigWishes.ToChannels(obj);
         [Obsolete(ObsoleteMessage)] public static int EntityToChannels(this SpeakerSetup entity) => ConfigWishes.EntityToChannels(entity);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup Mono(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.Mono(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup Stereo(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.Stereo(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup Channels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.Channels(oldSpeakerSetup, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithMono(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.WithMono(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithStereo(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.WithStereo(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.WithChannels(oldSpeakerSetup, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsMono(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.AsMono(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsStereo(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.AsStereo(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetMono(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.SetMono(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetStereo(this SpeakerSetup oldSpeakerSetup, IContext context) => ConfigWishes.SetStereo(oldSpeakerSetup, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetChannels(this SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ConfigWishes.SetChannels(oldSpeakerSetup, newChannels, context);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(this int channels, IContext context) => ConfigWishes.ChannelsToEntity(channels, context);
 
@@ -336,37 +332,37 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int  GetChannels          (this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  ChannelEnumToChannels(this ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithChannels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannels(this ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelsToChannelEnum(this int theseChannels, int? channelForContext)
         {
             return ConfigNightmares.ChannelsToChannelEnum(theseChannels, channelForContext);
         }
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Mono(this ChannelEnum oldChannelEnum) => ConfigWishes.SetMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(this ChannelEnum oldChannelEnum) => ConfigNightmares.SetStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithMono(this ChannelEnum oldChannelEnum) => ConfigWishes.SetMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithStereo(this ChannelEnum oldChannelEnum) => ConfigWishes.SetStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToMono(this ChannelEnum oldChannelEnum) => ConfigWishes.ToMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToStereo(this ChannelEnum oldChannelEnum) => ConfigWishes.ToStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum AsMono(this ChannelEnum oldChannelEnum) => ConfigWishes.AsMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum AsStereo(this ChannelEnum oldChannelEnum) => ConfigWishes.AsStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetMono(this ChannelEnum oldChannelEnum) => ConfigWishes.SetMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetStereo(this ChannelEnum oldChannelEnum) => ConfigWishes.SetStereo(oldChannelEnum);
 
         [Obsolete(ObsoleteMessage)] public static bool IsMono                 (this Channel channelEntity) => ConfigWishes.IsMono(channelEntity);
@@ -376,33 +372,33 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int  ToChannels             (this Channel channelEntity) => ConfigWishes.ToChannels(channelEntity);
         [Obsolete(ObsoleteMessage)] public static int  ChannelEntityToChannels(this Channel channelEntity) => ConfigWishes.ChannelEntityToChannels(channelEntity);
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Mono(this Channel oldChannelEntity, IContext context) => ConfigWishes.Mono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Stereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.Stereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Channels(this Channel oldChannelEntity, int newChannels, IContext context) => ConfigWishes.Channels(oldChannelEntity, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AsMono(this Channel oldChannelEntity, IContext context) => ConfigWishes.AsMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AsStereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.AsStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithMono(this Channel oldChannelEntity, IContext context) => ConfigWishes.WithMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithStereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.WithStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithChannels(this Channel oldChannelEntity, int newChannels, IContext context) => ConfigWishes.WithChannels(oldChannelEntity, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel ToMono(this Channel oldChannelEntity, IContext context) => ConfigWishes.ToMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel ToStereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.ToStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel ToChannels(this Channel oldChannelEntity, int newChannels, IContext context) => ConfigWishes.ToChannels(oldChannelEntity, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetMono(this Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetStereo(this Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetChannels(this Channel oldChannelEntity, int newChannels, IContext context) => ConfigWishes.SetChannels(oldChannelEntity, newChannels, context);
         [Obsolete(ObsoleteMessage)] public static Channel ChannelsToChannelEntity(this int theseChannels, int? channelForContext, IContext context) => ConfigWishes.ChannelsToChannelEntity(theseChannels, channelForContext, context);
     }
@@ -614,68 +610,68 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Delegated to AudioFileOutput to ensure the same handling.
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsMono     (Buff obj) => IsMono     (obj?.UnderlyingAudioFileOutput);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsStereo   (Buff obj) => IsStereo   (obj?.UnderlyingAudioFileOutput);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static int  Channels   (Buff obj) => Channels   (obj?.UnderlyingAudioFileOutput);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static int  GetChannels(Buff obj) => GetChannels(obj?.UnderlyingAudioFileOutput);
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff Mono        (Buff obj,            IContext context) { Mono        (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff Stereo      (Buff obj,            IContext context) { Stereo      (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff Channels    (Buff obj, int value, IContext context) { Channels    (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff WithMono    (Buff obj,            IContext context) { WithMono    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff WithStereo  (Buff obj,            IContext context) { WithStereo  (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff WithChannels(Buff obj, int value, IContext context) { WithChannels(obj?.UnderlyingAudioFileOutput, value, context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff AsMono      (Buff obj,            IContext context) { AsMono      (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff AsStereo    (Buff obj,            IContext context) { AsStereo    (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff SetMono     (Buff obj,            IContext context) { SetMono     (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff SetStereo   (Buff obj,            IContext context) { SetStereo   (obj?.UnderlyingAudioFileOutput,        context); return obj; }
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static Buff SetChannels (Buff obj, int value, IContext context) { SetChannels (obj?.UnderlyingAudioFileOutput, value, context); return obj; }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsMono     (AudioFileOutput obj) => ConfigNightmares.IsMono(obj);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsStereo   (AudioFileOutput obj) => ConfigNightmares.IsStereo(obj);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static int  Channels   (AudioFileOutput obj) => ConfigNightmares.GetChannels(obj);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static int  GetChannels(AudioFileOutput obj) => ConfigNightmares.GetChannels(obj);
 
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput Mono        (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput Stereo      (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput Channels    (AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value,          context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput WithMono    (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput WithStereo  (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput WithChannels(AudioFileOutput obj, int value, IContext context) => SetChannels(obj, value,          context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput AsMono      (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput AsStereo    (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetMono     (AudioFileOutput obj,            IContext context) => SetChannels(obj, MonoChannels,   context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetStereo   (AudioFileOutput obj,            IContext context) => SetChannels(obj, StereoChannels, context);
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannels (AudioFileOutput obj, int value, IContext context) => ConfigNightmares.SetChannels(obj, value, context);
         
         // Independent after Taping
@@ -698,7 +694,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static Sample SetStereo(Sample obj, IContext context) => SetChannels(obj, StereoChannels, context);
         public static Sample SetChannels(Sample obj, int value, IContext context)
         {
+            //#pragma warning disable CS0618 // Type or member is obsolete
             obj.SetSpeakerSetupEnum(value.ChannelsToEnum(), context);
+            //#pragma warning restore CS0618 // Type or member is obsolete
             return obj;
         }
                          
@@ -791,27 +789,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Mono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Stereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum Channels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithMono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithStereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum WithChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsMono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum AsStereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetMono(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(MonoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetStereo(SpeakerSetupEnum oldEnumValue) => ChannelsToEnum(StereoChannels);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum SetChannels(SpeakerSetupEnum oldEnumValue, int newChannels) => ChannelsToEnum(newChannels);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetupEnum ChannelsToEnum(int channels)
         {
@@ -831,27 +829,27 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int ToChannels(SpeakerSetup obj) => EntityToChannels(obj);
         [Obsolete(ObsoleteMessage)] public static int EntityToChannels(SpeakerSetup entity) => entity.ToEnum().EnumToChannels();
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup Mono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup Stereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup Channels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithMono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithStereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup WithChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsMono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup AsStereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetMono(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(MonoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetStereo(SpeakerSetup oldSpeakerSetup, IContext context) => ChannelsToEntity(StereoChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup SetChannels(SpeakerSetup oldSpeakerSetup, int newChannels, IContext context) => ChannelsToEntity(newChannels, context);
         [Obsolete(ObsoleteMessage)] public static SpeakerSetup ChannelsToEntity(int channels, IContext context)
         {
@@ -865,37 +863,37 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int  GetChannels          (ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
         [Obsolete(ObsoleteMessage)] public static int  ChannelEnumToChannels(ChannelEnum channelEnum) => ConfigNightmares.ChannelEnumToChannels(channelEnum);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Channels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithChannels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToChannels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannels(ChannelEnum oldChannelEnum, int newChannelsValue) => ConfigNightmares.SetChannels(oldChannelEnum, newChannelsValue);
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelsToChannelEnum(int theseChannels, int? channelForContext)
         {
             return ConfigNightmares.ChannelsToChannelEnum(theseChannels, channelForContext);
         }
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Mono(ChannelEnum oldChannelEnum) => ConfigWishes.SetMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum Stereo(ChannelEnum oldChannelEnum) => ConfigNightmares.SetStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithMono(ChannelEnum oldChannelEnum) => ConfigWishes.SetMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum WithStereo(ChannelEnum oldChannelEnum) => ConfigNightmares.SetStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum AsMono(ChannelEnum oldChannelEnum) => ConfigWishes.SetMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum AsStereo(ChannelEnum oldChannelEnum) => ConfigNightmares.SetStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToMono(ChannelEnum oldChannelEnum) => ConfigWishes.SetMono(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ToStereo(ChannelEnum oldChannelEnum) => ConfigNightmares.SetStereo(oldChannelEnum);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetMono(ChannelEnum oldChannelEnum) => ChannelEnum.Single;
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetStereo(ChannelEnum oldChannelEnum) => ConfigNightmares.SetStereo(oldChannelEnum);
 
         [Obsolete(ObsoleteMessage)] public static bool IsMono     (Channel channelEntity) => channelEntity.ToEnum().IsMono();
@@ -908,33 +906,33 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return ConfigNightmares.ChannelEnumToChannels(channelEntity.ToEnum());
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Mono(Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Stereo(Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel Channels(Channel oldChannelEntity, int newChannels, IContext context) => ConfigNightmares.SetChannels(oldChannelEntity, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithMono(Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithStereo(Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel WithChannels(Channel oldChannelEntity, int newChannels, IContext context) => ConfigNightmares.SetChannels(oldChannelEntity, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AsMono(Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel AsStereo(Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel ToMono(Channel oldChannelEntity, IContext context) => ConfigWishes.SetMono(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel ToStereo(Channel oldChannelEntity, IContext context) => ConfigWishes.SetStereo(oldChannelEntity, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel ToChannels(Channel oldChannelEntity, int newChannels, IContext context) => ConfigNightmares.SetChannels(oldChannelEntity, newChannels, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetMono(Channel oldChannelEntity, IContext context) => ChannelEnum.Single.ToEntity(context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetStereo(Channel oldChannelEntity, IContext context) => ConfigNightmares.SetStereo(oldChannelEntity.ToEnum()).ToEntity(context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetChannels(Channel oldChannelEntity, int newChannels, IContext context) => ConfigNightmares.SetChannels(oldChannelEntity, newChannels, context);
         [Obsolete(ObsoleteMessage)] public static Channel ChannelsToChannelEntity(int theseChannels, int? channelForContext, IContext context) => ConfigNightmares.ChannelsToChannelEnum(theseChannels, channelForContext).ToEntity(context);
     }

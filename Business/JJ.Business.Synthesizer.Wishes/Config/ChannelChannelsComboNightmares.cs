@@ -5,6 +5,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -16,11 +17,10 @@ using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 // ReSharper disable UnusedParameter.Global
 // ReSharper disable ArrangeStaticMemberQualifier
 
-#pragma warning disable IDE0002
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class ConfigNightmareExtensions
     {
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? thisChannel, SpeakerSetupEnum speakerSetupEnumForContext)
@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         }
     }
 
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public class ConfigNightmares
     {
         // Channels (Mono/Stereo)
@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static bool IsStereo(ChannelEnum channelEnum) 
             => channelEnum == ChannelEnum.Left || channelEnum == ChannelEnum.Right || channelEnum == ChannelEnum.Undefined; // Undefined = stereo signal with 2 channels = not a specific channel
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannels(ChannelEnum oldChannelEnum, int newChannelsValue)
         {
             if (newChannelsValue == NoChannels) return ChannelEnum.Undefined;
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             throw new Exception($"Unsupported value: {new { newChannelsValue }}");
         }
                 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetStereo(ChannelEnum oldChannelEnum)
         {
             switch (oldChannelEnum)
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetChannels(Channel thisChannelEntity, int channelsForContext, IContext context)
         {
             if (channelsForContext == NoChannels) return null;
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Channel (Center/Left/Right)
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static ChannelEnum SetChannel(ChannelEnum oldChannelEnumForContext, int? newChannelValue)
         {
             // Unspecified
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             throw new Exception($"Unsupported combination of values: {new{ oldChannels, oldChannelEnumForContext, newChannelValue }}");
         }
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static Channel SetChannel(Channel oldChannelEntity, int? newChannelValue, IContext context)
         {
             // Unspecified
@@ -248,7 +248,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Stereo channel tapes are registered as Mono with 1 channel, where Index 0 = Left and Index 1 = Right.
         // This makes meaning clash between Mono/Center and Left channel, which we have to deal with.
 
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static int? GetChannel(AudioFileOutput obj) 
         {
             AssertEntities(obj);
@@ -273,7 +273,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }        
 
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannel(AudioFileOutput obj, int? channel, IContext context)
         {
             AssertEntities(obj);
@@ -287,7 +287,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             } 
         }
 
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static int  GetChannels(AudioFileOutput obj)
         {
             if (obj == null) throw new NullException(() => obj);
@@ -301,7 +301,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
 
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetChannels(AudioFileOutput obj, int value, IContext context)
         {
             // This is ambiguous: Channels = 2 is stereo,
@@ -318,7 +318,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // TODO: SetMono and SetStereo should have a Nightmare implementation as well.
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetNoChannel(AudioFileOutput obj, IContext context)
         {
             int channelCount = 2;
@@ -334,7 +334,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetCenter(AudioFileOutput obj, IContext context)
         {
             int channelCount = 1;
@@ -349,7 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetLeft(AudioFileOutput obj, IContext context)
         {
             int channelCount = 1;
@@ -365,7 +365,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static AudioFileOutput SetRight(AudioFileOutput obj, IContext context)
         {
             int channelCount = 1;
@@ -382,7 +382,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj;
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsNoChannel(AudioFileOutput obj)
         {
             AssertEntities(obj);
@@ -395,7 +395,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                    obj.AudioFileOutputChannels[1].Index == 1;
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsCenter(AudioFileOutput obj)
         {
             AssertEntities(obj);
@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                    obj.AudioFileOutputChannels[0].Index == 0;
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsLeft(AudioFileOutput obj)
         {
             AssertEntities(obj);
@@ -417,7 +417,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                    obj.AudioFileOutputChannels[0].Index == 0;
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsRight(AudioFileOutput obj)
         {
             AssertEntities(obj);
@@ -439,10 +439,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsMono(AudioFileOutput obj) => IsCenter(obj);
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         public static bool IsStereo(AudioFileOutput obj) => IsNoChannel(obj) || IsLeft(obj) || IsRight(obj);
     }
 }

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
-using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
@@ -93,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                                         .Where(FilledIn)
                                         .Select(x => x.Value).ToArray();
 
-        /// <inheritdoc cref="docs._tapename" />
+        /// <inheritdoc cref="_tapename" />
         public string GetName(string name = null, [CallerMemberName] string callerMemberName = null)
             => ResolveName(name, Outlets, FallbackName, FilePathSuggested, callerMemberName);
         
@@ -163,18 +164,18 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             set => _duration = AssertAudioLength(value);
         }
       
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         private double _leadingSilence;
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public double LeadingSilence
         {
             get => _leadingSilence;
             set => _leadingSilence = AssertAudioLength(value);
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         private double _trailingSilence;
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public double TrailingSilence
         {
             get => _trailingSilence;
@@ -197,7 +198,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         public TapeActions Actions { get; }
         public bool IsPadded { get; internal set; }
-        /// <inheritdoc cref="docs._istape" />
+        /// <inheritdoc cref="_istape" />
         public bool IsTape { get; internal set; }
         public void ClearChannelActions() => Actions.ClearChannelActions();
 
@@ -278,9 +279,9 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             set => _audioFormat = AssertAudioFormat(value);
         }
         
-        /// <inheritdoc cref="docs._tapeinterpolation" />
+        /// <inheritdoc cref="_tapeinterpolation" />
         private InterpolationTypeEnum _interpolation;
-        /// <inheritdoc cref="docs._tapeinterpolation" />
+        /// <inheritdoc cref="_tapeinterpolation" />
         public InterpolationTypeEnum Interpolation
         {
             get => AssertInterpolation(_interpolation);
@@ -325,7 +326,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         DiskCache
     }
 
-    /// <inheritdoc cref="docs._tapeaction" />
+    /// <inheritdoc cref="_tapeaction" />
     public class TapeAction
     {
         public override string ToString() => GetDebuggerDisplay(this);
@@ -348,7 +349,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public bool On { get; set; }
         public bool Done { get; set; }
 
-        /// <inheritdoc cref="docs._tapeactionactive" />"/>
+        /// <inheritdoc cref="_tapeactionactive" />"/>
         public bool Active
         {
             get
@@ -380,7 +381,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 
         private string _filePathSuggested;
 
-        /// <inheritdoc cref="docs._tapeactionfilepathsuggested"/>
+        /// <inheritdoc cref="_tapeactionfilepathsuggested"/>
         public string FilePathSuggested
         { 
             get => Active ? _filePathSuggested : default;
@@ -413,7 +414,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                Type == ActionEnum.AfterRecordChannel;
     }
 
-    /// <inheritdoc cref="docs._tapeaction" />
+    /// <inheritdoc cref="_tapeaction" />
     public class TapeActions
     {
         public override string ToString() => GetDebuggerDisplay(this);
@@ -438,25 +439,25 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         
         /// <summary> Parent. Always filled in. </summary>
         public Tape Tape { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction Play { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction Save { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction BeforeRecord { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction AfterRecord { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction PlayChannels { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction SaveChannels { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction BeforeRecordChannel { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction AfterRecordChannel { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction PlayAllTapes { get; }
-        /// <inheritdoc cref="docs._tapeaction" />
+        /// <inheritdoc cref="_tapeaction" />
         public TapeAction DiskCache { get; }
         
         public void ClearChannelActions()

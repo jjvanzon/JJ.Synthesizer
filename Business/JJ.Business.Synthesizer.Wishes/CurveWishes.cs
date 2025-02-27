@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using JJ.Framework.Common;
+using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Framework.Wishes.Collections;
-using JJ.Framework.Common;
-using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable ParameterHidesMember
 
@@ -24,14 +25,14 @@ namespace JJ.Business.Synthesizer.Wishes
             return curveFactory.CreateCurve(nodeInfos.ToArray());
         }
         
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, params (double time, double value)[] nodeTuples)
         {
             //nodeTuples = OneBecomesTwo(nodeTuples);
             return curveFactory.CreateCurve((IList<(double x, double y)>)nodeTuples);
         }
         
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public static Curve CreateCurve(this CurveFactory curveFactory, IList<(double time, double value)> nodeTuples)
         {
             if (curveFactory == null) throw new ArgumentNullException(nameof(curveFactory));
@@ -44,11 +45,11 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // From ASCII
         
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public static Curve CreateCurve(this CurveFactory curveFactory, string text)
             => curveFactory.CreateCurve(0, 1, 0, 1, text);
 
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public static Curve CreateCurve(
             this CurveFactory curveFactory,
             double start = 0, double end = 1, double min = 0, double max = 1, string text = null)
@@ -99,10 +100,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return curveFactory.CreateCurve(nodes);
         }
 
-        /// <inheritdoc cref="docs._trimasciicurves" />
+        /// <inheritdoc cref="_trimasciicurves" />
         private static IList<string> TrimAsciiCurve(string text) => TrimAsciiCurve(new [] { text });
 
-        /// <inheritdoc cref="docs._trimasciicurves" />
+        /// <inheritdoc cref="_trimasciicurves" />
         private static IList<string> TrimAsciiCurve(IList<string> lines)
         {
             var lines2 = lines;
@@ -146,13 +147,13 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // From NodeInfo
 
-        /// <inheritdoc cref="docs._createcurve" />
+        /// <inheritdoc cref="_createcurve" />
         public FlowNode Curve(IEnumerable<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
             return Curve(nodeInfos.ToArray(), callerMemberName);
         }
 
-        /// <inheritdoc cref="docs._createcurve" />
+        /// <inheritdoc cref="_createcurve" />
         public FlowNode Curve(IList<NodeInfo> nodeInfos, [CallerMemberName] string callerMemberName = null)
         {
             nodeInfos = nodeInfos.OneBecomesTwo();
@@ -161,7 +162,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
         
-        /// <inheritdoc cref="docs._createcurve" />
+        /// <inheritdoc cref="_createcurve" />
         public FlowNode Curve(params NodeInfo[] nodeInfos)
         {
             nodeInfos = nodeInfos.OneBecomesTwo();
@@ -171,7 +172,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // From Doubles
 
-        /// <inheritdoc cref="docs._createcurve" />
+        /// <inheritdoc cref="_createcurve" />
         public FlowNode Curve(params double?[] values)
         {
             values = values.OneBecomesTwo();
@@ -181,7 +182,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // From Tuples
 
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public FlowNode Curve(
             IList<(double time, double value)> nodeTuples, 
             [CallerMemberName] string callerMemberName = null)
@@ -191,7 +192,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
 
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public FlowNode Curve(params (double time, double value)[] nodeTuples)
         {
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(nodeTuples))];
@@ -200,7 +201,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // From ASCII
         
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public FlowNode Curve(string text, [CallerMemberName] string callerMemberName = null)
         {
             var curve = _[_operatorFactory.CurveIn(_curveFactory.CreateCurve(text))];
@@ -208,7 +209,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return curve;
         }
 
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public FlowNode Curve(
             (double start, double end) x,
             (double min, double max) y,
@@ -233,7 +234,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public partial class FlowNode
     {
-        /// <inheritdoc cref="docs._curvewithoperator"/>
+        /// <inheritdoc cref="_curvewithoperator"/>
         public FlowNode Curve(FlowNode curve)
             => _underlyingOutlet * curve;
 
@@ -243,24 +244,24 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Curve(params NodeInfo[] nodeInfos)
             => _underlyingOutlet * _synthWishes.Curve(nodeInfos);
 
-        /// <inheritdoc cref="docs._createcurve" />
+        /// <inheritdoc cref="_createcurve" />
         public FlowNode Curve(params double?[] values)
             => _underlyingOutlet * _synthWishes.Curve(values);
 
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public FlowNode Curve(
             IList<(double time, double value)> nodeTuples, [CallerMemberName] string callerMemberName = null)
             => _underlyingOutlet * _synthWishes.Curve(nodeTuples, callerMemberName);
 
-        /// <inheritdoc cref="docs._createcurvewithtuples" />
+        /// <inheritdoc cref="_createcurvewithtuples" />
         public FlowNode Curve(params (double time, double value)[] nodeTuples)
             => _underlyingOutlet * _synthWishes.Curve(nodeTuples);
 
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public FlowNode Curve(string text, [CallerMemberName] string callerMemberName = null)
             => _underlyingOutlet * _synthWishes.Curve(text, callerMemberName);
 
-        /// <inheritdoc cref="docs._createcurvefromstring" />
+        /// <inheritdoc cref="_createcurvefromstring" />
         public FlowNode Curve(
             (double start, double end) x,
             (double min, double max) y,

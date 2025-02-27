@@ -6,6 +6,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.Logging;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
@@ -93,12 +94,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // SamplingRate
         
-        /// <inheritdoc cref="docs._getsamplingrate" />
+        /// <inheritdoc cref="_getsamplingrate" />
         internal int? _samplingRate;
-        /// <inheritdoc cref="docs._getsamplingrate" />
+        /// <inheritdoc cref="_getsamplingrate" />
         public ConfigResolver WithSamplingRate(int? value) { _samplingRate = AssertSamplingRate(value); return this; }
         
-        /// <inheritdoc cref="docs._withsamplingrate"/>
+        /// <inheritdoc cref="_withsamplingrate"/>
         public int GetSamplingRate => ResolveSamplingRate().AssertSamplingRate();
         
         private int ResolveSamplingRate()
@@ -161,52 +162,52 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // NoteLength
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         private FlowNode _noteLength;
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLength(SynthWishes synthWishes) => GetNoteLength(synthWishes, null);
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLength(SynthWishes synthWishes, FlowNode noteLength)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return noteLength ?? _noteLength ?? _beatLength ?? synthWishes[Coalesce(_section.NoteLength, DefaultNoteLength)];
         }
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public ConfigResolver WithNoteLength(FlowNode noteLength) { _noteLength = noteLength; return this; }
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public ConfigResolver WithNoteLength(double noteLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithNoteLength(synthWishes[noteLength]);
         }
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public ConfigResolver ResetNoteLength() { _noteLength = null; return this; }
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength, double time, int channel)
         {
             noteLength = GetNoteLength(synthWishes, noteLength);
             double noteLengthValue = noteLength.Calculate(time, channel);
             return synthWishes.Value(noteLengthValue);
         }
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes)
             => GetNoteLengthSnapShot(synthWishes, null, 0, 0);
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time)
             => GetNoteLengthSnapShot(synthWishes, null, time, 0);
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time, int channel)
             => GetNoteLengthSnapShot(synthWishes, null, time, channel);
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength)
             => GetNoteLengthSnapShot(synthWishes, noteLength, 0, 0);
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength, double time)
             => GetNoteLengthSnapShot(synthWishes, noteLength, time, 0);
         
@@ -282,10 +283,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Audio Length
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         private FlowNode _audioLength;
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public FlowNode GetAudioLength(SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -298,10 +299,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return synthWishes[Coalesce(_section.AudioLength, DefaultAudioLength)];
         }
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public ConfigResolver WithAudioLength(FlowNode newAudioLength) { _audioLength = newAudioLength; return this; }
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public ConfigResolver WithAudioLength(double? newAudioLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -309,14 +310,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return WithAudioLength(synthWishes[newAudioLength.Value]);
         }
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public ConfigResolver AddAudioLength(FlowNode additionalLength, SynthWishes synthWishes)
         {
             double value = additionalLength?.Value ?? 0;
             return WithAudioLength(GetAudioLength(synthWishes) + value);
         }
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public ConfigResolver AddAudioLength(double additionalLength, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -335,14 +336,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return AddAudioLength(synthWishes.EchoDuration(count, delay), synthWishes);
         }
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public ConfigResolver EnsureAudioLength(FlowNode audioLengthNeeded, SynthWishes synthWishes)
         {
             double value = audioLengthNeeded?.Value ?? 0;
             return EnsureAudioLength(value, synthWishes);
         }
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public ConfigResolver EnsureAudioLength(double audioLengthNeeded, SynthWishes synthWishes)
         {
             if (GetAudioLength(synthWishes).Value < audioLengthNeeded)
@@ -353,15 +354,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return this;
         }
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public ConfigResolver ResetAudioLength() { _audioLength = null; return this; }
         
         // LeadingSilence
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         private FlowNode _leadingSilence;
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public FlowNode GetLeadingSilence(SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -374,21 +375,21 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return synthWishes[Coalesce(_section.LeadingSilence, DefaultLeadingSilence)];
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver WithLeadingSilence(FlowNode seconds)
         {
             _leadingSilence = seconds ?? throw new NullException(() => seconds);
             return this;
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver WithLeadingSilence(double seconds, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithLeadingSilence(synthWishes[seconds]);
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver ResetLeadingSilence()
         {
             _leadingSilence = null;
@@ -397,10 +398,10 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // TrailingSilence
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         private FlowNode _trailingSilence;
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public FlowNode GetTrailingSilence(SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -413,26 +414,26 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return synthWishes[Coalesce(_section.TrailingSilence, DefaultTrailingSilence)];
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver WithTrailingSilence(FlowNode seconds)
         {
             _trailingSilence = seconds ?? throw new NullException(() => seconds);
             return this;
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver WithTrailingSilence(double seconds, SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return WithTrailingSilence(synthWishes[seconds]);
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver ResetTrailingSilence() { _trailingSilence = null; return this; }
         
         // Padding
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public FlowNode GetPaddingOrNull(SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
@@ -448,7 +449,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return null;
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver WithPadding(FlowNode seconds)
         {
             WithLeadingSilence(seconds);
@@ -456,7 +457,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return this;
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver WithPadding(double seconds, SynthWishes synthWishes)
         {
             WithLeadingSilence(seconds, synthWishes);
@@ -464,7 +465,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return this;
         }
         
-        /// <inheritdoc cref="docs._padding"/>
+        /// <inheritdoc cref="_padding"/>
         public ConfigResolver ResetPadding()
         {
             ResetLeadingSilence();
@@ -476,11 +477,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // AudioPlayback
         
-        /// <inheritdoc cref="docs._audioplayback" />
+        /// <inheritdoc cref="_audioplayback" />
         private bool? _audioPlayback;
-        /// <inheritdoc cref="docs._audioplayback" />
+        /// <inheritdoc cref="_audioplayback" />
         public ConfigResolver WithAudioPlayback(bool? enabled = true) { _audioPlayback = enabled; return this; }
-        /// <inheritdoc cref="docs._audioplayback" />
+        /// <inheritdoc cref="_audioplayback" />
         public bool GetAudioPlayback(string fileExtension = null)
         {
             bool audioPlayback = _audioPlayback ?? _section.AudioPlayback ?? DefaultAudioPlayback;
@@ -512,11 +513,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // DiskCache
         
-        /// <inheritdoc cref="docs._diskcache" />
+        /// <inheritdoc cref="_diskcache" />
         private bool? _diskCache;
-        /// <inheritdoc cref="docs._diskcache" />
+        /// <inheritdoc cref="_diskcache" />
         public bool GetDiskCache => _diskCache ?? _section.DiskCache ?? DefaultDiskCache;
-        /// <inheritdoc cref="docs._diskcache" />
+        /// <inheritdoc cref="_diskcache" />
         public ConfigResolver WithDiskCache(bool? enabled = true) { _diskCache = enabled; return this; }
         
         // MathBoost
@@ -527,37 +528,37 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // ParallelProcessing
         
-        /// <inheritdoc cref="docs._parallelprocessing" />
+        /// <inheritdoc cref="_parallelprocessing" />
         private bool? _parallelProcessing;
-        /// <inheritdoc cref="docs._parallelprocessing" />
+        /// <inheritdoc cref="_parallelprocessing" />
         public bool GetParallelProcessing => _parallelProcessing ?? _section.ParallelProcessing ?? DefaultParallelProcessing;
-        /// <inheritdoc cref="docs._parallelprocessing" />
+        /// <inheritdoc cref="_parallelprocessing" />
         public ConfigResolver WithParallelProcessing(bool? enabled = true) { _parallelProcessing = enabled; return this; }
         
         // PlayAllTapes
         
-        /// <inheritdoc cref="docs._playalltapes" />
+        /// <inheritdoc cref="_playalltapes" />
         private bool? _playAllTapes;
-        /// <inheritdoc cref="docs._playalltapes" />
+        /// <inheritdoc cref="_playalltapes" />
         public bool GetPlayAllTapes => _playAllTapes ?? _section.PlayAllTapes ?? DefaultPlayAllTapes;
-        /// <inheritdoc cref="docs._playalltapes" />
+        /// <inheritdoc cref="_playalltapes" />
         public ConfigResolver WithPlayAllTapes(bool? enabled = true) { _playAllTapes = enabled; return this; }
         
         // Misc Settings
         
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         private double? _leafCheckTimeOut;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         public double GetLeafCheckTimeOut => _leafCheckTimeOut ?? _section.LeafCheckTimeOut ?? DefaultLeafCheckTimeOut;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         public ConfigResolver WithLeafCheckTimeOut(double? seconds) { _leafCheckTimeOut = seconds; return this; }
         
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         private TimeOutActionEnum? _timeOutAction;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         // ReSharper disable once PossibleInvalidOperationException
         public TimeOutActionEnum GetTimeOutAction => Coalesce(_timeOutAction, _section.TimeOutAction, DefaultTimeOutAction);
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         public ConfigResolver WithTimeOutAction(TimeOutActionEnum? action) { _timeOutAction = action; return this; }
         
         private int? _courtesyFrames;

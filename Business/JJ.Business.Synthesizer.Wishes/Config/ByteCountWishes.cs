@@ -5,6 +5,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -17,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 {
     // ByteCount: A Duration Attribute
 
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class ByteCountExtensionWishes
     {
         // Synth-Bound
@@ -116,11 +117,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int AsByteCount(this SampleDataTypeEnum obj)  => ConfigWishes.AsByteCount(obj);
         [Obsolete(ObsoleteMessage)] public static int GetByteCount(this SampleDataTypeEnum obj) => ConfigWishes.GetByteCount(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum ByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount)  => ConfigWishes.ByteCount(oldEnumValue, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum WithByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount) => ConfigWishes.WithByteCount(oldEnumValue, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SetByteCount(this SampleDataTypeEnum oldEnumValue, int newByteCount) => ConfigWishes.SetByteCount(oldEnumValue, newByteCount);
 
         [Obsolete(ObsoleteMessage)] public static int ByteCount(this SampleDataType obj)  => ConfigWishes.ByteCount(obj);
@@ -128,11 +129,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [Obsolete(ObsoleteMessage)] public static int AsByteCount(this SampleDataType obj)  => ConfigWishes.AsByteCount(obj);
         [Obsolete(ObsoleteMessage)] public static int GetByteCount(this SampleDataType obj) => ConfigWishes.GetByteCount(obj);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType ByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context) => ConfigWishes.ByteCount(oldSampleDataType, newByteCount, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType WithByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context)  => ConfigWishes.WithByteCount(oldSampleDataType, newByteCount, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType SetByteCount(this SampleDataType oldSampleDataType, int newByteCount, IContext context) => ConfigWishes.SetByteCount(oldSampleDataType, newByteCount, context);
 
         public static int ByteCount(this    Type type)  => ConfigWishes.ByteCount(type);
@@ -141,11 +142,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int ToByteCount(this  Type type)  => ConfigWishes.ToByteCount(type);
         public static int TypeToByteCount(this Type type) => ConfigWishes.TypeToByteCount(type);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type ByteCount(this Type oldType, int newByteCount) => ConfigWishes.ByteCount(oldType, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithByteCount(this Type oldType, int newByteCount) => ConfigWishes.WithByteCount(oldType, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SetByteCount(this Type oldType, int newByteCount) => ConfigWishes.SetByteCount(oldType, newByteCount);
 
         public static int ByteCount(this int bits) => ConfigWishes.ByteCount(bits);
@@ -154,15 +155,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int ToByteCount(this int bits)  => ConfigWishes.ToByteCount(bits);
         public static int BitsToByteCount(this int bits) => ConfigWishes.BitsToByteCount(bits);
 
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int ByteCount(this int oldBits, int newByteCount) => ConfigWishes.ByteCount(oldBits, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int SetByteCount(this int oldBits, int newByteCount) => ConfigWishes.SetByteCount(oldBits, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int WithByteCount(this int oldBits, int newByteCount)  => ConfigWishes.WithByteCount(oldBits, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int ByteCountToBits(this int oldBits, int newByteCount) => ConfigWishes.ByteCountToBits(oldBits, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int ByteCountToBits(this int byteCount) => ConfigWishes.ByteCountToBits(byteCount);
 
         // Conversion Formula
@@ -177,14 +178,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // From AudioLength
             
-        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        /// <inheritdoc cref="_bytecountfromprimaries" />
         public static int ByteCountFromAudioLength(this double audioLength, int samplingRate, int bits, int channels, int headerLength)
             => ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength);
                 
         public static int ByteCountFromAudioLength(this double audioLength, int samplingRate, int frameSize, int headerLength)
             => ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, frameSize, headerLength);
 
-        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        /// <inheritdoc cref="_bytecountfromprimaries" />
         public static int ByteCount(this double audioLength, int samplingRate, int bits, int channels, int headerLength)
             => ConfigWishes.ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength);
 
@@ -420,11 +421,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.SizeOfBitDepth();
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum ByteCount(SampleDataTypeEnum oldEnumValue, int newByteCount) => SetByteCount(oldEnumValue, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum WithByteCount(SampleDataTypeEnum oldEnumValue, int newByteCount) => SetByteCount(oldEnumValue, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataTypeEnum SetByteCount(SampleDataTypeEnum oldEnumValue, int newByteCount)
         {
             return oldEnumValue.SizeOfBitDepth(newByteCount);
@@ -438,11 +439,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return obj.SizeOfBitDepth();
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType ByteCount(SampleDataType oldSampleDataType, int newByteCount, IContext context) => SetByteCount(oldSampleDataType, newByteCount, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType WithByteCount(SampleDataType oldSampleDataType, int newByteCount, IContext context) => SetByteCount(oldSampleDataType, newByteCount, context);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         [Obsolete(ObsoleteMessage)] public static SampleDataType SetByteCount(SampleDataType oldSampleDataType, int newByteCount, IContext context)
         {
             return oldSampleDataType.SizeOfBitDepth(newByteCount, context);
@@ -457,11 +458,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return type.SizeOfBitDepth();
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type ByteCount(Type oldType, int newByteCount) => SetByteCount(oldType, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type WithByteCount(Type oldType, int newByteCount) => SetByteCount(oldType, newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static Type SetByteCount(Type oldType, int newByteCount)
         {
             return oldType.SizeOfBitDepth(newByteCount);
@@ -476,15 +477,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return BitsToSizeOfBitDepth(bits);
         }
         
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int ByteCount(int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int SetByteCount(int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int WithByteCount(int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int ByteCountToBits(int oldBits, int newByteCount) => ByteCountToBits(newByteCount);
-        /// <inheritdoc cref="docs._quasisetter" />
+        /// <inheritdoc cref="_quasisetter" />
         public static int ByteCountToBits(int byteCount)
         {
             return SizeOfBitDepthToBits(byteCount);
@@ -501,7 +502,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // From AudioLength
             
-        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        /// <inheritdoc cref="_bytecountfromprimaries" />
         public static int ByteCountFromAudioLength(double audioLength, int samplingRate, int bits, int channels, int headerLength)
         {
             AssertAudioLength(audioLength);
@@ -521,7 +522,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return (int)(audioLength * samplingRate) * frameSize + headerLength;
         }
 
-        /// <inheritdoc cref="docs._bytecountfromprimaries" />
+        /// <inheritdoc cref="_bytecountfromprimaries" />
         public static int ByteCount(double audioLength, int samplingRate, int bits, int channels, int headerLength)
             => ByteCountFromAudioLength(audioLength, samplingRate, bits, channels, headerLength);
 

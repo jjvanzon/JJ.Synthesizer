@@ -16,7 +16,6 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 
-#pragma warning disable CS0618
 // ReSharper disable InvokeAsExtensionMethod
 
 namespace JJ.Business.Synthesizer.Wishes

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
@@ -13,15 +14,13 @@ using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
 
-// ReSharper disable ArrangeStaticMemberQualifier
-
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
     internal class TapeRunner
     {
         private readonly SynthWishes _synthWishes;
         private readonly TapeCollection _tapes;
-        /// <inheritdoc cref="docs._tapepadder" />
+        /// <inheritdoc cref="_tapepadder" />
         private readonly TapePadder _tapePadder;
         private readonly TapeTreeBuilder _tapeTreeBuilder;
         private readonly StereoTapeMatcher _stereoTapeMatcher;

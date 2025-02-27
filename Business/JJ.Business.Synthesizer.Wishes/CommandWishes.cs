@@ -1,4 +1,5 @@
 ﻿using System;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -8,20 +9,20 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // No Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode> command]
             => command();
 
         // 1 Parameter
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode> command,
             FlowNode param1 = null]
             => command(param1);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode> command,
             double param1]
@@ -29,25 +30,25 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 2 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null]
             => command(param1, param2);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode> command,
             double param1, FlowNode param2 = null]
             => command(_[param1], param2);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode> command,
             FlowNode param1, double param2]
             => command(param1, _[param2]);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode> command,
             double param1, double param2]
@@ -55,49 +56,49 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 3 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null]
             => command(param1, param2, param3);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param1, FlowNode param2 = null, FlowNode param3 = null]
             => command(_[param1], param2, param3);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1, double param2, FlowNode param3 = null]
             => command(param1, _[param2], param3);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1, FlowNode param2, double param3]
             => command(param1, param2, _[param3]);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param1, double param2, FlowNode param3]
             => command(_[param1], _[param2], param3);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param1, FlowNode param2, double param3]
             => command(_[param1], param2, _[param3]);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1, double param2, double param3]
             => command(param1, _[param2], _[param3]);
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param1, double param2, double param3]
@@ -105,7 +106,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 4 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null]
@@ -113,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 5 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null]
@@ -121,7 +122,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 6 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
@@ -130,7 +131,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 7 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
@@ -139,7 +140,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 8 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
@@ -148,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 9 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
@@ -157,7 +158,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 10 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param1 = null, FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null, 
@@ -171,20 +172,20 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // No Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[Func<FlowNode> command] 
             => _[command];
         
         // 1 Parameter
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode> command] 
             => _[command, this];
         
         // 2 Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null] 
@@ -197,25 +198,25 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 3 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null] 
             => _[command, this, param2, param3];
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param2, FlowNode param3 = null]
             => _[command, this, param2, param3];
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             FlowNode param2, double param3]
             => _[command, this, param2, param3];
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode> command,
             double param2, double param3]
@@ -223,7 +224,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 4 Parameters
 
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null] 
@@ -231,7 +232,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 5 Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null] 
@@ -239,7 +240,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 6 Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
@@ -248,7 +249,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 7 Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
@@ -257,7 +258,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 8 Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
@@ -266,7 +267,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 9 Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,
@@ -275,7 +276,7 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // 10 Parameters
         
-        /// <inheritdoc cref="docs._commandindexer"/>
+        /// <inheritdoc cref="_commandindexer"/>
         public FlowNode this[
             Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> command, 
             FlowNode param2 = null, FlowNode param3 = null, FlowNode param4 = null, FlowNode param5 = null,

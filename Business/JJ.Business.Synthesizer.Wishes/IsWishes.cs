@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.Names;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -51,16 +52,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Operators
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static double? AsConst(this Outlet outlet) => outlet?.Operator?.AsConst();
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static double? AsConst(this Operator op) => op?.AsValueOperator?.Value;
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static bool IsConst(this Outlet outlet) => outlet?.AsConst() != null;
 
-        /// <inheritdoc cref="docs._asconst"/>
+        /// <inheritdoc cref="_asconst"/>
         public static bool IsConst(this Operator op) => op?.AsConst() != null;
 
         public static bool IsVar(this Outlet outlet)

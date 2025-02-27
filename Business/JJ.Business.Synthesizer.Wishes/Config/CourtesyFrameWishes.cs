@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
     // CourtesyFrames: A Primary Audio Attribute
 
-    /// <inheritdoc cref="docs._configextensionwishes"/>
+    /// <inheritdoc cref="_configextensionwishes"/>
     public static class CourtesyFrameExtensionWishes
     {
         // Synth-Bound

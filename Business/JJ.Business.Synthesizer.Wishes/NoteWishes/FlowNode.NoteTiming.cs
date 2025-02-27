@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.NoteWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes
@@ -11,23 +12,23 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Timing
         
-        /// <inheritdoc cref="docs._timeindexer"/>
+        /// <inheritdoc cref="_timeindexer"/>
         public TimeIndexer t => _synthWishes.t;
-        /// <inheritdoc cref="docs._barindexer"/>
+        /// <inheritdoc cref="_barindexer"/>
         public BarIndexer bar => _synthWishes.bar;
-        /// <inheritdoc cref="docs._beatindexer"/>
+        /// <inheritdoc cref="_beatindexer"/>
         public BeatIndexer beat => _synthWishes.beat;
-        /// <inheritdoc cref="docs._beatindexer"/>
+        /// <inheritdoc cref="_beatindexer"/>
         public BeatIndexer b => _synthWishes.b;
-        /// <inheritdoc cref="docs._barsindexer"/>
+        /// <inheritdoc cref="_barsindexer"/>
         public BarsIndexer bars => _synthWishes.bars;
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer beats => _synthWishes.beats;
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer l => _synthWishes.l;
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer len => _synthWishes.len;
-        /// <inheritdoc cref="docs._beatsindexer"/>
+        /// <inheritdoc cref="_beatsindexer"/>
         public BeatsIndexer length  => _synthWishes.length;
     }
     

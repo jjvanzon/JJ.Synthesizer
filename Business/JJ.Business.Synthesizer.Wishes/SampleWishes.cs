@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.IO.StreamHelper;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return SampleFromTape(tape, bytesToSkip);
         }
 
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FlowNode Sample(
             Buff buff,
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytesToSkip, name, callerMemberName);
         }
                 
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FlowNode Sample(
             byte[] bytes, string filePath, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 null, bytes, filePath, 
                 bytesToSkip, name, callerMemberName);
         
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FlowNode Sample(
             byte[] bytes, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 null, bytes, null, 
                 bytesToSkip, name, callerMemberName);
 
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FlowNode Sample(
             string filePath, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 null, null, filePath, 
                 bytesToSkip, name, callerMemberName);
         
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         public FlowNode Sample(
             Stream stream, 
             int bytesToSkip = 0, string name = null, [CallerMemberName] string callerMemberName = null)
@@ -68,14 +68,14 @@ namespace JJ.Business.Synthesizer.Wishes
                 stream, null, null, 
                 bytesToSkip, name, callerMemberName);
 
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         private FlowNode SampleBase(
             Stream stream, byte[] bytes, string filePath, 
             int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
             => SampleBaseOld(stream, bytes, filePath, bytesToSkip, name, callerMemberName);
 
         // TODO: Still gives audio problems in Metallophone tests.
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         private FlowNode SampleBaseLegacy(
             Stream stream, byte[] bytes, string filePath, 
             int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
@@ -94,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return SampleFromTape(dummyTape, bytesToSkip, stream);
         }
         
-        /// <inheritdoc cref="docs._sample"/>
+        /// <inheritdoc cref="_sample"/>
         private FlowNode SampleBaseOld(
             Stream stream, byte[] bytes, string filePath, 
             int bytesToSkip, string name, [CallerMemberName] string callerMemberName = null)
@@ -184,7 +184,7 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // SampleFromFluentConfig (currently unused)
         
-        /// <inheritdoc cref="docs._samplefromfluentconfig" />
+        /// <inheritdoc cref="_samplefromfluentconfig" />
         private FlowNode SampleFromFluentConfig(
             byte[] bytes, int bytesToSkip = 0, 
             string name = null, [CallerMemberName] string callerMemberName = null)
@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer.Wishes
             return sampleOutlet;
         }
 
-        /// <inheritdoc cref="docs._samplefromfluentconfig" />
+        /// <inheritdoc cref="_samplefromfluentconfig" />
         private FlowNode SampleFromFluentConfig(
             string name = null, [CallerMemberName] string callerMemberName = null) 
         {

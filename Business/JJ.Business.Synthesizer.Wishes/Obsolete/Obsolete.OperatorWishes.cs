@@ -1,8 +1,9 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Persistence.Synthesizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Wishes.docs;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -62,7 +63,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
     public static class FlowNodeObsoleteExtensions
     {
-        /// <inheritdoc cref="docs._getcurvewrapper"/>
+        /// <inheritdoc cref="_getcurvewrapper"/>
         [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
         public static CurveInWrapper GetCurveWrapper(this FlowNode flowNode )
         {
@@ -70,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return flowNode.UnderlyingOutlet.GetCurveWrapper();
         }
 
-        /// <inheritdoc cref="docs._getsamplewrapper" />
+        /// <inheritdoc cref="_getsamplewrapper" />
         [Obsolete(WrappersObsoleteMessages.ObsoleteMessage)]
         public static SampleOperatorWrapper GetSampleWrapper(this FlowNode flowNode )
         {

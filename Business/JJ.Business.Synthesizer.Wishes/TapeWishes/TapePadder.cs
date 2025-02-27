@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Linq;
-using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Reflection;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using JJ.Business.Synthesizer.Wishes.Logging;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 // ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
-        /// <inheritdoc cref="docs._tapepadder" />
+        /// <inheritdoc cref="_tapepadder" />
     internal class TapePadder
     {
         private readonly SynthWishes _synthWishes;
         private readonly SynthWishes _;
         private readonly TapeCollection _tapes;
         
-        /// <inheritdoc cref="docs._tapepadder" />
+        /// <inheritdoc cref="_tapepadder" />
         public TapePadder(SynthWishes synthWishes, TapeCollection tapes)
         {
             _synthWishes = synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             _ = synthWishes;
         }
         
-        /// <inheritdoc cref="docs._tapepadder" />
+        /// <inheritdoc cref="_tapepadder" />
         public Tape[] PadTapesIfNeeded(Tape[] tapes)
         {
             if (tapes == null) throw new ArgumentNullException(nameof(tapes));
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             return newTapes;
         }
         
-        /// <inheritdoc cref="docs._tapepadder" />
+        /// <inheritdoc cref="_tapepadder" />
         public Tape PadIfNeeded(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);

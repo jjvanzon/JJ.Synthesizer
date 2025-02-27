@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 // ReSharper disable ParameterHidesMember
 // ReSharper disable once CheckNamespace
@@ -21,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ Flute1, 0.8 ],
         /// _[ Flute1, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             Func<FlowNode> sound,
             double vol, FlowNode len = null]
@@ -34,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ Flute1, MyCurve ],
         /// _[ Flute1, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -46,7 +47,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.00, Flute1, 0.8 ],
         /// _[ 0.00, Flute1, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, Func<FlowNode> sound,
             double vol, FlowNode len = null]
@@ -59,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.00, Flute1, MyCurve ],
         /// _[ 0.00, Flute1, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -71,7 +72,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 1], Flute1, 0.8 ],
         /// _[ t[1, 1], Flute1, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
             double vol, FlowNode len = null]
@@ -84,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 1], Flute1, MyCurve ],
         /// _[ t[1, 1], Flute1, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, Func<FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -98,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute2, 0.8 ],
         /// _[ A4, Flute2, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
@@ -111,7 +112,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute2, MyCurve ],
         /// _[ A4, Flute2, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -123,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.00, A4, Flute2, 0.8 ],
         /// _[ 0.25, C4, Flute2, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
@@ -136,7 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.25, C4, Flute2, MyCurve ],
         /// _[ 0.50, E5, Flute2, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -148,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 1], A4, Flute2, 0.8 ],
         /// _[ t[1, 2], C5, Flute2, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
@@ -161,7 +162,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 2], C5, Flute2, MyCurve ],
         /// _[ t[1, 3], E5, Flute2, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -175,7 +176,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute3, 0.8 ],
         /// _[ A4, Flute3, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
@@ -188,7 +189,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute3, MyCurve ],
         /// _[ A4, Flute3, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -200,7 +201,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.00, A4, Flute3, 0.8 ],
         /// _[ 0.25, C5, Flute3, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
@@ -213,7 +214,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.25, C5, Flute3, MyCurve ],
         /// _[ 0.50, E5, Flute3, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -225,7 +226,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 1], A4, Flute3, 0.8 ],
         /// _[ t[1, 2], C5, Flute3, 0.8, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null]
@@ -238,7 +239,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 2], C5, Flute3, MyCurve ],
         /// _[ t[1, 3], E5, Flute3, MyCurve, l[0.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null]
@@ -253,7 +254,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute4, 0.8, l[0.5] ],
         /// _[ A4, Flute4, 0.8, l[0.5], _[0.14] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
@@ -267,7 +268,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute4, MyCurve, l[0.5] ],
         /// _[ A4, Flute4, MyCurve, l[0.5], _[0.14] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
@@ -280,7 +281,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.25, C5, Flute4, 0.8, l[0.5] ],
         /// _[ 0.50, E5, Flute4, 0.8, l[0.5], _[0.14] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
@@ -294,7 +295,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.50, E5, Flute4, MyCurve, l[0.5] ],
         /// _[ 0.75, G5, Flute4, MyCurve, l[0.5], _[0.14] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null]
@@ -307,7 +308,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 2], C5, Flute4, 0.8, l[0.5] ],
         /// _[ t[1, 3], E5, Flute4, 0.8, l[0.5], _[0.14] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null]
@@ -321,7 +322,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 3], E5, Flute4, MyCurve, l[0.5] ],
         /// _[ t[1, 4], G5, Flute4, MyCurve, l[0.5], _[0.14] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode> sound, 
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null] 
@@ -337,7 +338,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute5, 0.8, l[0.5], _[0.14] ],
         /// _[ A4, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
@@ -352,7 +353,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14] ],
         /// _[ A4, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
@@ -366,7 +367,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.50, E5, Flute5, 0.8, l[0.5], _[0.14] ],
         /// _[ 0.75, G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
@@ -381,7 +382,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.75, G5, Flute5, MyCurve, l[0.5], _[0.14] ],
         /// _[ 1.00, A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
@@ -395,7 +396,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 3], E5, Flute5, 0.8, l[0.5], _[0.14] ],
         /// _[ t[1, 4], G5, Flute5, 0.8, l[0.5], _[0.14], _[1.08] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
@@ -410,7 +411,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 4], G5, Flute5, MyCurve, l[0.5], _[0.14] ],
         /// _[ t[2, 1], A5, Flute5, MyCurve, l[0.5], _[0.14], _[1.08] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null]
@@ -426,7 +427,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute6, 0.8, l[0.5], _[0.14] ],
         /// _[ A4, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
@@ -441,7 +442,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14] ],
         /// _[ A4, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
@@ -455,7 +456,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.50, E5, Flute6, 0.8, l[0.5], _[0.14] ],
         /// _[ 0.75, G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
@@ -470,7 +471,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 0.75, G5, Flute6, MyCurve, l[0.5], _[0.14] ],
         /// _[ 1.00, A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
@@ -484,7 +485,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 3], E5, Flute6, 0.8, l[0.5], _[0.14] ],
         /// _[ t[1, 4], G5, Flute6, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
@@ -499,7 +500,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[1, 4], G5, Flute6, MyCurve, l[0.5], _[0.14] ],
         /// _[ t[2, 1], A5, Flute6, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null]
@@ -517,7 +518,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ],
         /// _[ A4, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
@@ -534,7 +535,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ],
         /// _[ A4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
@@ -550,7 +551,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 1.00, A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ],
         /// _[ 1.25, A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
@@ -567,7 +568,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ 1.25, A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ],
         /// _[ 1.50, C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             double t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
@@ -583,7 +584,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[2, 1], A5, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03] ],
         /// _[ t[2, 2], A3, Flute7, 0.8, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             double vol, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]
@@ -600,7 +601,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// _[ t[2, 2], A3, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03] ],
         /// _[ t[2, 3], C4, Flute7, MyCurve, l[0.5], _[0.14], _[1.08], _[0.03], _[2.5] ]
         /// </code></summary>
-        /// <inheritdoc cref="docs._noteindexer" />
+        /// <inheritdoc cref="_noteindexer" />
         public FlowNode this[
             FlowNode t, FlowNode freq, Func<FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode, FlowNode> sound,
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null]

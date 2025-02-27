@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
@@ -43,7 +44,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return entity.AudioFileOutput.FrameSize();
         }
 
-        /// <inheritdoc cref="docs._fileextension" />
+        /// <inheritdoc cref="_fileextension" />
         [Obsolete(ObsoleteMessage)]
         public static string GetFileExtension(this AudioFileOutputChannel entity)
         {
@@ -60,7 +61,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             return entity.AudioFileOutput.MaxAmplitude();
         }
 
-        /// <inheritdoc cref="docs._headerlength" />
+        /// <inheritdoc cref="_headerlength" />
         [Obsolete(ObsoleteMessage)]
         public static int GetHeaderLength(this AudioFileOutputChannel entity)
         {
@@ -70,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
     }
 
-    /// <inheritdoc cref="docs._alternativeentrypointenumextensionwishes" />
+    /// <inheritdoc cref="_alternativeentrypointenumextensionwishes" />
     [Obsolete(ObsoleteMessage)]
     public static class Obsolete_AlternativeEntryPointEnumExtensionWishes
     {

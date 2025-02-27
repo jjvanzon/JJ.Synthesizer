@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.LogAction("Update");
         }
         
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         [Obsolete(ObsoleteMessage)]
         public Buff Record(
             FlowNode signal, FlowNode duration,
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 signal, duration,
                 inMemory: true, mustPad: default, name, null, callerMemberName);
 
-        /// <inheritdoc cref="docs._makebuff" />
+        /// <inheritdoc cref="_makebuff" />
         [Obsolete(ObsoleteMessage)]
         public Buff Record(
             IList<FlowNode> channelSignals, FlowNode duration = null,

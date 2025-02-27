@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
@@ -24,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Durations
         
-        /// <inheritdoc cref="docs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public const double DefaultNoteLength      = 0.20;
         public const double DefaultBarLength       = 1.00;
         public const double DefaultBeatLength      = 0.25;
@@ -52,9 +53,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Technical
         
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         public const double            DefaultLeafCheckTimeOut       = 60;
-        /// <inheritdoc cref="docs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         public const TimeOutActionEnum DefaultTimeOutAction          = Continue;
         public const int               DefaultFileExtensionMaxLength = 4;
 
