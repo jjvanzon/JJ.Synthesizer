@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Helpers;
+using JJ.Business.Synthesizer.Wishes.NoteWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;

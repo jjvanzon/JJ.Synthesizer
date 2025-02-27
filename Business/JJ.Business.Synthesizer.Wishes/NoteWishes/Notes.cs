@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace JJ.Business.Synthesizer.Wishes
+namespace JJ.Business.Synthesizer.Wishes.NoteWishes
 {
     public static class Notes
     {

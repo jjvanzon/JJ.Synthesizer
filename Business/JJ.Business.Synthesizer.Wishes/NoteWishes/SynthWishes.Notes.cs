@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Wishes.NoteWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

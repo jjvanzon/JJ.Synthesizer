@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Wishes.NoteWishes;
 
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes
