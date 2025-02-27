@@ -187,57 +187,6 @@ namespace JJ.Business.Synthesizer.Wishes
             return signal;
         }
     }
-    
-    // SynthWishes Statics Turned Instance (Buff-to-Buff) (End-of-Chain)
-
-    /// <inheritdoc cref="docs._makebuff" />
-    public static class SynthWishesSaveStaticsTurnedInstanceExtensions
-    {
-        public static SynthWishes Save(
-            this SynthWishes synthWishes, 
-            Tape tape, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(tape, filePath, callerMemberName);
-            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-        }
-
-        public static SynthWishes Save(
-            this SynthWishes synthWishes, 
-            Buff buff, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(buff, filePath, callerMemberName);
-            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-        }
-        
-        public static SynthWishes Save(
-            this SynthWishes synthWishes, 
-            AudioFileOutput audioFileOutput, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(audioFileOutput, filePath, callerMemberName);
-            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-        }
-
-        public static SynthWishes Save(
-            this SynthWishes synthWishes, 
-            Sample sample, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(sample, filePath, callerMemberName);
-            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-        }
-        
-        public static SynthWishes Save(
-            this SynthWishes synthWishes,
-            byte[] bytes, 
-            string filePath = null, [CallerMemberName] string callerMemberName = null) 
-        {
-            SynthWishes.Save(bytes, filePath, callerMemberName);
-            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
-        }
-    }
 
     public partial class FlowNode
     {
@@ -299,6 +248,8 @@ namespace JJ.Business.Synthesizer.Wishes
 
     public static class SaveExtensionWishes 
     {
+        // Object Targeting (Buff-to-Buff) (End-of-Chain)
+        
         public static TapeAction Save(
             this TapeAction tapeAction,
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
@@ -328,5 +279,52 @@ namespace JJ.Business.Synthesizer.Wishes
             this byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null) 
             => SynthWishes.Save(bytes, filePath, callerMemberName);
+    
+        // Statics Turned Instance (Buff-to-Buff) (End-of-Chain)
+        
+        public static SynthWishes Save(
+            this SynthWishes synthWishes, 
+            Tape tape, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            SynthWishes.Save(tape, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+
+        public static SynthWishes Save(
+            this SynthWishes synthWishes, 
+            Buff buff, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            SynthWishes.Save(buff, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+        
+        public static SynthWishes Save(
+            this SynthWishes synthWishes, 
+            AudioFileOutput audioFileOutput, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            SynthWishes.Save(audioFileOutput, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+
+        public static SynthWishes Save(
+            this SynthWishes synthWishes, 
+            Sample sample, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            SynthWishes.Save(sample, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
+        
+        public static SynthWishes Save(
+            this SynthWishes synthWishes,
+            byte[] bytes, 
+            string filePath = null, [CallerMemberName] string callerMemberName = null) 
+        {
+            SynthWishes.Save(bytes, filePath, callerMemberName);
+            return synthWishes ?? throw new ArgumentNullException(nameof(synthWishes));
+        }
     }
 }
