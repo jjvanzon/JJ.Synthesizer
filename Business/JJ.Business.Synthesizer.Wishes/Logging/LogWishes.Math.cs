@@ -15,12 +15,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             if (!mathBoost) return;
             LogTitle("Math Boost");
         }
-        
-        internal void LogMathBoostDone(bool mathBoost)
-        {
-            if (!mathBoost) return;
-            //LogLine("Done");
-        }
 
         internal void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
@@ -143,7 +137,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             => Join(" " + mathSymbol + " ", operands.Select(Stringify));
         
         private string Stringify(FlowNode operand)
-            => operand.Stringify(true);
+        {
+            if (!operand.Logging.Enabled) return "";
+            return operand.Stringify(true);
+        }
         
         private string Stringify(string opName, FlowNode signal, string dimension, string mathSymbol, FlowNode transform)
             => $"{opName}({Stringify(signal)}, {dimension} {mathSymbol} {Stringify(transform)})";
@@ -162,9 +159,6 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         internal void LogMathBoostTitle(bool mathBoost)
             => Logging.LogMathBoostTitle(mathBoost);
-        
-        internal void LogMathBoostDone(bool mathBoost) 
-            => Logging.LogMathBoostDone(mathBoost);
         
         internal void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,

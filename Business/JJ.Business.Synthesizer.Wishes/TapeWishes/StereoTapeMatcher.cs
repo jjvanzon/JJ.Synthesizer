@@ -103,9 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 throw new Exception(message);
                 
                 SynthWishes synthWishes = _unprocessedTapes.First().SynthWishes;
-                synthWishes.Log();
-                synthWishes.Log(message);
-                synthWishes.Log();
+                synthWishes.LogSpaced(message);
                 
                 foreach (Tape tape in _unprocessedTapes.ToArray())
                 {

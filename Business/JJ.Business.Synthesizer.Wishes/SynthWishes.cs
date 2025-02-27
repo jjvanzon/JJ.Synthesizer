@@ -173,8 +173,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 _isRunning = false;
                 WithChannel(originalChannel);
-                
-                LogMathBoostDone(GetMathBoost);
             }
         }
         
@@ -203,8 +201,6 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 _isRunning = false;
                 WithChannel(originalChannel);
-                
-                LogMathBoostDone(GetMathBoost);
             }
         }
         

@@ -89,3 +89,17 @@
             SynthWishes synthWishes = getSynthWishes.Invoke(entity);
             return synthWishes?.Logging ?? Static;
         }
+
+                LogMathBoostDone(GetMathBoost);
+
+        
+        internal void LogMathBoostDone(bool mathBoost) 
+            => Logging.LogMathBoostDone(mathBoost);
+        
+        internal void LogMathBoostDone(bool mathBoost)
+        {
+            if (!mathBoost) return;
+            //LogLine("Done");
+        }
+                
+                LogMathBoostDone(GetMathBoost);

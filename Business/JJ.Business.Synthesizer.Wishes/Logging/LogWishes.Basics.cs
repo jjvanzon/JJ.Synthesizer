@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
         private readonly ILogger _logger = CreateLoggerFromConfig(ConfigResolver.Static.LoggerConfig);
 
-        public bool LoggingEnabled { get; set; } = true; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
+        public bool Enabled { get; set; } = true; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
 
         // NOTE: All the threading, locking and flushing helped
         // Test Explorer in Visual Studio 2022
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
         public void Log(string message = default)
         {
-            if (!LoggingEnabled) return;
+            if (!Enabled) return;
             
             lock (_logLock)
             {
@@ -92,6 +92,12 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         {
             if (!Has(bytes)) return default;
             return $"  {PrettyByteCount(bytes.Length)} written to memory.";
+        }
+
+        internal static LogWishes Resolve(SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.Logging;
         }
         
         internal static LogWishes Resolve(FlowNode flowNode)
@@ -175,14 +181,16 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // TODO: Synonyms
         
-        public SynthWishes WithLogging(bool enabled = true) { Logging.LoggingEnabled = enabled; return this; }
+        public SynthWishes WithLogging(bool enabled = true) { Logging.Enabled = enabled; return this; }
         public SynthWishes WithLoggingEnabled() => WithLogging(true);
         public SynthWishes WithLoggingDisabled() => WithLogging(false);
-    }
-
-    public partial class FlowNode
-    {
-        internal LogWishes Logging => LogWishes.Resolve(this);
+        
+        // Needed for inheritance situations
+        protected void Log            (string message = null)                         => Logging.Log(message);
+        protected void LogSpaced      (string message)                                => Logging.LogSpaced(message);
+        protected void LogTitle       (string title)                                  => Logging.LogTitle(title);
+        protected void LogTitleStrong (string title)                                  => Logging.LogTitleStrong(title);
+        protected void LogOutputFile  (string filePath, string sourceFilePath = null) => Logging.LogOutputFile(filePath, sourceFilePath);
     }
 }
 
@@ -190,7 +198,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static partial class LogExtensionWishes
     {
-        internal static LogWishes Logging(this SynthWishes     entity                         ) => entity.Logging;
+        internal static LogWishes Logging(this SynthWishes synthWishes)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            return synthWishes.Logging;
+        }
         internal static LogWishes Logging(this FlowNode        entity                         ) => LogWishes.Resolve(entity);
         internal static LogWishes Logging(this ConfigResolver  entity                         ) => LogWishes.Resolve(entity);
         internal static LogWishes Logging(this ConfigSection   entity                         ) => LogWishes.Resolve(entity);

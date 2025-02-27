@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Name = name;
             sampleNode.UnderlyingOperator.Name = name;
 
-            LogAction(sample, "Create");
+            sample.LogAction(this, "Create");
             
             return sampleNode;
         }
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);
             
-            LogAction(sample, "Create");
+            sample.LogAction(this, "Create");
             
             return sampleNode;
         }
@@ -218,7 +218,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);
             
-            LogAction(sample, "Create");
+            sample.LogAction(this, "Create");
             
             return sampleNode;
         }

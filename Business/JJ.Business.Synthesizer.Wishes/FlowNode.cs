@@ -1,6 +1,7 @@
 ﻿using JJ.Persistence.Synthesizer;
 using System;
 using System.Diagnostics;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 // ReSharper disable AssignmentInsteadOfDiscard
 
@@ -27,6 +28,8 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> Always filled in. </summary>
         public SynthWishes _ => _synthWishes;
 
+        internal LogWishes Logging => LogWishes.Resolve(this);
+        
         /// <summary> Always filled in. </summary>
         public Outlet UnderlyingOutlet => _underlyingOutlet;
         /// <summary> Always filled in. </summary>

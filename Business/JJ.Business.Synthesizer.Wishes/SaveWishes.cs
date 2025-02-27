@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
             
-            Static.LogAction(audioFileOutput, MemberName());
+            audioFileOutput.LogAction(MemberName());
             
             if (Exists(audioFileOutput.FilePath))
             {
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Wishes
             Sample sample, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Static.LogAction(sample, MemberName());
+            sample.LogAction(MemberName());
             string resolvedFilePath = ResolveFilePath(sample.AudioFormat(), filePath, ResolveName(sample, callerMemberName));
             return sample.Location = InternalSave(sample.Bytes, resolvedFilePath, callerMemberName);
         }

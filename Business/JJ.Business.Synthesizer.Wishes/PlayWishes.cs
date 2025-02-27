@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static System.Environment;
 using static System.IO.Path;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
@@ -34,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (!mustPlay)
             {
-                synthWishes.Log("  ⚠ Audio disabled");
+                synthWishes.Log(NewLine + "  ⚠ Audio disabled");
             }
 
             if (mustPlay)
@@ -84,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             if (buff == null) throw new NullException(() => buff);
-            synthWishes.LogAction(buff, nameof(Play));
+            buff.LogAction(nameof(Play));
             InternalPlayBase(synthWishes, buff.FilePath, buff.Bytes);
             return buff;
         }
