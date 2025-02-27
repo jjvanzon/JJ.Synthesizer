@@ -84,7 +84,6 @@
     <Compile Include="Config\ByteCountWishes.cs" />
     <Compile Include="Helpers\FilledInExtensions.cs" />
     <Compile Include="Helpers\FilledInHelper.cs" />
-    <Compile Include="Helpers\PropertyNameWishes.cs" />
     <Compile Include="Logging\LogWishes.Basics.cs" />
     <Compile Include="Logging\LogWishes.ConfigLog.cs" />
     <Compile Include="Logging\LogWishes.Descriptors.cs" />
