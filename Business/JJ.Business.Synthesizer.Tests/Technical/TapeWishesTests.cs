@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 if (courtesyFramesFound > 0)
                 {
-                    Console.WriteLine($"Found {courtesyFramesFound} courtesy frames in addOperand[{i}].");
+                    Log($"Found {courtesyFramesFound} courtesy frames in addOperand[{i}].");
                     if (courtesyFramesFound > GetCourtesyFrames)
                     {
                         Fail($"courtesyValuesFound = {courtesyFramesFound} > {GetCourtesyFrames}");
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var operandValuesSorted = new[] { operandValue1, operandValue2, operandValue3 }.OrderBy(x => x).ToArray();
 
-            Console.WriteLine($"{new { operandValue1, operandValue2, operandValue3 }}");
+            Log($"{new { operandValue1, operandValue2, operandValue3 }}");
 
             // Assert Values
             AreEqual(0.1 + 0.2 + 0.3,       operandValue1 + operandValue2 + operandValue3, tolerance);

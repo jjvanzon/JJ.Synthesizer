@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 // ReSharper disable LocalizableElement
 
@@ -54,7 +55,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 
 		[TestMethod]
@@ -97,7 +98,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 
 		[TestMethod]
@@ -149,7 +150,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 
 		[TestMethod]
@@ -201,7 +202,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Console.WriteLine($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 	}
 }

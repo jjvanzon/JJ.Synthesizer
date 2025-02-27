@@ -215,7 +215,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var centerFrequency    = A4;
             var referenceFrequency = A5;
             var referencePanning   = _[1];
-            Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
+            Log($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
 
             var e4 = E4;
             var g4 = G4;
@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double panningValueE4 = panningOpE4.Calculate(time: 0);
             double panningValueG4 = panningOpG4.Calculate(time: 0);
 
-            Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
+            Log($"Output: {new { panningValueE4, panningValueG4 }}");
 
             // Assert
             Assert.IsNotNull(panningOpE4);
@@ -248,12 +248,12 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             double centerFrequency    = A4.Value;
             double referenceFrequency = A5.Value;
             double referencePanning   = 1;
-            Console.WriteLine($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
+            Log($"Input: {new { centerFrequency, referenceFrequency, referencePanning }}");
 
             // Act
             double panningValueE4 = PitchPan(E4.Value, centerFrequency, referenceFrequency, referencePanning);
             double panningValueG4 = PitchPan(G4.Value, centerFrequency, referenceFrequency, referencePanning);
-            Console.WriteLine($"Output: {new { panningValueE4, panningValueG4 }}");
+            Log($"Output: {new { panningValueE4, panningValueG4 }}");
 
             // Assert
             Assert.IsTrue(panningValueE4 > 0.5);
