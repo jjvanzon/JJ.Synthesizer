@@ -766,8 +766,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public static (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) WriteWavHeader((SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x, BinaryWriter dest) { x.ToInfo().WriteWavHeader(dest    ); return x; }
     }
 
-    public static class ToInfoExtensions
+    public static class WavExtensionWishes
     {
+        // ToInfo
+        
         public static AudioInfoWish ToInfo(this SynthWishes entity) => WavWishes.ToInfo(entity);
         public static AudioInfoWish ToInfo(this FlowNode entity) => WavWishes.ToInfo(entity);
         internal static AudioInfoWish ToInfo(this ConfigResolver entity, SynthWishes synthWishes) => WavWishes.ToInfo(entity, synthWishes);
@@ -791,10 +793,9 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavWishes.ToInfo(x);
         public static AudioInfoWish ToInfo(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) 
             => WavWishes.ToInfo(x);
-    }
-    
-    public static class ApplyInfoExtensions
-    {
+
+        // ApplyInfo
+        
         public static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, SynthWishes   entity  ) => WavWishes.ApplyInfo (infoWish, entity);
         public static SynthWishes   ApplyInfo(this SynthWishes   entity,   AudioInfoWish infoWish) => WavWishes.ApplyInfo(entity, infoWish);
         public static AudioInfoWish ApplyInfo(this AudioInfoWish infoWish, FlowNode      entity  ) => WavWishes.ApplyInfo (infoWish, entity);
@@ -833,10 +834,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public static AudioInfoWish ApplyTo  (this AudioInfoWish source, AudioInfoWish dest)   => WavWishes.ApplyTo(source, dest);
         public static AudioInfoWish ApplyFrom(this AudioInfoWish dest,   AudioInfoWish source) => WavWishes.ApplyFrom(dest, source);
         public static AudioFileInfo ToLegacy(this AudioInfoWish wish) => WavWishes.ToLegacy(wish);
-    }
-    
-    public static class ToWavHeaderExtensions
-    {
+
+        // ToWavHeader
+        
         public   static WavHeaderStruct ToWavHeader(this SynthWishes     entity)                          => WavWishes.ToWavHeader(entity);
         public   static WavHeaderStruct ToWavHeader(this FlowNode        entity)                          => WavWishes.ToWavHeader(entity);
         internal static WavHeaderStruct ToWavHeader(this ConfigResolver  entity, SynthWishes synthWishes) => WavWishes.ToWavHeader(entity, synthWishes);
@@ -861,19 +861,18 @@ namespace JJ.Business.Synthesizer.Wishes
             => WavWishes.ToWavHeader(x);
         public static WavHeaderStruct ToWavHeader(this (SampleDataType bitsEntity, SpeakerSetup channelsEntity, int samplingRate, int frameCount) x) 
             => WavWishes.ToWavHeader(x);
-    }
-    
-    public static class ApplyWavHeaderExtensions
-    { 
+
+        // ApplyWavHeader
+        
         public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, SynthWishes entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
         public static SynthWishes ApplyWavHeader(this SynthWishes entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
 
         public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, FlowNode entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
         public static FlowNode ApplyWavHeader(this FlowNode entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
         
-        internal static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, ConfigResolver entity, SynthWishes synthWishes)
+        [UsedImplicitly] internal static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, ConfigResolver entity, SynthWishes synthWishes)
             => WavWishes.ApplyWavHeader(wavHeader, entity, synthWishes);
-        internal static ConfigResolver ApplyWavHeader(this ConfigResolver entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
+        [UsedImplicitly] internal static ConfigResolver ApplyWavHeader(this ConfigResolver entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
             => WavWishes.ApplyWavHeader(entity, wavHeader, synthWishes);
         
         public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, Tape entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
@@ -908,10 +907,9 @@ namespace JJ.Business.Synthesizer.Wishes
         
         public static WavHeaderStruct ApplyWavHeader(this WavHeaderStruct wavHeader, AudioInfoWish entity) => WavWishes.ApplyWavHeader(wavHeader, entity);
         public static AudioInfoWish ApplyWavHeader(this AudioInfoWish entity, WavHeaderStruct wavHeader) => WavWishes.ApplyWavHeader(entity, wavHeader);
-    }
-    
-    public static class ReadWavHeaderExtensions
-    {
+
+        // ReadWavHeader
+        
         public static SynthWishes  ReadWavHeader(this SynthWishes  entity,   string       filePath) => WavWishes.ReadWavHeader(entity,   filePath);
         public static SynthWishes  ReadWavHeader(this SynthWishes  entity,   byte[]       source  ) => WavWishes.ReadWavHeader(entity,   source  );
         public static SynthWishes  ReadWavHeader(this SynthWishes  entity,   Stream       source  ) => WavWishes.ReadWavHeader(entity,   source  );
@@ -1043,18 +1041,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public static WavHeaderStruct ReadWavHeader(this byte[] bytes) => WavWishes.ReadWavHeader(bytes);
         public static WavHeaderStruct ReadWavHeader(this Stream stream) => WavWishes.ReadWavHeader(stream);
         public static WavHeaderStruct ReadWavHeader(this BinaryReader reader) => WavWishes.ReadWavHeader(reader);
-    }
-    
-    public static class ReadAudioInfoExtensions
-    {
+
+        // ReadAudioInfo
+        
         public static AudioInfoWish ReadAudioInfo(this string       filePath) => WavWishes.ReadAudioInfo(filePath);
         public static AudioInfoWish ReadAudioInfo(this byte[]       source  ) => WavWishes.ReadAudioInfo(source  );
         public static AudioInfoWish ReadAudioInfo(this Stream       source  ) => WavWishes.ReadAudioInfo(source  );
         public static AudioInfoWish ReadAudioInfo(this BinaryReader source)   => WavWishes.ReadAudioInfo(source  );
-    }
 
-    public static class WriteWavHeaderExtensions
-    {
+        // WriteWavHeader
+        
         public static SynthWishes  WriteWavHeader(this SynthWishes  entity,   string       filePath) => WavWishes.WriteWavHeader(entity,   filePath);
         public static SynthWishes  WriteWavHeader(this SynthWishes  entity,   byte[]       dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
         public static SynthWishes  WriteWavHeader(this SynthWishes  entity,   BinaryWriter dest    ) => WavWishes.WriteWavHeader(entity,   dest    );
