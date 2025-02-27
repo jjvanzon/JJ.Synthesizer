@@ -11,10 +11,8 @@ using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class ToInfoExtensionsAccessor
+    internal static partial class WavExtensionWishesAccessor
     {
-        private static readonly AccessorEx _accessor = new AccessorEx(typeof(ToInfoExtensions));
-        
         internal static AudioInfoWish ToInfo(this ConfigResolverAccessor entity, SynthWishes synthWishes)
             => _accessor.InvokeMethod<AudioInfoWish>(entity?.Obj, synthWishes);
         

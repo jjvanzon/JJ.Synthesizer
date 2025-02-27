@@ -8,10 +8,8 @@ using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class WriteWavHeaderExtensionsAccessor
+    internal static partial class WavExtensionWishesAccessor
     {
-        private static readonly AccessorEx _accessor = new AccessorEx(typeof(WriteWavHeaderExtensions));
-        
         // With ConfigResolver
         
         internal static ConfigResolverAccessor WriteWavHeader(this ConfigResolverAccessor entity, string filePath, SynthWishes synthWishes)

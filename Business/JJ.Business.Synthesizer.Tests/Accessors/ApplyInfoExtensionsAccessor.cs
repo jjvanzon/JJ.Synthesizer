@@ -9,9 +9,9 @@ using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class ApplyInfoExtensionsAccessor
+    internal static partial class WavExtensionWishesAccessor
     {
-        private static AccessorEx _accessor = new AccessorEx(typeof(ApplyInfoExtensions));
+        private static AccessorEx _accessor = new AccessorEx(typeof(WavExtensionWishes));
         
         internal static ConfigResolverAccessor ApplyInfo(this ConfigResolverAccessor obj, AudioInfoWish infoWish, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(obj.Obj, infoWish, synthWishes));

@@ -12,10 +12,8 @@ using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal static class FromWavHeaderExtensionsAccessor
+    internal static partial class WavExtensionWishesAccessor
     {
-        private static readonly AccessorEx _accessor = new AccessorEx(typeof(ApplyWavHeaderExtensions));
-        
         internal static ConfigResolverAccessor ApplyWavHeader(this ConfigResolverAccessor entity, WavHeaderStruct wavHeader, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(entity?.Obj, wavHeader, synthWishes));
         
