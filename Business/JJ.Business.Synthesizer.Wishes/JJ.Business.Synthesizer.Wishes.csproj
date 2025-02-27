@@ -126,7 +126,7 @@
     <Compile Include="CurveWishes.cs" />
     <Compile Include="docs.cs" />
     <Compile Include="BuffWishes.cs" />
-    <Compile Include="NoteWishes\SynthWishes.Timing.cs" />
+    <Compile Include="NoteWishes\SynthWishes.NoteTiming.cs" />
     <Compile Include="Helpers\ServiceFactory.cs" />
     <Compile Include="Obsolete\Obsolete.OperatorWishes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,9 +207,11 @@
     <Compile Include="Logging\LogWishes.Actions.cs" />
     <Compile Include="Logging\LogWishes.SynthLog.cs" />
     <Compile Include="Logging\LogWishes.TapeTree.cs" />
-    <Compile Include="NoteWishes\FlowNode.Notes.cs" />
+    <Compile Include="NoteWishes\FlowNode.NoteIndexers.cs" />
     <Compile Include="NoteWishes\SynthWishes.NoteValues.cs" />
     <Compile Include="NoteWishes\SynthWishes.NoteIndexers.cs" />
+    <Compile Include="NoteWishes\FlowNode.NoteMethods.cs" />
+    <Compile Include="NoteWishes\FlowNode.NoteTiming.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

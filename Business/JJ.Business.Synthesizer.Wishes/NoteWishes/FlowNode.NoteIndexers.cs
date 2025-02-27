@@ -3,58 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Wishes.NoteWishes;
 
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes
 {
-
-    // FlowNode
-    
     public partial class FlowNode
     {
-        // Timing
-        
-        /// <inheritdoc cref="docs._timeindexer"/>
-        public TimeIndexer t => _synthWishes.t;
-        /// <inheritdoc cref="docs._barindexer"/>
-        public BarIndexer bar => _synthWishes.bar;
-        /// <inheritdoc cref="docs._beatindexer"/>
-        public BeatIndexer beat => _synthWishes.beat;
-        /// <inheritdoc cref="docs._beatindexer"/>
-        public BeatIndexer b => _synthWishes.b;
-        /// <inheritdoc cref="docs._barsindexer"/>
-        public BarsIndexer bars => _synthWishes.bars;
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer beats => _synthWishes.beats;
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer l => _synthWishes.l;
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer len => _synthWishes.len;
-        /// <inheritdoc cref="docs._beatsindexer"/>
-        public BeatsIndexer length  => _synthWishes.length;
-
-        // Note Operator
-        
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode Note(
-            FlowNode delay = null, FlowNode volume = default, FlowNode duration = default,
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            => _synthWishes.Note(this, delay, volume, duration, name, callerMemberName);
-        
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode Note(
-            FlowNode sound, FlowNode delay, double volume, FlowNode duration,
-            string name = null, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Note(sound, delay, volume, duration, name, callerMemberName);
-        
-        /// <inheritdoc cref="docs._default" />
-        public FlowNode Note(
-            FlowNode delay, double volume,
-            string name = null, [CallerMemberName] string callerMemberName = null) 
-            => _synthWishes.Note(this, delay, volume, name, callerMemberName);
-
         // Note Indexers
 
         // Instrument without Parameters
@@ -733,4 +687,5 @@ namespace JJ.Business.Synthesizer.Wishes
             FlowNode vol = null, FlowNode len = null, FlowNode fx1 = null, FlowNode fx2 = null, FlowNode fx3 = null, FlowNode fx4 = null, 
             [CallerMemberName] string callerMemberName = null]
             => Add(_[t, freq, sound, vol, len, fx1, fx2, fx3, fx4]).SetName(callerMemberName);
-    }}
+    }
+}
