@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     // CurveFactory Extensions
 
-    public static class CurveFactoryExtensionWishes
+    public static class CurveExtensionWishes
     {
         // From Node Info
         

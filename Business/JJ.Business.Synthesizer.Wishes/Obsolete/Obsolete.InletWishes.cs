@@ -158,15 +158,15 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         [Obsolete(ObsoleteMessage)]
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Inlet entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
-            => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
+            => new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
 
         [Obsolete(InletObsoleteMessages.ObsoleteMessage)]
-        internal static string StringifyRecursive(this OperatorStringifier operatorStringifier, Inlet entity)
+        internal static string StringifyRecursive(this Stringifier operatorStringifier, Inlet entity)
         {
             if (operatorStringifier == null) throw new ArgumentNullException(nameof(operatorStringifier));
             operatorStringifier._sb = operatorStringifier.CreateStringBuilder();
             operatorStringifier.BuildStringRecursive(entity);
-            return OperatorStringifier.RemoveOuterBraces(operatorStringifier._sb.ToString());
+            return Stringifier.RemoveOuterBraces(operatorStringifier._sb.ToString());
         }
     }
 

@@ -31,11 +31,11 @@ namespace JJ.Business.Synthesizer.Wishes
     { 
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Outlet entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
-            => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
+            => new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
 
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Operator entity, bool singleLine = false, bool canOmitNameForBasicMath = false)
-            => new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
+            => new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(entity);
         
         /// <inheritdoc cref="docs._stringify"/>
         public static string Stringify(this Tape tape, bool singleLine = false, bool canOmitNameForBasicMath = false)
@@ -98,13 +98,13 @@ namespace JJ.Business.Synthesizer.Wishes
     // Stringifier
 
     /// <inheritdoc cref="docs._stringify"/>
-    internal class OperatorStringifier
+    internal class Stringifier
     {
         private readonly bool _singleLine;
         private readonly bool _canOmitNameForBasicMath;
         internal StringBuilderWithIndentation_Adapted _sb; // Internal for obsolete extension methods
 
-        public OperatorStringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
+        public Stringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             _singleLine = singleLine;
             _canOmitNameForBasicMath = canOmitNameForBasicMath;

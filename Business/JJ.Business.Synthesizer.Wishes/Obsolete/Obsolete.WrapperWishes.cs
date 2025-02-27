@@ -474,7 +474,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static string Stringify(this OperatorWrapperBase wrapper, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Operator);
+            return new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Operator);
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -482,7 +482,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static string Stringify(this SampleOperatorWrapper wrapper, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Result);
+            return new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Result);
         }
 
         [Obsolete(ObsoleteMessage)]
@@ -490,7 +490,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static string Stringify(this CurveInWrapper wrapper, bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
             if (wrapper == null) throw new ArgumentNullException(nameof(wrapper));
-            return new OperatorStringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Result);
+            return new Stringifier(singleLine, canOmitNameForBasicMath).StringifyRecursive(wrapper.Result);
         }
     }
 
