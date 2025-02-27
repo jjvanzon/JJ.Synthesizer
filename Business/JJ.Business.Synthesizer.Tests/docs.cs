@@ -9,7 +9,7 @@
 
 namespace JJ.Business.Synthesizer.Tests
 {
-    public struct docs
+    namespace docs
     {
         /// <inheritdoc cref="wishdocs._audiolength" />
         public struct _audiolength { }

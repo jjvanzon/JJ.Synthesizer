@@ -11,7 +11,7 @@
 
 namespace JJ.Business.Synthesizer.Wishes
 {
-    public struct docs
+    namespace docs
     {
         /// <summary> 
         /// Adds two <see cref="Outlet"/> operands, optimizing for constant values if possible.
@@ -666,11 +666,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Revisit later.
         /// </summary> 
         public struct _samplefromfluentconfig { }
-
-        /// <summary> 
-        /// With optional Context.
-        /// </summary> 
-        public struct _setenumwishes { }
 
         /// <summary> 
         /// Sets the node type (the type of interpolation) for a curve as a whole.

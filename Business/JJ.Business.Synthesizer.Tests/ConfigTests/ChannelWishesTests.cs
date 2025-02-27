@@ -16,7 +16,6 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using JJ.Framework.Common;
 using JJ.Framework.Wishes.Testing;
-using static JJ.Business.Synthesizer.Tests.docs;
 using JJ.Framework.Wishes.Common;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 
