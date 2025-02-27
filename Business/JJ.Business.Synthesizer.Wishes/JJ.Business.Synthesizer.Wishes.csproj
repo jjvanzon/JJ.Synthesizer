@@ -92,6 +92,9 @@
     <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
     <Compile Include="Obsolete\Obsolete.LogWishes.cs" />
     <Compile Include="Obsolete\Obsolete.Streamers.cs" />
+    <Compile Include="OperandWishes\FluentOperandList.cs" />
+    <Compile Include="OperandWishes\OperandExtensionWishes.cs" />
+    <Compile Include="OperandWishes\OperandList.cs" />
     <Compile Include="RecordWishes.cs" />
     <Compile Include="InterceptWishes.cs" />
     <Compile Include="CalculationWishes.cs" />
@@ -115,7 +118,7 @@
     <Compile Include="Obsolete\Obsolete.InletWishes.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
-    <Compile Include="OperandWishes\OperandWishes.cs" />
+    <Compile Include="OperandWishes\FlowNode.Operands.cs" />
     <Compile Include="NoteWishes\TimeIndexer.cs" />
     <Compile Include="UnderlyingWishes.cs" />
     <Compile Include="PlayWishes.cs" />
