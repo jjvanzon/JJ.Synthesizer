@@ -209,7 +209,7 @@
     <Compile Include="Logging\LogWishes.TapeTree.cs" />
     <Compile Include="NoteWishes\FlowNode.Notes.cs" />
     <Compile Include="NoteWishes\SynthWishes.NoteValues.cs" />
-    <Compile Include="NoteWishes\SynthWishes.NoteCommands.cs" />
+    <Compile Include="NoteWishes\SynthWishes.NoteIndexers.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
