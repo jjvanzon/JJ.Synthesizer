@@ -21,7 +21,7 @@ using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
     /// <inheritdoc cref="docs._configextensionwishes"/>
-    public static class ConfigNightmareExtension
+    public static class ConfigNightmareExtensions
     {
         [Obsolete(ObsoleteMessage)] public static ChannelEnum ChannelToEnum(this int? thisChannel, SpeakerSetupEnum speakerSetupEnumForContext)
         {
