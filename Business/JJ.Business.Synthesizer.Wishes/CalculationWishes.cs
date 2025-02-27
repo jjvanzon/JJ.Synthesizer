@@ -5,6 +5,7 @@ using JJ.Persistence.Synthesizer;
 using System;
 using System.Linq;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Business.Synthesizer.Wishes.OperandWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 

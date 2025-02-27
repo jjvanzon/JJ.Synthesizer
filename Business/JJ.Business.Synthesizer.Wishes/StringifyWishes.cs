@@ -5,6 +5,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Wishes.Text;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
+using JJ.Business.Synthesizer.Wishes.OperandWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
 using static System.String;

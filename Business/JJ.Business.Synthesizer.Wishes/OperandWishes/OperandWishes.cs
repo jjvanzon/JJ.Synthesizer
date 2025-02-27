@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Wishes.OperandWishes;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 
+// ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes
 {
     // Operands in FlowNode
@@ -114,9 +116,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public FlowNode Origin => _[_underlyingOutlet.Operator?.Inlets.ElementAtOrDefault(2)?.Input];
 
     }
+}
 
+namespace JJ.Business.Synthesizer.Wishes.OperandWishes
+{
     // Operands on Entity Objects
-    
+
     /// <inheritdoc cref="docs._operand"/>
     public static class OperandExtensionWishes
     { 
@@ -555,7 +560,7 @@ namespace JJ.Business.Synthesizer.Wishes
         [Obsolete("Rarely used because default origin 0 usually works. " +
               "Otherwise consider use separate operators like Shift and Stretch instead.")]
         public static Outlet Origin(this Operator entity) => entity.Inlets.ElementAtOrDefault(2)?.Input;
-}
+    }
             
     // Specialized Lists
 

@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Wishes.Logging;
+using JJ.Business.Synthesizer.Wishes.OperandWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 // ReSharper disable AssignmentInsteadOfDiscard
 

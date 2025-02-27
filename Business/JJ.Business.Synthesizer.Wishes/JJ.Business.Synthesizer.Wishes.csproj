@@ -115,7 +115,7 @@
     <Compile Include="Obsolete\Obsolete.InletWishes.cs" />
     <Compile Include="IsWishes.cs" />
     <Compile Include="NameWishes.cs" />
-    <Compile Include="OperandWishes.cs" />
+    <Compile Include="OperandWishes\OperandWishes.cs" />
     <Compile Include="NoteWishes\TimeIndexer.cs" />
     <Compile Include="UnderlyingWishes.cs" />
     <Compile Include="PlayWishes.cs" />
