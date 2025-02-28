@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
-using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.Logging;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using JJ.Business.Synthesizer.Wishes.Logging;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
@@ -19,6 +18,9 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         // Pretty Calculation Graphs
 
+        public void LogSynth(Tape tape, double? calculationDuration = null) 
+            => tape.Log(SynthLog(tape, calculationDuration));
+        
         public string SynthLog(Tape tape, double? calculationDuration = null)
         {
             if (!Enabled) return "";
@@ -159,6 +161,33 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
     public static partial class LogExtensionWishes
     {
+        public static void LogSynth(this SynthWishes entity, Tape tape, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(tape, calculationDuration);
+        
+        public static void LogSynth(this FlowNode entity, Tape tape, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(tape, calculationDuration);
+        
+        internal static void LogSynth(this ConfigResolver entity, Tape tape, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(tape, calculationDuration);
+
+        public static void LogSynth(this Tape entity, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(entity, calculationDuration);
+        
+        public static void LogSynth(this TapeConfig entity, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(entity.Tape, calculationDuration);
+        
+        public static void LogSynth(this TapeActions entity, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(entity.Tape, calculationDuration);
+        
+        public static void LogSynth(this TapeAction entity, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(entity.Tape, calculationDuration);
+        
+        public static void LogSynth(this Buff entity, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(entity.Tape, calculationDuration);
+        
+        public static void LogSynth(this Buff entity, Tape tape, double? calculationDuration = null) 
+            => entity.Logging().LogSynth(tape, calculationDuration);
+
         public static string SynthLog(this SynthWishes entity, Tape tape, double? calculationDuration = null) 
             => entity.Logging().SynthLog(tape, calculationDuration);
         
