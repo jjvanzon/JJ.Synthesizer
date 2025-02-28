@@ -378,24 +378,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, int headerLength)
         {
-            AreEqual(headerLength, () => x.SynthBound.SynthWishes   .HeaderLength   ());
-            AreEqual(headerLength, () => x.SynthBound.FlowNode      .HeaderLength   ());
-            AreEqual(headerLength, () => x.SynthBound.ConfigResolver.HeaderLength   ());
+            AreEqual(headerLength, () => x.SynthBound.SynthWishes   .GetHeaderLength);
+            AreEqual(headerLength, () => x.SynthBound.FlowNode      .GetHeaderLength);
             AreEqual(headerLength, () => x.SynthBound.SynthWishes   .GetHeaderLength());
             AreEqual(headerLength, () => x.SynthBound.FlowNode      .GetHeaderLength());
             AreEqual(headerLength, () => x.SynthBound.ConfigResolver.GetHeaderLength());
-            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.SynthWishes   ));
-            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.FlowNode      ));
-            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.ConfigResolver));
+            AreEqual(headerLength, () => x.SynthBound.SynthWishes   .HeaderLength   ());
+            AreEqual(headerLength, () => x.SynthBound.FlowNode      .HeaderLength   ());
+            AreEqual(headerLength, () => x.SynthBound.ConfigResolver.HeaderLength   ());
             AreEqual(headerLength, () => GetHeaderLength(x.SynthBound.SynthWishes   ));
             AreEqual(headerLength, () => GetHeaderLength(x.SynthBound.FlowNode      ));
             AreEqual(headerLength, () => GetHeaderLength(x.SynthBound.ConfigResolver));
-            AreEqual(headerLength, () => ConfigWishes        .HeaderLength   (x.SynthBound.SynthWishes   ));
-            AreEqual(headerLength, () => ConfigWishes        .HeaderLength   (x.SynthBound.FlowNode      ));
-            AreEqual(headerLength, () => ConfigWishesAccessor.HeaderLength   (x.SynthBound.ConfigResolver));
+            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.SynthWishes   ));
+            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.FlowNode      ));
+            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.ConfigResolver));
             AreEqual(headerLength, () => ConfigWishes        .GetHeaderLength(x.SynthBound.SynthWishes   ));
             AreEqual(headerLength, () => ConfigWishes        .GetHeaderLength(x.SynthBound.FlowNode      ));
             AreEqual(headerLength, () => ConfigWishesAccessor.GetHeaderLength(x.SynthBound.ConfigResolver));
+            AreEqual(headerLength, () => ConfigWishes        .HeaderLength   (x.SynthBound.SynthWishes   ));
+            AreEqual(headerLength, () => ConfigWishes        .HeaderLength   (x.SynthBound.FlowNode      ));
+            AreEqual(headerLength, () => ConfigWishesAccessor.HeaderLength   (x.SynthBound.ConfigResolver));
         }
 
         private void Assert_TapeBound_Getters(TestEntities x, int headerLength)

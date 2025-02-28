@@ -427,24 +427,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, string fileExtension)
         {
-            IsTrue(() => x.SynthBound.SynthWishes   .FileExtension   ().Is(fileExtension));
-            IsTrue(() => x.SynthBound.FlowNode      .FileExtension   ().Is(fileExtension));
-            IsTrue(() => x.SynthBound.ConfigResolver.FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.SynthBound.SynthWishes   .GetFileExtension  .Is(fileExtension));
+            IsTrue(() => x.SynthBound.FlowNode      .GetFileExtension  .Is(fileExtension));
             IsTrue(() => x.SynthBound.SynthWishes   .GetFileExtension().Is(fileExtension));
             IsTrue(() => x.SynthBound.FlowNode      .GetFileExtension().Is(fileExtension));
             IsTrue(() => x.SynthBound.ConfigResolver.GetFileExtension().Is(fileExtension));
-            IsTrue(() => FileExtension   (x.SynthBound.SynthWishes   ).Is(fileExtension));
-            IsTrue(() => FileExtension   (x.SynthBound.FlowNode      ).Is(fileExtension));
-            IsTrue(() => FileExtension   (x.SynthBound.ConfigResolver).Is(fileExtension));
+            IsTrue(() => x.SynthBound.SynthWishes   .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.SynthBound.FlowNode      .FileExtension   ().Is(fileExtension));
+            IsTrue(() => x.SynthBound.ConfigResolver.FileExtension   ().Is(fileExtension));
             IsTrue(() => GetFileExtension(x.SynthBound.SynthWishes   ).Is(fileExtension));
             IsTrue(() => GetFileExtension(x.SynthBound.FlowNode      ).Is(fileExtension));
             IsTrue(() => GetFileExtension(x.SynthBound.ConfigResolver).Is(fileExtension));
-            IsTrue(() => ConfigWishes        .FileExtension   (x.SynthBound.SynthWishes   ).Is(fileExtension));
-            IsTrue(() => ConfigWishes        .FileExtension   (x.SynthBound.FlowNode      ).Is(fileExtension));
-            IsTrue(() => ConfigWishesAccessor.FileExtension   (x.SynthBound.ConfigResolver).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.SynthBound.SynthWishes   ).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.SynthBound.FlowNode      ).Is(fileExtension));
+            IsTrue(() => FileExtension   (x.SynthBound.ConfigResolver).Is(fileExtension));
             IsTrue(() => ConfigWishes        .GetFileExtension(x.SynthBound.SynthWishes   ).Is(fileExtension));
             IsTrue(() => ConfigWishes        .GetFileExtension(x.SynthBound.FlowNode      ).Is(fileExtension));
             IsTrue(() => ConfigWishesAccessor.GetFileExtension(x.SynthBound.ConfigResolver).Is(fileExtension));
+            IsTrue(() => ConfigWishes        .FileExtension   (x.SynthBound.SynthWishes   ).Is(fileExtension));
+            IsTrue(() => ConfigWishes        .FileExtension   (x.SynthBound.FlowNode      ).Is(fileExtension));
+            IsTrue(() => ConfigWishesAccessor.FileExtension   (x.SynthBound.ConfigResolver).Is(fileExtension));
             AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.SynthWishes   .IsRaw);
             AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.FlowNode      .IsRaw);
             AreEqual(fileExtension.Is(".raw"), () => x.SynthBound.ConfigResolver.IsRaw);

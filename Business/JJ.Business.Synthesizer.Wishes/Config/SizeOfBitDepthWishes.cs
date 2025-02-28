@@ -26,12 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         // Synth-Bound
 
-        public static int SizeOfBitDepth(this SynthWishes obj) => ConfigWishes.SizeOfBitDepth(obj);
         public static int GetSizeOfBitDepth(this SynthWishes obj) => ConfigWishes.GetSizeOfBitDepth(obj);
-
-        public static SynthWishes SizeOfBitDepth(this SynthWishes obj, int? sizeOfBitDepth) => ConfigWishes.SizeOfBitDepth(obj, sizeOfBitDepth);
-        public static SynthWishes WithSizeOfBitDepth(this SynthWishes obj, int? sizeOfBitDepth) => ConfigWishes.WithSizeOfBitDepth(obj, sizeOfBitDepth);
-        public static SynthWishes SetSizeOfBitDepth(this SynthWishes obj, int? sizeOfBitDepth) => ConfigWishes.SetSizeOfBitDepth(obj, sizeOfBitDepth);
 
         public static int SizeOfBitDepth(this FlowNode obj) => ConfigWishes.SizeOfBitDepth(obj);
         public static int GetSizeOfBitDepth(this FlowNode obj) => ConfigWishes.GetSizeOfBitDepth(obj);
@@ -40,8 +35,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode WithSizeOfBitDepth(this FlowNode obj, int? sizeOfBitDepth) => ConfigWishes.WithSizeOfBitDepth(obj, sizeOfBitDepth);
         public static FlowNode SetSizeOfBitDepth(this FlowNode obj, int? sizeOfBitDepth) => ConfigWishes.SetSizeOfBitDepth(obj, sizeOfBitDepth);
 
-        internal static int SizeOfBitDepth(this ConfigResolver obj) => ConfigWishes.SizeOfBitDepth(obj);
-        internal static int GetSizeOfBitDepth(this ConfigResolver obj) => ConfigWishes.GetSizeOfBitDepth(obj);
+        [UsedImplicitly] internal static int SizeOfBitDepth(this ConfigResolver obj) => ConfigWishes.SizeOfBitDepth(obj);
+        [UsedImplicitly] internal static int GetSizeOfBitDepth(this ConfigResolver obj) => ConfigWishes.GetSizeOfBitDepth(obj);
 
         [UsedImplicitly] internal static ConfigResolver SizeOfBitDepth(this ConfigResolver obj, int? sizeOfBitDepth)
             => ConfigWishes.SizeOfBitDepth(obj, sizeOfBitDepth);

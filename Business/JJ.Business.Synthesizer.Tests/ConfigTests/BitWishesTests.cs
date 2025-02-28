@@ -91,7 +91,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthWishes,    ConfigWishes        .SetBits (x.SynthWishes   , value)));
             AssertProp(x => AreEqual(x.FlowNode,       ConfigWishes        .SetBits (x.FlowNode      , value)));
             AssertProp(x => AreEqual(x.ConfigResolver, ConfigWishesAccessor.SetBits (x.ConfigResolver, value)));
-            AssertProp(x => AreEqual(x.SynthWishes,    BitExtensionWishes        .WithBits(x.SynthWishes   , value))); 
             AssertProp(x => AreEqual(x.FlowNode,       BitExtensionWishes        .WithBits(x.FlowNode      , value)));
             AssertProp(x => AreEqual(x.ConfigResolver, BitExtensionWishesAccessor.WithBits(x.ConfigResolver, value)));
             AssertProp(x => { if (value ==  8) AreEqual(x.SynthWishes,    () => x.SynthWishes   .With8Bit (        ));

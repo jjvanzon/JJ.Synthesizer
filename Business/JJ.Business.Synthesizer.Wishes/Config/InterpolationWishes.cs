@@ -28,21 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public static bool IsLinear(this SynthWishes obj) => ConfigWishes.IsLinear(obj);
         public static bool IsBlocky(this SynthWishes obj) => ConfigWishes.IsBlocky(obj);
-        public static InterpolationTypeEnum Interpolation(this SynthWishes obj) => ConfigWishes.Interpolation(obj);
         public static InterpolationTypeEnum GetInterpolation(this SynthWishes obj) => ConfigWishes.GetInterpolation(obj);
-
-        public static SynthWishes Linear(this SynthWishes obj) => ConfigWishes.Linear(obj);
-        public static SynthWishes Blocky(this SynthWishes obj) => ConfigWishes.Blocky(obj);
-        public static SynthWishes WithLinear(this SynthWishes obj) => ConfigWishes.WithLinear(obj);
-        public static SynthWishes WithBlocky(this SynthWishes obj) => ConfigWishes.WithBlocky(obj);
-        public static SynthWishes AsLinear(this SynthWishes obj) => ConfigWishes.AsLinear(obj);
-        public static SynthWishes AsBlocky(this SynthWishes obj) => ConfigWishes.AsBlocky(obj);
-        public static SynthWishes SetLinear(this SynthWishes obj) => ConfigWishes.SetLinear(obj);
-        public static SynthWishes SetBlocky(this SynthWishes obj) => ConfigWishes.SetBlocky(obj);
-        public static SynthWishes Interpolation(this SynthWishes obj, InterpolationTypeEnum? value) => ConfigWishes.Interpolation(obj, value);
-        public static SynthWishes WithInterpolation(this SynthWishes obj, InterpolationTypeEnum? value) => ConfigWishes.WithInterpolation(obj, value);
-        public static SynthWishes AsInterpolation(this SynthWishes obj, InterpolationTypeEnum? value) => ConfigWishes.AsInterpolation(obj, value);
-        public static SynthWishes SetInterpolation(this SynthWishes obj, InterpolationTypeEnum? value) => ConfigWishes.SetInterpolation(obj, value);
 
         public static bool IsLinear(this FlowNode obj) => ConfigWishes.IsLinear(obj);
         public static bool IsBlocky(this FlowNode obj) => ConfigWishes.IsBlocky(obj);
@@ -51,14 +37,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public static FlowNode Linear(this FlowNode obj) => ConfigWishes.Linear(obj);
         public static FlowNode Blocky(this FlowNode obj) => ConfigWishes.Blocky(obj);
-        public static FlowNode WithLinear(this FlowNode obj) => ConfigWishes.WithLinear(obj);
-        public static FlowNode WithBlocky(this FlowNode obj) => ConfigWishes.WithBlocky(obj);
         public static FlowNode AsLinear(this FlowNode obj) => ConfigWishes.AsLinear(obj);
         public static FlowNode AsBlocky(this FlowNode obj) => ConfigWishes.AsBlocky(obj);
         public static FlowNode SetLinear(this FlowNode obj) => ConfigWishes.SetLinear(obj);
         public static FlowNode SetBlocky(this FlowNode obj) => ConfigWishes.SetBlocky(obj);
         public static FlowNode Interpolation(this FlowNode obj, InterpolationTypeEnum? value) => ConfigWishes.Interpolation(obj, value);
-        public static FlowNode WithInterpolation(this FlowNode obj, InterpolationTypeEnum? value) => ConfigWishes.WithInterpolation(obj, value);
         public static FlowNode AsInterpolation(this FlowNode obj, InterpolationTypeEnum? value) => ConfigWishes.AsInterpolation(obj, value);
         public static FlowNode SetInterpolation(this FlowNode obj, InterpolationTypeEnum? value) => ConfigWishes.SetInterpolation(obj, value);
 
@@ -69,14 +52,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         [UsedImplicitly] internal static ConfigResolver Linear(this ConfigResolver obj) => ConfigWishes.Linear(obj);
         [UsedImplicitly] internal static ConfigResolver Blocky(this ConfigResolver obj) => ConfigWishes.Blocky(obj);
-        [UsedImplicitly] internal static ConfigResolver WithLinear(this ConfigResolver obj) => ConfigWishes.WithLinear(obj);
-        [UsedImplicitly] internal static ConfigResolver WithBlocky(this ConfigResolver obj) => ConfigWishes.WithBlocky(obj);
         [UsedImplicitly] internal static ConfigResolver AsLinear(this ConfigResolver obj) => ConfigWishes.AsLinear(obj);
         [UsedImplicitly] internal static ConfigResolver AsBlocky(this ConfigResolver obj) => ConfigWishes.AsBlocky(obj);
         [UsedImplicitly] internal static ConfigResolver SetLinear(this ConfigResolver obj) => ConfigWishes.SetLinear(obj);
         [UsedImplicitly] internal static ConfigResolver SetBlocky(this ConfigResolver obj) => ConfigWishes.SetBlocky(obj);
         [UsedImplicitly] internal static ConfigResolver Interpolation(this ConfigResolver obj, InterpolationTypeEnum? value) => ConfigWishes.Interpolation(obj, value);
-        [UsedImplicitly] internal static ConfigResolver WithInterpolation(this ConfigResolver obj, InterpolationTypeEnum? value) => ConfigWishes.WithInterpolation(obj, value);
         [UsedImplicitly] internal static ConfigResolver AsInterpolation(this ConfigResolver obj, InterpolationTypeEnum? value) => ConfigWishes.AsInterpolation(obj, value);
         [UsedImplicitly] internal static ConfigResolver SetInterpolation(this ConfigResolver obj, InterpolationTypeEnum? value) => ConfigWishes.SetInterpolation(obj, value);
 

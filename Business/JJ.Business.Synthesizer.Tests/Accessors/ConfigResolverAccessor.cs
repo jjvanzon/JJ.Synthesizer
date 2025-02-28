@@ -565,5 +565,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         public IList<string> GetWarnings(string fileExtension = null) => _accessor.InvokeMethod(() => GetWarnings(fileExtension));
 
+        // Derived Properties
+        
     }
 }

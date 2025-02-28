@@ -31,22 +31,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool Is8Bit(this  SynthWishes obj) => ConfigWishes.Is8Bit(obj);
         public static bool Is16Bit(this SynthWishes obj) => ConfigWishes.Is16Bit(obj);
         public static bool Is32Bit(this SynthWishes obj) => ConfigWishes.Is32Bit(obj);
-        public static int  Bits(this    SynthWishes obj) => ConfigWishes.Bits(obj);
         public static int  GetBits(this SynthWishes obj) => ConfigWishes.GetBits(obj);
         
-        public static SynthWishes With8Bit(this  SynthWishes obj) => ConfigWishes.With8Bit(obj);
-        public static SynthWishes With16Bit(this SynthWishes obj) => ConfigWishes.With16Bit(obj);
-        public static SynthWishes With32Bit(this SynthWishes obj) => ConfigWishes.With32Bit(obj);
-        public static SynthWishes As8Bit(this    SynthWishes obj) => ConfigWishes.As8Bit(obj);
-        public static SynthWishes As16Bit(this   SynthWishes obj) => ConfigWishes.As16Bit(obj);
-        public static SynthWishes As32Bit(this   SynthWishes obj) => ConfigWishes.As32Bit(obj);
-        public static SynthWishes Set8Bit(this   SynthWishes obj) => ConfigWishes.Set8Bit(obj);
-        public static SynthWishes Set16Bit(this  SynthWishes obj) => ConfigWishes.Set16Bit(obj);
-        public static SynthWishes Set32Bit(this  SynthWishes obj) => ConfigWishes.Set32Bit(obj);
-        public static SynthWishes Bits(this      SynthWishes obj, int? value) => ConfigWishes.Bits(obj, value);
-        public static SynthWishes WithBits(this  SynthWishes obj, int? value) => ConfigWishes.WithBits(obj, value);
-        public static SynthWishes AsBits(this    SynthWishes obj, int? value) => ConfigWishes.AsBits(obj, value);
-        public static SynthWishes SetBits(this   SynthWishes obj, int? value) => ConfigWishes.SetBits(obj, value);
+        //public static SynthWishes WithBits(this  SynthWishes obj, int? value) => ConfigWishes.WithBits(obj, value);
         
         public static bool Is8Bit(this  FlowNode obj) => ConfigWishes.Is8Bit(obj);
         public static bool Is16Bit(this FlowNode obj) => ConfigWishes.Is16Bit(obj);

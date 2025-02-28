@@ -23,7 +23,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         // Synth-Bound
 
-        public static double MaxAmplitude(this SynthWishes obj) => ConfigWishes.MaxAmplitude(obj);
         public static double GetMaxAmplitude(this SynthWishes obj) => ConfigWishes.GetMaxAmplitude(obj);
         
         public static double MaxAmplitude(this FlowNode obj) => ConfigWishes.MaxAmplitude(obj);

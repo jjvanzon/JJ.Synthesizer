@@ -348,22 +348,22 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         // Derived Audio Properties
         
-        public int ByteCount_Call   () => ByteCount();
-        public int GetByteCount_Call() => GetByteCount();
+        public int GetByteCount_Call => GetByteCount;
+        public int ByteCount_Call()  => ByteCount();
         public SynthWishes ByteCount_Call    (int? value) { _other.ByteCount    (value); return ByteCount    (value); }
         public SynthWishes WithByteCount_Call(int? value) { _other.WithByteCount(value); return WithByteCount(value); }
         public SynthWishes SetByteCount_Call (int? value) { _other.SetByteCount (value); return SetByteCount (value); }
         
-        public int CourtesyBytes_Call   () => CourtesyBytes();
-        public int GetCourtesyBytes_Call() => GetCourtesyBytes();
+        public int GetCourtesyBytes_Call => GetCourtesyBytes;
+        public int CourtesyBytes_Call()  => CourtesyBytes();
         public SynthWishes CourtesyBytes_Call    (int? value) { _other.CourtesyBytes    (value); return CourtesyBytes    (value); }
         public SynthWishes WithCourtesyBytes_Call(int? value) { _other.WithCourtesyBytes(value); return WithCourtesyBytes(value); }
         public SynthWishes SetCourtesyBytes_Call (int? value) { _other.SetCourtesyBytes (value); return SetCourtesyBytes (value); }
         
         /// <inheritdoc cref="docs._fileextension" />
-        public string FileExtension_Call   () => FileExtension();
+        public string GetFileExtension_Call => GetFileExtension;
         /// <inheritdoc cref="docs._fileextension" />
-        public string GetFileExtension_Call() => GetFileExtension();
+        public string FileExtension_Call()  => FileExtension();
         /// <inheritdoc cref="docs._fileextension" />
         public SynthWishes FileExtension_Call    (string value) { _other.FileExtension    (value); return FileExtension    (value); }
         /// <inheritdoc cref="docs._fileextension" />
@@ -373,19 +373,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <inheritdoc cref="docs._fileextension" />
         public SynthWishes SetFileExtension_Call (string value) { _other.SetFileExtension (value); return SetFileExtension (value); }
         
-        public int FrameCount_Call   () => FrameCount();
-        public int GetFrameCount_Call() => GetFrameCount();
+        public int FrameCount_Call()  => FrameCount();
+        public int GetFrameCount_Call => GetFrameCount;
         public SynthWishes FrameCount_Call    (int? value) { _other.FrameCount    (value); return FrameCount    (value); }
         public SynthWishes WithFrameCount_Call(int? value) { _other.WithFrameCount(value); return WithFrameCount(value); }
         public SynthWishes SetFrameCount_Call (int? value) { _other.SetFrameCount (value); return SetFrameCount (value); }
         
-        public int FrameSize_Call   () => FrameSize();
-        public int GetFrameSize_Call() => GetFrameSize();
+        public int FrameSize_Call()  => FrameSize();
+        public int GetFrameSize_Call => GetFrameSize;
         
         /// <inheritdoc cref="docs._headerlength"/>
-        public int HeaderLength_Call   () => HeaderLength();
+        public int HeaderLength_Call()  => HeaderLength();
         /// <inheritdoc cref="docs._headerlength"/>
-        public int GetHeaderLength_Call() => GetHeaderLength();
+        public int GetHeaderLength_Call => GetHeaderLength;
         
         /// <inheritdoc cref="docs._headerlength"/>
         public SynthWishes HeaderLength_Call    (int? headerLength) { _other.HeaderLength    (headerLength); return HeaderLength    (headerLength); }
@@ -394,11 +394,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         /// <inheritdoc cref="docs._headerlength"/>
         public SynthWishes SetHeaderLength_Call (int? headerLength) { _other.SetHeaderLength (headerLength); return SetHeaderLength (headerLength); }
         
-        public double MaxAmplitude_Call   () => MaxAmplitude();
-        public double GetMaxAmplitude_Call() => GetMaxAmplitude();
+        public double MaxAmplitude_Call()  => MaxAmplitude();
+        public double GetMaxAmplitude_Call => GetMaxAmplitude;
         
-        public int SizeOfBitDepth_Call   () => SizeOfBitDepth();
-        public int GetSizeOfBitDepth_Call() => GetSizeOfBitDepth();
+        public int SizeOfBitDepth_Call()  => SizeOfBitDepth();
+        public int GetSizeOfBitDepth_Call => GetSizeOfBitDepth;
         public SynthWishes SizeOfBitDepth_Call    (int? sizeOfBitDepth) { _other.SizeOfBitDepth    (sizeOfBitDepth); return SizeOfBitDepth    (sizeOfBitDepth); }
         public SynthWishes WithSizeOfBitDepth_Call(int? sizeOfBitDepth) { _other.WithSizeOfBitDepth(sizeOfBitDepth); return WithSizeOfBitDepth(sizeOfBitDepth); }
         public SynthWishes SetSizeOfBitDepth_Call (int? sizeOfBitDepth) { _other.SetSizeOfBitDepth (sizeOfBitDepth); return SetSizeOfBitDepth (sizeOfBitDepth); }

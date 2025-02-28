@@ -203,12 +203,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_SynthBound_Getters(TestEntities x, int courtesyBytes)
         {
-            AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.SynthBound.ConfigResolver.CourtesyBytes   ());
+            AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .GetCourtesyBytes);
+            AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .GetCourtesyBytes);
             AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .GetCourtesyBytes());
             AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .GetCourtesyBytes());
             AreEqual(courtesyBytes, () => x.SynthBound.ConfigResolver.GetCourtesyBytes());
+            AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .CourtesyBytes   ());
+            AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .CourtesyBytes   ());
+            AreEqual(courtesyBytes, () => x.SynthBound.ConfigResolver.CourtesyBytes   ());
             AreEqual(courtesyBytes, () => CourtesyBytes   (x.SynthBound.SynthWishes   ));
             AreEqual(courtesyBytes, () => CourtesyBytes   (x.SynthBound.FlowNode      ));
             AreEqual(courtesyBytes, () => CourtesyBytes   (x.SynthBound.ConfigResolver));

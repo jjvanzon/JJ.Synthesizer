@@ -99,7 +99,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .WithChannels(x.SynthBound.SynthWishes,    value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .WithChannels(x.SynthBound.FlowNode,       value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.WithChannels(x.SynthBound.ConfigResolver, value)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ChannelsExtensionWishes        .WithChannels(x.SynthBound.SynthWishes,    value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ChannelsExtensionWishes        .WithChannels(x.SynthBound.FlowNode,       value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ChannelsExtensionWishesAccessor.WithChannels(x.SynthBound.ConfigResolver, value)));
             AssertProp(x => { if (value == 1 ) AreEqual(x.SynthBound.SynthWishes, () => x.SynthBound.SynthWishes.Mono        (     ));

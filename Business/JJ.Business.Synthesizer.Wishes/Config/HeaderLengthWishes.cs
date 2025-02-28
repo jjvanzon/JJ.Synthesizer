@@ -15,7 +15,6 @@ using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
-
     // HeaderLength: Derived from AudioFormat
 
     /// <inheritdoc cref="_configextensionwishes"/>
@@ -24,16 +23,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Synth-Bound
         
         /// <inheritdoc cref="_headerlength"/>
-        public static int HeaderLength(this SynthWishes obj) => ConfigWishes.HeaderLength(obj);
-        /// <inheritdoc cref="_headerlength"/>
         public static int GetHeaderLength(this SynthWishes obj) => ConfigWishes.GetHeaderLength(obj);
-
-        /// <inheritdoc cref="_headerlength"/>
-        public static SynthWishes HeaderLength(this SynthWishes obj, int? headerLength) => ConfigWishes.HeaderLength(obj, headerLength);
-        /// <inheritdoc cref="_headerlength"/>
-        public static SynthWishes WithHeaderLength(this SynthWishes obj, int? headerLength) => ConfigWishes.WithHeaderLength(obj, headerLength);
-        /// <inheritdoc cref="_headerlength"/>
-        public static SynthWishes SetHeaderLength(this SynthWishes obj, int? headerLength) => ConfigWishes.SetHeaderLength(obj, headerLength);
 
         /// <inheritdoc cref="_headerlength"/>
         public static int HeaderLength(this FlowNode obj) => ConfigWishes.HeaderLength(obj);

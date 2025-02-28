@@ -81,9 +81,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetSamplingRate (x.SynthBound.SynthWishes   , value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetSamplingRate (x.SynthBound.FlowNode      , value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetSamplingRate (x.SynthBound.ConfigResolver, value)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    SamplingRateExtensionWishes.WithSamplingRate(x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       SamplingRateExtensionWishes.WithSamplingRate(x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, SamplingRateExtensionWishesAccessor.WithSamplingRate(x.SynthBound.ConfigResolver, value)));
         }
 
         [TestMethod] 

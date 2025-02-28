@@ -21,22 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Synth-Bound
         
         /// <inheritdoc cref="_audiolength" />
-        public static FlowNode AudioLength(this SynthWishes obj) => ConfigWishes.AudioLength(obj);
-        /// <inheritdoc cref="_audiolength" />
         public static FlowNode GetAudioLength(this SynthWishes obj) => ConfigWishes.GetAudioLength(obj);
-
-        /// <inheritdoc cref="_audiolength" />
-        public static SynthWishes AudioLength(this SynthWishes obj, double? newLength) => ConfigWishes.AudioLength(obj, newLength);
-        /// <inheritdoc cref="_audiolength" />
-        public static SynthWishes AudioLength(this SynthWishes obj, FlowNode newLength) => ConfigWishes.AudioLength(obj, newLength);
-        /// <inheritdoc cref="_audiolength" />
-        public static SynthWishes WithAudioLength(this SynthWishes obj, double? newLength) => ConfigWishes.WithAudioLength(obj, newLength);
-        /// <inheritdoc cref="_audiolength" />
-        public static SynthWishes WithAudioLength(this SynthWishes obj, FlowNode newLength) => ConfigWishes.WithAudioLength(obj, newLength);
-        /// <inheritdoc cref="_audiolength" />
-        public static SynthWishes SetAudioLength(this SynthWishes obj, double? newLength) => ConfigWishes.SetAudioLength(obj, newLength);
-        /// <inheritdoc cref="_audiolength" />
-        public static SynthWishes SetAudioLength(this SynthWishes obj, FlowNode newLength) => ConfigWishes.SetAudioLength(obj, newLength);
 
         /// <inheritdoc cref="_audiolength" />
         public static FlowNode AudioLength(this FlowNode obj) => ConfigWishes.AudioLength(obj);

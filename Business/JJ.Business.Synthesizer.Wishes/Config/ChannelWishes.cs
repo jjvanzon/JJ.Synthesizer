@@ -30,37 +30,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static bool IsCenter      (this SynthWishes obj) => ConfigWishes.IsCenter(obj);
         public static bool IsLeft        (this SynthWishes obj) => ConfigWishes.IsLeft(obj);
         public static bool IsRight       (this SynthWishes obj) => ConfigWishes.IsRight(obj);
-        public static int? Channel       (this SynthWishes obj) => ConfigWishes.Channel(obj);
         public static int? GetChannel    (this SynthWishes obj) => ConfigWishes.GetChannel(obj);
-
-        public static SynthWishes AnyChannel      (this SynthWishes obj            ) => ConfigWishes.AnyChannel(obj);
-        public static SynthWishes EveryChannel    (this SynthWishes obj            ) => ConfigWishes.EveryChannel(obj);
-        public static SynthWishes NoChannel       (this SynthWishes obj            ) => ConfigWishes.NoChannel(obj);
-        public static SynthWishes Center          (this SynthWishes obj            ) => ConfigWishes.Center(obj);
-        public static SynthWishes Left            (this SynthWishes obj            ) => ConfigWishes.Left(obj);
-        public static SynthWishes Right           (this SynthWishes obj            ) => ConfigWishes.Right(obj);
-        public static SynthWishes Channel         (this SynthWishes obj, int? value) => ConfigWishes.Channel(obj, value);
-        public static SynthWishes WithNoChannel   (this SynthWishes obj            ) => ConfigWishes.WithNoChannel(obj);
-        public static SynthWishes WithAnyChannel  (this SynthWishes obj            ) => ConfigWishes.WithAnyChannel(obj);
-        public static SynthWishes WithEveryChannel(this SynthWishes obj            ) => ConfigWishes.WithEveryChannel(obj);
-        public static SynthWishes WithCenter      (this SynthWishes obj            ) => ConfigWishes.WithCenter(obj);
-        public static SynthWishes WithLeft        (this SynthWishes obj            ) => ConfigWishes.WithLeft(obj);
-        public static SynthWishes WithRight       (this SynthWishes obj            ) => ConfigWishes.WithRight(obj);
-        public static SynthWishes WithChannel     (this SynthWishes obj, int? value) => ConfigWishes.WithChannel(obj, value);
-        public static SynthWishes AsAnyChannel    (this SynthWishes obj            ) => ConfigWishes.AsAnyChannel(obj);
-        public static SynthWishes AsEveryChannel  (this SynthWishes obj            ) => ConfigWishes.AsEveryChannel(obj);
-        public static SynthWishes AsNoChannel     (this SynthWishes obj            ) => ConfigWishes.AsNoChannel(obj);
-        public static SynthWishes AsCenter        (this SynthWishes obj            ) => ConfigWishes.AsCenter(obj);
-        public static SynthWishes AsLeft          (this SynthWishes obj            ) => ConfigWishes.AsLeft(obj);
-        public static SynthWishes AsRight         (this SynthWishes obj            ) => ConfigWishes.AsRight(obj);
-        public static SynthWishes AsChannel       (this SynthWishes obj, int? value) => ConfigWishes.AsChannel(obj, value);
-        public static SynthWishes SetAnyChannel   (this SynthWishes obj            ) => ConfigWishes.SetAnyChannel(obj);
-        public static SynthWishes SetEveryChannel (this SynthWishes obj            ) => ConfigWishes.SetEveryChannel(obj);
-        public static SynthWishes SetNoChannel    (this SynthWishes obj            ) => ConfigWishes.SetNoChannel(obj);
-        public static SynthWishes SetCenter       (this SynthWishes obj            ) => ConfigWishes.SetCenter(obj);
-        public static SynthWishes SetLeft         (this SynthWishes obj            ) => ConfigWishes.SetLeft(obj);
-        public static SynthWishes SetRight        (this SynthWishes obj            ) => ConfigWishes.SetRight(obj);
-        public static SynthWishes SetChannel      (this SynthWishes obj, int? value) => ConfigWishes.SetChannel(obj, value);
 
         public static bool IsNoChannel   (this FlowNode obj) => ConfigWishes.IsNoChannel(obj);
         public static bool IsAnyChannel  (this FlowNode obj) => ConfigWishes.IsAnyChannel(obj);

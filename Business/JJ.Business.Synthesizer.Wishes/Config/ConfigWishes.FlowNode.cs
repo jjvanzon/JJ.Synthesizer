@@ -206,5 +206,18 @@ namespace JJ.Business.Synthesizer.Wishes
             get => SynthWishes.IsUnderAzurePipelines;
             set => SynthWishes.IsUnderAzurePipelines = value;
         }
+        
+        // Derived Properties
+        
+        public int GetByteCount => _synthWishes.GetByteCount;
+        public int GetCourtesyBytes => _synthWishes.GetCourtesyBytes;
+        /// <inheritdoc cref="_fileextension" />
+        public string GetFileExtension => _synthWishes.GetFileExtension;
+        public int GetFrameCount => _synthWishes.GetFrameCount;
+        public int GetFrameSize => _synthWishes.GetFrameSize;
+        /// <inheritdoc cref="_headerlength"/>
+        public int GetHeaderLength => _synthWishes.GetHeaderLength;
+        public double GetMaxAmplitude => _synthWishes.GetMaxAmplitude;
+        public int GetSizeOfBitDepth => _synthWishes.GetSizeOfBitDepth;
     }
 }

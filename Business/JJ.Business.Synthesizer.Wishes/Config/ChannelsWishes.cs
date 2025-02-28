@@ -28,20 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public static bool IsMono(this SynthWishes obj) => ConfigWishes.IsMono(obj);
         public static bool IsStereo(this SynthWishes obj) => ConfigWishes.IsStereo(obj);
-        public static int Channels(this SynthWishes obj) => ConfigWishes.Channels(obj);
         public static int GetChannels(this SynthWishes obj) => ConfigWishes.GetChannels(obj);
-
-        public static SynthWishes Mono(this SynthWishes obj) => ConfigWishes.Mono(obj);
-        public static SynthWishes Stereo(this SynthWishes obj) => ConfigWishes.Stereo(obj);
-        public static SynthWishes Channels(this SynthWishes obj, int? value) => ConfigWishes.Channels(obj, value);
-        public static SynthWishes WithMono(this SynthWishes obj) => ConfigWishes.WithMono(obj);
-        public static SynthWishes WithStereo(this SynthWishes obj) => ConfigWishes.WithStereo(obj);
-        public static SynthWishes WithChannels(this SynthWishes obj, int? value) => ConfigWishes.WithChannels(obj, value);
-        public static SynthWishes AsMono(this SynthWishes obj) => ConfigWishes.AsMono(obj);
-        public static SynthWishes AsStereo(this SynthWishes obj) => ConfigWishes.AsStereo(obj);
-        public static SynthWishes SetMono(this SynthWishes obj) => ConfigWishes.SetMono(obj);
-        public static SynthWishes SetStereo(this SynthWishes obj) => ConfigWishes.SetStereo(obj);
-        public static SynthWishes SetChannels(this SynthWishes obj, int? value) => ConfigWishes.SetChannels(obj, value);
 
         public static bool IsMono(this FlowNode obj) => ConfigWishes.IsMono(obj);
         public static bool IsStereo(this FlowNode obj) => ConfigWishes.IsStereo(obj);

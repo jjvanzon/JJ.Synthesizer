@@ -194,15 +194,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => { if (val == Block) AreEqual(x.ConfigResolver, () => ConfigWishesAccessor.SetBlocky        (x.ConfigResolver     ));
                               if (val == Line ) AreEqual(x.ConfigResolver, () => ConfigWishesAccessor.SetLinear        (x.ConfigResolver     ));
                               if (!Has(val)   ) AreEqual(x.ConfigResolver,       ConfigWishesAccessor.SetInterpolation (x.ConfigResolver, val)); });
-            AssertProp(x => { if (val == Block) AreEqual(x.SynthWishes,    () => InterpolationExtensionWishes        .WithBlocky       (x.SynthWishes        ));
-                              if (val == Line ) AreEqual(x.SynthWishes,    () => InterpolationExtensionWishes        .WithLinear       (x.SynthWishes        ));
-                              if (!Has(val)   ) AreEqual(x.SynthWishes,          InterpolationExtensionWishes        .WithInterpolation(x.SynthWishes   , val)); });
-            AssertProp(x => { if (val == Block) AreEqual(x.FlowNode,       () => InterpolationExtensionWishes        .WithBlocky       (x.FlowNode           ));
-                              if (val == Line ) AreEqual(x.FlowNode,       () => InterpolationExtensionWishes        .WithLinear       (x.FlowNode           ));
-                              if (!Has(val)   ) AreEqual(x.FlowNode,             InterpolationExtensionWishes        .WithInterpolation(x.FlowNode      , val)); });
-            AssertProp(x => { if (val == Block) AreEqual(x.ConfigResolver, () => InterpolationExtensionWishesAccessor.WithBlocky       (x.ConfigResolver     ));
-                              if (val == Line ) AreEqual(x.ConfigResolver, () => InterpolationExtensionWishesAccessor.WithLinear       (x.ConfigResolver     ));
-                              if (!Has(val)   ) AreEqual(x.ConfigResolver,       InterpolationExtensionWishesAccessor.WithInterpolation(x.ConfigResolver, val)); });
         }
 
         [TestMethod] 

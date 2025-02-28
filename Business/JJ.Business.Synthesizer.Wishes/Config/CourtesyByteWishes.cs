@@ -17,12 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         // Synth-Bound
         
-        public static int CourtesyBytes(this SynthWishes obj) => ConfigWishes.CourtesyBytes(obj);
         public static int GetCourtesyBytes(this SynthWishes obj) => ConfigWishes.GetCourtesyBytes(obj);
-
-        public static SynthWishes CourtesyBytes(this SynthWishes obj, int? value) => ConfigWishes.CourtesyBytes(obj, value);
-        public static SynthWishes WithCourtesyBytes(this SynthWishes obj, int? value) => ConfigWishes.WithCourtesyBytes(obj, value);
-        public static SynthWishes SetCourtesyBytes(this SynthWishes obj, int? value) => ConfigWishes.SetCourtesyBytes(obj, value);
 
         public static int CourtesyBytes(this FlowNode obj) => ConfigWishes.CourtesyBytes(obj);
         public static int GetCourtesyBytes(this FlowNode obj) => ConfigWishes.GetCourtesyBytes(obj);

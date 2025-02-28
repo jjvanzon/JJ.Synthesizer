@@ -738,24 +738,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             IsNotNull(               () => x.SynthBound.SynthWishes);
             IsNotNull(               () => x.SynthBound.FlowNode);
             IsNotNull(               () => x.SynthBound.ConfigResolver);
-            AreEqual(sizeOfBitDepth, () => x.SynthBound.SynthWishes   .SizeOfBitDepth   ());
-            AreEqual(sizeOfBitDepth, () => x.SynthBound.FlowNode      .SizeOfBitDepth   ());
-            AreEqual(sizeOfBitDepth, () => x.SynthBound.ConfigResolver.SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.SynthWishes   .GetSizeOfBitDepth);
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.FlowNode      .GetSizeOfBitDepth);
             AreEqual(sizeOfBitDepth, () => x.SynthBound.SynthWishes   .GetSizeOfBitDepth());
             AreEqual(sizeOfBitDepth, () => x.SynthBound.FlowNode      .GetSizeOfBitDepth());
             AreEqual(sizeOfBitDepth, () => x.SynthBound.ConfigResolver.GetSizeOfBitDepth());
-            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.SynthWishes   ));
-            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.FlowNode      ));
-            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.ConfigResolver));
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.SynthWishes   .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.FlowNode      .SizeOfBitDepth   ());
+            AreEqual(sizeOfBitDepth, () => x.SynthBound.ConfigResolver.SizeOfBitDepth   ());
             AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.SynthBound.SynthWishes   ));
             AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.SynthBound.FlowNode      ));
             AreEqual(sizeOfBitDepth, () => GetSizeOfBitDepth(x.SynthBound.ConfigResolver));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes        .SizeOfBitDepth   (x.SynthBound.SynthWishes   ));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes        .SizeOfBitDepth   (x.SynthBound.FlowNode      ));
-            AreEqual(sizeOfBitDepth, () => ConfigWishesAccessor.SizeOfBitDepth   (x.SynthBound.ConfigResolver));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.SynthWishes   ));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.FlowNode      ));
+            AreEqual(sizeOfBitDepth, () => SizeOfBitDepth   (x.SynthBound.ConfigResolver));
             AreEqual(sizeOfBitDepth, () => ConfigWishes        .GetSizeOfBitDepth(x.SynthBound.SynthWishes   ));
             AreEqual(sizeOfBitDepth, () => ConfigWishes        .GetSizeOfBitDepth(x.SynthBound.FlowNode      ));
             AreEqual(sizeOfBitDepth, () => ConfigWishesAccessor.GetSizeOfBitDepth(x.SynthBound.ConfigResolver));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes        .SizeOfBitDepth   (x.SynthBound.SynthWishes   ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishes        .SizeOfBitDepth   (x.SynthBound.FlowNode      ));
+            AreEqual(sizeOfBitDepth, () => ConfigWishesAccessor.SizeOfBitDepth   (x.SynthBound.ConfigResolver));
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int sizeOfBitDepth)

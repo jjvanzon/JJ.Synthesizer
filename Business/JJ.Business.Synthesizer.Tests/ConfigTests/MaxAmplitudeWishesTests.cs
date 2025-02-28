@@ -396,12 +396,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             IsNotNull(             () => x.SynthBound.SynthWishes);
             IsNotNull(             () => x.SynthBound.FlowNode);
             IsNotNull(             () => x.SynthBound.ConfigResolver);
-            AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes   .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.SynthBound.FlowNode      .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.SynthBound.ConfigResolver.MaxAmplitude   ());
+            AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes   .GetMaxAmplitude);
+            AreEqual(maxAmplitude, () => x.SynthBound.FlowNode      .GetMaxAmplitude);
             AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes   .GetMaxAmplitude());
             AreEqual(maxAmplitude, () => x.SynthBound.FlowNode      .GetMaxAmplitude());
             AreEqual(maxAmplitude, () => x.SynthBound.ConfigResolver.GetMaxAmplitude());
+            AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes   .MaxAmplitude   ());
+            AreEqual(maxAmplitude, () => x.SynthBound.FlowNode      .MaxAmplitude   ());
+            AreEqual(maxAmplitude, () => x.SynthBound.ConfigResolver.MaxAmplitude   ());
             AreEqual(maxAmplitude, () => MaxAmplitude   (x.SynthBound.SynthWishes   ));
             AreEqual(maxAmplitude, () => MaxAmplitude   (x.SynthBound.FlowNode      ));
             AreEqual(maxAmplitude, () => MaxAmplitude   (x.SynthBound.ConfigResolver));

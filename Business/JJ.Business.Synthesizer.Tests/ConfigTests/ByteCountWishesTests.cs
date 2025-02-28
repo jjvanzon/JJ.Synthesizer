@@ -220,9 +220,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             AreEqual(DefaultByteCount, entities.SynthBound.ConfigSection.GetByteCount());
             
-            AreEqual(byteCount, entities.SynthBound.SynthWishes   .GetByteCount());
-            AreEqual(byteCount, entities.SynthBound.FlowNode      .GetByteCount());
-            AreEqual(byteCount, entities.SynthBound.FlowNode2     .GetByteCount());
+            AreEqual(byteCount, entities.SynthBound.SynthWishes   .GetByteCount);
+            AreEqual(byteCount, entities.SynthBound.FlowNode      .GetByteCount);
+            AreEqual(byteCount, entities.SynthBound.FlowNode2     .GetByteCount);
             AreEqual(byteCount, entities.SynthBound.ConfigResolver.GetByteCount(entities.SynthBound.SynthWishes));
             
             AreEqual(byteCount, entities.TapeBound.Tape           .GetByteCount(), courtesy);
@@ -754,24 +754,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             IsNotNull(() => x.SynthBound.FlowNode);
             IsNotNull(() => x.SynthBound.ConfigResolver);
 
-            AreEqual(byteCount, () => x.SynthBound.SynthWishes   .ByteCount());
-            AreEqual(byteCount, () => x.SynthBound.FlowNode      .ByteCount());
-            AreEqual(byteCount, () => x.SynthBound.ConfigResolver.ByteCount(x.SynthBound.SynthWishes));
+            AreEqual(byteCount, () => x.SynthBound.SynthWishes   .GetByteCount);
+            AreEqual(byteCount, () => x.SynthBound.FlowNode      .GetByteCount);
             AreEqual(byteCount, () => x.SynthBound.SynthWishes   .GetByteCount());
             AreEqual(byteCount, () => x.SynthBound.FlowNode      .GetByteCount());
             AreEqual(byteCount, () => x.SynthBound.ConfigResolver.GetByteCount(x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ByteCount   (x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ByteCount   (x.SynthBound.FlowNode));
-            AreEqual(byteCount, () => ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
+            AreEqual(byteCount, () => x.SynthBound.SynthWishes   .ByteCount());
+            AreEqual(byteCount, () => x.SynthBound.FlowNode      .ByteCount());
+            AreEqual(byteCount, () => x.SynthBound.ConfigResolver.ByteCount(x.SynthBound.SynthWishes));
             AreEqual(byteCount, () => GetByteCount(x.SynthBound.SynthWishes));
             AreEqual(byteCount, () => GetByteCount(x.SynthBound.FlowNode));
             AreEqual(byteCount, () => GetByteCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ConfigWishes        .ByteCount   (x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ConfigWishes        .ByteCount   (x.SynthBound.FlowNode));
-            AreEqual(byteCount, () => ConfigWishesAccessor.ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
+            AreEqual(byteCount, () => ByteCount   (x.SynthBound.SynthWishes));
+            AreEqual(byteCount, () => ByteCount   (x.SynthBound.FlowNode));
+            AreEqual(byteCount, () => ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
             AreEqual(byteCount, () => ConfigWishes        .GetByteCount(x.SynthBound.SynthWishes));
             AreEqual(byteCount, () => ConfigWishes        .GetByteCount(x.SynthBound.FlowNode));
             AreEqual(byteCount, () => ConfigWishesAccessor.GetByteCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
+            AreEqual(byteCount, () => ConfigWishes        .ByteCount   (x.SynthBound.SynthWishes));
+            AreEqual(byteCount, () => ConfigWishes        .ByteCount   (x.SynthBound.FlowNode));
+            AreEqual(byteCount, () => ConfigWishesAccessor.ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int byteCount, int courtesyBytes)

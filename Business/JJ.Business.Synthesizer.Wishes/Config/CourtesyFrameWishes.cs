@@ -15,25 +15,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         // Synth-Bound
         
-        public static int CourtesyFrames(this SynthWishes obj) => ConfigWishes.CourtesyFrames(obj);
         public static int GetCourtesyFrames(this SynthWishes obj) => ConfigWishes.GetCourtesyFrames(obj);
-
-        public static SynthWishes CourtesyFrames(this SynthWishes obj, int? value) => ConfigWishes.CourtesyFrames(obj, value);
-        public static SynthWishes WithCourtesyFrames(this SynthWishes obj, int? value) => ConfigWishes.WithCourtesyFrames(obj, value);
-        public static SynthWishes SetCourtesyFrames(this SynthWishes obj, int? value) => ConfigWishes.SetCourtesyFrames(obj, value);
 
         public static int CourtesyFrames(this FlowNode obj) => ConfigWishes.CourtesyFrames(obj);
         public static int GetCourtesyFrames(this FlowNode obj) => ConfigWishes.GetCourtesyFrames(obj);
 
         public static FlowNode CourtesyFrames(this FlowNode obj, int? value) => ConfigWishes.CourtesyFrames(obj, value);
-        public static FlowNode WithCourtesyFrames(this FlowNode obj, int? value) => ConfigWishes.WithCourtesyFrames(obj, value);
         public static FlowNode SetCourtesyFrames(this FlowNode obj, int? value) => ConfigWishes.SetCourtesyFrames(obj, value);
 
         internal static int CourtesyFrames(this ConfigResolver obj) => ConfigWishes.CourtesyFrames(obj);
         internal static int GetCourtesyFrames(this ConfigResolver obj) => ConfigWishes.GetCourtesyFrames(obj);
 
         internal static ConfigResolver CourtesyFrames(this ConfigResolver obj, int? value) => ConfigWishes.CourtesyFrames(obj, value);
-        internal static ConfigResolver WithCourtesyFrames(this ConfigResolver obj, int? value) => ConfigWishes.WithCourtesyFrames(obj, value);
         internal static ConfigResolver SetCourtesyFrames(this ConfigResolver obj, int? value) => ConfigWishes.SetCourtesyFrames(obj, value);
 
         // Global-Bound

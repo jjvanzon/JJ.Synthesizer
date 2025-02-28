@@ -303,24 +303,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, int frameSize)
         {
-            AreEqual(frameSize, () => x.SynthBound.SynthWishes   .FrameSize   ());
-            AreEqual(frameSize, () => x.SynthBound.FlowNode      .FrameSize   ());
-            AreEqual(frameSize, () => x.SynthBound.ConfigResolver.FrameSize   ());
+            AreEqual(frameSize, () => x.SynthBound.SynthWishes   .GetFrameSize);
+            AreEqual(frameSize, () => x.SynthBound.FlowNode      .GetFrameSize);
             AreEqual(frameSize, () => x.SynthBound.SynthWishes   .GetFrameSize());
             AreEqual(frameSize, () => x.SynthBound.FlowNode      .GetFrameSize());
             AreEqual(frameSize, () => x.SynthBound.ConfigResolver.GetFrameSize());
-            AreEqual(frameSize, () => FrameSize   (x.SynthBound.SynthWishes   ));
-            AreEqual(frameSize, () => FrameSize   (x.SynthBound.FlowNode      ));
-            AreEqual(frameSize, () => FrameSize   (x.SynthBound.ConfigResolver));
+            AreEqual(frameSize, () => x.SynthBound.SynthWishes   .FrameSize   ());
+            AreEqual(frameSize, () => x.SynthBound.FlowNode      .FrameSize   ());
+            AreEqual(frameSize, () => x.SynthBound.ConfigResolver.FrameSize   ());
             AreEqual(frameSize, () => GetFrameSize(x.SynthBound.SynthWishes   ));
             AreEqual(frameSize, () => GetFrameSize(x.SynthBound.FlowNode      ));
             AreEqual(frameSize, () => GetFrameSize(x.SynthBound.ConfigResolver));
-            AreEqual(frameSize, () => ConfigWishes        .FrameSize   (x.SynthBound.SynthWishes   ));
-            AreEqual(frameSize, () => ConfigWishes        .FrameSize   (x.SynthBound.FlowNode      ));
-            AreEqual(frameSize, () => ConfigWishesAccessor.FrameSize   (x.SynthBound.ConfigResolver));
+            AreEqual(frameSize, () => FrameSize   (x.SynthBound.SynthWishes   ));
+            AreEqual(frameSize, () => FrameSize   (x.SynthBound.FlowNode      ));
+            AreEqual(frameSize, () => FrameSize   (x.SynthBound.ConfigResolver));
             AreEqual(frameSize, () => ConfigWishes        .GetFrameSize(x.SynthBound.SynthWishes   ));
             AreEqual(frameSize, () => ConfigWishes        .GetFrameSize(x.SynthBound.FlowNode      ));
             AreEqual(frameSize, () => ConfigWishesAccessor.GetFrameSize(x.SynthBound.ConfigResolver));
+            AreEqual(frameSize, () => ConfigWishes        .FrameSize   (x.SynthBound.SynthWishes   ));
+            AreEqual(frameSize, () => ConfigWishes        .FrameSize   (x.SynthBound.FlowNode      ));
+            AreEqual(frameSize, () => ConfigWishesAccessor.FrameSize   (x.SynthBound.ConfigResolver));
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int frameSize)

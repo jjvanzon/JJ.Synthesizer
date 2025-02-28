@@ -20,7 +20,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         // Synth-Bound
 
-        public static int FrameSize(this SynthWishes obj) => ConfigWishes.FrameSize(obj);
         public static int GetFrameSize(this SynthWishes obj) => ConfigWishes.GetFrameSize(obj);
         
         public static int FrameSize(this FlowNode obj) => ConfigWishes.FrameSize(obj);

@@ -24,18 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Synth-Bound
         
         /// <inheritdoc cref="_fileextension" />
-        public static string FileExtension(this SynthWishes obj) => ConfigWishes.FileExtension(obj);
-        /// <inheritdoc cref="_fileextension" />
         public static string GetFileExtension(this SynthWishes obj) => ConfigWishes.GetFileExtension(obj);
-
-        /// <inheritdoc cref="_fileextension" />
-        public static SynthWishes FileExtension(this SynthWishes obj, string value) => ConfigWishes.FileExtension(obj, value);
-        /// <inheritdoc cref="_fileextension" />
-        public static SynthWishes WithFileExtension(this SynthWishes obj, string value) => ConfigWishes.WithFileExtension(obj, value);
-        /// <inheritdoc cref="_fileextension" />
-        public static SynthWishes AsFileExtension(this SynthWishes obj, string value) => ConfigWishes.AsFileExtension(obj, value);
-        /// <inheritdoc cref="_fileextension" />
-        public static SynthWishes SetFileExtension(this SynthWishes obj, string value) => ConfigWishes.SetFileExtension(obj, value);
 
         /// <inheritdoc cref="_fileextension" />
         public static string FileExtension(this FlowNode obj) => ConfigWishes.FileExtension(obj);

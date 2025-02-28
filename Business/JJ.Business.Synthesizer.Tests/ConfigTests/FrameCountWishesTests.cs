@@ -782,24 +782,26 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_SynthBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.SynthBound.SynthWishes   .FrameCount   (), Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.FlowNode      .FrameCount   (), Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.ConfigResolver.FrameCount   (x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, () => x.SynthBound.SynthWishes   .GetFrameCount,   Tolerance);
+            AreEqual(frameCount, () => x.SynthBound.FlowNode      .GetFrameCount,   Tolerance);
             AreEqual(frameCount, () => x.SynthBound.SynthWishes   .GetFrameCount(), Tolerance);
             AreEqual(frameCount, () => x.SynthBound.FlowNode      .GetFrameCount(), Tolerance);
             AreEqual(frameCount, () => x.SynthBound.ConfigResolver.GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, () => x.SynthBound.SynthWishes   .FrameCount   (), Tolerance);
+            AreEqual(frameCount, () => x.SynthBound.FlowNode      .FrameCount   (), Tolerance);
+            AreEqual(frameCount, () => x.SynthBound.ConfigResolver.FrameCount   (x.SynthBound.SynthWishes), Tolerance);
             AreEqual(frameCount, () => GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
             AreEqual(frameCount, () => GetFrameCount(x.SynthBound.FlowNode   ), Tolerance);
             AreEqual(frameCount, () => GetFrameCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes        .FrameCount   (x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes        .FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
-            AreEqual(frameCount, () => ConfigWishesAccessor.FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, () => FrameCount   (x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, () => FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
+            AreEqual(frameCount, () => FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
             AreEqual(frameCount, () => ConfigWishes        .GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
             AreEqual(frameCount, () => ConfigWishes        .GetFrameCount(x.SynthBound.FlowNode   ), Tolerance);
             AreEqual(frameCount, () => ConfigWishesAccessor.GetFrameCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, () => ConfigWishes        .FrameCount   (x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, () => ConfigWishes        .FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
+            AreEqual(frameCount, () => ConfigWishesAccessor.FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
         }
         
         private static void Assert_TapeBound_Getters(TestEntities x, int frameCount, int courtesyFrames)

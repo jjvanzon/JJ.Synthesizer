@@ -72,9 +72,6 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    ConfigWishes        .SetCourtesyFrames (x.SynthBound.SynthWishes   , value)));
             AssertProp(x => AreEqual(x.SynthBound.FlowNode,       ConfigWishes        .SetCourtesyFrames (x.SynthBound.FlowNode      , value)));
             AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, ConfigWishesAccessor.SetCourtesyFrames (x.SynthBound.ConfigResolver, value)));
-            AssertProp(x => AreEqual(x.SynthBound.SynthWishes,    CourtesyFrameExtensionWishes        .WithCourtesyFrames(x.SynthBound.SynthWishes   , value)));
-            AssertProp(x => AreEqual(x.SynthBound.FlowNode,       CourtesyFrameExtensionWishes        .WithCourtesyFrames(x.SynthBound.FlowNode      , value)));
-            AssertProp(x => AreEqual(x.SynthBound.ConfigResolver, CourtesyFrameExtensionWishesAccessor.WithCourtesyFrames(x.SynthBound.ConfigResolver, value)));
         }
 
         [TestMethod]

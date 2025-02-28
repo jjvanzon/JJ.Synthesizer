@@ -21,12 +21,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         // Synth-Bound
         
-        public static int FrameCount(this SynthWishes obj) => ConfigWishes.FrameCount(obj);
         public static int GetFrameCount(this SynthWishes obj) => ConfigWishes.GetFrameCount(obj);
-
-        public static SynthWishes FrameCount(this SynthWishes obj, int? value) => ConfigWishes.FrameCount(obj, value);
-        public static SynthWishes WithFrameCount(this SynthWishes obj, int? value) => ConfigWishes.WithFrameCount(obj, value);
-        public static SynthWishes SetFrameCount(this SynthWishes obj, int? value) => ConfigWishes.SetFrameCount(obj, value);
 
         public static int FrameCount(this FlowNode obj) => ConfigWishes.FrameCount(obj);
         public static int GetFrameCount(this FlowNode obj) => ConfigWishes.GetFrameCount(obj);

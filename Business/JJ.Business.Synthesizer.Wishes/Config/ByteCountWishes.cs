@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
@@ -22,13 +23,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     public static class ByteCountExtensionWishes
     {
         // Synth-Bound
-        
-        public static int ByteCount(this SynthWishes obj) => ConfigWishes.ByteCount(obj);
+
         public static int GetByteCount(this SynthWishes obj) => ConfigWishes.GetByteCount(obj);
-        
-        public static SynthWishes ByteCount(this     SynthWishes obj, int? value) => ConfigWishes.ByteCount(obj, value);
-        public static SynthWishes WithByteCount(this SynthWishes obj, int? value) => ConfigWishes.WithByteCount(obj, value);
-        public static SynthWishes SetByteCount(this  SynthWishes obj, int? value) => ConfigWishes.SetByteCount(obj, value);
 
         public static int ByteCount(this    FlowNode obj) => ConfigWishes.ByteCount(obj);
         public static int GetByteCount(this FlowNode obj) => ConfigWishes.GetByteCount(obj);
@@ -37,17 +33,17 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static FlowNode WithByteCount(this FlowNode obj, int? value) => ConfigWishes.WithByteCount(obj, value);
         public static FlowNode SetByteCount(this  FlowNode obj, int? value) => ConfigWishes.SetByteCount(obj, value);
 
-        internal static int ByteCount(this    ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.ByteCount(obj, synthWishes);
-        internal static int GetByteCount(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.GetByteCount(obj, synthWishes);
+        [UsedImplicitly] internal static int ByteCount(this    ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.ByteCount(obj, synthWishes);
+        [UsedImplicitly] internal static int GetByteCount(this ConfigResolver obj, SynthWishes synthWishes) => ConfigWishes.GetByteCount(obj, synthWishes);
 
-        internal static ConfigResolver ByteCount(this     ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.ByteCount(obj, value, synthWishes);
-        internal static ConfigResolver WithByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.WithByteCount(obj, value, synthWishes);
-        internal static ConfigResolver SetByteCount(this  ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.SetByteCount(obj, value, synthWishes);
+        [UsedImplicitly] internal static ConfigResolver ByteCount(this     ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.ByteCount(obj, value, synthWishes);
+        [UsedImplicitly] internal static ConfigResolver WithByteCount(this ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.WithByteCount(obj, value, synthWishes);
+        [UsedImplicitly] internal static ConfigResolver SetByteCount(this  ConfigResolver obj, int? value, SynthWishes synthWishes) => ConfigWishes.SetByteCount(obj, value, synthWishes);
 
         // Global-Bound
 
-        internal static int? ByteCount(this ConfigSection obj) => ConfigWishes.ByteCount(obj);
-        internal static int? GetByteCount(this ConfigSection obj) => ConfigWishes.GetByteCount(obj);
+        [UsedImplicitly] internal static int? ByteCount(this ConfigSection obj) => ConfigWishes.ByteCount(obj);
+        [UsedImplicitly] internal static int? GetByteCount(this ConfigSection obj) => ConfigWishes.GetByteCount(obj);
 
         // Tape-Bound
 

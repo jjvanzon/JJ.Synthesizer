@@ -87,10 +87,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             //if (channel == EveryChannel || channel == RightChannel) this.WithStereo(); // Sneaky switch breaks tests.
             _channel = AssertChannel(channel); return this; 
         }
-        public ConfigResolver WithCenter    () { this.WithMono  (); WithChannel(CenterChannel); return this; }
-        public ConfigResolver WithLeft      () { this.WithStereo(); WithChannel(LeftChannel  ); return this; }
-        public ConfigResolver WithRight     () { this.WithStereo(); WithChannel(RightChannel ); return this; }
-        public ConfigResolver WithNoChannel () { this.WithStereo(); WithChannel(EmptyChannel ); return this; }
+        public ConfigResolver WithCenter       () { this.WithMono  (); WithChannel(CenterChannel); return this; }
+        public ConfigResolver WithLeft         () { this.WithStereo(); WithChannel(LeftChannel  ); return this; }
+        public ConfigResolver WithRight        () { this.WithStereo(); WithChannel(RightChannel ); return this; }
+        public ConfigResolver WithNoChannel    () { this.WithStereo(); WithChannel(EmptyChannel ); return this; }
+        public ConfigResolver WithAnyChannel   () { this.WithStereo(); WithChannel(EmptyChannel ); return this; }
+        public ConfigResolver WithEveryChannel () { this.WithStereo(); WithChannel(EmptyChannel ); return this; }
         
         // SamplingRate
         

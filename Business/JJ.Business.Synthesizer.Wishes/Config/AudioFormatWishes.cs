@@ -583,24 +583,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         public static bool IsWav(this SynthWishes obj) => ConfigWishes.IsWav(obj);
         public static bool IsRaw(this SynthWishes obj) => ConfigWishes.IsRaw(obj);
-        public static AudioFileFormatEnum AudioFormat(this SynthWishes obj) => ConfigWishes.AudioFormat(obj);
         public static AudioFileFormatEnum GetAudioFormat(this SynthWishes obj) => ConfigWishes.GetAudioFormat(obj);
-        public static SynthWishes WithWav(this SynthWishes obj) => ConfigWishes.WithWav(obj);
-        public static SynthWishes AsWav(this SynthWishes obj) => ConfigWishes.AsWav(obj);
-        public static SynthWishes FromWav(this SynthWishes obj) => ConfigWishes.FromWav(obj);
-        public static SynthWishes ToWav(this SynthWishes obj) => ConfigWishes.ToWav(obj);
-        public static SynthWishes SetWav(this SynthWishes obj) => ConfigWishes.SetWav(obj);
-        public static SynthWishes WithRaw(this SynthWishes obj) => ConfigWishes.WithRaw(obj);
-        public static SynthWishes AsRaw(this SynthWishes obj) => ConfigWishes.AsRaw(obj);
-        public static SynthWishes FromRaw(this SynthWishes obj) => ConfigWishes.FromRaw(obj);
-        public static SynthWishes ToRaw(this SynthWishes obj) => ConfigWishes.ToRaw(obj);
-        public static SynthWishes SetRaw(this SynthWishes obj) => ConfigWishes.SetRaw(obj);
-        public static SynthWishes AudioFormat(this SynthWishes obj, AudioFileFormatEnum? value) => ConfigWishes.AudioFormat(obj, value);
-        public static SynthWishes WithAudioFormat(this SynthWishes obj, AudioFileFormatEnum? value) => ConfigWishes.WithAudioFormat(obj, value);
-        public static SynthWishes AsAudioFormat(this SynthWishes obj, AudioFileFormatEnum? value) => ConfigWishes.AsAudioFormat(obj, value);
-        public static SynthWishes FromAudioFormat(this SynthWishes obj, AudioFileFormatEnum? value) => ConfigWishes.FromAudioFormat(obj, value);
-        public static SynthWishes ToAudioFormat(this SynthWishes obj, AudioFileFormatEnum? value) => ConfigWishes.ToAudioFormat(obj, value);
-        public static SynthWishes SetAudioFormat(this SynthWishes obj, AudioFileFormatEnum? value) => ConfigWishes.SetAudioFormat(obj, value);
 
         public static bool IsWav(this FlowNode obj) => ConfigWishes.IsWav(obj);
         public static bool IsRaw(this FlowNode obj) => ConfigWishes.IsRaw(obj);
