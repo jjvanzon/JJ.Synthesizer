@@ -20,8 +20,10 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using JJ.Persistence.Synthesizer;
+using static System.IO.File;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
@@ -827,6 +829,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 TestProp(x => { AreEqual(binaries.SourceBytes,          () => WavWishes.ReadWavHeader(binaries.SourceBytes,          x.Independent.AudioInfoWish)               ); AssertEntity(x.Independent.AudioInfoWish, test); });
                 TestProp(x => { AreEqual(binaries.SourceStream,         () => WavWishes.ReadWavHeader(binaries.SourceStream,         x.Independent.AudioInfoWish)               ); AssertEntity(x.Independent.AudioInfoWish, test); });
                 TestProp(x => { AreEqual(binaries.BinaryReader,         () => WavWishes.ReadWavHeader(binaries.BinaryReader,         x.Independent.AudioInfoWish)               ); AssertEntity(x.Independent.AudioInfoWish, test); });
+            
+                CleanUpFile(binaries.SourceFilePath);
+                CleanUpFile(binaries.DestFilePath);
             }
         }
         
@@ -861,6 +866,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AssertRead(() => WavWishes.ReadAudioInfo(x.BuffBound.SourceBytes   ));
                 AssertRead(() => WavWishes.ReadAudioInfo(x.BuffBound.SourceStream  ));
                 AssertRead(() => WavWishes.ReadAudioInfo(x.BuffBound.BinaryReader  ));
+            
+                CleanUpFile(x.BuffBound.SourceFilePath);
+                CleanUpFile(x.BuffBound.DestFilePath);
             }
         }
         
@@ -1739,6 +1747,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     bin = entities.BuffBound;
 
                     action();
+                    
+                    CleanUpFile(bin.SourceFilePath);
+                    CleanUpFile(bin.DestFilePath);
                 }
             }
                 
@@ -1803,6 +1814,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 if (entity == ForDestBytes)    AssertEntity(binaries.DestBytes,    test);
                 if (entity == ForDestStream)   AssertEntity(binaries.DestStream,   test);
                 if (entity == ForBinaryWriter) AssertEntity(binaries.BinaryWriter, test);
+
+                CleanUpFile(changedEntities.BuffBound.SourceFilePath);
+                CleanUpFile(changedEntities.BuffBound.DestFilePath);
             }
         }
         
@@ -1995,5 +2009,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         private static void AreEqualInt(int expected, Expression<Func<int>> actualExpression, int delta) => AreEqual(expected, actualExpression, delta);
         /// <inheritdoc cref="docs._areequalint />
         private static void AreEqualInt(int expected, int actual) => AreEqual(expected, actual);
+        
+        private void CleanUpFile(string filePath)
+        {
+            try
+            {
+                if (!Exists(filePath)) return;
+                Delete(filePath);
+                Static.LogAction("File", "Deleted", filePath);
+            }
+            catch (Exception ex)
+            {
+                // Don't let clean-up fail other tests.
+                Static.LogAction("File", "Delete", filePath, "Failed: " + ex.Message);
+            }
+        }
     }
 }

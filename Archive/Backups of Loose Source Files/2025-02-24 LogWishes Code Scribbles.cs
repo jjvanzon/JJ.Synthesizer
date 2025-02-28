@@ -103,3 +103,21 @@
         }
                 
                 LogMathBoostDone(GetMathBoost);
+
+        
+        private void CleanUpFile(string filePath/*, SynthWishes synthWishes*/)
+        {
+            try
+            {
+                if (!Exists(filePath)) return;
+                Delete(filePath);
+                //synthWishes?.LogAction("File", "Deleted", filePath);
+                Static.LogAction("File", "Deleted", filePath);
+            }
+            catch (Exception ex)
+            {
+                // Don't let clean-up fail other tests.
+                //synthWishes?.LogAction("File", "Delete", filePath, "Failed: " + ex.Message);
+                Static.LogAction("File", "Delete", filePath, "Failed: " + ex.Message);
+            }
+        }
