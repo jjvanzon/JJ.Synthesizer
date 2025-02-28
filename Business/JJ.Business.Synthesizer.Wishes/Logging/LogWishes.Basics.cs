@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         // avoid mangling blank lines, for the most part.
         
         private readonly object _logLock = new object();
-        private readonly ThreadLocal<bool> _blankLinePending = new ThreadLocal<bool>();
+        private bool _blankLinePending;
 
         public void Log(string message = default)
         {
@@ -47,11 +47,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                
                 if (!message.FilledIn())
                 {
-                    _blankLinePending.Value = true;
+                    _blankLinePending = true;
                     return;
                 }
                 
-                if (_blankLinePending.Value)
+                if (_blankLinePending)
                 {
                     if (!message.StartsWithBlankLine())
                     {
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                     }
                 }
 
-                _blankLinePending.Value = EndsWithBlankLine(message);
+                _blankLinePending = EndsWithBlankLine(message);
 
                 _logger.Log(message.TrimEnd());
             }
