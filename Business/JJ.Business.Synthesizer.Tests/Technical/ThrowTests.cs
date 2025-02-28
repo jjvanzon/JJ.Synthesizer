@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Tests.docs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory;
 using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
@@ -24,7 +25,7 @@ using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
-    /// <inheritdoc cref="docs._throwtests"/>
+    /// <inheritdoc cref="_throwtests"/>
     [TestClass]
     [TestCategory("Technical")]
     public class ThrowTests : SynthWishes

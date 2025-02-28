@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     // TODO: Move to FrameworkWishes
     
-    /// <inheritdoc cref="docs._copiedfromframework"/>
+    /// <inheritdoc cref="_copiedfromframework"/>
     internal static class CopiedFromFramework
     {
         public static void ThrowsException_OrInnerException(Action statement, Type expectedExceptionType, string expectedMessage)

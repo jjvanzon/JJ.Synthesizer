@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
@@ -15,12 +16,13 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Tests.docs;
+using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
+using static System.IO.File;
+using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using JJ.Persistence.Synthesizer;
-using static System.IO.File;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
@@ -2003,11 +2005,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AssertEntity(writer.BaseStream.ReadWavHeader(), test);
         }
 
-        /// <inheritdoc cref="docs._areequalint />
+        /// <inheritdoc cref="_areequalint />
         private static void AreEqualInt(int expected, Expression<Func<int>> actualExpression) => AreEqual(expected, actualExpression);
-        /// <inheritdoc cref="docs._areequalint />
+        /// <inheritdoc cref="_areequalint />
         private static void AreEqualInt(int expected, Expression<Func<int>> actualExpression, int delta) => AreEqual(expected, actualExpression, delta);
-        /// <inheritdoc cref="docs._areequalint />
+        /// <inheritdoc cref="_areequalint />
         private static void AreEqualInt(int expected, int actual) => AreEqual(expected, actual);
         
         private void CleanUpFile(string filePath)

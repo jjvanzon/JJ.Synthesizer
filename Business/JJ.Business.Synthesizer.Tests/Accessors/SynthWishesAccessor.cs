@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Reflection;
+using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
@@ -17,7 +18,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             _accessor = new AccessorEx(obj, typeof(SynthWishes));
         }
         
-        /// <inheritdoc cref="docs._captureindexer" />
+        /// <inheritdoc cref="wishdocs._captureindexer" />
         public SynthWishes _ 
             => (SynthWishes)_accessor.GetPropertyValue(nameof(_));
 

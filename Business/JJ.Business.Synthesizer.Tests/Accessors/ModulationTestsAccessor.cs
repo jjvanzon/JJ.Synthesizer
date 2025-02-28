@@ -1,8 +1,8 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Reflection;
+using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
@@ -20,37 +20,37 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             _baseAccessor = new SynthWishesAccessor(obj);
         }
 
-        /// <inheritdoc cref="docs._captureindexer" />
+        /// <inheritdoc cref="_captureindexer" />
         public SynthWishes _ => _baseAccessor._; 
 
         public void WithLeft() => _obj.WithLeft();
         public void WithRight() => _obj.WithRight();
         
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica1(FlowNode freq, FlowNode duration = null, FlowNode detuneDepth = null, FlowNode chorusRate = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1], detuneDepth ?? _[0.8], chorusRate ?? _[0.03]);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica2(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica3(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica4(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica5(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         public FlowNode DetunicaBass(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         public FlowNode DetunicaJingle
             => (FlowNode)_accessor.GetPropertyValue(MemberName());
 

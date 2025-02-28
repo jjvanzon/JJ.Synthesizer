@@ -1,16 +1,13 @@
-﻿using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Reflection;
-using System.Reflection;
-using System;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Wishes.Reflection;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Persistence;
-using JJ.Framework.Wishes.Common;
-using System.Collections.Generic;
-using JJ.Business.Synthesizer.Tests.Helpers;
+using JJ.Framework.Wishes.Reflection;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 // ReSharper disable UnusedParameter.Global
 

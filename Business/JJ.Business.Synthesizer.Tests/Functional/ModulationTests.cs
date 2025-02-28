@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 // ReSharper disable RedundantAssignment
 // ReSharper disable NotAccessedVariable
@@ -63,7 +64,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Jingles
 
-        /// <inheritdoc cref="docs._vibraphase" />
+        /// <inheritdoc cref="_vibraphase" />
         FlowNode VibraphaseChord => _
         [ A4, Vibraphase, 0.80 ] [ Panbrello ]
         [ B4, Vibraphase, 0.70 ]
@@ -71,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [ D5, Vibraphase, 0.75 ]
         [ E5, Vibraphase, 0.90 ];
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FlowNode DetunicaJingle => _
         [ beat[1], E0, DetunicaBass, 1.00, l[5.25] ]
         [ beat[2], B4, Detunica2   , 0.70, l[1.50] ]
@@ -81,7 +82,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Notes
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FlowNode DetunicaBass(FlowNode freq, FlowNode duration = null)
         {
             duration = duration ?? GetAudioLength;
@@ -98,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             [ Panbrello, 2, 0.2 ];
         }
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FlowNode Detunica1(
             FlowNode freq, FlowNode duration = null,
             FlowNode depth = null, FlowNode chorusRate = null)
@@ -113,7 +114,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             [ Tremolo, 1, 0.03 ]
             .SetName();
         
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FlowNode Detunica2(FlowNode freq, FlowNode duration = null)
             => Detunica
             (
@@ -127,7 +128,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             [ Panbrello, 2.6, 0.09 ].SetName()
             [ MildEcho ];
         
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FlowNode Detunica3(FlowNode freq, FlowNode duration = null)
             => Detunica
             (
@@ -142,7 +143,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             [ Panbrello, 4.8, 0.05 ]
             [ Panning, Curve(0.7, 0.3).Stretch(duration) ];
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FlowNode Detunica4(FlowNode freq, FlowNode duration = null)
             => Detunica
             (
@@ -155,7 +156,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             [ Panbrello, 3.4, 0.07 ]
             [ Panning, Curve(0.2, 0.8).Stretch(duration) ];
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         FlowNode Detunica5(FlowNode freq, FlowNode duration = null)
             => Detunica
             (
@@ -169,7 +170,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Instruments
 
-        /// <inheritdoc cref="docs._detunica" />
+        /// <inheritdoc cref="_detunica" />
         internal FlowNode Detunica(
             FlowNode freq = default, FlowNode duration = default,
             FlowNode depth = null, FlowNode churnRate = null, 
@@ -188,7 +189,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._vibraphase" />
+        /// <inheritdoc cref="_vibraphase" />
         FlowNode Vibraphase(
             FlowNode freq,
             FlowNode duration = null,
@@ -210,7 +211,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // WaveForms
 
-        /// <inheritdoc cref="docs._semisaw" />
+        /// <inheritdoc cref="_semisaw" />
         FlowNode SemiSaw(FlowNode freq) =>
         ( freq * 1 ) [ Sine ] [ Volume, 1.0 ] +
         ( freq * 2 ) [ Sine ] [ Volume, 0.5 ] +
@@ -226,7 +227,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         ( freq * 9 ) [ Sine ] [ Volume, 0.10 ] 
         .Tape(duration).SetName();
 
-        /// <inheritdoc cref="docs._detune" />
+        /// <inheritdoc cref="_detune" />
         FlowNode DetunedHarmonics
         (FlowNode freq, FlowNode duration, FlowNode churnRate = null, FlowNode interferenceRate = null, FlowNode chorusRate = null) =>
         _[ DetuneFreq, freq, _[1], duration, churnRate, interferenceRate, chorusRate ] [ Sine ] [ Volume, 1.00 ] +
@@ -238,7 +239,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Effects
 
-        /// <inheritdoc cref="docs._detune" />
+        /// <inheritdoc cref="_detune" />
         FlowNode DetuneFreq(
             FlowNode freq, FlowNode harmonic, FlowNode duration,
             FlowNode churnRate = null, FlowNode interfereRate = null, FlowNode chorusRate = null)
@@ -267,7 +268,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return detunedFreq.SetName();
         }
 
-        /// <inheritdoc cref="docs._vibraphase" />
+        /// <inheritdoc cref="_vibraphase" />
         FlowNode Jitter(FlowNode sound, FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
         {
             depthAdjust1 = depthAdjust1 ?? _[0.005];
@@ -282,7 +283,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._echo" />
+        /// <inheritdoc cref="_echo" />
         FlowNode MildEcho(FlowNode sound)
             // Test without name (defaults to caller member name 'MildEcho')
             => Echo(sound, MildEchoCount, magnitude: _[0.25], MildEchoDelay);
@@ -290,7 +291,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         FlowNode MildEchoDuration
             => EchoDuration(MildEchoCount, MildEchoDelay);
 
-        /// <inheritdoc cref="docs._echo" />
+        /// <inheritdoc cref="_echo" />
         internal FlowNode DeepEcho(FlowNode sound)
         {
             if (IsCenter)

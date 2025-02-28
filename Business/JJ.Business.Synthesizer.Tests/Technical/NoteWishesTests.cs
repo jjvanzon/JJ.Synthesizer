@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -119,9 +120,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         // Note Length
         
-        /// <inheritdoc cref="docs._notelengthfallbacktests" />
+        /// <inheritdoc cref="_notelengthfallbacktests" />
         [TestMethod] public void NoteLength_Fallback_Lullaby_Test() => Run(NoteLength_Fallback_Lullaby);
-        /// <inheritdoc cref="docs._notelengthfallbacktests" />
+        /// <inheritdoc cref="_notelengthfallbacktests" />
         void NoteLength_Fallback_Lullaby()
         {
             var    time   = _[0];

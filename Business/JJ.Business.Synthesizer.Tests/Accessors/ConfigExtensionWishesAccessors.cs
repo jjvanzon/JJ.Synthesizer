@@ -6,6 +6,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Tests.docs;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
@@ -52,22 +53,22 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // With ConfigResolver
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static FlowNode AudioLength(this ConfigResolverAccessor obj, SynthWishes synthWishes) => _accessor.Get<FlowNode>(obj, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static FlowNode GetAudioLength(this ConfigResolverAccessor obj, SynthWishes synthWishes) => _accessor.Get<FlowNode>(obj, synthWishes);
 
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static ConfigResolverAccessor AudioLength(this ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static ConfigResolverAccessor AudioLength(this ConfigResolverAccessor obj, FlowNode newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static ConfigResolverAccessor WithAudioLength(this ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static ConfigResolverAccessor WithAudioLength(this ConfigResolverAccessor obj, FlowNode newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static ConfigResolverAccessor SetAudioLength(this ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         public static ConfigResolverAccessor SetAudioLength(this ConfigResolverAccessor obj, FlowNode newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
 
         // With ConfigSection

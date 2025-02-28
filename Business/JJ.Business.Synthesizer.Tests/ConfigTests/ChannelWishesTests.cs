@@ -2477,7 +2477,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(c.channels == 2, () => ConfigWishesAccessor.IsStereo      (x.SynthBound.ConfigResolver ));
         }
         
-        /// <inheritdoc cref="docs._singletapeassertion" />
+        /// <inheritdoc cref="_singletapeassertion" />
         private void Assert_TapeBound_Getters_Single(TestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x);
@@ -3353,7 +3353,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                          IsFalse(() => ConfigWishes.IsMono        (x.TapeBound.TapeAction ));
         }
         
-        /// <inheritdoc cref="docs._singletapeassertion" />
+        /// <inheritdoc cref="_singletapeassertion" />
         private void Assert_BuffBound_Getters_Single(TestEntities x, (int? channels, int? channel) c)
         { 
             if (c == (1,0))
@@ -3378,7 +3378,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             }
         }
         
-        /// <inheritdoc cref="docs._singletapeassertion" />
+        /// <inheritdoc cref="_singletapeassertion" />
         private void Assert_BuffBound_Getters_Complete(TestEntities x, (int? channels, int? channel) c)
         {
             IsNotNull(() => x.ChannelEntities);

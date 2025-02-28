@@ -5,6 +5,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Testing;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable JoinDeclarationAndInitializer
@@ -25,14 +26,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Vibrato/Tremolo Tests
 
-        /// <inheritdoc cref="docs._vibrato" />
+        /// <inheritdoc cref="_vibrato" />
         [TestMethod] public void Vibrato_Test() => Run(Vibrato);
-        /// <inheritdoc cref="docs._vibrato" />
+        /// <inheritdoc cref="_vibrato" />
         void Vibrato() => WithMono().VibratoFreq(A4).Sine().Volume(Envelope * 0.9).Save().Play();
         
-        /// <inheritdoc cref="docs._tremolo" />
+        /// <inheritdoc cref="_tremolo" />
         [TestMethod] public void Tremolo_Test() => Run(Tremolo);
-        /// <inheritdoc cref="docs._tremolo" />
+        /// <inheritdoc cref="_tremolo" />
         void Tremolo() => WithMono().Sine(C5).Tremolo(4, 0.5).Curve(Envelope).Volume(0.3).Save().Play();
 
         // Panning Tests

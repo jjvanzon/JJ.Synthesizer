@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Tests.docs;
 using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
@@ -27,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     {
         public override string        ToString() => DebuggerDisplay(this);
         public SynthWishes            SynthWishes          { get; set; }
-        /// <inheritdoc cref="docs._synthwishesderived" />
+        /// <inheritdoc cref="_synthwishesderived" />
         public SynthWishesDerived     Derived { get; set; }
         public SynthWishesAccessor    SynthWishesAccessor  { get; set; }
         public IContext               Context              { get; set; }

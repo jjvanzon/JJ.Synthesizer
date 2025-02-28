@@ -1,8 +1,8 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Reflection;
+using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
@@ -18,68 +18,68 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             _baseAccessor = new SynthWishesAccessor(obj);
         }
 
-        /// <inheritdoc cref="docs._captureindexer" />
+        /// <inheritdoc cref="_captureindexer" />
         public SynthWishes _ => _baseAccessor._;
                
         public void Run(Action action)
             => _baseAccessor.Run(action);
 
-        /// <inheritdoc cref="docs._flute1" />
+        /// <inheritdoc cref="_flute1" />
         public FlowNode Flute1(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._flute2" />
+        /// <inheritdoc cref="_flute2" />
         public FlowNode Flute2(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._flute3" />
+        /// <inheritdoc cref="_flute3" />
         public FlowNode Flute3(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._flute4" />
+        /// <inheritdoc cref="_flute4" />
         public FlowNode Flute4(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         public FlowNode Pad(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
         public FlowNode Organ(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
 
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         public FlowNode Horn(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
             
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         public FlowNode Trombone(FlowNode freq = null, FlowNode durationFactor = null)        
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], durationFactor ?? _[1]);
         
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         public FlowNode ElectricNote(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        /// <inheritdoc cref="docs._ripplebass" />
+        /// <inheritdoc cref="_ripplebass" />
         public FlowNode RippleBass(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        /// <inheritdoc cref="docs._ripplebass" />
+        /// <inheritdoc cref="_ripplebass" />
         public FlowNode RippleNote_SharpMetallic(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        /// <inheritdoc cref="docs._ripplebass" />
+        /// <inheritdoc cref="_ripplebass" />
         public FlowNode RippleSound_Clean(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        /// <inheritdoc cref="docs._ripplebass" />
+        /// <inheritdoc cref="_ripplebass" />
         public FlowNode RippleSound_FantasyEffect(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        /// <inheritdoc cref="docs._ripplebass" />
+        /// <inheritdoc cref="_ripplebass" />
         public FlowNode RippleSound_CoolDouble(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
         
-        /// <inheritdoc cref="docs._ripplebass" />
+        /// <inheritdoc cref="_ripplebass" />
         public FlowNode Create_FM_Noise_Beating(FlowNode freq = null, FlowNode duration = null)
             => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
                         

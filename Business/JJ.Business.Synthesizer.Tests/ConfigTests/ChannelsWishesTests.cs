@@ -12,6 +12,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
@@ -1036,7 +1037,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(channels == 2, () => ConfigWishes.IsStereo   (x.TapeBound.TapeAction ));
         }
         
-        /// <inheritdoc cref="docs._channeltoaudiofileoutput" />
+        /// <inheritdoc cref="_channeltoaudiofileoutput" />
         private static void Assert_BuffBound_Getters(TestEntities x, int channels)
         {
             IsNotNull (               () => x                                                    );

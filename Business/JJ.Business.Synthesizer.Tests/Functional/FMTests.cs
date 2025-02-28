@@ -4,6 +4,7 @@ using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Business.Synthesizer.Tests.docs;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable ExplicitCallerInfoArgument
 
@@ -20,13 +21,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
                     .AddEchoDuration(count: 7, delay: 0.50);
     }
     
-    /// <inheritdoc cref="docs._fmtests"/>
+    /// <inheritdoc cref="_fmtests"/>
     [TestClass]
     [TestCategory("Functional")]
     public class FMTests : MySynthWishes
     {
         
-        /// <inheritdoc cref="docs._fmtests"/>
+        /// <inheritdoc cref="_fmtests"/>
         public FMTests()
         {
             WithMono();
@@ -88,34 +89,34 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod] public void FM_Distortion_Chords_Test() => Run(FM_Distortion_Chords);
         void FM_Distortion_Chords() => With16Bit()[DistortionChords, 0.92].Times(0.15).MildEcho().Save().Play();
         
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         [TestMethod] public void FM_Horn_Test() => Run(FM_Horn);
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         void FM_Horn() => Horn().MildEcho().Volume(0.5).Save().Play();
         
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         [TestMethod] public void FM_Horn_Melody1_Test() => Run(FM_Horn_Melody1);
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         void FM_Horn_Melody1() => (HornMelody1.MildEcho() * 0.5).Save().Play();
         
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         [TestMethod] public void FM_Horn_Melody2_Test() => Run(FM_Horn_Melody2);
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         void FM_Horn_Melody2() => HornMelody2.MildEcho().Volume(0.5).Save().Play();
         
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         [TestMethod] public void FM_Trombone_Test() => Run(FM_Trombone);
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         void FM_Trombone() => Save(Trombone(E2).MildEcho() * 0.5).Play();
         
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         [TestMethod] public void FM_Trombone_Melody1_Test() => Run(FM_Trombone_Melody1);
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         void FM_Trombone_Melody1() => (TromboneMelody1.MildEcho() * 0.5).Save().Play();
         
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         [TestMethod] public void FM_Trombone_Melody2_Test() => Run(FM_Trombone_Melody2);
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         void FM_Trombone_Melody2() => (TromboneMelody2.MildEcho() * 0.75).Save().Play();
         
         [TestMethod] public void FM_ElectricNote_Test() => Run(FM_ElectricNote);
@@ -241,25 +242,25 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             );
         }
         
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         FlowNode HornMelody1 => _
         [ beat[09], C2, Horn, 0.7, length[3] ]
         [ beat[13], G1, Horn, 0.5, length[4] ];
 
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         FlowNode HornMelody2 => _
         [ b[1], A2, Horn, 0.75, l[2] ]
         [ b[5], F2, Horn, 0.85, l[2] ]
         [ b[9], A1, Horn, 1.00, l[4] ];
         
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         FlowNode TromboneMelody1 => Add(
         Trombone(A1 ).Volume(1.0).Tape(3).Delay(b[1]),
         Trombone(E2 ).Volume(1.0).Tape(3).Delay(b[3]),
         Trombone(Fs1).Volume(0.7).Tape(3).Delay(b[5])
         ).EnsureAudioLength(b[5] + 3);
 
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         FlowNode TromboneMelody2 => _
         [ beat[3], E4, Trombone, 1, _[1.4] ]
         [ beat[7], C4, Trombone, 1, _[1.4] ];
@@ -268,7 +269,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         
         // Instruments
 
-        /// <inheritdoc cref="docs._flute1" />
+        /// <inheritdoc cref="_flute1" />
         FlowNode Flute1(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A4;
@@ -280,7 +281,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="docs._flute2" />
+        /// <inheritdoc cref="_flute2" />
         FlowNode Flute2(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A4;
@@ -293,7 +294,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="docs._flute3" />
+        /// <inheritdoc cref="_flute3" />
         FlowNode Flute3(FlowNode freq = null, FlowNode duration = null)
         {
             freq   = freq ?? A4;
@@ -306,7 +307,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="docs._flute4" />
+        /// <inheritdoc cref="_flute4" />
         FlowNode Flute4(FlowNode freq = null, FlowNode duration = null)
         {
             freq   = freq ?? A4;
@@ -319,7 +320,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         FlowNode Organ(FlowNode freq = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
@@ -335,7 +336,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return soundWithEvenVolume.SetName();
         }
         
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         FlowNode Organ2(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
@@ -353,7 +354,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         FlowNode Pad(FlowNode freq = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
@@ -376,7 +377,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return soundWithEvenVolume.SetName();
         }
         
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         FlowNode DistortedNote(FlowNode delay = null, FlowNode freq = null, FlowNode volume = null, FlowNode duration = null)
         {
             freq     = freq ?? A4;
@@ -401,7 +402,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="docs._horn" />
+        /// <inheritdoc cref="_horn" />
         FlowNode Horn(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A2;
@@ -415,7 +416,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._trombone" />
+        /// <inheritdoc cref="_trombone" />
         FlowNode Trombone(FlowNode freq = null, FlowNode durationFactor = null)
         {
             freq           = freq ?? A1;
@@ -435,7 +436,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._default" />
+        /// <inheritdoc cref="_default" />
         FlowNode ElectricNote(FlowNode freq = null, FlowNode duration = null)
         {
             freq   = freq ?? A4;
@@ -456,7 +457,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return adjustedVolume.SetName();
         }
 
-        /// <inheritdoc cref="docs._ripplebass" />
+        /// <inheritdoc cref="_ripplebass" />
         FlowNode RippleBass(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A1;
@@ -465,7 +466,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return note.SetName();
         }
 
-        /// <inheritdoc cref="docs._ripplenotesharpmetallic" />
+        /// <inheritdoc cref="_ripplenotesharpmetallic" />
         FlowNode RippleNote_SharpMetallic(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A3;
@@ -474,7 +475,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._ripplesoundclean" />
+        /// <inheritdoc cref="_ripplesoundclean" />
         FlowNode RippleSound_Clean(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A4;
@@ -483,7 +484,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._ripplesoundfantasyeffect" />
+        /// <inheritdoc cref="_ripplesoundfantasyeffect" />
         FlowNode RippleSound_FantasyEffect(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A5;
@@ -492,7 +493,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._ripplesoundcooldouble" />
+        /// <inheritdoc cref="_ripplesoundcooldouble" />
         FlowNode RippleSound_CoolDouble(FlowNode freq = null, FlowNode duration = null)
         {
             freq = freq ?? A5;
@@ -501,7 +502,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._shaperipplesound" />
+        /// <inheritdoc cref="_shaperipplesound" />
         FlowNode ShapeRippleSound(FlowNode input, FlowNode duration)
         {
             duration = GetNoteLength(duration);
@@ -511,7 +512,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.EnsureAudioLength(duration).SetName();
         }
 
-        /// <inheritdoc cref="docs._createfmnoisebeating" />
+        /// <inheritdoc cref="_createfmnoisebeating" />
         FlowNode Create_FM_Noise_Beating(FlowNode pitch = null, FlowNode duration = null)
         {
             duration = duration ?? GetAudioLength;
@@ -531,7 +532,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
 
         // Algorithms
         
-        /// <inheritdoc cref="docs._fminhertz" />
+        /// <inheritdoc cref="_fminhertz" />
         FlowNode FMInHertz(FlowNode soundFreq, FlowNode modSpeed, FlowNode modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
@@ -539,7 +540,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._fmaround0" />
+        /// <inheritdoc cref="_fmaround0" />
         FlowNode FMAround0(FlowNode soundFreq, FlowNode modSpeed, FlowNode modDepth)
         {
             var modulator = Sine(modSpeed) * modDepth;
@@ -547,7 +548,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             return sound.SetName();
         }
 
-        /// <inheritdoc cref="docs._fmaroundfreq" />
+        /// <inheritdoc cref="_fmaroundfreq" />
         FlowNode FMAroundFreq(FlowNode soundFreq, FlowNode modSpeed, FlowNode modDepth)
         {
             var modulator = 1 + Sine(modSpeed) * modDepth;
@@ -597,13 +598,13 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             (time: 1, value: 0)
         ).SetName();
 
-        /// <inheritdoc cref="docs._modtamingcurve"/>
+        /// <inheritdoc cref="_modtamingcurve"/>
         FlowNode ModTamingCurve => Curve(0.3, 1.0, 0.3, 0.0).SetName();
 
-        /// <inheritdoc cref="docs._modtamingcurve"/>
+        /// <inheritdoc cref="_modtamingcurve"/>
         FlowNode ModTamingCurve2 => Curve(1.0, 0.5, 0.2, 0.0).SetName();
 
-        /// <inheritdoc cref="docs._modtamingcurve"/>
+        /// <inheritdoc cref="_modtamingcurve"/>
         FlowNode ModTamingCurve8Times => Curve
         (
             0.3, 1.0, 0.3, 0.0,
@@ -616,7 +617,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             0.3, 1.0, 0.3, 0.0
         ).SetName();
             
-        /// <inheritdoc cref="docs._evenoutcurve"/>
+        /// <inheritdoc cref="_evenoutcurve"/>
         FlowNode EvenOutCurve => Curve
         (
             (time: 0.00, value: 1.0),

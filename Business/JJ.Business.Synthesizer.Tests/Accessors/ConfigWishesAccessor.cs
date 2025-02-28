@@ -43,22 +43,22 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // AudioLength
         
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static FlowNode AudioLength(ConfigResolverAccessor obj, SynthWishes synthWishes) => _accessor.Get<FlowNode>(obj, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static FlowNode GetAudioLength(ConfigResolverAccessor obj, SynthWishes synthWishes) => _accessor.Get<FlowNode>(obj, synthWishes);
 
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static ConfigResolverAccessor AudioLength(ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static ConfigResolverAccessor AudioLength(ConfigResolverAccessor obj, FlowNode newLength) => _accessor.Set(obj, newLength);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static ConfigResolverAccessor WithAudioLength(ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static ConfigResolverAccessor WithAudioLength(ConfigResolverAccessor obj, FlowNode newLength) => _accessor.Set(obj, newLength);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static ConfigResolverAccessor SetAudioLength(ConfigResolverAccessor obj, double? newLength, SynthWishes synthWishes) => _accessor.Set(obj, newLength, synthWishes);
-        /// <inheritdoc cref="docs._audiolength" />
+        /// <inheritdoc cref="_audiolength" />
         internal static ConfigResolverAccessor SetAudioLength(ConfigResolverAccessor obj, FlowNode newLength) => _accessor.Set(obj, newLength);
 
         internal static double? AudioLength(ConfigSectionAccessor obj) => _accessor.GetNullyDouble(obj);
