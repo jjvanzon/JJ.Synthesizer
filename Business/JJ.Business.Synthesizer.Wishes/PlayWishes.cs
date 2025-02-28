@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (!mustPlay)
             {
-                synthWishes.Log(NewLine + "  ⚠ Audio disabled");
+                synthWishes.LogSpaced("  ⚠ Audio disabled");
             }
 
             if (mustPlay)
