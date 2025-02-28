@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
             if (action == null) throw new NullException(() => action);
-            action.LogAction();
+            action.Log();
             InternalSave(action.Tape.Buff, action.GetFilePath(filePath, callerMemberName), callerMemberName);
             return action;
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Persistence.Synthesizer;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
@@ -24,6 +25,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             Log(ActionMessage(nameof(Tape), action, entity.Descriptor(), message));
         }
 
+        /// <inheritdoc cref="_logtapeaction" />
+        public void Log(TapeAction action, string message = null)
+            => LogAction(action, message);
+        
         public void LogAction(TapeAction action, string message = null)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
@@ -121,6 +126,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         public static void LogAction(this FlowNode        entity, string action, string message = null) => entity.Logging.LogAction(entity, action, message);
         public static void LogAction(this Tape            entity, string action, string message = null) => entity.Logging.LogAction(entity, action, message);
+        /// <inheritdoc cref="_logtapeaction" />
+        public static void Log      (this TapeAction      action,                string message = null) => action.Logging.Log      (action,         message);
         public static void LogAction(this TapeAction      action,                string message = null) => action.Logging.LogAction(action,         message);
         public static void LogAction(this Buff            entity, string action, string message = null) => entity.Logging.LogAction(entity, action, message);
         public static void LogAction(this AudioFileOutput entity, string action, string message = null) => entity.Logging().LogAction(entity, action, message);

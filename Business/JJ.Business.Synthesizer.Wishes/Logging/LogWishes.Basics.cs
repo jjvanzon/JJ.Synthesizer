@@ -236,7 +236,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static void Log(this Tape           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
         public   static void Log(this TapeConfig     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
         public   static void Log(this TapeActions    entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        public   static void Log(this TapeAction     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        // Log(TapeAction) resolvs to the specialized LogAction(TapeAction) method instead of a basic log call.
+        //public   static void Log(this TapeAction     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
         public   static void Log(this Buff           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
         internal static void Log(this ConfigResolver entity, string message = "") => LogWishes.Resolve(entity).Log(message);
 

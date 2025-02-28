@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             if (action == null) throw new NullException(() => action);
-            action.LogAction();
+            action.Log();
             InternalPlayBase(synthWishes, action.Tape.FilePathResolved, action.Tape.Bytes, action.Tape.Config.AudioFormat.FileExtension());
             return action;
         }

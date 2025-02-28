@@ -393,6 +393,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary> 
         public struct _istape { }
         
+        /// <summary>
+        /// Unlike other Log methods, the one targeting TapeAction,
+        /// will apply LogAction-style formatting.
+        /// </summary>
+        public struct _logtapeaction { }
+        
         /// <summary> 
         /// Outputs audio in an audio file format and plays it if needed. <br /> 
         /// A single <see cref="Outlet"> Outlet </see> will result in Mono audio. <br /> 
