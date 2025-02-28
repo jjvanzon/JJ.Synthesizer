@@ -205,9 +205,7 @@ namespace JJ.Business.Synthesizer.Wishes
             tape.UnderlyingAudioFileOutput = audioFileOutput;
 
             // Report
-            string report = tape.SynthLog(calculationDuration);
-            
-            tape.Log(report);
+            tape.LogSynth(calculationDuration);
         }
 
         // MakeBuff Legacy
