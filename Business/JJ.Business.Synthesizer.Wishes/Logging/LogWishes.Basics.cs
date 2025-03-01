@@ -19,6 +19,7 @@ using static JJ.Framework.Wishes.Logging.LoggingFactory;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Framework.Wishes.Logging.Loggers;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {

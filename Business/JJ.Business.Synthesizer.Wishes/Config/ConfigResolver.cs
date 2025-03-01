@@ -11,6 +11,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Logging;
+using JJ.Framework.Wishes.Logging.Config;
 using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
@@ -609,11 +610,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             set => _azurePipelinesImpersonationMode = value;
         }
         
-        public LoggingConfigSection LoggerConfig { get; }
+        public LoggingConfiguration LoggerConfig { get; }
         
-        private LoggingConfigSection ResolveLoggerConfig()
+        private LoggingConfiguration ResolveLoggerConfig()
         { 
-            LoggingConfigSection config = null;
+            LoggingConfiguration config = null;
             
             if (IsUnderNCrunch) 
             {
