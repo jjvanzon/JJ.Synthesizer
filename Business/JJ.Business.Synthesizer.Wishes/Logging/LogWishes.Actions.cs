@@ -67,19 +67,28 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             Log(ActionMessage(entity.GetType().Name, action, name, message));
         }
         
+        public void LogAction<TEntity>(string message) 
+            => Log(ActionMessage(typeof(TEntity).Name, null, null, message));
+        
+        public void LogAction<TEntity>(string action, string message) 
+            => Log(ActionMessage(typeof(TEntity).Name, action, null, message));
+        
+        public void LogAction<TEntity>(string action, string name, string message) 
+            => Log(ActionMessage(typeof(TEntity).Name, action, name, message));
+        
         public void LogAction(string typeName, string message) 
             => Log(ActionMessage(typeName, null, null, message));
         
         public void LogAction(string typeName, string action, string message) 
             => Log(ActionMessage(typeName, action, null, message));
         
-        public void LogAction(string typeName, string action, string objectName, string message) 
-            => Log(ActionMessage(typeName, action, objectName, message));
+        public void LogAction(string typeName, string action, string name, string message) 
+            => Log(ActionMessage(typeName, action, name, message));
 
-        public string ActionMessage(string typeName, ActionEnum action, string objectName, string message)
-            => ActionMessage(typeName, action.ToString(), objectName, message);
+        public string ActionMessage(string typeName, ActionEnum action, string name, string message)
+            => ActionMessage(typeName, action.ToString(), name, message);
         
-        public string ActionMessage(string typeName, string action, string objectName, string message)
+        public string ActionMessage(string typeName, string action, string name, string message)
         {
             string text = PrettyTime();
                 
@@ -93,10 +102,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 text += " " + action;
             }
             
-            if (Has(objectName))
+            if (Has(name))
             {
                 if (!text.EndsWithPunctuation()) text += ":";
-                text += " " + '"' + objectName + '"';
+                text += " " + '"' + name + '"';
             }
             
             if (Has(message))
@@ -115,19 +124,22 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        public void LogAction(FlowNode        entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
-        public void LogAction(Tape            entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
-        public void LogAction(TapeAction      action,                                     string message = null) => Logging.LogAction(action,                       message);
+        public void LogAction(FlowNode        entity, string action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(Tape            entity, string action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(TapeAction      action,                             string message = null) => Logging.LogAction(action,                 message);
         /// <inheritdoc cref="_logtapeaction" />
-        public void Log      (TapeAction      action,                                     string message = null) => Logging.Log      (action,                       message);
-        public void LogAction(Buff            entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
-        public void LogAction(Sample          entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
-        public void LogAction(AudioFileOutput entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
-        public void LogAction(byte[]          entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
-        public void LogAction(object          entity,   string action, string name,       string message = null) => Logging.LogAction(entity,   action, name,       message);
-        public void LogAction(string          typeName,                                   string message       ) => Logging.LogAction(typeName,                     message);
-        public void LogAction(string          typeName, string action,                    string message       ) => Logging.LogAction(typeName, action,             message);
-        public void LogAction(string          typeName, string action, string objectName, string message       ) => Logging.LogAction(typeName, action, objectName, message);
+        public void Log      (TapeAction      action,                             string message = null) => Logging.Log      (action,                 message);
+        public void LogAction(Buff            entity, string action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(Sample          entity, string action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(AudioFileOutput entity, string action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(byte[]          entity, string action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(object          entity, string action, string name, string message = null) => Logging.LogAction(entity,   action, name, message);
+        public void LogAction(string typeName,                                    string message       ) => Logging.LogAction(typeName,               message);
+        public void LogAction(string typeName,        string action,              string message       ) => Logging.LogAction(typeName, action,       message);
+        public void LogAction(string typeName,        string action, string name, string message       ) => Logging.LogAction(typeName, action, name, message);
+        public void LogAction<TEntity>(                                           string message       ) => Logging.LogAction<TEntity>(               message);
+        public void LogAction<TEntity>(               string action,              string message       ) => Logging.LogAction<TEntity>( action,       message);
+        public void LogAction<TEntity>(               string action, string name, string message       ) => Logging.LogAction<TEntity>( action, name, message);
     }
 }
 

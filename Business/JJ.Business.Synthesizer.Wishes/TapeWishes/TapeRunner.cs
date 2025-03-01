@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                 {
                     waitCount++;
 
-                    _synthWishes.LogAction(nameof(Tape), "No Leaf", "Wait ... " + waitCount);
+                    _synthWishes.LogAction<Tape>("No Leaf", "Wait ... " + waitCount);
                     bool triggered = _checkForNewLeavesReset.WaitOne(timeOutInMs);
                     if (!triggered)
                     {
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             Task.WaitAll(tasks);
 
-            _synthWishes.LogAction(nameof(Tape), "Total Leaf Waits: " + waitCount);
+            _synthWishes.LogAction<Tape>("Total Leaf Waits: " + waitCount);
             return originalTapeCollection;
         }
         
