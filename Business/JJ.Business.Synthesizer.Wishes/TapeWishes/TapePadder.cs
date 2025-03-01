@@ -4,6 +4,8 @@ using JJ.Framework.Reflection;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
+
 // ReSharper disable AssignmentInsteadOfDiscard
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
@@ -60,7 +62,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             var oldDuration = tape.Duration;
             paddedTape.Duration = oldDuration + padding;
             
-            paddedTape.LogAction("Pad", $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
+            paddedTape.LogAction(Pad, $"AudioLength = {tape.LeadingSilence} + {oldDuration} + {tape.TrailingSilence} = {paddedTape.Duration}");
             
             // Remove original tape if it has no other purposes.
             bool hasIntercept = tape.Actions.BeforeRecord.On        || tape.Actions.BeforeRecord.Callback != null        ||
@@ -84,7 +86,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             FlowNode newNode = _synthWishes.Delay(_[originalTape.Outlet], originalTape.LeadingSilence).SetName(originalTape.GetName() + " Padded");
             
             // Add tape
-            Tape paddedTape = _tapes.Upsert(ActionEnum.Pad, newNode, _[originalTape.Duration], null, originalTape.FilePathSuggested);
+            Tape paddedTape = _tapes.Upsert(Pad, newNode, _[originalTape.Duration], null, originalTape.FilePathSuggested);
             
             // Copy data from original
             DeepClone(originalTape, paddedTape);
@@ -114,7 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             originalTape.Actions.PlayChannels.Clear();
             originalTape.Actions.SaveChannels.Clear();   
             
-            paddedTape.LogAction("Pad", $"Delay + {originalTape.LeadingSilence} s");
+            paddedTape.LogAction(Pad, $"Delay + {originalTape.LeadingSilence} s");
             
             return paddedTape;
         }

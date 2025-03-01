@@ -13,6 +13,7 @@ using static System.Environment;
 using static System.IO.Path;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
+using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
 
 // ReSharper disable once ParameterHidesMember
 
@@ -75,7 +76,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             if (tape == null) throw new NullException(() => tape);
-            tape.LogAction(nameof(Play));
+            tape.LogAction(ActionEnum.Play);
             InternalPlayBase(synthWishes, tape.FilePathResolved, tape.Bytes, tape.Config.AudioFormat.FileExtension());
             return tape;
         }
@@ -84,7 +85,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             if (buff == null) throw new NullException(() => buff);
-            buff.LogAction(nameof(Play));
+            buff.LogAction(ActionEnum.Play);
             InternalPlayBase(synthWishes, buff.FilePath, buff.Bytes);
             return buff;
         }
@@ -93,7 +94,7 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             if (entity == null) throw new NullException(() => entity);
-            synthWishes.LogAction(entity, nameof(Play));
+            synthWishes.LogAction(entity, ActionEnum.Play);
             return InternalPlayBase(synthWishes, entity.FilePath, null, entity.FileExtension());
         }
         
@@ -101,21 +102,21 @@ namespace JJ.Business.Synthesizer.Wishes
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             if (entity == null) throw new NullException(() => entity);
-            synthWishes.LogAction(entity, nameof(Play));
+            synthWishes.LogAction(entity, ActionEnum.Play);
             return InternalPlayBase(synthWishes, entity.Location, entity.Bytes, entity.FileExtension());
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, byte[] bytes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.LogAction(bytes, nameof(Play));
+            synthWishes.LogAction(bytes, ActionEnum.Play);
             return InternalPlayBase(synthWishes, null, bytes);
         }
         
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.LogAction("File", nameof(Play));
+            synthWishes.LogAction("File", ActionEnum.Play);
             return InternalPlayBase(synthWishes, filePath, null, GetExtension(filePath));
         }
         
