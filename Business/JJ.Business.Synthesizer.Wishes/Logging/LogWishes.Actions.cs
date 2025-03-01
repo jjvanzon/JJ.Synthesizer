@@ -6,6 +6,7 @@ using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Persistence.Synthesizer;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 
@@ -51,6 +52,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         {
             if (entity == null) throw new ArgumentNullException(nameof(entity));
             Log(ActionMessage(nameof(Sample), action, entity.Name, message ?? ConfigLog(entity)));
+        }
+        
+        // ReSharper disable once UnusedParameter.Global
+        public void LogAction(byte[] entity, string action, string message = null)
+        {
+            if (entity == null) throw new ArgumentNullException(nameof(entity));
+            Log(ActionMessage("Memory", action, "", message));
         }
         
         public void LogAction(object entity, string action, string name, string message = null)
@@ -107,12 +115,15 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
+        public void LogAction(FlowNode        entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
         public void LogAction(Tape            entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
         public void LogAction(TapeAction      action,                                     string message = null) => Logging.LogAction(action,                       message);
+        /// <inheritdoc cref="_logtapeaction" />
+        public void Log      (TapeAction      action,                                     string message = null) => Logging.Log      (action,                       message);
         public void LogAction(Buff            entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
         public void LogAction(Sample          entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
         public void LogAction(AudioFileOutput entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
-        public void LogAction(FlowNode        entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
+        public void LogAction(byte[]          entity,   string action,                    string message = null) => Logging.LogAction(entity,   action,             message);
         public void LogAction(object          entity,   string action, string name,       string message = null) => Logging.LogAction(entity,   action, name,       message);
         public void LogAction(string          typeName,                                   string message       ) => Logging.LogAction(typeName,                     message);
         public void LogAction(string          typeName, string action,                    string message       ) => Logging.LogAction(typeName, action,             message);
@@ -124,15 +135,16 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static partial class LogExtensionWishes
     {
-        public static void LogAction(this FlowNode        entity, string action, string message = null) => entity.Logging.LogAction(entity, action, message);
-        public static void LogAction(this Tape            entity, string action, string message = null) => entity.Logging.LogAction(entity, action, message);
+        public static void LogAction(this FlowNode        entity, string action, string message = null) => entity.Logging  .LogAction(entity, action, message);
+        public static void LogAction(this Tape            entity, string action, string message = null) => entity.Logging  .LogAction(entity, action, message);
         /// <inheritdoc cref="_logtapeaction" />
-        public static void Log      (this TapeAction      action,                string message = null) => action.Logging.Log      (action,         message);
-        public static void LogAction(this TapeAction      action,                string message = null) => action.Logging.LogAction(action,         message);
-        public static void LogAction(this Buff            entity, string action, string message = null) => entity.Logging.LogAction(entity, action, message);
+        public static void Log      (this TapeAction      action,                string message = null) => action.Logging  .Log      (action,         message);
+        public static void LogAction(this TapeAction      action,                string message = null) => action.Logging  .LogAction(action,         message);
+        public static void LogAction(this Buff            entity, string action, string message = null) => entity.Logging  .LogAction(entity, action, message);
+        public static void LogAction(this byte[]          entity, string action, string message = null) => Static          .LogAction(entity, action, message);
         public static void LogAction(this AudioFileOutput entity, string action, string message = null) => entity.Logging().LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string action, string message = null) => entity.Logging(synthWishes).LogAction(entity, action, message);
         public static void LogAction(this Sample          entity, string action, string message = null) => entity.Logging().LogAction(entity, action, message);
+        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string action, string message = null) => entity.Logging(synthWishes).LogAction(entity, action, message);
         public static void LogAction(this Sample          entity, SynthWishes synthWishes, string action, string message = null) => entity.Logging(synthWishes).LogAction(entity, action, message);
     }
 }

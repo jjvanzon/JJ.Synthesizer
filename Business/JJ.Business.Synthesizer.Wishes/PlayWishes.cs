@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static Buff InternalPlay(SynthWishes synthWishes, byte[] bytes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.LogAction("Memory", nameof(Play));
+            synthWishes.LogAction(bytes, nameof(Play));
             return InternalPlayBase(synthWishes, null, bytes);
         }
         

@@ -92,7 +92,7 @@ namespace JJ.Business.Synthesizer.Wishes
             byte[] bytes, 
             string filePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Static.LogAction("Memory", MemberName());
+            Static.LogAction(bytes, MemberName());
             return InternalSave(bytes, filePath, callerMemberName);
         }
         
