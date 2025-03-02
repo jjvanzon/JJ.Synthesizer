@@ -10,8 +10,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
-        private void LogMath     (string message) => Log     ("Math", message);
-        private void LogMathTitle(string message) => LogTitle("Math", message);
+        private void LogMath     (string message) => Log     ("MathBoost", message);
+        private void LogMathTitle(string message) => LogTitle("MathBoost", message);
         
         internal void LogMathBoostTitle(bool mathBoost)
         {
