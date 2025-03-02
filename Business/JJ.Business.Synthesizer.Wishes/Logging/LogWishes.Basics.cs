@@ -44,6 +44,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal void Log(string category, string message)
         {
             if (!Enabled) return;
+            if (!_logger.WillLog(category))
+            {
+                return;
+            }
             
             lock (_logLock)
             {
