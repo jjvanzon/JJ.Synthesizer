@@ -161,6 +161,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
     public static partial class LogExtensionWishes
     {
+        // LogSynth
+        
         public static void LogSynth(this SynthWishes entity, Tape tape, double? calculationDuration = null) 
             => entity.Logging().LogSynth(tape, calculationDuration);
         
@@ -188,6 +190,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static void LogSynth(this Buff entity, Tape tape, double? calculationDuration = null) 
             => entity.Logging().LogSynth(tape, calculationDuration);
 
+        // SynthLog
+        
         public static string SynthLog(this SynthWishes entity, Tape tape, double? calculationDuration = null) 
             => entity.Logging().SynthLog(tape, calculationDuration);
         
