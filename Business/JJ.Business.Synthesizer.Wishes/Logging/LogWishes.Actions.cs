@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public void LogAction(TapeAction action, string message = null)
         {
             if (action == null) throw new NullException(() => action);
-            LogAction("Action", action.Type, action.Tape.Descriptor(), message);
+            LogAction("Actions", action.Type, action.Tape.Descriptor(), message);
         }
 
         public void LogAction(Buff entity, ActionEnum action, string message = null)
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             => LogAction(typeName, action.ToString(), name, message);
         
         public void LogAction(string typeName, string action, string name, string message) 
-            => Log("Action", ActionMessage(typeName, action, name, message));
+            => Log("Actions", ActionMessage(typeName, action, name, message));
 
         public string ActionMessage<TEntity>(ActionEnum action, string name, string message)
             => ActionMessage(typeof(TEntity).Name, action, name, message);
