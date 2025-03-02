@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using JJ.Framework.Wishes.Logging;
 using JJ.Framework.Wishes.Logging.Config;
+using JJ.Framework.Wishes.Logging.Xml;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -15,6 +16,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [XmlAttribute] public int?  SamplingRateLongRunning { get; set; }
         [XmlAttribute] public bool? ImpersonationMode       { get; set; }
         
-        public LoggingConfiguration Logging { get; set; }
+        public RootLoggingXml Logging { get; set; }
     }
 }

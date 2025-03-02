@@ -15,7 +15,6 @@ using static System.IO.File;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.Logging.LoggingFactory;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
@@ -27,7 +26,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         public static LogWishes Static { get; } = new LogWishes();
 
-        private readonly ILogger _logger = CreateLoggerFromConfig(ConfigResolver.Static.LoggerConfig);
+        private readonly ILogger _logger = LoggingFactory.CreateLogger(ConfigResolver.Static.LoggerConfig);
 
         public bool Enabled { get; set; } = true; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
 
