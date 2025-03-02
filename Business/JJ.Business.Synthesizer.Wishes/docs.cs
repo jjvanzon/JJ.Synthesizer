@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary>
         /// <param name="category">
         /// Category parameter would clash with filePath parameter.
-        /// Alternative: <c>Log(category, FormatOutputFile(filePath, sourceFilePath));</c>
+        /// Alternative: <c>Log(category, OutputFileMessage(filePath, sourceFilePath));</c>
         /// </param>
         /// <exception cref="NotSupportedException"></exception>
         public struct _logoutputfilewithcategory { }

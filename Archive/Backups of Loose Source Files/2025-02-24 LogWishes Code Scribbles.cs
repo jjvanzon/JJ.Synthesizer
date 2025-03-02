@@ -151,3 +151,31 @@
             if (synthWishes == null) throw new NullException(() => synthWishes);
             synthWishes.Logging.LogOutputFile(filePath, sourceFilePath);
         }
+
+            //LogAction("File", ActionEnum.Save, FormatOutputFile(filePath, sourceFilePath, prefix: ""));
+
+            //string formattedOutputBytes = FormatOutputBytes(bytes, "");
+
+        
+        private string FormatOutputBytes(byte[] bytes, string prefix = "  ")
+        {
+            if (!Has(bytes)) return "";
+            //return $"{prefix}{PrettyByteCount(bytes.Length)} written to memory.";
+            return $"{prefix}{PrettyByteCount(bytes.Length)}";
+        }
+
+            lines.Add("");
+            lines.Add("Output:");
+            lines.Add("");
+
+
+            
+            //if (buff.Bytes != null)
+            //{
+            //    lines.Add($"  {PrettyByteCount(buff.Bytes.Length)} written to memory.");
+            //}
+
+            //string formattedFilePath = Static.OutputFileMessage(buff.FilePath);
+            //if (Has(formattedFilePath)) lines.Add(formattedFilePath);
+            
+            //lines.Add("");

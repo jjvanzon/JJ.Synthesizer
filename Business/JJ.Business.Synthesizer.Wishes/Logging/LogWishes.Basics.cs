@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
-        internal const string LogOutputFileCategoryNotSupported = "Use this instead: Log(category, FormatOutputFile(filePath, sourceFilePath));";
+        internal const string LogOutputFileCategoryNotSupported = "Use this instead: Log(category, OutputFileMessage(filePath, sourceFilePath));";
 
         public static LogWishes Static { get; } = new LogWishes();
 
@@ -93,28 +93,39 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
         public void LogOutputFile(string filePath, string sourceFilePath = null)
         {
-            Log(FormatOutputFile(filePath, sourceFilePath));
+            Log(OutputFileMessage(filePath, sourceFilePath));
         }
         /// <inheritdoc cref="_logoutputfilewithcategory" />
         // ReSharper disable UnusedParameter.Global
         [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
         // ReSharper restore once UnusedParameter.Global
         
-        internal string FormatOutputFile(string filePath, string sourceFilePath = null)
+        public string OutputFileMessage(string filePath, string sourceFilePath = null)
         {
-            if (!Has(filePath)) return default;
-            if (!Exists(filePath)) return default;
-            string prefix = "  ";
-            string sourceFileString = default;
+            string formattedOutputFile = FormatOutputFile(filePath, sourceFilePath, prefix: "");
+            
+            if (!Has(formattedOutputFile))
+            {
+                return "";
+            }
+
+            return ActionMessage("File", ActionEnum.Save, formattedOutputFile, "");
+        }
+        
+        private string FormatOutputFile(string filePath, string sourceFilePath = null, string prefix = "  ")
+        {
+            if (!Has(filePath)) return "";
+            if (!Exists(filePath)) return "";
+            string sourceFileString = "";
             if (Has(sourceFilePath)) sourceFileString += $" (copied {sourceFilePath})";
             string message = prefix + filePath + sourceFileString;
             return message;
         }
-                
-        internal string FormatOutputBytes(byte[] bytes)
+        
+        public string MemoryOutputMessage(byte[] bytes)
         {
-            if (!Has(bytes)) return default;
-            return $"  {PrettyByteCount(bytes.Length)} written to memory.";
+            if (!Has(bytes)) return "";
+            return ActionMessage("Memory", "Write", "", PrettyByteCount(bytes));
         }
 
         internal static LogWishes Resolve(SynthWishes synthWishes)

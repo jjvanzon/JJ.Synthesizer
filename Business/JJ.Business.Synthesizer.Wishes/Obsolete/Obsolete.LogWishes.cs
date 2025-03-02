@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.Environment;
-using static System.IO.Path;
 using static System.String;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {
@@ -47,15 +45,11 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 lines.Add("");
             }
             
-            if (buff.Bytes != null)
-            {
-                lines.Add($"  {PrettyByteCount(buff.Bytes.Length)} written to memory.");
-            }
-
-            string formattedFilePath = Static.FormatOutputFile(buff.FilePath);
-            if (Has(formattedFilePath)) lines.Add(formattedFilePath);
+            string bytesMessage = Static.MemoryOutputMessage(buff.Bytes);
+            if (Has(bytesMessage)) lines.Add(bytesMessage);
             
-            lines.Add("");
+            string fileMessage = Static.OutputFileMessage(buff.FilePath);
+            if (Has(fileMessage)) lines.Add(fileMessage);
             
             return Join(NewLine, lines);
         }

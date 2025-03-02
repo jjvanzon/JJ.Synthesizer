@@ -95,28 +95,18 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             // Buffer
             
             lines.Add("");
-            lines.Add("Output:");
-            lines.Add("");
-        
-            byte[] bytes = tape.Bytes;
             
-            if (Has(bytes))
-            {
-                lines.Add(FormatOutputBytes(bytes));
-            }
-
-            string formattedFilePath = FormatOutputFile(tape.FilePathResolved);
-            if (Has(formattedFilePath))
-            {
-                lines.Add(formattedFilePath);
-            }
-
-            if (!Has(formattedFilePath) && !Has(bytes))
+            string bytesMessage = MemoryOutputMessage(tape.Bytes);
+            if (Has(bytesMessage)) lines.Add(bytesMessage);
+            
+            string fileMessage = OutputFileMessage(tape.FilePathResolved);
+            if (Has(fileMessage)) lines.Add(fileMessage);
+            
+            if (!Has(fileMessage) && !Has(bytesMessage))
             {
                 lines.Add("⚠ Tape not recorded!");
+                lines.Add("");
             }
-            
-            lines.Add("");
 
             return Join(NewLine, lines);
         }
