@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         // Pretty Calculation Graphs
 
         public void LogSynth(Tape tape, double? calculationDuration = null) 
-            => tape.Log(SynthLog(tape, calculationDuration));
+            => tape.Log("SynthLog", SynthLog(tape, calculationDuration));
         
         public string SynthLog(Tape tape, double? calculationDuration = null)
         {
@@ -227,5 +227,8 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         protected string SynthLog(Tape tape, double? calculationDuration = null)
             => tape.Logging().SynthLog(tape, calculationDuration);
+        
+        protected void LogSynth(Tape tape, double? calculationDuration = null)
+            => tape.Logging().LogSynth(tape, calculationDuration);
     }
 }

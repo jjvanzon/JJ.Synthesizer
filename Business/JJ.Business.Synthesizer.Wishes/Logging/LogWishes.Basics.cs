@@ -2,28 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Business.Synthesizer.Wishes.Logging;
-using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Text;
-using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
+using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Logging;
+using JJ.Framework.Wishes.Logging.Loggers;
+using JJ.Framework.Wishes.Text;
+using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Business.Synthesizer.Wishes.Logging;
+using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
 using static System.IO.File;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Framework.Wishes.Logging.Loggers;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
+        internal const string LogOutputFileCategoryNotSupported = "Use this instead: Log(category, FormatOutputFile(filePath, sourceFilePath));";
+
         public static LogWishes Static { get; } = new LogWishes();
 
         private readonly ILogger _logger = LoggingFactory.CreateLogger(ConfigResolver.Static.LoggerConfig);
@@ -37,7 +40,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         private readonly object _logLock = new object();
         private bool _blankLinePending;
 
-        public void Log(string message = default)
+        public   void Log(string message = default) => Log(category: "", message);
+        internal void Log(string category, string message)
         {
             if (!Enabled) return;
             
@@ -61,21 +65,36 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
                 _blankLinePending = EndsWithBlankLine(message);
 
-                _logger.Log(message.TrimEnd());
+                _logger.Log(category, message.TrimEnd());
             }
         }
 
-        public void LogSpaced(string message) { Log(); Log(message); Log(); }
-
-        public void LogTitle(string title) => LogSpaced(PrettyTitle(title));
-        
-        public void LogTitleStrong(string title)
+        public   void LogSpaced(string message) => LogSpaced(category: "", message);
+        internal void LogSpaced(string category, string message) 
         {
-            string upperCase = (title ?? "").ToUpper();
-            LogSpaced(PrettyTitle(upperCase, underlineChar: '='));
+            Log(category, ""); 
+            Log(category, message); 
+            Log(category, "");
         }
 
-        public void LogOutputFile(string filePath, string sourceFilePath = null) => Log(FormatOutputFile(filePath, sourceFilePath));
+        public   void LogTitle(string title) => LogTitle(category: "", title);
+        internal void LogTitle(string category, string title) => LogSpaced(category, PrettyTitle(title));
+        
+        public   void LogTitleStrong(string title) => LogTitleStrong(category: "", title);
+        internal void LogTitleStrong(string category, string title)
+        {
+            string upperCase = (title ?? "").ToUpper();
+            LogSpaced(category, PrettyTitle(upperCase, underlineChar: '='));
+        }
+
+        public void LogOutputFile(string filePath, string sourceFilePath = null)
+        {
+            Log(FormatOutputFile(filePath, sourceFilePath));
+        }
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        // ReSharper disable UnusedParameter.Global
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
         
         internal string FormatOutputFile(string filePath, string sourceFilePath = null)
         {
@@ -185,12 +204,22 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes WithLoggingEnabled() => WithLogging(true);
         public SynthWishes WithLoggingDisabled() => WithLogging(false);
         
-        // Needed for inheritance situations
-        protected void Log            (string message = null)                         => Logging.Log(message);
-        protected void LogSpaced      (string message)                                => Logging.LogSpaced(message);
-        protected void LogTitle       (string title)                                  => Logging.LogTitle(title);
-        protected void LogTitleStrong (string title)                                  => Logging.LogTitleStrong(title);
-        protected void LogOutputFile  (string filePath, string sourceFilePath = null) => Logging.LogOutputFile(filePath, sourceFilePath);
+        // Defined here to ditch `this` qualifier in case of inheritance.
+        
+        public   void Log           (                 string message = null) => Logging.Log(message);
+        internal void Log           (string category, string message       ) => Logging.Log(category, message);
+        public   void LogSpaced     (                 string message       ) => Logging.LogSpaced(message);
+        internal void LogSpaced     (string category, string message       ) => Logging.LogSpaced(category, message);
+        public   void LogTitle      (                 string title         ) => Logging.LogTitle(title);
+        internal void LogTitle      (string category, string title         ) => Logging.LogTitle(category, title);
+        public   void LogTitleStrong(                 string title         ) => Logging.LogTitleStrong(title);
+        internal void LogTitleStrong(string category, string title         ) => Logging.LogTitleStrong(category, title);
+        
+        public void LogOutputFile (string filePath, string sourceFilePath = null) => Logging.LogOutputFile(filePath, sourceFilePath);
+        // ReSharper disable UnusedParameter.Global
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
     }
 }
 
@@ -198,7 +227,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static partial class LogExtensionWishes
     {
-        internal static LogWishes Logging(this SynthWishes synthWishes)
+        internal static LogWishes Logging(this SynthWishes synthWishes) // Providing method call syntax alongside property syntax.
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return synthWishes.Logging;
@@ -227,64 +256,66 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         // The target objects aren't used for anything other than resolving a SynthWishes object,
         // and availability on multiple target types for convenience.
         
-        public static void Log(this SynthWishes synthWishes, string message = null)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.Logging.Log(message);
-        }
         public   static void Log(this FlowNode       entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        internal static void Log(this ConfigResolver entity, string message = "") => LogWishes.Resolve(entity).Log(message);
         public   static void Log(this Tape           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
         public   static void Log(this TapeConfig     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
         public   static void Log(this TapeActions    entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        // Log(TapeAction) resolves to the specialized LogAction(TapeAction) method instead of a basic log call.
-        //public   static void Log(this TapeAction     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        // NOTE: Log(TapeAction) resolves to the specialized LogAction(TapeAction) method instead of this basic log call.
         public   static void Log(this Buff           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        internal static void Log(this ConfigResolver entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        internal static void Log(this FlowNode       entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
+        internal static void Log(this ConfigResolver entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
+        internal static void Log(this Tape           entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
+        internal static void Log(this TapeConfig     entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
+        internal static void Log(this TapeActions    entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
+        // NOTE: Log(TapeAction) resolves to the specialized LogAction(TapeAction) method instead of this basic log call.
+        internal static void Log(this Buff           entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
 
-        public static void LogSpaced(this SynthWishes synthWishes, string message = null)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.Logging.LogSpaced(message);
-        }
-        public   static void LogSpaced (this FlowNode       entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this Tape           entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this TapeConfig     entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this TapeActions    entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this TapeAction     entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this Buff           entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
-        internal static void LogSpaced (this ConfigResolver entity, string message = "") => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced (this FlowNode       entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
+        internal static void LogSpaced (this ConfigResolver entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced (this Tape           entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced (this TapeConfig     entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced (this TapeActions    entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced (this TapeAction     entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
+        public   static void LogSpaced (this Buff           entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
+        internal static void LogSpaced (this FlowNode       entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this ConfigResolver entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this Tape           entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this TapeConfig     entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this TapeActions    entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this TapeAction     entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this Buff           entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
         
-        public static void LogTitle(this SynthWishes synthWishes, string message = null)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.Logging.LogTitle(message);
-        }
         public   static void LogTitle(this FlowNode       entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        internal static void LogTitle(this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
         public   static void LogTitle(this Tape           entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
         public   static void LogTitle(this TapeConfig     entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
         public   static void LogTitle(this TapeActions    entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
         public   static void LogTitle(this TapeAction     entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
         public   static void LogTitle(this Buff           entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        internal static void LogTitle(this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
+        internal static void LogTitle(this FlowNode       entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
+        internal static void LogTitle(this ConfigResolver entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
+        internal static void LogTitle(this Tape           entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
+        internal static void LogTitle(this TapeConfig     entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
+        internal static void LogTitle(this TapeActions    entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
+        internal static void LogTitle(this TapeAction     entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
+        internal static void LogTitle(this Buff           entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
 
-        public static void LogTitleStrong(this SynthWishes synthWishes, string message = null)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.Logging.LogTitleStrong(message);
-        }
         public   static void LogTitleStrong(this FlowNode       entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        internal static void LogTitleStrong(this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
         public   static void LogTitleStrong(this Tape           entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
         public   static void LogTitleStrong(this TapeConfig     entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
         public   static void LogTitleStrong(this TapeActions    entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
         public   static void LogTitleStrong(this TapeAction     entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
         public   static void LogTitleStrong(this Buff           entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        internal static void LogTitleStrong(this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
+        internal static void LogTitleStrong(this FlowNode       entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this ConfigResolver entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this Tape           entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this TapeConfig     entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this TapeActions    entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this TapeAction     entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this Buff           entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
         
-        public static void LogOutputFile (this SynthWishes synthWishes, string filePath, string sourceFilePath = null)
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.Logging.LogOutputFile(filePath, sourceFilePath);
-        }
         public   static void LogOutputFile (this FlowNode       entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
         public   static void LogOutputFile (this Tape           entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
         public   static void LogOutputFile (this TapeConfig     entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
@@ -292,5 +323,21 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static void LogOutputFile (this TapeAction     entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
         public   static void LogOutputFile (this Buff           entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
         internal static void LogOutputFile (this ConfigResolver entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        // ReSharper disable UnusedParameter.Global
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this FlowNode       entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Tape           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeConfig     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeActions    entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeAction     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Buff           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this ConfigResolver entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
     }
 }

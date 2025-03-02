@@ -10,49 +10,52 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
+        private void LogMath     (string message) => Log     ("Math", message);
+        private void LogMathTitle(string message) => LogTitle("Math", message);
+        
         internal void LogMathBoostTitle(bool mathBoost)
         {
             if (!mathBoost) return;
-            LogTitle("Math Boost");
+            LogMathTitle("Math Boost");
         }
 
         internal void LogComputeConstant(
             FlowNode a, string mathSymbol, FlowNode b, FlowNode result,
             [CallerMemberName] string opName = null)
-            => Log(Pad("Compute const") + $" : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
+            => LogMath(Pad("Compute const") + $" : {Stringify(opName, a, mathSymbol, b)} => {Stringify(result)}");
         
         internal void LogIdentityOperation(
             FlowNode a, string mathSymbol, FlowNode identityValue,
             [CallerMemberName] string opName = null)
-            => Log(Pad("Identity op") + $" : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
+            => LogMath(Pad("Identity op") + $" : {Stringify(opName, a, mathSymbol, identityValue)} => {Stringify(a)}");
         
         internal void LogIdentityOperation(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
-            => Log(Pad($"Identity op ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
+            => LogMath(Pad($"Identity op ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
         internal void LogAlwaysOneOptimization(
             FlowNode a, string mathSymbol, FlowNode b,
             [CallerMemberName] string opName = null)
-            => Log(Pad("Always 1") + $" : {Stringify(opName, a, mathSymbol, b)} => 1");
+            => LogMath(Pad("Always 1") + $" : {Stringify(opName, a, mathSymbol, b)} => 1");
         
         internal void LogAlwaysOneOptimization(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
-            => Log(Pad($"Always 1 ({dimension})") + " : " +
-                       $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
-                       $"{Stringify(opName, signal, dimension, "=", 1)}");
+            => LogMath(Pad($"Always 1 ({dimension})") + " : " +
+                           $"{Stringify(opName, signal, dimension, mathSymbol, transform)} => " +
+                           $"{Stringify(opName, signal, dimension, "=", 1)}");
         
         internal void LogInvariance(
             FlowNode signal, string dimension, string mathSymbol, FlowNode transform,
             [CallerMemberName] string opName = null)
-            => Log(Pad($"Invariance ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
+            => LogMath(Pad($"Invariance ({dimension})") + $" : {Stringify(opName, signal, dimension, mathSymbol, transform)} => {Stringify(signal)}");
         
         internal void LogDivisionByMultiplication(FlowNode a, FlowNode b, FlowNode result)
-            => Log(Pad("Div => mul") + $" : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
+            => LogMath(Pad("Div => mul") + $" : {Stringify(a)} / {Stringify(b)} => {Stringify(result)}");
         
         internal void LogDistributeMultiplyOverAddition(FlowNode formulaBefore, FlowNode formulaAfter)
-            => Log(Pad("Distribute * over +") + $" : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
+            => LogMath(Pad("Distribute * over +") + $" : {Stringify(formulaBefore)} => {Stringify(formulaAfter)}");
         
         internal void LogAdditionOptimizations(
             IList<FlowNode> terms, IList<FlowNode> flattenedTerms, IList<FlowNode> optimizedTerms,
@@ -63,31 +66,31 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             bool wasFlattened = terms.Count != flattenedTerms.Count;
             if (wasFlattened)
             {
-                Log(Pad($"Flatten {symbol}") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
+                LogMath(Pad($"Flatten {symbol}") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, flattenedTerms)}");
             }
             
             bool hasConst0 = consts.Count >= 1 && constant == 0;
             if (hasConst0)
             {
-                Log(Pad("Eliminate 0") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
+                LogMath(Pad("Eliminate 0") + $" : {Stringify(opName, symbol, terms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
             
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                Log(Pad("Compute const") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
+                LogMath(Pad("Compute const") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(opName, symbol, optimizedTerms)}");
             }
             
             bool noTermsLeft = terms.Count != 0 && optimizedTerms.Count == 0;
             if (noTermsLeft)
             {
-                Log(Pad("0 terms remain") + $" : {Stringify(opName, symbol, terms)} => 0");
+                LogMath(Pad("0 terms remain") + $" : {Stringify(opName, symbol, terms)} => 0");
             }
             
             bool oneTermLeft = optimizedTerms.Count == 1;
             if (oneTermLeft)
             {
-                Log(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
+                LogMath(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, flattenedTerms)} => {Stringify(symbol, optimizedTerms)}");
             }
         }
         
@@ -100,25 +103,25 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             bool hasConst1 = consts.Count >= 1 && constant == 1;
             if (hasConst1)
             {
-                Log(Pad("Eliminate 1") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
+                LogMath(Pad("Eliminate 1") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
             
             bool hasMultipleConsts = consts.Count > 1;
             if (hasMultipleConsts)
             {
-                Log(Pad("Compute const") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
+                LogMath(Pad("Compute const") + $" : {Stringify(opName, symbol, factors)} => {Stringify(opName, symbol, optimizedFactors)}");
             }
             
             bool noFactorsLeft = factors.Count != 0 && optimizedFactors.Count == 0;
             if (noFactorsLeft)
             {
-                Log(Pad("0 factors remain") + $" : {Stringify(opName, symbol, factors)} => 1");
+                LogMath(Pad("0 factors remain") + $" : {Stringify(opName, symbol, factors)} => 1");
             }
             
             bool oneFactorLeft = optimizedFactors.Count == 1;
             if (oneFactorLeft)
             {
-                Log(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
+                LogMath(Pad($"Eliminate {symbol}") + $" : {Stringify(opName, symbol, optimizedFactors)} => {Stringify(symbol, optimizedFactors)}");
             }
         }
         

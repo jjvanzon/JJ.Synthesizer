@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            tapes.Logging().Log(GetTapeTree(tapes, includeCalculationGraphs));
+            tapes.Logging().Log("TapeTree", GetTapeTree(tapes, includeCalculationGraphs));
         }
         
         public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
@@ -179,11 +179,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
         public static void LogTapeTree(this IList<Tape> tapes, bool includeCalculationGraphs = false)
             => tapes.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+        
+        // GetTapeTree
 
         public static string GetTapeTree(this SynthWishes entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
-        
-        // GetTapeTree
         
         public static string GetTapeTree(this FlowNode entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
@@ -218,8 +218,12 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        // For inheritance situations, to avoid this qualifiers.
+        // For inheritance situations, to avoid `this` qualifiers.
+        
         protected string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
             => Logging.GetTapeTree(tapes, includeCalculationGraphs);
+        
+        protected void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
+            => Logging.LogTapeTree(tapes, includeCalculationGraphs);
     }
 }

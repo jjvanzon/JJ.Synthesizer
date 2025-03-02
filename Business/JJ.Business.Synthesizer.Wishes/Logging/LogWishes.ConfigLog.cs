@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
+        private void LogConfig      (string message) => Log      ("Config", message);
+        private void LogConfigSpaced(string message) => LogSpaced("Config", message);
+
         public string ConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
         {
             string titleElement = Has(title) ? PrettyTitle(title) + NewLine + NewLine : "";
@@ -366,63 +369,63 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 sep: sep);
         }
 
-        public   void LogConfig(              SynthWishes     entity            ) => LogSpaced(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, SynthWishes     entity            ) => LogSpaced(ConfigLog(title, entity     ));
-        public   void LogConfig(              SynthWishes     entity, string sep) => LogSpaced(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, SynthWishes     entity, string sep) => LogSpaced(ConfigLog(title, entity, sep));
-        public   void LogConfig(              FlowNode        entity            ) => Log      (ConfigLog(       entity     )); 
-        public   void LogConfig(string title, FlowNode        entity            ) => Log      (ConfigLog(title, entity     ));
-        public   void LogConfig(              FlowNode        entity, string sep) => Log      (ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, FlowNode        entity, string sep) => Log      (ConfigLog(title, entity, sep));
-        internal void LogConfig(              ConfigResolver  entity                                     ) => Log(ConfigLog(       entity                  )); 
-        internal void LogConfig(string title, ConfigResolver  entity                                     ) => Log(ConfigLog(title, entity                  ));
-        internal void LogConfig(              ConfigResolver  entity,                          string sep) => Log(ConfigLog(       entity,              sep)); 
-        internal void LogConfig(string title, ConfigResolver  entity,                          string sep) => Log(ConfigLog(title, entity,              sep));
-        internal void LogConfig(              ConfigResolver  entity, SynthWishes synthWishes            ) => Log(ConfigLog(       entity, synthWishes     )); 
-        internal void LogConfig(string title, ConfigResolver  entity, SynthWishes synthWishes            ) => Log(ConfigLog(title, entity, synthWishes     ));
-        internal void LogConfig(              ConfigResolver  entity, SynthWishes synthWishes, string sep) => Log(ConfigLog(       entity, synthWishes, sep)); 
-        internal void LogConfig(string title, ConfigResolver  entity, SynthWishes synthWishes, string sep) => Log(ConfigLog(title, entity, synthWishes, sep));
-        internal void LogConfig(              ConfigSection   entity            ) => Log(ConfigLog(       entity     ));
-        internal void LogConfig(string title, ConfigSection   entity            ) => Log(ConfigLog(title, entity     ));
-        internal void LogConfig(              ConfigSection   entity, string sep) => Log(ConfigLog(       entity, sep));
-        internal void LogConfig(string title, ConfigSection   entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              Tape            entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, Tape            entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              Tape            entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, Tape            entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              TapeConfig      entity            ) => Log(ConfigLog(       entity     ));
-        public   void LogConfig(              TapeActions     entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, TapeActions     entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              TapeActions     entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, TapeActions     entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              TapeAction      entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, TapeAction      entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              TapeAction      entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, TapeAction      entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              Buff            entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, Buff            entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              Buff            entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, Buff            entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              AudioFileOutput entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, AudioFileOutput entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              AudioFileOutput entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, AudioFileOutput entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              Sample          entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, Sample          entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              Sample          entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, Sample          entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              AudioInfoWish   entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, AudioInfoWish   entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              AudioInfoWish   entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, AudioInfoWish   entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              AudioFileInfo   entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, AudioFileInfo   entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              AudioFileInfo   entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, AudioFileInfo   entity, string sep) => Log(ConfigLog(title, entity, sep));
-        public   void LogConfig(              WavHeaderStruct entity            ) => Log(ConfigLog(       entity     )); 
-        public   void LogConfig(string title, WavHeaderStruct entity            ) => Log(ConfigLog(title, entity     ));
-        public   void LogConfig(              WavHeaderStruct entity, string sep) => Log(ConfigLog(       entity, sep)); 
-        public   void LogConfig(string title, WavHeaderStruct entity, string sep) => Log(ConfigLog(title, entity, sep));
+        public   void LogConfig(              SynthWishes     entity            ) => LogConfigSpaced(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, SynthWishes     entity            ) => LogConfigSpaced(ConfigLog(title, entity     ));
+        public   void LogConfig(              SynthWishes     entity, string sep) => LogConfigSpaced(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, SynthWishes     entity, string sep) => LogConfigSpaced(ConfigLog(title, entity, sep));
+        public   void LogConfig(              FlowNode        entity            ) => LogConfig      (ConfigLog(       entity     )); 
+        public   void LogConfig(string title, FlowNode        entity            ) => LogConfig      (ConfigLog(title, entity     ));
+        public   void LogConfig(              FlowNode        entity, string sep) => LogConfig      (ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, FlowNode        entity, string sep) => LogConfig      (ConfigLog(title, entity, sep));
+        internal void LogConfig(              ConfigResolver  entity                                     ) => LogConfig(ConfigLog(       entity                  )); 
+        internal void LogConfig(string title, ConfigResolver  entity                                     ) => LogConfig(ConfigLog(title, entity                  ));
+        internal void LogConfig(              ConfigResolver  entity,                          string sep) => LogConfig(ConfigLog(       entity,              sep)); 
+        internal void LogConfig(string title, ConfigResolver  entity,                          string sep) => LogConfig(ConfigLog(title, entity,              sep));
+        internal void LogConfig(              ConfigResolver  entity, SynthWishes synthWishes            ) => LogConfig(ConfigLog(       entity, synthWishes     )); 
+        internal void LogConfig(string title, ConfigResolver  entity, SynthWishes synthWishes            ) => LogConfig(ConfigLog(title, entity, synthWishes     ));
+        internal void LogConfig(              ConfigResolver  entity, SynthWishes synthWishes, string sep) => LogConfig(ConfigLog(       entity, synthWishes, sep)); 
+        internal void LogConfig(string title, ConfigResolver  entity, SynthWishes synthWishes, string sep) => LogConfig(ConfigLog(title, entity, synthWishes, sep));
+        internal void LogConfig(              ConfigSection   entity            ) => LogConfig(ConfigLog(       entity     ));
+        internal void LogConfig(string title, ConfigSection   entity            ) => LogConfig(ConfigLog(title, entity     ));
+        internal void LogConfig(              ConfigSection   entity, string sep) => LogConfig(ConfigLog(       entity, sep));
+        internal void LogConfig(string title, ConfigSection   entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              Tape            entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, Tape            entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              Tape            entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, Tape            entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              TapeConfig      entity            ) => LogConfig(ConfigLog(       entity     ));
+        public   void LogConfig(              TapeActions     entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, TapeActions     entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              TapeActions     entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, TapeActions     entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              TapeAction      entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, TapeAction      entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              TapeAction      entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, TapeAction      entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              Buff            entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, Buff            entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              Buff            entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, Buff            entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              AudioFileOutput entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, AudioFileOutput entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              AudioFileOutput entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, AudioFileOutput entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              Sample          entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, Sample          entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              Sample          entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, Sample          entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              AudioInfoWish   entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, AudioInfoWish   entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              AudioInfoWish   entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, AudioInfoWish   entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              AudioFileInfo   entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, AudioFileInfo   entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              AudioFileInfo   entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, AudioFileInfo   entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
+        public   void LogConfig(              WavHeaderStruct entity            ) => LogConfig(ConfigLog(       entity     )); 
+        public   void LogConfig(string title, WavHeaderStruct entity            ) => LogConfig(ConfigLog(title, entity     ));
+        public   void LogConfig(              WavHeaderStruct entity, string sep) => LogConfig(ConfigLog(       entity, sep)); 
+        public   void LogConfig(string title, WavHeaderStruct entity, string sep) => LogConfig(ConfigLog(title, entity, sep));
     }
 }
 

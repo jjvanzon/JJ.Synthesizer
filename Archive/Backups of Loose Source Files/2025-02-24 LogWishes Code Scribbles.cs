@@ -121,3 +121,33 @@
                 Static.LogAction("File", "Delete", filePath, "Failed: " + ex.Message);
             }
         }
+
+        //public static void Log(this SynthWishes synthWishes, string message = null)
+        //{
+        //    if (synthWishes == null) throw new NullException(() => synthWishes);
+        //    synthWishes.Logging.Log(message);
+        //}
+
+        public static void LogTitle(this SynthWishes synthWishes, string message = null)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.Logging.LogTitle(message);
+        }
+
+        public static void LogSpaced(this SynthWishes synthWishes, string message = null)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.Logging.LogSpaced(message);
+        }
+
+        public static void LogTitleStrong(this SynthWishes synthWishes, string message = null)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.Logging.LogTitleStrong(message);
+        }
+
+        public static void LogOutputFile (this SynthWishes synthWishes, string filePath, string sourceFilePath = null)
+        {
+            if (synthWishes == null) throw new NullException(() => synthWishes);
+            synthWishes.Logging.LogOutputFile(filePath, sourceFilePath);
+        }

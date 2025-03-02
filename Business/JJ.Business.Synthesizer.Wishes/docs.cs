@@ -1,4 +1,5 @@
-﻿using JJ.Persistence.Synthesizer;
+﻿using System;
+using JJ.Persistence.Synthesizer;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable InconsistentNaming
@@ -398,6 +399,17 @@ namespace JJ.Business.Synthesizer.Wishes
         /// will apply LogAction-style formatting.
         /// </summary>
         public struct _logtapeaction { }
+        
+        /// <summary>
+        /// Not supported. Category parameter would clash with filePath parameter.
+        /// Alternative: <c>Log(category, FormatOutputFile(filePath, sourceFilePath));</c>
+        /// </summary>
+        /// <param name="category">
+        /// Category parameter would clash with filePath parameter.
+        /// Alternative: <c>Log(category, FormatOutputFile(filePath, sourceFilePath));</c>
+        /// </param>
+        /// <exception cref="NotSupportedException"></exception>
+        public struct _logoutputfilewithcategory { }
         
         /// <summary> 
         /// Outputs audio in an audio file format and plays it if needed. <br /> 
