@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using JJ.Framework.Wishes.Logging;
 using JJ.Framework.Wishes.Logging.Config;
-using JJ.Framework.Wishes.Logging.Xml;
+using JJ.Framework.Wishes.Logging.Mappers;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {

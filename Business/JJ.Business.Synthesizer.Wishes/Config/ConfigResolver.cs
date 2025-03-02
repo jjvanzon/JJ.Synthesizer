@@ -12,7 +12,7 @@ using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Logging;
 using JJ.Framework.Wishes.Logging.Config;
-using JJ.Framework.Wishes.Logging.Xml;
+using JJ.Framework.Wishes.Logging.Mappers;
 using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
