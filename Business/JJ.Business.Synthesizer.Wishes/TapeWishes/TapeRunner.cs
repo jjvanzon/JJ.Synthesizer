@@ -160,10 +160,10 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             double timeOutInSec = timeOutInMs / 1000.0;
             string formattedTimeOut = PrettyDuration(timeOutInSec);
             
-            string actionMessage = Static.ActionMessage(
-                nameof(Tape),
-                "Check for Leaves",
-                "", $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
+            string actionMessage = _synthWishes.ActionMessage<Tape>(
+                "Check for Leaves", $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
+            
+            string tapesLeftMessage = _synthWishes.Logging.TapesLeftMessage(todoCount, tapesTODO);
             
             switch (timeOutAction)
             {
@@ -172,11 +172,11 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     break;
                     
                 case Log:
-                    _synthWishes.Log(actionMessage + " " + Static.TapesLeftMessage(todoCount, tapesTODO));
+                    _synthWishes.Log(actionMessage + " " + tapesLeftMessage);
                     break;
                 
                 case Stop:
-                    throw new Exception(actionMessage + " " + Static.TapesLeftMessage(todoCount, tapesTODO));
+                    throw new Exception(actionMessage + " " + tapesLeftMessage);
             }
         }
         

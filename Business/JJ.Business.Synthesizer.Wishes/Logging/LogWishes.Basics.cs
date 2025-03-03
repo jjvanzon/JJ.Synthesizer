@@ -110,13 +110,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
             if (!Has(formattedOutputFile)) return "";
             
-            return ActionMessage("File", ActionEnum.Save, formattedOutputFile, "");
+            return ActionMessage("File", ActionEnum.Save, name: formattedOutputFile);
         }
         
         public string MemoryOutputMessage(byte[] bytes)
         {
             if (!Has(bytes)) return "";
-            return ActionMessage("Memory", "Write", "", PrettyByteCount(bytes));
+            return ActionMessage("Memory", "Write", PrettyByteCount(bytes));
         }
 
         internal static LogWishes Resolve(SynthWishes synthWishes)
