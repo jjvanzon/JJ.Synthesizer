@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string sourceFilePath, 
             string destFilePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Static.LogAction("File", ActionEnum.Save);
+            Static.LogAction("File", ActionEnum.Save, Static.FormatFilePathIfExists(sourceFilePath, destFilePath));
             return InternalSave(sourceFilePath, destFilePath, callerMemberName);
         }
         

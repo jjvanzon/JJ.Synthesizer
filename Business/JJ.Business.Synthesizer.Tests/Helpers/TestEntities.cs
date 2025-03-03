@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Tests.docs;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
@@ -36,6 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public FlowNode               FlowNode2            { get; set; }
         public ConfigResolverAccessor ConfigResolver       { get; set; }
         public ConfigSectionAccessor  ConfigSection        { get; set; }
+        public LogWishes              Logging              { get; set; }
     }
 
     internal class TapeBoundEntities
@@ -166,7 +168,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 Derived             = synthWishesInherited,
                 Context             = synthWishes.Context,
                 ConfigResolver      = synthWishesAccessor.Config,
-                ConfigSection       = synthWishesAccessor.Config._section
+                ConfigSection       = synthWishesAccessor.Config._section,
+                Logging             = synthWishes.Logging
             };
             
             initialize?.Invoke(synthWishes);
@@ -184,7 +187,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 Bits                   = DefaultBits,
                 Channels               = DefaultChannels,
                 SamplingRate           = DefaultSamplingRate,
-                //SamplingRate           = 20,
                 AudioFormat            = DefaultAudioFormat,
                 Interpolation          = DefaultInterpolation,
                 CourtesyFrames         = DefaultCourtesyFrames,
@@ -422,7 +424,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 {
                     // SourceFilePath
                     string filePathBase = TapeBound.Tape.GetFilePath(BuffBound.Buff.FilePath);
-                    
                     BuffBound.Buff.Save(filePathBase);
                     BuffBound.SourceFilePath = BuffBound.Buff.FilePath;
                     
@@ -431,6 +432,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     try
                     {
                         (BuffBound.DestFilePath, tempStream) = CreateSafeFileStream(filePathBase);
+                        BuffBound.Buff.LogOutputFile(BuffBound.DestFilePath);
+                        //SynthBound.Logging.LogOutputFile(BuffBound.DestFilePath);
+                        //LogWishes.Static.LogOutputFile(BuffBound.DestFilePath);
                     }
                     finally
                     {

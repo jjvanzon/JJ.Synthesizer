@@ -116,7 +116,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal static Buff InternalPlay(SynthWishes synthWishes, string filePath)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
-            synthWishes.LogAction("File", ActionEnum.Play);
+            synthWishes.LogAction("File", ActionEnum.Play, filePath);
             return InternalPlayBase(synthWishes, filePath, null, GetExtension(filePath));
         }
         

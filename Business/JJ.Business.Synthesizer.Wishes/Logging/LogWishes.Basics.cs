@@ -20,6 +20,7 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using JJ.Business.Synthesizer.Wishes.NoteWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
@@ -99,24 +100,72 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         // ReSharper disable UnusedParameter.Global
         [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
         // ReSharper restore once UnusedParameter.Global
+
         
+        public string OutputFileMessage(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            
+            string formattedFilePath = FormatFilePathIfExists(tape.FilePathResolved);
+            if (!Has(formattedFilePath)) return "";
+            
+            return ActionMessage("File", ActionEnum.Save, formattedFilePath, tape.Descriptor);
+        }
+                
+        public string OutputFileMessage(Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            
+            if (buff.Tape != null)
+            {
+                return OutputFileMessage(buff.Tape);
+            }
+            else
+            {
+                return OutputFileMessage(buff.FilePath);
+            }
+        }
+
         public string OutputFileMessage(string filePath, string sourceFilePath = null)
+        {
+            string formattedFilePath = FormatFilePathIfExists(filePath, sourceFilePath);
+            if (!Has(formattedFilePath)) return "";
+            
+            return ActionMessage("File", ActionEnum.Save, formattedFilePath);
+        }
+        
+        public string FormatFilePathIfExists(string filePath, string sourceFilePath = null)
         {
             if (!Has(filePath)) return "";
             if (!Exists(filePath)) return "";
-
             string formattedSourceFile = Has(sourceFilePath) ? $" (copied {sourceFilePath})" : "";
-            string formattedOutputFile = filePath + formattedSourceFile;
-
-            if (!Has(formattedOutputFile)) return "";
-            
-            return ActionMessage("File", ActionEnum.Save, name: formattedOutputFile);
+            return filePath + formattedSourceFile;
         }
         
-        public string MemoryOutputMessage(byte[] bytes)
+        public string MemoryOutputMessage(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return MemoryOutputMessage(tape.Bytes, tape.Descriptor);
+        }
+        
+        public string MemoryOutputMessage(Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            
+            if (buff.Tape != null)
+            {
+                return MemoryOutputMessage(buff.Tape);
+            }
+            else
+            {
+                return MemoryOutputMessage(buff.Bytes);
+            }
+        }
+
+        public string MemoryOutputMessage(byte[] bytes, string name = "")
         {
             if (!Has(bytes)) return "";
-            return ActionMessage("Memory", "Write", PrettyByteCount(bytes));
+            return ActionMessage("Memory", "Write", name, PrettyByteCount(bytes));
         }
 
         internal static LogWishes Resolve(SynthWishes synthWishes)
@@ -202,7 +251,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary>
         /// Always filled in. Holds the main LogWishes instance to use.
         /// </summary>
-        internal LogWishes Logging { get; } = new LogWishes();
+        public LogWishes Logging { get; } = new LogWishes();
 
         // TODO: Synonyms
         
@@ -322,13 +371,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal static void LogTitleStrong(this TapeAction     entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
         internal static void LogTitleStrong(this Buff           entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
         
-        public   static void LogOutputFile (this FlowNode       entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Tape           entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeConfig     entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeActions    entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeAction     entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Buff           entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        internal static void LogOutputFile (this ConfigResolver entity, string filePath, string sourceFilePath = null) => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this FlowNode       entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Tape           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeConfig     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeActions    entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeAction     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Buff           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        internal static void LogOutputFile (this ConfigResolver entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
         // ReSharper disable UnusedParameter.Global
         /// <inheritdoc cref="_logoutputfilewithcategory" />
         [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this FlowNode       entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);

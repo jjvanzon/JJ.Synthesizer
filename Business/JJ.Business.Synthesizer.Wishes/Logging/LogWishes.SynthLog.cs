@@ -96,10 +96,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             lines.Add("");
             
-            string bytesMessage = MemoryOutputMessage(tape.Bytes);
+            string bytesMessage = MemoryOutputMessage(tape);
             if (Has(bytesMessage)) lines.Add(bytesMessage);
             
-            string fileMessage = OutputFileMessage(tape.FilePathResolved);
+            string fileMessage = OutputFileMessage(tape);
             if (Has(fileMessage)) lines.Add(fileMessage);
             
             if (!Has(fileMessage) && !Has(bytesMessage))
