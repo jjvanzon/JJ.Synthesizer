@@ -179,3 +179,34 @@
             //if (Has(formattedFilePath)) lines.Add(formattedFilePath);
             
             //lines.Add("");
+        
+        internal const string LogOutputFileCategoryNotSupported = 
+            "Category parameter would clash with filePath parameter." +
+            "Use this instead: Log(category, FormatOutputFile(filePath, sourceFilePath));";
+
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        // ReSharper disable UnusedParameter.Global
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
+
+        // ReSharper disable UnusedParameter.Global
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
+
+        // ReSharper disable UnusedParameter.Global
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this FlowNode       entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Tape           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeConfig     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeActions    entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeAction     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Buff           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this ConfigResolver entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
