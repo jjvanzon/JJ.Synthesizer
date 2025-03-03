@@ -102,24 +102,15 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         public string OutputFileMessage(string filePath, string sourceFilePath = null)
         {
-            string formattedOutputFile = FormatOutputFile(filePath, sourceFilePath, prefix: "");
-            
-            if (!Has(formattedOutputFile))
-            {
-                return "";
-            }
-
-            return ActionMessage("File", ActionEnum.Save, formattedOutputFile, "");
-        }
-        
-        private string FormatOutputFile(string filePath, string sourceFilePath = null, string prefix = "  ")
-        {
             if (!Has(filePath)) return "";
             if (!Exists(filePath)) return "";
-            string sourceFileString = "";
-            if (Has(sourceFilePath)) sourceFileString += $" (copied {sourceFilePath})";
-            string message = prefix + filePath + sourceFileString;
-            return message;
+
+            string formattedSourceFile = Has(sourceFilePath) ? $" (copied {sourceFilePath})" : "";
+            string formattedOutputFile = filePath + formattedSourceFile;
+
+            if (!Has(formattedOutputFile)) return "";
+            
+            return ActionMessage("File", ActionEnum.Save, formattedOutputFile, "");
         }
         
         public string MemoryOutputMessage(byte[] bytes)
