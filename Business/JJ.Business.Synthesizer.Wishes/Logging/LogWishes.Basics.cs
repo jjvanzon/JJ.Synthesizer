@@ -11,23 +11,16 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
-using static System.IO.File;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using JJ.Business.Synthesizer.Wishes.NoteWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
-        internal const string LogOutputFileCategoryNotSupported = "Use this instead: Log(category, OutputFileMessage(filePath, sourceFilePath));";
-
         public static LogWishes Static { get; } = new LogWishes();
 
         private readonly ILogger _logger = LoggingFactory.CreateLogger(ConfigResolver.Static.LoggerConfig);
@@ -90,82 +83,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         {
             string upperCase = (title ?? "").ToUpper();
             LogSpaced(category, PrettyTitle(upperCase, underlineChar: '='));
-        }
-
-        public void LogOutputFile(string filePath, string sourceFilePath = null)
-        {
-            Log(OutputFileMessage(filePath, sourceFilePath));
-        }
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        // ReSharper disable UnusedParameter.Global
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        // ReSharper restore once UnusedParameter.Global
-
-        
-        public string OutputFileMessage(Tape tape)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            
-            string formattedFilePath = FormatFilePathIfExists(tape.FilePathResolved);
-            if (!Has(formattedFilePath)) return "";
-            
-            return ActionMessage("File", ActionEnum.Save, formattedFilePath, tape.Descriptor);
-        }
-                
-        public string OutputFileMessage(Buff buff)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            
-            if (buff.Tape != null)
-            {
-                return OutputFileMessage(buff.Tape);
-            }
-            else
-            {
-                return OutputFileMessage(buff.FilePath);
-            }
-        }
-
-        public string OutputFileMessage(string filePath, string sourceFilePath = null)
-        {
-            string formattedFilePath = FormatFilePathIfExists(filePath, sourceFilePath);
-            if (!Has(formattedFilePath)) return "";
-            
-            return ActionMessage("File", ActionEnum.Save, formattedFilePath);
-        }
-        
-        public string FormatFilePathIfExists(string filePath, string sourceFilePath = null)
-        {
-            if (!Has(filePath)) return "";
-            if (!Exists(filePath)) return "";
-            string formattedSourceFile = Has(sourceFilePath) ? $" (copied {sourceFilePath})" : "";
-            return filePath + formattedSourceFile;
-        }
-        
-        public string MemoryOutputMessage(Tape tape)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            return MemoryOutputMessage(tape.Bytes, tape.Descriptor);
-        }
-        
-        public string MemoryOutputMessage(Buff buff)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            
-            if (buff.Tape != null)
-            {
-                return MemoryOutputMessage(buff.Tape);
-            }
-            else
-            {
-                return MemoryOutputMessage(buff.Bytes);
-            }
-        }
-
-        public string MemoryOutputMessage(byte[] bytes, string name = "")
-        {
-            if (!Has(bytes)) return "";
-            return ActionMessage("Memory", "Write", name, PrettyByteCount(bytes));
         }
 
         internal static LogWishes Resolve(SynthWishes synthWishes)
@@ -269,12 +186,6 @@ namespace JJ.Business.Synthesizer.Wishes
         internal void LogTitle      (string category, string title         ) => Logging.LogTitle(category, title);
         public   void LogTitleStrong(                 string title         ) => Logging.LogTitleStrong(title);
         internal void LogTitleStrong(string category, string title         ) => Logging.LogTitleStrong(category, title);
-        
-        public void LogOutputFile (string filePath, string sourceFilePath = null) => Logging.LogOutputFile(filePath, sourceFilePath);
-        // ReSharper disable UnusedParameter.Global
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        // ReSharper restore once UnusedParameter.Global
     }
 }
 
@@ -370,29 +281,5 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal static void LogTitleStrong(this TapeActions    entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
         internal static void LogTitleStrong(this TapeAction     entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
         internal static void LogTitleStrong(this Buff           entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
-        
-        public   static void LogOutputFile (this FlowNode       entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Tape           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeConfig     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeActions    entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeAction     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Buff           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        internal static void LogOutputFile (this ConfigResolver entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
-        // ReSharper disable UnusedParameter.Global
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this FlowNode       entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Tape           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeConfig     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeActions    entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeAction     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Buff           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        /// <inheritdoc cref="_logoutputfilewithcategory" />
-        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this ConfigResolver entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
-        // ReSharper restore once UnusedParameter.Global
     }
 }

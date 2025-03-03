@@ -7,9 +7,11 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
+using JJ.Business.Synthesizer.Wishes.Config;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
@@ -292,6 +294,88 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         }
     
         // ReSharper restore MethodOverloadWithOptionalParameter
+
+        internal const string LogOutputFileCategoryNotSupported = 
+            "Category parameter would clash with filePath parameter." +
+            "Use this instead: Log(category, FormatOutputFile(filePath, sourceFilePath));";
+
+
+        public void LogOutputFile(string filePath, string sourceFilePath = null)
+        {
+            Log(OutputFileMessage(filePath, sourceFilePath));
+        }
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        // ReSharper disable UnusedParameter.Global
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
+
+        
+        public string OutputFileMessage(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            
+            string formattedFilePath = FormatFilePathIfExists(tape.FilePathResolved);
+            if (!Has(formattedFilePath)) return "";
+            
+            return ActionMessage("File", ActionEnum.Save, formattedFilePath, tape.Descriptor);
+        }
+                
+        public string OutputFileMessage(Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            
+            if (buff.Tape != null)
+            {
+                return OutputFileMessage(buff.Tape);
+            }
+            else
+            {
+                return OutputFileMessage(buff.FilePath);
+            }
+        }
+
+        public string OutputFileMessage(string filePath, string sourceFilePath = null)
+        {
+            string formattedFilePath = FormatFilePathIfExists(filePath, sourceFilePath);
+            if (!Has(formattedFilePath)) return "";
+            
+            return ActionMessage("File", ActionEnum.Save, formattedFilePath);
+        }
+        
+        public string FormatFilePathIfExists(string filePath, string sourceFilePath = null)
+        {
+            if (!Has(filePath)) return "";
+            if (!Exists(filePath)) return "";
+            string formattedSourceFile = Has(sourceFilePath) ? $" (copied {sourceFilePath})" : "";
+            return filePath + formattedSourceFile;
+        }
+        
+        public string MemoryOutputMessage(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return MemoryOutputMessage(tape.Bytes, tape.Descriptor);
+        }
+        
+        public string MemoryOutputMessage(Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            
+            if (buff.Tape != null)
+            {
+                return MemoryOutputMessage(buff.Tape);
+            }
+            else
+            {
+                return MemoryOutputMessage(buff.Bytes);
+            }
+        }
+
+        public string MemoryOutputMessage(byte[] bytes, string name = "")
+        {
+            if (!Has(bytes)) return "";
+            return ActionMessage("Memory", "Write", name, PrettyByteCount(bytes));
+        }
+        
     }
 }
 
@@ -309,10 +393,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public void Log      (TapeAction      action,                                 string message = null) => Logging.Log      (action,                 message);
         public void LogAction(Buff            entity, string     action,              string message = null) => Logging.LogAction(entity,   action,       message);
         public void LogAction(Buff            entity, ActionEnum action,              string message = null) => Logging.LogAction(entity,   action,       message);
-        public void LogAction(Sample          entity, string     action,              string message = null) => Logging.LogAction(entity,   action,       message);
-        public void LogAction(Sample          entity, ActionEnum action,              string message = null) => Logging.LogAction(entity,   action,       message);
         public void LogAction(AudioFileOutput entity, string     action,              string message = null) => Logging.LogAction(entity,   action,       message);
         public void LogAction(AudioFileOutput entity, ActionEnum action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(Sample          entity, string     action,              string message = null) => Logging.LogAction(entity,   action,       message);
+        public void LogAction(Sample          entity, ActionEnum action,              string message = null) => Logging.LogAction(entity,   action,       message);
         public void LogAction(byte[]          entity, string     action,              string message = null) => Logging.LogAction(entity,   action,       message);
         public void LogAction(byte[]          entity, ActionEnum action,              string message = null) => Logging.LogAction(entity,   action,       message);
         public void LogAction(object          entity, string     action, string name, string message = null) => Logging.LogAction(entity,   action, name, message);
@@ -337,10 +421,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public string Message      (TapeAction      action,                                 string message = null) => Logging.Message  (action,                 message);
         public string ActionMessage(Buff            entity, string     action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
         public string ActionMessage(Buff            entity, ActionEnum action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
-        public string ActionMessage(Sample          entity, string     action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
-        public string ActionMessage(Sample          entity, ActionEnum action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
         public string ActionMessage(AudioFileOutput entity, string     action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
         public string ActionMessage(AudioFileOutput entity, ActionEnum action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
+        public string ActionMessage(Sample          entity, string     action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
+        public string ActionMessage(Sample          entity, ActionEnum action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
         public string ActionMessage(byte[]          entity, string     action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
         public string ActionMessage(byte[]          entity, ActionEnum action,              string message = null) => Logging.ActionMessage(entity,   action,       message);
         public string ActionMessage(object          entity, string     action, string name, string message = null) => Logging.ActionMessage(entity,   action, name, message);
@@ -356,6 +440,11 @@ namespace JJ.Business.Synthesizer.Wishes
         public string ActionMessage<TEntity>(               string     action, string name, string message       ) => Logging.ActionMessage<TEntity>( action, name, message);
         public string ActionMessage<TEntity>(               ActionEnum action, string name, string message       ) => Logging.ActionMessage<TEntity>( action, name, message);
 
+        public void LogOutputFile (string filePath, string sourceFilePath = null) => Logging.LogOutputFile(filePath, sourceFilePath);
+        // ReSharper disable UnusedParameter.Global
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal void LogOutputFile(string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
     }
 }
 
@@ -402,5 +491,29 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message = null) => entity.Logging(synthWishes).ActionMessage(entity, action, message);
         public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, string message = null) => entity.Logging(synthWishes).ActionMessage(entity, action, message);
         public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message = null) => entity.Logging(synthWishes).ActionMessage(entity, action, message);
+
+        public   static void LogOutputFile (this FlowNode       entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Tape           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeConfig     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeActions    entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this TapeAction     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        public   static void LogOutputFile (this Buff           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        internal static void LogOutputFile (this ConfigResolver entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogOutputFile(filePath, sourceFilePath);
+        // ReSharper disable UnusedParameter.Global
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this FlowNode       entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Tape           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeConfig     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeActions    entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this TapeAction     entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this Buff           entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        /// <inheritdoc cref="_logoutputfilewithcategory" />
+        [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this ConfigResolver entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
+        // ReSharper restore once UnusedParameter.Global
     }
 }
