@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 lines.Add("");
             }
             
-            string bytesMessage = buff.Logging.MemoryOutputMessage(buff);
+            string bytesMessage = buff.Logging.MemoryActionMessage(buff);
             if (Has(bytesMessage)) lines.Add(bytesMessage);
             
             string fileMessage = buff.Logging.FileActionMessage(buff);

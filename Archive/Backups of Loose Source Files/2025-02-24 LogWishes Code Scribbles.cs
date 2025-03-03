@@ -210,3 +210,15 @@
         /// <inheritdoc cref="_logoutputfilewithcategory" />
         [Obsolete(LogOutputFileCategoryNotSupported, true)] internal static void LogOutputFile (this ConfigResolver entity, string category, string filePath, string sourceFilePath) => throw new NotSupportedException(LogOutputFileCategoryNotSupported);
         // ReSharper restore once UnusedParameter.Global
+
+                
+        //public string ActionMessage(byte[] entity, string name = "")
+        //{
+        //    if (!Has(entity)) return "";
+        //    return ActionMessage("Memory", "Write", name, PrettyByteCount(entity));
+        //}
+
+        //public string ActionMessage(byte[] entity,   string     action,              string message = "") => ActionMessage("Memory", action,  "",   Coalesce(message, PrettyByteCount(entity)));
+        //public string ActionMessage(byte[] entity,                           string name = "", string message = "") => ActionMessage("Memory", "Write", "",   Coalesce(message, PrettyByteCount(entity)));
+        //public string ActionMessage(byte[] entity,                      string name,      string message = "") => ActionMessage("Memory", "Write", name, Coalesce(message, PrettyByteCount(entity)));
+        //public string ActionMessage(byte[] entity,   string     action, string name, string message = "") => ActionMessage("Memory", action,  name, Coalesce(message, PrettyByteCount(entity)));

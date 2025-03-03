@@ -34,13 +34,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         /// <inheritdoc cref="_logtapeaction" />
         public void Log(TapeAction entity, string message = null) => LogAction(Message(entity, message));
 
-        public void LogFileAction(string filePath, string sourceFilePath = null) => LogAction(FileActionMessage(filePath, sourceFilePath));
 
-        public void LogAction(byte[] entity,                                   string message = null) => LogAction(ActionMessage(entity,                 message));
-        public void LogAction(byte[] entity,   ActionEnum action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
-        public void LogAction(byte[] entity,   string     action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
-        public void LogAction(byte[] entity,   ActionEnum action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
-        public void LogAction(byte[] entity,   string     action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
         public void LogAction(object entity,                                   string message = null) => LogAction(ActionMessage(entity,                 message));
         public void LogAction(object entity,   ActionEnum action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
         public void LogAction(object entity,   string     action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
@@ -56,7 +50,14 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public void LogAction(string typeName, string     action,              string message = null) => LogAction(ActionMessage(typeName, action,       message));
         public void LogAction(string typeName, ActionEnum action, string name, string message = null) => LogAction(ActionMessage(typeName, action, name, message));
         public void LogAction(string typeName, string     action, string name, string message = null) => LogAction(ActionMessage(typeName, action, name, message));
-        
+        public void LogAction(byte[] entity,                                   string message = null) => LogAction(ActionMessage(entity,                 message));
+        public void LogAction(byte[] entity,   ActionEnum action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
+        public void LogAction(byte[] entity,   string     action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
+        public void LogAction(byte[] entity,   ActionEnum action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
+        public void LogAction(byte[] entity,   string     action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
+
+        public void LogFileAction(string filePath, string sourceFilePath = null) => LogAction(FileActionMessage(filePath, sourceFilePath));
+
         private void LogAction(string actionMessage) => Log("Actions", actionMessage);
 
         // ActionMessages
@@ -131,59 +132,53 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return ActionMessage(entity, action, entity.Name, message ?? ConfigLog(entity));
         }
 
-        // ReSharper disable UnusedParameter.Global
-        public string ActionMessage(byte[] entity,                                 string message = null) => ActionMessage("Memory", "",     "",   message);
-        public string ActionMessage(byte[] entity, ActionEnum action,              string message = null) => ActionMessage("Memory", action, "",   message);
-        public string ActionMessage(byte[] entity, ActionEnum action, string name, string message = null) => ActionMessage("Memory", action, name, message);
-        public string ActionMessage(byte[] entity, string     action,              string message = null) => ActionMessage("Memory", action, "",   message);
-        public string ActionMessage(byte[] entity, string     action, string name, string message = null) => ActionMessage("Memory", action, name, message);
-        // ReSharper restore UnusedParameter.Global
-        
-        public string ActionMessage(object entity, string message = null)
-            => ActionMessage(entity, null, null, message);
-        
+        public string ActionMessage(object entity,                                 string message = null) => ActionMessage(entity, "",     "", message);
+        public string ActionMessage(object entity, ActionEnum action,              string message = null) => ActionMessage(entity, action, "", message);
+        public string ActionMessage(object entity, string     action,              string message = null) => ActionMessage(entity, action, "", message);
         public string ActionMessage(object entity, ActionEnum action, string name, string message = null)
         {
             if (entity == null) throw new NullException(() => entity);
             return ActionMessage(entity.GetType().Name, action, name, message);
         }
-        
-        public string ActionMessage(object entity, string action, string name, string message = null)
+        public string ActionMessage(object entity, string     action, string name, string message = null)
         {
             if (entity == null) throw new NullException(() => entity);
             return ActionMessage(entity.GetType().Name, action, name, message);
         }
         
-        public string ActionMessage<TEntity>(string message) 
-            => ActionMessage(typeof(TEntity).Name, null, null, message);
         
-        public string ActionMessage<TEntity>(ActionEnum action, string message) 
-            => ActionMessage(typeof(TEntity).Name, action, null, message);
-        
-        public string ActionMessage<TEntity>(string action, string message) 
-            => ActionMessage(typeof(TEntity).Name, action, null, message);
-        
-        public string ActionMessage<TEntity>(ActionEnum action, string name, string message) 
-            => ActionMessage(typeof(TEntity).Name, action, name, message);
-        
-        public string ActionMessage<TEntity>(string action, string name, string message) 
-            => ActionMessage(typeof(TEntity).Name, action, name, message);
-        
-        public string ActionMessage(string typeName, string message) 
-            => ActionMessage(typeName, null, null, message);
-        
-        public string ActionMessage(string typeName, ActionEnum action, string message = null) 
-            => ActionMessage(typeName, action, null, message);
-        
-        public string ActionMessage(string typeName, string action, string message) 
-            => ActionMessage(typeName, action, null, message);
-        
-        // ReSharper disable MethodOverloadWithOptionalParameter
+        // ReSharper disable UnusedParameter.Global
+        public string ActionMessage(byte[] entity                                                       ) => ActionMessage("Memory", "Write", ""  , message: PrettyByteCount(entity));
+        public string ActionMessage(byte[] entity,                                   string message     ) => ActionMessage("Memory", "Write", ""  , message                         );
+        public string ActionMessage(byte[] entity,                      string name, int dummy = default) => ActionMessage("Memory", "Write", name, message: PrettyByteCount(entity));
+        public string ActionMessage(byte[] entity,                      string name, string message     ) => ActionMessage("Memory", "Write", name, message                         );
+        public string ActionMessage(byte[] entity,   string     action, string name, string message     ) => ActionMessage("Memory", action , name, message                         );
+        public string ActionMessage(byte[] entity,   ActionEnum action                                  ) => ActionMessage("Memory", action , ""  , message: PrettyByteCount(entity));
+        public string ActionMessage(byte[] entity,   ActionEnum action,              string message     ) => ActionMessage("Memory", action , ""  , message                         );
+        public string ActionMessage(byte[] entity,   ActionEnum action, string name, int dummy = default) => ActionMessage("Memory", action , name, message: PrettyByteCount(entity));
+        public string ActionMessage(byte[] entity,   ActionEnum action, string name, string message     ) => ActionMessage("Memory", action , name, message: PrettyByteCount(entity));
 
-        public string ActionMessage(string typeName, ActionEnum action, string name, string message = null) 
-            => ActionMessage(typeName, action.ToString(), name, message);
+        public string ActionMessage<TEntity>(                                                           ) => ActionMessage(typeof(TEntity).Name, ""    , ""  , ""     );
+        public string ActionMessage<TEntity>(                                        string message     ) => ActionMessage(typeof(TEntity).Name, ""    , ""  , message);
+        public string ActionMessage<TEntity>(        string     action,              string message     ) => ActionMessage(typeof(TEntity).Name, action, ""  , message);
+        public string ActionMessage<TEntity>(        string     action, string name, int dummy = default) => ActionMessage(typeof(TEntity).Name, action, name, ""     );
+        public string ActionMessage<TEntity>(        string     action, string name, string message     ) => ActionMessage(typeof(TEntity).Name, action, name, message);
+        public string ActionMessage<TEntity>(        ActionEnum action                                  ) => ActionMessage(typeof(TEntity).Name, action, ""  , ""     );
+        public string ActionMessage<TEntity>(        ActionEnum action,              string message     ) => ActionMessage(typeof(TEntity).Name, action, ""  , message);
+        public string ActionMessage<TEntity>(        ActionEnum action, string name, int dummy = default) => ActionMessage(typeof(TEntity).Name, action, name, ""     );
+        public string ActionMessage<TEntity>(        ActionEnum action, string name, string message     ) => ActionMessage(typeof(TEntity).Name, action, name, message);
+        
+        public string ActionMessage(string typeName                                                     ) => ActionMessage(typeName,             "",       "",   ""     );
+        public string ActionMessage(string typeName,                                 string message     ) => ActionMessage(typeName,             "",       "",   message);
+        public string ActionMessage(string typeName, string     action,              int dummy = default) => ActionMessage(typeName,             action,   "",   ""     );
+        public string ActionMessage(string typeName, string     action,              string message     ) => ActionMessage(typeName,             action,   "",   message);
+        public string ActionMessage(string typeName, ActionEnum action                                  ) => ActionMessage(typeName,             action,   "",   ""     );
+        public string ActionMessage(string typeName, ActionEnum action,              string message     ) => ActionMessage(typeName,             action,   "",   message);
+        public string ActionMessage(string typeName, ActionEnum action, string name, int dummy = default) => ActionMessage(typeName,             action,   name, ""     );
+        public string ActionMessage(string typeName, ActionEnum action, string name, string message = "") => ActionMessage(typeName,          $"{action}", name, message);
+        // ReSharper restore UnusedParameter.Global
 
-        public string ActionMessage(string typeName, string action, string name, string message = null)
+        public string ActionMessage(string typeName, string     action, string name, string message)
         {
             string text = PrettyTime();
                 
@@ -211,9 +206,28 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             return text;
         }
-    
-        // ReSharper restore MethodOverloadWithOptionalParameter
         
+        public string MemoryActionMessage(Tape tape)
+        {
+            if (tape == null) throw new NullException(() => tape);
+            return ActionMessage(tape.Bytes, name: tape.Descriptor);
+        }
+        
+        public string MemoryActionMessage(Buff buff)
+        {
+            if (buff == null) throw new NullException(() => buff);
+            
+            if (buff.Tape != null)
+            {
+                return MemoryActionMessage(buff.Tape);
+            }
+            else
+            {
+                return ActionMessage(buff.Bytes);
+            }
+        }
+
+
         public string FileActionMessage(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
@@ -253,33 +267,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             string formattedSourceFile = Has(sourceFilePath) ? $" (copied {sourceFilePath})" : "";
             return filePath + formattedSourceFile;
         }
-        
-        public string MemoryActionMessage(Tape tape)
-        {
-            if (tape == null) throw new NullException(() => tape);
-            return MemoryActionMessage(tape.Bytes, tape.Descriptor);
-        }
-        
-        public string MemoryOutputMessage(Buff buff)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            
-            if (buff.Tape != null)
-            {
-                return MemoryActionMessage(buff.Tape);
-            }
-            else
-            {
-                return MemoryActionMessage(buff.Bytes);
-            }
-        }
-
-        public string MemoryActionMessage(byte[] bytes, string name = "")
-        {
-            if (!Has(bytes)) return "";
-            return ActionMessage("Memory", "Write", name, PrettyByteCount(bytes));
-        }
-        
     }
 }
 
