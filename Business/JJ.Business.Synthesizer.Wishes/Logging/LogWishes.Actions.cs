@@ -163,25 +163,55 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return Has(byteCount) ? ActionMessage("Memory", action, name, message) : "";
         }
 
-        public string MemoryActionMessage(byte[]      entity                                                     ) => MemoryActionMessage(entity?.Length ?? 0                             );
-        public string MemoryActionMessage(byte[]      entity,                                 string message     ) => MemoryActionMessage(entity?.Length ?? 0,               message      );
-        public string MemoryActionMessage(byte[]      entity, ActionEnum action                                  ) => MemoryActionMessage(entity?.Length ?? 0, action                     );   
-        public string MemoryActionMessage(byte[]      entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity?.Length ?? 0, action,       message      );
-        public string MemoryActionMessage(byte[]      entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity?.Length ?? 0, action, name,         dummy);
-        public string MemoryActionMessage(byte[]      entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity?.Length ?? 0, action, name, message      );
-        public string MemoryActionMessage(byte[]      entity,                    string name, int dummy = default) => MemoryActionMessage(entity?.Length ?? 0,         name,         dummy);
-        public string MemoryActionMessage(byte[]      entity,                    string name, string message     ) => MemoryActionMessage(entity?.Length ?? 0,         name, message      );
-        public string MemoryActionMessage(byte[]      entity, string     action, string name, string message     ) => MemoryActionMessage(entity?.Length ?? 0, action, name, message      );
+        public   string MemoryActionMessage(                        byte[] bytes                                                     ) => MemoryActionMessage(bytes?.Length ?? 0                             );
+        public   string MemoryActionMessage(                        byte[] bytes,                                 string message     ) => MemoryActionMessage(bytes?.Length ?? 0,               message      );
+        public   string MemoryActionMessage(                        byte[] bytes, ActionEnum action                                  ) => MemoryActionMessage(bytes?.Length ?? 0, action                     );   
+        public   string MemoryActionMessage(                        byte[] bytes, ActionEnum action,              string message     ) => MemoryActionMessage(bytes?.Length ?? 0, action,       message      );
+        public   string MemoryActionMessage(                        byte[] bytes, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(bytes?.Length ?? 0, action, name,         dummy);
+        public   string MemoryActionMessage(                        byte[] bytes, ActionEnum action, string name, string message     ) => MemoryActionMessage(bytes?.Length ?? 0, action, name, message      );
+        public   string MemoryActionMessage(                        byte[] bytes,                    string name, int dummy = default) => MemoryActionMessage(bytes?.Length ?? 0,         name,         dummy);
+        public   string MemoryActionMessage(                        byte[] bytes,                    string name, string message     ) => MemoryActionMessage(bytes?.Length ?? 0,         name, message      );
+        public   string MemoryActionMessage(                        byte[] bytes, string     action, string name, string message     ) => MemoryActionMessage(bytes?.Length ?? 0, action, name, message      );
+                                                                    
+        public   string ActionMessage      (                        byte[] bytes                                                     ) => MemoryActionMessage(bytes                             );
+        public   string ActionMessage      (                        byte[] bytes,                                 string message     ) => MemoryActionMessage(bytes,               message      );
+        public   string ActionMessage      (                        byte[] bytes, ActionEnum action                                  ) => MemoryActionMessage(bytes, action                     );   
+        public   string ActionMessage      (                        byte[] bytes, ActionEnum action,              string message     ) => MemoryActionMessage(bytes, action,       message      );
+        public   string ActionMessage      (                        byte[] bytes, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(bytes, action, name,         dummy);
+        public   string ActionMessage      (                        byte[] bytes, ActionEnum action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
+        public   string ActionMessage      (                        byte[] bytes,                    string name, int dummy = default) => MemoryActionMessage(bytes,         name,         dummy);
+        public   string ActionMessage      (                        byte[] bytes,                    string name, string message     ) => MemoryActionMessage(bytes,         name, message      );
+        public   string ActionMessage      (                        byte[] bytes, string     action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
+                                                                   
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes                                                     ) => MemoryActionMessage(bytes                             );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                                 string message     ) => MemoryActionMessage(bytes,               message      );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action                                  ) => MemoryActionMessage(bytes, action                     );   
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action,              string message     ) => MemoryActionMessage(bytes, action,       message      );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(bytes, action, name,         dummy);
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                    string name, int dummy = default) => MemoryActionMessage(bytes,         name,         dummy);
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                    string name, string message     ) => MemoryActionMessage(bytes,         name, message      );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, string     action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
 
-        public string ActionMessage      (byte[]      entity                                                     ) => MemoryActionMessage(entity?.Length ?? 0                             );
-        public string ActionMessage      (byte[]      entity,                                 string message     ) => MemoryActionMessage(entity?.Length ?? 0,               message      );
-        public string ActionMessage      (byte[]      entity, ActionEnum action                                  ) => MemoryActionMessage(entity?.Length ?? 0, action                     );   
-        public string ActionMessage      (byte[]      entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity?.Length ?? 0, action,       message      );
-        public string ActionMessage      (byte[]      entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity?.Length ?? 0, action, name,         dummy);
-        public string ActionMessage      (byte[]      entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity?.Length ?? 0, action, name, message      );
-        public string ActionMessage      (byte[]      entity,                    string name, int dummy = default) => MemoryActionMessage(entity?.Length ?? 0,         name,         dummy);
-        public string ActionMessage      (byte[]      entity,                    string name, string message     ) => MemoryActionMessage(entity?.Length ?? 0,         name, message      );
-        public string ActionMessage      (byte[]      entity, string     action, string name, string message     ) => MemoryActionMessage(entity?.Length ?? 0, action, name, message      );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes                                                     ) => MemoryActionMessage(bytes                             );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                                 string message     ) => MemoryActionMessage(bytes,               message      );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action                                  ) => MemoryActionMessage(bytes, action                     );   
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action,              string message     ) => MemoryActionMessage(bytes, action,       message      );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(bytes, action, name,         dummy);
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                    string name, int dummy = default) => MemoryActionMessage(bytes,         name,         dummy);
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                    string name, string message     ) => MemoryActionMessage(bytes,         name, message      );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, string     action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
+
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes                                                     ) => MemoryActionMessage(bytes                             );
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes,                                 string message     ) => MemoryActionMessage(bytes,               message      );
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, ActionEnum action                                  ) => MemoryActionMessage(bytes, action                     );   
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, ActionEnum action,              string message     ) => MemoryActionMessage(bytes, action,       message      );
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(bytes, action, name,         dummy);
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, ActionEnum action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes,                    string name, int dummy = default) => MemoryActionMessage(bytes,         name,         dummy);
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes,                    string name, string message     ) => MemoryActionMessage(bytes,         name, message      );
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, string     action, string name, string message     ) => MemoryActionMessage(bytes, action, name, message      );
         
         public string MemoryActionMessage(Tape        entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
         public string MemoryActionMessage(Tape        entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
