@@ -233,3 +233,15 @@
         //public string MemoryActionMessage(Tape tape, string     action,              string message     ) => MemoryActionMessage(tape,    action  , ""  , message);
         //public string MemoryActionMessage(Tape tape, string     action, string name, int dummy = default) => MemoryActionMessage(tape,    action  , name, ""     );
         //public string MemoryActionMessage(Tape tape, string     action, string name, string message     )
+
+
+        // TODO: Name  argument is up for use here.
+        
+        //internal string ActionMessage(ConfigResolver entity, ActionEnum action                 ) => ActionMessage(entity, $"{action}", ""     );
+        //internal string ActionMessage(ConfigResolver entity, ActionEnum action,  string message) => ActionMessage(entity, $"{action}", message);
+        //internal string ActionMessage(ConfigResolver entity, string     action                 ) => ActionMessage(entity,    action  , ""     );
+        //internal string ActionMessage(ConfigResolver entity, string     message, int dummy = 0 ) => ActionMessage(entity, "",          message);
+        //internal string ActionMessage(ConfigResolver entity, string     action,  string message)
+        //{
+        //    return ActionMessage("Config", action, message);
+        //}
