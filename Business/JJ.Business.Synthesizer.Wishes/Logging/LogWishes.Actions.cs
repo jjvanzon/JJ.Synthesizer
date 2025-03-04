@@ -193,52 +193,94 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return text;
         }
                 
-        public string ActionMessage      (byte[] entity                                                       ) => MemoryActionMessage(entity, "Write"    , ""  , message: PrettyByteCount(entity));
-        public string ActionMessage      (byte[] entity,                                   string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message                         );
-        public string ActionMessage      (byte[] entity,   ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , message: PrettyByteCount(entity));
-        public string ActionMessage      (byte[] entity,   ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message                         );
-        public string ActionMessage      (byte[] entity,   ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
-        public string ActionMessage      (byte[] entity,   ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
-        public string ActionMessage      (byte[] entity,                      string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, message: PrettyByteCount(entity));
-        public string ActionMessage      (byte[] entity,                      string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message                         );
-        public string ActionMessage      (byte[] entity,   string     action, string name, string message     ) => MemoryActionMessage(entity,    action  , name, message                         );
+        public string ActionMessage      (byte[]      entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[]      entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message                         );
+        public string ActionMessage      (byte[]      entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[]      entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message                         );
+        public string ActionMessage      (byte[]      entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[]      entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[]      entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[]      entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message                         );
+        public string ActionMessage      (byte[]      entity, string     action, string name, string message     ) => MemoryActionMessage(entity,    action  , name, message                         );
 
-        public string MemoryActionMessage(byte[] entity                                                      ) => MemoryActionMessage(entity, "Write"    , ""  , message: PrettyByteCount(entity));
-        public string MemoryActionMessage(byte[] entity,                                  string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message                         );
-        public string MemoryActionMessage(byte[] entity,  ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , message: PrettyByteCount(entity));
-        public string MemoryActionMessage(byte[] entity,  ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message                         );
-        public string MemoryActionMessage(byte[] entity,  ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
-        public string MemoryActionMessage(byte[] entity,  ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
-        public string MemoryActionMessage(byte[] entity,                     string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, message: PrettyByteCount(entity));
-        public string MemoryActionMessage(byte[] entity,                     string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message                         );
-        public string MemoryActionMessage(byte[] entity,  string     action, string name, string message     )
+        public string MemoryActionMessage(byte[]      entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[]      entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message                         );
+        public string MemoryActionMessage(byte[]      entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[]      entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message                         );
+        public string MemoryActionMessage(byte[]      entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[]      entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[]      entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[]      entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message                         );
+        public string MemoryActionMessage(byte[]      entity, string     action, string name, string message     )
         {
             return Has(entity) ? ActionMessage("Memory", action, name, message) : "";
         }
         
-        public string MemoryActionMessage(Tape   entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
-        public string MemoryActionMessage(Tape   entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
-        public string MemoryActionMessage(Tape   entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
-        public string MemoryActionMessage(Tape   entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
-        public string MemoryActionMessage(Tape   entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
-        public string MemoryActionMessage(Tape   entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
-        public string MemoryActionMessage(Tape   entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
-        public string MemoryActionMessage(Tape   entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
-        public string MemoryActionMessage(Tape   entity, string     action, string name, string message     )
+        public string MemoryActionMessage(Tape        entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(Tape        entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(Tape        entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(Tape        entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(Tape        entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(Tape        entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(Tape        entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(Tape        entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(Tape        entity, string     action, string name, string message     )
         {
             if (entity == null) throw new NullException(() => entity);
-            return ActionMessage(entity.Bytes, action, Coalesce(name, entity.Descriptor), Coalesce(message, PrettyByteCount(entity.Bytes)));;
+            return MemoryActionMessage(entity.Bytes, action, Coalesce(name, entity.Descriptor), Coalesce(message, PrettyByteCount(entity.Bytes)));;
         }
-                                                 
-        public string MemoryActionMessage(Buff   entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
-        public string MemoryActionMessage(Buff   entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
-        public string MemoryActionMessage(Buff   entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
-        public string MemoryActionMessage(Buff   entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
-        public string MemoryActionMessage(Buff   entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
-        public string MemoryActionMessage(Buff   entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
-        public string MemoryActionMessage(Buff   entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
-        public string MemoryActionMessage(Buff   entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
-        public string MemoryActionMessage(Buff   entity, string     action, string name, string message     )
+
+        public string MemoryActionMessage(TapeConfig  entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(TapeConfig  entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(TapeConfig  entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(TapeConfig  entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(TapeConfig  entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(TapeConfig  entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(TapeConfig  entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(TapeConfig  entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(TapeConfig  entity, string     action, string name, string message     )
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return MemoryActionMessage(entity.Tape, action, name, message);
+        }
+        
+        public string MemoryActionMessage(TapeActions entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(TapeActions entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(TapeActions entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(TapeActions entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(TapeActions entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(TapeActions entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(TapeActions entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(TapeActions entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(TapeActions entity, string     action, string name, string message     )
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return MemoryActionMessage(entity.Tape, action, name, message);
+        }
+        
+        public string MemoryActionMessage(TapeAction  entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(TapeAction  entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(TapeAction  entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(TapeAction  entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(TapeAction  entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(TapeAction  entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(TapeAction  entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(TapeAction  entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(TapeAction  entity, string     action, string name, string message     )
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return MemoryActionMessage(entity.Tape, action, name, message);
+        }
+        
+        public string MemoryActionMessage(Buff        entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(Buff        entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(Buff        entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(Buff        entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(Buff        entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(Buff        entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(Buff        entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(Buff        entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(Buff        entity, string     action, string name, string message     )
         {
             if (entity == null) throw new NullException(() => entity);
             
@@ -248,10 +290,24 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             }
             else
             {
-                return ActionMessage(entity.Bytes, action, name, message);
+                return MemoryActionMessage(entity.Bytes, action, name, message);
             }
         }
 
+        public string MemoryActionMessage(Sample      entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(Sample      entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(Sample      entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(Sample      entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(Sample      entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(Sample      entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(Sample      entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(Sample      entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(Sample      entity, string     action, string name, string message     )
+        {
+            if (entity == null) throw new NullException(() => entity);
+            return MemoryActionMessage(entity.Bytes, action, name, message);
+        }
+        
         public string FileActionMessage(string filePath                                                          ) => FileActionMessage(filePath, Save       , ""     , ""            );
         public string FileActionMessage(string filePath,                                    string sourceFilePath) => FileActionMessage(filePath, Save       , ""     , sourceFilePath);
         public string FileActionMessage(string filePath, ActionEnum action                                       ) => FileActionMessage(filePath, $"{action}", ""     , ""            );
