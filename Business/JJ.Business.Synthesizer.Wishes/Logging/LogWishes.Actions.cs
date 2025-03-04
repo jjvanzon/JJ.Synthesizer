@@ -21,49 +21,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
-        // LogAction
-        
-        public void LogAction(FlowNode        entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(FlowNode        entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(Tape            entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(Tape            entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(TapeAction      entity,                    string message = null) => LogAction(ActionMessage(entity,         message));
-        public void LogAction(Buff            entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(Buff            entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(AudioFileOutput entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(AudioFileOutput entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(Sample          entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
-        public void LogAction(Sample          entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
-
-        /// <inheritdoc cref="_logtapeaction" />
-        public void Log(TapeAction entity, string message = null) => LogAction(Message(entity, message));
-
-
-        public void LogAction(object entity,                                   string message = null) => LogAction(ActionMessage(entity,                 message));
-        public void LogAction(object entity,   ActionEnum action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
-        public void LogAction(object entity,   string     action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
-        public void LogAction(object entity,   ActionEnum action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
-        public void LogAction(object entity,   string     action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
-        public void LogAction<TEntity>(                                        string message = null) => LogAction(ActionMessage<TEntity>(               message));
-        public void LogAction<TEntity>(        ActionEnum action,              string message = null) => LogAction(ActionMessage<TEntity>( action,       message));
-        public void LogAction<TEntity>(        string     action,              string message = null) => LogAction(ActionMessage<TEntity>( action,       message));
-        public void LogAction<TEntity>(        ActionEnum action, string name, string message = null) => LogAction(ActionMessage<TEntity>( action, name, message));
-        public void LogAction<TEntity>(        string     action, string name, string message = null) => LogAction(ActionMessage<TEntity>( action, name, message));
-        public void LogAction(string typeName,                                 string message = null) => LogAction(ActionMessage(typeName,               message));
-        public void LogAction(string typeName, ActionEnum action,              string message = null) => LogAction(ActionMessage(typeName, action,       message));
-        public void LogAction(string typeName, string     action,              string message = null) => LogAction(ActionMessage(typeName, action,       message));
-        public void LogAction(string typeName, ActionEnum action, string name, string message = null) => LogAction(ActionMessage(typeName, action, name, message));
-        public void LogAction(string typeName, string     action, string name, string message = null) => LogAction(ActionMessage(typeName, action, name, message));
-        public void LogAction(byte[] entity,                                   string message = null) => LogAction(ActionMessage(entity,                 message));
-        public void LogAction(byte[] entity,   ActionEnum action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
-        public void LogAction(byte[] entity,   string     action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
-        public void LogAction(byte[] entity,   ActionEnum action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
-        public void LogAction(byte[] entity,   string     action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
-
-        public void LogFileAction(string filePath, string sourceFilePath = null) => LogAction(FileActionMessage(filePath, sourceFilePath));
-
-        private void LogAction(string actionMessage) => Log("Actions", actionMessage);
-
         // ActionMessages
         
         public string ActionMessage(FlowNode        entity, ActionEnum action                ) => ActionMessage(entity, $"{action}", ""     );
@@ -369,6 +326,49 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 return FileActionMessage(entity.FilePath, action, message);
             }
         }
+        
+        // LogAction
+        
+        public void LogAction(FlowNode        entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(FlowNode        entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(Tape            entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(Tape            entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(TapeAction      entity,                    string message = null) => LogAction(ActionMessage(entity,         message));
+        public void LogAction(Buff            entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(Buff            entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(AudioFileOutput entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(AudioFileOutput entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(Sample          entity, ActionEnum action, string message = null) => LogAction(ActionMessage(entity, action, message));
+        public void LogAction(Sample          entity, string     action, string message = null) => LogAction(ActionMessage(entity, action, message));
+
+        /// <inheritdoc cref="_logtapeaction" />
+        public void Log(TapeAction entity, string message = null) => LogAction(Message(entity, message));
+
+
+        public void LogAction(object entity,                                   string message = null) => LogAction(ActionMessage(entity,                 message));
+        public void LogAction(object entity,   ActionEnum action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
+        public void LogAction(object entity,   string     action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
+        public void LogAction(object entity,   ActionEnum action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
+        public void LogAction(object entity,   string     action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
+        public void LogAction<TEntity>(                                        string message = null) => LogAction(ActionMessage<TEntity>(               message));
+        public void LogAction<TEntity>(        ActionEnum action,              string message = null) => LogAction(ActionMessage<TEntity>( action,       message));
+        public void LogAction<TEntity>(        string     action,              string message = null) => LogAction(ActionMessage<TEntity>( action,       message));
+        public void LogAction<TEntity>(        ActionEnum action, string name, string message = null) => LogAction(ActionMessage<TEntity>( action, name, message));
+        public void LogAction<TEntity>(        string     action, string name, string message = null) => LogAction(ActionMessage<TEntity>( action, name, message));
+        public void LogAction(string typeName,                                 string message = null) => LogAction(ActionMessage(typeName,               message));
+        public void LogAction(string typeName, ActionEnum action,              string message = null) => LogAction(ActionMessage(typeName, action,       message));
+        public void LogAction(string typeName, string     action,              string message = null) => LogAction(ActionMessage(typeName, action,       message));
+        public void LogAction(string typeName, ActionEnum action, string name, string message = null) => LogAction(ActionMessage(typeName, action, name, message));
+        public void LogAction(string typeName, string     action, string name, string message = null) => LogAction(ActionMessage(typeName, action, name, message));
+        public void LogAction(byte[] entity,                                   string message = null) => LogAction(ActionMessage(entity,                 message));
+        public void LogAction(byte[] entity,   ActionEnum action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
+        public void LogAction(byte[] entity,   string     action,              string message = null) => LogAction(ActionMessage(entity,   action,       message));
+        public void LogAction(byte[] entity,   ActionEnum action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
+        public void LogAction(byte[] entity,   string     action, string name, string message = null) => LogAction(ActionMessage(entity,   action, name, message));
+
+        public void LogFileAction(string filePath, string sourceFilePath = null) => LogAction(FileActionMessage(filePath, sourceFilePath));
+
+        private void LogAction(string actionMessage) => Log("Actions", actionMessage);
     }
 }
 
