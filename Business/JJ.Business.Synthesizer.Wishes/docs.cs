@@ -395,8 +395,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public struct _istape { }
         
         /// <summary>
-        /// Unlike other Log methods, the one targeting TapeAction,
-        /// will apply LogAction-style formatting.
+        /// TapeAction.Log will apply action-style formatting,
+        /// unlike other Log methods, that apply very little formatting.<br/>
+        /// Also, they lack an action parameter, because the action is determined by the TapeAction object.
         /// </summary>
         public struct _logtapeaction { }
         

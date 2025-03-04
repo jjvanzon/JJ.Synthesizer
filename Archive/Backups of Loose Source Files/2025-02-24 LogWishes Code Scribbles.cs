@@ -222,3 +222,14 @@
         //public string ActionMessage(byte[] entity,                           string name = "", string message = "") => ActionMessage("Memory", "Write", "",   Coalesce(message, PrettyByteCount(entity)));
         //public string ActionMessage(byte[] entity,                      string name,      string message = "") => ActionMessage("Memory", "Write", name, Coalesce(message, PrettyByteCount(entity)));
         //public string ActionMessage(byte[] entity,   string     action, string name, string message = "") => ActionMessage("Memory", action,  name, Coalesce(message, PrettyByteCount(entity)));
+
+        //public string MemoryActionMessage(Tape tape                                                     ) => MemoryActionMessage(tape, ""         , ""  , ""     );
+        //public string MemoryActionMessage(Tape tape,                                 string message     ) => MemoryActionMessage(tape, ""         , ""  , message);
+        //public string MemoryActionMessage(Tape tape, ActionEnum action                                  ) => MemoryActionMessage(tape, $"{action}", ""  , ""     );
+        //public string MemoryActionMessage(Tape tape, ActionEnum action,              string message     ) => MemoryActionMessage(tape, $"{action}", ""  , message);
+        //public string MemoryActionMessage(Tape tape, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(tape, $"{action}", name, ""     );
+        //public string MemoryActionMessage(Tape tape, ActionEnum action, string name, string message     ) => MemoryActionMessage(tape, $"{action}", name, message);
+        //public string MemoryActionMessage(Tape tape, string     action,              int dummy = default) => MemoryActionMessage(tape,    action  , ""  , ""     );
+        //public string MemoryActionMessage(Tape tape, string     action,              string message     ) => MemoryActionMessage(tape,    action  , ""  , message);
+        //public string MemoryActionMessage(Tape tape, string     action, string name, int dummy = default) => MemoryActionMessage(tape,    action  , name, ""     );
+        //public string MemoryActionMessage(Tape tape, string     action, string name, string message     )
