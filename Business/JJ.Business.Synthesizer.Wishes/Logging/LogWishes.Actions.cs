@@ -13,6 +13,8 @@ using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Wishes.Common;
+using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
+
 // ReSharper disable UnusedParameter.Global
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
@@ -191,42 +193,52 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return text;
         }
                 
-        public string ActionMessage(byte[] entity                                                       ) => ActionMessage(entity, "Write"    , ""  , message: PrettyByteCount(entity));
-        public string ActionMessage(byte[] entity,                                   string message     ) => ActionMessage(entity, "Write"    , ""  , message                         );
-        public string ActionMessage(byte[] entity,   ActionEnum action                                  ) => ActionMessage(entity, $"{action}", ""  , message: PrettyByteCount(entity));
-        public string ActionMessage(byte[] entity,   ActionEnum action,              string message     ) => ActionMessage(entity, $"{action}", ""  , message                         );
-        public string ActionMessage(byte[] entity,   ActionEnum action, string name, int dummy = default) => ActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
-        public string ActionMessage(byte[] entity,   ActionEnum action, string name, string message     ) => ActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
-        public string ActionMessage(byte[] entity,                      string name, int dummy = default) => ActionMessage(entity, "Write"    , name, message: PrettyByteCount(entity));
-        public string ActionMessage(byte[] entity,                      string name, string message     ) => ActionMessage(entity, "Write"    , name, message                         );
-        public string ActionMessage(byte[] entity,   string     action, string name, string message     )
+        public string ActionMessage      (byte[] entity                                                       ) => MemoryActionMessage(entity, "Write"    , ""  , message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[] entity,                                   string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message                         );
+        public string ActionMessage      (byte[] entity,   ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[] entity,   ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message                         );
+        public string ActionMessage      (byte[] entity,   ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[] entity,   ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[] entity,                      string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, message: PrettyByteCount(entity));
+        public string ActionMessage      (byte[] entity,                      string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message                         );
+        public string ActionMessage      (byte[] entity,   string     action, string name, string message     ) => MemoryActionMessage(entity,    action  , name, message                         );
+
+        public string MemoryActionMessage(byte[] entity                                                      ) => MemoryActionMessage(entity, "Write"    , ""  , message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[] entity,                                  string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message                         );
+        public string MemoryActionMessage(byte[] entity,  ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[] entity,  ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message                         );
+        public string MemoryActionMessage(byte[] entity,  ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[] entity,  ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[] entity,                     string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, message: PrettyByteCount(entity));
+        public string MemoryActionMessage(byte[] entity,                     string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message                         );
+        public string MemoryActionMessage(byte[] entity,  string     action, string name, string message     )
         {
             return Has(entity) ? ActionMessage("Memory", action, name, message) : "";
         }
         
-        public string MemoryActionMessage(Tape entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
-        public string MemoryActionMessage(Tape entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
-        public string MemoryActionMessage(Tape entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
-        public string MemoryActionMessage(Tape entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
-        public string MemoryActionMessage(Tape entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
-        public string MemoryActionMessage(Tape entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
-        public string MemoryActionMessage(Tape entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
-        public string MemoryActionMessage(Tape entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
-        public string MemoryActionMessage(Tape entity, string     action, string name, string message     )
+        public string MemoryActionMessage(Tape   entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(Tape   entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(Tape   entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(Tape   entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(Tape   entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(Tape   entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(Tape   entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(Tape   entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(Tape   entity, string     action, string name, string message     )
         {
             if (entity == null) throw new NullException(() => entity);
             return ActionMessage(entity.Bytes, action, Coalesce(name, entity.Descriptor), Coalesce(message, PrettyByteCount(entity.Bytes)));;
         }
-        
-        public string MemoryActionMessage(Buff entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
-        public string MemoryActionMessage(Buff entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
-        public string MemoryActionMessage(Buff entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
-        public string MemoryActionMessage(Buff entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
-        public string MemoryActionMessage(Buff entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
-        public string MemoryActionMessage(Buff entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
-        public string MemoryActionMessage(Buff entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
-        public string MemoryActionMessage(Buff entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
-        public string MemoryActionMessage(Buff entity, string     action, string name, string message     )
+                                                 
+        public string MemoryActionMessage(Buff   entity                                                     ) => MemoryActionMessage(entity, "Write"    , ""  , ""     );
+        public string MemoryActionMessage(Buff   entity,                                 string message     ) => MemoryActionMessage(entity, "Write"    , ""  , message);
+        public string MemoryActionMessage(Buff   entity, ActionEnum action                                  ) => MemoryActionMessage(entity, $"{action}", ""  , ""     );
+        public string MemoryActionMessage(Buff   entity, ActionEnum action,              string message     ) => MemoryActionMessage(entity, $"{action}", ""  , message);
+        public string MemoryActionMessage(Buff   entity, ActionEnum action, string name, int dummy = default) => MemoryActionMessage(entity, $"{action}", name, ""     );
+        public string MemoryActionMessage(Buff   entity, ActionEnum action, string name, string message     ) => MemoryActionMessage(entity, $"{action}", name, message);
+        public string MemoryActionMessage(Buff   entity,                    string name, int dummy = default) => MemoryActionMessage(entity, "Write"    , name, ""     );
+        public string MemoryActionMessage(Buff   entity,                    string name, string message     ) => MemoryActionMessage(entity, "Write"    , name, message);
+        public string MemoryActionMessage(Buff   entity, string     action, string name, string message     )
         {
             if (entity == null) throw new NullException(() => entity);
             
@@ -240,37 +252,18 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             }
         }
 
-
-        public string FileActionMessage(Tape tape)
+        public string FileActionMessage(string filePath                                                          ) => FileActionMessage(filePath, Save       , ""     , ""            );
+        public string FileActionMessage(string filePath,                                    string sourceFilePath) => FileActionMessage(filePath, Save       , ""     , sourceFilePath);
+        public string FileActionMessage(string filePath, ActionEnum action                                       ) => FileActionMessage(filePath, $"{action}", ""     , ""            );
+        public string FileActionMessage(string filePath, ActionEnum action,                 string sourceFilePath) => FileActionMessage(filePath, $"{action}", ""     , sourceFilePath);
+        public string FileActionMessage(string filePath, ActionEnum action, string message, string sourceFilePath) => FileActionMessage(filePath, $"{action}", message, sourceFilePath);
+        public string FileActionMessage(string filePath, string     action,                 int dummy = default  ) => FileActionMessage(filePath, action     , ""     , ""            );
+        public string FileActionMessage(string filePath, string     action,                 string sourceFilePath) => FileActionMessage(filePath, action     , ""     , sourceFilePath);
+        public string FileActionMessage(string filePath, string     action, string message, string sourceFilePath)
         {
-            if (tape == null) throw new NullException(() => tape);
-            
-            string formattedFilePath = FormatFilePathIfExists(tape.FilePathResolved);
-            if (!Has(formattedFilePath)) return "";
-            
-            return ActionMessage("File", ActionEnum.Save, formattedFilePath, tape.Descriptor);
-        }
-                
-        public string FileActionMessage(Buff buff)
-        {
-            if (buff == null) throw new NullException(() => buff);
-            
-            if (buff.Tape != null)
-            {
-                return FileActionMessage(buff.Tape);
-            }
-            else
-            {
-                return FileActionMessage(buff.FilePath);
-            }
-        }
-
-        public string FileActionMessage(string filePath, string sourceFilePath = null)
-        {
-            string formattedFilePath = FormatFilePathIfExists(filePath, sourceFilePath);
-            if (!Has(formattedFilePath)) return "";
-            
-            return ActionMessage("File", ActionEnum.Save, formattedFilePath);
+            string filePathDescriptor = FormatFilePathIfExists(filePath, sourceFilePath);
+            if (!Has(filePathDescriptor)) return "";
+            return ActionMessage("File", action, filePathDescriptor, message);
         }
         
         public string FormatFilePathIfExists(string filePath, string sourceFilePath = null)
@@ -279,6 +272,36 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             if (!Exists(filePath)) return "";
             string formattedSourceFile = Has(sourceFilePath) ? $" (copied {sourceFilePath})" : "";
             return filePath + formattedSourceFile;
+        }
+
+        public string FileActionMessage(Tape entity                                   ) => FileActionMessage(entity, Save       , ""     );
+        public string FileActionMessage(Tape entity, ActionEnum action                ) => FileActionMessage(entity, $"{action}", ""     );
+        public string FileActionMessage(Tape entity, ActionEnum action, string message) => FileActionMessage(entity, $"{action}", message);
+        public string FileActionMessage(Tape entity, string     action                ) => FileActionMessage(entity, action     , ""     );
+        public string FileActionMessage(Tape entity, string     action, string message)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            string formattedFilePath = FormatFilePathIfExists(entity.FilePathResolved);
+            if (!Has(formattedFilePath)) return "";
+            return ActionMessage("File", action, formattedFilePath, message);
+        }
+                
+        public string FileActionMessage(Buff entity                                   ) => FileActionMessage(entity, Save       , ""     );
+        public string FileActionMessage(Buff entity, ActionEnum action                ) => FileActionMessage(entity, $"{action}", ""     );
+        public string FileActionMessage(Buff entity, ActionEnum action, string message) => FileActionMessage(entity, $"{action}", message);
+        public string FileActionMessage(Buff entity, string     action                ) => FileActionMessage(entity, action     , ""     );
+        public string FileActionMessage(Buff entity, string     action, string message)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            
+            if (entity.Tape != null)
+            {
+                return FileActionMessage(entity.Tape, action, message);
+            }
+            else
+            {
+                return FileActionMessage(entity.FilePath, action, message);
+            }
         }
     }
 }
