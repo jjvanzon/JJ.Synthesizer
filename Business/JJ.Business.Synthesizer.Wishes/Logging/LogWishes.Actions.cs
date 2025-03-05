@@ -7,13 +7,12 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
+using JJ.Business.Synthesizer.Wishes.Config;
 using static System.IO.File;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
-using JJ.Business.Synthesizer.Wishes.Config;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
-using JJ.Business.Synthesizer.Wishes.NoteWishes;
 
 // ReSharper disable UnusedParameter.Global
 
@@ -1451,56 +1450,656 @@ namespace JJ.Business.Synthesizer.Wishes
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
+
+    
     public static partial class LogExtensionWishes
     {
-        public static string ActionMessage(this FlowNode        entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this FlowNode        entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Tape            entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Tape            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        /// <inheritdoc cref="_logtapeaction" />
-        public static string Message      (this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).Message      (action,         message);
-        public static string ActionMessage(this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).ActionMessage(action,         message);
-        public static string ActionMessage(this Buff            entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Buff            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this AudioFileOutput entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this AudioFileOutput entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
-        public static string ActionMessage(this byte[]          bytes,  string     action, string message = null) => LogWishes.Resolve(bytes ).ActionMessage(bytes,  action, message);
-        public static string ActionMessage(this byte[]          bytes,  ActionEnum action, string message = null) => LogWishes.Resolve(bytes ).ActionMessage(bytes, action, message);
+        // ActionMessage (On Entities)
         
-        public static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
-        public static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
+        public   static string ActionMessage(this FlowNode        entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this FlowNode        entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this FlowNode        entity, string     action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this FlowNode        entity, string     message,             int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this FlowNode        entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name         );
+        internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action, string name, string message) => ResolveLogging(entity).ActionMessage(entity,   action, name, message);
+        internal static string ActionMessage(this ConfigResolver  entity                                                ) => ResolveLogging(entity).ActionMessage(entity                         );
+        internal static string ActionMessage(this ConfigResolver  entity,                                 string message) => ResolveLogging(entity).ActionMessage(entity,                 message);
+        internal static string ActionMessage(this ConfigResolver  entity, string     action,              int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action,       dummy  );
+        internal static string ActionMessage(this ConfigResolver  entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        internal static string ActionMessage(this ConfigResolver  entity, string     action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name, dummy  );
+        internal static string ActionMessage(this ConfigResolver  entity, string     action, string name, string message) => ResolveLogging(entity).ActionMessage(entity,   action, name, message);
+        internal static string ActionMessage(this ConfigSection   entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        internal static string ActionMessage(this ConfigSection   entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        internal static string ActionMessage(this ConfigSection   entity, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name         );
+        internal static string ActionMessage(this ConfigSection   entity, ActionEnum action, string name, string message) => ResolveLogging(entity).ActionMessage(entity,   action, name, message);
+        internal static string ActionMessage(this ConfigSection   entity                                                ) => ResolveLogging(entity).ActionMessage(entity                         );
+        internal static string ActionMessage(this ConfigSection   entity,                                 string message) => ResolveLogging(entity).ActionMessage(entity,                 message);
+        internal static string ActionMessage(this ConfigSection   entity, string     action,              int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action,       dummy  );
+        internal static string ActionMessage(this ConfigSection   entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        internal static string ActionMessage(this ConfigSection   entity, string     action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name, dummy  );
+        internal static string ActionMessage(this ConfigSection   entity, string     action, string name, string message) => ResolveLogging(entity).ActionMessage(entity,   action, name, message);
+        public   static string ActionMessage(this Tape            entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Tape            entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this Tape            entity, string     action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Tape            entity, string     message,             int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this Tape            entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this TapeActions     entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this TapeActions     entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this TapeActions     entity, string     action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this TapeActions     entity, string     message,             int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this TapeActions     entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        /// <inheritdoc cref="_logtapeaction" />
+        public   static string Message      (this TapeAction      action                ) => ResolveLogging(action).ActionMessage(action         );
+        /// <inheritdoc cref="_logtapeaction" />
+        public   static string Message      (this TapeAction      action, string message) => ResolveLogging(action).ActionMessage(action, message);
+        /// <inheritdoc cref="_logtapeaction" />
+        public   static string ActionMessage(this TapeAction      action                ) => ResolveLogging(action).ActionMessage(action         );
+        /// <inheritdoc cref="_logtapeaction" />
+        public   static string ActionMessage(this TapeAction      action, string message) => ResolveLogging(action).ActionMessage(action, message);
+        public   static string ActionMessage(this Buff            entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Buff            entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this Buff            entity, string     action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Buff            entity, string     message,             int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this Buff            entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this AudioFileOutput entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this AudioFileOutput entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this AudioFileOutput entity, string     action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this AudioFileOutput entity, string     message,             int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this AudioFileOutput entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this Sample          entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Sample          entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this Sample          entity, string     action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Sample          entity, string     message,             int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this Sample          entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
 
-        public static void LogAction(this FlowNode        entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this FlowNode        entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this Tape            entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this Tape            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public   static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action                             ) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action,              string message) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     action                             ) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     message,             int dummy = 0 ) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     action,              string message) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action                             ) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action,              string message) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action,       message);
+        public   static string ActionMessage(this Sample          entity, SynthWishes synthWishes, string     action                             ) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action               );
+        public   static string ActionMessage(this Sample          entity, SynthWishes synthWishes, string     message,             int dummy = 0 ) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   message,        dummy);
+        public   static string ActionMessage(this Sample          entity, SynthWishes synthWishes, string     action,              string message) => ResolveLogging(entity, synthWishes).ActionMessage(entity,   action,       message);
+        
+        // ActionMessage (On Simple Types)
+        
+        public   static string ActionMessage(this object entity,        ActionEnum action                             ) => ResolveLogging(entity    ).ActionMessage(entity,     action               );
+        public   static string ActionMessage(this object entity,        ActionEnum action,              string message) => ResolveLogging(entity    ).ActionMessage(entity,     action,       message);
+        public   static string ActionMessage(this object entity,        ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity    ).ActionMessage(entity,     action, name, dummy  );
+        public   static string ActionMessage(this object entity,        ActionEnum action, string name, string message) => ResolveLogging(entity    ).ActionMessage(entity,     action, name, message);
+        public   static string ActionMessage(this object entity                                                       ) => ResolveLogging(entity    ).ActionMessage(entity                           );
+        public   static string ActionMessage(this object entity,                                        string message) => ResolveLogging(entity    ).ActionMessage(entity,                   message);
+        public   static string ActionMessage(this object entity,        string     action,              int dummy = 0 ) => ResolveLogging(entity    ).ActionMessage(entity,     action               );
+        public   static string ActionMessage(this object entity,        string     action,              string message) => ResolveLogging(entity    ).ActionMessage(entity,     action,       message);
+        public   static string ActionMessage(this object entity,        string     action, string name, int dummy = 0 ) => ResolveLogging(entity    ).ActionMessage(entity,     action, name         );
+        public   static string ActionMessage(this object entity,        string     action, string name, string message) => ResolveLogging(entity    ).ActionMessage(entity,     action, name, message);
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, ActionEnum action                             ) => ResolveLogging(obj       ).ActionMessage(obj,        action               );
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, ActionEnum action,              string message) => ResolveLogging(obj       ).ActionMessage(obj,        action,       message);
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(obj       ).ActionMessage(obj,        action, name, dummy  );
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, ActionEnum action, string name, string message) => ResolveLogging(obj       ).ActionMessage(obj,        action, name, message);
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj                                                ) => ResolveLogging(obj       ).ActionMessage(obj                              );
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj,                                 string message) => ResolveLogging(obj       ).ActionMessage(obj,                      message);
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, string     action,              int dummy = 0 ) => ResolveLogging(obj       ).ActionMessage(obj,        action               );
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, string     action,              string message) => ResolveLogging(obj       ).ActionMessage(obj,        action,       message);
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, string     action, string name, int dummy = 0 ) => ResolveLogging(obj       ).ActionMessage(obj,        action, name, dummy  );
+        /// <inheritdoc cref="actionmethodtentityobject />
+        public   static string ActionMessage<TEntity>(this TEntity obj, string     action, string name, string message) => ResolveLogging(obj       ).ActionMessage(obj,        action, name, message);
+        public   static string ActionMessage(this Type entityType,      ActionEnum action                             ) => ResolveLogging(entityType).ActionMessage(entityType, action               );
+        public   static string ActionMessage(this Type entityType,      ActionEnum action,              string message) => ResolveLogging(entityType).ActionMessage(entityType, action,       message);
+        public   static string ActionMessage(this Type entityType,      ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entityType).ActionMessage(entityType, action, name, dummy  );
+        public   static string ActionMessage(this Type entityType,      ActionEnum action, string name, string message) => ResolveLogging(entityType).ActionMessage(entityType, action, name, message);
+        public   static string ActionMessage(this Type entityType                                                     ) => ResolveLogging(entityType).ActionMessage(entityType                       );
+        public   static string ActionMessage(this Type entityType,                                      string message) => ResolveLogging(entityType).ActionMessage(entityType,               message);
+        public   static string ActionMessage(this Type entityType,      string     action,              int dummy = 0 ) => ResolveLogging(entityType).ActionMessage(entityType, action               );
+        public   static string ActionMessage(this Type entityType,      string     action,              string message) => ResolveLogging(entityType).ActionMessage(entityType, action,       message);
+        public   static string ActionMessage(this Type entityType,      string     action, string name, int dummy = 0 ) => ResolveLogging(entityType).ActionMessage(entityType, action, name, dummy  );
+        public   static string ActionMessage(this Type entityType,      string     action, string name, string message) => ResolveLogging(entityType).ActionMessage(entityType, action, name, message);
+        public   static string ActionMessage(this string typeName,      ActionEnum action                             ) => ResolveLogging(typeName  ).ActionMessage(typeName,   action               );
+        public   static string ActionMessage(this string typeName,      ActionEnum action,              string message) => ResolveLogging(typeName  ).ActionMessage(typeName,   action,       message);
+        public   static string ActionMessage(this string typeName,      ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(typeName  ).ActionMessage(typeName,   action, name, dummy  );
+        public   static string ActionMessage(this string typeName,      ActionEnum action, string name, string message) => ResolveLogging(typeName  ).ActionMessage(typeName,   action, name, message);
+        public   static string ActionMessage(this string typeName                                                     ) => ResolveLogging(typeName  ).ActionMessage(typeName                         );
+        public   static string ActionMessage(this string typeName,                                      string message) => ResolveLogging(typeName  ).ActionMessage(typeName,                 message);
+        public   static string ActionMessage(this string typeName,      string     action,              int dummy = 0 ) => ResolveLogging(typeName  ).ActionMessage(typeName,   action               );
+        public   static string ActionMessage(this string typeName,      string     action,              string message) => ResolveLogging(typeName  ).ActionMessage(typeName,   action,       message);
+        public   static string ActionMessage(this string typeName,      string     action, string name, int dummy = 0 ) => ResolveLogging(typeName  ).ActionMessage(typeName,   action, name, dummy  );
+        public   static string ActionMessage(this string typeName,      string     action, string name, string message) => ResolveLogging(typeName  ).ActionMessage(typeName,   action, name, message);
+
+        // Memory Message (On Simple Types)
+
+        // (Always tagged [MEMORY] here, so no need for target types: object. entity Type or TEntity.)
+                
+        public static string MemoryActionMessage(this int byteCount                                                ) => ResolveLogging(byteCount).MemoryActionMessage(byteCount                       );
+        public static string MemoryActionMessage(this int byteCount,                                 string message) => ResolveLogging(byteCount).MemoryActionMessage(byteCount,               message);
+        public static string MemoryActionMessage(this int byteCount, ActionEnum action                             ) => ResolveLogging(byteCount).MemoryActionMessage(byteCount, action               );   
+        public static string MemoryActionMessage(this int byteCount, ActionEnum action,              string message) => ResolveLogging(byteCount).MemoryActionMessage(byteCount, action,       message);
+        public static string MemoryActionMessage(this int byteCount, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(byteCount).MemoryActionMessage(byteCount, action, name, dummy  );
+        public static string MemoryActionMessage(this int byteCount, ActionEnum action, string name, string message) => ResolveLogging(byteCount).MemoryActionMessage(byteCount, action, name, message);
+        public static string MemoryActionMessage(this int byteCount,                    string name, int dummy = 0 ) => ResolveLogging(byteCount).MemoryActionMessage(byteCount,         name, dummy  );
+        public static string MemoryActionMessage(this int byteCount,                    string name, string message) => ResolveLogging(byteCount).MemoryActionMessage(byteCount,         name, message);
+        public static string MemoryActionMessage(this int byteCount, string     action, string name, string message) => ResolveLogging(byteCount).MemoryActionMessage(byteCount, action, name, message);
+        public static string MemoryActionMessage(this byte[] bytes                                                 ) => ResolveLogging(bytes    ).MemoryActionMessage(bytes                           );
+        public static string MemoryActionMessage(this byte[] bytes,                                  string message) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,                   message);
+        public static string MemoryActionMessage(this byte[] bytes,  ActionEnum action                             ) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,     action               );   
+        public static string MemoryActionMessage(this byte[] bytes,  ActionEnum action,              string message) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,     action,       message);
+        public static string MemoryActionMessage(this byte[] bytes,  ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,     action, name, dummy  );
+        public static string MemoryActionMessage(this byte[] bytes,  ActionEnum action, string name, string message) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,     action, name, message);
+        public static string MemoryActionMessage(this byte[] bytes,                     string name, int dummy = 0 ) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,             name, dummy  );
+        public static string MemoryActionMessage(this byte[] bytes,                     string name, string message) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,             name, message);
+        public static string MemoryActionMessage(this byte[] bytes,  string     action, string name, string message) => ResolveLogging(bytes    ).MemoryActionMessage(bytes,     action, name, message);
+        public static string ActionMessage      (this byte[] bytes                                                 ) => ResolveLogging(bytes    ).      ActionMessage(bytes                           );
+        public static string ActionMessage      (this byte[] bytes,                                  string message) => ResolveLogging(bytes    ).      ActionMessage(bytes,                   message);
+        public static string ActionMessage      (this byte[] bytes,  ActionEnum action                             ) => ResolveLogging(bytes    ).      ActionMessage(bytes,     action               );   
+        public static string ActionMessage      (this byte[] bytes,  ActionEnum action,              string message) => ResolveLogging(bytes    ).      ActionMessage(bytes,     action,       message);
+        public static string ActionMessage      (this byte[] bytes,  ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(bytes    ).      ActionMessage(bytes,     action, name, dummy  );
+        public static string ActionMessage      (this byte[] bytes,  ActionEnum action, string name, string message) => ResolveLogging(bytes    ).      ActionMessage(bytes,     action, name, message);
+        public static string ActionMessage      (this byte[] bytes,                     string name, int dummy = 0 ) => ResolveLogging(bytes    ).      ActionMessage(bytes,             name, dummy  );
+        public static string ActionMessage      (this byte[] bytes,                     string name, string message) => ResolveLogging(bytes    ).      ActionMessage(bytes,             name, message);
+        public static string ActionMessage      (this byte[] bytes,  string     action, string name, string message) => ResolveLogging(bytes    ).      ActionMessage(bytes,     action, name, message);
+        
+        // Memory Action Message (On Entities)
+        
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes                                                ) => ResolveLogging(entity).MemoryActionMessage(bytes                       );
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes,                                 string message) => ResolveLogging(entity).MemoryActionMessage(bytes,               message);
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes, ActionEnum action                             ) => ResolveLogging(entity).MemoryActionMessage(bytes, action               );   
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes, ActionEnum action,              string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action,       message);
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, dummy  );
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes, ActionEnum action, string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, message);
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes,                    string name, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(bytes,         name, dummy  );
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes,                    string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes,         name, message);
+        public   static string MemoryActionMessage(this FlowNode        entity, byte[] bytes, string     action, string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, message);
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes                                                ) => ResolveLogging(entity).MemoryActionMessage(bytes                       );
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes,                                 string message) => ResolveLogging(entity).MemoryActionMessage(bytes,               message);
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes, ActionEnum action                             ) => ResolveLogging(entity).MemoryActionMessage(bytes, action               );   
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes, ActionEnum action,              string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action,       message);
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, dummy  );
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, message);
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes,                    string name, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(bytes,         name, dummy  );
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes,                    string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes,         name, message);
+        internal static string MemoryActionMessage(this ConfigResolver  entity, byte[] bytes, string     action, string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, message);
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes                                                ) => ResolveLogging(entity).MemoryActionMessage(bytes                       );
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes,                                 string message) => ResolveLogging(entity).MemoryActionMessage(bytes,               message);
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes, ActionEnum action                             ) => ResolveLogging(entity).MemoryActionMessage(bytes, action               );   
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes, ActionEnum action,              string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action,       message);
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, dummy  );
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes, ActionEnum action, string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, message);
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes,                    string name, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(bytes,         name, dummy  );
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes,                    string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes,         name, message);
+        internal static string MemoryActionMessage(this ConfigSection   entity, byte[] bytes, string     action, string name, string message) => ResolveLogging(entity).MemoryActionMessage(bytes, action, name, message);
+        
+        public   static string MemoryActionMessage(this Tape            entity                                   ) => ResolveLogging(entity).MemoryActionMessage(entity                 );
+        public   static string MemoryActionMessage(this Tape            entity,                    string message) => ResolveLogging(entity).MemoryActionMessage(entity,         message);
+        public   static string MemoryActionMessage(this Tape            entity, ActionEnum action                ) => ResolveLogging(entity).MemoryActionMessage(entity, action         );
+        public   static string MemoryActionMessage(this Tape            entity, ActionEnum action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this Tape            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(entity, action, dummy  );
+        public   static string MemoryActionMessage(this Tape            entity, string     action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this TapeConfig      entity                                   ) => ResolveLogging(entity).MemoryActionMessage(entity                 );
+        public   static string MemoryActionMessage(this TapeConfig      entity,                    string message) => ResolveLogging(entity).MemoryActionMessage(entity,         message);
+        public   static string MemoryActionMessage(this TapeConfig      entity, ActionEnum action                ) => ResolveLogging(entity).MemoryActionMessage(entity, action         );
+        public   static string MemoryActionMessage(this TapeConfig      entity, ActionEnum action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this TapeConfig      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(entity, action, dummy  );
+        public   static string MemoryActionMessage(this TapeConfig      entity, string     action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this TapeActions     entity                                   ) => ResolveLogging(entity).MemoryActionMessage(entity                 );
+        public   static string MemoryActionMessage(this TapeActions     entity,                    string message) => ResolveLogging(entity).MemoryActionMessage(entity,         message);
+        public   static string MemoryActionMessage(this TapeActions     entity, ActionEnum action                ) => ResolveLogging(entity).MemoryActionMessage(entity, action         );
+        public   static string MemoryActionMessage(this TapeActions     entity, ActionEnum action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this TapeActions     entity, string     action, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(entity, action, dummy  );
+        public   static string MemoryActionMessage(this TapeActions     entity, string     action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this TapeAction      entity                                   ) => ResolveLogging(entity).MemoryActionMessage(entity                 );
+        public   static string MemoryActionMessage(this TapeAction      entity,                    string message) => ResolveLogging(entity).MemoryActionMessage(entity,         message);
+        public   static string MemoryActionMessage(this TapeAction      entity, ActionEnum action                ) => ResolveLogging(entity).MemoryActionMessage(entity, action         );
+        public   static string MemoryActionMessage(this TapeAction      entity, ActionEnum action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this TapeAction      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(entity, action, dummy  );
+        public   static string MemoryActionMessage(this TapeAction      entity, string     action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this Buff            entity                                   ) => ResolveLogging(entity).MemoryActionMessage(entity                 );
+        public   static string MemoryActionMessage(this Buff            entity,                    string message) => ResolveLogging(entity).MemoryActionMessage(entity,         message);
+        public   static string MemoryActionMessage(this Buff            entity, ActionEnum action                ) => ResolveLogging(entity).MemoryActionMessage(entity, action         );
+        public   static string MemoryActionMessage(this Buff            entity, ActionEnum action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this Buff            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(entity, action, dummy  );
+        public   static string MemoryActionMessage(this Buff            entity, string     action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this AudioFileOutput entity, byte[] bytes                                   ) => ResolveLogging(entity).MemoryActionMessage(entity, bytes                 );
+        public   static string MemoryActionMessage(this AudioFileOutput entity, byte[] bytes,                    string message) => ResolveLogging(entity).MemoryActionMessage(entity, bytes,         message);
+        public   static string MemoryActionMessage(this AudioFileOutput entity, byte[] bytes, ActionEnum action                ) => ResolveLogging(entity).MemoryActionMessage(entity, bytes, action         );
+        public   static string MemoryActionMessage(this AudioFileOutput entity, byte[] bytes, ActionEnum action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, bytes, action, message);
+        public   static string MemoryActionMessage(this AudioFileOutput entity, byte[] bytes, string     action, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(entity, bytes, action, dummy  );
+        public   static string MemoryActionMessage(this AudioFileOutput entity, byte[] bytes, string     action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, bytes, action, message);
+        public   static string MemoryActionMessage(this Sample          entity                                   ) => ResolveLogging(entity).MemoryActionMessage(entity                 );
+        public   static string MemoryActionMessage(this Sample          entity,                    string message) => ResolveLogging(entity).MemoryActionMessage(entity,         message);
+        public   static string MemoryActionMessage(this Sample          entity, ActionEnum action                ) => ResolveLogging(entity).MemoryActionMessage(entity, action         );
+        public   static string MemoryActionMessage(this Sample          entity, ActionEnum action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this Sample          entity, string     action, int dummy = 0 ) => ResolveLogging(entity).MemoryActionMessage(entity, action, dummy  );
+        public   static string MemoryActionMessage(this Sample          entity, string     action, string message) => ResolveLogging(entity).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes                                   ) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, bytes                 );
+        public   static string MemoryActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes,                    string message) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, bytes,         message);
+        public   static string MemoryActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, bytes, action         );
+        public   static string MemoryActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, bytes, action, message);
+        public   static string MemoryActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, bytes, action, dummy  );
+        public   static string MemoryActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, string     action, string message) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, bytes, action, message);
+        public   static string MemoryActionMessage(this Sample          entity, SynthWishes synthWishes                                   ) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity                 );
+        public   static string MemoryActionMessage(this Sample          entity, SynthWishes synthWishes,                    string message) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity,         message);
+        public   static string MemoryActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, action         );
+        public   static string MemoryActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, action, message);
+        public   static string MemoryActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, action, dummy  );
+        public   static string MemoryActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, string message) => ResolveLogging(entity, synthWishes).MemoryActionMessage(entity, action, message);
+        
+        // File Message (On Simple Types)
+
+        public static string FileActionMessage(this string filePath                                                          ) => ResolveLogging(filePath).FileActionMessage(filePath                                 );
+        public static string FileActionMessage(this string filePath,                                    string sourceFilePath) => ResolveLogging(filePath).FileActionMessage(filePath,                  sourceFilePath);
+        public static string FileActionMessage(this string filePath, ActionEnum action                                       ) => ResolveLogging(filePath).FileActionMessage(filePath, action                         );
+        public static string FileActionMessage(this string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(filePath).FileActionMessage(filePath, action,          sourceFilePath);
+        public static string FileActionMessage(this string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(filePath).FileActionMessage(filePath, action, message, sourceFilePath);
+        public static string FileActionMessage(this string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(filePath).FileActionMessage(filePath, action,          dummy         );
+        public static string FileActionMessage(this string filePath, string     action,                 string sourceFilePath) => ResolveLogging(filePath).FileActionMessage(filePath, action,          sourceFilePath);
+        public static string FileActionMessage(this string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(filePath).FileActionMessage(filePath, action, message, sourceFilePath);       
+                
+        // File Action Messages (On Entities)
+
+        public   static string FileActionMessage(this FlowNode        entity, string filePath                                                          ) => ResolveLogging(entity).FileActionMessage(entity, filePath                                 );
+        public   static string FileActionMessage(this FlowNode        entity, string filePath,                                    string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath,                  sourceFilePath);
+        public   static string FileActionMessage(this FlowNode        entity, string filePath, ActionEnum action                                       ) => ResolveLogging(entity).FileActionMessage(entity, filePath, action                         );
+        public   static string FileActionMessage(this FlowNode        entity, string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          sourceFilePath);
+        public   static string FileActionMessage(this FlowNode        entity, string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action, message, sourceFilePath);
+        public   static string FileActionMessage(this FlowNode        entity, string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          dummy         );
+        public   static string FileActionMessage(this FlowNode        entity, string filePath, string     action,                 string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          sourceFilePath);
+        public   static string FileActionMessage(this FlowNode        entity, string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action, message, sourceFilePath);       
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath                                                          ) => ResolveLogging(entity).FileActionMessage(entity, filePath                                 );
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath,                                    string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath,                  sourceFilePath);
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath, ActionEnum action                                       ) => ResolveLogging(entity).FileActionMessage(entity, filePath, action                         );
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          sourceFilePath);
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action, message, sourceFilePath);
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          dummy         );
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath, string     action,                 string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          sourceFilePath);
+        internal static string FileActionMessage(this ConfigResolver  entity, string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action, message, sourceFilePath);       
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath                                                          ) => ResolveLogging(entity).FileActionMessage(entity, filePath                                 );
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath,                                    string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath,                  sourceFilePath);
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath, ActionEnum action                                       ) => ResolveLogging(entity).FileActionMessage(entity, filePath, action                         );
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          sourceFilePath);
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action, message, sourceFilePath);
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          dummy         );
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath, string     action,                 string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action,          sourceFilePath);
+        internal static string FileActionMessage(this ConfigSection   entity, string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(entity).FileActionMessage(entity, filePath, action, message, sourceFilePath);       
+        public   static string FileActionMessage(this Tape            entity                                   ) => ResolveLogging(entity).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this Tape            entity, ActionEnum action                ) => ResolveLogging(entity).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this Tape            entity, ActionEnum action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this Tape            entity,                    string message) => ResolveLogging(entity).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this Tape            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this Tape            entity, string     action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this TapeConfig      entity                                   ) => ResolveLogging(entity).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this TapeConfig      entity, ActionEnum action                ) => ResolveLogging(entity).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this TapeConfig      entity, ActionEnum action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this TapeConfig      entity,                    string message) => ResolveLogging(entity).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this TapeConfig      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this TapeConfig      entity, string     action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this TapeActions     entity                                   ) => ResolveLogging(entity).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this TapeActions     entity, ActionEnum action                ) => ResolveLogging(entity).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this TapeActions     entity, ActionEnum action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this TapeActions     entity,                    string message) => ResolveLogging(entity).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this TapeActions     entity, string     action, int dummy = 0 ) => ResolveLogging(entity).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this TapeActions     entity, string     action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this TapeAction      entity                                   ) => ResolveLogging(entity).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this TapeAction      entity, ActionEnum action                ) => ResolveLogging(entity).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this TapeAction      entity, ActionEnum action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this TapeAction      entity,                    string message) => ResolveLogging(entity).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this TapeAction      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this TapeAction      entity, string     action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this Buff            entity                                   ) => ResolveLogging(entity).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this Buff            entity, ActionEnum action                ) => ResolveLogging(entity).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this Buff            entity, ActionEnum action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this Buff            entity,                    string message) => ResolveLogging(entity).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this Buff            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this Buff            entity, string     action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this AudioFileOutput entity                                   ) => ResolveLogging(entity).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this AudioFileOutput entity, ActionEnum action                ) => ResolveLogging(entity).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this AudioFileOutput entity, ActionEnum action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this AudioFileOutput entity,                    string message) => ResolveLogging(entity).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this AudioFileOutput entity, string     action, int dummy = 0 ) => ResolveLogging(entity).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this AudioFileOutput entity, string     action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this Sample          entity                                   ) => ResolveLogging(entity).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this Sample          entity, ActionEnum action                ) => ResolveLogging(entity).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this Sample          entity, ActionEnum action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this Sample          entity,                    string message) => ResolveLogging(entity).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this Sample          entity, string     action, int dummy = 0 ) => ResolveLogging(entity).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this Sample          entity, string     action, string message) => ResolveLogging(entity).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this AudioFileOutput entity, SynthWishes synthWishes                                   ) => ResolveLogging(entity, synthWishes).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this AudioFileOutput entity, SynthWishes synthWishes,                    string message) => ResolveLogging(entity, synthWishes).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this Sample          entity, SynthWishes synthWishes                                   ) => ResolveLogging(entity, synthWishes).FileActionMessage(entity                 );
+        public   static string FileActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action         );
+        public   static string FileActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action, message);
+        public   static string FileActionMessage(this Sample          entity, SynthWishes synthWishes,                    string message) => ResolveLogging(entity, synthWishes).FileActionMessage(entity,         message);
+        public   static string FileActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action, dummy  );
+        public   static string FileActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, string message) => ResolveLogging(entity, synthWishes).FileActionMessage(entity, action, message);
+        
+        // LogAction
+        
+        public   static FlowNode        LogAction(this FlowNode        entity, ActionEnum action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static FlowNode        LogAction(this FlowNode        entity, ActionEnum action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static FlowNode        LogAction(this FlowNode        entity, string     action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static FlowNode        LogAction(this FlowNode        entity, string     message, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, message, dummy ); return entity; }
+        public   static FlowNode        LogAction(this FlowNode        entity, string     action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, ActionEnum action                             ) { ResolveLogging(entity).LogAction(entity, action               ); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, ActionEnum action,              string message) { ResolveLogging(entity).LogAction(entity, action,       message); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, ActionEnum action, string name, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, action, name, dummy  ); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, ActionEnum action, string name, string message) { ResolveLogging(entity).LogAction(entity, action, name, message); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity                                                ) { ResolveLogging(entity).LogAction(entity                       ); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity,                                 string message) { ResolveLogging(entity).LogAction(entity,               message); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, string     action,              int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, action,       dummy  ); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, string     action,              string message) { ResolveLogging(entity).LogAction(entity, action,       message); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, string     action, string name, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, action, name, dummy  ); return entity; }
+        internal static ConfigResolver  LogAction(this ConfigResolver  entity, string     action, string name, string message) { ResolveLogging(entity).LogAction(entity, action, name, message); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, ActionEnum action                             ) { ResolveLogging(entity).LogAction(entity, action               ); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, ActionEnum action,              string message) { ResolveLogging(entity).LogAction(entity, action,       message); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, ActionEnum action, string name, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, action, name, dummy  ); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, ActionEnum action, string name, string message) { ResolveLogging(entity).LogAction(entity, action, name, message); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity                                                ) { ResolveLogging(entity).LogAction(entity                       ); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity,                                 string message) { ResolveLogging(entity).LogAction(entity,               message); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, string     action,              int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, action,       dummy  ); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, string     action,              string message) { ResolveLogging(entity).LogAction(entity, action,       message); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, string     action, string name, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, action, name, dummy  ); return entity; }
+        internal static ConfigSection   LogAction(this ConfigSection   entity, string     action, string name, string message) { ResolveLogging(entity).LogAction(entity, action, name, message); return entity; }
+        
+        public   static Tape            LogAction(this Tape            entity, ActionEnum action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static Tape            LogAction(this Tape            entity, ActionEnum action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static Tape            LogAction(this Tape            entity, string     action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static Tape            LogAction(this Tape            entity, string     message, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, message, dummy ); return entity; }
+        public   static Tape            LogAction(this Tape            entity, string     action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static TapeConfig      LogAction(this TapeConfig      entity, ActionEnum action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static TapeConfig      LogAction(this TapeConfig      entity, ActionEnum action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static TapeConfig      LogAction(this TapeConfig      entity, string     action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static TapeConfig      LogAction(this TapeConfig      entity, string     message, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, message, dummy ); return entity; }
+        public   static TapeConfig      LogAction(this TapeConfig      entity, string     action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static TapeActions     LogAction(this TapeActions     entity, ActionEnum action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static TapeActions     LogAction(this TapeActions     entity, ActionEnum action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static TapeActions     LogAction(this TapeActions     entity, string     action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static TapeActions     LogAction(this TapeActions     entity, string     message, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, message, dummy ); return entity; }
+        public   static TapeActions     LogAction(this TapeActions     entity, string     action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        
         /// <inheritdoc cref="_logtapeaction" />
-        public static void Log      (this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).Log      (action,         message);
-        public static void LogAction(this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).LogAction(action,         message);
-        public static void LogAction(this Buff            entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this Buff            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
-        public static void LogAction(this byte[]          bytes,  string     action, string message = null) => LogWishes.Resolve(bytes ).LogAction(bytes,  action, message);
-        public static void LogAction(this byte[]          bytes,  ActionEnum action, string message = null) => LogWishes.Resolve(bytes ).LogAction(bytes,  action, message);
+        public   static TapeAction      Log      (this TapeAction      action                ) { ResolveLogging(action).Log      (action         ); return action; }
+        /// <inheritdoc cref="_logtapeaction" />
+        public   static TapeAction      Log      (this TapeAction      action, string message) { ResolveLogging(action).Log      (action, message); return action; }
+        /// <inheritdoc cref="_logtapeaction" />
+        public   static TapeAction      LogAction(this TapeAction      action                ) { ResolveLogging(action).LogAction(action         ); return action; }
+        /// <inheritdoc cref="_logtapeaction" />
+        public   static TapeAction      LogAction(this TapeAction      action, string message) { ResolveLogging(action).LogAction(action, message); return action; }        
         
-        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
+        public   static Buff            LogAction(this Buff            entity, ActionEnum action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static Buff            LogAction(this Buff            entity, ActionEnum action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static Buff            LogAction(this Buff            entity, string     action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static Buff            LogAction(this Buff            entity, string     message, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, message, dummy ); return entity; }
+        public   static Buff            LogAction(this Buff            entity, string     action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, ActionEnum action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, ActionEnum action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, string     action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, string     message, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, message, dummy ); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, string     action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static Sample          LogAction(this Sample          entity, ActionEnum action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static Sample          LogAction(this Sample          entity, ActionEnum action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+        public   static Sample          LogAction(this Sample          entity, string     action                 ) { ResolveLogging(entity).LogAction(entity, action         ); return entity; }
+        public   static Sample          LogAction(this Sample          entity, string     message, int dummy = 0 ) { ResolveLogging(entity).LogAction(entity, message, dummy ); return entity; }
+        public   static Sample          LogAction(this Sample          entity, string     action,  string message) { ResolveLogging(entity).LogAction(entity, action, message); return entity; }
+
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action                 ) { ResolveLogging(entity, synthWishes).LogAction(entity, action         ); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action,  string message) { ResolveLogging(entity, synthWishes).LogAction(entity, action, message); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string     action                 ) { ResolveLogging(entity, synthWishes).LogAction(entity, action         ); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string     message, int dummy = 0 ) { ResolveLogging(entity, synthWishes).LogAction(entity, message, dummy ); return entity; }
+        public   static AudioFileOutput LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string     action,  string message) { ResolveLogging(entity, synthWishes).LogAction(entity, action, message); return entity; }
+        public   static Sample          LogAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action                 ) { ResolveLogging(entity, synthWishes).LogAction(entity, action         ); return entity; }
+        public   static Sample          LogAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action,  string message) { ResolveLogging(entity, synthWishes).LogAction(entity, action, message); return entity; }
+        public   static Sample          LogAction(this Sample          entity, SynthWishes synthWishes, string     action                 ) { ResolveLogging(entity, synthWishes).LogAction(entity, action         ); return entity; }
+        public   static Sample          LogAction(this Sample          entity, SynthWishes synthWishes, string     message, int dummy = 0 ) { ResolveLogging(entity, synthWishes).LogAction(entity, message, dummy ); return entity; }
+        public   static Sample          LogAction(this Sample          entity, SynthWishes synthWishes, string     action,  string message) { ResolveLogging(entity, synthWishes).LogAction(entity, action, message); return entity; }
         
-        public   static void LogFileAction (this FlowNode       entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        internal static void LogFileAction (this ConfigResolver entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogFileAction (this Tape           entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogFileAction (this TapeConfig     entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogFileAction (this TapeActions    entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogFileAction (this TapeAction     entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogFileAction (this Buff           entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        // LogAction (On Simple Types)
+        
+        public static void LogAction(this object entity,   ActionEnum action                             ) => ResolveLogging(entity    ).LogAction(entity,     action               );
+        public static void LogAction(this object entity,   ActionEnum action,              string message) => ResolveLogging(entity    ).LogAction(entity,     action,       message);
+        public static void LogAction(this object entity,   ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity    ).LogAction(entity,     action, name, dummy  );
+        public static void LogAction(this object entity,   ActionEnum action, string name, string message) => ResolveLogging(entity    ).LogAction(entity,     action, name, message);
+        public static void LogAction(this object entity                                                  ) => ResolveLogging(entity    ).LogAction(entity                           );
+        public static void LogAction(this object entity,                                   string message) => ResolveLogging(entity    ).LogAction(entity,                   message);
+        public static void LogAction(this object entity,   string     action,              int dummy = 0 ) => ResolveLogging(entity    ).LogAction(entity,     action,       dummy  );
+        public static void LogAction(this object entity,   string     action,              string message) => ResolveLogging(entity    ).LogAction(entity,     action,       message);
+        public static void LogAction(this object entity,   string     action, string name, int dummy = 0 ) => ResolveLogging(entity    ).LogAction(entity,     action, name, dummy  );
+        public static void LogAction(this object entity,   string     action, string name, string message) => ResolveLogging(entity    ).LogAction(entity,     action, name, message);
+        public static void LogAction(this Type entityType, ActionEnum action                             ) => ResolveLogging(entityType).LogAction(entityType, action               );
+        public static void LogAction(this Type entityType, ActionEnum action,              string message) => ResolveLogging(entityType).LogAction(entityType, action,       message);
+        public static void LogAction(this Type entityType, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entityType).LogAction(entityType, action, name, dummy  );
+        public static void LogAction(this Type entityType, ActionEnum action, string name, string message) => ResolveLogging(entityType).LogAction(entityType, action, name, message);
+        public static void LogAction(this Type entityType                                                ) => ResolveLogging(entityType).LogAction(entityType                       );
+        public static void LogAction(this Type entityType,                                 string message) => ResolveLogging(entityType).LogAction(entityType,               message);
+        public static void LogAction(this Type entityType, string     action,              int dummy = 0 ) => ResolveLogging(entityType).LogAction(entityType, action,       dummy  );
+        public static void LogAction(this Type entityType, string     action,              string message) => ResolveLogging(entityType).LogAction(entityType, action,       message);
+        public static void LogAction(this Type entityType, string     action, string name, int dummy = 0 ) => ResolveLogging(entityType).LogAction(entityType, action, name, dummy  );
+        public static void LogAction(this Type entityType, string     action, string name, string message) => ResolveLogging(entityType).LogAction(entityType, action, name, message);
+        public static void LogAction(this string typeName, ActionEnum action                             ) => ResolveLogging(typeName  ).LogAction(typeName,   action               );
+        public static void LogAction(this string typeName, ActionEnum action,              string message) => ResolveLogging(typeName  ).LogAction(typeName,   action,       message);
+        public static void LogAction(this string typeName, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(typeName  ).LogAction(typeName,   action, name, dummy  );
+        public static void LogAction(this string typeName, ActionEnum action, string name, string message) => ResolveLogging(typeName  ).LogAction(typeName,   action, name, message);
+        public static void LogAction(this string typeName                                                ) => ResolveLogging(typeName  ).LogAction(typeName                         );
+        public static void LogAction(this string typeName,                                 string message) => ResolveLogging(typeName  ).LogAction(typeName,                 message);
+        public static void LogAction(this string typeName, string     action,              int dummy = 0 ) => ResolveLogging(typeName  ).LogAction(typeName,   action,       dummy  );
+        public static void LogAction(this string typeName, string     action,              string message) => ResolveLogging(typeName  ).LogAction(typeName,   action,       message);
+        public static void LogAction(this string typeName, string     action, string name, int dummy = 0 ) => ResolveLogging(typeName  ).LogAction(typeName,   action, name, dummy  );
+        public static void LogAction(this string typeName, string     action, string name, string message) => ResolveLogging(typeName  ).LogAction(typeName,   action, name, message);
+
+        // Memory Action Logging (On Simple Types)
+
+        public static byte[] LogMemoryAction(this byte[] bytes                                                 ) => ResolveLogging(bytes).LogMemoryAction(bytes                           );
+        public static byte[] LogMemoryAction(this byte[] bytes,                                  string message) => ResolveLogging(bytes).LogMemoryAction(bytes,                   message);
+        public static byte[] LogMemoryAction(this byte[] bytes,  ActionEnum action                             ) => ResolveLogging(bytes).LogMemoryAction(bytes,     action               );
+        public static byte[] LogMemoryAction(this byte[] bytes,  ActionEnum action,              string message) => ResolveLogging(bytes).LogMemoryAction(bytes,     action,       message);
+        public static byte[] LogMemoryAction(this byte[] bytes,  ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(bytes).LogMemoryAction(bytes,     action, name, dummy  );
+        public static byte[] LogMemoryAction(this byte[] bytes,  ActionEnum action, string name, string message) => ResolveLogging(bytes).LogMemoryAction(bytes,     action, name, message);
+        public static byte[] LogMemoryAction(this byte[] bytes,                     string name, int dummy = 0 ) => ResolveLogging(bytes).LogMemoryAction(bytes,             name, dummy  );
+        public static byte[] LogMemoryAction(this byte[] bytes,                     string name, string message) => ResolveLogging(bytes).LogMemoryAction(bytes,             name, message);
+        public static byte[] LogMemoryAction(this byte[] bytes,  string     action, string name, string message) => ResolveLogging(bytes).LogMemoryAction(bytes,     action, name, message);
+        public static byte[] LogAction      (this byte[] bytes                                                 ) => ResolveLogging(bytes).LogAction      (bytes                           );
+        public static byte[] LogAction      (this byte[] bytes,                                  string message) => ResolveLogging(bytes).LogAction      (bytes,                   message);
+        public static byte[] LogAction      (this byte[] bytes,  ActionEnum action                             ) => ResolveLogging(bytes).LogAction      (bytes,     action               );
+        public static byte[] LogAction      (this byte[] bytes,  ActionEnum action,              string message) => ResolveLogging(bytes).LogAction      (bytes,     action,       message);
+        public static byte[] LogAction      (this byte[] bytes,  ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(bytes).LogAction      (bytes,     action, name, dummy  );
+        public static byte[] LogAction      (this byte[] bytes,  ActionEnum action, string name, string message) => ResolveLogging(bytes).LogAction      (bytes,     action, name, message);
+        public static byte[] LogAction      (this byte[] bytes,                     string name, int dummy = 0 ) => ResolveLogging(bytes).LogAction      (bytes,             name, dummy  );
+        public static byte[] LogAction      (this byte[] bytes,                     string name, string message) => ResolveLogging(bytes).LogAction      (bytes,             name, message);
+        public static byte[] LogAction      (this byte[] bytes,  string     action, string name, string message) => ResolveLogging(bytes).LogAction      (bytes,     action, name, message);
+
+        // Memory Action Logging (On Entities)
+        
+        public   static FlowNode        LogMemoryAction(this FlowNode        entity, byte[] bytes                                   ) => ResolveLogging(entity).LogMemoryAction(entity, bytes                 );
+        public   static FlowNode        LogMemoryAction(this FlowNode        entity, byte[] bytes,                    string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes,         message);
+        public   static FlowNode        LogMemoryAction(this FlowNode        entity, byte[] bytes, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action         );
+        public   static FlowNode        LogMemoryAction(this FlowNode        entity, byte[] bytes, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, message);
+        public   static FlowNode        LogMemoryAction(this FlowNode        entity, byte[] bytes, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, dummy  );
+        public   static FlowNode        LogMemoryAction(this FlowNode        entity, byte[] bytes, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, message);
+
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes                                                ) => ResolveLogging(entity).LogMemoryAction(entity, bytes                       );
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes,                                 string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes,               message);
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes, ActionEnum action                             ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action               );
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes, ActionEnum action,              string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action,       message);
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, name, dummy  );
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, name, message);
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes,                    string name, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, bytes,         name, dummy  );
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes,                    string name, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes,         name, message);
+        internal static ConfigResolver  LogMemoryAction(this ConfigResolver  entity, byte[] bytes, string     action, string name, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, name, message);
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes                                                ) => ResolveLogging(entity).LogMemoryAction(entity, bytes                       );
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes,                                 string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes,               message);
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes, ActionEnum action                             ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action               );
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes, ActionEnum action,              string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action,       message);
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, name, dummy  );
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes, ActionEnum action, string name, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, name, message);
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes,                    string name, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, bytes,         name, dummy  );
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes,                    string name, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes,         name, message);
+        internal static ConfigSection   LogMemoryAction(this ConfigSection   entity, byte[] bytes, string     action, string name, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, name, message);
+
+        public   static Tape            LogMemoryAction(this Tape            entity                                   ) => ResolveLogging(entity).LogMemoryAction(entity                 );
+        public   static Tape            LogMemoryAction(this Tape            entity,                    string message) => ResolveLogging(entity).LogMemoryAction(entity,         message);
+        public   static Tape            LogMemoryAction(this Tape            entity, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, action         );
+        public   static Tape            LogMemoryAction(this Tape            entity, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static Tape            LogMemoryAction(this Tape            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, action, dummy  );
+        public   static Tape            LogMemoryAction(this Tape            entity, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static TapeConfig      LogMemoryAction(this TapeConfig      entity                                   ) => ResolveLogging(entity).LogMemoryAction(entity                 );
+        public   static TapeConfig      LogMemoryAction(this TapeConfig      entity,                    string message) => ResolveLogging(entity).LogMemoryAction(entity,         message);
+        public   static TapeConfig      LogMemoryAction(this TapeConfig      entity, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, action         );
+        public   static TapeConfig      LogMemoryAction(this TapeConfig      entity, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static TapeConfig      LogMemoryAction(this TapeConfig      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, action, dummy  );
+        public   static TapeConfig      LogMemoryAction(this TapeConfig      entity, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static TapeActions     LogMemoryAction(this TapeActions     entity                                   ) => ResolveLogging(entity).LogMemoryAction(entity                 );
+        public   static TapeActions     LogMemoryAction(this TapeActions     entity,                    string message) => ResolveLogging(entity).LogMemoryAction(entity,         message);
+        public   static TapeActions     LogMemoryAction(this TapeActions     entity, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, action         );
+        public   static TapeActions     LogMemoryAction(this TapeActions     entity, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static TapeActions     LogMemoryAction(this TapeActions     entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, action, dummy  );
+        public   static TapeActions     LogMemoryAction(this TapeActions     entity, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static TapeAction      LogMemoryAction(this TapeAction      entity                                   ) => ResolveLogging(entity).LogMemoryAction(entity                 );
+        public   static TapeAction      LogMemoryAction(this TapeAction      entity,                    string message) => ResolveLogging(entity).LogMemoryAction(entity,         message);
+        public   static TapeAction      LogMemoryAction(this TapeAction      entity, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, action         );
+        public   static TapeAction      LogMemoryAction(this TapeAction      entity, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static TapeAction      LogMemoryAction(this TapeAction      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, action, dummy  );
+        public   static TapeAction      LogMemoryAction(this TapeAction      entity, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static Buff            LogMemoryAction(this Buff            entity                                   ) => ResolveLogging(entity).LogMemoryAction(entity                 );
+        public   static Buff            LogMemoryAction(this Buff            entity,                    string message) => ResolveLogging(entity).LogMemoryAction(entity,         message);
+        public   static Buff            LogMemoryAction(this Buff            entity, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, action         );
+        public   static Buff            LogMemoryAction(this Buff            entity, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static Buff            LogMemoryAction(this Buff            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, action, dummy  );
+        public   static Buff            LogMemoryAction(this Buff            entity, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, byte[] bytes                                   ) => ResolveLogging(entity).LogMemoryAction(entity, bytes                 );
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, byte[] bytes,                    string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes,         message);
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, byte[] bytes, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action         );
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, byte[] bytes, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, message);
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, byte[] bytes, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, dummy  );
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, byte[] bytes, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, bytes, action, message);
+        
+        public   static Sample          LogMemoryAction(this Sample          entity                                   ) => ResolveLogging(entity).LogMemoryAction(entity                 );
+        public   static Sample          LogMemoryAction(this Sample          entity,                    string message) => ResolveLogging(entity).LogMemoryAction(entity,         message);
+        public   static Sample          LogMemoryAction(this Sample          entity, ActionEnum action                ) => ResolveLogging(entity).LogMemoryAction(entity, action         );
+        public   static Sample          LogMemoryAction(this Sample          entity, ActionEnum action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+        public   static Sample          LogMemoryAction(this Sample          entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogMemoryAction(entity, action, dummy  );
+        public   static Sample          LogMemoryAction(this Sample          entity, string     action, string message) => ResolveLogging(entity).LogMemoryAction(entity, action, message);
+
+        
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes                                   ) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, bytes                 );
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes,                    string message) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, bytes,         message);
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, bytes, action         );
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, bytes, action, message);
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, bytes, action, dummy  );
+        public   static AudioFileOutput LogMemoryAction(this AudioFileOutput entity, SynthWishes synthWishes, byte[] bytes, string     action, string message) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, bytes, action, message);
+        
+        public   static Sample          LogMemoryAction(this Sample          entity, SynthWishes synthWishes                                   ) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity                 );
+        public   static Sample          LogMemoryAction(this Sample          entity, SynthWishes synthWishes,                    string message) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity,         message);
+        public   static Sample          LogMemoryAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, action         );
+        public   static Sample          LogMemoryAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, action, message);
+        public   static Sample          LogMemoryAction(this Sample          entity, SynthWishes synthWishes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, action, dummy  );
+        public   static Sample          LogMemoryAction(this Sample          entity, SynthWishes synthWishes, string     action, string message) => ResolveLogging(entity, synthWishes).LogMemoryAction(entity, action, message);
+
+        // LogFileAction
+        
+        public   static string         LogFileAction(this                        string filePath                                                          ) => ResolveLogging(filePath).LogFileAction(        filePath                                 );
+        public   static string         LogFileAction(this                        string filePath,                                    string sourceFilePath) => ResolveLogging(filePath).LogFileAction(        filePath,                  sourceFilePath);
+        public   static string         LogFileAction(this                        string filePath, ActionEnum action                                       ) => ResolveLogging(filePath).LogFileAction(        filePath, action                         );
+        public   static string         LogFileAction(this                        string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(filePath).LogFileAction(        filePath, action,          sourceFilePath);
+        public   static string         LogFileAction(this                        string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(filePath).LogFileAction(        filePath, action, message, sourceFilePath);
+        public   static string         LogFileAction(this                        string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(filePath).LogFileAction(        filePath, action,          dummy         );
+        public   static string         LogFileAction(this                        string filePath, string     action,                 string sourceFilePath) => ResolveLogging(filePath).LogFileAction(        filePath, action,          sourceFilePath);
+        public   static string         LogFileAction(this                        string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(filePath).LogFileAction(        filePath, action, message, sourceFilePath);
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath                                                          ) => ResolveLogging(entity  ).LogFileAction(entity, filePath                                 );
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath,                                    string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath,                  sourceFilePath);
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath, ActionEnum action                                       ) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action                         );
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          sourceFilePath);
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action, message, sourceFilePath);
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          dummy         );
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath, string     action,                 string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          sourceFilePath);
+        public   static FlowNode       LogFileAction(this FlowNode       entity, string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action, message, sourceFilePath);
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath                                                          ) => ResolveLogging(entity  ).LogFileAction(entity, filePath                                 );
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath,                                    string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath,                  sourceFilePath);
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath, ActionEnum action                                       ) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action                         );
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          sourceFilePath);
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action, message, sourceFilePath);
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          dummy         );
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath, string     action,                 string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          sourceFilePath);
+        internal static ConfigResolver LogFileAction(this ConfigResolver entity, string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action, message, sourceFilePath);
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath                                                          ) => ResolveLogging(entity  ).LogFileAction(entity, filePath                                 );
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath,                                    string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath,                  sourceFilePath);
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath, ActionEnum action                                       ) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action                         );
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath, ActionEnum action,                 string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          sourceFilePath);
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath, ActionEnum action, string message, string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action, message, sourceFilePath);
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath, string     action,                 int dummy = 0        ) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          dummy         );
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath, string     action,                 string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action,          sourceFilePath);
+        internal static ConfigSection  LogFileAction(this ConfigSection  entity, string filePath, string     action, string message, string sourceFilePath) => ResolveLogging(entity  ).LogFileAction(entity, filePath, action, message, sourceFilePath);
+        
+        public static Tape            LogFileAction(this Tape            entity                                   ) => ResolveLogging(entity).LogFileAction(entity                 );
+        public static Tape            LogFileAction(this Tape            entity, ActionEnum action                ) => ResolveLogging(entity).LogFileAction(entity, action         );
+        public static Tape            LogFileAction(this Tape            entity, ActionEnum action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static Tape            LogFileAction(this Tape            entity,                    string message) => ResolveLogging(entity).LogFileAction(entity,         message);
+        public static Tape            LogFileAction(this Tape            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogFileAction(entity, action, dummy  );
+        public static Tape            LogFileAction(this Tape            entity, string     action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static TapeConfig      LogFileAction(this TapeConfig      entity                                   ) => ResolveLogging(entity).LogFileAction(entity                 );
+        public static TapeConfig      LogFileAction(this TapeConfig      entity, ActionEnum action                ) => ResolveLogging(entity).LogFileAction(entity, action         );
+        public static TapeConfig      LogFileAction(this TapeConfig      entity, ActionEnum action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static TapeConfig      LogFileAction(this TapeConfig      entity,                    string message) => ResolveLogging(entity).LogFileAction(entity,         message);
+        public static TapeConfig      LogFileAction(this TapeConfig      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogFileAction(entity, action, dummy  );
+        public static TapeConfig      LogFileAction(this TapeConfig      entity, string     action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static TapeActions     LogFileAction(this TapeActions     entity                                   ) => ResolveLogging(entity).LogFileAction(entity                 );
+        public static TapeActions     LogFileAction(this TapeActions     entity, ActionEnum action                ) => ResolveLogging(entity).LogFileAction(entity, action         );
+        public static TapeActions     LogFileAction(this TapeActions     entity, ActionEnum action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static TapeActions     LogFileAction(this TapeActions     entity,                    string message) => ResolveLogging(entity).LogFileAction(entity,         message);
+        public static TapeActions     LogFileAction(this TapeActions     entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogFileAction(entity, action, dummy  );
+        public static TapeActions     LogFileAction(this TapeActions     entity, string     action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static TapeAction      LogFileAction(this TapeAction      entity                                   ) => ResolveLogging(entity).LogFileAction(entity                 );
+        public static TapeAction      LogFileAction(this TapeAction      entity, ActionEnum action                ) => ResolveLogging(entity).LogFileAction(entity, action         );
+        public static TapeAction      LogFileAction(this TapeAction      entity, ActionEnum action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static TapeAction      LogFileAction(this TapeAction      entity,                    string message) => ResolveLogging(entity).LogFileAction(entity,         message);
+        public static TapeAction      LogFileAction(this TapeAction      entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogFileAction(entity, action, dummy  );
+        public static TapeAction      LogFileAction(this TapeAction      entity, string     action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static Buff            LogFileAction(this Buff            entity                                   ) => ResolveLogging(entity).LogFileAction(entity                 );
+        public static Buff            LogFileAction(this Buff            entity, ActionEnum action                ) => ResolveLogging(entity).LogFileAction(entity, action         );
+        public static Buff            LogFileAction(this Buff            entity, ActionEnum action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static Buff            LogFileAction(this Buff            entity,                    string message) => ResolveLogging(entity).LogFileAction(entity,         message);
+        public static Buff            LogFileAction(this Buff            entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogFileAction(entity, action, dummy  );
+        public static Buff            LogFileAction(this Buff            entity, string     action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity                                   ) => ResolveLogging(entity).LogFileAction(entity                 );
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, ActionEnum action                ) => ResolveLogging(entity).LogFileAction(entity, action         );
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, ActionEnum action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity,                    string message) => ResolveLogging(entity).LogFileAction(entity,         message);
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogFileAction(entity, action, dummy  );
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, string     action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static Sample          LogFileAction(this Sample          entity                                   ) => ResolveLogging(entity).LogFileAction(entity                 );
+        public static Sample          LogFileAction(this Sample          entity, ActionEnum action                ) => ResolveLogging(entity).LogFileAction(entity, action         );
+        public static Sample          LogFileAction(this Sample          entity, ActionEnum action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+        public static Sample          LogFileAction(this Sample          entity,                    string message) => ResolveLogging(entity).LogFileAction(entity,         message);
+        public static Sample          LogFileAction(this Sample          entity, string     action, int dummy = 0 ) => ResolveLogging(entity).LogFileAction(entity, action, dummy  );
+        public static Sample          LogFileAction(this Sample          entity, string     action, string message) => ResolveLogging(entity).LogFileAction(entity, action, message);
+
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, SynthWishes synthWishes                                   ) => ResolveLogging(entity, synthWishes).LogFileAction(entity                 );
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action         );
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action, message);
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, SynthWishes synthWishes,                    string message) => ResolveLogging(entity, synthWishes).LogFileAction(entity,         message);
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, SynthWishes synthWishes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action, dummy  );
+        public static AudioFileOutput LogFileAction(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action, message);
+        public static Sample          LogFileAction(this Sample          entity, SynthWishes synthWishes                                   ) => ResolveLogging(entity, synthWishes).LogFileAction(entity                 );
+        public static Sample          LogFileAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action                ) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action         );
+        public static Sample          LogFileAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action, message);
+        public static Sample          LogFileAction(this Sample          entity, SynthWishes synthWishes,                    string message) => ResolveLogging(entity, synthWishes).LogFileAction(entity,         message);
+        public static Sample          LogFileAction(this Sample          entity, SynthWishes synthWishes, string     action, int dummy = 0 ) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action, dummy  );
+        public static Sample          LogFileAction(this Sample          entity, SynthWishes synthWishes, string     action, string message) => ResolveLogging(entity, synthWishes).LogFileAction(entity, action, message);
     }
 }
