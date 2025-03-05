@@ -245,3 +245,33 @@
         //{
         //    return ActionMessage("Config", action, message);
         //}
+
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes                                                ) { LogActionBase(MemoryActionMessage(entity, bytes                       )); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes,                                 string message) { LogActionBase(MemoryActionMessage(entity, bytes,               message)); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action                             ) { LogActionBase(MemoryActionMessage(entity, bytes, action               )); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action,              string message) { LogActionBase(MemoryActionMessage(entity, bytes, action,       message)); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) { LogActionBase(MemoryActionMessage(entity, bytes, action, name, dummy  )); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action, string name, string message) { LogActionBase(MemoryActionMessage(entity, bytes, action, name, message)); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes,                    string name, int dummy = 0 ) { LogActionBase(MemoryActionMessage(entity, bytes,         name, dummy  )); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes,                    string name, string message) { LogActionBase(MemoryActionMessage(entity, bytes,         name, message)); return entity; }
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, string     action, string name, string message) { LogActionBase(MemoryActionMessage(entity, bytes, action, name, message)); return entity; }
+
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes                                                ) => Logging.LogMemoryAction(entity, bytes                       );
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes,                                 string message) => Logging.LogMemoryAction(entity, bytes,               message);
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action                             ) => Logging.LogMemoryAction(entity, bytes, action               );
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action,              string message) => Logging.LogMemoryAction(entity, bytes, action,       message);
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => Logging.LogMemoryAction(entity, bytes, action, name, dummy  );
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, ActionEnum action, string name, string message) => Logging.LogMemoryAction(entity, bytes, action, name, message);
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes,                    string name, int dummy = 0 ) => Logging.LogMemoryAction(entity, bytes,         name, dummy  );
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes,                    string name, string message) => Logging.LogMemoryAction(entity, bytes,         name, message);
+        public   FlowNode        LogMemoryAction(FlowNode        entity, byte[] bytes, string     action, string name, string message) => Logging.LogMemoryAction(entity, bytes, action, name, message);
+
+        
+        public string LogFileAction(string filePath                                                          ) => Logging.LogFileAction(filePath                                  );
+        public string LogFileAction(string filePath,                                    string sourceFilePath) => Logging.LogFileAction(filePath,                   sourceFilePath);
+        public string LogFileAction(string filePath, ActionEnum action                                       ) => Logging.LogFileAction(filePath, action                          );
+        public string LogFileAction(string filePath, ActionEnum action,                 string sourceFilePath) => Logging.LogFileAction(filePath, action,           sourceFilePath);
+        public string LogFileAction(string filePath, ActionEnum action, string message, string sourceFilePath) => Logging.LogFileAction(filePath, action,  message, sourceFilePath);
+        public string LogFileAction(string filePath, string     action,                 int dummy = 0        ) => Logging.LogFileAction(filePath, action,           dummy         );
+        public string LogFileAction(string filePath, string     action,                 string sourceFilePath) => Logging.LogFileAction(filePath, action,           sourceFilePath);
+        public string LogFileAction(string filePath, string     action, string message, string sourceFilePath) => Logging.LogFileAction(filePath, action,  message, sourceFilePath);

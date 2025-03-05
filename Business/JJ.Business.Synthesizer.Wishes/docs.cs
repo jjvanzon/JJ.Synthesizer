@@ -19,6 +19,12 @@ namespace JJ.Business.Synthesizer.Wishes
         /// </summary> 
         public struct _add { }
             
+        /// <summary>
+        /// Overload with TEntity type argument and TEntity entity parameter, for automatic type inference
+        /// (Allows use of type even when null. Might replace overloads that take object? Expect weird type argument quirks...)
+        /// </summary>
+        public struct actionmethodtentityobject { }
+            
         /// <summary> 
         /// Additional entity entry-points for enum-related extension.
         /// </summary> 
