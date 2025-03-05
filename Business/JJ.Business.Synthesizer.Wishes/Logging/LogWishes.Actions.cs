@@ -834,6 +834,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public Sample          LogFileAction(Sample          entity, string     action, string message) { LogActionBase(FileActionMessage(entity, action, message)); return entity; }
         
         private void LogActionBase(string actionMessage) => Log("Actions", actionMessage);
+
     }
 }
 
@@ -1452,52 +1453,54 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static partial class LogExtensionWishes
     {
-        public static string ActionMessage(this FlowNode        entity, string     action, string message = null) => entity.Logging  .ActionMessage(entity, action, message);
-        public static string ActionMessage(this FlowNode        entity, ActionEnum action, string message = null) => entity.Logging  .ActionMessage(entity, action, message);
-        public static string ActionMessage(this Tape            entity, string     action, string message = null) => entity.Logging  .ActionMessage(entity, action, message);
-        public static string ActionMessage(this Tape            entity, ActionEnum action, string message = null) => entity.Logging  .ActionMessage(entity, action, message);
+        public static string ActionMessage(this FlowNode        entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this FlowNode        entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this Tape            entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this Tape            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
         /// <inheritdoc cref="_logtapeaction" />
-        public static string Message      (this TapeAction      action,                    string message = null) => action.Logging  .Message      (action,         message);
-        public static string ActionMessage(this TapeAction      action,                    string message = null) => action.Logging  .ActionMessage(action,         message);
-        public static string ActionMessage(this Buff            entity, string     action, string message = null) => entity.Logging  .ActionMessage(entity, action, message);
-        public static string ActionMessage(this Buff            entity, ActionEnum action, string message = null) => entity.Logging  .ActionMessage(entity, action, message);
-        public static string ActionMessage(this byte[]          entity, string     action, string message = null) => Static          .ActionMessage(entity, action, message);
-        public static string ActionMessage(this byte[]          entity, ActionEnum action, string message = null) => Static          .ActionMessage(entity, action, message);
-        public static string ActionMessage(this AudioFileOutput entity, string     action, string message = null) => entity.Logging().ActionMessage(entity, action, message);
-        public static string ActionMessage(this AudioFileOutput entity, ActionEnum action, string message = null) => entity.Logging().ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, string     action, string message = null) => entity.Logging().ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, ActionEnum action, string message = null) => entity.Logging().ActionMessage(entity, action, message);
-        public static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message = null) => entity.Logging(synthWishes).ActionMessage(entity, action, message);
-        public static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message = null) => entity.Logging(synthWishes).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, string message = null) => entity.Logging(synthWishes).ActionMessage(entity, action, message);
-        public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message = null) => entity.Logging(synthWishes).ActionMessage(entity, action, message);
-
-        public static void LogAction(this FlowNode        entity, string     action, string message = null) => entity.Logging  .LogAction(entity, action, message);
-        public static void LogAction(this FlowNode        entity, ActionEnum action, string message = null) => entity.Logging  .LogAction(entity, action, message);
-        public static void LogAction(this Tape            entity, string     action, string message = null) => entity.Logging  .LogAction(entity, action, message);
-        public static void LogAction(this Tape            entity, ActionEnum action, string message = null) => entity.Logging  .LogAction(entity, action, message);
-        /// <inheritdoc cref="_logtapeaction" />
-        public static void Log      (this TapeAction      action,                    string message = null) => action.Logging  .Log      (action,         message);
-        public static void LogAction(this TapeAction      action,                    string message = null) => action.Logging  .LogAction(action,         message);
-        public static void LogAction(this Buff            entity, string     action, string message = null) => entity.Logging  .LogAction(entity, action, message);
-        public static void LogAction(this Buff            entity, ActionEnum action, string message = null) => entity.Logging  .LogAction(entity, action, message);
-        public static void LogAction(this byte[]          entity, string     action, string message = null) => Static          .LogAction(entity, action, message);
-        public static void LogAction(this byte[]          entity, ActionEnum action, string message = null) => Static          .LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, string     action, string message = null) => entity.Logging().LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, ActionEnum action, string message = null) => entity.Logging().LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, string     action, string message = null) => entity.Logging().LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, ActionEnum action, string message = null) => entity.Logging().LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message = null) => entity.Logging(synthWishes).LogAction(entity, action, message);
-        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message = null) => entity.Logging(synthWishes).LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, SynthWishes synthWishes, string     action, string message = null) => entity.Logging(synthWishes).LogAction(entity, action, message);
-        public static void LogAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message = null) => entity.Logging(synthWishes).LogAction(entity, action, message);
+        public static string Message      (this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).Message      (action,         message);
+        public static string ActionMessage(this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).ActionMessage(action,         message);
+        public static string ActionMessage(this Buff            entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this Buff            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this AudioFileOutput entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this AudioFileOutput entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this Sample          entity, string     action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this Sample          entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).ActionMessage(entity, action, message);
+        public static string ActionMessage(this byte[]          bytes,  string     action, string message = null) => LogWishes.Resolve(bytes ).ActionMessage(bytes,  action, message);
+        public static string ActionMessage(this byte[]          bytes,  ActionEnum action, string message = null) => LogWishes.Resolve(bytes ).ActionMessage(bytes, action, message);
         
-        public   static void LogOutputFile (this FlowNode       entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Tape           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeConfig     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeActions    entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogOutputFile (this TapeAction     entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        public   static void LogOutputFile (this Buff           entity, string filePath /*= ""*/, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
-        internal static void LogOutputFile (this ConfigResolver entity, string filePath         , string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        public static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
+        public static string ActionMessage(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
+        public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
+        public static string ActionMessage(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).ActionMessage(entity, action, message);
+
+        public static void LogAction(this FlowNode        entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this FlowNode        entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this Tape            entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this Tape            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        /// <inheritdoc cref="_logtapeaction" />
+        public static void Log      (this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).Log      (action,         message);
+        public static void LogAction(this TapeAction      action,                    string message = null) => LogWishes.Resolve(action).LogAction(action,         message);
+        public static void LogAction(this Buff            entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this Buff            entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this AudioFileOutput entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this AudioFileOutput entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this Sample          entity, string     action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this Sample          entity, ActionEnum action, string message = null) => LogWishes.Resolve(entity).LogAction(entity, action, message);
+        public static void LogAction(this byte[]          bytes,  string     action, string message = null) => LogWishes.Resolve(bytes ).LogAction(bytes,  action, message);
+        public static void LogAction(this byte[]          bytes,  ActionEnum action, string message = null) => LogWishes.Resolve(bytes ).LogAction(bytes,  action, message);
+        
+        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
+        public static void LogAction(this AudioFileOutput entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
+        public static void LogAction(this Sample          entity, SynthWishes synthWishes, string     action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
+        public static void LogAction(this Sample          entity, SynthWishes synthWishes, ActionEnum action, string message = null) => LogWishes.Resolve(entity, synthWishes).LogAction(entity, action, message);
+        
+        public   static void LogFileAction (this FlowNode       entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        internal static void LogFileAction (this ConfigResolver entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        public   static void LogFileAction (this Tape           entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        public   static void LogFileAction (this TapeConfig     entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        public   static void LogFileAction (this TapeActions    entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        public   static void LogFileAction (this TapeAction     entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
+        public   static void LogFileAction (this Buff           entity, string filePath, string sourceFilePath = "") => LogWishes.Resolve(entity).LogFileAction(filePath, sourceFilePath);
     }
 }

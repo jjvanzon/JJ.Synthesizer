@@ -147,7 +147,9 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal static LogWishes Resolve(AudioFileInfo   audioFileInfo,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
         internal static LogWishes Resolve(WavHeaderStruct wavHeader                               ) =>                         Static;
         internal static LogWishes Resolve(WavHeaderStruct wavHeader,       SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        
+        internal static LogWishes Resolve(byte[]          bytes                                   ) =>                         Static;
+        internal static LogWishes Resolve(byte[]          bytes,           SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+
         // ReSharper restore UnusedParameter.Global
 
         internal static LogWishes Resolve(IList<Tape> tapes)
