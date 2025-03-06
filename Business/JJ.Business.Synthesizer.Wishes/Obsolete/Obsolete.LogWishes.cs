@@ -45,10 +45,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 lines.Add("");
             }
             
-            string bytesMessage = buff.Logging.MemoryActionMessage(buff);
+            string bytesMessage = buff.MemoryActionMessage();
             if (Has(bytesMessage)) lines.Add(bytesMessage);
             
-            string fileMessage = buff.Logging.FileActionMessage(buff);
+            string fileMessage = buff.FileActionMessage();
             if (Has(fileMessage)) lines.Add(fileMessage);
             
             return Join(NewLine, lines);
