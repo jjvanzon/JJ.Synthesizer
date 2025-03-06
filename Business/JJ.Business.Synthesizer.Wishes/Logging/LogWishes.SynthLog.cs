@@ -148,7 +148,22 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return realTimeMessage;
         }
     }
+}
 
+namespace JJ.Business.Synthesizer.Wishes
+{
+    public partial class SynthWishes
+    {
+        protected string SynthLog(Tape tape, double? calculationDuration = null)
+            => tape.Logging().SynthLog(tape, calculationDuration);
+        
+        protected void LogSynth(Tape tape, double? calculationDuration = null)
+            => tape.Logging().LogSynth(tape, calculationDuration);
+    }
+}
+
+namespace JJ.Business.Synthesizer.Wishes.Logging
+{
     public static partial class LogExtensionWishes
     {
         // LogSynth
@@ -208,17 +223,5 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         public static string SynthLog(this Buff entity, Tape tape, double? calculationDuration = null) 
             => entity.Logging().SynthLog(tape, calculationDuration);
-    }
-}
-
-namespace JJ.Business.Synthesizer.Wishes
-{
-    public partial class SynthWishes
-    {
-        protected string SynthLog(Tape tape, double? calculationDuration = null)
-            => tape.Logging().SynthLog(tape, calculationDuration);
-        
-        protected void LogSynth(Tape tape, double? calculationDuration = null)
-            => tape.Logging().LogSynth(tape, calculationDuration);
     }
 }
