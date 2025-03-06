@@ -156,24 +156,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
             return Join(",", elements);
         }
-        
-        internal string TapesLeftMessage(int todoCount, Tape[] tapesLeft)
-        {
-            string prefix = default;
-            if (todoCount != 0)
-            {
-                prefix = $"{todoCount} {nameof(Tape)}(s) Left: ";
-            }
-            
-            if (Has(tapesLeft))
-            {
-                return prefix + NewLine + Descriptors(tapesLeft);
-            }
-            else
-            {
-                return prefix + "<none>";
-            }
-        }
 
         public string Descriptor(IList<FlowNode> signals)
         {
@@ -231,6 +213,24 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             return default;
         }
+        
+        internal string TapesLeftMessage(IList<Tape> tapesLeft, int todoCount)
+        {
+            string prefix = default;
+            if (todoCount != 0)
+            {
+                prefix = $"{todoCount} {nameof(Tape)}(s) Left: ";
+            }
+            
+            if (Has(tapesLeft))
+            {
+                return prefix + NewLine + Descriptors(tapesLeft);
+            }
+            else
+            {
+                return prefix + "<none>";
+            }
+        }
     }
 }
 
@@ -243,12 +243,12 @@ namespace JJ.Business.Synthesizer.Wishes
         public   string Descriptor       (Tape tape                             ) => Logging.Descriptor       (tape                 );
         public   string Descriptors      (IList<Tape> tapes                     ) => Logging.Descriptors      (tapes                );
         public   string Descriptor       (TapeActions actions                   ) => Logging.Descriptor       (actions              );
-        internal string TapesLeftMessage (int todoCount, Tape[] tapesLeft       ) => Logging.TapesLeftMessage (todoCount, tapesLeft );
         public   string Descriptor       (IList<FlowNode> signals               ) => Logging.Descriptor       (signals              );
         public   string Descriptor       (AudioFileOutput audioFileOutput       ) => Logging.Descriptor       (audioFileOutput      );
         public   string ChannelDescriptor(Tape tape                             ) => Logging.ChannelDescriptor(tape                 );
         public   string ChannelDescriptor(TapeConfig tapeConfig                 ) => Logging.ChannelDescriptor(tapeConfig           );
         public   string ChannelDescriptor(int? channelCount, int? channel = null) => Logging.ChannelDescriptor(channelCount, channel);
+        internal string TapesLeftMessage (IList<Tape> tapesLeft,  int todoCount ) => Logging.TapesLeftMessage (tapesLeft, todoCount );
     }
 }
 
@@ -256,15 +256,15 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static partial class LogExtensionWishes
     {
-        internal static string IDDescriptor     (this Tape tape                      ) => ResolveLogging(tape           ).IDDescriptor     (tape                );
-        internal static string IDDescriptor     (this IList<int> ids                 ) => ResolveLogging(ids            ).IDDescriptor     (ids                 );
-        public   static string Descriptor       (this Tape tape                      ) => ResolveLogging(tape           ).Descriptor       (tape                );
-        public   static string Descriptor       (this IList<Tape> tapes              ) => ResolveLogging(tapes          ).Descriptors      (tapes               );
-        public   static string Descriptor       (this TapeActions actions            ) => ResolveLogging(actions        ).Descriptor       (actions             );
-        internal static string TapesLeftMessage (int todoCount, Tape[] tapesLeft     ) => ResolveLogging(tapesLeft      ).TapesLeftMessage (todoCount, tapesLeft);
-        public   static string Descriptor       (this IList<FlowNode> signals        ) => ResolveLogging(signals        ).Descriptor       (signals             );
-        public   static string Descriptor       (this AudioFileOutput audioFileOutput) => ResolveLogging(audioFileOutput).Descriptor       (audioFileOutput     );
-        public   static string ChannelDescriptor(this Tape tape                      ) => ResolveLogging(tape           ).ChannelDescriptor(tape                );
-        public   static string ChannelDescriptor(this TapeConfig tapeConfig          ) => ResolveLogging(tapeConfig     ).ChannelDescriptor(tapeConfig          );
+        internal static string IDDescriptor     (this Tape tape                           ) => ResolveLogging(tape           ).IDDescriptor     (tape                );
+        internal static string IDDescriptor     (this IList<int> ids                      ) => ResolveLogging(ids            ).IDDescriptor     (ids                 );
+        public   static string Descriptor       (this Tape tape                           ) => ResolveLogging(tape           ).Descriptor       (tape                );
+        public   static string Descriptor       (this IList<Tape> tapes                   ) => ResolveLogging(tapes          ).Descriptors      (tapes               );
+        public   static string Descriptor       (this TapeActions actions                 ) => ResolveLogging(actions        ).Descriptor       (actions             );
+        public   static string Descriptor       (this IList<FlowNode> signals             ) => ResolveLogging(signals        ).Descriptor       (signals             );
+        public   static string Descriptor       (this AudioFileOutput audioFileOutput     ) => ResolveLogging(audioFileOutput).Descriptor       (audioFileOutput     );
+        public   static string ChannelDescriptor(this Tape tape                           ) => ResolveLogging(tape           ).ChannelDescriptor(tape                );
+        public   static string ChannelDescriptor(this TapeConfig tapeConfig               ) => ResolveLogging(tapeConfig     ).ChannelDescriptor(tapeConfig          );
+        internal static string TapesLeftMessage (this IList<Tape> tapesLeft, int todoCount) => ResolveLogging(tapesLeft      ).TapesLeftMessage (tapesLeft, todoCount);
     }
 }
