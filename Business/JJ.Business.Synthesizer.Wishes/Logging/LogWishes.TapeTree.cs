@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                     // Continuation
                     sb2.Append("=> ");
                 }
-                sb2.Append(Descriptor(tape));
+                sb2.Append(tape.Descriptor());
                 if (includeCalculationGraphs)
                 {
                     sb2.Append("   | " + (tape.Outlet?.ToString() ?? "<Signal=null>"));

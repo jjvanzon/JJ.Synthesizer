@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             string actionMessage = _synthWishes.ActionMessage<Tape>(
                 "Check for Leaves", $"Time-out after {formattedTimeOut} waiting for a leaf to finish.");
             
-            string tapesLeftMessage = _synthWishes.Logging.TapesLeftMessage(todoCount, tapesTODO);
+            string tapesLeftMessage = _synthWishes.TapesLeftMessage(todoCount, tapesTODO);
             
             switch (timeOutAction)
             {
