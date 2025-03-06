@@ -234,7 +234,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             return text;
         }
-                
+
         // Memory Message (On Simple Types)
         
         // (Always tagged [MEMORY] here, so no need for target types: object. entity Type or TEntity.)
@@ -534,6 +534,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             if (entity == null) throw new NullException(() => entity);
             return FileActionMessage(entity.Location, action, message);
         }
+
+        // ReSharper restore UnusedParameter.Global
         
         // LogAction (On Entities)
         
@@ -564,7 +566,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal ConfigSection   LogAction(ConfigSection   entity, string     action,              string message) { LogActionBase(ActionMessage(entity, action,       message)); return entity; }
         internal ConfigSection   LogAction(ConfigSection   entity, string     action, string name, int dummy = 0 ) { LogActionBase(ActionMessage(entity, action, name, dummy  )); return entity; }
         internal ConfigSection   LogAction(ConfigSection   entity, string     action, string name, string message) { LogActionBase(ActionMessage(entity, action, name, message)); return entity; }
-        
+
         public   Tape            LogAction(Tape            entity, ActionEnum action                 ) { LogActionBase(ActionMessage(entity, action         )); return entity; }
         public   Tape            LogAction(Tape            entity, ActionEnum action,  string message) { LogActionBase(ActionMessage(entity, action, message)); return entity; }
         public   Tape            LogAction(Tape            entity, string     action                 ) { LogActionBase(ActionMessage(entity, action         )); return entity; }
@@ -609,7 +611,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   Sample          LogAction(Sample          entity, string     action,  string message) { LogActionBase(ActionMessage(entity, action, message)); return entity; }
         
         // LogAction (On Simple Types)
-        
+
         public void LogAction(object entity,   ActionEnum action                             ) => LogActionBase(ActionMessage(entity,     action               ));
         public void LogAction(object entity,   ActionEnum action,              string message) => LogActionBase(ActionMessage(entity,     action,       message));
         public void LogAction(object entity,   ActionEnum action, string name, int dummy = 0 ) => LogActionBase(ActionMessage(entity,     action, name, dummy  ));
@@ -851,7 +853,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   string ActionMessage(FlowNode        entity, string     action,              string message) => Logging.ActionMessage(entity,   action,       message);
         internal string ActionMessage(ConfigResolver  entity, ActionEnum action                             ) => Logging.ActionMessage(entity,   action               );
         internal string ActionMessage(ConfigResolver  entity, ActionEnum action,              string message) => Logging.ActionMessage(entity,   action,       message);
-        internal string ActionMessage(ConfigResolver  entity, ActionEnum action, string name, int dummy = 0 ) => Logging.ActionMessage(entity,   action, name         );
+        internal string ActionMessage(ConfigResolver  entity, ActionEnum action, string name, int dummy = 0 ) => Logging.ActionMessage(entity,   action, name, dummy  );
         internal string ActionMessage(ConfigResolver  entity, ActionEnum action, string name, string message) => Logging.ActionMessage(entity,   action, name, message);
         internal string ActionMessage(ConfigResolver  entity                                                ) => Logging.ActionMessage(entity                         );
         internal string ActionMessage(ConfigResolver  entity,                                 string message) => Logging.ActionMessage(entity,                 message);
@@ -861,7 +863,7 @@ namespace JJ.Business.Synthesizer.Wishes
         internal string ActionMessage(ConfigResolver  entity, string     action, string name, string message) => Logging.ActionMessage(entity,   action, name, message);
         internal string ActionMessage(ConfigSection   entity, ActionEnum action                             ) => Logging.ActionMessage(entity,   action               );
         internal string ActionMessage(ConfigSection   entity, ActionEnum action,              string message) => Logging.ActionMessage(entity,   action,       message);
-        internal string ActionMessage(ConfigSection   entity, ActionEnum action, string name, int dummy = 0 ) => Logging.ActionMessage(entity,   action, name         );
+        internal string ActionMessage(ConfigSection   entity, ActionEnum action, string name, int dummy = 0 ) => Logging.ActionMessage(entity,   action, name, dummy  );
         internal string ActionMessage(ConfigSection   entity, ActionEnum action, string name, string message) => Logging.ActionMessage(entity,   action, name, message);
         internal string ActionMessage(ConfigSection   entity                                                ) => Logging.ActionMessage(entity                         );
         internal string ActionMessage(ConfigSection   entity,                                 string message) => Logging.ActionMessage(entity,                 message);
@@ -911,9 +913,9 @@ namespace JJ.Business.Synthesizer.Wishes
         public   string ActionMessage(object entity,        ActionEnum action, string name, string message) => Logging.ActionMessage(entity,     action, name, message);
         public   string ActionMessage(object entity                                                       ) => Logging.ActionMessage(entity                           );
         public   string ActionMessage(object entity,                                        string message) => Logging.ActionMessage(entity,                   message);
-        public   string ActionMessage(object entity,        string     action,              int dummy = 0 ) => Logging.ActionMessage(entity,     action               );
+        public   string ActionMessage(object entity,        string     action,              int dummy = 0 ) => Logging.ActionMessage(entity,     action,       dummy  );
         public   string ActionMessage(object entity,        string     action,              string message) => Logging.ActionMessage(entity,     action,       message);
-        public   string ActionMessage(object entity,        string     action, string name, int dummy = 0 ) => Logging.ActionMessage(entity,     action, name         );
+        public   string ActionMessage(object entity,        string     action, string name, int dummy = 0 ) => Logging.ActionMessage(entity,     action, name, dummy  );
         public   string ActionMessage(object entity,        string     action, string name, string message) => Logging.ActionMessage(entity,     action, name, message);
 
         /// <inheritdoc cref="actionmethodtentityobject />
@@ -929,7 +931,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="actionmethodtentityobject />
         public   string ActionMessage<TEntity>(TEntity obj,                                 string message) => Logging.ActionMessage(obj,                      message);
         /// <inheritdoc cref="actionmethodtentityobject />
-        public   string ActionMessage<TEntity>(TEntity obj, string     action,              int dummy = 0 ) => Logging.ActionMessage(obj,        action               );
+        public   string ActionMessage<TEntity>(TEntity obj, string     action,              int dummy = 0 ) => Logging.ActionMessage(obj,        action,       dummy  );
         /// <inheritdoc cref="actionmethodtentityobject />
         public   string ActionMessage<TEntity>(TEntity obj, string     action,              string message) => Logging.ActionMessage(obj,        action,       message);
         /// <inheritdoc cref="actionmethodtentityobject />
@@ -942,7 +944,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   string ActionMessage<TEntity>(             ActionEnum action, string name, string message) => Logging.ActionMessage<TEntity>(   action, name, message);
         public   string ActionMessage<TEntity>(                                                           ) => Logging.ActionMessage<TEntity>(                        );
         public   string ActionMessage<TEntity>(                                             string message) => Logging.ActionMessage<TEntity>(                 message);
-        public   string ActionMessage<TEntity>(             string     action,              int dummy = 0 ) => Logging.ActionMessage<TEntity>(   action               );
+        public   string ActionMessage<TEntity>(             string     action,              int dummy = 0 ) => Logging.ActionMessage<TEntity>(   action,       dummy  );
         public   string ActionMessage<TEntity>(             string     action,              string message) => Logging.ActionMessage<TEntity>(   action,       message);
         public   string ActionMessage<TEntity>(             string     action, string name, int dummy = 0 ) => Logging.ActionMessage<TEntity>(   action, name, dummy  );
         public   string ActionMessage<TEntity>(             string     action, string name, string message) => Logging.ActionMessage<TEntity>(   action, name, message);
@@ -952,7 +954,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   string ActionMessage(Type entityType,      ActionEnum action, string name, string message) => Logging.ActionMessage(entityType, action, name, message);
         public   string ActionMessage(Type entityType                                                     ) => Logging.ActionMessage(entityType                       );
         public   string ActionMessage(Type entityType,                                      string message) => Logging.ActionMessage(entityType,               message);
-        public   string ActionMessage(Type entityType,      string     action,              int dummy = 0 ) => Logging.ActionMessage(entityType, action               );
+        public   string ActionMessage(Type entityType,      string     action,              int dummy = 0 ) => Logging.ActionMessage(entityType, action,       dummy  );
         public   string ActionMessage(Type entityType,      string     action,              string message) => Logging.ActionMessage(entityType, action,       message);
         public   string ActionMessage(Type entityType,      string     action, string name, int dummy = 0 ) => Logging.ActionMessage(entityType, action, name, dummy  );
         public   string ActionMessage(Type entityType,      string     action, string name, string message) => Logging.ActionMessage(entityType, action, name, message);
@@ -962,7 +964,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public   string ActionMessage(string typeName,      ActionEnum action, string name, string message) => Logging.ActionMessage(typeName,   action, name, message);
         public   string ActionMessage(string typeName                                                     ) => Logging.ActionMessage(typeName                         );
         public   string ActionMessage(string typeName,                                      string message) => Logging.ActionMessage(typeName,                 message);
-        public   string ActionMessage(string typeName,      string     action,              int dummy = 0 ) => Logging.ActionMessage(typeName,   action               );
+        public   string ActionMessage(string typeName,      string     action,              int dummy = 0 ) => Logging.ActionMessage(typeName,   action,       dummy  );
         public   string ActionMessage(string typeName,      string     action,              string message) => Logging.ActionMessage(typeName,   action,       message);
         public   string ActionMessage(string typeName,      string     action, string name, int dummy = 0 ) => Logging.ActionMessage(typeName,   action, name, dummy  );
         public   string ActionMessage(string typeName,      string     action, string name, string message) => Logging.ActionMessage(typeName,   action, name, message);
@@ -1001,33 +1003,30 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Memory Action Message (On Entities)
         
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes                                                ) => Logging.MemoryActionMessage(bytes                       );
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                                 string message) => Logging.MemoryActionMessage(bytes,               message);
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action                             ) => Logging.MemoryActionMessage(bytes, action               );   
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action,              string message) => Logging.MemoryActionMessage(bytes, action,       message);
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => Logging.MemoryActionMessage(bytes, action, name, dummy  );
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action, string name, string message) => Logging.MemoryActionMessage(bytes, action, name, message);
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                    string name, int dummy = 0 ) => Logging.MemoryActionMessage(bytes,         name, dummy  );
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                    string name, string message) => Logging.MemoryActionMessage(bytes,         name, message);
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, string     action, string name, string message) => Logging.MemoryActionMessage(bytes, action, name, message);
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes                                                ) => Logging.MemoryActionMessage(bytes                       );
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                                 string message) => Logging.MemoryActionMessage(bytes,               message);
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action                             ) => Logging.MemoryActionMessage(bytes, action               );   
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action,              string message) => Logging.MemoryActionMessage(bytes, action,       message);
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => Logging.MemoryActionMessage(bytes, action, name, dummy  );
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, string message) => Logging.MemoryActionMessage(bytes, action, name, message);
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                    string name, int dummy = 0 ) => Logging.MemoryActionMessage(bytes,         name, dummy  );
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                    string name, string message) => Logging.MemoryActionMessage(bytes,         name, message);
-        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, string     action, string name, string message) => Logging.MemoryActionMessage(bytes, action, name, message);
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes                                                ) => Logging.MemoryActionMessage(bytes                       );
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes,                                 string message) => Logging.MemoryActionMessage(bytes,               message);
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action                             ) => Logging.MemoryActionMessage(bytes, action               );   
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action,              string message) => Logging.MemoryActionMessage(bytes, action,       message);
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => Logging.MemoryActionMessage(bytes, action, name, dummy  );
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action, string name, string message) => Logging.MemoryActionMessage(bytes, action, name, message);
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes,                    string name, int dummy = 0 ) => Logging.MemoryActionMessage(bytes,         name, dummy  );
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes,                    string name, string message) => Logging.MemoryActionMessage(bytes,         name, message);
-        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, string     action, string name, string message) => Logging.MemoryActionMessage(bytes, action, name, message);
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes                                   ) => Logging.MemoryActionMessage(entity, bytes                 );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                    string message) => Logging.MemoryActionMessage(entity, bytes,         message);
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action                ) => Logging.MemoryActionMessage(entity, bytes, action         );   
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action, string message) => Logging.MemoryActionMessage(entity, bytes, action, message);
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, string     action, int dummy = 0 ) => Logging.MemoryActionMessage(entity, bytes, action, dummy  );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, string     action, string message) => Logging.MemoryActionMessage(entity, bytes, action, message);
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes                                                ) => Logging.MemoryActionMessage(entity, bytes                       );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                                 string message) => Logging.MemoryActionMessage(entity, bytes,               message);
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action                             ) => Logging.MemoryActionMessage(entity, bytes, action               );   
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action,              string message) => Logging.MemoryActionMessage(entity, bytes, action,       message);
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => Logging.MemoryActionMessage(entity, bytes, action, name, dummy  );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, ActionEnum action, string name, string message) => Logging.MemoryActionMessage(entity, bytes, action, name, message);
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                    string name, int dummy = 0 ) => Logging.MemoryActionMessage(entity, bytes,         name, dummy  );
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes,                    string name, string message) => Logging.MemoryActionMessage(entity, bytes,         name, message);
+        internal string MemoryActionMessage(ConfigResolver  entity, byte[] bytes, string     action, string name, string message) => Logging.MemoryActionMessage(entity, bytes, action, name, message);
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes                                                ) => Logging.MemoryActionMessage(entity, bytes                       );
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes,                                 string message) => Logging.MemoryActionMessage(entity, bytes,               message);
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action                             ) => Logging.MemoryActionMessage(entity, bytes, action               );   
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action,              string message) => Logging.MemoryActionMessage(entity, bytes, action,       message);
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action, string name, int dummy = 0 ) => Logging.MemoryActionMessage(entity, bytes, action, name, dummy  );
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, ActionEnum action, string name, string message) => Logging.MemoryActionMessage(entity, bytes, action, name, message);
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes,                    string name, int dummy = 0 ) => Logging.MemoryActionMessage(entity, bytes,         name, dummy  );
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes,                    string name, string message) => Logging.MemoryActionMessage(entity, bytes,         name, message);
+        internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, string     action, string name, string message) => Logging.MemoryActionMessage(entity, bytes, action, name, message);
         
         public   string MemoryActionMessage(Tape            entity                                   ) => Logging.MemoryActionMessage(entity                 );
         public   string MemoryActionMessage(Tape            entity,                    string message) => Logging.MemoryActionMessage(entity,         message);
@@ -1463,7 +1462,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static string ActionMessage(this FlowNode        entity, string     action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
         internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
         internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
-        internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name         );
+        internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name, dummy  );
         internal static string ActionMessage(this ConfigResolver  entity, ActionEnum action, string name, string message) => ResolveLogging(entity).ActionMessage(entity,   action, name, message);
         internal static string ActionMessage(this ConfigResolver  entity                                                ) => ResolveLogging(entity).ActionMessage(entity                         );
         internal static string ActionMessage(this ConfigResolver  entity,                                 string message) => ResolveLogging(entity).ActionMessage(entity,                 message);
@@ -1473,7 +1472,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal static string ActionMessage(this ConfigResolver  entity, string     action, string name, string message) => ResolveLogging(entity).ActionMessage(entity,   action, name, message);
         internal static string ActionMessage(this ConfigSection   entity, ActionEnum action                             ) => ResolveLogging(entity).ActionMessage(entity,   action               );
         internal static string ActionMessage(this ConfigSection   entity, ActionEnum action,              string message) => ResolveLogging(entity).ActionMessage(entity,   action,       message);
-        internal static string ActionMessage(this ConfigSection   entity, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name         );
+        internal static string ActionMessage(this ConfigSection   entity, ActionEnum action, string name, int dummy = 0 ) => ResolveLogging(entity).ActionMessage(entity,   action, name, dummy  );
         internal static string ActionMessage(this ConfigSection   entity, ActionEnum action, string name, string message) => ResolveLogging(entity).ActionMessage(entity,   action, name, message);
         internal static string ActionMessage(this ConfigSection   entity                                                ) => ResolveLogging(entity).ActionMessage(entity                         );
         internal static string ActionMessage(this ConfigSection   entity,                                 string message) => ResolveLogging(entity).ActionMessage(entity,                 message);
@@ -1534,9 +1533,9 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static string ActionMessage(this object entity,        ActionEnum action, string name, string message) => ResolveLogging(entity    ).ActionMessage(entity,     action, name, message);
         public   static string ActionMessage(this object entity                                                       ) => ResolveLogging(entity    ).ActionMessage(entity                           );
         public   static string ActionMessage(this object entity,                                        string message) => ResolveLogging(entity    ).ActionMessage(entity,                   message);
-        public   static string ActionMessage(this object entity,        string     action,              int dummy = 0 ) => ResolveLogging(entity    ).ActionMessage(entity,     action               );
+        public   static string ActionMessage(this object entity,        string     action,              int dummy = 0 ) => ResolveLogging(entity    ).ActionMessage(entity,     action,       dummy  );
         public   static string ActionMessage(this object entity,        string     action,              string message) => ResolveLogging(entity    ).ActionMessage(entity,     action,       message);
-        public   static string ActionMessage(this object entity,        string     action, string name, int dummy = 0 ) => ResolveLogging(entity    ).ActionMessage(entity,     action, name         );
+        public   static string ActionMessage(this object entity,        string     action, string name, int dummy = 0 ) => ResolveLogging(entity    ).ActionMessage(entity,     action, name, dummy  );
         public   static string ActionMessage(this object entity,        string     action, string name, string message) => ResolveLogging(entity    ).ActionMessage(entity,     action, name, message);
         /// <inheritdoc cref="actionmethodtentityobject />
         public   static string ActionMessage<TEntity>(this TEntity obj, ActionEnum action                             ) => ResolveLogging(obj       ).ActionMessage(obj,        action               );
@@ -1551,7 +1550,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         /// <inheritdoc cref="actionmethodtentityobject />
         public   static string ActionMessage<TEntity>(this TEntity obj,                                 string message) => ResolveLogging(obj       ).ActionMessage(obj,                      message);
         /// <inheritdoc cref="actionmethodtentityobject />
-        public   static string ActionMessage<TEntity>(this TEntity obj, string     action,              int dummy = 0 ) => ResolveLogging(obj       ).ActionMessage(obj,        action               );
+        public   static string ActionMessage<TEntity>(this TEntity obj, string     action,              int dummy = 0 ) => ResolveLogging(obj       ).ActionMessage(obj,        action,       dummy  );
         /// <inheritdoc cref="actionmethodtentityobject />
         public   static string ActionMessage<TEntity>(this TEntity obj, string     action,              string message) => ResolveLogging(obj       ).ActionMessage(obj,        action,       message);
         /// <inheritdoc cref="actionmethodtentityobject />
@@ -1564,7 +1563,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static string ActionMessage(this Type entityType,      ActionEnum action, string name, string message) => ResolveLogging(entityType).ActionMessage(entityType, action, name, message);
         public   static string ActionMessage(this Type entityType                                                     ) => ResolveLogging(entityType).ActionMessage(entityType                       );
         public   static string ActionMessage(this Type entityType,                                      string message) => ResolveLogging(entityType).ActionMessage(entityType,               message);
-        public   static string ActionMessage(this Type entityType,      string     action,              int dummy = 0 ) => ResolveLogging(entityType).ActionMessage(entityType, action               );
+        public   static string ActionMessage(this Type entityType,      string     action,              int dummy = 0 ) => ResolveLogging(entityType).ActionMessage(entityType, action,       dummy  );
         public   static string ActionMessage(this Type entityType,      string     action,              string message) => ResolveLogging(entityType).ActionMessage(entityType, action,       message);
         public   static string ActionMessage(this Type entityType,      string     action, string name, int dummy = 0 ) => ResolveLogging(entityType).ActionMessage(entityType, action, name, dummy  );
         public   static string ActionMessage(this Type entityType,      string     action, string name, string message) => ResolveLogging(entityType).ActionMessage(entityType, action, name, message);
@@ -1574,7 +1573,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static string ActionMessage(this string typeName,      ActionEnum action, string name, string message) => ResolveLogging(typeName  ).ActionMessage(typeName,   action, name, message);
         public   static string ActionMessage(this string typeName                                                     ) => ResolveLogging(typeName  ).ActionMessage(typeName                         );
         public   static string ActionMessage(this string typeName,                                      string message) => ResolveLogging(typeName  ).ActionMessage(typeName,                 message);
-        public   static string ActionMessage(this string typeName,      string     action,              int dummy = 0 ) => ResolveLogging(typeName  ).ActionMessage(typeName,   action               );
+        public   static string ActionMessage(this string typeName,      string     action,              int dummy = 0 ) => ResolveLogging(typeName  ).ActionMessage(typeName,   action,       dummy  );
         public   static string ActionMessage(this string typeName,      string     action,              string message) => ResolveLogging(typeName  ).ActionMessage(typeName,   action,       message);
         public   static string ActionMessage(this string typeName,      string     action, string name, int dummy = 0 ) => ResolveLogging(typeName  ).ActionMessage(typeName,   action, name, dummy  );
         public   static string ActionMessage(this string typeName,      string     action, string name, string message) => ResolveLogging(typeName  ).ActionMessage(typeName,   action, name, message);
