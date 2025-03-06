@@ -32,43 +32,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return idDescriptor;
         }
         
-        public string Descriptor(TapeActions actions)
-        {
-            if (actions == null) throw new ArgumentNullException(nameof(actions));
-            
-            var elements = new List<string>();
-            
-            if (actions.Play.Done) elements.Add("played");
-            else if (actions.Play.On) elements.Add("play");
-            
-            if (actions.PlayChannels.Done) elements.Add("played-ch");
-            else if (actions.PlayChannels.On) elements.Add("play-ch");
-            
-            if (actions.Save.Done) elements.Add("saved");
-            else if (actions.Save.On) elements.Add("save");
-            
-            if (actions.SaveChannels.Done) elements.Add("saved-ch");
-            else if (actions.SaveChannels.On) elements.Add("save-ch");
-            
-            if (actions.BeforeRecord.Done) elements.Add("before-done");
-            else if (actions.BeforeRecord.On) elements.Add("before");
-            if (actions.BeforeRecord.Callback != null) elements.Add("cbk");
-            
-            if (actions.AfterRecord.Done) elements.Add("after-done");
-            else if (actions.AfterRecord.On) elements.Add("after");
-            if (actions.AfterRecord.Callback != null) elements.Add("cbk");
-            
-            if (actions.BeforeRecordChannel.Done) elements.Add("before-ch-done");
-            else if (actions.BeforeRecordChannel.On) elements.Add("before-ch");
-            if (actions.BeforeRecordChannel.Callback != null) elements.Add("cbk");
-            
-            if (actions.AfterRecordChannel.Done) elements.Add("after-ch-done");
-            else if (actions.AfterRecordChannel.On) elements.Add("after-ch");
-            if (actions.AfterRecordChannel.Callback != null) elements.Add("cbk");
-
-            return Join(",", elements);
-        }
-        
         public string Descriptor(Tape tape)
         {
             if (tape == null) return "<Tape=null>";
@@ -157,6 +120,43 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
            return Join(NewLine, tapeDescriptors);
         }
         
+        public string Descriptor(TapeActions actions)
+        {
+            if (actions == null) throw new ArgumentNullException(nameof(actions));
+            
+            var elements = new List<string>();
+            
+            if (actions.Play.Done) elements.Add("played");
+            else if (actions.Play.On) elements.Add("play");
+            
+            if (actions.PlayChannels.Done) elements.Add("played-ch");
+            else if (actions.PlayChannels.On) elements.Add("play-ch");
+            
+            if (actions.Save.Done) elements.Add("saved");
+            else if (actions.Save.On) elements.Add("save");
+            
+            if (actions.SaveChannels.Done) elements.Add("saved-ch");
+            else if (actions.SaveChannels.On) elements.Add("save-ch");
+            
+            if (actions.BeforeRecord.Done) elements.Add("before-done");
+            else if (actions.BeforeRecord.On) elements.Add("before");
+            if (actions.BeforeRecord.Callback != null) elements.Add("cbk");
+            
+            if (actions.AfterRecord.Done) elements.Add("after-done");
+            else if (actions.AfterRecord.On) elements.Add("after");
+            if (actions.AfterRecord.Callback != null) elements.Add("cbk");
+            
+            if (actions.BeforeRecordChannel.Done) elements.Add("before-ch-done");
+            else if (actions.BeforeRecordChannel.On) elements.Add("before-ch");
+            if (actions.BeforeRecordChannel.Callback != null) elements.Add("cbk");
+            
+            if (actions.AfterRecordChannel.Done) elements.Add("after-ch-done");
+            else if (actions.AfterRecordChannel.On) elements.Add("after-ch");
+            if (actions.AfterRecordChannel.Callback != null) elements.Add("cbk");
+
+            return Join(",", elements);
+        }
+        
         internal string TapesLeftMessage(int todoCount, Tape[] tapesLeft)
         {
             string prefix = default;
@@ -175,6 +175,12 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             }
         }
 
+        public string Descriptor(IList<FlowNode> signals)
+        {
+            if (signals == null) throw new ArgumentNullException(nameof(signals));
+            return signals.Count == 0 ? "<Signal=null>" : Join(" | ", signals.Select(x => $"{x}"));
+        }
+
         public string Descriptor(AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new ArgumentNullException(nameof(audioFileOutput));
@@ -185,12 +191,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             string joined = Join(" | ", new[] { name, configLog, filePath }.Where(FilledIn));
             return joined;
-        }
-
-        public string Descriptor(IList<FlowNode> signals)
-        {
-            if (signals == null) throw new ArgumentNullException(nameof(signals));
-            return signals.Count == 0 ? "<Signal=null>" : Join(" | ", signals.Select(x => $"{x}"));
         }
 
         public string ChannelDescriptor(Tape tape)
@@ -232,15 +232,39 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return default;
         }
     }
+}
 
+namespace JJ.Business.Synthesizer.Wishes
+{
+    public partial class SynthWishes
+    {
+        internal string IDDescriptor     (Tape tape                             ) => Logging.IDDescriptor     (tape                 );
+        internal string IDDescriptor     (IList<int> ids                        ) => Logging.IDDescriptor     (ids                  );
+        public   string Descriptor       (Tape tape                             ) => Logging.Descriptor       (tape                 );
+        public   string Descriptors      (IList<Tape> tapes                     ) => Logging.Descriptors      (tapes                );
+        public   string Descriptor       (TapeActions actions                   ) => Logging.Descriptor       (actions              );
+        internal string TapesLeftMessage (int todoCount, Tape[] tapesLeft       ) => Logging.TapesLeftMessage (todoCount, tapesLeft );
+        public   string Descriptor       (IList<FlowNode> signals               ) => Logging.Descriptor       (signals              );
+        public   string Descriptor       (AudioFileOutput audioFileOutput       ) => Logging.Descriptor       (audioFileOutput      );
+        public   string ChannelDescriptor(Tape tape                             ) => Logging.ChannelDescriptor(tape                 );
+        public   string ChannelDescriptor(TapeConfig tapeConfig                 ) => Logging.ChannelDescriptor(tapeConfig           );
+        public   string ChannelDescriptor(int? channelCount, int? channel = null) => Logging.ChannelDescriptor(channelCount, channel);
+    }
+}
+
+namespace JJ.Business.Synthesizer.Wishes.Logging
+{
     public static partial class LogExtensionWishes
     {
-        public static string Descriptor(this Tape tape)                       => Static.Descriptor(tape);
-        public static string Descriptor(this IList<Tape> tapes)               => Static.Descriptors(tapes);
-        public static string Descriptor(this TapeActions actions)             => Static.Descriptor(actions);
-        public static string Descriptor(this AudioFileOutput audioFileOutput) => Static.Descriptor(audioFileOutput);
-        public static string Descriptor(this IList<FlowNode> signals)         => Static.Descriptor(signals);
-        public static string ChannelDescriptor(this Tape tape)                => Static.ChannelDescriptor(tape);
-        public static string ChannelDescriptor(this TapeConfig tapeConfig)    => Static.ChannelDescriptor(tapeConfig);
+        internal static string IDDescriptor     (this Tape tape                      ) => ResolveLogging(tape           ).IDDescriptor     (tape                );
+        internal static string IDDescriptor     (this IList<int> ids                 ) => ResolveLogging(ids            ).IDDescriptor     (ids                 );
+        public   static string Descriptor       (this Tape tape                      ) => ResolveLogging(tape           ).Descriptor       (tape                );
+        public   static string Descriptor       (this IList<Tape> tapes              ) => ResolveLogging(tapes          ).Descriptors      (tapes               );
+        public   static string Descriptor       (this TapeActions actions            ) => ResolveLogging(actions        ).Descriptor       (actions             );
+        internal static string TapesLeftMessage (int todoCount, Tape[] tapesLeft     ) => ResolveLogging(tapesLeft      ).TapesLeftMessage (todoCount, tapesLeft);
+        public   static string Descriptor       (this IList<FlowNode> signals        ) => ResolveLogging(signals        ).Descriptor       (signals             );
+        public   static string Descriptor       (this AudioFileOutput audioFileOutput) => ResolveLogging(audioFileOutput).Descriptor       (audioFileOutput     );
+        public   static string ChannelDescriptor(this Tape tape                      ) => ResolveLogging(tape           ).ChannelDescriptor(tape                );
+        public   static string ChannelDescriptor(this TapeConfig tapeConfig          ) => ResolveLogging(tapeConfig     ).ChannelDescriptor(tapeConfig          );
     }
 }
