@@ -569,7 +569,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         static string GetParametersDescriptor(int? bits, int? channels)
         {
             string bitsFormatted = bits == null ? "null-bit" : bits == 0 ? "0-bit" : $"{bits}-bit";
-            string channelsDescriptor = channels == null ? "null-channels" : channels == 0 ? "0-channels" : LogWishes.Static.ChannelDescriptor(channels).ToLower();
+            string channelsDescriptor = channels == null ? "null-channels" : channels == 0 ? "0-channels" : channels.ChannelDescriptor().ToLower();
             return $"{bitsFormatted}-{channelsDescriptor} ";
         }
        

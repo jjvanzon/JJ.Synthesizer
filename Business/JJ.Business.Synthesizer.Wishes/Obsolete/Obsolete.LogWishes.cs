@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             int channels = buff.UnderlyingAudioFileOutput.AudioFileOutputChannels.Count;
             foreach (var audioFileOutputChannel in buff.UnderlyingAudioFileOutput.AudioFileOutputChannels)
             {
-                string channelString = Static.ChannelDescriptor(channels, audioFileOutputChannel.Channel());
+                string channelString = buff.ChannelDescriptor(channels, audioFileOutputChannel.Channel());
                 string calculationString = audioFileOutputChannel.Outlet?.Stringify() ?? "";
                 
                 lines.Add($"Calculation {channelString}:");

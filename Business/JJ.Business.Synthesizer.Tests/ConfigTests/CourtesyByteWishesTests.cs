@@ -486,7 +486,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             string formattedFrames   = frames   == null ? "(null)" : frames.ToString();
             string formattedBits     = bits     == null ? "(null)" : bits + "bit";
-            string formattedChannels = channels == null ? "(null)" : channels == 0 ? "0" : LogWishes.Static.ChannelDescriptor(channels).ToLower();
+            string formattedChannels = channels == null ? "(null)" : channels == 0 ? "0" : channels.ChannelDescriptor().ToLower();
             return $"{formattedFrames}x{formattedBits}x{formattedChannels} ";
         }
         

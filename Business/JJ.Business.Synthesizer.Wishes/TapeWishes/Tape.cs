@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public string FallbackName { get; set; }
         public string FilePathSuggested { get; set; }
         
-        public string Descriptor => Logging.Descriptor(this);
+        public string Descriptor => this.Descriptor();
         
         #endregion
 

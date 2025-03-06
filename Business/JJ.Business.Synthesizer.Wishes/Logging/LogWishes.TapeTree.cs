@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             {
                 foreach (var tape in roots)
                 {
-                    sb.AppendLine(Descriptor(tape));
+                    sb.AppendLine(tape.Descriptor);
                 }
             }
             sb.AppendLine();
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 sb.AppendLine($"Multi-Use ({multiUseTapes.Length}):");
                 foreach (var tape in multiUseTapes)
                 { 
-                    sb.AppendLine(Descriptor(tape));
+                    sb.AppendLine(tape.Descriptor);
                 }
                 sb.AppendLine();
             }
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                 if (skipMultiUse)
                 {
                     // Redirection
-                    sb.AppendLine($" => {tape.GetName()} ({IDDescriptor(tape)}) ..."); 
+                    sb.AppendLine($" => {tape.GetName()} ({tape.IDDescriptor()}) ..."); 
                     return; 
                 }
             }
@@ -127,7 +127,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
                     // Continuation
                     sb2.Append("=> ");
                 }
-                sb2.Append(tape.Descriptor());
+                sb2.Append(tape.Descriptor);
                 if (includeCalculationGraphs)
                 {
                     sb2.Append("   | " + (tape.Outlet?.ToString() ?? "<Signal=null>"));

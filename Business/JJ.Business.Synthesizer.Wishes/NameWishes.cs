@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;
@@ -51,7 +52,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (Has(ids))
             {
-                string idDescriptor = Static.IDDescriptor(ids);
+                string idDescriptor = ids.IDDescriptor();
                 if (!name.EndsWith("(" + idDescriptor + ")")) // Prevent duplicate mentions of the ID.
                 {
                     name += " " + idDescriptor;
