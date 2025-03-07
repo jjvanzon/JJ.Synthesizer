@@ -15,6 +15,7 @@ using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Tests.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
+using JJ.Framework.Reflection;
 using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
@@ -37,7 +38,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public FlowNode               FlowNode2            { get; set; }
         public ConfigResolverAccessor ConfigResolver       { get; set; }
         public ConfigSectionAccessor  ConfigSection        { get; set; }
-        public LogWishes              Logging              { get; set; }
     }
 
     internal class TapeBoundEntities
@@ -74,7 +74,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
     internal class ImmutableEntities
     {
-        public override string       ToString() => DebuggerDisplay(this);
+        readonly SynthWishes _synthWishes;
+        public ImmutableEntities(SynthWishes synthWishes) => _synthWishes = synthWishes ?? throw new NullException(() => synthWishes);
+        
+        public override string       ToString() => DebuggerDisplay(this, _synthWishes);
         public WavHeaderStruct       WavHeader           { get; set; }
         public SampleDataTypeEnum    SampleDataTypeEnum  { get; set; }
         public SampleDataType        SampleDataType      { get; set; }
@@ -110,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public TapeBoundEntities   TapeBound   { get; set; } = new TapeBoundEntities();
         public BuffBoundEntities   BuffBound   { get; set; } = new BuffBoundEntities();
         public IndependentEntities Independent { get; set; } = new IndependentEntities(); // Independent after Taping
-        public ImmutableEntities   Immutable   { get; set; } = new ImmutableEntities();
+        public ImmutableEntities   Immutable   { get; set; } 
     }
     
     internal class TestEntities : TapeEntities, IDisposable
@@ -169,7 +172,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 Context             = synthWishes.Context,
                 ConfigResolver      = synthWishesAccessor.Config,
                 ConfigSection       = synthWishesAccessor.Config._section,
-                Logging             = synthWishes.Logging
             };
             
             initialize?.Invoke(synthWishes);
@@ -263,7 +265,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                               AudioFileInfo = t.ToInfo().ToLegacy()
                           };
                           
-                          Immutable = new ImmutableEntities
+                          Immutable = new ImmutableEntities(SynthBound.SynthWishes)
                           {
                               Bits                  = t.Config.Bits,
                               SizeOfBitDepth        = t.Config.SizeOfBitDepth(),
@@ -322,7 +324,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           };
                           
                           // Immutables for Channel
-                          e.Immutable = new ImmutableEntities
+                          e.Immutable = new ImmutableEntities(SynthBound.SynthWishes)
                           {
                               Bits                  = t.Config.Bits,
                               SizeOfBitDepth        = t.Config.SizeOfBitDepth(),

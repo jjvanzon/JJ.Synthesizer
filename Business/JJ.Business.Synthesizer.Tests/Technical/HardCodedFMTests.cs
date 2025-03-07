@@ -1,11 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 // ReSharper disable LocalizableElement
 
@@ -13,7 +10,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
 	[TestClass]
     [TestCategory("Technical")]
-	public class HardCodedFMTests
+	public class HardCodedFMTests : SynthWishes
 	{
 		[TestMethod]
 		public void HardCodedFM_NoPhaseTracking_32BitFloat_HardFlute_IsNoise()
@@ -55,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 
 		[TestMethod]
@@ -98,7 +95,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 
 		[TestMethod]
@@ -150,7 +147,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 
 		[TestMethod]
@@ -202,7 +199,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 				}
 			}
 
-			Static.Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
+			Log($"FM sound saved to {Path.GetFullPath(outputFileName)}");
 		}
 	}
 }

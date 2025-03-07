@@ -25,7 +25,6 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
@@ -37,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
     [TestCategory("Technical")]
-    public class WavWishesTests
+    public class WavWishesTests : SynthWishes
     {
         // Test Data
         
@@ -2018,12 +2017,12 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 if (!Exists(filePath)) return;
                 Delete(filePath);
-                Static.LogAction("File", "Deleted", filePath);
+                LogAction("File", "Deleted", filePath);
             }
             catch (Exception ex)
             {
                 // Don't let clean-up fail other tests.
-                Static.LogAction("File", "Delete", filePath, "Failed: " + ex.Message);
+                LogAction("File", "Delete", filePath, "Failed: " + ex.Message);
             }
         }
     }
