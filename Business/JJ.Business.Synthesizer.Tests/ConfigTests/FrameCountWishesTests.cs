@@ -294,7 +294,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 // Stop tooling configurations for interfering.
                 x.IsUnderNCrunch = x.IsUnderAzurePipelines = false;
                 
-                x.WithLoggingDisabled();
+                x.WithLogDisabled();
                 x.AudioLength(test.AudioLength.Init.Nully);
                 x.SamplingRate(test.SamplingRate.Init.Nully);
                 x.CourtesyFrames(test.CourtesyFrames.Init.Nully);

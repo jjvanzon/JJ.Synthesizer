@@ -609,7 +609,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
          // Test Data Helpers
 
-        private TestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new TestEntities(x => x.WithLoggingDisabled().Bits(init.bits).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new TestEntities(x => x.WithLogDisabled().Bits(init.bits).SamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         

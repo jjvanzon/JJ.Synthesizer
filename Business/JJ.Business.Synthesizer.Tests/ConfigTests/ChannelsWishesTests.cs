@@ -1242,7 +1242,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(int? channels) => new TestEntities(x => x.WithLoggingDisabled().WithChannels(channels).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? channels) => new TestEntities(x => x.WithLogDisabled().WithChannels(channels).SamplingRate(HighPerfHz));
 
         static object TestParameters => new[] // ncrunch: no coverage
         {

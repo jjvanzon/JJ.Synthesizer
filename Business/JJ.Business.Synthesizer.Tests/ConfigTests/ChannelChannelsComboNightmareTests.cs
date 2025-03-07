@@ -96,16 +96,16 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         }
                 
         private TestEntities CreateTestEntities(int channels) 
-            => new TestEntities(x => x.WithLoggingDisabled().WithChannels(channels));
+            => new TestEntities(x => x.WithLogDisabled().WithChannels(channels));
         
         private TestEntities CreateTestEntities(int channels, IContext context) 
-            => new TestEntities(x => x.WithLoggingDisabled().WithChannels(channels), context);
+            => new TestEntities(x => x.WithLogDisabled().WithChannels(channels), context);
         
         private TestEntities CreateTestEntities(int channels, int? channel) 
-            => new TestEntities(x => x.WithLoggingDisabled().WithChannels(channels).WithChannel(channel));
+            => new TestEntities(x => x.WithLogDisabled().WithChannels(channels).WithChannel(channel));
         
         private TestEntities CreateTestEntities(int channels, int? channel, IContext context) 
-            => new TestEntities(x => x.WithLoggingDisabled().WithChannels(channels).WithChannel(channel).SamplingRate(HighPerfHz), context);
+            => new TestEntities(x => x.WithLogDisabled().WithChannels(channels).WithChannel(channel).SamplingRate(HighPerfHz), context);
 
         private void Assert_Channels_Getters(ChannelEnum channelEnum, int? channels)
         {

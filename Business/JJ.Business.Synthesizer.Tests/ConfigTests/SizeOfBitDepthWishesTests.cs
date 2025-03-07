@@ -1021,7 +1021,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
          
         // Data Helpers
 
-        private TestEntities CreateTestEntities(int? sizeOfBitDepth) => new TestEntities(x => x.WithLoggingDisabled().SizeOfBitDepth(sizeOfBitDepth).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? sizeOfBitDepth) => new TestEntities(x => x.WithLogDisabled().SizeOfBitDepth(sizeOfBitDepth).SamplingRate(HighPerfHz));
 
         // ncrunch: no coverage start
         

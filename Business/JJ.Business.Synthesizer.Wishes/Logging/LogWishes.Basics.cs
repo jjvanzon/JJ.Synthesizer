@@ -27,12 +27,37 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static LogWishes Static { get; } = new LogWishes(ConfigResolver.Static.LoggingConfig);
 
         private ILogger _logger;
-
-        public bool Enabled { get; set; } = true; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
-
+        
+        
         private readonly RootLoggingConfig _loggingConfig;
 
         private void UpdateLogger() => _logger = CreateLogger(_loggingConfig);
+        
+        public bool Enabled
+        {
+            get => _loggingConfig.Active;
+            set
+            {
+                _loggingConfig.Active = value;
+                UpdateLogger();
+            }
+        }
+        
+        public LogWishes SetCategories(IList<string> categories)
+        {
+            if (categories == null) throw new NullException(() => categories);
+            
+            foreach (LoggerConfig loggerConfig in _loggingConfig.Loggers)
+            {
+                loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
+            }
+            
+            UpdateLogger();
+            
+            return this;
+        }
+
+        
         internal LogWishes(RootLoggingConfig loggingConfig)
         {
             _loggingConfig = loggingConfig ?? throw new NullException(() => loggingConfig);
@@ -109,7 +134,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return flowNode.SynthWishes.Logging;
         }
         
-        
+
         internal static LogWishes ResolveLogging(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
@@ -170,9 +195,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // TODO: Synonyms
         
-        public SynthWishes WithLogging(bool enabled = true) { Logging.Enabled = enabled; return this; }
-        public SynthWishes WithLoggingEnabled() => WithLogging(true);
-        public SynthWishes WithLoggingDisabled() => WithLogging(false);
+        public SynthWishes WithLog(bool enabled = true){ Logging.Enabled = enabled; return this; }
+        public SynthWishes WithLogEnabled() => WithLog(true);
+        public SynthWishes WithLogDisabled() => WithLog(false);
+        public SynthWishes WithLogCats(params string[] categories) { Logging.SetCategories(categories); return this; }
         
         // Defined here to ditch `this` qualifier in case of inheritance.
         
