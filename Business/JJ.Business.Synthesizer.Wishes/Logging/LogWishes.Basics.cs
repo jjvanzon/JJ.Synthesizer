@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Logging;
 using JJ.Framework.Wishes.Logging.Loggers;
 using JJ.Framework.Wishes.Text;
 using JJ.Persistence.Synthesizer;
@@ -13,13 +12,17 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Common;
 using static System.Environment;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
+using static JJ.Framework.Wishes.Logging.LoggingFactory;
+using JJ.Framework.Wishes.Logging.Config;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    public partial class LogWishes
+    internal partial class LogWishes
     {
         public static LogWishes Static { get; } = new LogWishes(ConfigResolver.Static.LoggingConfig);
 
@@ -94,14 +97,12 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             LogSpaced(category, PrettyTitle(upperCase, underlineChar: '='));
         }
 
-        internal static LogWishes Resolve(SynthWishes synthWishes) => ResolveLogging(synthWishes);
         internal static LogWishes ResolveLogging(SynthWishes synthWishes)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
             return synthWishes.Logging;
         }
         
-        internal static LogWishes Resolve(FlowNode flowNode) => ResolveLogging(flowNode);
         internal static LogWishes ResolveLogging(FlowNode flowNode)
         {
             if (flowNode == null) throw new NullException(() => flowNode);
@@ -109,35 +110,30 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         }
         
         
-        internal static LogWishes Resolve(Tape tape) => ResolveLogging(tape);
         internal static LogWishes ResolveLogging(Tape tape)
         {
             if (tape == null) throw new NullException(() => tape);
             return tape.SynthWishes.Logging;
         }
         
-        internal static LogWishes Resolve(TapeConfig tapeConfig) => ResolveLogging(tapeConfig);
         internal static LogWishes ResolveLogging(TapeConfig tapeConfig)
         {
             if (tapeConfig == null) throw new NullException(() => tapeConfig);
             return tapeConfig.SynthWishes.Logging;
         }
         
-        internal static LogWishes Resolve(TapeActions tapeActions) => ResolveLogging(tapeActions);
         internal static LogWishes ResolveLogging(TapeActions tapeActions)
         {
             if (tapeActions == null) throw new NullException(() => tapeActions);
             return tapeActions.SynthWishes.Logging;
         }
         
-        internal static LogWishes Resolve(TapeAction tapeActions) => ResolveLogging(tapeActions);
         internal static LogWishes ResolveLogging(TapeAction tapeAction)
         {
             if (tapeAction == null) throw new NullException(() => tapeAction);
             return tapeAction.SynthWishes.Logging;
         }
         
-        internal static LogWishes Resolve(Buff buff) => ResolveLogging(buff);
         internal static LogWishes ResolveLogging(Buff buff)
         {
             if (buff == null) throw new NullException(() => buff);
@@ -146,33 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         // ReSharper disable UnusedParameter.Global
         
-        internal static LogWishes Resolve       (AudioFileOutput audioFileOutput                         ) =>                         Static;
-        internal static LogWishes ResolveLogging(AudioFileOutput audioFileOutput                         ) =>                         Static;
-        internal static LogWishes Resolve       (AudioFileOutput audioFileOutput, SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes ResolveLogging(AudioFileOutput audioFileOutput, SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes Resolve       (Sample          sample                                  ) =>                         Static;
-        internal static LogWishes ResolveLogging(Sample          sample                                  ) =>                         Static;
-        internal static LogWishes Resolve       (Sample          sample,          SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes ResolveLogging(Sample          sample,          SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes Resolve       (AudioInfoWish   audioInfoWish                           ) =>                         Static;
-        internal static LogWishes ResolveLogging(AudioInfoWish   audioInfoWish                           ) =>                         Static;
-        internal static LogWishes Resolve       (AudioInfoWish   audioInfoWish,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes ResolveLogging(AudioInfoWish   audioInfoWish,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes Resolve       (AudioFileInfo   audioFileInfo                           ) =>                         Static;
-        internal static LogWishes ResolveLogging(AudioFileInfo   audioFileInfo                           ) =>                         Static;
-        internal static LogWishes Resolve       (AudioFileInfo   audioFileInfo,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes ResolveLogging(AudioFileInfo   audioFileInfo,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes Resolve       (WavHeaderStruct wavHeader                               ) =>                         Static;
-        internal static LogWishes ResolveLogging(WavHeaderStruct wavHeader                               ) =>                         Static;
-        internal static LogWishes Resolve       (WavHeaderStruct wavHeader,       SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes ResolveLogging(WavHeaderStruct wavHeader,       SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes Resolve       (byte[]          bytes                                   ) =>                         Static;
-        internal static LogWishes ResolveLogging(byte[]          bytes                                   ) =>                         Static;
-        internal static LogWishes Resolve       (byte[]          bytes,           SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes ResolveLogging(byte[]          bytes,           SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        internal static LogWishes Resolve       (object          entity                                  ) =>                         Static;
         internal static LogWishes ResolveLogging(object          entity                                  ) =>                         Static;
-        internal static LogWishes Resolve       (object          entity,          SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
         internal static LogWishes ResolveLogging(object          entity,          SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
 
         // ReSharper restore UnusedParameter.Global
@@ -196,7 +166,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary>
         /// Always filled in. Holds the main LogWishes instance to use.
         /// </summary>
-        public LogWishes Logging { get; } = new LogWishes();
+        internal LogWishes Logging { get; }
 
         // TODO: Synonyms
         
@@ -221,93 +191,68 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static partial class LogExtensionWishes
     {
-        internal static LogWishes Logging(this SynthWishes synthWishes) // Providing method call syntax alongside property syntax.
-        {
-            if (synthWishes == null) throw new NullException(() => synthWishes);
-            return synthWishes.Logging;
-        }
-        internal static LogWishes Logging(this FlowNode        entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this ConfigResolver  entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this ConfigSection   entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this ConfigSection   entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
-        internal static LogWishes Logging(this Tape            entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this TapeConfig      entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this TapeActions     entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this TapeAction      entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this Buff            entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this AudioFileOutput entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this AudioFileOutput entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
-        internal static LogWishes Logging(this Sample          entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this Sample          entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
-        internal static LogWishes Logging(this AudioInfoWish   entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this AudioInfoWish   entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
-        internal static LogWishes Logging(this AudioFileInfo   entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this AudioFileInfo   entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
-        internal static LogWishes Logging(this WavHeaderStruct entity                         ) => LogWishes.Resolve(entity);
-        internal static LogWishes Logging(this WavHeaderStruct entity, SynthWishes synthWishes) => LogWishes.Resolve(entity, synthWishes);
-        internal static LogWishes Logging(this IList<Tape>     tapes                          ) => LogWishes.Resolve(tapes);
 
         // The target objects aren't used for anything other than resolving a SynthWishes object,
         // and availability on multiple target types for convenience.
         
-        public   static void Log(this FlowNode       entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        internal static void Log(this ConfigResolver entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        public   static void Log(this Tape           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        public   static void Log(this TapeConfig     entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        public   static void Log(this TapeActions    entity, string message = "") => LogWishes.Resolve(entity).Log(message);
+        public   static void Log(this FlowNode       entity, string message = "") => ResolveLogging(entity).Log(message);
+        internal static void Log(this ConfigResolver entity, string message = "") => ResolveLogging(entity).Log(message);
+        public   static void Log(this Tape           entity, string message = "") => ResolveLogging(entity).Log(message);
+        public   static void Log(this TapeConfig     entity, string message = "") => ResolveLogging(entity).Log(message);
+        public   static void Log(this TapeActions    entity, string message = "") => ResolveLogging(entity).Log(message);
         // NOTE: Log(TapeAction) resolves to the specialized LogAction(TapeAction) method instead of this basic log call.
-        public   static void Log(this Buff           entity, string message = "") => LogWishes.Resolve(entity).Log(message);
-        internal static void Log(this FlowNode       entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
-        internal static void Log(this ConfigResolver entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
-        internal static void Log(this Tape           entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
-        internal static void Log(this TapeConfig     entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
-        internal static void Log(this TapeActions    entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
+        public   static void Log(this Buff           entity, string message = "") => ResolveLogging(entity).Log(message);
+        internal static void Log(this FlowNode       entity, string category, string message) => ResolveLogging(entity).Log(category, message);
+        internal static void Log(this ConfigResolver entity, string category, string message) => ResolveLogging(entity).Log(category, message);
+        internal static void Log(this Tape           entity, string category, string message) => ResolveLogging(entity).Log(category, message);
+        internal static void Log(this TapeConfig     entity, string category, string message) => ResolveLogging(entity).Log(category, message);
+        internal static void Log(this TapeActions    entity, string category, string message) => ResolveLogging(entity).Log(category, message);
         // NOTE: Log(TapeAction) resolves to the specialized LogAction(TapeAction) method instead of this basic log call.
-        internal static void Log(this Buff           entity, string category, string message) => LogWishes.Resolve(entity).Log(category, message);
+        internal static void Log(this Buff           entity, string category, string message) => ResolveLogging(entity).Log(category, message);
 
-        public   static void LogSpaced (this FlowNode       entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
-        internal static void LogSpaced (this ConfigResolver entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this Tape           entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this TapeConfig     entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this TapeActions    entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this TapeAction     entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
-        public   static void LogSpaced (this Buff           entity, string message) => LogWishes.Resolve(entity).LogSpaced(message);
-        internal static void LogSpaced (this FlowNode       entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
-        internal static void LogSpaced (this ConfigResolver entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
-        internal static void LogSpaced (this Tape           entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
-        internal static void LogSpaced (this TapeConfig     entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
-        internal static void LogSpaced (this TapeActions    entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
-        internal static void LogSpaced (this TapeAction     entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
-        internal static void LogSpaced (this Buff           entity, string category, string message) => LogWishes.Resolve(entity).LogSpaced(category, message);
+        public   static void LogSpaced (this FlowNode       entity, string message) => ResolveLogging(entity).LogSpaced(message);
+        internal static void LogSpaced (this ConfigResolver entity, string message) => ResolveLogging(entity).LogSpaced(message);
+        public   static void LogSpaced (this Tape           entity, string message) => ResolveLogging(entity).LogSpaced(message);
+        public   static void LogSpaced (this TapeConfig     entity, string message) => ResolveLogging(entity).LogSpaced(message);
+        public   static void LogSpaced (this TapeActions    entity, string message) => ResolveLogging(entity).LogSpaced(message);
+        public   static void LogSpaced (this TapeAction     entity, string message) => ResolveLogging(entity).LogSpaced(message);
+        public   static void LogSpaced (this Buff           entity, string message) => ResolveLogging(entity).LogSpaced(message);
+        internal static void LogSpaced (this FlowNode       entity, string category, string message) => ResolveLogging(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this ConfigResolver entity, string category, string message) => ResolveLogging(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this Tape           entity, string category, string message) => ResolveLogging(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this TapeConfig     entity, string category, string message) => ResolveLogging(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this TapeActions    entity, string category, string message) => ResolveLogging(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this TapeAction     entity, string category, string message) => ResolveLogging(entity).LogSpaced(category, message);
+        internal static void LogSpaced (this Buff           entity, string category, string message) => ResolveLogging(entity).LogSpaced(category, message);
         
-        public   static void LogTitle(this FlowNode       entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        internal static void LogTitle(this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        public   static void LogTitle(this Tape           entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        public   static void LogTitle(this TapeConfig     entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        public   static void LogTitle(this TapeActions    entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        public   static void LogTitle(this TapeAction     entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        public   static void LogTitle(this Buff           entity, string title) => LogWishes.Resolve(entity).LogTitle(title);
-        internal static void LogTitle(this FlowNode       entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
-        internal static void LogTitle(this ConfigResolver entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
-        internal static void LogTitle(this Tape           entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
-        internal static void LogTitle(this TapeConfig     entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
-        internal static void LogTitle(this TapeActions    entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
-        internal static void LogTitle(this TapeAction     entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
-        internal static void LogTitle(this Buff           entity, string category, string title) => LogWishes.Resolve(entity).LogTitle(category, title);
+        public   static void LogTitle(this FlowNode       entity, string title) => ResolveLogging(entity).LogTitle(title);
+        internal static void LogTitle(this ConfigResolver entity, string title) => ResolveLogging(entity).LogTitle(title);
+        public   static void LogTitle(this Tape           entity, string title) => ResolveLogging(entity).LogTitle(title);
+        public   static void LogTitle(this TapeConfig     entity, string title) => ResolveLogging(entity).LogTitle(title);
+        public   static void LogTitle(this TapeActions    entity, string title) => ResolveLogging(entity).LogTitle(title);
+        public   static void LogTitle(this TapeAction     entity, string title) => ResolveLogging(entity).LogTitle(title);
+        public   static void LogTitle(this Buff           entity, string title) => ResolveLogging(entity).LogTitle(title);
+        internal static void LogTitle(this FlowNode       entity, string category, string title) => ResolveLogging(entity).LogTitle(category, title);
+        internal static void LogTitle(this ConfigResolver entity, string category, string title) => ResolveLogging(entity).LogTitle(category, title);
+        internal static void LogTitle(this Tape           entity, string category, string title) => ResolveLogging(entity).LogTitle(category, title);
+        internal static void LogTitle(this TapeConfig     entity, string category, string title) => ResolveLogging(entity).LogTitle(category, title);
+        internal static void LogTitle(this TapeActions    entity, string category, string title) => ResolveLogging(entity).LogTitle(category, title);
+        internal static void LogTitle(this TapeAction     entity, string category, string title) => ResolveLogging(entity).LogTitle(category, title);
+        internal static void LogTitle(this Buff           entity, string category, string title) => ResolveLogging(entity).LogTitle(category, title);
 
-        public   static void LogTitleStrong(this FlowNode       entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        internal static void LogTitleStrong(this ConfigResolver entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        public   static void LogTitleStrong(this Tape           entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeConfig     entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeActions    entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        public   static void LogTitleStrong(this TapeAction     entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        public   static void LogTitleStrong(this Buff           entity, string title) => LogWishes.Resolve(entity).LogTitleStrong(title);
-        internal static void LogTitleStrong(this FlowNode       entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
-        internal static void LogTitleStrong(this ConfigResolver entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
-        internal static void LogTitleStrong(this Tape           entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
-        internal static void LogTitleStrong(this TapeConfig     entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
-        internal static void LogTitleStrong(this TapeActions    entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
-        internal static void LogTitleStrong(this TapeAction     entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
-        internal static void LogTitleStrong(this Buff           entity, string category, string title) => LogWishes.Resolve(entity).LogTitleStrong(category, title);
+        public   static void LogTitleStrong(this FlowNode       entity, string title) => ResolveLogging(entity).LogTitleStrong(title);
+        internal static void LogTitleStrong(this ConfigResolver entity, string title) => ResolveLogging(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this Tape           entity, string title) => ResolveLogging(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeConfig     entity, string title) => ResolveLogging(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeActions    entity, string title) => ResolveLogging(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this TapeAction     entity, string title) => ResolveLogging(entity).LogTitleStrong(title);
+        public   static void LogTitleStrong(this Buff           entity, string title) => ResolveLogging(entity).LogTitleStrong(title);
+        internal static void LogTitleStrong(this FlowNode       entity, string category, string title) => ResolveLogging(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this ConfigResolver entity, string category, string title) => ResolveLogging(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this Tape           entity, string category, string title) => ResolveLogging(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this TapeConfig     entity, string category, string title) => ResolveLogging(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this TapeActions    entity, string category, string title) => ResolveLogging(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this TapeAction     entity, string category, string title) => ResolveLogging(entity).LogTitleStrong(category, title);
+        internal static void LogTitleStrong(this Buff           entity, string category, string title) => ResolveLogging(entity).LogTitleStrong(category, title);
     }
 }

@@ -42,7 +42,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             set => _synthWishes = value ?? throw new NullException(() => SynthWishes);
         }
         
-        internal LogWishes Logging => LogWishes.Resolve(this);
         
         #region Buff
         
@@ -236,7 +235,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         public override string ToString() => GetDebuggerDisplay(this);
         
         public SynthWishes SynthWishes => Tape.SynthWishes;
-        internal LogWishes Logging => LogWishes.Resolve(this);
         
         /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
@@ -342,7 +340,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
 
         public SynthWishes SynthWishes => Tape.SynthWishes;
-        internal LogWishes Logging => LogWishes.Resolve(this);
 
         /// <summary> Always filled in. </summary>
         public Tape Tape { get; }
@@ -437,7 +434,6 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         }
         
         public SynthWishes SynthWishes => Tape.SynthWishes;
-        internal LogWishes Logging => LogWishes.Resolve(this);
         
         /// <summary> Parent. Always filled in. </summary>
         public Tape Tape { get; }

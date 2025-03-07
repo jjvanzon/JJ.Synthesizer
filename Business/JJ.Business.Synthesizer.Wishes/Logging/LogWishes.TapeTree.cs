@@ -6,11 +6,12 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    public partial class LogWishes
+    internal partial class LogWishes
     {
         public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
@@ -151,58 +152,58 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         // LogTapeTree
         
         public static void LogTapeTree(this SynthWishes entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
         
         public static void LogTapeTree(this FlowNode entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
         
                 
         
         internal static void LogTapeTree(this Tape entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
         
         internal static void LogTapeTree(this TapeConfig entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
         
         internal static void LogTapeTree(this TapeActions entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
         
         internal static void LogTapeTree(this TapeAction entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
         
         internal static void LogTapeTree(this Buff entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
 
         public static void LogTapeTree(this IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => tapes.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(tapes).LogTapeTree(tapes, includeCalculationGraphs);
         
         // GetTapeTree
 
         public static string GetTapeTree(this SynthWishes entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
         
         public static string GetTapeTree(this FlowNode entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
         
                 
         
         internal static string GetTapeTree(this Tape entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
         
         internal static string GetTapeTree(this TapeConfig entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
         
         internal static string GetTapeTree(this TapeActions entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
         
         internal static string GetTapeTree(this TapeAction entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
         
         internal static string GetTapeTree(this Buff entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
 
         public static string GetTapeTree(this IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => tapes.Logging().GetTapeTree(tapes, includeCalculationGraphs);
+            => ResolveLogging(tapes).GetTapeTree(tapes, includeCalculationGraphs);
     }
 }
 

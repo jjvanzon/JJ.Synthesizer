@@ -8,7 +8,7 @@ using static System.String;
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    public partial class LogWishes
+    internal partial class LogWishes
     {
         private void LogMath     (string message) => Log     ("MathBoost", message);
         private void LogMathTitle(string message) => LogTitle("MathBoost", message);
@@ -141,7 +141,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         private string Stringify(FlowNode operand)
         {
-            if (!operand.Logging.Enabled) return "";
+            if (!ResolveLogging(operand).Enabled) return "";
             return operand.Stringify(true);
         }
         

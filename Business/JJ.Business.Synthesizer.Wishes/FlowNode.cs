@@ -29,7 +29,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <summary> Always filled in. </summary>
         public SynthWishes _ => _synthWishes;
 
-        internal LogWishes Logging => LogWishes.Resolve(this);
         
         /// <summary> Always filled in. </summary>
         public Outlet UnderlyingOutlet => _underlyingOutlet;

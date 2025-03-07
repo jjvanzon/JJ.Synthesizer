@@ -18,7 +18,7 @@ using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    public partial class LogWishes
+    internal partial class LogWishes
     {
         // ActionMessage (On Entities)
         
