@@ -434,7 +434,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     try
                     {
                         (BuffBound.DestFilePath, tempStream) = CreateSafeFileStream(filePathBase);
-                        BuffBound.Buff.LogFileAction();
+                        BuffBound.DestFilePath.LogFileAction(SynthBound.SynthWishes);
                     }
                     finally
                     {
