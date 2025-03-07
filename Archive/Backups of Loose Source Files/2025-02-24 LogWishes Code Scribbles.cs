@@ -389,3 +389,6 @@
         internal static string TapesLeftMessage (this AudioFileOutput entityForLogContext, (int? channels, int? channel) entityToDescribe) => ResolveLogging(entityForLogContext).ChannelDescriptor(entityToDescribe);
 
         internal static string TapesLeftMessage (this Sample          entityForLogContext, (int? channels, int? channel) entityToDescribe) => ResolveLogging(entityForLogContext).ChannelDescriptor(entityToDescribe);
+
+        [Obsolete]
+        private void LogActionBase(string actionMessage) => Log("Actions", actionMessage);
