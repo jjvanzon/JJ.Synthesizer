@@ -21,12 +21,21 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public partial class LogWishes
     {
-        public static LogWishes Static { get; } = new LogWishes();
+        public static LogWishes Static { get; } = new LogWishes(ConfigResolver.Static.LoggingConfig);
 
-        private readonly ILogger _logger = LoggingFactory.CreateLogger(ConfigResolver.Static.LoggerConfig);
+        private ILogger _logger;
 
         public bool Enabled { get; set; } = true; // = Config.LoggerConfig.Active ?? DefaultLoggingEnabled; // TODO: Use config somehow
 
+        private readonly RootLoggingConfig _loggingConfig;
+
+        private void UpdateLogger() => _logger = CreateLogger(_loggingConfig);
+        internal LogWishes(RootLoggingConfig loggingConfig)
+        {
+            _loggingConfig = loggingConfig ?? throw new NullException(() => loggingConfig);
+            UpdateLogger();
+        }
+        
         // NOTE: All the threading, locking and flushing helped
         // Test Explorer in Visual Studio 2022
         // avoid mangling blank lines, for the most part.

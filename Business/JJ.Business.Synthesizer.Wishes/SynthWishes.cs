@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.NoteWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
@@ -66,6 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
             Config = new ConfigResolver(this);
+            Logging = new LogWishes(Config.LoggingConfig);
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
             

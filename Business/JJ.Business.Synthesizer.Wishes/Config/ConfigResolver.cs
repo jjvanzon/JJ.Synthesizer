@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public ConfigResolver(SynthWishes synthWishes = null)
         {
             SynthWishes = synthWishes;
-            LoggerConfig = ResolveLoggerConfig();
+            LoggingConfig = NewLoggingConfig();
         }
         
         // Audio Attributes
@@ -611,24 +611,24 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             set => _azurePipelinesImpersonationMode = value;
         }
         
-        public RootLoggingXml LoggerConfig { get; }
+        public RootLoggingConfig LoggingConfig { get; }
         
-        private RootLoggingXml ResolveLoggerConfig()
+        private RootLoggingConfig NewLoggingConfig()
         { 
-            RootLoggingXml config = null;
+            RootLoggingConfig config = null;
             
             if (IsUnderNCrunch) 
             {
-                config = _section.NCrunch.Logging;
+                config = LoggingConfigFetcher.CreateLoggingConfig(_section.NCrunch.Logging);
             }
             else if (IsUnderAzurePipelines)
             {
-                config = _section.AzurePipelines.Logging;
+                config = LoggingConfigFetcher.CreateLoggingConfig(_section.AzurePipelines.Logging);
             }
             
             if (config == null)
             {
-                config = LoggingConfigFetcher.GetLoggingXml();
+                config = LoggingConfigFetcher.CreateLoggingConfig(_section.Logging);
             }
             
             return config;

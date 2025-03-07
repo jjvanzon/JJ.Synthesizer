@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Framework.Wishes.Logging.Mappers;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -55,6 +56,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
         public ConfigToolingElement NCrunch { get; set; } = new ConfigToolingElement();
+        public RootLoggingXml Logging { get; set; }
         
         // Misc
         
