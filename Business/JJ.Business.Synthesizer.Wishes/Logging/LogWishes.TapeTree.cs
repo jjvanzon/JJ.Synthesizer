@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            tapes.Logging().Log("TapeTree", GetTapeTree(tapes, includeCalculationGraphs));
+            Log("TapeTree", GetTapeTree(tapes, includeCalculationGraphs));
         }
         
         public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
