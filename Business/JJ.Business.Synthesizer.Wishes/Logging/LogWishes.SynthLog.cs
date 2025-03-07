@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static System.IO.File;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
@@ -23,6 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         public string SynthLog(Tape tape, double? calculationDuration = null)
         {
+            if (!_logger.WillLog("SynthLog")) return "";
             if (!Enabled) return "";
 
             var lines = new List<string>();
@@ -102,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             string fileMessage = tape.FileActionMessage();
             if (Has(fileMessage)) lines.Add(fileMessage);
             
-            if (!Has(fileMessage) && !Has(bytesMessage))
+            if (!Has(tape.Bytes) && !Exists(tape.FilePathResolved))
             {
                 lines.Add("⚠ Tape not recorded!");
                 lines.Add("");

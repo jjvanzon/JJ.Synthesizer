@@ -392,3 +392,8 @@
 
         [Obsolete]
         private void LogActionBase(string actionMessage) => Log("Actions", actionMessage);
+
+if (!_logger.WillLog("File")) return "";
+string formattedFilePath = FormatFilePathIfExists(entity.FilePathResolved);
+if (!Has(formattedFilePath)) return "";
+return ActionMessage("File", action, formattedFilePath, message);

@@ -249,7 +249,9 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string MemoryActionMessage(int byteCount,                    string name, string message) => MemoryActionMessage(byteCount, "Write"    , name, message                            );
         public string MemoryActionMessage(int byteCount, string     action, string name, string message)
         {
-            return Has(byteCount) ? ActionMessage("Memory", action, name, message) : "";
+            if (!Has(byteCount)) return "";
+            if (!_logger.WillLog("Memory")) return "";
+            return ActionMessage("Memory", action, name, message);
         }
 
         public string MemoryActionMessage(byte[] bytes                                                ) => MemoryActionMessage(bytes?.Length ?? 0                       );
@@ -406,6 +408,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string FileActionMessage(string filePath, string     action,                 string sourceFilePath) => FileActionMessage(filePath, action     , ""     , sourceFilePath);
         public string FileActionMessage(string filePath, string     action, string message, string sourceFilePath)
         {
+            if (!_logger.WillLog("File")) return "";
             string filePathDescriptor = FormatFilePathIfExists(filePath, sourceFilePath);
             if (!Has(filePathDescriptor)) return "";
             return ActionMessage("File", action, filePathDescriptor, message);
@@ -456,9 +459,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string FileActionMessage(Tape            entity, string     action, string message)
         {
             if (entity == null) throw new NullException(() => entity);
-            string formattedFilePath = FormatFilePathIfExists(entity.FilePathResolved);
-            if (!Has(formattedFilePath)) return "";
-            return ActionMessage("File", action, formattedFilePath, message);
+            return FileActionMessage(entity.FilePathResolved, action, message);
         }
         
         public string FileActionMessage(TapeConfig      entity                                   ) => FileActionMessage(entity, Save       , ""     );
