@@ -540,6 +540,30 @@ namespace JJ.Business.Synthesizer.Wishes
         public   void   LogConfig(string title, WavHeaderStruct wavHeaderStruct            ) => Logging.LogConfig(title, wavHeaderStruct     );
         public   void   LogConfig(              WavHeaderStruct wavHeaderStruct, string sep) => Logging.LogConfig(       wavHeaderStruct, sep);
         public   void   LogConfig(string title, WavHeaderStruct wavHeaderStruct, string sep) => Logging.LogConfig(title, wavHeaderStruct, sep);
+
+        public string ConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
+            => Logging.ConfigLog(title, group1, group2, group3, sep);
+
+        public string DurationsDescriptor(
+            double? audioLength = null, double? leadingSilence = null, double? trailingSilence = null, 
+            double? barLength = null, double? beatLength = null, double? noteLength = null)
+            => Logging.DurationsDescriptor(audioLength, leadingSilence, trailingSilence, barLength, beatLength, noteLength);
+        
+        /// <summary> Example: <code> [Format] Sampling rate: 8192 Hz | 32-Bit | Mono | Wav | Linear Interpolation </code> </summary>
+        public string AudioFormatDescriptor(
+            int? samplingRate = null, int? bits = null,
+            int? channels = null, int? channel = null, 
+            AudioFileFormatEnum? audioFormat = null, 
+            InterpolationTypeEnum? interpolation = null)
+            => Logging.AudioFormatDescriptor(samplingRate, bits, channels, channel, audioFormat, interpolation);
+        
+        public string FeaturesDescriptor(
+            bool? audioPlayback = null, 
+            bool? diskCache = null, 
+            bool? mathBoost = null, 
+            bool? parallelProcessing = null, 
+            bool? playAllTapes = null)
+            => Logging.FeaturesDescriptor(audioPlayback, diskCache, mathBoost, parallelProcessing, playAllTapes);
     }
 }
 
