@@ -156,11 +156,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static void LogTapeTree(this FlowNode entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
         
-        internal static void LogTapeTree(this ConfigResolver entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
                 
-        internal static void LogTapeTree(this ConfigSection entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
         
         internal static void LogTapeTree(this Tape entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
@@ -188,11 +184,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static string GetTapeTree(this FlowNode entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
         
-        internal static string GetTapeTree(this ConfigResolver entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
                 
-        internal static string GetTapeTree(this ConfigSection entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);
         
         internal static string GetTapeTree(this Tape entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().GetTapeTree(tapes, includeCalculationGraphs);

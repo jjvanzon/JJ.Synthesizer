@@ -14,7 +14,7 @@ using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    public partial class LogWishes
+    internal partial class LogWishes
     {
         internal string IDDescriptor(Tape tape)
         {
@@ -284,29 +284,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static string ChannelDescriptor(this FlowNode        entityForLogContext, int? channels, int? channel = null) => ResolveLogging(entityForLogContext).ChannelDescriptor(channels,channel);
         internal static string TapesLeftMessage (this FlowNode        entityForLogContext, IList<Tape> tapes, int todoCount  ) => ResolveLogging(entityForLogContext).TapesLeftMessage (tapes, todoCount);
                                                                                                                               
-        internal static string IDDescriptor     (this ConfigResolver  entityForLogContext, Tape            entityToDescribe  ) => ResolveLogging(entityForLogContext).IDDescriptor     (entityToDescribe);
-        internal static string IDDescriptor     (this ConfigResolver  entityForLogContext, IList<int>      entityToDescribe  ) => ResolveLogging(entityForLogContext).IDDescriptor     (entityToDescribe);
-        internal static string Descriptor       (this ConfigResolver  entityForLogContext, Tape            entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string Descriptor       (this ConfigResolver  entityForLogContext, IList<Tape>     entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptors      (entityToDescribe);
-        internal static string Descriptor       (this ConfigResolver  entityForLogContext, TapeActions     entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string Descriptor       (this ConfigResolver  entityForLogContext, IList<FlowNode> entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string Descriptor       (this ConfigResolver  entityForLogContext, AudioFileOutput entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string ChannelDescriptor(this ConfigResolver  entityForLogContext, Tape            entityToDescribe  ) => ResolveLogging(entityForLogContext).ChannelDescriptor(entityToDescribe);
-        internal static string ChannelDescriptor(this ConfigResolver  entityForLogContext, TapeConfig      entityToDescribe  ) => ResolveLogging(entityForLogContext).ChannelDescriptor(entityToDescribe);
-        internal static string ChannelDescriptor(this ConfigResolver  entityForLogContext, int? channels, int? channel = null) => ResolveLogging(entityForLogContext).ChannelDescriptor(channels,channel);
-        internal static string TapesLeftMessage (this ConfigResolver  entityForLogContext, IList<Tape> tapes, int todoCount  ) => ResolveLogging(entityForLogContext).TapesLeftMessage (tapes, todoCount);
                                                                                                                               
-        internal static string IDDescriptor     (this ConfigSection   entityForLogContext, Tape            entityToDescribe  ) => ResolveLogging(entityForLogContext).IDDescriptor     (entityToDescribe);
-        internal static string IDDescriptor     (this ConfigSection   entityForLogContext, IList<int>      entityToDescribe  ) => ResolveLogging(entityForLogContext).IDDescriptor     (entityToDescribe);
-        internal static string Descriptor       (this ConfigSection   entityForLogContext, Tape            entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string Descriptor       (this ConfigSection   entityForLogContext, IList<Tape>     entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptors      (entityToDescribe);
-        internal static string Descriptor       (this ConfigSection   entityForLogContext, TapeActions     entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string Descriptor       (this ConfigSection   entityForLogContext, IList<FlowNode> entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string Descriptor       (this ConfigSection   entityForLogContext, AudioFileOutput entityToDescribe  ) => ResolveLogging(entityForLogContext).Descriptor       (entityToDescribe);
-        internal static string ChannelDescriptor(this ConfigSection   entityForLogContext, Tape            entityToDescribe  ) => ResolveLogging(entityForLogContext).ChannelDescriptor(entityToDescribe);
-        internal static string ChannelDescriptor(this ConfigSection   entityForLogContext, TapeConfig      entityToDescribe  ) => ResolveLogging(entityForLogContext).ChannelDescriptor(entityToDescribe);
-        internal static string ChannelDescriptor(this ConfigSection   entityForLogContext, int? channels, int? channel = null) => ResolveLogging(entityForLogContext).ChannelDescriptor(channels,channel);
-        internal static string TapesLeftMessage (this ConfigSection   entityForLogContext, IList<Tape> tapes, int todoCount  ) => ResolveLogging(entityForLogContext).TapesLeftMessage (tapes, todoCount);
                                                                                                                               
         // TODO: Add overload with tuples
         

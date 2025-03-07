@@ -176,8 +176,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static void LogSynth(this FlowNode entity, Tape tape, double? calculationDuration = null) 
             => entity.Logging().LogSynth(tape, calculationDuration);
         
-        internal static void LogSynth(this ConfigResolver entity, Tape tape, double? calculationDuration = null) 
-            => entity.Logging().LogSynth(tape, calculationDuration);
 
         public static void LogSynth(this Tape entity, double? calculationDuration = null) 
             => entity.Logging().LogSynth(entity, calculationDuration);
@@ -205,8 +203,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static string SynthLog(this FlowNode entity, Tape tape, double? calculationDuration = null) 
             => entity.Logging().SynthLog(tape, calculationDuration);
         
-        internal static string SynthLog(this ConfigResolver entity, Tape tape, double? calculationDuration = null) 
-            => entity.Logging().SynthLog(tape, calculationDuration);
 
         public static string SynthLog(this Tape entity, double? calculationDuration = null) 
             => entity.Logging().SynthLog(entity, calculationDuration);

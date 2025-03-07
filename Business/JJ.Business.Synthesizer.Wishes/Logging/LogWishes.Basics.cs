@@ -108,12 +108,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return flowNode.SynthWishes.Logging;
         }
         
-        //internal static LogWishes Resolve(ConfigResolver configResolver) => ResolveLogging(configResolver);
-        //internal static LogWishes ResolveLogging(ConfigResolver configResolver)
-        //{
-        //    if (configResolver == null) throw new NullException(() => configResolver);
-        //    return configResolver.SynthWishes?.Logging ?? Static;
-        //}
         
         internal static LogWishes Resolve(Tape tape) => ResolveLogging(tape);
         internal static LogWishes ResolveLogging(Tape tape)
@@ -152,10 +146,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         // ReSharper disable UnusedParameter.Global
         
-        //internal static LogWishes Resolve       (ConfigSection   configSection                           ) =>                         Static;
-        //internal static LogWishes ResolveLogging(ConfigSection   configSection                           ) =>                         Static;
-        //internal static LogWishes Resolve       (ConfigSection   configSection,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
-        //internal static LogWishes ResolveLogging(ConfigSection   configSection,   SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
         internal static LogWishes Resolve       (AudioFileOutput audioFileOutput                         ) =>                         Static;
         internal static LogWishes ResolveLogging(AudioFileOutput audioFileOutput                         ) =>                         Static;
         internal static LogWishes Resolve       (AudioFileOutput audioFileOutput, SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
