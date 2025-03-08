@@ -34,26 +34,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public IList<FlowNode> FlattenFactors(FlowNode multiply) 
             => (IList<FlowNode>)_accessor.InvokeMethod(MemberName(), multiply);
 
-        public TapeRunnerAccessor _tapeRunner
-        {
-            get
-            {
-                object obj = _accessor.GetFieldValue(MemberName());
-                return new TapeRunnerAccessor(obj);
-            }
-        }
-
-        public TapeCollectionAccessor _tapes
-        {
-            get
-            {
-                object obj = _accessor.GetFieldValue(MemberName());
-                return new TapeCollectionAccessor(obj);
-            }
-        }
-
-        public ConfigResolverAccessor Config 
-            => new ConfigResolverAccessor(_accessor.GetPropertyValue(MemberName()));
+        public TapeRunnerAccessor     _tapeRunner => new TapeRunnerAccessor(_accessor.GetFieldValue(MemberName()));
+        public TapeCollectionAccessor _tapes      => new TapeCollectionAccessor(_accessor.GetFieldValue(MemberName()));
+        public ConfigResolverAccessor _config     => new ConfigResolverAccessor(_accessor.GetFieldValue(MemberName()));
 
         // EchoAdditive
 
