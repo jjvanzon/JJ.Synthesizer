@@ -11,6 +11,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.IO.StreamHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -89,7 +90,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             dummyTape.Config.Channel = default; // ???
 
-            dummyTape.LogAction("Create", "Sample Dummy");
+            dummyTape.LogAction(Create, "Sample Dummy");
 
             return SampleFromTape(dummyTape, bytesToSkip, stream);
         }
@@ -125,7 +126,7 @@ namespace JJ.Business.Synthesizer.Wishes
             sample.Name = name;
             sampleNode.UnderlyingOperator.Name = name;
 
-            sample.LogAction(this, "Create");
+            sample.LogAction(this, Create);
             
             return sampleNode;
         }
@@ -177,7 +178,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);
             
-            sample.LogAction(this, "Create");
+            sample.LogAction(this, Create);
             
             return sampleNode;
         }
@@ -218,7 +219,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var sampleNode = _[_operatorFactory.Sample(sample)];
             sampleNode.SetName(sample.Name);
             
-            sample.LogAction(this, "Create");
+            sample.LogAction(this, Create);
             
             return sampleNode;
         }

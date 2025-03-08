@@ -4,14 +4,15 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using static System.String;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
 
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     internal partial class LogWishes
     {
-        private void LogMath     (string message) => Log     ("MathBoost", message);
-        private void LogMathTitle(string message) => LogTitle("MathBoost", message);
+        private void LogMath     (string message) => Log     (MathBoost, message);
+        private void LogMathTitle(string message) => LogTitle(MathBoost, message);
         
         internal void LogMathBoostTitle(bool mathBoost)
         {
@@ -141,7 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         private string Stringify(FlowNode operand)
         {
-            if (!_logger.WillLog("MathBoost"))
+            if (!_logger.WillLog(MathBoost))
             {
                 return "";
             }

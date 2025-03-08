@@ -55,6 +55,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Logging\LogActions.cs" />
+    <Compile Include="Logging\LogCategories.cs" />
     <Compile Include="NoteWishes\BarIndexer.cs" />
     <Compile Include="NoteWishes\BarsIndexer.cs" />
     <Compile Include="NoteWishes\BeatIndexer.cs" />

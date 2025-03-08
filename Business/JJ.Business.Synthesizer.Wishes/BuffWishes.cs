@@ -23,6 +23,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -134,10 +135,10 @@ namespace JJ.Business.Synthesizer.Wishes
                     break;
 
                 default:
-                    throw new Exception($"Value not supported: {GetText(() => tape.Outlets.Count)} = {GetValue(() => tape.Outlets.Count)}");;
+                    throw new Exception($"Value not supported: {GetText(() => tape.Outlets.Count)} = {tape.Outlets.Count}");;
             }
             
-            LogAction(audioFileOutput, "Create");
+            LogAction(audioFileOutput, Create);
             
             return audioFileOutput;
         }

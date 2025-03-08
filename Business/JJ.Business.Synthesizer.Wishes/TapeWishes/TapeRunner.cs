@@ -13,6 +13,7 @@ using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {
@@ -120,7 +121,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
         {
             try
             {
-                tape.LogAction("Start", "Running ...");
+                tape.LogAction(LogActions.Start, "Running ...");
                 
                 _versatileActionRunner.RunBeforeRecord(tape);
                 
@@ -138,7 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     }
                 }
                 
-                tape.LogAction("Stop", "Checking Leaves ...");
+                tape.LogAction(LogActions.Stop, "Checking Leaves ...");
             }
             finally
             {
@@ -175,7 +176,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
                     _synthWishes.Log(actionMessage + " " + tapesLeftMessage);
                     break;
                 
-                case Stop:
+                case TimeOutActionEnum.Stop:
                     throw new Exception(actionMessage + " " + tapesLeftMessage);
             }
         }

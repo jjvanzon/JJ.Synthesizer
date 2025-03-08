@@ -21,6 +21,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteLogWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.MakeBuffLegacyStatics;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.StreamerObsoleteMessages;
@@ -246,10 +247,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                     break;
 
                 default:
-                    throw new Exception($"Value not supported: {GetText(() => channelSignals.Count)} = {GetValue(() => channelSignals.Count)}");
+                    throw new Exception($"Value not supported: {GetText(() => channelSignals.Count)} = {channelSignals.Count}");
             }
             
-            synthWishes.LogAction(audioFileOutput, "Create");
+            synthWishes.LogAction(audioFileOutput, Create);
             
             return audioFileOutput;
         }
@@ -396,7 +397,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             dummyTape.FallbackName = name;
             dummyTape.FilePathSuggested = filePath;
 
-            dummyTape.LogAction("Create", "AudioFileOutput Dummy");
+            dummyTape.LogAction(Create, "AudioFileOutput Dummy");
             
             return synthWishes.ConfigureAudioFileOutput(dummyTape);
         }

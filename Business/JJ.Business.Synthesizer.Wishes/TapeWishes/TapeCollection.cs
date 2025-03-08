@@ -8,6 +8,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static System.Math;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
@@ -63,7 +64,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             tape.IsTape = actionType == ActionEnum.Tape;
 
-            tape.LogAction(isNew ? "Create" : "Update");
+            tape.LogAction(isNew ? LogActions.Create : LogActions.Update);
             
             return tape;
         }
@@ -103,7 +104,7 @@ namespace JJ.Business.Synthesizer.Wishes.TapeWishes
             
             _tapes.Remove(tape.Outlet);
             
-            tape.LogAction("Delete", "Replaced by padded");
+            tape.LogAction(Delete, "Replaced by padded");
         }
         
         public void Clear() => _tapes.Clear();

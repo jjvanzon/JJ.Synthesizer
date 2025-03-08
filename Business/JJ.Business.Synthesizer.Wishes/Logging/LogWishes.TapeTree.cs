@@ -6,21 +6,23 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
+
     internal partial class LogWishes
     {
         public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            Log("TapeTree", GetTapeTree(tapes, includeCalculationGraphs));
+            Log(TapeTree, GetTapeTree(tapes, includeCalculationGraphs));
         }
         
         public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            if (!_logger.WillLog("TapeTree")) return "";
+            if (!_logger.WillLog(TapeTree)) return "";
             var sb = new StringBuilderWithIndentation_Adapted("   ", NewLine);
             PlotTapeTree(tapes, sb, includeCalculationGraphs);
             return sb.ToString();

@@ -9,6 +9,8 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using static System.IO.File;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
@@ -43,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal string ActionMessage(ConfigResolver entity, string     action, string name, int dummy = 0 ) => ActionMessage(entity,    action  , name, ""     );
         internal string ActionMessage(ConfigResolver entity, string     action, string name, string message)
         {
-            return ActionMessage("Config", action, name, message);
+            return ActionMessage(LogCategories.Config, action, name, message);
         }
         
         internal string ActionMessage(ConfigSection  entity, ActionEnum action                             ) => ActionMessage(entity,    action  , ""  , ""     );
@@ -57,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal string ActionMessage(ConfigSection  entity, string     action, string name, int dummy = 0 ) => ActionMessage(entity,    action  , name, ""     );
         internal string ActionMessage(ConfigSection  entity, string     action, string name, string message)
         {
-            return ActionMessage("Config", action, name, message);
+            return ActionMessage(LogCategories.Config, action, name, message);
         }
         
         public string ActionMessage(Tape            entity, ActionEnum action                 ) => ActionMessage(entity, $"{action}", ""     );
@@ -100,7 +102,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string ActionMessage(TapeAction      action, string message)
         {
             if (action == null) throw new NullException(() => action);
-            return ActionMessage("Actions", action.Type, action.Tape.Descriptor(), message);
+            return ActionMessage(Actions, action.Type, action.Tape.Descriptor(), message);
         }
         
         public string ActionMessage(Buff            entity, ActionEnum action                 ) => ActionMessage(entity, $"{action}", ""     );
@@ -239,14 +241,14 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         // (Always tagged [MEMORY] here, so no need for target types: object. entity Type or TEntity.)
         
-        public string MemoryActionMessage(int byteCount                                                ) => MemoryActionMessage(byteCount, "Write"    , ""  , message: PrettyByteCount(byteCount));
-        public string MemoryActionMessage(int byteCount,                                 string message) => MemoryActionMessage(byteCount, "Write"    , ""  , message                            );
+        public string MemoryActionMessage(int byteCount                                                ) => MemoryActionMessage(byteCount, Write      , ""  , message: PrettyByteCount(byteCount));
+        public string MemoryActionMessage(int byteCount,                                 string message) => MemoryActionMessage(byteCount, Write      , ""  , message                            );
         public string MemoryActionMessage(int byteCount, ActionEnum action                             ) => MemoryActionMessage(byteCount, $"{action}", ""  , message: PrettyByteCount(byteCount));
         public string MemoryActionMessage(int byteCount, ActionEnum action,              string message) => MemoryActionMessage(byteCount, $"{action}", ""  , message                            );
         public string MemoryActionMessage(int byteCount, ActionEnum action, string name, int dummy = 0 ) => MemoryActionMessage(byteCount, $"{action}", name, message: PrettyByteCount(byteCount));
         public string MemoryActionMessage(int byteCount, ActionEnum action, string name, string message) => MemoryActionMessage(byteCount, $"{action}", name, message: PrettyByteCount(byteCount));
-        public string MemoryActionMessage(int byteCount,                    string name, int dummy = 0 ) => MemoryActionMessage(byteCount, "Write"    , name, message: PrettyByteCount(byteCount));
-        public string MemoryActionMessage(int byteCount,                    string name, string message) => MemoryActionMessage(byteCount, "Write"    , name, message                            );
+        public string MemoryActionMessage(int byteCount,                    string name, int dummy = 0 ) => MemoryActionMessage(byteCount, Write      , name, message: PrettyByteCount(byteCount));
+        public string MemoryActionMessage(int byteCount,                    string name, string message) => MemoryActionMessage(byteCount, Write      , name, message                            );
         public string MemoryActionMessage(int byteCount, string     action, string name, string message)
         {
             if (!Has(byteCount)) return "";
@@ -276,11 +278,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         // Memory Action Message (On Entities)
         
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes                                   ) => MemoryActionMessage(entity, bytes, "Write"    , ""     );
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                    string message) => MemoryActionMessage(entity, bytes, "Write"    , message);
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes                                   ) => MemoryActionMessage(entity, bytes, Write      , ""     );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes,                    string message) => MemoryActionMessage(entity, bytes, Write      , message);
         public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action                ) => MemoryActionMessage(entity, bytes, $"{action}", ""     );
         public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, ActionEnum action, string message) => MemoryActionMessage(entity, bytes, $"{action}", message);
-        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, string     action, int dummy = 0 ) => MemoryActionMessage(entity, bytes, "Write"    , ""     );
+        public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, string     action, int dummy = 0 ) => MemoryActionMessage(entity, bytes, Write      , ""     );
         public   string MemoryActionMessage(FlowNode        entity, byte[] bytes, string     action, string message)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -307,8 +309,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes,                    string name, string message) => MemoryActionMessage(bytes,         name, message);
         internal string MemoryActionMessage(ConfigSection   entity, byte[] bytes, string     action, string name, string message) => MemoryActionMessage(bytes, action, name, message);
         
-        public   string MemoryActionMessage(Tape            entity                                   ) => MemoryActionMessage(entity, "Write"    , ""     );
-        public   string MemoryActionMessage(Tape            entity,                    string message) => MemoryActionMessage(entity, "Write"    , message);
+        public   string MemoryActionMessage(Tape            entity                                   ) => MemoryActionMessage(entity, Write      , ""     );
+        public   string MemoryActionMessage(Tape            entity,                    string message) => MemoryActionMessage(entity, Write      , message);
         public   string MemoryActionMessage(Tape            entity, ActionEnum action                ) => MemoryActionMessage(entity, $"{action}", ""     );
         public   string MemoryActionMessage(Tape            entity, ActionEnum action, string message) => MemoryActionMessage(entity, $"{action}", message);
         public   string MemoryActionMessage(Tape            entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity,    action  , ""     );
@@ -318,8 +320,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return MemoryActionMessage(entity.Bytes, action, entity.Descriptor, Coalesce(message, PrettyByteCount(entity.Bytes)));
         }
 
-        public   string MemoryActionMessage(TapeConfig      entity                                   ) => MemoryActionMessage(entity, "Write"    , ""     );
-        public   string MemoryActionMessage(TapeConfig      entity,                    string message) => MemoryActionMessage(entity, "Write"    , message);
+        public   string MemoryActionMessage(TapeConfig      entity                                   ) => MemoryActionMessage(entity, Write      , ""     );
+        public   string MemoryActionMessage(TapeConfig      entity,                    string message) => MemoryActionMessage(entity, Write      , message);
         public   string MemoryActionMessage(TapeConfig      entity, ActionEnum action                ) => MemoryActionMessage(entity, $"{action}", ""     );
         public   string MemoryActionMessage(TapeConfig      entity, ActionEnum action, string message) => MemoryActionMessage(entity, $"{action}", message);
         public   string MemoryActionMessage(TapeConfig      entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity,    action  , ""     );
@@ -329,8 +331,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return MemoryActionMessage(entity.Tape, action, message);
         }
         
-        public   string MemoryActionMessage(TapeActions     entity                                   ) => MemoryActionMessage(entity, "Write"    , ""     );
-        public   string MemoryActionMessage(TapeActions     entity,                    string message) => MemoryActionMessage(entity, "Write"    , message);
+        public   string MemoryActionMessage(TapeActions     entity                                   ) => MemoryActionMessage(entity, Write      , ""     );
+        public   string MemoryActionMessage(TapeActions     entity,                    string message) => MemoryActionMessage(entity, Write      , message);
         public   string MemoryActionMessage(TapeActions     entity, ActionEnum action                ) => MemoryActionMessage(entity, $"{action}", ""     );
         public   string MemoryActionMessage(TapeActions     entity, ActionEnum action, string message) => MemoryActionMessage(entity, $"{action}", message);
         public   string MemoryActionMessage(TapeActions     entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity,    action  , ""     );
@@ -340,22 +342,22 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return MemoryActionMessage(entity.Tape, action, message);
         }
         
-        public   string MemoryActionMessage(TapeAction      entity                                   ) => MemoryActionMessage(entity, "Write"    , ""     );
-        public   string MemoryActionMessage(TapeAction      entity,                    string message) => MemoryActionMessage(entity, "Write"    , message);
+        public   string MemoryActionMessage(TapeAction      entity                                   ) => MemoryActionMessage(entity, Write      , ""     );
+        public   string MemoryActionMessage(TapeAction      entity,                    string message) => MemoryActionMessage(entity, Write      , message);
         public   string MemoryActionMessage(TapeAction      entity, ActionEnum action                ) => MemoryActionMessage(entity, $"{action}", ""     );
         public   string MemoryActionMessage(TapeAction      entity, ActionEnum action, string message) => MemoryActionMessage(entity, $"{action}", message);
-        public   string MemoryActionMessage(TapeAction      entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity, "Write"    , ""     );
+        public   string MemoryActionMessage(TapeAction      entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity, Write      , ""     );
         public   string MemoryActionMessage(TapeAction      entity, string     action, string message)
         {
             if (entity == null) throw new NullException(() => entity);
             return MemoryActionMessage(entity.Tape, action, message);
         }
 
-        public   string MemoryActionMessage(Buff            entity                                   ) => MemoryActionMessage(entity, "Write"    , ""     );
-        public   string MemoryActionMessage(Buff            entity,                    string message) => MemoryActionMessage(entity, "Write"    , message);
+        public   string MemoryActionMessage(Buff            entity                                   ) => MemoryActionMessage(entity, Write      , ""     );
+        public   string MemoryActionMessage(Buff            entity,                    string message) => MemoryActionMessage(entity, Write      , message);
         public   string MemoryActionMessage(Buff            entity, ActionEnum action                ) => MemoryActionMessage(entity, $"{action}", ""     );
         public   string MemoryActionMessage(Buff            entity, ActionEnum action, string message) => MemoryActionMessage(entity, $"{action}", message);
-        public   string MemoryActionMessage(Buff            entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity, "Write"    , ""     );
+        public   string MemoryActionMessage(Buff            entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity, Write      , ""     );
         public   string MemoryActionMessage(Buff            entity, string     action, string message)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -375,22 +377,22 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             }
         }
         
-        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes                                   ) => MemoryActionMessage(entity, bytes, "Write"    , ""     );
-        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes,                    string message) => MemoryActionMessage(entity, bytes, "Write"    , message);
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes                                   ) => MemoryActionMessage(entity, bytes, Write      , ""     );
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes,                    string message) => MemoryActionMessage(entity, bytes, Write      , message);
         public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, ActionEnum action                ) => MemoryActionMessage(entity, bytes, $"{action}", ""     );
         public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, ActionEnum action, string message) => MemoryActionMessage(entity, bytes, $"{action}", message);
-        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, string     action, int dummy = 0 ) => MemoryActionMessage(entity, bytes, "Write"    , ""     );
+        public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, string     action, int dummy = 0 ) => MemoryActionMessage(entity, bytes, Write      , ""     );
         public   string MemoryActionMessage(AudioFileOutput entity, byte[] bytes, string     action, string message)
         {
             if (entity == null) throw new NullException(() => entity);
             return MemoryActionMessage(bytes, action, entity.Name, message);
         }
         
-        public   string MemoryActionMessage(Sample          entity                                   ) => MemoryActionMessage(entity, "Write"    , ""     );
-        public   string MemoryActionMessage(Sample          entity,                    string message) => MemoryActionMessage(entity, "Write"    , message);
+        public   string MemoryActionMessage(Sample          entity                                   ) => MemoryActionMessage(entity, Write      , ""     );
+        public   string MemoryActionMessage(Sample          entity,                    string message) => MemoryActionMessage(entity, Write      , message);
         public   string MemoryActionMessage(Sample          entity, ActionEnum action                ) => MemoryActionMessage(entity, $"{action}", ""     );
         public   string MemoryActionMessage(Sample          entity, ActionEnum action, string message) => MemoryActionMessage(entity, $"{action}", message);
-        public   string MemoryActionMessage(Sample          entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity, "Write"    , ""     );
+        public   string MemoryActionMessage(Sample          entity, string     action, int dummy = 0 ) => MemoryActionMessage(entity, Write      , ""     );
         public   string MemoryActionMessage(Sample          entity, string     action, string message)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -546,27 +548,27 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   FlowNode        LogAction(FlowNode        entity, string     message, int dummy = 0 ) { LogActionBase<Operator>(ActionMessage(entity, message, dummy )); return entity; }
         public   FlowNode        LogAction(FlowNode        entity, string     action,  string message) { LogActionBase<Operator>(ActionMessage(entity, action, message)); return entity; }
         
-        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action                             ) { LogActionBase("Config", ActionMessage(entity, action               )); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action,              string message) { LogActionBase("Config", ActionMessage(entity, action,       message)); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action, string name, int dummy = 0 ) { LogActionBase("Config", ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action, string name, string message) { LogActionBase("Config", ActionMessage(entity, action, name, message)); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity                                                ) { LogActionBase("Config", ActionMessage(entity                       )); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity,                                 string message) { LogActionBase("Config", ActionMessage(entity,               message)); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action,              int dummy = 0 ) { LogActionBase("Config", ActionMessage(entity, action,       dummy  )); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action,              string message) { LogActionBase("Config", ActionMessage(entity, action,       message)); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action, string name, int dummy = 0 ) { LogActionBase("Config", ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action, string name, string message) { LogActionBase("Config", ActionMessage(entity, action, name, message)); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action                             )    { LogActionBase(LogCategories.Config, ActionMessage(entity, action               )); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action, string message)                 { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action, string name, int    dummy = 0 ) { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action, string name, string message)    { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity                                                ) { LogActionBase(LogCategories.Config, ActionMessage(entity                       )); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, string message)                                 { LogActionBase(LogCategories.Config, ActionMessage(entity, message)); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, string action, int    dummy = 0 )               { LogActionBase(LogCategories.Config, ActionMessage(entity, action, dummy  )); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, string action, string message)                  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, string action, string name, int    dummy = 0 )  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigResolver LogAction(ConfigResolver entity, string action, string name, string message)     { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
         
-        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action                             ) { LogActionBase("Config", ActionMessage(entity, action               )); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action,              string message) { LogActionBase("Config", ActionMessage(entity, action,       message)); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action, string name, int dummy = 0 ) { LogActionBase("Config", ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action, string name, string message) { LogActionBase("Config", ActionMessage(entity, action, name, message)); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity                                                ) { LogActionBase("Config", ActionMessage(entity                       )); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity,                                 string message) { LogActionBase("Config", ActionMessage(entity,               message)); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity, string     action,              int dummy = 0 ) { LogActionBase("Config", ActionMessage(entity, action,       dummy  )); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity, string     action,              string message) { LogActionBase("Config", ActionMessage(entity, action,       message)); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity, string     action, string name, int dummy = 0 ) { LogActionBase("Config", ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigSection   LogAction(ConfigSection   entity, string     action, string name, string message) { LogActionBase("Config", ActionMessage(entity, action, name, message)); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action                             )    { LogActionBase(LogCategories.Config, ActionMessage(entity, action               )); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action, string message)                 { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action, string name, int    dummy = 0 ) { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action, string name, string message)    { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity                                                ) { LogActionBase(LogCategories.Config, ActionMessage(entity                       )); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, string message)                                 { LogActionBase(LogCategories.Config, ActionMessage(entity, message)); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, string action, int    dummy = 0 )               { LogActionBase(LogCategories.Config, ActionMessage(entity, action, dummy  )); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, string action, string message)                  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, string action, string name, int    dummy = 0 )  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigSection LogAction(ConfigSection entity, string action, string name, string message)     { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
 
         public   Tape            LogAction(Tape            entity, ActionEnum action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
         public   Tape            LogAction(Tape            entity, ActionEnum action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
@@ -585,13 +587,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   TapeActions     LogAction(TapeActions     entity, string     action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
 
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      Log      (TapeAction      action                ) { LogActionBase("Actions",       Message(action         )); return action; }
+        public   TapeAction      Log      (TapeAction      action                ) { LogActionBase(Actions,       Message(action         )); return action; }
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      Log      (TapeAction      action, string message) { LogActionBase("Actions",       Message(action, message)); return action; }
+        public   TapeAction      Log      (TapeAction      action, string message) { LogActionBase(Actions,       Message(action, message)); return action; }
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      LogAction(TapeAction      action                ) { LogActionBase("Actions", ActionMessage(action         )); return action; }
+        public   TapeAction      LogAction(TapeAction      action                ) { LogActionBase(Actions, ActionMessage(action         )); return action; }
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      LogAction(TapeAction      action, string message) { LogActionBase("Actions", ActionMessage(action, message)); return action; }
+        public   TapeAction      LogAction(TapeAction      action, string message) { LogActionBase(Actions, ActionMessage(action, message)); return action; }
 
         public   Buff            LogAction(Buff            entity, ActionEnum action                 ) { LogActionBase(entity, ActionMessage(entity, action         )); return entity; }
         public   Buff            LogAction(Buff            entity, ActionEnum action,  string message) { LogActionBase(entity, ActionMessage(entity, action, message)); return entity; }
@@ -599,11 +601,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   Buff            LogAction(Buff            entity, string     message, int dummy = 0 ) { LogActionBase(entity, ActionMessage(entity, message, dummy )); return entity; }
         public   Buff            LogAction(Buff            entity, string     action,  string message) { LogActionBase(entity, ActionMessage(entity, action, message)); return entity; }
 
-        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action                 ) { LogActionBase("Out", ActionMessage(entity, action         )); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action,  string message) { LogActionBase("Out", ActionMessage(entity, action, message)); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action                 ) { LogActionBase("Out", ActionMessage(entity, action         )); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, string     message, int dummy = 0 ) { LogActionBase("Out", ActionMessage(entity, message, dummy )); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action,  string message) { LogActionBase("Out", ActionMessage(entity, action, message)); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action                 ) { LogActionBase(Out, ActionMessage(entity, action         )); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action,  string message) { LogActionBase(Out, ActionMessage(entity, action, message)); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action                 ) { LogActionBase(Out, ActionMessage(entity, action         )); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, string     message, int dummy = 0 ) { LogActionBase(Out, ActionMessage(entity, message, dummy )); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action,  string message) { LogActionBase(Out, ActionMessage(entity, action, message)); return entity; }
         
         public   Sample          LogAction(Sample          entity, ActionEnum action                 ) { LogActionBase(entity, ActionMessage(entity, action         )); return entity; }
         public   Sample          LogAction(Sample          entity, ActionEnum action,  string message) { LogActionBase(entity, ActionMessage(entity, action, message)); return entity; }
@@ -835,8 +837,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public Sample          LogFileAction(Sample          entity, string     action, int dummy = 0 ) { LogFileActionBase(FileActionMessage(entity, action, dummy  )); return entity; }
         public Sample          LogFileAction(Sample          entity, string     action, string message) { LogFileActionBase(FileActionMessage(entity, action, message)); return entity; }
         
-        private void LogFileActionBase(                     string actionMessage) => Log("File",               actionMessage);
-        private void LogMemoryActionBase(                   string actionMessage) => Log("Memory",             actionMessage);
+        private void LogFileActionBase(                     string actionMessage) => Log(File,               actionMessage);
+        private void LogMemoryActionBase(                   string actionMessage) => Log(Memory,             actionMessage);
         private void LogActionBase(string category,         string actionMessage) => Log(category,             actionMessage);
         private void LogActionBase<TEntity>(                string actionMessage) => Log(typeof(TEntity).Name, actionMessage);
         // ReSharper disable once UnusedParameter.Local
