@@ -25,6 +25,12 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         private readonly RootLoggingConfig _loggingConfig;
         private ILogger _logger;
 
+        internal LogWishes(RootLoggingConfig loggingConfig)
+        {
+            _loggingConfig = loggingConfig ?? throw new NullException(() => loggingConfig);
+            UpdateLogger();
+        }
+
         private void UpdateLogger() => _logger = CreateLogger(_loggingConfig);
         
         public bool Enabled
@@ -49,13 +55,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             UpdateLogger();
             
             return this;
-        }
-
-        
-        internal LogWishes(RootLoggingConfig loggingConfig)
-        {
-            _loggingConfig = loggingConfig ?? throw new NullException(() => loggingConfig);
-            UpdateLogger();
         }
         
         // NOTE: All the threading, locking and flushing helped
