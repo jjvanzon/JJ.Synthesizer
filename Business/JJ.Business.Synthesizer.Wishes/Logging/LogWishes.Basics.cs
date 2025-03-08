@@ -14,31 +14,32 @@ using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Logging.LoggingFactory;
 using JJ.Framework.Wishes.Logging.Config;
-using static JJ.Business.Synthesizer.Wishes.Config.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     internal partial class LogWishes
     {
-        private static LogWishes _static = new LogWishes(Static.LoggingConfig);
-        private readonly RootLoggingConfig _loggingConfig;
+        private static LogWishes _static = new LogWishes(ConfigResolver.Static);
+        private readonly ConfigResolver _configResolver;
         private ILogger _logger;
 
-        internal LogWishes(RootLoggingConfig loggingConfig)
+        private RootLoggingConfig GetLoggingConfig() => _configResolver.LoggingConfig;
+        
+        internal LogWishes(ConfigResolver configResolver)
         {
-            _loggingConfig = loggingConfig ?? throw new NullException(() => loggingConfig);
+            _configResolver = configResolver ?? throw new NullException(() => configResolver);
             UpdateLogger();
         }
 
-        private void UpdateLogger() => _logger = CreateLogger(_loggingConfig);
+        private void UpdateLogger() => _logger = CreateLogger(GetLoggingConfig());
         
         public bool Enabled
         {
-            get => _loggingConfig.Active;
+            get => GetLoggingConfig().Active;
             set
             {
-                _loggingConfig.Active = value;
+                GetLoggingConfig().Active = value;
                 UpdateLogger();
             }
         }
@@ -47,7 +48,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         {
             if (categories == null) throw new NullException(() => categories);
             
-            foreach (LoggerConfig loggerConfig in _loggingConfig.Loggers)
+            foreach (LoggerConfig loggerConfig in GetLoggingConfig().Loggers)
             {
                 loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
             }

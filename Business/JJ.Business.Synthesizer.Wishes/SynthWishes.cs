@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Wishes
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
             Config = new ConfigResolver(this);
-            Logging = new LogWishes(Config.LoggingConfig);
+            Logging = new LogWishes(Config);
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
             
