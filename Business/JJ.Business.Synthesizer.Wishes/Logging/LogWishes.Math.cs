@@ -141,7 +141,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         private string Stringify(FlowNode operand)
         {
-            if (!ResolveLogging(operand).Enabled) return "";
+            if (!_logger.WillLog("MathBoost"))
+            {
+                return "";
+            }
+
             return operand.Stringify(true);
         }
         

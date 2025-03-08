@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string SynthLog(Tape tape, double? calculationDuration = null)
         {
             if (!_logger.WillLog("SynthLog")) return "";
-            if (!Enabled) return "";
 
             var lines = new List<string>();
 

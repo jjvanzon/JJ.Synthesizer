@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities(int? courtesyFrames = default) => new TestEntities(x => x.WithLogDisabled().CourtesyFrames(courtesyFrames).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? courtesyFrames = default) => new TestEntities(x => x.NoLog().CourtesyFrames(courtesyFrames).SamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         

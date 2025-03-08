@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -35,6 +34,48 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public ConfigResolver() => LoggingConfig = NewLoggingConfig();
         
         public ConfigResolver Clone() => (ConfigResolver)MemberwiseClone();
+        
+        // Logging Config
+        
+        public ConfigResolver SetLogActive(bool value){ LoggingConfig.Active = value; return this; }
+        public ConfigResolver WithLog() => SetLogActive(true);
+        public ConfigResolver NoLog() => SetLogActive(false);
+        public ConfigResolver WithLogCats(params string[] categories) => WithLogCats((IList<string>)categories);
+        public ConfigResolver WithLogCats(IList<string> categories)
+        {
+            if (categories == null) throw new NullException(() => categories);
+            
+            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            {
+                loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
+            }
+            
+            return this;
+        }
+
+        
+        public RootLoggingConfig LoggingConfig { get; }
+        
+        private RootLoggingConfig NewLoggingConfig()
+        { 
+            RootLoggingConfig config = null;
+            
+            if (IsUnderNCrunch) 
+            {
+                config = LoggingConfigFetcher.CreateLoggingConfig(_section.NCrunch.Logging);
+            }
+            else if (IsUnderAzurePipelines)
+            {
+                config = LoggingConfigFetcher.CreateLoggingConfig(_section.AzurePipelines.Logging);
+            }
+            
+            if (config == null)
+            {
+                config = LoggingConfigFetcher.CreateLoggingConfig(_section.Logging);
+            }
+            
+            return config;
+        }
         
         // Audio Attributes
         
@@ -600,29 +641,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 return isUnderAzurePipelines;
             }
             set => _azurePipelinesImpersonationMode = value;
-        }
-        
-        public RootLoggingConfig LoggingConfig { get; }
-        
-        private RootLoggingConfig NewLoggingConfig()
-        { 
-            RootLoggingConfig config = null;
-            
-            if (IsUnderNCrunch) 
-            {
-                config = LoggingConfigFetcher.CreateLoggingConfig(_section.NCrunch.Logging);
-            }
-            else if (IsUnderAzurePipelines)
-            {
-                config = LoggingConfigFetcher.CreateLoggingConfig(_section.AzurePipelines.Logging);
-            }
-            
-            if (config == null)
-            {
-                config = LoggingConfigFetcher.CreateLoggingConfig(_section.Logging);
-            }
-            
-            return config;
         }
 
         // Persistence

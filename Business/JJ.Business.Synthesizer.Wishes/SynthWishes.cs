@@ -74,6 +74,7 @@ namespace JJ.Business.Synthesizer.Wishes
             len = new BeatsIndexer(this);
             length = new BeatsIndexer(this);
             t = new TimeIndexer(this);
+            
         }
 
         public int TapeCount => _tapes.Count;

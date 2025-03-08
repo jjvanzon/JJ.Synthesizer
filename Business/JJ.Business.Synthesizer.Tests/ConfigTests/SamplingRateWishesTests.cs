@@ -506,7 +506,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             if (samplingRate > 100) audioLength = 0.001; // Tame audio length in case of larger sampling rates for performance.
             return new TestEntities(x =>
             {
-                x.WithLogDisabled();
+                x.NoLog();
                 x.WithSamplingRate(samplingRate);
                 x.WithAudioLength(audioLength);
                 x.IsUnderNCrunch = true;

@@ -544,7 +544,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private const int _samplingRate = 2000;
         
         private TestEntities CreateTestEntities(double? audioLength = default) 
-            => new TestEntities(x => x.WithLogDisabled().WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
+            => new TestEntities(x => x.NoLog().WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
         
         double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength);
 

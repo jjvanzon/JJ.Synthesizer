@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            if (!Enabled) return "";
+            if (!_logger.WillLog("TapeTree")) return "";
             var sb = new StringBuilderWithIndentation_Adapted("   ", NewLine);
             PlotTapeTree(tapes, sb, includeCalculationGraphs);
             return sb.ToString();

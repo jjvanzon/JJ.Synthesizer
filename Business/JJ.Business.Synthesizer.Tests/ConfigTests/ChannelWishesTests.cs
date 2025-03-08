@@ -3927,7 +3927,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             => CreateTestEntities(c?.channels, c?.channel);
             
         private TestEntities CreateTestEntities(int? channels = null, int? channel = null)
-            => new TestEntities(x => x.WithLogDisabled()
+            => new TestEntities(x => x.NoLog()
                                       .WithChannels(channels)
                                       .WithChannel(channel)
                                       .WithSamplingRate(HighPerfHz));

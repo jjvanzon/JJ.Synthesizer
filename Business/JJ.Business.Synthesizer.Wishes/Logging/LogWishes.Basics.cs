@@ -13,7 +13,6 @@ using static System.Environment;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Logging.LoggingFactory;
-using JJ.Framework.Wishes.Logging.Config;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
@@ -21,41 +20,14 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     internal partial class LogWishes
     {
         private static LogWishes _static = new LogWishes(ConfigResolver.Static);
-        private readonly ConfigResolver _configResolver;
         private ILogger _logger;
 
-        private RootLoggingConfig GetLoggingConfig() => _configResolver.LoggingConfig;
+        internal LogWishes(ConfigResolver configResolver) => UpdateLogger(configResolver);
         
-        internal LogWishes(ConfigResolver configResolver)
+        public void UpdateLogger(ConfigResolver configResolver)
         {
-            _configResolver = configResolver ?? throw new NullException(() => configResolver);
-            UpdateLogger();
-        }
-
-        private void UpdateLogger() => _logger = CreateLogger(GetLoggingConfig());
-        
-        public bool Enabled
-        {
-            get => GetLoggingConfig().Active;
-            set
-            {
-                GetLoggingConfig().Active = value;
-                UpdateLogger();
-            }
-        }
-        
-        public LogWishes SetCategories(IList<string> categories)
-        {
-            if (categories == null) throw new NullException(() => categories);
-            
-            foreach (LoggerConfig loggerConfig in GetLoggingConfig().Loggers)
-            {
-                loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
-            }
-            
-            UpdateLogger();
-            
-            return this;
+            if (configResolver == null) throw new NullException(() => configResolver);
+            _logger = CreateLogger(configResolver.LoggingConfig);
         }
         
         // NOTE: All the threading, locking and flushing helped
@@ -68,7 +40,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   void Log(string message = default) => Log(category: "", message);
         internal void Log(string category, string message)
         {
-            if (!Enabled) return;
             if (!_logger.WillLog(category))
             {
                 return;
@@ -188,10 +159,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // TODO: Synonyms
         
-        public SynthWishes WithLog(bool enabled = true){ Logging.Enabled = enabled; return this; }
-        public SynthWishes WithLogEnabled() => WithLog(true);
-        public SynthWishes WithLogDisabled() => WithLog(false);
-        public SynthWishes WithLogCats(params string[] categories) { Logging.SetCategories(categories); return this; }
+        //public SynthWishes WithLog(bool enabled = true){ Logging.Enabled = enabled; return this; }
+        //public SynthWishes WithLogEnabled() => WithLog(true);
+        //public SynthWishes WithLogDisabled() => WithLog(false);
+        //public SynthWishes WithLogCats(params string[] categories) { Logging.SetCategories(categories); return this; }
         
         // Defined here to ditch `this` qualifier in case of inheritance.
         

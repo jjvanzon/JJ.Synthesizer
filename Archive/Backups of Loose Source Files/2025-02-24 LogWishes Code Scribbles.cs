@@ -629,3 +629,57 @@ return ActionMessage("File", action, formattedFilePath, message);
         internal static void LogTapeTree(this ConfigSection entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
 
+
+Code Scribbles
+
+        internal ConfigResolver _config
+        {
+            get => _config;
+            set => _config = value ?? throw new ArgumentException(nameof(_config));
+        }
+
+
+        /// <summary> Null for ConfigResolver.Static. Otherwise filled in. </summary>
+        public SynthWishes SynthWishes { get; private set; }
+
+            //SynthWishes = synthWishes;
+
+            //if (synthWishes == null) throw new NullException(() => synthWishes);
+            //clone.SynthWishes = synthWishes;
+
+
+        //private readonly ConfigResolver _configResolver;
+        //private RootLoggingConfig GetLoggingConfig() => _configResolver.LoggingConfig;
+        
+            //_configResolver = configResolver ?? throw new NullException(() => configResolver);
+            
+        //private void UpdateLogger() => _logger = CreateLogger(GetLoggingConfig());
+        
+        //public void UpdateLogger(RootLoggingConfig loggingConfig)
+        //{
+        //    _logger = CreateLogger(loggingConfig);
+        //}
+        
+        //public bool Enabled
+        //{
+        //    get => GetLoggingConfig().Active;
+        //    set
+        //    {
+        //        GetLoggingConfig().Active = value;
+        //        UpdateLogger();
+        //    }
+        //}
+        
+        //public LogWishes SetCategories(IList<string> categories)
+        //{
+        //    if (categories == null) throw new NullException(() => categories);
+            
+        //    foreach (LoggerConfig loggerConfig in GetLoggingConfig().Loggers)
+        //    {
+        //        loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
+        //    }
+            
+        //    UpdateLogger();
+            
+        //    return this;
+        //}
