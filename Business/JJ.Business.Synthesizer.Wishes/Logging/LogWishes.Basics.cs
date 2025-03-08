@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     internal partial class LogWishes
     {
+        private static readonly string DefaultCategory = Misc;
         private static LogWishes _static = new LogWishes(ConfigResolver.Static);
         private ILogger _logger;
 
@@ -38,8 +39,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         private readonly object _logLock = new object();
         private bool _blankLinePending;
 
-        public   void Log(string message = default) => Log(Misc, message);
-        //public   void Log(string message = default) => Log("", message);
+        public   void Log(string message = default) => Log(DefaultCategory, message);
         internal void Log(string category, string message)
         {
             if (!_logger.WillLog(category))
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             }
         }
 
-        public   void LogSpaced(string message) => LogSpaced(category: "", message);
+        public   void LogSpaced(string message) => LogSpaced(DefaultCategory, message);
         internal void LogSpaced(string category, string message) 
         {
             Log(category, ""); 
@@ -79,10 +79,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             Log(category, "");
         }
 
-        public   void LogTitle(string title) => LogTitle(category: "", title);
+        public   void LogTitle(string title) => LogTitle(DefaultCategory, title);
         internal void LogTitle(string category, string title) => LogSpaced(category, PrettyTitle(title));
         
-        public   void LogTitleStrong(string title) => LogTitleStrong(category: "", title);
+        public   void LogTitleStrong(string title) => LogTitleStrong(DefaultCategory, title);
         internal void LogTitleStrong(string category, string title)
         {
             string upperCase = (title ?? "").ToUpper();
