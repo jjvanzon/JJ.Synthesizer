@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (dest == null) throw new ArgumentNullException(nameof(dest));
             if (source == null) throw new ArgumentNullException(nameof(source));
             
-            CloneConfig(source.Config, dest.Config);
+            CloneConfig(source, dest.Config);
 
             dest.SynthWishes = source;
             dest.LeadingSilence = source.GetLeadingSilence.Value;
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             dest.Actions.PlayAllTapes.On = source.GetPlayAllTapes;
         }
 
-        internal static void CloneConfig(ConfigResolver source, TapeConfig dest)
+        internal static void CloneConfig(SynthWishes source, TapeConfig dest)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (dest == null) throw new ArgumentNullException(nameof(dest));
