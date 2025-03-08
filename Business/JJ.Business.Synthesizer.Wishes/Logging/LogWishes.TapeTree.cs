@@ -151,13 +151,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         // LogTapeTree
         
-        public static void LogTapeTree(this SynthWishes entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
-        
         public static void LogTapeTree(this FlowNode entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
-        
-                
         
         internal static void LogTapeTree(this Tape entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => ResolveLogging(entity).LogTapeTree(tapes, includeCalculationGraphs);
@@ -178,14 +173,9 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             => ResolveLogging(tapes).LogTapeTree(tapes, includeCalculationGraphs);
         
         // GetTapeTree
-
-        public static string GetTapeTree(this SynthWishes entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
-            => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
         
         public static string GetTapeTree(this FlowNode entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
-        
-                
         
         internal static string GetTapeTree(this Tape entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => ResolveLogging(entity).GetTapeTree(tapes, includeCalculationGraphs);
@@ -213,10 +203,10 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // For inheritance situations, to avoid `this` qualifiers.
         
-        protected string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
+        public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
             => Logging.GetTapeTree(tapes, includeCalculationGraphs);
         
-        protected void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
+        public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
             => Logging.LogTapeTree(tapes, includeCalculationGraphs);
     }
 }
