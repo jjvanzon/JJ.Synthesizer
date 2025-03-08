@@ -38,8 +38,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         private readonly object _logLock = new object();
         private bool _blankLinePending;
 
-        //public   void Log(string message = default) => Log(Misc, message);
-        public   void Log(string message = default) => Log("", message);
+        public   void Log(string message = default) => Log(Misc, message);
+        //public   void Log(string message = default) => Log("", message);
         internal void Log(string category, string message)
         {
             if (!_logger.WillLog(category))
