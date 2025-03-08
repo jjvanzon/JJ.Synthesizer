@@ -154,7 +154,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             double audioDuration = recordedBuffs.Max(x => x.UnderlyingAudioFileOutput.Duration);
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
             int complexity = recordedBuffs.Sum(x => x.Complexity());
-            string formattedMetrics = Static.FormatMetrics(audioDuration, calculationDuration, complexity);
+            string formattedMetrics = synthWishes.FormatMetrics(audioDuration, calculationDuration, complexity);
             string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
             synthWishes.Log(message);
             

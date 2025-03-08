@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             lines.Add(PrettyTitle("Record:" + ResolveName(buff)));
             lines.Add("");
             
-            string realTimeComplexityMessage = Static.FormatMetrics(buff.UnderlyingAudioFileOutput.Duration, calculationDuration, buff.Complexity());
+            string realTimeComplexityMessage = buff.FormatMetrics(buff.AudioLength(), calculationDuration, buff.Complexity());
             lines.Add(realTimeComplexityMessage);
             lines.Add("");
             

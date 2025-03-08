@@ -15,6 +15,7 @@ using static JJ.Framework.Reflection.ExpressionHelper;
 using static JJ.Framework.Wishes.IO.FileWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
@@ -205,7 +206,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
 
             // Report
             string report = GetSynthLogOld(buff, calculationDuration);
-            Static.Log(report);
+            audioFileOutput.Log(report);
             
             return buff;
         }
@@ -624,7 +625,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             string name = null, [CallerMemberName] string callerMemberName = null)
             => MakeBuffLegacy(
                 buff, 
-                inMemory: true, ConfigResolver.Static.GetCourtesyFrames, 
+                inMemory: true, buff?.SynthWishes.GetCourtesyFrames ?? DefaultCourtesyFrames, 
                 name, null, callerMemberName);
 
         [Obsolete(ObsoleteMessage)]

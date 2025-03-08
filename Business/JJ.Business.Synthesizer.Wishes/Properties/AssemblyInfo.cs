@@ -35,7 +35,3 @@ using System.Diagnostics.CodeAnalysis;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-// Used Project Properties instead.
-//[assembly: SuppressMessage("IDE", "IDE0002", Justification = "Static and using static syntax both considered equally valid.")]
-//[assembly: SuppressMessage("Compiler", "CS0618", Justification = "Obsolete members already strike-through styled by ReSharper.")]

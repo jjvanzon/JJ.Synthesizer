@@ -1,35 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Logging.Loggers;
 using JJ.Framework.Wishes.Text;
 using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Common;
 using static System.Environment;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Logging.LoggingFactory;
 using JJ.Framework.Wishes.Logging.Config;
+using static JJ.Business.Synthesizer.Wishes.Config.ConfigResolver;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     internal partial class LogWishes
     {
-        public static LogWishes Static { get; } = new LogWishes(ConfigResolver.Static.LoggingConfig);
-
-        private ILogger _logger;
-        
-        
+        private static LogWishes _static = new LogWishes(Static.LoggingConfig);
         private readonly RootLoggingConfig _loggingConfig;
+        private ILogger _logger;
 
         private void UpdateLogger() => _logger = CreateLogger(_loggingConfig);
         
@@ -162,13 +156,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal static LogWishes ResolveLogging(Buff buff)
         {
             if (buff == null) throw new NullException(() => buff);
-            return buff.SynthWishes?.Logging ?? Static;
+            return buff.SynthWishes?.Logging ?? _static;
         }
         
         // ReSharper disable UnusedParameter.Global
         
-        internal static LogWishes ResolveLogging(object          entity                                  ) =>                         Static;
-        internal static LogWishes ResolveLogging(object          entity,          SynthWishes synthWishes) => synthWishes?.Logging ?? Static;
+        internal static LogWishes ResolveLogging(object          entity                                  ) =>                         _static;
+        internal static LogWishes ResolveLogging(object          entity,          SynthWishes synthWishes) => synthWishes?.Logging ?? _static;
 
         // ReSharper restore UnusedParameter.Global
 
@@ -176,8 +170,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal static LogWishes ResolveLogging(IList<Tape> tapes)
         {
             if (tapes == null) throw new NullException(() => tapes);
-            if (tapes.Count == 0) return Static;
-            if (tapes[0] == null) return Static;
+            if (tapes.Count == 0) return _static;
+            if (tapes[0] == null) return _static;
             return tapes[0].SynthWishes.Logging;
         }
     }

@@ -100,7 +100,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string sourceFilePath, 
             string destFilePath = null, [CallerMemberName] string callerMemberName = null)
         {
-            Static.LogAction("File", ActionEnum.Save, Static.FormatFilePathIfExists(sourceFilePath, destFilePath));
+            destFilePath.LogFileAction(sourceFilePath);
             return InternalSave(sourceFilePath, destFilePath, callerMemberName);
         }
         
@@ -132,7 +132,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 fileStream.Write(bytes, 0, bytes.Length);
             }
 
-            Static.LogFileAction(numberedDestFilePath);
+            numberedDestFilePath.LogFileAction();
             
             return numberedDestFilePath;
         }
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 sourceStream.CopyTo(destStream);
             }
             
-            Static.LogFileAction(numberedDestFilePath, sourceFilePath);
+            numberedDestFilePath.LogFileAction(numberedDestFilePath, sourceFilePath);
             
             return numberedDestFilePath;
         }
