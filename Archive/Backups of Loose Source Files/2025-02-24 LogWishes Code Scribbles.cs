@@ -628,3 +628,4 @@ return ActionMessage("File", action, formattedFilePath, message);
             => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
         internal static void LogTapeTree(this ConfigSection entity, IList<Tape> tapes, bool includeCalculationGraphs = false)
             => entity.Logging().LogTapeTree(tapes, includeCalculationGraphs);
+
