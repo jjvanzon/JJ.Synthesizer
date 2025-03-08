@@ -6,6 +6,7 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
 using static System.String;
@@ -157,11 +158,14 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        protected string SynthLog(Tape tape, double? calculationDuration = null)
+        public string SynthLog(Tape tape, double? calculationDuration = null)
             => ResolveLogging(tape).SynthLog(tape, calculationDuration);
         
-        protected void LogSynth(Tape tape, double? calculationDuration = null)
+        public void LogSynth(Tape tape, double? calculationDuration = null)
             => ResolveLogging(tape).LogSynth(tape, calculationDuration);
+
+        internal string FormatMetrics(double audioDuration, double calculationDuration, int complexity)
+            => Logging.FormatMetrics(audioDuration, calculationDuration, complexity);
     }
 }
 
@@ -193,18 +197,17 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static void LogSynth(this Buff entity, double? calculationDuration = null) 
             => ResolveLogging(entity).LogSynth(entity.Tape, calculationDuration);
         
-        public static void LogSynth(this Buff entity, Tape tape, double? calculationDuration = null) 
+        public static void LogSynth(this AudioFileOutput entity, Tape tape, double? calculationDuration = null) 
+            => ResolveLogging(entity).LogSynth(tape, calculationDuration);
+        
+        public static void LogSynth(this Sample entity, Tape tape, double? calculationDuration = null) 
             => ResolveLogging(entity).LogSynth(tape, calculationDuration);
 
         // SynthLog
         
-        public static string SynthLog(this SynthWishes entity, Tape tape, double? calculationDuration = null) 
-            => ResolveLogging(entity).SynthLog(tape, calculationDuration);
-        
         public static string SynthLog(this FlowNode entity, Tape tape, double? calculationDuration = null) 
             => ResolveLogging(entity).SynthLog(tape, calculationDuration);
         
-
         public static string SynthLog(this Tape entity, double? calculationDuration = null) 
             => ResolveLogging(entity).SynthLog(entity, calculationDuration);
         
@@ -222,5 +225,30 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         public static string SynthLog(this Buff entity, Tape tape, double? calculationDuration = null) 
             => ResolveLogging(entity).SynthLog(tape, calculationDuration);
+        
+        public static string SynthLog(this AudioFileOutput entity, Tape tape, double? calculationDuration = null) 
+            => ResolveLogging(entity).SynthLog(tape, calculationDuration);
+        
+        public static string SynthLog(this Sample entity, Tape tape, double? calculationDuration = null) 
+            => ResolveLogging(entity).SynthLog(tape, calculationDuration);
+
+        // FormatMetrics
+        
+        internal static string FormatMetrics(this FlowNode entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
+        internal static string FormatMetrics(this Tape entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
+        internal static string FormatMetrics(this TapeConfig entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
+        internal static string FormatMetrics(this TapeActions entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
+        internal static string FormatMetrics(this TapeAction entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
+        internal static string FormatMetrics(this Buff entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
+        internal static string FormatMetrics(this AudioFileOutput entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
+        internal static string FormatMetrics(this Sample entity, double audioDuration, double calculationDuration, int complexity)
+            => ResolveLogging(entity).FormatMetrics(audioDuration, calculationDuration, complexity);
     }
 }
