@@ -32,17 +32,10 @@ namespace JJ.Business.Synthesizer.Wishes
         private readonly SampleManager _sampleManager;
         private readonly TapeCollection _tapes;
         internal readonly TapeRunner _tapeRunner;
-
+        private ConfigResolver _config;
         private bool _isRunning;
 
         public IContext Context { get; }
-
-        private ConfigResolver _config;
-        internal ConfigResolver Config
-        {
-            get => _config;
-            set => _config = value ?? throw new ArgumentException(nameof(Config));
-        }
 
         /// <inheritdoc cref="_captureindexer" />
         public SynthWishes _ { get; }
@@ -66,8 +59,8 @@ namespace JJ.Business.Synthesizer.Wishes
             _curveFactory = ServiceFactory.CreateCurveFactory(context);
             _sampleManager = ServiceFactory.CreateSampleManager(context);
             
-            Config = new ConfigResolver(this);
-            Logging = new LogWishes(Config);
+            _config = new ConfigResolver();
+            Logging = new LogWishes(_config);
             _tapes = new TapeCollection(this);
             _tapeRunner = new TapeRunner(this, _tapes);
             
@@ -96,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes
             var newInstance = (SynthWishes)Activator.CreateInstance(concreteType);
             
             // Yield over settings
-            newInstance.Config = Config;
+            newInstance._config = _config.Clone();
 
             // Try run on new instance
             MethodInfo methodInfo = action.Method;

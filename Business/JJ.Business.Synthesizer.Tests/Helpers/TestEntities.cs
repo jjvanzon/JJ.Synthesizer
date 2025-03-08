@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             var synthWishes = new SynthWishes(context);
             var synthWishesInherited = new SynthWishesDerived(synthWishes);
             var synthWishesAccessor = new SynthWishesAccessor(synthWishes);
-            synthWishesAccessor.Config._section = CreateConfigSectionWithDefaults();
+            synthWishesAccessor._config._section = CreateConfigSectionWithDefaults();
 
             SynthBound = new SynthBoundEntities
             {
@@ -170,8 +170,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 SynthWishesAccessor = synthWishesAccessor,
                 Derived             = synthWishesInherited,
                 Context             = synthWishes.Context,
-                ConfigResolver      = synthWishesAccessor.Config,
-                ConfigSection       = synthWishesAccessor.Config._section,
+                ConfigResolver      = synthWishesAccessor._config,
+                ConfigSection       = synthWishesAccessor._config._section,
             };
             
             initialize?.Invoke(synthWishes);

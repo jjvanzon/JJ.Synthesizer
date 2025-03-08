@@ -10,9 +10,7 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Logging;
 using JJ.Framework.Wishes.Logging.Config;
-using JJ.Framework.Wishes.Logging.Mappers;
 using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
@@ -31,18 +29,12 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         /// <summary> For static contexts use this. </summary>
         internal static ConfigResolver Static { get; } = new ConfigResolver();
-
-        /// <summary> Null for ConfigResolver.Static. Otherwise filled in. </summary>
-        public SynthWishes SynthWishes { get; }
-        
         
         private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
 
-        public ConfigResolver(SynthWishes synthWishes = null)
-        {
-            SynthWishes = synthWishes;
-            LoggingConfig = NewLoggingConfig();
-        }
+        public ConfigResolver() => LoggingConfig = NewLoggingConfig();
+        
+        public ConfigResolver Clone() => (ConfigResolver)MemberwiseClone();
         
         // Audio Attributes
         

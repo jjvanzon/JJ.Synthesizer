@@ -109,7 +109,36 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string ConfigLog(string title, SynthWishes synthWishes, string sep = default)
         {
             if (synthWishes == null) throw new NullException(() => synthWishes);
-            return ConfigLog(title, synthWishes.Config, synthWishes, sep);
+            
+            string audioFormatDescriptor = AudioFormatDescriptor(
+                synthWishes.GetSamplingRate,
+                synthWishes.GetBits,
+                synthWishes.GetChannels,
+                synthWishes.GetChannel,
+                synthWishes.GetAudioFormat,
+                synthWishes.GetInterpolation);
+            
+            string featuresDescriptor = FeaturesDescriptor(
+                synthWishes.GetAudioPlayback(),
+                synthWishes.GetDiskCache,
+                synthWishes.GetMathBoost,
+                synthWishes.GetParallelProcessing,
+                synthWishes.GetPlayAllTapes);
+
+            string durationsDescriptor = Has(synthWishes) ? DurationsDescriptor(
+                synthWishes.GetAudioLength.Value,
+                synthWishes.GetLeadingSilence.Value,
+                synthWishes.GetTrailingSilence.Value,
+                synthWishes.GetBarLength.Value,
+                synthWishes.GetBeatLength.Value,
+                synthWishes.GetNoteLength().Value) : "";
+            
+            return ConfigLog(
+                title,
+                audioFormatDescriptor,
+                featuresDescriptor,
+                durationsDescriptor,
+                sep: sep);
         }
         
         public string ConfigLog(              FlowNode flowNode, string sep = " | ") => ConfigLog("FlowNode Options", flowNode, sep);

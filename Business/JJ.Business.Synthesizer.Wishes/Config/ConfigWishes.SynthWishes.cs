@@ -14,11 +14,11 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         // Audio Quality
 
-        public bool Is8Bit => Config.Is8Bit;
-        public bool Is16Bit => Config.Is16Bit;
-        public bool Is32Bit => Config.Is32Bit;
+        public bool Is8Bit => _config.Is8Bit;
+        public bool Is16Bit => _config.Is16Bit;
+        public bool Is32Bit => _config.Is32Bit;
         public int Bits() => ConfigWishes.Bits(this);
-        public int GetBits => Config.GetBits;
+        public int GetBits => _config.GetBits;
         public SynthWishes With8Bit() => ConfigWishes.With8Bit(this);
         public SynthWishes With16Bit() => ConfigWishes.With16Bit(this);
         public SynthWishes With32Bit() => ConfigWishes.With32Bit(this);
@@ -29,48 +29,48 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes Set16Bit() => ConfigWishes.Set16Bit(this);
         public SynthWishes Set32Bit() => ConfigWishes.Set32Bit(this);
         public SynthWishes Bits(int? bits) => ConfigWishes.Bits(this, bits);
-        public SynthWishes WithBits(int? bits) { Config.WithBits(bits); return this; }
+        public SynthWishes WithBits(int? bits) { _config.WithBits(bits); return this; }
         public SynthWishes AsBits(int? bits) => ConfigWishes.AsBits(this, bits);
         public SynthWishes SetBits(int? bits) => ConfigWishes.SetBits(this, bits);
         
-        public int         NoChannels                  => Config.NoChannels;
-        public int         MonoChannels                => Config.MonoChannels;
-        public int         StereoChannels              => Config.StereoChannels;
-        public bool        IsMono                      => Config.IsMono;
-        public bool        IsStereo                    => Config.IsStereo;
+        public int         NoChannels                  => _config.NoChannels;
+        public int         MonoChannels                =>  _config.MonoChannels;
+        public int         StereoChannels              => _config.StereoChannels;
+        public bool        IsMono                      => _config.IsMono;
+        public bool        IsStereo                    => _config.IsStereo;
         public int         Channels()                  => ConfigWishes.Channels(this);
-        public int         GetChannels                 => Config.GetChannels;
+        public int         GetChannels                 => _config.GetChannels;
         public SynthWishes Mono()                      => ConfigWishes.Mono(this);
         public SynthWishes Stereo()                    => ConfigWishes.Stereo(this);
         public SynthWishes Channels(int? channels)     => ConfigWishes.Channels(this, channels);
         public SynthWishes WithMono()                  => ConfigWishes.WithMono(this);
         public SynthWishes WithStereo()                => ConfigWishes.WithStereo(this);
-        public SynthWishes WithChannels(int? channels) {  Config.WithChannels(channels); return this; }
+        public SynthWishes WithChannels(int? channels) {  _config.WithChannels(channels); return this; }
         public SynthWishes AsMono()                    => ConfigWishes.AsMono(this);
         public SynthWishes AsStereo()                  => ConfigWishes.AsStereo(this);
         public SynthWishes SetMono()                   => ConfigWishes.SetMono(this);
         public SynthWishes SetStereo()                 => ConfigWishes.SetStereo(this);
         public SynthWishes SetChannels(int? channels)  => ConfigWishes.SetChannels(this, channels);
         
-        public int         CenterChannel             => Config.CenterChannel;
-        public int         LeftChannel               => Config.LeftChannel;
-        public int         RightChannel              => Config.RightChannel;
-        public int?        EmptyChannel              => Config.EmptyChannel;
-        public bool        IsCenter                  => Config.IsCenter;
-        public bool        IsLeft                    => Config.IsLeft;
-        public bool        IsRight                   => Config.IsRight;
-        public bool        IsAnyChannel              => Config.IsAnyChannel;
-        public bool        IsEveryChannel            => Config.IsEveryChannel;
-        public bool        IsNoChannel               => Config.IsNoChannel;
+        public int         CenterChannel             => _config.CenterChannel;
+        public int         LeftChannel               => _config.LeftChannel;
+        public int         RightChannel              => _config.RightChannel;
+        public int?        EmptyChannel              => _config.EmptyChannel;
+        public bool        IsCenter                  => _config.IsCenter;
+        public bool        IsLeft                    => _config.IsLeft;
+        public bool        IsRight                   => _config.IsRight;
+        public bool        IsAnyChannel              => _config.IsAnyChannel;
+        public bool        IsEveryChannel            => _config.IsEveryChannel;
+        public bool        IsNoChannel               => _config.IsNoChannel;
         public int?        Channel()                 => ConfigWishes.Channel(this);
-        public int?        GetChannel                => Config.GetChannel;
-        public SynthWishes WithCenter()              {  Config.WithCenter(); return this; }
-        public SynthWishes WithLeft()                {  Config.WithLeft(); return this; }
-        public SynthWishes WithRight()               {  Config.WithRight(); return this; }
-        public SynthWishes WithNoChannel()           {  Config.WithNoChannel(); return this; }
-        public SynthWishes WithAnyChannel()          {  Config.WithAnyChannel(); return this; }
-        public SynthWishes WithEveryChannel()        {  Config.WithEveryChannel(); return this; }
-        public SynthWishes WithChannel(int? channel) {  Config.WithChannel(channel); return this; }
+        public int?        GetChannel                => _config.GetChannel;
+        public SynthWishes WithCenter()              {  _config.WithCenter(); return this; }
+        public SynthWishes WithLeft()                {  _config.WithLeft(); return this; }
+        public SynthWishes WithRight()               {  _config.WithRight(); return this; }
+        public SynthWishes WithNoChannel()           {  _config.WithNoChannel(); return this; }
+        public SynthWishes WithAnyChannel()          {  _config.WithAnyChannel(); return this; }
+        public SynthWishes WithEveryChannel()        {  _config.WithEveryChannel(); return this; }
+        public SynthWishes WithChannel(int? channel) {  _config.WithChannel(channel); return this; }
         public SynthWishes Center()                  => ConfigWishes.Center(this);
         public SynthWishes Left()                    => ConfigWishes.Left(this);
         public SynthWishes Right()                   => ConfigWishes.Right(this);
@@ -96,18 +96,18 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_getsamplingrate" />
         public int SamplingRate() => ConfigWishes.SamplingRate(this);
         /// <inheritdoc cref="_getsamplingrate" />
-        public int GetSamplingRate => Config.GetSamplingRate;
+        public int GetSamplingRate => _config.GetSamplingRate;
         /// <inheritdoc cref="_withsamplingrate"/>
         public SynthWishes SamplingRate(int? value) => ConfigWishes.SamplingRate(this, value);
         /// <inheritdoc cref="_withsamplingrate"/>
-        public SynthWishes WithSamplingRate(int? value) { Config.WithSamplingRate(value); return this; }
+        public SynthWishes WithSamplingRate(int? value) { _config.WithSamplingRate(value); return this; }
         /// <inheritdoc cref="_withsamplingrate"/>
         public SynthWishes SetSamplingRate(int? value) => ConfigWishes.SetSamplingRate(this, value);
 
-        public bool IsWav => Config.IsWav;
-        public bool IsRaw => Config.IsRaw;
+        public bool IsWav => _config.IsWav;
+        public bool IsRaw => _config.IsRaw;
         public AudioFileFormatEnum AudioFormat() => ConfigWishes.AudioFormat(this);
-        public AudioFileFormatEnum GetAudioFormat => Config.GetAudioFormat;
+        public AudioFileFormatEnum GetAudioFormat => _config.GetAudioFormat;
 
         public SynthWishes WithWav() => ConfigWishes.WithWav(this);
         public SynthWishes AsWav() => ConfigWishes.AsWav(this);
@@ -120,16 +120,16 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes ToRaw() => ConfigWishes.ToRaw(this);
         public SynthWishes SetRaw() => ConfigWishes.SetRaw(this);
         public SynthWishes AudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.AudioFormat(this, audioFormat);
-        public SynthWishes WithAudioFormat(AudioFileFormatEnum? audioFormat) { Config.WithAudioFormat(audioFormat); return this; }
+        public SynthWishes WithAudioFormat(AudioFileFormatEnum? audioFormat) { _config.WithAudioFormat(audioFormat); return this; }
         public SynthWishes AsAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.AsAudioFormat(this, audioFormat);
         public SynthWishes FromAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.FromAudioFormat(this, audioFormat);
         public SynthWishes ToAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.ToAudioFormat(this, audioFormat);
         public SynthWishes SetAudioFormat(AudioFileFormatEnum? audioFormat) => ConfigWishes.SetAudioFormat(this, audioFormat);
 
-        public bool IsLinear => Config.IsLinear;
-        public bool IsBlocky => Config.IsBlocky;
+        public bool IsLinear => _config.IsLinear;
+        public bool IsBlocky => _config.IsBlocky;
         public InterpolationTypeEnum Interpolation() => ConfigWishes.Interpolation(this);
-        public InterpolationTypeEnum GetInterpolation => Config.GetInterpolation;
+        public InterpolationTypeEnum GetInterpolation => _config.GetInterpolation;
         public SynthWishes Linear() => ConfigWishes.Linear(this);
         public SynthWishes Blocky() => ConfigWishes.Blocky(this);
         public SynthWishes WithLinear() => ConfigWishes.WithLinear(this);
@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes
         public SynthWishes SetLinear() => ConfigWishes.SetLinear(this);
         public SynthWishes SetBlocky() => ConfigWishes.SetBlocky(this);
         public SynthWishes Interpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.Interpolation(this, interpolation);
-        public SynthWishes WithInterpolation(InterpolationTypeEnum? interpolation) { Config.WithInterpolation(interpolation); return this; }
+        public SynthWishes WithInterpolation(InterpolationTypeEnum? interpolation) { _config.WithInterpolation(interpolation); return this; }
         public SynthWishes AsInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.AsInterpolation(this, interpolation);
         public SynthWishes SetInterpolation(InterpolationTypeEnum? interpolation) => ConfigWishes.SetInterpolation(this, interpolation);
 
@@ -148,191 +148,191 @@ namespace JJ.Business.Synthesizer.Wishes
         /// <inheritdoc cref="_notelength" />
         public FlowNode NoteLength() => GetNoteLength();
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLength() => Config.GetNoteLength(this);
+        public FlowNode GetNoteLength() => _config.GetNoteLength(this);
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLength(FlowNode noteLength) => Config.GetNoteLength(this, noteLength);
+        public FlowNode GetNoteLength(FlowNode noteLength) => _config.GetNoteLength(this, noteLength);
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLengthSnapShot() => Config.GetNoteLengthSnapShot(this);
+        public FlowNode GetNoteLengthSnapShot() => _config.GetNoteLengthSnapShot(this);
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLengthSnapShot(double time) => Config.GetNoteLengthSnapShot(this, time);
+        public FlowNode GetNoteLengthSnapShot(double time) => _config.GetNoteLengthSnapShot(this, time);
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLengthSnapShot(double time, int channel) => Config.GetNoteLengthSnapShot(this, time, channel);
+        public FlowNode GetNoteLengthSnapShot(double time, int channel) => _config.GetNoteLengthSnapShot(this, time, channel);
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength) => Config.GetNoteLengthSnapShot(this, noteLength);
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength) => _config.GetNoteLengthSnapShot(this, noteLength);
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time) => Config.GetNoteLengthSnapShot(this, noteLength, time);
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time) => _config.GetNoteLengthSnapShot(this, noteLength, time);
         /// <inheritdoc cref="_notelength" />
-        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time, int channel) => Config.GetNoteLengthSnapShot(this, noteLength, time, channel);
+        public FlowNode GetNoteLengthSnapShot(FlowNode noteLength, double time, int channel) => _config.GetNoteLengthSnapShot(this, noteLength, time, channel);
         /// <inheritdoc cref="_notelength" />
-        public SynthWishes WithNoteLength(FlowNode seconds) { Config.WithNoteLength(seconds); return this; }
+        public SynthWishes WithNoteLength(FlowNode seconds) { _config.WithNoteLength(seconds); return this; }
         /// <inheritdoc cref="_notelength" />
         public SynthWishes SetNoteLength(FlowNode seconds) => WithNoteLength(seconds);
         /// <inheritdoc cref="_notelength" />
         public SynthWishes NoteLength(FlowNode seconds) => WithNoteLength(seconds);
         /// <inheritdoc cref="_notelength" />
-        public SynthWishes WithNoteLength(double seconds) { Config.WithNoteLength(seconds, this); return this; }
+        public SynthWishes WithNoteLength(double seconds) { _config.WithNoteLength(seconds, this); return this; }
         /// <inheritdoc cref="_notelength" />
         public SynthWishes SetNoteLength(double seconds) => WithNoteLength(seconds);
         /// <inheritdoc cref="_notelength" />
         public SynthWishes NoteLength(double seconds) => WithNoteLength(seconds);
         /// <inheritdoc cref="_notelength" />
-        public SynthWishes ResetNoteLength() { Config.ResetNoteLength(); return this; }
+        public SynthWishes ResetNoteLength() { _config.ResetNoteLength(); return this; }
 
         public FlowNode BarLength() => GetBarLength;
-        public FlowNode GetBarLength => Config.GetBarLength(this);
-        public SynthWishes WithBarLength(FlowNode seconds) { Config.WithBarLength(seconds); return this; }
+        public FlowNode GetBarLength => _config.GetBarLength(this);
+        public SynthWishes WithBarLength(FlowNode seconds) { _config.WithBarLength(seconds); return this; }
         public SynthWishes SetBarLength(FlowNode seconds) => WithBarLength(seconds);
         public SynthWishes BarLength(FlowNode seconds) => WithBarLength(seconds);
-        public SynthWishes WithBarLength(double seconds) { Config.WithBarLength(seconds, this); return this; }
+        public SynthWishes WithBarLength(double seconds) { _config.WithBarLength(seconds, this); return this; }
         public SynthWishes SetBarLength(double seconds) => WithBarLength(seconds);
         public SynthWishes BarLength(double seconds) => WithBarLength(seconds);
-        public SynthWishes ResetBarLength() { Config.ResetBarLength(); return this; }
+        public SynthWishes ResetBarLength() { _config.ResetBarLength(); return this; }
         
         public FlowNode BeatLength() => GetBeatLength;
-        public FlowNode GetBeatLength => Config.GetBeatLength(this);
-        public SynthWishes WithBeatLength(FlowNode seconds) { Config.WithBeatLength(seconds); return this; }
+        public FlowNode GetBeatLength => _config.GetBeatLength(this);
+        public SynthWishes WithBeatLength(FlowNode seconds) { _config.WithBeatLength(seconds); return this; }
         public SynthWishes SetBeatLength(FlowNode seconds) => WithBeatLength(seconds);
         public SynthWishes BeatLength(FlowNode seconds) => WithBeatLength(seconds);
-        public SynthWishes WithBeatLength(double seconds) { Config.WithBeatLength(seconds, this); return this; }
+        public SynthWishes WithBeatLength(double seconds) { _config.WithBeatLength(seconds, this); return this; }
         public SynthWishes SetBeatLength(double seconds) => WithBeatLength(seconds);
         public SynthWishes BeatLength(double seconds) => WithBeatLength(seconds);
-        public SynthWishes ResetBeatLength() { Config.ResetBeatLength(); return this; }
+        public SynthWishes ResetBeatLength() { _config.ResetBeatLength(); return this; }
 
         /// <inheritdoc cref="_audiolength" />
         public FlowNode AudioLength() => ConfigWishes.AudioLength(this);
         /// <inheritdoc cref="_audiolength" />
-        public FlowNode GetAudioLength => Config.GetAudioLength(this);
+        public FlowNode GetAudioLength => _config.GetAudioLength(this);
         /// <inheritdoc cref="_audiolength" />
         public SynthWishes AudioLength(double? newLength) => ConfigWishes.AudioLength(this, newLength);
         /// <inheritdoc cref="_audiolength" />
         public SynthWishes AudioLength(FlowNode newLength) => ConfigWishes.AudioLength(this, newLength);
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes WithAudioLength(double? newLength) { Config.WithAudioLength(newLength, this); return this; }
+        public SynthWishes WithAudioLength(double? newLength) { _config.WithAudioLength(newLength, this); return this; }
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes WithAudioLength(FlowNode newLength) { Config.WithAudioLength(newLength); return this; }
+        public SynthWishes WithAudioLength(FlowNode newLength) { _config.WithAudioLength(newLength); return this; }
         /// <inheritdoc cref="_audiolength" />
         public SynthWishes SetAudioLength(double? newLength) => ConfigWishes.WithAudioLength(this, newLength);
         /// <inheritdoc cref="_audiolength" />
         public SynthWishes SetAudioLength(FlowNode newLength) => ConfigWishes.WithAudioLength(this, newLength);
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes AddAudioLength(double additionalLength) { Config.AddAudioLength(additionalLength, this); return this; }
+        public SynthWishes AddAudioLength(double additionalLength) { _config.AddAudioLength(additionalLength, this); return this; }
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes AddAudioLength(FlowNode additionalLength) { Config.AddAudioLength(additionalLength, this); return this; }
+        public SynthWishes AddAudioLength(FlowNode additionalLength) { _config.AddAudioLength(additionalLength, this); return this; }
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) { Config.AddEchoDuration(count, delay, this); return this; }
+        public SynthWishes AddEchoDuration(int count = 4, FlowNode delay = default) { _config.AddEchoDuration(count, delay, this); return this; }
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes AddEchoDuration(int count, double delay) { Config.AddEchoDuration(count, delay, this); return this; }
+        public SynthWishes AddEchoDuration(int count, double delay) { _config.AddEchoDuration(count, delay, this); return this; }
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes EnsureAudioLength(double audioLengthNeeded) { Config.EnsureAudioLength(audioLengthNeeded, this); return this; }
+        public SynthWishes EnsureAudioLength(double audioLengthNeeded) { _config.EnsureAudioLength(audioLengthNeeded, this); return this; }
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes EnsureAudioLength(FlowNode audioLengthNeeded) { Config.EnsureAudioLength(audioLengthNeeded, this); return this; }
+        public SynthWishes EnsureAudioLength(FlowNode audioLengthNeeded) { _config.EnsureAudioLength(audioLengthNeeded, this); return this; }
         /// <inheritdoc cref="_audiolength" />
-        public SynthWishes ResetAudioLength() { Config.ResetAudioLength(); return this; }
+        public SynthWishes ResetAudioLength() { _config.ResetAudioLength(); return this; }
 
         /// <inheritdoc cref="_padding"/>
         public FlowNode LeadingSilence() => GetLeadingSilence;
         /// <inheritdoc cref="_padding"/>
-        public FlowNode GetLeadingSilence => Config.GetLeadingSilence(this);
+        public FlowNode GetLeadingSilence => _config.GetLeadingSilence(this);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes WithLeadingSilence(double seconds) { Config.WithLeadingSilence(seconds, this); return this; }
+        public SynthWishes WithLeadingSilence(double seconds) { _config.WithLeadingSilence(seconds, this); return this; }
         /// <inheritdoc cref="_padding"/>
         public SynthWishes SetLeadingSilence(double seconds) => WithLeadingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
         public SynthWishes LeadingSilence(double seconds) => WithLeadingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes WithLeadingSilence(FlowNode seconds) { Config.WithLeadingSilence(seconds); return this; }
+        public SynthWishes WithLeadingSilence(FlowNode seconds) { _config.WithLeadingSilence(seconds); return this; }
         /// <inheritdoc cref="_padding"/>
         public SynthWishes SetLeadingSilence(FlowNode seconds) => WithLeadingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
         public SynthWishes LeadingSilence(FlowNode seconds) => WithLeadingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes ResetLeadingSilence() { Config.ResetLeadingSilence(); return this; }
+        public SynthWishes ResetLeadingSilence() { _config.ResetLeadingSilence(); return this; }
         
         /// <inheritdoc cref="_padding"/>
         public FlowNode TrailingSilence() => GetTrailingSilence;
         /// <inheritdoc cref="_padding"/>
-        public FlowNode GetTrailingSilence => Config.GetTrailingSilence(this);
+        public FlowNode GetTrailingSilence => _config.GetTrailingSilence(this);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes WithTrailingSilence(double seconds) { Config.WithTrailingSilence(seconds, this); return this; }
+        public SynthWishes WithTrailingSilence(double seconds) { _config.WithTrailingSilence(seconds, this); return this; }
         /// <inheritdoc cref="_padding"/>
         public SynthWishes SetTrailingSilence(double seconds) => WithTrailingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
         public SynthWishes TrailingSilence(double seconds) => WithTrailingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes WithTrailingSilence(FlowNode seconds) { Config.WithTrailingSilence(seconds); return this; }
+        public SynthWishes WithTrailingSilence(FlowNode seconds) { _config.WithTrailingSilence(seconds); return this; }
         /// <inheritdoc cref="_padding"/>
         public SynthWishes SetTrailingSilence(FlowNode seconds) => WithTrailingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
         public SynthWishes TrailingSilence(FlowNode seconds) => WithTrailingSilence(seconds);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes ResetTrailingSilence() { Config.ResetTrailingSilence(); return this; }
+        public SynthWishes ResetTrailingSilence() { _config.ResetTrailingSilence(); return this; }
 
         /// <inheritdoc cref="_padding"/>
         public FlowNode PaddingOrNull() => GetPaddingOrNull;
         /// <inheritdoc cref="_padding"/>
-        public FlowNode GetPaddingOrNull => Config.GetPaddingOrNull(this);
+        public FlowNode GetPaddingOrNull => _config.GetPaddingOrNull(this);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes WithPadding(double seconds) { Config.WithPadding(seconds, this); return this; }
+        public SynthWishes WithPadding(double seconds) { _config.WithPadding(seconds, this); return this; }
         /// <inheritdoc cref="_padding"/>
         public SynthWishes SetPadding(double seconds) => WithPadding(seconds);
         /// <inheritdoc cref="_padding"/>
         public SynthWishes Padding(double seconds) => WithPadding(seconds);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes WithPadding(FlowNode seconds) { Config.WithPadding(seconds); return this; }
+        public SynthWishes WithPadding(FlowNode seconds) { _config.WithPadding(seconds); return this; }
         /// <inheritdoc cref="_padding"/>
         public SynthWishes SetPadding(FlowNode seconds) => WithPadding(seconds);
         /// <inheritdoc cref="_padding"/>
         public SynthWishes Padding(FlowNode seconds) => WithPadding(seconds);
         /// <inheritdoc cref="_padding"/>
-        public SynthWishes ResetPadding() { Config.ResetPadding(); return this; }
+        public SynthWishes ResetPadding() { _config.ResetPadding(); return this; }
         
         // Feature Toggles
         
         /// <inheritdoc cref="_audioplayback" />
-        public bool AudioPlayback(string fileExtension = null) => Config.GetAudioPlayback(fileExtension);
+        public bool AudioPlayback(string fileExtension = null) => _config.GetAudioPlayback(fileExtension);
         /// <inheritdoc cref="_audioplayback" />
-        public bool GetAudioPlayback(string fileExtension = null) => Config.GetAudioPlayback(fileExtension);
+        public bool GetAudioPlayback(string fileExtension = null) => _config.GetAudioPlayback(fileExtension);
         /// <inheritdoc cref="_audioplayback" />
-        public SynthWishes WithAudioPlayback(bool? enabled = true) { Config.WithAudioPlayback(enabled); return this; }
+        public SynthWishes WithAudioPlayback(bool? enabled = true) { _config.WithAudioPlayback(enabled); return this; }
         /// <inheritdoc cref="_audioplayback" />
         public SynthWishes SetAudioPlayback(bool? enabled = true) => WithAudioPlayback(enabled);
         /// <inheritdoc cref="_audioplayback" />
         public SynthWishes AudioPlayback(bool? enabled = true) => WithAudioPlayback(enabled);
 
         /// <inheritdoc cref="_diskcache" />
-        public bool DiskCache() => Config.GetDiskCache;
+        public bool DiskCache() => _config.GetDiskCache;
         /// <inheritdoc cref="_diskcache" />
-        public bool GetDiskCache => Config.GetDiskCache;
+        public bool GetDiskCache => _config.GetDiskCache;
         /// <inheritdoc cref="_diskcache" />
-        public SynthWishes WithDiskCache(bool? enabled = true) { Config.WithDiskCache(enabled); return this; }
+        public SynthWishes WithDiskCache(bool? enabled = true) { _config.WithDiskCache(enabled); return this; }
         /// <inheritdoc cref="_diskcache" />
         public SynthWishes SetDiskCache(bool? enabled = true) => WithDiskCache(enabled);
         /// <inheritdoc cref="_diskcache" />
         public SynthWishes DiskCache(bool? enabled) => WithDiskCache(enabled);
 
         public bool MathBoost() => GetMathBoost;
-        public bool GetMathBoost => Config.GetMathBoost;
-        public SynthWishes WithMathBoost(bool? enabled = true) { Config.WithMathBoost(enabled); return this; }
+        public bool GetMathBoost => _config.GetMathBoost;
+        public SynthWishes WithMathBoost(bool? enabled = true) { _config.WithMathBoost(enabled); return this; }
         public SynthWishes SetMathBoost(bool? enabled = true) => WithMathBoost(enabled);
         public SynthWishes MathBoost(bool? enabled) => WithMathBoost(enabled);
 
         /// <inheritdoc cref="_parallelprocessing" />
-        public bool ParallelProcessing() => Config.GetParallelProcessing;
+        public bool ParallelProcessing() => _config.GetParallelProcessing;
         /// <inheritdoc cref="_parallelprocessing" />
-        public bool GetParallelProcessing => Config.GetParallelProcessing;
+        public bool GetParallelProcessing => _config.GetParallelProcessing;
         /// <inheritdoc cref="_parallelprocessing" />
-        public SynthWishes WithParallelProcessing(bool? enabled = true) { Config.WithParallelProcessing(enabled); return this; }
+        public SynthWishes WithParallelProcessing(bool? enabled = true) { _config.WithParallelProcessing(enabled); return this; }
         /// <inheritdoc cref="_parallelprocessing" />
         public SynthWishes SetParallelProcessing(bool? enabled = true) => WithParallelProcessing(enabled);
         /// <inheritdoc cref="_parallelprocessing" />
         public SynthWishes ParallelProcessing(bool? enabled) => WithParallelProcessing(enabled);
 
         /// <inheritdoc cref="_playalltapes" />
-        public bool PlayAllTapes() => Config.GetPlayAllTapes;
+        public bool PlayAllTapes() => _config.GetPlayAllTapes;
         /// <inheritdoc cref="_playalltapes" />
-        public bool GetPlayAllTapes => Config.GetPlayAllTapes;
+        public bool GetPlayAllTapes => _config.GetPlayAllTapes;
         /// <inheritdoc cref="_playalltapes" />
-        public SynthWishes WithPlayAllTapes(bool? enabled = true) { Config.WithPlayAllTapes(enabled); return this; }
+        public SynthWishes WithPlayAllTapes(bool? enabled = true) { _config.WithPlayAllTapes(enabled); return this; }
         /// <inheritdoc cref="_playalltapes" />
         public SynthWishes SetPlayAllTapes(bool? enabled = true) => WithPlayAllTapes(enabled);
         /// <inheritdoc cref="_playalltapes" />
@@ -397,45 +397,45 @@ namespace JJ.Business.Synthesizer.Wishes
         // Misc Settings
 
         /// <inheritdoc cref="_leafchecktimeout" />
-        public double GetLeafCheckTimeOut => Config.GetLeafCheckTimeOut;
+        public double GetLeafCheckTimeOut => _config.GetLeafCheckTimeOut;
         /// <inheritdoc cref="_leafchecktimeout" />
-        public double LeafCheckTimeOut() => Config.GetLeafCheckTimeOut;
+        public double LeafCheckTimeOut() => _config.GetLeafCheckTimeOut;
         /// <inheritdoc cref="_leafchecktimeout" />
-        public SynthWishes WithLeafCheckTimeOut(double? seconds) { Config.WithLeafCheckTimeOut(seconds); return this; }
+        public SynthWishes WithLeafCheckTimeOut(double? seconds) { _config.WithLeafCheckTimeOut(seconds); return this; }
         /// <inheritdoc cref="_leafchecktimeout" />
         public SynthWishes SetLeafCheckTimeOut(double? seconds) => WithLeafCheckTimeOut(seconds);
         /// <inheritdoc cref="_leafchecktimeout" />
         public SynthWishes LeafCheckTimeOut(double? seconds) => WithLeafCheckTimeOut(seconds);
 
         /// <inheritdoc cref="_leafchecktimeout" />
-        public TimeOutActionEnum GetTimeOutAction => Config.GetTimeOutAction;
+        public TimeOutActionEnum GetTimeOutAction => _config.GetTimeOutAction;
         /// <inheritdoc cref="_leafchecktimeout" />
-        public TimeOutActionEnum TimeOutAction() => Config.GetTimeOutAction;
+        public TimeOutActionEnum TimeOutAction() => _config.GetTimeOutAction;
         /// <inheritdoc cref="_leafchecktimeout" />
-        public SynthWishes WithTimeOutAction(TimeOutActionEnum? action) { Config.WithTimeOutAction(action); return this; }
+        public SynthWishes WithTimeOutAction(TimeOutActionEnum? action) { _config.WithTimeOutAction(action); return this; }
         /// <inheritdoc cref="_leafchecktimeout" />
         public SynthWishes SetTimeOutAction(TimeOutActionEnum? action) => WithTimeOutAction(action);
         /// <inheritdoc cref="_leafchecktimeout" />
         public SynthWishes TimeOutAction(TimeOutActionEnum? action) => WithTimeOutAction(action);
         
-        public int         GetCourtesyFrames              => Config.GetCourtesyFrames;
+        public int         GetCourtesyFrames              => _config.GetCourtesyFrames;
         public int         CourtesyFrames()               => ConfigWishes.CourtesyFrames(this);
-        public SynthWishes WithCourtesyFrames(int? value) {  Config.WithCourtesyFrames(value); return this; }
+        public SynthWishes WithCourtesyFrames(int? value) {  _config.WithCourtesyFrames(value); return this; }
         public SynthWishes CourtesyFrames    (int? value) => ConfigWishes.CourtesyFrames(this, value);
         public SynthWishes SetCourtesyFrames (int? value) => ConfigWishes.SetCourtesyFrames(this, value);
 
-        public int GetFileExtensionMaxLength => Config.GetFileExtensionMaxLength;
+        public int GetFileExtensionMaxLength => _config.GetFileExtensionMaxLength;
         
         public bool IsUnderNCrunch 
         {
-            get => Config.IsUnderNCrunch;
-            set => Config.IsUnderNCrunch = value;
+            get => _config.IsUnderNCrunch;
+            set => _config.IsUnderNCrunch = value;
         }
         
         public bool IsUnderAzurePipelines
         {
-            get => Config.IsUnderAzurePipelines;
-            set => Config.IsUnderAzurePipelines = value;
+            get => _config.IsUnderAzurePipelines;
+            set => _config.IsUnderAzurePipelines = value;
         }
     }
 }
