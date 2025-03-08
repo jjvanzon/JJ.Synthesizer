@@ -11,9 +11,11 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using static System.Environment;
 using static System.IO.Path;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
+using File = System.IO.File;
 
 // ReSharper disable once ParameterHidesMember
 
@@ -36,7 +38,7 @@ namespace JJ.Business.Synthesizer.Wishes
             
             if (!mustPlay)
             {
-                synthWishes.LogSpaced("  ⚠ Audio disabled");
+                synthWishes.LogSpaced(Actions, "  ⚠ Audio disabled");
             }
 
             if (mustPlay)

@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Logging.LoggingFactory;
@@ -37,7 +38,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         private readonly object _logLock = new object();
         private bool _blankLinePending;
 
-        public   void Log(string message = default) => Log(category: "", message);
+        //public   void Log(string message = default) => Log(Misc, message);
+        public   void Log(string message = default) => Log("", message);
         internal void Log(string category, string message)
         {
             if (!_logger.WillLog(category))

@@ -16,5 +16,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static readonly string Out = MemberName();
         public static readonly string File = MemberName();
         public static readonly string Memory = MemberName();
+        public static readonly string Misc = MemberName();
     }
 }
