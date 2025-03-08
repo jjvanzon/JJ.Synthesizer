@@ -127,7 +127,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             if (flowNode == null) throw new NullException(() => flowNode);
             return flowNode.SynthWishes.Logging;
         }
-        
 
         internal static LogWishes ResolveLogging(Tape tape)
         {
@@ -161,8 +160,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         // ReSharper disable UnusedParameter.Global
         
-        internal static LogWishes ResolveLogging(object          entity                                  ) =>                         _static;
-        internal static LogWishes ResolveLogging(object          entity,          SynthWishes synthWishes) => synthWishes?.Logging ?? _static;
+        internal static LogWishes ResolveLogging(object entity                         ) =>                         _static;
+        internal static LogWishes ResolveLogging(object entity, SynthWishes synthWishes) => synthWishes?.Logging ?? _static;
 
         // ReSharper restore UnusedParameter.Global
 
