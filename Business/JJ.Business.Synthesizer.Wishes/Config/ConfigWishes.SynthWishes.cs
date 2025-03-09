@@ -12,43 +12,6 @@ namespace JJ.Business.Synthesizer.Wishes
 {
     public partial class SynthWishes
     {
-        // Logging Config
-        
-        public SynthWishes SetLogActive(bool value)
-        {
-            _config.SetLogActive(value);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-        
-        public SynthWishes WithLog()
-        {
-            _config.WithLog();
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-        
-        public SynthWishes NoLog()
-        {
-            _config.NoLog();
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-        
-        public SynthWishes WithLogCats(params string[] categories)
-        {
-            _config.WithLogCats(categories);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-        
-        public SynthWishes WithLogCats(IList<string> categories)
-        {
-            _config.WithLogCats(categories);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-        
         // Audio Quality
 
         public bool Is8Bit => _config.Is8Bit;

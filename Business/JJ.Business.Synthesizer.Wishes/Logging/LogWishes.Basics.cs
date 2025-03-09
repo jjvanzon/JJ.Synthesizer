@@ -9,12 +9,14 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Wishes.Collections;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Logging.LoggingFactory;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using JJ.Framework.Wishes.Logging.Config;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
@@ -176,6 +178,41 @@ namespace JJ.Business.Synthesizer.Wishes
         internal void LogTitle      (string category, string title         ) => Logging.LogTitle(category, title);
         public   void LogTitleStrong(                 string title         ) => Logging.LogTitleStrong(title);
         internal void LogTitleStrong(string category, string title         ) => Logging.LogTitleStrong(category, title);
+        
+        public SynthWishes SetLogActive(bool value)
+        {
+            _config.SetLogActive(value);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+        
+        public SynthWishes WithLog()
+        {
+            _config.WithLog();
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+        
+        public SynthWishes NoLog()
+        {
+            _config.NoLog();
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+        
+        public SynthWishes WithLogCats(params string[] categories)
+        {
+            _config.WithLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+        
+        public SynthWishes WithLogCats(IList<string> categories)
+        {
+            _config.WithLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
     }
 }
 
