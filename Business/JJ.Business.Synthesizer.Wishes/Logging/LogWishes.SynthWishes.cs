@@ -88,23 +88,23 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
 
-        public SynthWishes RemoveLogCat(string category)
+        public SynthWishes NoLogCat(string category)
         {
-            _config.RemoveLogCat(category);
+            _config.NoLogCat(category);
             Logging.UpdateLogger(_config);
             return this;
         }
 
-        public SynthWishes RemoveLogCats(params string[] categories) 
+        public SynthWishes NoLogCats(params string[] categories) 
         {
-            _config.RemoveLogCats(categories);
+            _config.NoLogCats(categories);
             Logging.UpdateLogger(_config);
             return this;
         }
             
-        public SynthWishes RemoveLogCats(IList<string> categories)
+        public SynthWishes NoLogCats(IList<string> categories)
         {
-            _config.RemoveLogCats(categories);
+            _config.NoLogCats(categories);
             Logging.UpdateLogger(_config);
             return this;
         }

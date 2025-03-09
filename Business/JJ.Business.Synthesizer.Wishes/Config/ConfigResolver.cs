@@ -73,11 +73,24 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
                 loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
+                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.Name.In(categories)).ToList();
             }
             
             return this;
         }
        
+        public ConfigResolver AddLogCats(params string[] categories) => AddLogCats((IList<string>)categories);
+        public ConfigResolver AddLogCats(IList<string> categories)
+        {
+            if (!Has(categories)) throw new Exception($"{nameof(categories)} not supplied.");
+            
+            foreach (string category in categories)
+            {
+                AddLogCat(category);
+            }
+            
+            return this;
+        }
         public ConfigResolver AddLogCat(string category)
         {
             if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
@@ -93,44 +106,32 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return this;
         }
 
-        public ConfigResolver AddLogCats(params string[] categories) => RemoveLogCats((IList<string>)categories);
-        public ConfigResolver AddLogCats(IList<string> categories)
+        public ConfigResolver NoLogCats(params string[] categories) => NoLogCats((IList<string>)categories);
+        public ConfigResolver NoLogCats(IList<string> categories)
         {
-            if (categories == null) throw new NullException(() => categories);
+            if (!Has(categories)) throw new Exception($"{nameof(categories)} not supplied.");
             
             foreach (string category in categories)
             {
-                AddLogCat(category);
+                NoLogCat(category);
             }
             
             return this;
         }
-                
-        public ConfigResolver RemoveLogCat(string category)
+        public ConfigResolver NoLogCat(string category)
         {
             if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                loggerConfig.Categories = loggerConfig.Categories.Except(x => x.Name.Is(category)).ToList();
+                loggerConfig.Categories         = loggerConfig.Categories.Except(x => x.Name.Is(category)).ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.Categories.Except(x => x.Name.Is(category)).ToList();
+                loggerConfig.ExcludedCategories.Add(new CategoryConfig { Name = category });
             }
             
             return this;
         }
 
-        public ConfigResolver RemoveLogCats(params string[] categories) => RemoveLogCats((IList<string>)categories);
-        public ConfigResolver RemoveLogCats(IList<string> categories)
-        {
-            if (categories == null) throw new NullException(() => categories);
-            
-            foreach (string category in categories)
-            {
-                RemoveLogCat(category);
-            }
-            
-            return this;
-        }
-        
         // Audio Attributes
         
         // Bits
