@@ -124,8 +124,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                loggerConfig.Categories         = loggerConfig.Categories.Except(x => x.Is(category)).ToList();
-                loggerConfig.ExcludedCategories = loggerConfig.Categories.Except(x => x.Is(category)).ToList();
+                loggerConfig.Categories         = loggerConfig.Categories        .Except(x => x.Is(category)).ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.Is(category)).ToList();
                 loggerConfig.ExcludedCategories.Add(category);
             }
             
