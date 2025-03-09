@@ -9,8 +9,9 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Logging.Config;
+using JJ.Framework.Wishes.Collections;
 using JJ.Framework.Wishes.Reflection;
+using JJ.Framework.Wishes.Logging.Config;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
@@ -37,25 +38,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Logging Config
         
-        public ConfigResolver SetLogActive(bool value){ LoggingConfig.Active = value; return this; }
-        public ConfigResolver WithLog() => SetLogActive(true);
-        public ConfigResolver NoLog() => SetLogActive(false);
-        public ConfigResolver WithLogCats(params string[] categories) => WithLogCats((IList<string>)categories);
-        public ConfigResolver WithLogCats(IList<string> categories)
-        {
-            if (categories == null) throw new NullException(() => categories);
-            
-            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
-            {
-                loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
-            }
-            
-            return this;
-        }
-
-        
         public RootLoggingConfig LoggingConfig { get; }
-        
+                
         private RootLoggingConfig NewLoggingConfig()
         { 
             RootLoggingConfig config = null;
@@ -75,6 +59,76 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             }
             
             return config;
+        }
+
+        public ConfigResolver SetLogActive(bool value){ LoggingConfig.Active = value; return this; }
+        public ConfigResolver WithLog() => SetLogActive(true);
+        public ConfigResolver NoLog() => SetLogActive(false);
+        
+        public ConfigResolver WithLogCats(params string[] categories) => WithLogCats((IList<string>)categories);
+        public ConfigResolver WithLogCats(IList<string> categories)
+        {
+            if (categories == null) throw new NullException(() => categories);
+            
+            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            {
+                loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
+            }
+            
+            return this;
+        }
+       
+        public ConfigResolver AddLogCat(string category)
+        {
+            if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
+            
+            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            {
+                if (!loggerConfig.Categories.Any(x => x.Name.Is(category)))
+                {
+                    loggerConfig.Categories.Add(new CategoryConfig { Name = category });
+                }
+            }
+            
+            return this;
+        }
+
+        public ConfigResolver AddLogCats(params string[] categories) => RemoveLogCats((IList<string>)categories);
+        public ConfigResolver AddLogCats(IList<string> categories)
+        {
+            if (categories == null) throw new NullException(() => categories);
+            
+            foreach (string category in categories)
+            {
+                AddLogCat(category);
+            }
+            
+            return this;
+        }
+                
+        public ConfigResolver RemoveLogCat(string category)
+        {
+            if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
+            
+            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            {
+                loggerConfig.Categories = loggerConfig.Categories.Except(x => x.Name.Is(category)).ToList();
+            }
+            
+            return this;
+        }
+
+        public ConfigResolver RemoveLogCats(params string[] categories) => RemoveLogCats((IList<string>)categories);
+        public ConfigResolver RemoveLogCats(IList<string> categories)
+        {
+            if (categories == null) throw new NullException(() => categories);
+            
+            foreach (string category in categories)
+            {
+                RemoveLogCat(category);
+            }
+            
+            return this;
         }
         
         // Audio Attributes

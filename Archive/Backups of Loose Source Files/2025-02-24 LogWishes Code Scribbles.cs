@@ -683,3 +683,6 @@ Code Scribbles
             
         //    return this;
         //}
+
+                //loggerConfig.Categories.Remove(loggerConfig.Categories.Single(x => x.Name.Is(category)));
+                //loggerConfig.Categories.RemoveFirst(x => x.Name.Is(category));

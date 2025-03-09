@@ -213,6 +213,49 @@ namespace JJ.Business.Synthesizer.Wishes
             Logging.UpdateLogger(_config);
             return this;
         }
+        
+        public SynthWishes AddLogCat(string category)
+        {
+            _config.AddLogCat(category);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+            
+        public SynthWishes AddLogCats(params string[] categories)
+        {
+            _config.AddLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+        
+        public SynthWishes AddLogCats(IList<string> categories)
+        {
+            _config.AddLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+
+        public SynthWishes RemoveLogCat(string category)
+        {
+            _config.RemoveLogCat(category);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+
+        public SynthWishes RemoveLogCats(params string[] categories) 
+        {
+            _config.RemoveLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+            
+        public SynthWishes RemoveLogCats(IList<string> categories)
+        {
+            _config.RemoveLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+
     }
 }
 
