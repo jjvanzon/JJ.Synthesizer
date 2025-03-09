@@ -359,12 +359,6 @@ namespace JJ.Business.Synthesizer.Wishes
         public struct _framecount { }
 
         /// <summary> 
-        /// Works similar to Sum, but instead of adding up all the numbers, all the numbers are multiplied.
-        /// If the collection is empty, returns 1 (the null-operation for a multiplication).
-        /// </summary> 
-        public struct _frameworkwishproduct { }
-
-        /// <summary> 
         /// If this is a sample operator, this will return a curve operator wrapper,
         /// which serves as a helper for retrieving specifics from the underlying Operator
         /// and Curve entities.
