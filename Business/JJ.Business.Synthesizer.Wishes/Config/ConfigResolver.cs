@@ -72,8 +72,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                loggerConfig.Categories = categories.Select(x => new CategoryConfig { Name = x }).ToArray();
-                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.Name.In(categories)).ToList();
+                loggerConfig.Categories = categories.ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.In(categories)).ToList();
             }
             
             return this;
@@ -97,9 +97,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                if (!loggerConfig.Categories.Any(x => x.Name.Is(category)))
+                if (!loggerConfig.Categories.Any(x => x.Is(category)))
                 {
-                    loggerConfig.Categories.Add(new CategoryConfig { Name = category });
+                    loggerConfig.Categories.Add(category);
                 }
             }
             
@@ -124,9 +124,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                loggerConfig.Categories         = loggerConfig.Categories.Except(x => x.Name.Is(category)).ToList();
-                loggerConfig.ExcludedCategories = loggerConfig.Categories.Except(x => x.Name.Is(category)).ToList();
-                loggerConfig.ExcludedCategories.Add(new CategoryConfig { Name = category });
+                loggerConfig.Categories         = loggerConfig.Categories.Except(x => x.Is(category)).ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.Categories.Except(x => x.Is(category)).ToList();
+                loggerConfig.ExcludedCategories.Add(category);
             }
             
             return this;
@@ -139,8 +139,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public bool Is8Bit => GetBits == 8;
         public bool Is16Bit => GetBits == 16;
         public bool Is32Bit => GetBits == 32;
-        private int? _bits;
-        public int GetBits => CoalesceBits(_bits, _section.Bits);
+        private int? _bits;        public int GetBits => CoalesceBits(_bits, _section.Bits);
         public ConfigResolver WithBits(int? bits) { _bits = bits.AssertBits(); return this; }
         
         // Channels
