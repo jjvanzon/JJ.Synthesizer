@@ -24,14 +24,14 @@ namespace JJ.Business.Synthesizer.Wishes
         
         // Defined here to ditch `this` qualifier in case of inheritance.
         
-        public   void Log           (                 string message = null) => Logging.Log(message);
-        internal void Log           (string category, string message       ) => Logging.Log(category, message);
-        public   void LogSpaced     (                 string message       ) => Logging.LogSpaced(message);
-        internal void LogSpaced     (string category, string message       ) => Logging.LogSpaced(category, message);
-        public   void LogTitle      (                 string title         ) => Logging.LogTitle(title);
-        internal void LogTitle      (string category, string title         ) => Logging.LogTitle(category, title);
-        public   void LogTitleStrong(                 string title         ) => Logging.LogTitleStrong(title);
-        internal void LogTitleStrong(string category, string title         ) => Logging.LogTitleStrong(category, title);
+        public void Log           (                 string message = null) => Logging.Log(message);
+        public void Log           (string category, string message       ) => Logging.Log(category, message);
+        public void LogSpaced     (                 string message       ) => Logging.LogSpaced(message);
+        public void LogSpaced     (string category, string message       ) => Logging.LogSpaced(category, message);
+        public void LogTitle      (                 string title         ) => Logging.LogTitle(title);
+        public void LogTitle      (string category, string title         ) => Logging.LogTitle(category, title);
+        public void LogTitleStrong(                 string title         ) => Logging.LogTitleStrong(title);
+        public void LogTitleStrong(string category, string title         ) => Logging.LogTitleStrong(category, title);
         
         public SynthWishes SetLogActive(bool value)
         {

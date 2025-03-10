@@ -6,6 +6,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
+    /// <summary> Non-exhaustive list of log actions. </summary>
     public enum LogActions
     {
         Start,
