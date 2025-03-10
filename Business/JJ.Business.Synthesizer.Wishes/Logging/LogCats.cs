@@ -13,10 +13,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static readonly string TapeTree  = MemberName();
         public static readonly string Config    = MemberName();
         public static readonly string Actions   = MemberName();
+        public static readonly string Operator  = MemberName();
+        public static readonly string Tape      = MemberName();
+        public static readonly string Buff      = MemberName();
         public static readonly string Out       = MemberName();
+        public static readonly string Sample    = MemberName();
         public static readonly string File      = MemberName();
         public static readonly string Memory    = MemberName();
         public static readonly string Misc      = MemberName();
-        public static readonly string Operator  = MemberName();
     }
 }

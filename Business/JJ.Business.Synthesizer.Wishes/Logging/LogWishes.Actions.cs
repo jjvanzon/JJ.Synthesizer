@@ -570,48 +570,48 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal ConfigSection   LogAction(ConfigSection   entity, string action, string name, int    dummy = 0    ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, dummy  )); return entity; }
         internal ConfigSection   LogAction(ConfigSection   entity, string action, string name, string message      ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, message)); return entity; }
 
-        public   Tape            LogAction(Tape            entity, ActionEnum action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
-        public   Tape            LogAction(Tape            entity, ActionEnum action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
-        public   Tape            LogAction(Tape            entity, string     action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
-        public   Tape            LogAction(Tape            entity, string     message, int dummy = 0 ) { LogActionBase<Tape>(ActionMessage(entity, message, dummy )); return entity; }
-        public   Tape            LogAction(Tape            entity, string     action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
-        public   TapeConfig      LogAction(TapeConfig      entity, ActionEnum action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
-        public   TapeConfig      LogAction(TapeConfig      entity, ActionEnum action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
-        public   TapeConfig      LogAction(TapeConfig      entity, string     action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
-        public   TapeConfig      LogAction(TapeConfig      entity, string     message, int dummy = 0 ) { LogActionBase<Tape>(ActionMessage(entity, message, dummy )); return entity; }
-        public   TapeConfig      LogAction(TapeConfig      entity, string     action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
-        public   TapeActions     LogAction(TapeActions     entity, ActionEnum action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
-        public   TapeActions     LogAction(TapeActions     entity, ActionEnum action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
-        public   TapeActions     LogAction(TapeActions     entity, string     action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
-        public   TapeActions     LogAction(TapeActions     entity, string     message, int dummy = 0 ) { LogActionBase<Tape>(ActionMessage(entity, message, dummy )); return entity; }
-        public   TapeActions     LogAction(TapeActions     entity, string     action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }
+        public   Tape            LogAction(Tape            entity, ActionEnum action                 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, action         )); return entity; }
+        public   Tape            LogAction(Tape            entity, ActionEnum action,  string message) { LogActionBase(LogCats.Tape, ActionMessage(entity, action, message)); return entity; }
+        public   Tape            LogAction(Tape            entity, string     action                 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, action         )); return entity; }
+        public   Tape            LogAction(Tape            entity, string     message, int dummy = 0 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, message, dummy )); return entity; }
+        public   Tape            LogAction(Tape            entity, string     action,  string message) { LogActionBase(LogCats.Tape, ActionMessage(entity, action, message)); return entity; }
+        public   TapeConfig      LogAction(TapeConfig      entity, ActionEnum action                 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, action         )); return entity; }
+        public   TapeConfig      LogAction(TapeConfig      entity, ActionEnum action,  string message) { LogActionBase(LogCats.Tape, ActionMessage(entity, action, message)); return entity; }
+        public   TapeConfig      LogAction(TapeConfig      entity, string     action                 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, action         )); return entity; }
+        public   TapeConfig      LogAction(TapeConfig      entity, string     message, int dummy = 0 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, message, dummy )); return entity; }
+        public   TapeConfig      LogAction(TapeConfig      entity, string     action,  string message) { LogActionBase(LogCats.Tape, ActionMessage(entity, action, message)); return entity; }
+        public   TapeActions     LogAction(TapeActions     entity, ActionEnum action                 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, action         )); return entity; }
+        public   TapeActions     LogAction(TapeActions     entity, ActionEnum action,  string message) { LogActionBase(LogCats.Tape, ActionMessage(entity, action, message)); return entity; }
+        public   TapeActions     LogAction(TapeActions     entity, string     action                 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, action         )); return entity; }
+        public   TapeActions     LogAction(TapeActions     entity, string     message, int dummy = 0 ) { LogActionBase(LogCats.Tape, ActionMessage(entity, message, dummy )); return entity; }
+        public   TapeActions     LogAction(TapeActions     entity, string     action,  string message) { LogActionBase(LogCats.Tape, ActionMessage(entity, action, message)); return entity; }
 
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      Log      (TapeAction      action                ) { LogActionBase(Actions,       Message(action         )); return action; }
+        public   TapeAction      Log      (TapeAction      action                ) { LogActionBase(LogCats.Actions,       Message(action         )); return action; }
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      Log      (TapeAction      action, string message) { LogActionBase(Actions,       Message(action, message)); return action; }
+        public   TapeAction      Log      (TapeAction      action, string message) { LogActionBase(LogCats.Actions,       Message(action, message)); return action; }
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      LogAction(TapeAction      action                ) { LogActionBase(Actions, ActionMessage(action         )); return action; }
+        public   TapeAction      LogAction(TapeAction      action                ) { LogActionBase(LogCats.Actions, ActionMessage(action         )); return action; }
         /// <inheritdoc cref="_logtapeaction" />
-        public   TapeAction      LogAction(TapeAction      action, string message) { LogActionBase(Actions, ActionMessage(action, message)); return action; }
+        public   TapeAction      LogAction(TapeAction      action, string message) { LogActionBase(LogCats.Actions, ActionMessage(action, message)); return action; }
 
-        public   Buff            LogAction(Buff            entity, ActionEnum action                 ) { LogActionBase(entity, ActionMessage(entity, action         )); return entity; }
-        public   Buff            LogAction(Buff            entity, ActionEnum action,  string message) { LogActionBase(entity, ActionMessage(entity, action, message)); return entity; }
-        public   Buff            LogAction(Buff            entity, string     action                 ) { LogActionBase(entity, ActionMessage(entity, action         )); return entity; }
-        public   Buff            LogAction(Buff            entity, string     message, int dummy = 0 ) { LogActionBase(entity, ActionMessage(entity, message, dummy )); return entity; }
-        public   Buff            LogAction(Buff            entity, string     action,  string message) { LogActionBase(entity, ActionMessage(entity, action, message)); return entity; }
+        public   Buff            LogAction(Buff            entity, ActionEnum action                 ) { LogActionBase(LogCats.Buff,   ActionMessage(entity, action         )); return entity; }
+        public   Buff            LogAction(Buff            entity, ActionEnum action,  string message) { LogActionBase(LogCats.Buff,   ActionMessage(entity, action, message)); return entity; }
+        public   Buff            LogAction(Buff            entity, string     action                 ) { LogActionBase(LogCats.Buff,   ActionMessage(entity, action         )); return entity; }
+        public   Buff            LogAction(Buff            entity, string     message, int dummy = 0 ) { LogActionBase(LogCats.Buff,   ActionMessage(entity, message, dummy )); return entity; }
+        public   Buff            LogAction(Buff            entity, string     action,  string message) { LogActionBase(LogCats.Buff,   ActionMessage(entity, action, message)); return entity; }
 
-        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action                 ) { LogActionBase(Out, ActionMessage(entity, action         )); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action,  string message) { LogActionBase(Out, ActionMessage(entity, action, message)); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action                 ) { LogActionBase(Out, ActionMessage(entity, action         )); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, string     message, int dummy = 0 ) { LogActionBase(Out, ActionMessage(entity, message, dummy )); return entity; }
-        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action,  string message) { LogActionBase(Out, ActionMessage(entity, action, message)); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action                 ) { LogActionBase(LogCats.Out,    ActionMessage(entity, action         )); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, ActionEnum action,  string message) { LogActionBase(LogCats.Out,    ActionMessage(entity, action, message)); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action                 ) { LogActionBase(LogCats.Out,    ActionMessage(entity, action         )); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, string     message, int dummy = 0 ) { LogActionBase(LogCats.Out,    ActionMessage(entity, message, dummy )); return entity; }
+        public   AudioFileOutput LogAction(AudioFileOutput entity, string     action,  string message) { LogActionBase(LogCats.Out,    ActionMessage(entity, action, message)); return entity; }
         
-        public   Sample          LogAction(Sample          entity, ActionEnum action                 ) { LogActionBase(entity, ActionMessage(entity, action         )); return entity; }
-        public   Sample          LogAction(Sample          entity, ActionEnum action,  string message) { LogActionBase(entity, ActionMessage(entity, action, message)); return entity; }
-        public   Sample          LogAction(Sample          entity, string     action                 ) { LogActionBase(entity, ActionMessage(entity, action         )); return entity; }
-        public   Sample          LogAction(Sample          entity, string     message, int dummy = 0 ) { LogActionBase(entity, ActionMessage(entity, message, dummy )); return entity; }
-        public   Sample          LogAction(Sample          entity, string     action,  string message) { LogActionBase(entity, ActionMessage(entity, action, message)); return entity; }
+        public   Sample          LogAction(Sample          entity, ActionEnum action                 ) { LogActionBase(LogCats.Sample, ActionMessage(entity, action         )); return entity; }
+        public   Sample          LogAction(Sample          entity, ActionEnum action,  string message) { LogActionBase(LogCats.Sample, ActionMessage(entity, action, message)); return entity; }
+        public   Sample          LogAction(Sample          entity, string     action                 ) { LogActionBase(LogCats.Sample, ActionMessage(entity, action         )); return entity; }
+        public   Sample          LogAction(Sample          entity, string     message, int dummy = 0 ) { LogActionBase(LogCats.Sample, ActionMessage(entity, message, dummy )); return entity; }
+        public   Sample          LogAction(Sample          entity, string     action,  string message) { LogActionBase(LogCats.Sample, ActionMessage(entity, action, message)); return entity; }
         
         // LogAction (On Simple Types)
 
@@ -837,8 +837,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public Sample          LogFileAction(Sample          entity, string     action, int dummy = 0 ) { LogFileActionBase(FileActionMessage(entity, action, dummy  )); return entity; }
         public Sample          LogFileAction(Sample          entity, string     action, string message) { LogFileActionBase(FileActionMessage(entity, action, message)); return entity; }
         
-        private void LogFileActionBase(                     string actionMessage) => Log(File,               actionMessage);
-        private void LogMemoryActionBase(                   string actionMessage) => Log(Memory,             actionMessage);
+        private void LogFileActionBase(                     string actionMessage) => Log(LogCats.File,         actionMessage);
+        private void LogMemoryActionBase(                   string actionMessage) => Log(LogCats.Memory,       actionMessage);
         private void LogActionBase(string category,         string actionMessage) => Log(category,             actionMessage);
         private void LogActionBase<TEntity>(                string actionMessage) => Log(typeof(TEntity).Name, actionMessage);
         // ReSharper disable once UnusedParameter.Local
