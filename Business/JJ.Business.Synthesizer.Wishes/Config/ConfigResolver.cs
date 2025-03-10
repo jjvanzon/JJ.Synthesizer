@@ -65,14 +65,15 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public ConfigResolver WithLog() => SetLogActive(true);
         public ConfigResolver NoLog() => SetLogActive(false);
         
-        public ConfigResolver WithLogCats(params string[] categories) => WithLogCats((IList<string>)categories);
-        public ConfigResolver WithLogCats(IList<string> categories)
+        public ConfigResolver OnlyLogCats(params string[] categories) => OnlyLogCats((IList<string>)categories);
+        public ConfigResolver OnlyLogCats(IList<string> categories)
         {
             if (categories == null) throw new NullException(() => categories);
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
                 loggerConfig.Categories = categories.ToList();
+                // Remove from exclusions
                 loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.In(categories)).ToList();
             }
             
@@ -101,24 +102,25 @@ namespace JJ.Business.Synthesizer.Wishes.Config
                 {
                     loggerConfig.Categories.Add(category);
                 }
+                loggerConfig.ExcludedCategories.Remove(category);
             }
             
             return this;
         }
 
-        public ConfigResolver NoLogCats(params string[] categories) => NoLogCats((IList<string>)categories);
-        public ConfigResolver NoLogCats(IList<string> categories)
+        public ConfigResolver DontLogCats(params string[] categories) => DontLogCats((IList<string>)categories);
+        public ConfigResolver DontLogCats(IList<string> categories)
         {
             if (!Has(categories)) throw new Exception($"{nameof(categories)} not supplied.");
             
             foreach (string category in categories)
             {
-                NoLogCat(category);
+                DontLogCat(category);
             }
             
             return this;
         }
-        public ConfigResolver NoLogCat(string category)
+        public ConfigResolver DontLogCat(string category)
         {
             if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
             
@@ -132,6 +134,18 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return this;
         }
 
+        public ConfigResolver ClearLogCats()
+        {
+            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            {
+                loggerConfig.Categories         = new List<string>();
+                loggerConfig.ExcludedCategories = new List<string>();
+            }
+            
+            return this;
+        }
+        
+        
         // Audio Attributes
         
         // Bits

@@ -684,9 +684,63 @@ return ActionMessage("File", action, formattedFilePath, message);
                 loggerConfig.Categories.Remove(loggerConfig.Categories.Single(x => x.Name.Is(category)));
                 loggerConfig.Categories.RemoveFirst(x => x.Name.Is(category));
 
-            
             string bytesMessage = tape.MemoryActionMessage();
             if (Has(bytesMessage)) lines.Add(bytesMessage);
             
             string fileMessage = tape.FileActionMessage();
             if (Has(fileMessage)) lines.Add(fileMessage);
+
+            //if (GetLogCats.Any())
+            //if (!WillLog(SynthLog))
+            //{
+            //    AddLogCat("SynthLog");
+            //}
+
+        public SynthWishes AlsoLogCat(string category)
+        {
+            if (!Logging.Logger.WillLog(category))
+            {
+                _config.AddLogCat(category);
+                Logging.UpdateLogger(_config);
+            }
+            
+            return this;
+        }
+
+        public SynthWishes DontLogCats(params string[] categories)
+        {
+            _config.DontLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+
+        public SynthWishes DontLogCat(string category)
+        {
+            _config.DontLogCat(category);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+
+        private SynthWishes AddLogCat(string category)
+        {
+            _config.AddLogCat(category);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+
+        private SynthWishes AddLogCats(params string[] categories)
+        {
+            _config.AddLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }
+
+        // AlsoLogCats might replace AddLogCats, which would otherwise pop an exclusive filter into existence.
+        private SynthWishes AddLogCat(string category) => AddLogCats(category);
+        private SynthWishes AddLogCats(params string[] categories) => AddLogCats((IList<string>)categories);
+        private SynthWishes AddLogCats(IList<string> categories)
+        {
+            _config.AddLogCats(categories);
+            Logging.UpdateLogger(_config);
+            return this;
+        }

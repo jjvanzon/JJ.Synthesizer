@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.Logging;
+using static JJ.Framework.Wishes.Common.FilledInWishes;
 
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes
@@ -53,61 +54,56 @@ namespace JJ.Business.Synthesizer.Wishes
             return this;
         }
         
-        public SynthWishes WithLogCats(params string[] categories)
+        public SynthWishes OnlyLogCats(params string[] categories)
         {
-            _config.WithLogCats(categories);
+            _config.OnlyLogCats(categories);
             Logging.UpdateLogger(_config);
             return this;
         }
         
-        public SynthWishes WithLogCats(IList<string> categories)
+        public SynthWishes OnlyLogCats(IList<string> categories)
         {
-            _config.WithLogCats(categories);
+            _config.OnlyLogCats(categories);
             Logging.UpdateLogger(_config);
             return this;
         }
         
-        public SynthWishes AddLogCat(string category)
+        public IList<string> GetLogCats => Logging.Logger.GetCategories();
+        
+        public SynthWishes AlsoLogCat(string category) => AlsoLogCats(category);
+        public SynthWishes AlsoLogCats(params string[] categories) => AlsoLogCats((IList<string>)categories);
+        public SynthWishes AlsoLogCats(IList<string> categories)
         {
-            _config.AddLogCat(category);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
+            if (!Has(categories)) throw new Exception($"{nameof(categories)} not supplied.");
             
-        public SynthWishes AddLogCats(params string[] categories)
-        {
-            _config.AddLogCats(categories);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-        
-        public SynthWishes AddLogCats(IList<string> categories)
-        {
-            _config.AddLogCats(categories);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-
-        public SynthWishes NoLogCat(string category)
-        {
-            _config.NoLogCat(category);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
-
-        public SynthWishes NoLogCats(params string[] categories) 
-        {
-            _config.NoLogCats(categories);
-            Logging.UpdateLogger(_config);
-            return this;
-        }
+            foreach (string category in categories)
+            {
+                // TODO: This is may not be sound logic. I feel that edge cases would slip through, where former categories are excluded.
+                if (!Logging.Logger.WillLog(category))
+                {
+                    _config.AddLogCat(category);
+                }
+            }
             
-        public SynthWishes NoLogCats(IList<string> categories)
+            Logging.UpdateLogger(_config);
+            
+            return this;
+        }
+
+        public SynthWishes DontLogCat(string category) => DontLogCats(category);
+        public SynthWishes DontLogCats(params string[] categories) => DontLogCats((IList<string>)categories);
+        public SynthWishes DontLogCats(IList<string> categories)
         {
-            _config.NoLogCats(categories);
+            _config.DontLogCats(categories);
             Logging.UpdateLogger(_config);
             return this;
         }
 
+        public SynthWishes ClearLogCats()
+        {
+            _config.ClearLogCats();
+            Logging.UpdateLogger(_config);
+            return this;
+        }
     }
 }

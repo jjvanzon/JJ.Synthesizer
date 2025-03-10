@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private TestEntities CreateEntities(Case test, bool wipeBuff = true, bool withDisk = false)
         {
-            var testEntities = new TestEntities(withDisk, x => x.NoLogCats(LogCats.SynthLog, LogCats.TapeTree, LogCats.MathBoost)
+            var testEntities = new TestEntities(withDisk, x => x.DontLogCats(LogCats.SynthLog, LogCats.TapeTree, LogCats.MathBoost)
                                                                 .WithBits(test.Bits.Init)
                                                                 .WithChannels(test.Channels.Init)
                                                                 .WithSamplingRate(test.SamplingRate.Init)
@@ -137,7 +137,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private TestEntities CreateModifiedEntities(Case test, bool wipeBuff = true, bool withDisk = false)
         {
-            var testEntities = new TestEntities(withDisk, x => x.NoLogCat("SynthLog").NoLogCat("TapeTree").NoLogCat("MathBoost")
+            var testEntities = new TestEntities(withDisk, x => x.DontLogCat("SynthLog").DontLogCat("TapeTree").DontLogCat("MathBoost")
                                                                 .WithBits(test.Bits.To)
                                                                 .WithChannels(test.Channels.To)
                                                                 .WithSamplingRate(test.SamplingRate.To)
