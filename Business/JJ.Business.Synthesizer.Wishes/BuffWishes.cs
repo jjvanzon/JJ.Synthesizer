@@ -174,6 +174,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 bytes = new byte[audioFileOutput.BytesNeeded() + tape.CourtesyBytes()];
                 calculatorAccessor._stream = new MemoryStream(bytes);
                 audioFileOutput.FilePath = default; // FilePath has no meaning anymore.
+                tape.Bytes = bytes;
+                tape.LogMemoryAction();
             }
             else 
             {
@@ -184,6 +186,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 (resolvedFilePath, fileStream) = CreateSafeFileStream(resolvedFilePath, maxExtensionLength: tape.SynthWishes.GetFileExtensionMaxLength);
                 calculatorAccessor._stream = fileStream;
                 audioFileOutput.FilePath = resolvedFilePath;
+                tape.LogFileAction();
             }
 
             // Calculate
@@ -199,10 +202,6 @@ namespace JJ.Business.Synthesizer.Wishes
                 if (tape.Actions.SaveChannels.Active) tape.Actions.SaveChannels.Done = true;
                 if (tape.Actions.Save.Active) tape.Actions.Save.Done = true;
             }
-
-            // Result
-            tape.Bytes = bytes;
-            tape.UnderlyingAudioFileOutput = audioFileOutput;
 
             // Report
             tape.LogSynth(calculationDuration);

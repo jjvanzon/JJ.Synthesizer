@@ -97,12 +97,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             lines.Add("");
             
-            string bytesMessage = tape.MemoryActionMessage();
-            if (Has(bytesMessage)) lines.Add(bytesMessage);
-            
-            string fileMessage = tape.FileActionMessage();
-            if (Has(fileMessage)) lines.Add(fileMessage);
-            
             if (!Has(tape.Bytes) && !Exists(tape.FilePathResolved))
             {
                 lines.Add("⚠ Tape not recorded!");
