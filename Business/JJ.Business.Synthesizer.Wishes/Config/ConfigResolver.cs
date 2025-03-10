@@ -15,6 +15,7 @@ using JJ.Framework.Wishes.Logging.Config;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
+using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Configuration.ConfigurationManagerWishes;
@@ -65,70 +66,76 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public ConfigResolver WithLog() => SetLogActive(true);
         public ConfigResolver NoLog() => SetLogActive(false);
         
-        public ConfigResolver OnlyLogCats(params string[] categories) => OnlyLogCats((IList<string>)categories);
-        public ConfigResolver OnlyLogCats(IList<string> categories)
+       
+        // TODO: Where's the singular form?
+        public ConfigResolver OnlyLogCats(params object[] categories) => OnlyLogCats((IList<object>)categories);
+        public ConfigResolver OnlyLogCats(IList<object> categories)
         {
             if (categories == null) throw new NullException(() => categories);
             
+            IList<string> categoryStrings = categories.Select(x => ResolveName(x)).ToList();
+            
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                loggerConfig.Categories = categories.ToList();
+                loggerConfig.Categories = categoryStrings;
                 // Remove from exclusions
-                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.In(categories)).ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.In(categoryStrings)).ToList();
             }
             
             return this;
         }
        
-        public ConfigResolver AddLogCats(params string[] categories) => AddLogCats((IList<string>)categories);
-        public ConfigResolver AddLogCats(IList<string> categories)
+        public ConfigResolver AddLogCats(params object[] categories) => AddLogCats((IList<object>)categories);
+        public ConfigResolver AddLogCats(IList<object> categories)
         {
             if (!Has(categories)) throw new Exception($"{nameof(categories)} not supplied.");
             
-            foreach (string category in categories)
+            foreach (object category in categories)
             {
                 AddLogCat(category);
             }
             
             return this;
         }
-        public ConfigResolver AddLogCat(string category)
+        public ConfigResolver AddLogCat(object category)
         {
-            if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
+            string categoryString = ResolveName(category);
+            if (!Has(categoryString)) throw new Exception($"{nameof(category)} not supplied.");
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                if (!loggerConfig.Categories.Any(x => x.Is(category)))
+                if (!loggerConfig.Categories.Any(x => x.Is(categoryString)))
                 {
-                    loggerConfig.Categories.Add(category);
+                    loggerConfig.Categories.Add(categoryString);
                 }
-                loggerConfig.ExcludedCategories.Remove(category);
+                loggerConfig.ExcludedCategories.Remove(categoryString);
             }
             
             return this;
         }
 
-        public ConfigResolver DontLogCats(params string[] categories) => DontLogCats((IList<string>)categories);
-        public ConfigResolver DontLogCats(IList<string> categories)
+        public ConfigResolver DontLogCats(params object[] categories) => DontLogCats((IList<object>)categories);
+        public ConfigResolver DontLogCats(IList<object> categories)
         {
             if (!Has(categories)) throw new Exception($"{nameof(categories)} not supplied.");
             
-            foreach (string category in categories)
+            foreach (object category in categories)
             {
                 DontLogCat(category);
             }
             
             return this;
         }
-        public ConfigResolver DontLogCat(string category)
+        public ConfigResolver DontLogCat(object category)
         {
-            if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
+            string categoryString = ResolveName(category);
+            if (!Has(categoryString)) throw new Exception($"{nameof(category)} not supplied.");
             
             foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
             {
-                loggerConfig.Categories         = loggerConfig.Categories        .Except(x => x.Is(category)).ToList();
-                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.Is(category)).ToList();
-                loggerConfig.ExcludedCategories.Add(category);
+                loggerConfig.Categories         = loggerConfig.Categories        .Except(x => x.Is(categoryString)).ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.Is(categoryString)).ToList();
+                loggerConfig.ExcludedCategories.Add(categoryString);
             }
             
             return this;

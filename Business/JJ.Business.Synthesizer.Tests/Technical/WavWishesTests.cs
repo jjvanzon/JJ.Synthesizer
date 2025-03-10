@@ -18,7 +18,6 @@ using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Testing;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Tests.docs;
-using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.IO.File;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
@@ -29,6 +28,7 @@ using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using System.Runtime.CompilerServices;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private TestEntities CreateEntities(Case test, bool wipeBuff = true, bool withDisk = false, [CallerMemberName] string name = null)
         {
-            var testEntities = new TestEntities(withDisk, x => x.DontLogCats(LogCats.SynthLog, LogCats.TapeTree, LogCats.MathBoost)
+            var testEntities = new TestEntities(withDisk, x => x.DontLogCat("SynthLog").DontLogCat(TapeTree).DontLogCat("MathBoost")
                                                                 .WithBits(test.Bits.Init)
                                                                 .WithChannels(test.Channels.Init)
                                                                 .WithSamplingRate(test.SamplingRate.Init)

@@ -18,7 +18,6 @@ using static System.IO.Path;
 using static System.String;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.IO.FileWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -84,7 +83,8 @@ namespace JJ.Business.Synthesizer.Wishes
                 case FlowNode flowNode: return flowNode.Name;
                 case Sample sample: return TryGetName(sample.Location, sample.Name);
                 case Buff buff: return TryGetName(buff.FilePath, buff.UnderlyingAudioFileOutput);
-                default: throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
+                //default: throw new Exception($"Unsupported {nameof(nameSource)} type: {nameSource.GetType()}.");
+                default: return $"{nameSource}";
             }
         }
         

@@ -839,7 +839,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         private void LogFileActionBase(                     string actionMessage) => Log(LogCats.File,         actionMessage);
         private void LogMemoryActionBase(                   string actionMessage) => Log(LogCats.Memory,       actionMessage);
-        private void LogActionBase(string category,         string actionMessage) => Log(category,             actionMessage);
+        private void LogActionBase(object   category,       string actionMessage) => Log(category,             actionMessage);
         private void LogActionBase<TEntity>(                string actionMessage) => Log(typeof(TEntity).Name, actionMessage);
         // ReSharper disable once UnusedParameter.Local
         private void LogActionBase<TEntity>(TEntity entity, string actionMessage) => Log(typeof(TEntity).Name, actionMessage);

@@ -750,3 +750,11 @@ return ActionMessage("File", action, formattedFilePath, message);
                 
         public TestEntities(string name, bool withDisk, Action<SynthWishes> initialize)
             => Initialize(initialize, default, withDisk, name);
+
+
+        // TODO: Synonyms
+        
+        //public SynthWishes WithLog(bool enabled = true){ Logging.Enabled = enabled; return this; }
+        //public SynthWishes WithLogEnabled() => WithLog(true);
+        //public SynthWishes WithLogDisabled() => WithLog(false);
+        //public SynthWishes WithLogCats(params string[] categories) { Logging.SetCategories(categories); return this; }
