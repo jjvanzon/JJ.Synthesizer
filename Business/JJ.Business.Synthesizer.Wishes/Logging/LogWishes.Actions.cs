@@ -252,7 +252,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string MemoryActionMessage(int byteCount, string     action, string name, string message)
         {
             if (!Has(byteCount)) return "";
-            if (!_logger.WillLog("Memory")) return "";
+            if (!Logger.WillLog("Memory")) return "";
             return ActionMessage("Memory", action, name, message);
         }
 
@@ -410,7 +410,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string FileActionMessage(string filePath, string     action,                 string sourceFilePath) => FileActionMessage(filePath, action     , ""     , sourceFilePath);
         public string FileActionMessage(string filePath, string     action, string message, string sourceFilePath)
         {
-            if (!_logger.WillLog("File")) return "";
+            if (!Logger.WillLog("File")) return "";
             string filePathDescriptor = FormatFilePathIfExists(filePath, sourceFilePath);
             if (!Has(filePathDescriptor)) return "";
             return ActionMessage("File", action, filePathDescriptor, message);

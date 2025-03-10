@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         private string Stringify(FlowNode operand)
         {
-            if (!_logger.WillLog(MathBoost))
+            if (!Logger.WillLog(MathBoost))
             {
                 return "";
             }

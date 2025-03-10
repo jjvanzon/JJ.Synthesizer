@@ -21,14 +21,14 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         private static readonly string DefaultCategory = Misc;
         private static LogWishes _static = new LogWishes(ConfigResolver.Static);
-        private ILogger _logger;
+        public ILogger Logger { get; private set; }
 
         internal LogWishes(ConfigResolver configResolver) => UpdateLogger(configResolver);
         
         public void UpdateLogger(ConfigResolver configResolver)
         {
             if (configResolver == null) throw new NullException(() => configResolver);
-            _logger = CreateLogger(configResolver.LoggingConfig);
+            Logger = CreateLogger(configResolver.LoggingConfig);
         }
         
         // NOTE: All the threading, locking and flushing helped
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   void Log(string message = default) => Log(DefaultCategory, message);
         internal void Log(string category, string message)
         {
-            if (!_logger.WillLog(category))
+            if (!Logger.WillLog(category))
             {
                 return;
             }
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
                 _blankLinePending = EndsWithBlankLine(message);
 
-                _logger.Log(category, message.TrimEnd());
+                Logger.Log(category, message.TrimEnd());
             }
         }
 
