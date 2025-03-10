@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Structs;
@@ -500,7 +501,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(int? samplingRate)
+        private TestEntities CreateTestEntities(int? samplingRate, [CallerMemberName] string name = null)
         {
             double audioLength = DefaultAudioLength;
             if (samplingRate > 100) audioLength = 0.001; // Tame audio length in case of larger sampling rates for performance.
@@ -511,7 +512,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 x.WithAudioLength(audioLength);
                 x.IsUnderNCrunch = true;
                 x.IsUnderAzurePipelines = false;
-            });
+            }, name);
         }
                 
         private int Coalesce(int? samplingRate) => CoalesceSamplingRate(samplingRate, defaultValue: 10);

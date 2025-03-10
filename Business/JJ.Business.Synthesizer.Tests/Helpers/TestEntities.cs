@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
@@ -151,13 +152,34 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Dispose();
         }
 
-        public TestEntities(bool withDisk = false)                                                   => Initialize(default, default, withDisk);
-        public TestEntities(bool withDisk, Action<SynthWishes> initialize)                           => Initialize(initialize, default, withDisk);
-        public TestEntities(Action<SynthWishes> initialize, bool withDisk = false)                   => Initialize(initialize, default, withDisk);
-        public TestEntities(Action<SynthWishes> initialize, IContext context, bool withDisk = false) => Initialize(initialize, context, withDisk);
-        public TestEntities(IContext context, bool withDisk = false)                                 => Initialize(default, context, withDisk);
+        public TestEntities([CallerMemberName] string name = null)
+            => Initialize(default, default, default, name);
+        
+        public TestEntities(Action<SynthWishes> initialize, [CallerMemberName] string name = null)
+            => Initialize(initialize, default, default, name);
+        
+        public TestEntities(IContext context, [CallerMemberName] string name = null) 
+            => Initialize(default, context, default, name);
+        
+        public TestEntities(Action<SynthWishes> initialize, IContext context, [CallerMemberName] string name = null)
+            => Initialize(initialize, context, default, name);
+        
+        public TestEntities(Action<SynthWishes> initialize, bool withDisk, [CallerMemberName] string name = null)
+            => Initialize(initialize, default, withDisk, name);
+        
+        public TestEntities(IContext context, bool withDisk, [CallerMemberName] string name = null) 
+            => Initialize(default, context, withDisk, name);
+        
+        public TestEntities(Action<SynthWishes> initialize, IContext context, bool withDisk, [CallerMemberName] string name = null)
+            => Initialize(initialize, context, withDisk, name);
 
-        public void Initialize(Action<SynthWishes> initialize, IContext context = null, bool withDisk = false)
+        public TestEntities(bool withDisk, [CallerMemberName] string name = null)
+            => Initialize(default, default, withDisk, name);
+        
+        public TestEntities(bool withDisk, Action<SynthWishes> initialize, [CallerMemberName] string name = null) 
+            => Initialize(initialize, default, withDisk, name);
+
+        public void Initialize(Action<SynthWishes> initialize, IContext context = null, bool withDisk = false, [CallerMemberName] string name = null)
         {
             var synthWishes = new SynthWishes(context);
             var synthWishesInherited = new SynthWishesDerived(synthWishes);
@@ -179,6 +201,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             SynthBound.FlowNode  = synthWishes.Sine();
             SynthBound.FlowNode2 = synthWishes.Sine() / 2;
 
+            SynthBound.FlowNode.SetName(name);
+            SynthBound.FlowNode2.SetName(name);
+            
             Record(withDisk);
         }
         

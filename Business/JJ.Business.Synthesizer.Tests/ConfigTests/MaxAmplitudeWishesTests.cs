@@ -15,6 +15,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
+using System.Runtime.CompilerServices;
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable PossibleLossOfFraction
 
@@ -609,7 +610,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
          // Test Data Helpers
 
-        private TestEntities CreateTestEntities((double maxAmplitude, int? bits) init) => new TestEntities(x => x.NoLog().Bits(init.bits).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities((double maxAmplitude, int? bits) init, [CallerMemberName] string name = null)
+            => new TestEntities(x => x.NoLog().Bits(init.bits).SamplingRate(HighPerfHz), name);
         
         // ncrunch: no coverage start
         

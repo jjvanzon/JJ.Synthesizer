@@ -14,6 +14,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
+using System.Runtime.CompilerServices;
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable UnusedMember.Local
 
@@ -387,8 +388,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
 
-        private static TestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default) 
-            => new TestEntities(x => x.NoLog().CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels).SamplingRate(HighPerfHz));
+        private static TestEntities CreateTestEntities((int courtesyBytes, int? courtesyFrames, int? bits, int? channels) init = default, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().CourtesyFrames(init.courtesyFrames).Bits(init.bits).Channels(init.channels).SamplingRate(HighPerfHz), name);
 
         // ncrunch: no coverage start
         

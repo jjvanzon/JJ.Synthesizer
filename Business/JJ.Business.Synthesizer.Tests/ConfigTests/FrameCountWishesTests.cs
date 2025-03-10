@@ -20,6 +20,7 @@ using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Wishes.Testing.DeltaDirectionEnum;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0611
@@ -285,7 +286,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // ncrunch: no coverage end
         
-        private TestEntities CreateTestEntities(Case test = default)
+        private TestEntities CreateTestEntities(Case test = default, [CallerMemberName] string name = null)
         {
             test = test ?? new Case();
             
@@ -320,7 +321,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         $"(This restriction can be relaxed by setting {nameof(Case.Strict)} = false in the test {nameof(Case)}.)");
                     // ncrunch: no coverage end
                 }
-            });
+            }, name);
         }
         
         [TestMethod]

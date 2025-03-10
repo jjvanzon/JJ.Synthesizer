@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Structs;
@@ -504,8 +505,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities((int headerLength, AudioFileFormatEnum? audioFormat) init) 
-            => new TestEntities(x => x.NoLog().AudioFormat(init.audioFormat).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities((int headerLength, AudioFileFormatEnum? audioFormat) init, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().AudioFormat(init.audioFormat).SamplingRate(HighPerfHz), name);
         
         // ncrunch: no coverage start
         

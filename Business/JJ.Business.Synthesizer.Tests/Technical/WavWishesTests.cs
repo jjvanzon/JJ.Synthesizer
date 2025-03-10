@@ -30,6 +30,7 @@ using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer
@@ -122,27 +123,27 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         };
             
 
-        private TestEntities CreateEntities(Case test, bool wipeBuff = true, bool withDisk = false)
+        private TestEntities CreateEntities(Case test, bool wipeBuff = true, bool withDisk = false, [CallerMemberName] string name = null)
         {
             var testEntities = new TestEntities(withDisk, x => x.DontLogCats(LogCats.SynthLog, LogCats.TapeTree, LogCats.MathBoost)
                                                                 .WithBits(test.Bits.Init)
                                                                 .WithChannels(test.Channels.Init)
                                                                 .WithSamplingRate(test.SamplingRate.Init)
                                                                 .WithCourtesyFrames(test.CourtesyFrames.Init)
-                                                                .WithFrameCount(test.FrameCount.Init));
+                                                                .WithFrameCount(test.FrameCount.Init), name);
             AdjustBufferState(testEntities, wipeBuff);
             
             return testEntities;
         }
         
-        private TestEntities CreateModifiedEntities(Case test, bool wipeBuff = true, bool withDisk = false)
+        private TestEntities CreateModifiedEntities(Case test, bool wipeBuff = true, bool withDisk = false, [CallerMemberName] string name = null)
         {
             var testEntities = new TestEntities(withDisk, x => x.DontLogCat("SynthLog").DontLogCat("TapeTree").DontLogCat("MathBoost")
                                                                 .WithBits(test.Bits.To)
                                                                 .WithChannels(test.Channels.To)
                                                                 .WithSamplingRate(test.SamplingRate.To)
                                                                 .WithCourtesyFrames(test.CourtesyFrames.To)
-                                                                .WithFrameCount(test.FrameCount.To));
+                                                                .WithFrameCount(test.FrameCount.To), name);
             AdjustBufferState(testEntities, wipeBuff);
             
             return testEntities;
@@ -1804,9 +1805,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
          
         // Assertions Helpers
        
-        private void AssertWrite(Action<BuffBoundEntities> setter, TestEntityEnum entity, Case test)
+        private void AssertWrite(Action<BuffBoundEntities> setter, TestEntityEnum entity, Case test, [CallerMemberName] string name = null)
         {
-            using (var changedEntities = CreateModifiedEntities(test, withDisk: entity == ForDestFilePath))
+            using (var changedEntities = CreateModifiedEntities(test, withDisk: entity == ForDestFilePath, name: name))
             {
                 var binaries = changedEntities.BuffBound;
                 AssertInvariant(changedEntities, test);

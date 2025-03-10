@@ -14,6 +14,7 @@ using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
+using System.Runtime.CompilerServices;
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
 {
@@ -95,17 +96,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             //AreEqual(ChannelEnum.Undefined, () => ChannelEnum.Right.Channels(channelsMono));
         }
                 
-        private TestEntities CreateTestEntities(int channels) 
-            => new TestEntities(x => x.NoLog().WithChannels(channels));
+        private TestEntities CreateTestEntities(int channels, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().WithChannels(channels), name);
         
-        private TestEntities CreateTestEntities(int channels, IContext context) 
-            => new TestEntities(x => x.NoLog().WithChannels(channels), context);
+        private TestEntities CreateTestEntities(int channels, IContext context, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().WithChannels(channels), context, name);
         
-        private TestEntities CreateTestEntities(int channels, int? channel) 
-            => new TestEntities(x => x.NoLog().WithChannels(channels).WithChannel(channel));
+        private TestEntities CreateTestEntities(int channels, int? channel, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().WithChannels(channels).WithChannel(channel), name);
         
-        private TestEntities CreateTestEntities(int channels, int? channel, IContext context) 
-            => new TestEntities(x => x.NoLog().WithChannels(channels).WithChannel(channel).SamplingRate(HighPerfHz), context);
+        private TestEntities CreateTestEntities(int channels, int? channel, IContext context, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().WithChannels(channels).WithChannel(channel).SamplingRate(HighPerfHz), context, name);
 
         private void Assert_Channels_Getters(ChannelEnum channelEnum, int? channels)
         {

@@ -19,6 +19,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Framework.Wishes.Testing.DeltaDirectionEnum;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -114,11 +115,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // TODO: Add case where CourtesyFrames shrinks.
         );
         
-        static TestEntities CreateTestEntities(int init, int sizeOfBitDepthInit)
+        static TestEntities CreateTestEntities(int init, int sizeOfBitDepthInit, [CallerMemberName] string name = null)
             // Change bit depth first, or it'll change the byte count.
-            => new TestEntities(x => x.NoLog().SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz));
+            => new TestEntities(x => x.NoLog().SizeOfBitDepth(sizeOfBitDepthInit).ByteCount(init).SamplingRate(HighPerfHz), name);
 
-        static TestEntities CreateTestEntities(Case val) 
+        static TestEntities CreateTestEntities(Case val, [CallerMemberName] string name = null) 
             => new TestEntities(synth => 
             {
                 // Change primary properties before ByteCount, or they will change the byte count.
@@ -161,7 +162,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
                 if (CoalesceAudioLength(audioLength) != DefaultAudioLength)
                     synth.AudioLength(audioLength);
-            });
+            }, name);
         
         // Tests
         

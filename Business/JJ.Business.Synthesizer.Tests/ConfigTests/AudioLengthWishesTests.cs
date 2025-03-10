@@ -18,6 +18,7 @@ using static JJ.Framework.Wishes.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
+using System.Runtime.CompilerServices;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
@@ -543,8 +544,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private const int _samplingRate = 2000;
         
-        private TestEntities CreateTestEntities(double? audioLength = default) 
-            => new TestEntities(x => x.NoLog().WithAudioLength(audioLength).WithSamplingRate(_samplingRate));
+        private TestEntities CreateTestEntities(double? audioLength = default, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().WithAudioLength(audioLength).WithSamplingRate(_samplingRate), name);
         
         double Coalesce(double? audioLength) => CoalesceAudioLength(audioLength);
 

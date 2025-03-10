@@ -17,6 +17,7 @@ using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -793,8 +794,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
  
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities(InterpolationTypeEnum? interpolation) 
-            => new TestEntities(x => x.NoLog().WithInterpolation(interpolation).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(InterpolationTypeEnum? interpolation, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().WithInterpolation(interpolation).SamplingRate(HighPerfHz), name);
         
         static object TestParametersWithEmpty => new [] // ncrunch: no coverage
         {

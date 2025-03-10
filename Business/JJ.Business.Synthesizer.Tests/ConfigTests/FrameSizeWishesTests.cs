@@ -17,6 +17,7 @@ using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
+using System.Runtime.CompilerServices;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 #pragma warning disable CS0611 
@@ -489,8 +490,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         // Test Data Helpers
         
-        private TestEntities CreateTestEntities((int frameSize, int? bits, int? channels) init) 
-            => new TestEntities(x => x.NoLog().WithBits(init.bits).WithChannels(init.channels).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities((int frameSize, int? bits, int? channels) init, [CallerMemberName] string name = null) 
+            => new TestEntities(x => x.NoLog().WithBits(init.bits).WithChannels(init.channels).SamplingRate(HighPerfHz), name);
                  
         private static readonly int [] _bitsValues = { 8, 16, 32 };
         private static readonly int?[] _bitsValuesWithEmpty = { null, 0, 8, 16, 32 };

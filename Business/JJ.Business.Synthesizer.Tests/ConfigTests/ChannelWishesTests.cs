@@ -18,6 +18,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Wishes.Testing;
 using JJ.Framework.Wishes.Common;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 
@@ -3920,17 +3921,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         // Test Data Helpers
 
-        private TestEntities CreateTestEntities((int? channels, int? channel) c)
-            => CreateTestEntities(c.channels, c.channel);
+        private TestEntities CreateTestEntities((int? channels, int? channel) c, [CallerMemberName] string name = null)
+            => CreateTestEntities(c.channels, c.channel, name);
 
-        private TestEntities CreateTestEntities((int? channels, int? channel)? c)
-            => CreateTestEntities(c?.channels, c?.channel);
+        private TestEntities CreateTestEntities((int? channels, int? channel)? c, [CallerMemberName] string name = null)
+            => CreateTestEntities(c?.channels, c?.channel, name);
             
-        private TestEntities CreateTestEntities(int? channels = null, int? channel = null)
+        private TestEntities CreateTestEntities(int? channels = null, int? channel = null, [CallerMemberName] string name = null)
             => new TestEntities(x => x.NoLog()
                                       .WithChannels(channels)
                                       .WithChannel(channel)
-                                      .WithSamplingRate(HighPerfHz));
+                                      .WithSamplingRate(HighPerfHz), name);
         
         // ncrunch: no coverage start
         
