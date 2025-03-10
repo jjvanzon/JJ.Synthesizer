@@ -505,14 +505,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             double audioLength = DefaultAudioLength;
             if (samplingRate > 100) audioLength = 0.001; // Tame audio length in case of larger sampling rates for performance.
-            return new TestEntities(x =>
+            return new TestEntities(name, x =>
             {
                 x.NoLog();
                 x.WithSamplingRate(samplingRate);
                 x.WithAudioLength(audioLength);
                 x.IsUnderNCrunch = true;
                 x.IsUnderAzurePipelines = false;
-            }, name);
+            });
         }
                 
         private int Coalesce(int? samplingRate) => CoalesceSamplingRate(samplingRate, defaultValue: 10);

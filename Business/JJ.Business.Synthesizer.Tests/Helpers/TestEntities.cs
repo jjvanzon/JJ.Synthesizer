@@ -163,6 +163,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         
         public TestEntities(Action<SynthWishes> initialize, IContext context, [CallerMemberName] string name = null)
             => Initialize(initialize, context, default, name);
+
+        // Name in Front
+        
+        public TestEntities(string name, Action<SynthWishes> initialize)
+            => Initialize(initialize, default, default, name);
+        
+        public TestEntities(string name, IContext context) 
+            => Initialize(default, context, default, name);
+        
+        public TestEntities(string name, Action<SynthWishes> initialize, IContext context)
+            => Initialize(initialize, context, default, name);
+        
+        // WithDisk
         
         public TestEntities(Action<SynthWishes> initialize, bool withDisk, [CallerMemberName] string name = null)
             => Initialize(initialize, default, withDisk, name);
@@ -173,6 +186,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public TestEntities(Action<SynthWishes> initialize, IContext context, bool withDisk, [CallerMemberName] string name = null)
             => Initialize(initialize, context, withDisk, name);
 
+        // WithDisk in Front
+        
         public TestEntities(bool withDisk, [CallerMemberName] string name = null)
             => Initialize(default, default, withDisk, name);
         

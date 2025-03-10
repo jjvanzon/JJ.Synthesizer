@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Infos;
@@ -16,7 +17,6 @@ using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Tests.ConfigTests
@@ -1021,7 +1021,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
          
         // Data Helpers
 
-        private TestEntities CreateTestEntities(int? sizeOfBitDepth) => new TestEntities(x => x.NoLog().SizeOfBitDepth(sizeOfBitDepth).SamplingRate(HighPerfHz));
+        private TestEntities CreateTestEntities(int? sizeOfBitDepth, [CallerMemberName] string name = "") 
+            => new TestEntities(x => x.NoLog().SizeOfBitDepth(sizeOfBitDepth).SamplingRate(HighPerfHz), name);
 
         // ncrunch: no coverage start
         

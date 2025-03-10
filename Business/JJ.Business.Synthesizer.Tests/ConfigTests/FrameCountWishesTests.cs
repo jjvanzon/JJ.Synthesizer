@@ -290,7 +290,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             test = test ?? new Case();
             
-            return new TestEntities(x =>
+            return new TestEntities(name, x =>
             {
                 // Stop tooling configurations for interfering.
                 x.IsUnderNCrunch = x.IsUnderAzurePipelines = false;
@@ -321,7 +321,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                         $"(This restriction can be relaxed by setting {nameof(Case.Strict)} = false in the test {nameof(Case)}.)");
                     // ncrunch: no coverage end
                 }
-            }, name);
+            });
         }
         
         [TestMethod]

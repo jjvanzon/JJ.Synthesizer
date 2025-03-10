@@ -3928,10 +3928,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             => CreateTestEntities(c?.channels, c?.channel, name);
             
         private TestEntities CreateTestEntities(int? channels = null, int? channel = null, [CallerMemberName] string name = null)
-            => new TestEntities(x => x.NoLog()
-                                      .WithChannels(channels)
-                                      .WithChannel(channel)
-                                      .WithSamplingRate(HighPerfHz), name);
+            => new TestEntities(name, x => x.NoLog()
+                                            .WithChannels(channels)
+                                            .WithChannel(channel)
+                                            .WithSamplingRate(HighPerfHz));
         
         // ncrunch: no coverage start
         

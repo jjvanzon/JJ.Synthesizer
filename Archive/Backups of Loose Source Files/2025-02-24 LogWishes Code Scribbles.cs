@@ -744,3 +744,9 @@ return ActionMessage("File", action, formattedFilePath, message);
             Logging.UpdateLogger(_config);
             return this;
         }
+
+
+        // Name and WithDisk in Front
+                
+        public TestEntities(string name, bool withDisk, Action<SynthWishes> initialize)
+            => Initialize(initialize, default, withDisk, name);
