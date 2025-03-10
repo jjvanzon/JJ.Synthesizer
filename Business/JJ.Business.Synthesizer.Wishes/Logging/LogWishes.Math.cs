@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using static System.String;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes.Logging

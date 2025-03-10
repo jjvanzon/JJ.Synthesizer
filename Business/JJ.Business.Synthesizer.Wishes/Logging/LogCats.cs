@@ -6,7 +6,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    internal static class LogCategories
+    public static class LogCats
     {
         public static readonly string MathBoost = MemberName();
         public static readonly string SynthLog = MemberName();
@@ -17,5 +17,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public static readonly string File = MemberName();
         public static readonly string Memory = MemberName();
         public static readonly string Misc = MemberName();
+        public static readonly string Operator = MemberName();
     }
 }

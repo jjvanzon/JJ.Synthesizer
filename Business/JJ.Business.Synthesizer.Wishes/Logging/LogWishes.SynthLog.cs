@@ -20,11 +20,11 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         // Pretty Calculation Graphs
 
         public void LogSynth(Tape tape, double? calculationDuration = null) 
-            => tape.Log(LogCategories.SynthLog, SynthLog(tape, calculationDuration));
+            => tape.Log(LogCats.SynthLog, SynthLog(tape, calculationDuration));
         
         public string SynthLog(Tape tape, double? calculationDuration = null)
         {
-            if (!_logger.WillLog(LogCategories.SynthLog)) return "";
+            if (!_logger.WillLog(LogCats.SynthLog)) return "";
 
             var lines = new List<string>();
 

@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using static System.Environment;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

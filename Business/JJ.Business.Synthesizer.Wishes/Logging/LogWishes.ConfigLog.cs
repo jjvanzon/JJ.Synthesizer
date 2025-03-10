@@ -21,8 +21,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     internal partial class LogWishes
     {
-        private void LogConfig      (string message) => Log      (LogCategories.Config, message);
-        private void LogConfigSpaced(string message) => LogSpaced(LogCategories.Config, message);
+        private void LogConfig      (string message) => Log      (LogCats.Config, message);
+        private void LogConfigSpaced(string message) => LogSpaced(LogCats.Config, message);
 
         public string ConfigLog(string title, string group1, string group2 = null, string group3 = null, string sep = null)
         {

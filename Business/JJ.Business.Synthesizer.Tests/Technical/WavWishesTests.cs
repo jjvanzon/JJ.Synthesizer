@@ -18,6 +18,7 @@ using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Testing;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Tests.docs;
+using JJ.Business.Synthesizer.Wishes.Logging;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 using static System.IO.File;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
@@ -25,6 +26,7 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Testing.AssertWishes;
@@ -122,7 +124,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         private TestEntities CreateEntities(Case test, bool wipeBuff = true, bool withDisk = false)
         {
-            var testEntities = new TestEntities(withDisk, x => x.NoLogCat("SynthLog").NoLogCat("TapeTree").NoLogCat("MathBoost")
+            var testEntities = new TestEntities(withDisk, x => x.NoLogCats(LogCats.SynthLog, LogCats.TapeTree, LogCats.MathBoost)
                                                                 .WithBits(test.Bits.Init)
                                                                 .WithChannels(test.Channels.Init)
                                                                 .WithSamplingRate(test.SamplingRate.Init)

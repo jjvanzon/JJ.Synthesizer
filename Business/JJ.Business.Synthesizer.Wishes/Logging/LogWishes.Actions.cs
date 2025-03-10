@@ -10,7 +10,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogCategories;
+using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal string ActionMessage(ConfigResolver entity, string     action, string name, int dummy = 0 ) => ActionMessage(entity,    action  , name, ""     );
         internal string ActionMessage(ConfigResolver entity, string     action, string name, string message)
         {
-            return ActionMessage(LogCategories.Config, action, name, message);
+            return ActionMessage(LogCats.Config, action, name, message);
         }
         
         internal string ActionMessage(ConfigSection  entity, ActionEnum action                             ) => ActionMessage(entity,    action  , ""  , ""     );
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         internal string ActionMessage(ConfigSection  entity, string     action, string name, int dummy = 0 ) => ActionMessage(entity,    action  , name, ""     );
         internal string ActionMessage(ConfigSection  entity, string     action, string name, string message)
         {
-            return ActionMessage(LogCategories.Config, action, name, message);
+            return ActionMessage(LogCats.Config, action, name, message);
         }
         
         public string ActionMessage(Tape            entity, ActionEnum action                 ) => ActionMessage(entity, $"{action}", ""     );
@@ -542,33 +542,33 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         // LogAction (On Entities)
         
-        public   FlowNode        LogAction(FlowNode        entity, ActionEnum action                 ) { LogActionBase<Operator>(ActionMessage(entity, action         )); return entity; }
-        public   FlowNode        LogAction(FlowNode        entity, ActionEnum action,  string message) { LogActionBase<Operator>(ActionMessage(entity, action, message)); return entity; }
-        public   FlowNode        LogAction(FlowNode        entity, string     action                 ) { LogActionBase<Operator>(ActionMessage(entity, action         )); return entity; }
-        public   FlowNode        LogAction(FlowNode        entity, string     message, int dummy = 0 ) { LogActionBase<Operator>(ActionMessage(entity, message, dummy )); return entity; }
-        public   FlowNode        LogAction(FlowNode        entity, string     action,  string message) { LogActionBase<Operator>(ActionMessage(entity, action, message)); return entity; }
+        public   FlowNode        LogAction(FlowNode        entity, ActionEnum action                 ) { LogActionBase(LogCats.Operator, ActionMessage(entity, action               )); return entity; }
+        public   FlowNode        LogAction(FlowNode        entity, ActionEnum action,  string message) { LogActionBase(LogCats.Operator, ActionMessage(entity, action, message      )); return entity; }
+        public   FlowNode        LogAction(FlowNode        entity, string     action                 ) { LogActionBase(LogCats.Operator, ActionMessage(entity, action               )); return entity; }
+        public   FlowNode        LogAction(FlowNode        entity, string     message, int dummy = 0 ) { LogActionBase(LogCats.Operator, ActionMessage(entity, message, dummy       )); return entity; }
+        public   FlowNode        LogAction(FlowNode        entity, string     action,  string message) { LogActionBase(LogCats.Operator, ActionMessage(entity, action, message      )); return entity; }
+                                 
+        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action                               ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action               )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action, string message               ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, message      )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action, string name, int    dummy = 0) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, ActionEnum action, string name, string message  ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, message)); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity                                                  ) { LogActionBase(LogCats.Config,   ActionMessage(entity                       )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, string     message                              ) { LogActionBase(LogCats.Config,   ActionMessage(entity, message              )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action, int    dummy = 0             ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, dummy        )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action, string message               ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, message      )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action, string name, int    dummy = 0) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigResolver  LogAction(ConfigResolver  entity, string     action, string name, string message  ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, message)); return entity; }
         
-        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action                             )    { LogActionBase(LogCategories.Config, ActionMessage(entity, action               )); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action, string message)                 { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action, string name, int    dummy = 0 ) { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, ActionEnum action, string name, string message)    { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity                                                ) { LogActionBase(LogCategories.Config, ActionMessage(entity                       )); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, string message)                                 { LogActionBase(LogCategories.Config, ActionMessage(entity, message)); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, string action, int    dummy = 0 )               { LogActionBase(LogCategories.Config, ActionMessage(entity, action, dummy  )); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, string action, string message)                  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, string action, string name, int    dummy = 0 )  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigResolver LogAction(ConfigResolver entity, string action, string name, string message)     { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
-        
-        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action                             )    { LogActionBase(LogCategories.Config, ActionMessage(entity, action               )); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action, string message)                 { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action, string name, int    dummy = 0 ) { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, ActionEnum action, string name, string message)    { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity                                                ) { LogActionBase(LogCategories.Config, ActionMessage(entity                       )); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, string message)                                 { LogActionBase(LogCategories.Config, ActionMessage(entity, message)); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, string action, int    dummy = 0 )               { LogActionBase(LogCategories.Config, ActionMessage(entity, action, dummy  )); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, string action, string message)                  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, message)); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, string action, string name, int    dummy = 0 )  { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, dummy  )); return entity; }
-        internal ConfigSection LogAction(ConfigSection entity, string action, string name, string message)     { LogActionBase(LogCategories.Config, ActionMessage(entity, action, name, message)); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action                               ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action               )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action, string message               ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, message      )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action, string name, int    dummy = 0) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, ActionEnum action, string name, string message  ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, message)); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity                                                  ) { LogActionBase(LogCats.Config,   ActionMessage(entity                       )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, string message                                  ) { LogActionBase(LogCats.Config,   ActionMessage(entity, message              )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, string action, int    dummy = 0                 ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, dummy        )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, string action, string message                   ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, message      )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, string action, string name, int    dummy = 0    ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, dummy  )); return entity; }
+        internal ConfigSection   LogAction(ConfigSection   entity, string action, string name, string message      ) { LogActionBase(LogCats.Config,   ActionMessage(entity, action, name, message)); return entity; }
 
         public   Tape            LogAction(Tape            entity, ActionEnum action                 ) { LogActionBase<Tape>(ActionMessage(entity, action         )); return entity; }
         public   Tape            LogAction(Tape            entity, ActionEnum action,  string message) { LogActionBase<Tape>(ActionMessage(entity, action, message)); return entity; }

@@ -6,7 +6,7 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
 {
-    internal static class LogActions
+    public static class LogActions
     {
         public static readonly string Start = MemberName();
         public static readonly string Stop = MemberName();
