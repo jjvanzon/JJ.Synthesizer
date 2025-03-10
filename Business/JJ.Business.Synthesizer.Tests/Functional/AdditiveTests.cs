@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithMono();
             WithBeatLength(0.4);
             WithBarLength(1.6);
+            AlsoLogCat("SynthLog");
         }
         
         /// <inheritdoc cref="_metallophone"/>
