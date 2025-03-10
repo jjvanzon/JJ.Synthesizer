@@ -750,3 +750,5 @@ return ActionMessage("File", action, formattedFilePath, message);
                 
         public TestEntities(string name, bool withDisk, Action<SynthWishes> initialize)
             => Initialize(initialize, default, withDisk, name);
+
+        // TODO: Blank line management missing from category-less log call.

@@ -30,46 +30,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             if (configResolver == null) throw new NullException(() => configResolver);
             Logger = CreateLogger(configResolver.LoggingConfig);
         }
-        
-        // NOTE: All the threading, locking and flushing helped
-        // Test Explorer in Visual Studio 2022
-        // avoid mangling blank lines, for the most part.
-        
-        private readonly object _logLock = new object();
-        private bool _blankLinePending;
 
         public void Log(string message = default) => Log(DefaultCategory, message);
-        public void Log(string category, string message)
-        {
-            if (!Logger.WillLog(category))
-            {
-                return;
-            }
-            
-            lock (_logLock)
-            {
-                message = message ?? "";
-               
-                if (!message.FilledIn())
-                {
-                    _blankLinePending = true;
-                    return;
-                }
-                
-                if (_blankLinePending)
-                {
-                    if (!message.StartsWithBlankLine())
-                    {
-                        message = NewLine + message;
-                    }
-                }
-
-                _blankLinePending = EndsWithBlankLine(message);
-
-                Logger.Log(category, message.TrimEnd());
-            }
-        }
-
+        public void Log(string category, string message) => Logger.Log(category, message);
+        
         public void LogSpaced(string message) => LogSpaced(DefaultCategory, message);
         public void LogSpaced(string category, string message) 
         {
