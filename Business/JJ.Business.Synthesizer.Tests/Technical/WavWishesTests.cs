@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         private TestEntities CreateModifiedEntities(Case test, bool wipeBuff = true, bool withDisk = false, [CallerMemberName] string name = null)
         {
-            var testEntities = new TestEntities(withDisk, x => x.DontLogCat("SynthLog").DontLogCat("TapeTree").DontLogCat("MathBoost")
+            var testEntities = new TestEntities(withDisk, x => x.DontLogCats("SynthLog", "TapeTree", "MathBoost")
                                                                 .WithBits(test.Bits.To)
                                                                 .WithChannels(test.Channels.To)
                                                                 .WithSamplingRate(test.SamplingRate.To)
