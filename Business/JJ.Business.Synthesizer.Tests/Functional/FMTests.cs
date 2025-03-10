@@ -33,6 +33,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             WithMono();
             WithBeatLength(0.45);
             WithBarLength(4 * 0.45);
+            AlsoLogCat("SynthLog");
+            
             _chordFreqs = CreateChordFreqs();
         }
 
