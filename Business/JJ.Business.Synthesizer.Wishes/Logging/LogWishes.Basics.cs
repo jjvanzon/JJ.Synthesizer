@@ -31,16 +31,17 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             Logger = CreateLogger(configResolver.LoggingConfig);
         }
 
-        public void Log(string message = "", bool stamp = true) => Log(DefaultCategory, message, stamp);
-        public void Log(string category, string message, bool stamp = true) => Logger.Log(category, message, stamp);
+        public void Log   (                 string message = "") => Logger.Log   (DefaultCategory, message);
+        public void LogRaw(                 string message = "") => Logger.LogRaw(DefaultCategory, message);
+        public void Log   (string category, string message     ) => Logger.Log   (category, message);
+        public void LogRaw(string category, string message     ) => Logger.LogRaw(category, message);
         
         public void LogSpaced(string message) => LogSpaced(DefaultCategory, message);
         public void LogSpaced(string category, string message) 
         {
-            bool noStamp = false;
-            Log(category, ""     , noStamp);
-            Log(category, message, noStamp);
-            Log(category, ""     , noStamp);
+            LogRaw(category, ""     );
+            LogRaw(category, message);
+            LogRaw(category, ""     );
         }
 
         public void LogTitle(string title) => LogTitle(DefaultCategory, title);
