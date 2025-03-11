@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     internal partial class LogWishes
     {
-        private void LogMath     (string message) => Log     (MathBoost, message);
-        private void LogMathTitle(string message) => LogTitle(MathBoost, message);
+        private void LogMath     (string message) => Log(LogCats.Math, message);
+        private void LogMathTitle(string message) => LogTitle(LogCats.Math, message);
         
         internal void LogMathBoostTitle(bool mathBoost)
         {
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         private string Stringify(FlowNode operand)
         {
-            if (!Logger.WillLog(MathBoost))
+            if (!Logger.WillLog(LogCats.Math))
             {
                 return "";
             }

@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static class LogCats
     {
-        public static readonly string MathBoost = MemberName();
+        public static readonly string Math      = MemberName();
         public static readonly string SynthLog  = MemberName();
         public static readonly string TapeTree  = MemberName();
         public static readonly string Config    = MemberName();
