@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         // Pretty Calculation Graphs
 
         public void LogSynth(Tape tape, double? calculationDuration = null) 
-            => tape.Log(LogCats.SynthLog, SynthLog(tape, calculationDuration));
+            => tape.LogSpaced(LogCats.SynthLog, SynthLog(tape, calculationDuration));
         
         public string SynthLog(Tape tape, double? calculationDuration = null)
         {
@@ -32,7 +32,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             
             if (tape == null)
             {
-                lines.Add("");
                 lines.Add(PrettyTitle("Record"));
                 lines.Add("⚠ No Tape!");
                 return Join(NewLine, lines);
@@ -40,7 +39,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
             // Title
             
-            lines.Add("");
             lines.Add(PrettyTitle("Record: " + tape.Descriptor()));
             
             // Properties

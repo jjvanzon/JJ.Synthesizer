@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
     {
         public void LogTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
-            Log(TapeTree, GetTapeTree(tapes, includeCalculationGraphs));
+            LogSpaced(TapeTree, GetTapeTree(tapes, includeCalculationGraphs));
         }
         
         public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
@@ -30,7 +30,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         
         private void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentation_Adapted sb, bool includeCalculationGraphs)
         {
-            sb.AppendLine();
             sb.AppendLine(PrettyTitle("Tape Tree"));
             sb.AppendLine();
             
