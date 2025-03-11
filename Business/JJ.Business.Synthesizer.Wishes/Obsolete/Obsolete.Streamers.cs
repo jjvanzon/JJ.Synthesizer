@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 return;
             }
             
-            synthWishes.Log($"{PrettyTime()} Pad: {leadingSilence} s before | {trailingSilence} s after");
+            synthWishes.Log($"Pad: {leadingSilence} s before | {trailingSilence} s after");
             
             FlowNode originalAudioLength = synthWishes.GetAudioLength;
             
@@ -280,8 +280,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             FlowNode newAudioLength = synthWishes.GetAudioLength;
             
             synthWishes.Log(
-                $"{PrettyTime()} Pad: AudioLength = {originalAudioLength} + " +
-                $"{leadingSilence} + {trailingSilence} = {newAudioLength}");
+                $"Pad: AudioLength = {originalAudioLength} + {leadingSilence} + {trailingSilence} = {newAudioLength}");
 
             for (int i = 0; i < channelSignals.Count; i++)
             {
@@ -303,7 +302,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             }
             else
             {
-                synthWishes.Log($"{PrettyTime()} Pad: Channel Delay + {leadingSilence} s");
+                synthWishes.Log($"Pad: Channel Delay + {leadingSilence} s");
                 return synthWishes.Delay(outlet, leadingSilence);
             }
         }

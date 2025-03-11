@@ -9,6 +9,7 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using static System.IO.File;
+using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Framework.Wishes.Common.FilledInWishes;
@@ -139,31 +140,36 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string ActionMessage(string typeName,      object action,              string message) => ActionMessage(typeName,        action, ""  , message);
         public string ActionMessage(string typeName,      object action, string name, string message)
         {
-            string text = PrettyTime();
+            var elements = new List<string>(10);
+            //string text = PrettyTime();
                 
-            if (Has(typeName))
-            {
-                text += " [" + typeName.ToUpper() + "]";
-            }
+            //if (Has(typeName))
+            //{
+            //    text += " [" + typeName.ToUpper() + "]";
+            //}
             
             if (Has(action))
             {
-                text += " " + action;
+                elements.Add($"{action}");
             }
             
             if (Has(name))
             {
-                if (!text.EndsWithPunctuation()) text += ":";
-                text += " " + '"' + name + '"';
+                if (!elements.Last().EndsWithPunctuation()) elements.Add(":");
+                elements.Add(@" ");
+                elements.Add(@"""");
+                elements.Add(name);
+                elements.Add(@"""");
             }
             
             if (Has(message))
             {
-                if (!text.EndsWithPunctuation()) text += ":";
-                text += " " + message;
+                if (!elements.Last().EndsWithPunctuation()) elements.Add(":");
+                elements.Add(" ");
+                elements.Add(message);
             }
-            
-            return text;
+
+            return Join("", elements);
         }
 
         // Memory Message (On Simple Types)

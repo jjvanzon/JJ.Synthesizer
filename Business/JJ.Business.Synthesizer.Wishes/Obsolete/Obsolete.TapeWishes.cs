@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             // Save to files
             Parallel.For(0, termCount, i =>
             {
-                synthWishes.Log($"{PrettyTime()} Start Task: {displayNames[i]}");
+                synthWishes.Log($"Start Task: {displayNames[i]}");
                 
                 // Get outlets first
                 var channelSignals = new FlowNode[channels];
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
                 // Generate audio
                 recordedBuffs[i] = synthWishes.Record(channelSignals, synthWishes.GetAudioLength, names[i]);
                 
-                synthWishes.Log($"{PrettyTime()} End Task: {displayNames[i]}");
+                synthWishes.Log($"End Task: {displayNames[i]}");
             });
             
             // Moved this out of the parallel loop,
@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
             double calculationDuration = stopWatch.Elapsed.TotalSeconds;
             int complexity = recordedBuffs.Sum(x => x.Complexity());
             string formattedMetrics = synthWishes.FormatMetrics(audioDuration, calculationDuration, complexity);
-            string message = $"{PrettyTime()} Totals {name} Terms: {formattedMetrics}";
+            string message = $"Totals {name} Terms: {formattedMetrics}";
             synthWishes.Log(message);
             
             return synthWishes.Add(reloadedSamples);
