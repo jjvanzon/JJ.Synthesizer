@@ -12,7 +12,7 @@ using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.Logging.LoggingFactory;
+using static JJ.Framework.Wishes.Logging.LoggerFactory;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging
