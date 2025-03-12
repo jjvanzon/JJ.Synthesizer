@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Common;
 using JJ.Framework.Wishes.Logging.Loggers;
-using JJ.Framework.Wishes.Text;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
-using static JJ.Framework.Wishes.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Wishes.Logging.LoggerFactory;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
@@ -33,21 +29,21 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 
         public void Log   (                 string message = "") => Logger.Log   (DefaultCategory, message);
         public void LogRaw(                 string message = "") => Logger.LogRaw(DefaultCategory, message);
-        public void Log   (string category, string message     ) => Logger.Log   (category, message);
-        public void LogRaw(string category, string message     ) => Logger.LogRaw(category, message);
+        public void Log   (string category, string message     ) => Logger.Log   (       category, message);
+        public void LogRaw(string category, string message     ) => Logger.LogRaw(       category, message);
         
-        public void LogSpaced(string message) => LogSpaced(DefaultCategory, message);
+        public void LogSpaced(                 string message) => LogSpaced(DefaultCategory, message);
         public void LogSpaced(string category, string message) 
         {
-            LogRaw(category, ""     );
-            LogRaw(category, message);
-            LogRaw(category, ""     );
+            Logger.LogRaw(category, ""     );
+            Logger.LogRaw(category, message);
+            Logger.LogRaw(category, ""     );
         }
 
-        public void LogTitle(string title) => LogTitle(DefaultCategory, title);
+        public void LogTitle(                 string title) => LogTitle(DefaultCategory, title);
         public void LogTitle(string category, string title) => LogSpaced(category, PrettyTitle(title));
         
-        public void LogTitleStrong(string title) => LogTitleStrong(DefaultCategory, title);
+        public void LogTitleStrong(                 string title) => LogTitleStrong(DefaultCategory, title);
         public void LogTitleStrong(string category, string title)
         {
             string upperCase = (title ?? "").ToUpper();

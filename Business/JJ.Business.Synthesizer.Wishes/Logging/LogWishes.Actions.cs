@@ -141,12 +141,6 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string ActionMessage(string typeName,      object action, string name, string message)
         {
             var elements = new List<string>(10);
-            //string text = PrettyTime();
-                
-            //if (Has(typeName))
-            //{
-            //    text += " [" + typeName.ToUpper() + "]";
-            //}
             
             if (Has(action))
             {
