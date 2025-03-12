@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public void UpdateLogger(ConfigResolver configResolver)
         {
             if (configResolver == null) throw new NullException(() => configResolver);
-            Logger = CreateLogger(configResolver.LoggingConfig);
+            Logger = CreateLogger(configResolver.LoggerConfig);
         }
 
         public void Log   (                 string message = "") => Logger.Log   (DefaultCategory, message);

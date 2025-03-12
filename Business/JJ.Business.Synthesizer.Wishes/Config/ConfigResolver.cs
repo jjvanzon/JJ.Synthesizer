@@ -32,36 +32,36 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
 
-        public ConfigResolver() => LoggingConfig = NewLoggingConfig();
+        public ConfigResolver() => LoggerConfig = NewLoggerConfig();
         
         public ConfigResolver Clone() => (ConfigResolver)MemberwiseClone();
         
         // Logging Config
         
-        public RootLoggingConfig LoggingConfig { get; }
+        public RootLoggerConfig LoggerConfig { get; }
                 
-        private RootLoggingConfig NewLoggingConfig()
+        private RootLoggerConfig NewLoggerConfig()
         { 
-            RootLoggingConfig config = null;
+            RootLoggerConfig config = null;
             
             if (IsUnderNCrunch) 
             {
-                config = LoggingConfigFetcher.CreateLoggingConfig(_section.NCrunch.Logging);
+                config = LoggerConfigFetcher.CreateLoggerConfig(_section.NCrunch.Logging);
             }
             else if (IsUnderAzurePipelines)
             {
-                config = LoggingConfigFetcher.CreateLoggingConfig(_section.AzurePipelines.Logging);
+                config = LoggerConfigFetcher.CreateLoggerConfig(_section.AzurePipelines.Logging);
             }
             
             if (config == null)
             {
-                config = LoggingConfigFetcher.CreateLoggingConfig(_section.Logging);
+                config = LoggerConfigFetcher.CreateLoggerConfig(_section.Logging);
             }
             
             return config;
         }
 
-        public ConfigResolver SetLogActive(bool value){ LoggingConfig.Active = value; return this; }
+        public ConfigResolver SetLogActive(bool value){ LoggerConfig.Active = value; return this; }
         public ConfigResolver WithLog() => SetLogActive(true);
         public ConfigResolver NoLog() => SetLogActive(false);
         
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             if (categories == null) throw new NullException(() => categories);
             
-            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            foreach (LoggerConfig loggerConfig in LoggerConfig.Loggers)
             {
                 loggerConfig.Categories = categories.ToList();
                 // Remove from exclusions
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
             
-            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            foreach (LoggerConfig loggerConfig in LoggerConfig.Loggers)
             {
                 if (!loggerConfig.Categories.Any(x => x.Is(category)))
                 {
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         {
             if (!Has(category)) throw new Exception($"{nameof(category)} not supplied.");
             
-            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            foreach (LoggerConfig loggerConfig in LoggerConfig.Loggers)
             {
                 loggerConfig.Categories         = loggerConfig.Categories        .Except(x => x.Is(category)).ToList();
                 loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.Is(category)).ToList();
@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
 
         public ConfigResolver ClearLogCats()
         {
-            foreach (LoggerConfig loggerConfig in LoggingConfig.Loggers)
+            foreach (LoggerConfig loggerConfig in LoggerConfig.Loggers)
             {
                 loggerConfig.Categories         = new List<string>();
                 loggerConfig.ExcludedCategories = new List<string>();
