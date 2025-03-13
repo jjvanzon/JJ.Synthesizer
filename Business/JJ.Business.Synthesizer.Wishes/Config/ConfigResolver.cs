@@ -6,6 +6,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Framework.Wishes.Common;
@@ -61,9 +62,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             return config;
         }
 
-        public ConfigResolver SetLogActive(bool value){ LoggerConfig.Active = value; return this; }
         public ConfigResolver WithLog() => SetLogActive(true);
         public ConfigResolver NoLog() => SetLogActive(false);
+        public ConfigResolver SetLogActive(bool value)
+        {
+            LoggerConfig.Loggers.ForEach(x => x.Active = value);
+            return this;
+        }
         
         public ConfigResolver OnlyLogCats(params string[] categories) => OnlyLogCats((IList<string>)categories);
         public ConfigResolver OnlyLogCats(IList<string> categories)
