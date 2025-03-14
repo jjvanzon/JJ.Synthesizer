@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static JJ.Framework.Wishes.Text.StringWishes;
+using static JJ.Framework.Core.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 // ReSharper disable UnusedMember.Local

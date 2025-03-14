@@ -1,11 +1,11 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using JJ.Framework.Core.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors

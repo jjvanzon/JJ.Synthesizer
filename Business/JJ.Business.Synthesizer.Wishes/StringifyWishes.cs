@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Text;
 using JJ.Framework.Common;
-using JJ.Framework.Wishes.Text;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.OperandWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Framework.Core.Text;
 using static System.Environment;
 using static System.String;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes

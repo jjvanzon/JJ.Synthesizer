@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using JJ.Framework.Wishes.Logging;
-using JJ.Framework.Wishes.Logging.Config;
-using JJ.Framework.Wishes.Logging.Mappers;
+using JJ.Framework.Core.Logging.Mappers;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {

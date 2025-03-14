@@ -9,18 +9,18 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Wishes.Testing;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Framework.Wishes.Testing.AssertHelper_Copied;
-using static JJ.Framework.Wishes.Testing.AssertWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Core.Testing.AssertHelper_Copied;
+using static JJ.Framework.Core.Testing.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Wishes.Testing.DeltaDirectionEnum;
+using static JJ.Framework.Core.Testing.DeltaDirectionEnum;
 using System.Runtime.CompilerServices;
+using JJ.Framework.Core.Testing;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 #pragma warning disable CS0611

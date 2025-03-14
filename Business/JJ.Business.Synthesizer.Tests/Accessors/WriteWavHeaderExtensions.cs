@@ -6,7 +6,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Wishes.Reflection;
+using JJ.Framework.Core.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {

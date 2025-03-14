@@ -11,7 +11,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteEnumWishesMessages;
 // ReSharper disable UnusedParameter.Global
 

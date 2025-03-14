@@ -15,7 +15,6 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Testing;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Tests.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
@@ -26,9 +25,10 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Framework.Wishes.Testing.AssertWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Core.Testing.AssertWishes;
 using System.Runtime.CompilerServices;
+using JJ.Framework.Core.Testing;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer

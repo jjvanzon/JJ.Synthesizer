@@ -6,8 +6,8 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Framework.Wishes.Collections;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Framework.Core.Collections;
 
 // ReSharper disable ParameterHidesMember
 

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Logging.Loggers;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
+using JJ.Framework.Core.Logging.Loggers;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.Logging.LoggerFactory;
+using static JJ.Framework.Core.Logging.LoggerFactory;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging

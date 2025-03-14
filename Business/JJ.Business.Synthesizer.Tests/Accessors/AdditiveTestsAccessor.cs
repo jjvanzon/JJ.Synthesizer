@@ -2,8 +2,8 @@
 using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Reflection;
 using JJ.Business.Synthesizer.Tests.docs;
+using JJ.Framework.Core.Reflection;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

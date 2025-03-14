@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Wishes.Collections;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
+using JJ.Framework.Core.Collections;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers

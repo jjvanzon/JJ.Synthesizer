@@ -15,8 +15,8 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Framework.Wishes.IO.FileWishes;
-using static JJ.Framework.Wishes.Text.StringWishes;
+using static JJ.Framework.Core.IO.FileWishes;
+using static JJ.Framework.Core.Text.StringWishes;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard

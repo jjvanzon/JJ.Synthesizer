@@ -7,19 +7,19 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
+using JJ.Framework.Core.Collections;
+using JJ.Framework.Core.Common;
+using JJ.Framework.Core.Logging.Config;
+using JJ.Framework.Core.Reflection;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Common;
-using JJ.Framework.Wishes.Collections;
-using JJ.Framework.Wishes.Reflection;
-using JJ.Framework.Wishes.Logging.Config;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Wishes.Common.EnvironmentHelperWishes;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Framework.Wishes.Configuration.ConfigurationManagerWishes;
-using static JJ.Framework.Wishes.Testing.TestWishes;
+using static JJ.Framework.Core.Common.EnvironmentHelperWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Core.Configuration.ConfigurationManagerWishes;
+using static JJ.Framework.Core.Testing.TestWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             {
                 loggerConfig.Categories = categories.ToList();
                 // Remove from exclusions
-                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => x.In(categories)).ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => FilledInExtensionWishes.In((string)x, categories)).ToList();
             }
             
             return this;

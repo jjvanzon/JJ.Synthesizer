@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.docs;
-using JJ.Framework.Wishes.Logging.Mappers;
+using JJ.Framework.Core.Logging.Mappers;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {

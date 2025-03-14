@@ -3,8 +3,8 @@ using System.Reflection;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Framework.Core.Reflection;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {

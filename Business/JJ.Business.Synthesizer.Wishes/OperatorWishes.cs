@@ -4,11 +4,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Wishes.NoteWishes;
-using JJ.Framework.Wishes.Collections;
 using JJ.Framework.Mathematics;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Framework.Core.Collections;
 
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember

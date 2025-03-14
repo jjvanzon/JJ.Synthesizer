@@ -12,7 +12,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using JJ.Framework.Persistence;

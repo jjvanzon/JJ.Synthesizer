@@ -1,8 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Reflection;
 using System;
 using System.Reflection;
+using JJ.Framework.Core.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Framework.Wishes.Text;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Reflection;
@@ -12,8 +11,8 @@ using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Framework.Wishes.Text.StringWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Core.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
 // ReSharper disable UnusedParameter.Global

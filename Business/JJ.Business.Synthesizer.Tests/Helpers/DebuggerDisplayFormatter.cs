@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Tests.ConfigTests;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Wishes.Common;
+using JJ.Framework.Core.Common;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

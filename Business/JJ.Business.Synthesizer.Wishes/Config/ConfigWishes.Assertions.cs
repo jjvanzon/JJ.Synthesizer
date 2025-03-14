@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Wishes.Common;
+using JJ.Framework.Core.Common;
 using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
-using static JJ.Framework.Wishes.Text.StringWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Core.Text.StringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {

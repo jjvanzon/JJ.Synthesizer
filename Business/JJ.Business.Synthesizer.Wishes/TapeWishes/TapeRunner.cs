@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using static JJ.Framework.Wishes.Text.StringWishes;
+using static JJ.Framework.Core.Text.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;

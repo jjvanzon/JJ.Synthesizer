@@ -6,8 +6,8 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
+using JJ.Framework.Core.Reflection;
 using JJ.Framework.Reflection;
-using JJ.Framework.Wishes.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 

@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.docs;
-using static JJ.Framework.Wishes.Common.FilledInWishes;
+using static JJ.Framework.Core.Common.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.WrappersObsoleteMessages;
 
 // ReSharper disable NotResolvedInText

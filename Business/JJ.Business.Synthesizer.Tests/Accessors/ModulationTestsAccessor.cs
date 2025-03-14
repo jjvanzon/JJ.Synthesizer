@@ -1,8 +1,8 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Wishes.Reflection;
 using JJ.Business.Synthesizer.Tests.docs;
+using JJ.Framework.Core.Reflection;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors

@@ -9,18 +9,18 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
-using JJ.Framework.Wishes.Text;
+using JJ.Framework.Core.Text;
 using static System.Environment;
 using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Framework.Wishes.Testing.AssertWishes;
+using static JJ.Framework.Core.Testing.AssertWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Wishes.IO.FileWishes;
+using static JJ.Framework.Core.IO.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.SaveLegacyStatics;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalse

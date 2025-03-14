@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Framework.Wishes.Common;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Framework.Core.Common;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
