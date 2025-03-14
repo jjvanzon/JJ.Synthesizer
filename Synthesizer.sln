@@ -71,9 +71,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Wishes", "Business\JJ.Business.Synthesizer.Wishes\JJ.Business.Synthesizer.Wishes.csproj", "{07AF4F12-BA9A-4673-A813-30EC8E4DB296}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Wishes", "JJ.Framework\Framework\JJ.Framework.Wishes\JJ.Framework.Wishes.csproj", "{8E47C2F1-0DBB-4FA2-A734-13A6AD9BE0B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Core", "JJ.Framework\Framework\JJ.Framework.Core\JJ.Framework.Core.csproj", "{8E47C2F1-0DBB-4FA2-A734-13A6AD9BE0B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Wishes.Tests", "JJ.Framework\Framework\JJ.Framework.Wishes.Tests\JJ.Framework.Wishes.Tests.csproj", "{45A283B6-5C98-479D-BA08-EC1776A94782}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Core.Tests", "JJ.Framework\Framework\JJ.Framework.Core.Tests\JJ.Framework.Core.Tests.csproj", "{45A283B6-5C98-479D-BA08-EC1776A94782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
