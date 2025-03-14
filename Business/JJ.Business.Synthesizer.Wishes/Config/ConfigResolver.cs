@@ -48,10 +48,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (IsUnderNCrunch) 
             {
                 config = LoggerConfigFetcher.CreateLoggerConfig(_section.NCrunch.Logging);
+                // TODO: Finish cascading the multiple configuration layers.
+                //config = LoggerConfigFetcher.CreateLoggerConfig(_section.NCrunch.Logging, _section.Logging);
             }
             else if (IsUnderAzurePipelines)
             {
                 config = LoggerConfigFetcher.CreateLoggerConfig(_section.AzurePipelines.Logging);
+                // TODO: Finish cascading the multiple configuration layers.
+                //config = LoggerConfigFetcher.CreateLoggerConfig(_section.AzurePipelines.Logging, _section.Logging);
             }
             
             if (config == null)
