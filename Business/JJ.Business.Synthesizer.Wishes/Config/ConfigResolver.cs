@@ -16,7 +16,7 @@ using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Core.Common.EnvironmentHelperWishes;
+using static JJ.Framework.Common.Core.EnvironmentHelper;
 using static JJ.Framework.Core.Common.FilledInWishes;
 using static JJ.Framework.Core.Configuration.ConfigurationManagerWishes;
 using static JJ.Framework.Core.Testing.TestWishes;
