@@ -89,6 +89,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Cor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.IO.Core", "JJ.Framework\Framework\JJ.Framework.IO.Core\JJ.Framework.IO.Core.csproj", "{7F639943-9815-45B9-ADFA-F0EA8B7791DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Configuration.Core", "JJ.Framework\Framework\JJ.Framework.Configuration.Core\JJ.Framework.Configuration.Core.csproj", "{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -624,6 +626,24 @@ Global
 		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|x64.Build.0 = Release|Any CPU
 		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|x86.ActiveCfg = Release|Any CPU
 		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|x86.Build.0 = Release|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Debug|x64.Build.0 = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Debug|x86.Build.0 = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Release|x64.ActiveCfg = Release|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Release|x64.Build.0 = Release|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Release|x86.ActiveCfg = Release|Any CPU
+		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

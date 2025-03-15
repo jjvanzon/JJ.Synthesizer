@@ -159,6 +159,10 @@
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration.Core\JJ.Framework.Configuration.Core.csproj">
+      <Project>{1aecf8a1-dc97-40bd-9dbc-31b4c14956fb}</Project>
+      <Name>JJ.Framework.Configuration.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj">
       <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
       <Name>JJ.Framework.Configuration</Name>

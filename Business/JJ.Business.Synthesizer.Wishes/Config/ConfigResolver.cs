@@ -18,7 +18,7 @@ using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Common.Core.EnvironmentHelper;
 using static JJ.Framework.Nully.Core.FilledInWishes;
-using static JJ.Framework.Core.Configuration.ConfigurationManagerWishes;
+using static JJ.Framework.Configuration.Core.ConfigurationManagerWishes;
 using static JJ.Framework.Core.Testing.TestWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
