@@ -11,7 +11,7 @@ using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 using static JJ.Framework.Text.Core.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;

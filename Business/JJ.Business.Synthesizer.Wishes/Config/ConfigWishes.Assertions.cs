@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Nully.Core;
+using JJ.Framework.Existence.Core;
 using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 using static JJ.Framework.Text.Core.StringWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config

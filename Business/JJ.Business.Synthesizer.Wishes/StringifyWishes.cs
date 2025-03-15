@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Text.Core;
 using static System.Environment;
 using static System.String;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes

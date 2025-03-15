@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.docs;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 // ReSharper disable ArrangeStaticMemberQualifier
 
 namespace JJ.Business.Synthesizer.Wishes.Config

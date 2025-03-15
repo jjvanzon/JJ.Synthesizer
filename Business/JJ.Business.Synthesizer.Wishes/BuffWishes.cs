@@ -24,7 +24,7 @@ using static JJ.Framework.IO.Core.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ParameterHidesMember

@@ -9,7 +9,7 @@ using JJ.Persistence.Synthesizer;
 using static System.Math;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes

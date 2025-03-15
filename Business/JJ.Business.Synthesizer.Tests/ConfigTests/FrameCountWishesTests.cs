@@ -14,7 +14,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 using static JJ.Framework.Testing.Core.AssertHelper_Copied;
 using static JJ.Framework.Testing.Core.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;

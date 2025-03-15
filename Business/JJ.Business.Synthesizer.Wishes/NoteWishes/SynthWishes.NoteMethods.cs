@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Wishes.docs;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable once CheckNamespace

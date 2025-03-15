@@ -8,7 +8,7 @@ using JJ.Persistence.Synthesizer;
 using static System.Environment;
 using static System.IO.File;
 using static System.String;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 

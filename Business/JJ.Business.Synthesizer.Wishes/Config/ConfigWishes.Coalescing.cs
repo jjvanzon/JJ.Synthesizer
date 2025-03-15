@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Nully.Core;
-using static JJ.Framework.Nully.Core.FilledInWishes;
+using JJ.Framework.Existence.Core;
+using static JJ.Framework.Existence.Core.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
