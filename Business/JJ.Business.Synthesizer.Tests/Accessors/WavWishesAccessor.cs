@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Core.Reflection;
+using JJ.Framework.Reflection.Core;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {

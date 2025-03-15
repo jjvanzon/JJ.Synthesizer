@@ -4,8 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Core.Reflection;
 using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Core;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {

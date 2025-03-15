@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Core.Reflection;
 using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Core;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

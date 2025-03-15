@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Framework.Core.Reflection;
 using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Core;
 using JJ.Persistence.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
