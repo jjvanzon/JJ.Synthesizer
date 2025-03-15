@@ -1,51 +1,18 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{07AF4F12-BA9A-4673-A813-30EC8E4DB296}</ProjectGuid>
+    <TargetFramework>net9.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JJ.Business.Synthesizer.Wishes</RootNamespace>
-    <AssemblyName>JJ.Business.Synthesizer.Wishes</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Configurations>Debug;NPDebug;Release</Configurations>
+    <AssemblyTitle>JJ.Business.Synthesizer.Wishes</AssemblyTitle>
+    <Product>JJ.Business.Synthesizer.Wishes</Product>
+    <Copyright>Copyright © JJ van Zon 2024</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <NoWarn>CS0618,IDE0002</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=4242.42.42.42, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JetBrains.Annotations.2024.3.0\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
       <ItemGroup>
@@ -55,206 +22,37 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Logging\LogActions.cs" />
-    <Compile Include="Logging\LogCats.cs" />
-    <Compile Include="Logging\LogWishes.SynthWishes.cs" />
-    <Compile Include="NoteWishes\BarIndexer.cs" />
-    <Compile Include="NoteWishes\BarsIndexer.cs" />
-    <Compile Include="NoteWishes\BeatIndexer.cs" />
-    <Compile Include="NoteWishes\BeatsIndexer.cs" />
-    <Compile Include="Config\ChannelChannelsComboNightmares.cs" />
-    <Compile Include="Config\ConfigResolver.cs" />
-    <Compile Include="Config\ConfigSection.cs" />
-    <Compile Include="Config\ConfigToolingElement.cs" />
-    <Compile Include="Config\ConfigWishes.Assertions.cs" />
-    <Compile Include="Config\ConfigWishes.Coalescing.cs" />
-    <Compile Include="Config\ConfigWishes.FlowNode.cs" />
-    <Compile Include="Config\ConfigWishes.SynthWishes.cs" />
-    <Compile Include="Config\FrameCountWishes.cs" />
-    <Compile Include="Config\AudioLengthWishes.cs" />
-    <Compile Include="Config\CourtesyByteWishes.cs" />
-    <Compile Include="Config\HeaderLengthWishes.cs" />
-    <Compile Include="Config\FileExtensionWishes.cs" />
-    <Compile Include="Config\MaxAmplitudeWishes.cs" />
-    <Compile Include="Config\FrameSizeWishes.cs" />
-    <Compile Include="Config\SizeOfBitDepthWishes.cs" />
-    <Compile Include="Config\CourtesyFrameWishes.cs" />
-    <Compile Include="Config\InterpolationWishes.cs" />
-    <Compile Include="Config\AudioFormatWishes.cs" />
-    <Compile Include="Config\SamplingRateWishes.cs" />
-    <Compile Include="Config\AudioInfoWish.cs" />
-    <Compile Include="Config\ChannelWishes.cs" />
-    <Compile Include="Config\ChannelsWishes.cs" />
-    <Compile Include="Config\BitWishes.cs" />
-    <Compile Include="Config\ByteCountWishes.cs" />
-    <Compile Include="Helpers\FilledInExtensions.cs" />
-    <Compile Include="Helpers\FilledInHelper.cs" />
-    <Compile Include="Logging\LogWishes.Basics.cs" />
-    <Compile Include="Logging\LogWishes.ConfigLog.cs" />
-    <Compile Include="Logging\LogWishes.Descriptors.cs" />
-    <Compile Include="NoteWishes\Notes.cs" />
-    <Compile Include="NoteWishes\SynthWishes.NoteMethods.cs" />
-    <Compile Include="Obsolete\Obsolete.CalculationWishes.cs" />
-    <Compile Include="Obsolete\Obsolete.LogWishes.cs" />
-    <Compile Include="Obsolete\Obsolete.Streamers.cs" />
-    <Compile Include="OperandWishes\FluentOperandList.cs" />
-    <Compile Include="OperandWishes\OperandExtensionWishes.cs" />
-    <Compile Include="OperandWishes\OperandList.cs" />
-    <Compile Include="RecordWishes.cs" />
-    <Compile Include="InterceptWishes.cs" />
-    <Compile Include="CalculationWishes.cs" />
-    <Compile Include="CommandWishes.cs" />
-    <Compile Include="FlowNode.cs" />
-    <Compile Include="Helpers\CloneWishes.cs" />
-    <Compile Include="TapeWishes\TapeTreeBuilder.cs" />
-    <Compile Include="TapeWishes\TapePadder.cs" />
-    <Compile Include="TapeWishes\TapeRunner.cs" />
-    <Compile Include="TapeWishes\TapeCollection.cs" />
-    <Compile Include="TapeWishes\Tape.cs" />
-    <Compile Include="TapeWishes\StereoTapeMatcher.cs" />
-    <Compile Include="TapeWishes\StereoTapeRecombiner.cs" />
-    <Compile Include="TapeWishes\ActionRunners.cs" />
-    <Compile Include="Obsolete\Obsolete.TapeWishes.cs" />
-    <Compile Include="Obsolete\Obsolete.AudioFileOutputChannelExtensions.cs" />
-    <Compile Include="EnumWishes.cs" />
-    <Compile Include="Helpers\AudioFileOutputCalculatorAccessor.cs" />
-    <Compile Include="Helpers\DebuggerDisplayFormatter.cs" />
-    <Compile Include="Obsolete\Obsolete.EnumWishes.cs" />
-    <Compile Include="Obsolete\Obsolete.InletWishes.cs" />
-    <Compile Include="IsWishes.cs" />
-    <Compile Include="NameWishes.cs" />
-    <Compile Include="OperandWishes\FlowNode.Operands.cs" />
-    <Compile Include="NoteWishes\TimeIndexer.cs" />
-    <Compile Include="UnderlyingWishes.cs" />
-    <Compile Include="PlayWishes.cs" />
-    <Compile Include="SampleWishes.cs" />
-    <Compile Include="SaveWishes.cs" />
-    <Compile Include="StringifyWishes.cs" />
-    <Compile Include="WavWishes.cs" />
-    <Compile Include="CurveWishes.cs" />
-    <Compile Include="docs.cs" />
-    <Compile Include="BuffWishes.cs" />
-    <Compile Include="NoteWishes\SynthWishes.NoteTiming.cs" />
-    <Compile Include="Helpers\ServiceFactory.cs" />
-    <Compile Include="Obsolete\Obsolete.OperatorWishes.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SynthWishes.cs" />
-    <Compile Include="ValidationWishes.cs" />
-    <Compile Include="Obsolete\Obsolete.WrapperWishes.cs" />
+    <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Collections.Core\JJ.Framework.Collections.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common.Core\JJ.Framework.Common.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration.Core\JJ.Framework.Configuration.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Existence.Core\JJ.Framework.Existence.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO.Core\JJ.Framework.IO.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Logging,Core\JJ.Framework.Logging.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection.Core\JJ.Framework.Reflection.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing.Core\JJ.Framework.Testing.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Text.Core\JJ.Framework.Text.Core.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj" />
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj" />
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj" />
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj" />
+    <ProjectReference Include="..\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
-      <Project>{08EA4A4E-D815-47AE-9277-DA6672D36214}</Project>
-      <Name>JJ.Business.CanonicalModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Collections.Core\JJ.Framework.Collections.Core.csproj">
-      <Project>{32c2b71c-0192-4f3d-8f8d-990a5b61c307}</Project>
-      <Name>JJ.Framework.Collections.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common.Core\JJ.Framework.Common.Core.csproj">
-      <Project>{2c4c1957-cd37-454e-85a8-786ad726a0cf}</Project>
-      <Name>JJ.Framework.Common.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
-      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
-      <Name>JJ.Framework.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration.Core\JJ.Framework.Configuration.Core.csproj">
-      <Project>{1aecf8a1-dc97-40bd-9dbc-31b4c14956fb}</Project>
-      <Name>JJ.Framework.Configuration.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj">
-      <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
-      <Name>JJ.Framework.Configuration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Existence.Core\JJ.Framework.Existence.Core.csproj">
-      <Project>{43fc4ab0-7e22-4ddd-9bd9-55a74d19ae67}</Project>
-      <Name>JJ.Framework.Existence.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO.Core\JJ.Framework.IO.Core.csproj">
-      <Project>{7f639943-9815-45b9-adfa-f0ea8b7791de}</Project>
-      <Name>JJ.Framework.IO.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj">
-      <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
-      <Name>JJ.Framework.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Logging,Core\JJ.Framework.Logging.Core.csproj">
-      <Project>{8e47c2f1-0dbb-4fa2-a734-13a6ad9be0b2}</Project>
-      <Name>JJ.Framework.Logging.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
-      <Project>{810B90B9-F501-4B91-B019-2AD5AAD63304}</Project>
-      <Name>JJ.Framework.Mathematics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj">
-      <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>
-      <Name>JJ.Framework.Persistence.Memory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj">
-      <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
-      <Name>JJ.Framework.Persistence</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection.Core\JJ.Framework.Reflection.Core.csproj">
-      <Project>{6b83c0e7-f039-448a-99aa-1b989ef96273}</Project>
-      <Name>JJ.Framework.Reflection.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
-      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
-      <Name>JJ.Framework.Reflection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing.Core\JJ.Framework.Testing.Core.csproj">
-      <Project>{639f2304-2ab3-46fa-8da9-af1b3f50fc66}</Project>
-      <Name>JJ.Framework.Testing.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj">
-      <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
-      <Name>JJ.Framework.Testing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Text.Core\JJ.Framework.Text.Core.csproj">
-      <Project>{ee2d2ebe-a276-4f3f-8f0d-91b1e09cea51}</Project>
-      <Name>JJ.Framework.Text.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
-      <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
-      <Name>JJ.Framework.Validation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj">
-      <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
-      <Name>JJ.Persistence.Synthesizer.DefaultRepositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj">
-      <Project>{bc3be171-ad84-4ee4-8356-06a581bdcdf7}</Project>
-      <Name>JJ.Persistence.Synthesizer.Memory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj">
-      <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
-      <Name>JJ.Persistence.Synthesizer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
-      <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
-      <Name>JJ.Business.Synthesizer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".editorconfig" />
     <Content Include="app.config.example.xml" />
-    <Compile Include="OperatorWishes.cs" />
-    <Compile Include="ArithmeticWishes.cs" />
-    <Compile Include="Obsolete\Obsolete.CaptureIndexer.cs" />
-    <Compile Include="Config\ConfigWishes.Defaults.cs" />
-    <Compile Include="Logging\LogWishes.Math.cs" />
-    <Compile Include="Logging\LogWishes.Actions.cs" />
-    <Compile Include="Logging\LogWishes.SynthLog.cs" />
-    <Compile Include="Logging\LogWishes.TapeTree.cs" />
-    <Compile Include="NoteWishes\FlowNode.NoteIndexers.cs" />
-    <Compile Include="NoteWishes\SynthWishes.NoteValues.cs" />
-    <Compile Include="NoteWishes\SynthWishes.NoteIndexers.cs" />
-    <Compile Include="NoteWishes\FlowNode.NoteMethods.cs" />
-    <Compile Include="NoteWishes\FlowNode.NoteTiming.cs" />
-    <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
+    <PackageReference Include="System.Windows.Extensions" Version="9.0.3" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
@@ -273,13 +71,4 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
