@@ -147,6 +147,10 @@
       <Project>{08EA4A4E-D815-47AE-9277-DA6672D36214}</Project>
       <Name>JJ.Business.CanonicalModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Collections.Core\JJ.Framework.Collections.Core.csproj">
+      <Project>{32c2b71c-0192-4f3d-8f8d-990a5b61c307}</Project>
+      <Name>JJ.Framework.Collections.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common.Core\JJ.Framework.Common.Core.csproj">
       <Project>{2c4c1957-cd37-454e-85a8-786ad726a0cf}</Project>
       <Name>JJ.Framework.Common.Core</Name>

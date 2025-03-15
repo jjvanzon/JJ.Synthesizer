@@ -81,6 +81,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Nully.Core", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Text.Core", "JJ.Framework\Framework\JJ.Framework.Text.Core\JJ.Framework.Text.Core.csproj", "{EE2D2EBE-A276-4F3F-8F0D-91B1E09CEA51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Collections.Core", "JJ.Framework\Framework\JJ.Framework.Collections.Core\JJ.Framework.Collections.Core.csproj", "{32C2B71C-0192-4F3D-8F8D-990A5B61C307}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -544,6 +546,24 @@ Global
 		{EE2D2EBE-A276-4F3F-8F0D-91B1E09CEA51}.Release|x64.Build.0 = Release|Any CPU
 		{EE2D2EBE-A276-4F3F-8F0D-91B1E09CEA51}.Release|x86.ActiveCfg = Release|Any CPU
 		{EE2D2EBE-A276-4F3F-8F0D-91B1E09CEA51}.Release|x86.Build.0 = Release|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Debug|x64.Build.0 = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Debug|x86.Build.0 = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Release|x64.ActiveCfg = Release|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Release|x64.Build.0 = Release|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Release|x86.ActiveCfg = Release|Any CPU
+		{32C2B71C-0192-4F3D-8F8D-990A5B61C307}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
