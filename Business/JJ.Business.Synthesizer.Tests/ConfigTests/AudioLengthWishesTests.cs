@@ -14,7 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Math;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Core.Testing.AssertWishes;
+using static JJ.Framework.Testing.Core.AssertWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Nully.Core.FilledInWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;

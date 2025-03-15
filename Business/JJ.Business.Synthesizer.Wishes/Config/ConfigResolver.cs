@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Collections.Core;
 using JJ.Framework.Common;
-using JJ.Framework.Core.Logging.Config;
+using JJ.Framework.Logging.Core.Config;
 using JJ.Framework.Nully.Core;
 using JJ.Framework.Persistence;
 using JJ.Framework.Reflection;
@@ -19,7 +19,7 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Common.Core.EnvironmentHelper;
 using static JJ.Framework.Nully.Core.FilledInWishes;
 using static JJ.Framework.Configuration.Core.ConfigurationManagerWishes;
-using static JJ.Framework.Core.Testing.TestWishes;
+using static JJ.Framework.Testing.Core.TestWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {

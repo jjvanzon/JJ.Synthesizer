@@ -5,10 +5,10 @@ using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Core.Logging.Loggers;
+using JJ.Framework.Logging.Core.Loggers;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Core.Logging.LoggerFactory;
+using static JJ.Framework.Logging.Core.LoggerFactory;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging

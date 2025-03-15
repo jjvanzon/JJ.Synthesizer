@@ -26,9 +26,9 @@ using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Nully.Core.FilledInWishes;
-using static JJ.Framework.Core.Testing.AssertWishes;
+using static JJ.Framework.Testing.Core.AssertWishes;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Core.Testing;
+using JJ.Framework.Testing.Core;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 // ReSharper disable RedundantEmptyObjectOrCollectionInitializer

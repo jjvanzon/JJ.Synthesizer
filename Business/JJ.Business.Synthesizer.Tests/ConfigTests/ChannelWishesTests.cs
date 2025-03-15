@@ -17,7 +17,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using JJ.Framework.Common;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Core.Testing;
+using JJ.Framework.Testing.Core;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 

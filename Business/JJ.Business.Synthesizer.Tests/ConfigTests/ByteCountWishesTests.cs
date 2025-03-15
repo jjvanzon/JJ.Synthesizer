@@ -15,11 +15,11 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
-using static JJ.Framework.Core.Testing.AssertWishes;
-using static JJ.Framework.Core.Testing.DeltaDirectionEnum;
+using static JJ.Framework.Testing.Core.AssertWishes;
+using static JJ.Framework.Testing.Core.DeltaDirectionEnum;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Core.Testing;
 using JJ.Framework.Nully.Core;
+using JJ.Framework.Testing.Core;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 

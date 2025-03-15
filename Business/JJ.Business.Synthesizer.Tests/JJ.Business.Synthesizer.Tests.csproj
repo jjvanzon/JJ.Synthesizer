@@ -210,10 +210,6 @@
       <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
       <Name>JJ.Framework.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Core\JJ.Framework.Core.csproj">
-      <Project>{8e47c2f1-0dbb-4fa2-a734-13a6ad9be0b2}</Project>
-      <Name>JJ.Framework.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO.Core\JJ.Framework.IO.Core.csproj">
       <Project>{7f639943-9815-45b9-adfa-f0ea8b7791de}</Project>
       <Name>JJ.Framework.IO.Core</Name>
@@ -245,6 +241,10 @@
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing.Core\JJ.Framework.Testing.Core.csproj">
+      <Project>{639f2304-2ab3-46fa-8da9-af1b3f50fc66}</Project>
+      <Name>JJ.Framework.Testing.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj">
       <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
