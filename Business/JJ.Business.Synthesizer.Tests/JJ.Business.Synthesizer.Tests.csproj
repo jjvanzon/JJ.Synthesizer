@@ -44,28 +44,13 @@
     <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.4\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.4\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="MSTest" Version="3.7.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.22.0" />
-    <PackageReference Include="Microsoft.CodeCoverage" Version="17.11.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="Microsoft.Testing.Extensions.Telemetry" Version="1.4.3" />
-    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport.Abstractions" Version="1.4.3" />
-    <PackageReference Include="Microsoft.Testing.Extensions.VSTestBridge" Version="1.4.3" />
-    <PackageReference Include="Microsoft.Testing.Platform" Version="1.4.3" />
-    <PackageReference Include="Microsoft.Testing.Platform.MSBuild" Version="1.4.3" />
-    <PackageReference Include="Microsoft.TestPlatform.ObjectModel" Version="17.11.1" />
-    <PackageReference Include="MSTest" Version="3.6.4" />
-    <PackageReference Include="MSTest.Analyzers" Version="3.6.4" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />
     <PackageReference Include="System.Collections.Immutable" Version="9.0.3" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.3" />
     <PackageReference Include="System.Reflection.Metadata" Version="9.0.3" />
