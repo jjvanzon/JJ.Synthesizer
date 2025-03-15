@@ -234,6 +234,10 @@
       <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
       <Name>JJ.Framework.Testing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Text.Core\JJ.Framework.Text.Core.csproj">
+      <Project>{ee2d2ebe-a276-4f3f-8f0d-91b1e09cea51}</Project>
+      <Name>JJ.Framework.Text.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
