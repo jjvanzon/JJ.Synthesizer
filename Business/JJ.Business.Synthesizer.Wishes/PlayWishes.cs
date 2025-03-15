@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using static System.Environment;
 using static System.IO.Path;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
-using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Nully.Core.FilledInWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
 using File = System.IO.File;

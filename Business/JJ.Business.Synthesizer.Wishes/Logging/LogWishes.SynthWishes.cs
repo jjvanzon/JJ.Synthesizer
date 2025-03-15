@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.Logging;
-using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Nully.Core.FilledInWishes;
 
 // ReSharper disable once CheckNamespace
 namespace JJ.Business.Synthesizer.Wishes

@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
-using static JJ.Framework.Core.Common.FilledInWishes;
+using static JJ.Framework.Nully.Core.FilledInWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {

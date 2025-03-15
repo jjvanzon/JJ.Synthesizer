@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using static JJ.Framework.Reflection.ExpressionHelper;
-using static JJ.Framework.Core.IO.FileWishes;
+using static JJ.Framework.IO.Core.FileWishes;
 using static JJ.Framework.Text.Core.StringWishes;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;

@@ -214,6 +214,10 @@
       <Project>{8e47c2f1-0dbb-4fa2-a734-13a6ad9be0b2}</Project>
       <Name>JJ.Framework.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO.Core\JJ.Framework.IO.Core.csproj">
+      <Project>{7f639943-9815-45b9-adfa-f0ea8b7791de}</Project>
+      <Name>JJ.Framework.IO.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj">
       <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
       <Name>JJ.Framework.IO</Name>
@@ -221,6 +225,10 @@
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Mathematics.Core\JJ.Framework.Mathematics.Core.csproj">
       <Project>{05c51047-d449-4646-b23a-562a2843f723}</Project>
       <Name>JJ.Framework.Mathematics.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Nully.Core\JJ.Framework.Nully.Core.csproj">
+      <Project>{43fc4ab0-7e22-4ddd-9bd9-55a74d19ae67}</Project>
+      <Name>JJ.Framework.Nully.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj">
       <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>

@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Mathematics.Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Core", "JJ.Framework\Framework\JJ.Framework.Reflection.Core\JJ.Framework.Reflection.Core.csproj", "{6B83C0E7-F039-448A-99AA-1B989EF96273}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.IO.Core", "JJ.Framework\Framework\JJ.Framework.IO.Core\JJ.Framework.IO.Core.csproj", "{7F639943-9815-45B9-ADFA-F0EA8B7791DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -604,6 +606,24 @@ Global
 		{6B83C0E7-F039-448A-99AA-1B989EF96273}.Release|x64.Build.0 = Release|Any CPU
 		{6B83C0E7-F039-448A-99AA-1B989EF96273}.Release|x86.ActiveCfg = Release|Any CPU
 		{6B83C0E7-F039-448A-99AA-1B989EF96273}.Release|x86.Build.0 = Release|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Debug|x64.Build.0 = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Debug|x86.Build.0 = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|x64.ActiveCfg = Release|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|x64.Build.0 = Release|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|x86.ActiveCfg = Release|Any CPU
+		{7F639943-9815-45B9-ADFA-F0EA8B7791DE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

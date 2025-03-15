@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.docs;
-using JJ.Framework.Core.Common;
+using JJ.Framework.Nully.Core;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {

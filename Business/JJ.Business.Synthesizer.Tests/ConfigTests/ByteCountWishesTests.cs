@@ -18,8 +18,8 @@ using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Framework.Core.Testing.AssertWishes;
 using static JJ.Framework.Core.Testing.DeltaDirectionEnum;
 using System.Runtime.CompilerServices;
-using JJ.Framework.Core.Common;
 using JJ.Framework.Core.Testing;
+using JJ.Framework.Nully.Core;
 
 // ReSharper disable ArrangeStaticMemberQualifier
 

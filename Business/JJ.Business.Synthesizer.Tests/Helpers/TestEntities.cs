@@ -23,7 +23,7 @@ using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Core.IO.FileWishes;
+using static JJ.Framework.IO.Core.FileWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

@@ -11,13 +11,13 @@ using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
-using JJ.Framework.Core.Common;
+using JJ.Framework.Nully.Core;
 using JJ.Framework.Text.Core;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;
-using static JJ.Framework.Core.Common.FilledInWishes;
-using static JJ.Framework.Core.IO.FileWishes;
+using static JJ.Framework.Nully.Core.FilledInWishes;
+using static JJ.Framework.IO.Core.FileWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
