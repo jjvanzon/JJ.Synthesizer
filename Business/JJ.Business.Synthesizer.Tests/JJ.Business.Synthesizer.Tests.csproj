@@ -43,10 +43,10 @@
   <ItemGroup>
     <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.4\analyzers\dotnet\cs\MSTest.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\..\packages\MSTest.Analyzers.3.6.4\analyzers\dotnet\cs\MSTest.Analyzers.dll" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="MSTest.Analyzers" Version="3.6.4">
