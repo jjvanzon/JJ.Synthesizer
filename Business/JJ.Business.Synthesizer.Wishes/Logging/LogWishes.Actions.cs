@@ -12,7 +12,7 @@ using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Framework.Core.Common.FilledInWishes;
-using static JJ.Framework.Core.Text.StringWishes;
+using static JJ.Framework.Text.Core.StringWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
 // ReSharper disable UnusedParameter.Global

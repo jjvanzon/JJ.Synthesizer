@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
-using JJ.Framework.Core.Text;
+using JJ.Framework.Text.Core;
 using static System.Environment;
 using static System.IO.Path;
 using static System.Math;

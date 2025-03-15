@@ -12,7 +12,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Core.Common;
-using JJ.Framework.Core.Text;
+using JJ.Framework.Text.Core;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;

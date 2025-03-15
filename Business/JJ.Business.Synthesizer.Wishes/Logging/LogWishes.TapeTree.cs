@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Core.Text;
+using JJ.Framework.Text.Core;
 using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;

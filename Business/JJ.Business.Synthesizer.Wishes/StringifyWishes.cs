@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Business.Synthesizer.Wishes.OperandWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
-using JJ.Framework.Core.Text;
+using JJ.Framework.Text.Core;
 using static System.Environment;
 using static System.String;
 using static JJ.Framework.Core.Common.FilledInWishes;
