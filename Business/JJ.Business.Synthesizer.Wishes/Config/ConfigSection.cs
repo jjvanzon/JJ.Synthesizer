@@ -54,8 +54,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tooling
         
-        public ConfigToolingElement AzurePipelines { get; set; } = new ConfigToolingElement();
-        public ConfigToolingElement NCrunch { get; set; } = new ConfigToolingElement();
+        public ConfigToolingElement AzurePipelines { get; set; } 
+        public ConfigToolingElement NCrunch { get; set; }
         public RootLoggerXml Logging { get; set; }
         
         // Misc

@@ -4,9 +4,14 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.docs;
+using JJ.Framework.Logging.Core.Config;
+using JJ.Framework.Logging.Core.Mappers;
+using JJ.Framework.Persistence;
+using JJ.Framework.Reflection.Core;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
+using static JJ.Framework.Logging.Core.Config.LoggerConfigFetcher;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -69,5 +74,41 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public static int    DefaultSizeOfBitDepth { get; } = SizeOfBitDepth(DefaultBits);
         public static int    DefaultFrameCount     { get; } = FrameCount(DefaultAudioLength, DefaultSamplingRate);
         public static int    DefaultByteCount      { get; } = ByteCount(DefaultFrameCount, DefaultFrameSize, DefaultHeaderLength);
+        
+        internal static PersistenceConfiguration CreateDefaultInMemoryConfiguration()
+            => new PersistenceConfiguration
+            {
+                ContextType = "Memory",
+                ModelAssembly = ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Operator>(),
+                MappingAssembly = ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
+                RepositoryAssemblies = new[]
+                {
+                    ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(), ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
+                }
+            };
+        
+        private const string DefaultLogFormat = "{0:HH:mm:ss.fff} [{1}] {2}";
+        
+        internal static ConfigSection CreateDefaultConfigSection() => new()
+        {
+            Logging = CreateDefaultRootLoggerXml(),
+            NCrunch = new ConfigToolingElement
+            {
+                Logging = new RootLoggerXml { Type = "Debug", Format = DefaultLogFormat }
+            },
+            AzurePipelines = new ConfigToolingElement
+            {
+                Logging = new RootLoggerXml { Type = "Console", Categories = "File;Memory", Format = DefaultLogFormat }
+            }
+        };
+        
+        internal static RootLoggerXml CreateDefaultRootLoggerXml()
+        {
+            #if DEBUG
+            return new RootLoggerXml { Type = "Debug", Format = DefaultLogFormat };
+            #else
+            return new RootLoggerXml { Type = "Console", Format = DefaultLogFormat };
+            #endif
+        }
     }
 }

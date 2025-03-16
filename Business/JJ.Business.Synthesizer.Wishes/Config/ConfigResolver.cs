@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <summary> For static contexts use this. </summary>
         internal static ConfigResolver Static { get; } = new ConfigResolver();
         
-        private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? new ConfigSection();
+        private readonly ConfigSection _section = TryGetSection<ConfigSection>() ?? CreateDefaultConfigSection();
 
         public ConfigResolver() => LoggerConfig = NewLoggerConfig();
         
@@ -61,6 +61,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             if (config == null)
             {
                 config = LoggerConfigFetcher.CreateLoggerConfig(_section.Logging);
+            }
+            
+            if (config == null)
+            {
+                config = LoggerConfigFetcher.CreateLoggerConfig(ConfigWishes.CreateDefaultRootLoggerXml());
             }
             
             return config;
@@ -723,19 +728,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Persistence
 
         public static PersistenceConfiguration PersistenceConfigurationOrDefault { get; }
-            = TryGetSection<PersistenceConfiguration>() ?? GetDefaultInMemoryConfiguration();
-        
-        private static PersistenceConfiguration GetDefaultInMemoryConfiguration()
-            => new PersistenceConfiguration
-            {
-                ContextType = "Memory",
-                ModelAssembly = ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Operator>(),
-                MappingAssembly = ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
-                RepositoryAssemblies = new[]
-                {
-                    ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(), ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
-                }
-            };
+            = TryGetSection<PersistenceConfiguration>() ?? CreateDefaultInMemoryConfiguration();
         
         // Warnings
         
