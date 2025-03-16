@@ -1,233 +1,54 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A2A8E75D-1FDA-43FB-99F3-AFF9958F654A}</ProjectGuid>
+    <TargetFramework>net9.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JJ.Business.Synthesizer</RootNamespace>
-    <AssemblyName>JJ.Business.Synthesizer</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Configurations>Debug;NPDebug;Release</Configurations>
+    <AssemblyTitle>JJ.Business.Synthesizer</AssemblyTitle>
+    <Product>JJ.Business.Synthesizer</Product>
+    <Copyright>Copyright ©  2015</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
-    <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
-    <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\AudioFileOutputs\Float32AudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
-    <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\CurveCalculator.cs" />
-    <Compile Include="Calculation\Samples\Byte_LineInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Float32_BlockInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Float32_LineInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Int16_LineInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs" />
-    <Compile Include="Calculation\Samples\ISampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
-    <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
-    <Compile Include="Constants\WavHeaderConstants.cs" />
-    <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
-    <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
-    <Compile Include="EntityWrappers\SampleOperatorWrapper.cs" />
-    <Compile Include="Enums\SpeakerSetupEnum.cs" />
-    <Compile Include="Enums\ChannelEnum.cs" />
-    <Compile Include="Enums\AudioFileFormatEnum.cs" />
-    <Compile Include="Enums\InterpolationTypeEnum.cs" />
-    <Compile Include="Enums\SampleDataTypeEnum.cs" />
-    <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
-    <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
-    <Compile Include="Extensions\ValidationMessageExtensions.cs" />
-    <Compile Include="Factories\CurveFactory.cs" />
-    <Compile Include="EntityWrappers\Adder.cs" />
-    <Compile Include="EntityWrappers\CurveInWrapper.cs" />
-    <Compile Include="EntityWrappers\TimeSubstract.cs" />
-    <Compile Include="EntityWrappers\TimeMultiply.cs" />
-    <Compile Include="EntityWrappers\TimePower.cs" />
-    <Compile Include="EntityWrappers\TimeDivide.cs" />
-    <Compile Include="EntityWrappers\TimeAdd.cs" />
-    <Compile Include="EntityWrappers\Sine.cs" />
-    <Compile Include="EntityWrappers\Power.cs" />
-    <Compile Include="EntityWrappers\PatchOutlet.cs" />
-    <Compile Include="EntityWrappers\PatchInlet.cs" />
-    <Compile Include="EntityWrappers\Divide.cs" />
-    <Compile Include="Enums\NodeTypeEnum.cs" />
-    <Compile Include="Extensions\EntityEnumExtensions.cs" />
-    <Compile Include="EntityWrappers\Multiply.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
-    <Compile Include="EntityWrappers\Substract.cs" />
-    <Compile Include="Helpers\SampleDataTypeHelper.cs" />
-    <Compile Include="Extensions\SampleExtensions.cs" />
-    <Compile Include="Infos\AudioFileInfo.cs" />
-    <Compile Include="Infos\NodeInfo.cs" />
-    <Compile Include="LinkTo\UnlinkExtensions.cs" />
-    <Compile Include="Managers\AudioFileOutputManager.cs" />
-    <Compile Include="Managers\SampleManager.cs" />
-    <Compile Include="Managers\WavHeaderManager.cs" />
-    <Compile Include="Resources\Messages.Designer.cs">
+    <Compile Update="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\MessagesFormatter.cs" />
-    <Compile Include="Calculation\OperatorCalculator.cs" />
-    <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
-    <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
-    <Compile Include="Structs\WavHeaderStruct.cs" />
-    <Compile Include="Validation\Entities\AdderValidator.cs" />
-    <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
-    <Compile Include="Validation\Entities\CurveInValidator.cs" />
-    <Compile Include="Validation\Entities\SampleValidator.cs" />
-    <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
-    <Compile Include="Validation\WavHeaderStructValidator.cs" />
-    <Compile Include="Warnings\Entities\AudioFileOutputChannelWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\AudioFileOutputWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\SampleWarningValidator.cs" />
-    <Compile Include="Warnings\OperatorWarningValidatorBase.cs" />
-    <Compile Include="Warnings\Entities\SampleOperatorWarningValidator.cs" />
-    <Compile Include="Validation\Entities\CurveValidator.cs" />
-    <Compile Include="Validation\Entities\NodeValidator.cs" />
-    <Compile Include="Validation\Entities\TimeMultiplyValidator.cs" />
-    <Compile Include="Validation\Entities\TimeSubstractValidator.cs" />
-    <Compile Include="Validation\Entities\TimePowerValidator.cs" />
-    <Compile Include="Validation\Entities\TimeDivideValidator.cs" />
-    <Compile Include="Validation\Entities\TimeAddValidator.cs" />
-    <Compile Include="Validation\Entities\SineValidator.cs" />
-    <Compile Include="Validation\Entities\PowerValidator.cs" />
-    <Compile Include="Validation\Entities\PatchOutletValidator.cs" />
-    <Compile Include="Validation\Entities\PatchInletValidator.cs" />
-    <Compile Include="Validation\Entities\DivideValidator.cs" />
-    <Compile Include="Validation\Entities\ValueOperatorValidator.cs" />
-    <Compile Include="Validation\Entities\MultiplyValidator.cs" />
-    <Compile Include="Validation\RecursiveOperatorValidator.cs" />
-    <Compile Include="Validation\Entities\SubstractValidator.cs" />
-    <Compile Include="Validation\OperatorValidatorBase.cs" />
-    <Compile Include="EntityWrappers\Add.cs" />
-    <Compile Include="EntityWrappers\ValueOperatorWrapper.cs" />
-    <Compile Include="LinkTo\LinkToExtensions.cs" />
-    <Compile Include="Names\PropertyNames.cs" />
-    <Compile Include="Factories\OperatorFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\PropertyDisplayNames.Designer.cs">
+    <Compile Update="Resources\PropertyDisplayNames.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyDisplayNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="Validation\Entities\AddValidator.cs" />
-    <Compile Include="Validation\BasicOperatorValidator.cs" />
-    <Compile Include="Validation\VersatileOperatorValidator.cs" />
-    <Compile Include="Warnings\Entities\CurveInWarningValidator.cs" />
-    <Compile Include="Warnings\VersatileOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\AdderWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\AddWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeSubstractWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimePowerWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeMultiplyWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeDivideWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeAddWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\SineWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\PowerWarningValidator.cs" />
-    <Compile Include="Warnings\FirstXInletsNotFilledInWarningValidatorBase.cs" />
-    <Compile Include="Warnings\Entities\PatchOutletWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\DivideWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\MultiplyWarningValidator.cs" />
-    <Compile Include="Warnings\RecursiveOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\SubstractWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\ValueOperatorWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
-      <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
-      <Name>JJ.Business.CanonicalModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
-      <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
-      <Name>JJ.Framework.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
-      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
-      <Name>JJ.Framework.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj">
-      <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
-      <Name>JJ.Framework.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj">
-      <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
-      <Name>JJ.Framework.Persistence</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
-      <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
-      <Name>JJ.Framework.Presentation.Resources</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
-      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
-      <Name>JJ.Framework.Reflection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
-      <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
-      <Name>JJ.Framework.Validation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj">
-      <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
-      <Name>JJ.Persistence.Synthesizer.DefaultRepositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj">
-      <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
-      <Name>JJ.Persistence.Synthesizer</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj" />
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj" />
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj" />
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Messages.nl-NL.resx">
+    <EmbeddedResource Update="Resources\Messages.nl-NL.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Messages.resx">
+    <EmbeddedResource Update="Resources\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PropertyDisplayNames.nl-NL.resx">
+    <EmbeddedResource Update="Resources\PropertyDisplayNames.nl-NL.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PropertyDisplayNames.resx">
+    <EmbeddedResource Update="Resources\PropertyDisplayNames.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PropertyDisplayNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
