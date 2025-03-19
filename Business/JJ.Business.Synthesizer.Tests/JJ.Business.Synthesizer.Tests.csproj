@@ -8,6 +8,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <None Remove="NCrunch.JJ.Business.Synthesizer.Tests_AnalysisBuild.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj" />
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj" />
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj" />

@@ -8,3 +8,4 @@ packages
 *.ncrunchproject
 /.NCrunch*
 nCrunchTemp*.*
+NCrunch*.xml

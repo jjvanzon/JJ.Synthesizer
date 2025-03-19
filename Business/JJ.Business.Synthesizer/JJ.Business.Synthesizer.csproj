@@ -11,6 +11,9 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="NCrunch.JJ.Business.Synthesizer_AnalysisBuild.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

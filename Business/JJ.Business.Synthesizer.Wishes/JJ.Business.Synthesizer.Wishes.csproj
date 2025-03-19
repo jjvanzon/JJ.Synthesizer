@@ -22,6 +22,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <None Remove="NCrunch.JJ.Business.Synthesizer.Wishes_AnalysisBuild.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj" />
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Collections.Core\JJ.Framework.Collections.Core.csproj" />
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common.Core\JJ.Framework.Common.Core.csproj" />
