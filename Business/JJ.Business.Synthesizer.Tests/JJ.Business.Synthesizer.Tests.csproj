@@ -76,11 +76,8 @@
   </Target>
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AssemblyTitle>JJ.Business.Synthesizer.Tests</AssemblyTitle>
-    <Product>JJ.Business.Synthesizer.Tests</Product>
     <Copyright>Copyright © 2015 - 2025 Jan Joost van Zon</Copyright>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Version>0.250.0</Version>
+    <!--<Version>0.250.$(BuildNum)</Version>-->
   </PropertyGroup>
 </Project>
