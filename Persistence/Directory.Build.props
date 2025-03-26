@@ -1,0 +1,6 @@
+<Project>
+  <Import 
+    Project="BuildNum.xml" 
+    Condition="'$(XmlImportedjj)'==''
+    And Exists('BuildNum.xml')"/>
+</Project>

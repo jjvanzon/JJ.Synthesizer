@@ -2,13 +2,9 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Configurations>Debug;NPDebug;Release</Configurations>
-    <AssemblyTitle>JJ.Persistence.Synthesizer.Memory</AssemblyTitle>
-    <Product>JJ.Persistence.Synthesizer.Memory</Product>
-    <Copyright>Copyright ©  2015</Copyright>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Copyright>Copyright © Jan Joost van Zon 2015 - 2025</Copyright>
+    <Version>0.250.$(BuildNum)</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="NCrunch.JJ.Persistence.Synthesizer.Memory_AnalysisBuild.xml" />
