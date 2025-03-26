@@ -76,8 +76,8 @@
   </Target>
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <Version>0.250.$(BuildNum)</Version>
+    <Authors>JJ van Zon</Authors>
     <Copyright>Copyright © 2015 - 2025 Jan Joost van Zon</Copyright>
-    <Version>0.250.0</Version>
-    <!--<Version>0.250.$(BuildNum)</Version>-->
   </PropertyGroup>
 </Project>
