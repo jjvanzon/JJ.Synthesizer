@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <Configurations>Debug;NPDebug;Release</Configurations>
-    <AssemblyTitle>JJ.Persistence.Synthesizer</AssemblyTitle>
-    <Product>JJ.Persistence.Synthesizer</Product>
-    <Copyright>Copyright ©  2015</Copyright>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Version>0.250.$(BuildNum)</Version>
+    <Authors>JJ van Zon</Authors>
+    <Copyright>Copyright © Jan Joost van Zon 2015 - 2025</Copyright>
+    <Description>JJ.Synthesizer's entity model for the persistence layer.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>    
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="NCrunch.JJ.Persistence.Synthesizer_AnalysisBuild.xml" />
