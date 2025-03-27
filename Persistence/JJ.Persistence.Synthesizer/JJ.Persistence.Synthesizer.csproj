@@ -12,6 +12,6 @@
     <None Remove="NCrunch.JJ.Persistence.Synthesizer_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.AutoIncrementVersion" Version="1.8.904" />
+    <PackageReference Include="JJ.AutoIncrementVersion" Version="1.8.1000" />
   </ItemGroup>
 </Project>
