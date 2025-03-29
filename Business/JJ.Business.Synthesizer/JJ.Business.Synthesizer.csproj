@@ -12,7 +12,7 @@
     <None Remove="NCrunch.JJ.Business.Synthesizer_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.AutoIncrementVersion" Version="1.8.1000" />
+    <PackageReference Include="JJ.AutoIncrementVersion" Version="1.8.1041" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
