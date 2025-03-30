@@ -5,35 +5,33 @@
 🏛 Reference Architecture
 --------------------------
 
-The patterns and practices in this project closely match the following guidelines for structuring software: [JJ's Software Architecture](https://github.com/jjvanzon/JJs-Reference-Architecture)
+The project follows [JJ's Software Architecture](https://github.com/jjvanzon/JJs-Reference-Architecture).
 
 
 ⚙ Dev Env
------------
+----------
 
-### 🖥 Visual Studio
+### Visual Studio
 
-This project was developed using C# in Visual Studio. You can download that from Microsoft.
+Built with C# in Visual Studio (download from Microsoft).
 
-### 🕘 Old Commits
+### Old Commits
 
-Having gone through many migration scenarios, older commits may have some quirks to them as you try to check those out, in particular:
+Older commits may have quirks.
 
-### ⛓️ Broken References
+### Broken References
 
-__Option 1: NuGet Packages (Recommended)__
+1. __NuGet (Recommended):__
+   
+   - To fix this, try referencing the NuGet version of these dependencies.
 
-Reference the NuGet version of these dependencies.
+2. __Clone Repos:__
+   
+   - Clone [JJ.Framework](https://github.com/jjvanzon/JJ.Framework) and [JJ.Canonical](https://github.com/jjvanzon/JJ.Canonical) and place their folders alongside `JJ.Synthesizer`.
 
-__Option 2: Clone [JJ.Framework](https://github.com/jjvanzon/JJ.Framework) & [JJ.Canonical](https://github.com/jjvanzon/JJ.Canonical) repos__
-
-Place their folders alongside the `JJ.Synthesizer` folder.
-
-
-__Option 3: Add [JJ.Framework](https://github.com/jjvanzon/JJ.Framework) & [JJ.Canonical](https://github.com/jjvanzon/JJ.Canonical) sub-modules__
-
-
-For commits that expect a git submodule inside `JJ.Synthesizer`, manually re-add the git submodule and go find docs to configure this.
+3. __Submodules:__
+   
+   - For commits expecting a submodule inside `JJ.Synthesizer`, manually re-add the git submodule (search for  docs to configure this).
 
 __💡 Tip__
 
