@@ -2,7 +2,3 @@
 	path = JJ.Framework
 	url = https://github.com/jjvanzon/JJ.Framework.git
 	branch = fix-up
-[submodule "JJ.Canonical"]
-	path = JJ.Canonical
-	url = https://github.com/jjvanzon/JJ.Canonical.git
-	branch = master
