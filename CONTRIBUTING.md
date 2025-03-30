@@ -23,7 +23,7 @@ Older commits may have quirks.
 
 1. __NuGet (Recommended):__
    
-   - To fix this, try referencing the NuGet version of these dependencies.
+   - To fix this, try referencing the [NuGet](https://www.nuget.org/profiles/jjvanzon) version of these dependencies.
 
 2. __Clone Repos:__
    
@@ -31,7 +31,7 @@ Older commits may have quirks.
 
 3. __Submodules:__
    
-   - For commits expecting a submodule inside `JJ.Synthesizer`, manually re-add the git submodule (search for  docs to configure this).
+   - For commits expecting a submodule inside `JJ.Synthesizer`, manually re-add the git submodule (go search for docs to configure this).
 
 __💡 Tip__
 
