@@ -9,14 +9,14 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>    
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup>
     <NoWarn>CS0618,IDE0002</NoWarn>
+    <WarningsAsErrors>$(WarningsAsErrors)</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="NCrunch.JJ.Business.Synthesizer.Wishes_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj" />
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Collections.Core\JJ.Framework.Collections.Core.csproj" />
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common.Core\JJ.Framework.Common.Core.csproj" />
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj" />
@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
+    <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1164" />
     <PackageReference Include="System.Windows.Extensions" Version="9.0.3" />
   </ItemGroup>
 </Project>
