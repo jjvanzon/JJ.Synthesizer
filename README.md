@@ -6,16 +6,16 @@ Release 0.250 - "Additive Engine"
 
 *2015-03-10*
 
-This release introduces the foundational __Additive Engine__, laying the groundwork for future synthesizer development. While there is no user interface or live audio playback yet, core functionality is implemented and validated through test programs in the form of unit tests.
+This release introduces the foundational __Additive Engine__, laying the groundwork for future synthesizer development. While there is no user interface or real-time audio playback yet, core functionality is implemented and validated through test programs in the form of unit tests.
 
 ### Main Features
 
 - __Operators__: Manages how data or signals are processed within the synthesizer, enabling various operations for sound generation.
 - __Curves__: Modulation curves that evolve over time, shaping sound dynamically.
 - __Samples__: Supports audio samples for playback and manipulation of pre-recorded sounds.
-- __Audio File Output__: Generates and exports synthesized audio as files.
-- __WAV Header__: The metadata associated with WAV files, ensuring the correct format for audio data.
-- __WAV Header Detection__: Automatically detects and parses WAV headers to ensure correct file handling.
+- __Audio File Output__: Generates and exports synthesized sound as files.
+- __WAV Header__: Adds the file header needed to make audio output playable in standard media players.
+- __WAV Header Detection__: Detects whether input files are standard WAV format before attempting to read them.
 
 ### Supported Operators
 
