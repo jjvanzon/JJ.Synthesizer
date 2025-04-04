@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReaderDll", "JJ.Framewo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Persistence.Memory", "JJ.Framework\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj", "{86348B50-ECA9-4849-A221-73F0ED31713B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.PlatformCompatibility", "JJ.Framework\Framework\JJ.Framework.PlatformCompatibility\JJ.Framework.PlatformCompatibility.csproj", "{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Resources", "JJ.Framework\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj", "{40A53175-8048-4F2D-93CA-383074C0267E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Business", "JJ.Framework\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj", "{F44D03E8-FEEC-40D4-B866-A87799185B4C}"
@@ -51,6 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		.runsettings = .runsettings
 		CONTRIBUTING.md = CONTRIBUTING.md
+		resources\jj-icon-64x64-margin4.png = resources\jj-icon-64x64-margin4.png
 		README.md = README.md
 		Synthesizer.sln.DotSettings = Synthesizer.sln.DotSettings
 	EndProjectSection
@@ -76,6 +75,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing.Core", "JJ.Framework\Framework\JJ.Framework.Testing.Core\JJ.Framework.Testing.Core.csproj", "{639F2304-2AB3-46FA-8DA9-AF1B3F50FC66}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Logging.Core", "JJ.Framework\Framework\JJ.Framework.Logging,Core\JJ.Framework.Logging.Core.csproj", "{8E47C2F1-0DBB-4FA2-A734-13A6AD9BE0B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.PlatformCompatibility", "JJ.Framework\Framework\PlatformCompatibility\JJ.Framework.PlatformCompatibility.csproj", "{D13DD1E3-D2BC-D735-3AD9-B057C2411127}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Build", "JJ.Framework\Framework\JJ.Framework.Build\JJ.Framework.Build.csproj", "{6E659165-866E-2CD7-AB39-F44DBA758F27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,10 +134,6 @@ Global
 		{86348B50-ECA9-4849-A221-73F0ED31713B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86348B50-ECA9-4849-A221-73F0ED31713B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86348B50-ECA9-4849-A221-73F0ED31713B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{40A53175-8048-4F2D-93CA-383074C0267E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40A53175-8048-4F2D-93CA-383074C0267E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40A53175-8048-4F2D-93CA-383074C0267E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -207,6 +206,14 @@ Global
 		{8E47C2F1-0DBB-4FA2-A734-13A6AD9BE0B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E47C2F1-0DBB-4FA2-A734-13A6AD9BE0B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E47C2F1-0DBB-4FA2-A734-13A6AD9BE0B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D13DD1E3-D2BC-D735-3AD9-B057C2411127}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D13DD1E3-D2BC-D735-3AD9-B057C2411127}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D13DD1E3-D2BC-D735-3AD9-B057C2411127}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D13DD1E3-D2BC-D735-3AD9-B057C2411127}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E659165-866E-2CD7-AB39-F44DBA758F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E659165-866E-2CD7-AB39-F44DBA758F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E659165-866E-2CD7-AB39-F44DBA758F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E659165-866E-2CD7-AB39-F44DBA758F27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,7 +231,6 @@ Global
 		{CEEB755D-DE12-4E70-816E-546C429B44B7} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{86348B50-ECA9-4849-A221-73F0ED31713B} = {72857B67-3003-486C-9BB3-34AF5748BE95}
-		{59622A6E-A9AE-438C-A164-05DEA2FCF8CF} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{40A53175-8048-4F2D-93CA-383074C0267E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{F44D03E8-FEEC-40D4-B866-A87799185B4C} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{2C4C1957-CD37-454E-85A8-786AD726A0CF} = {72857B67-3003-486C-9BB3-34AF5748BE95}
@@ -237,6 +243,8 @@ Global
 		{1AECF8A1-DC97-40BD-9DBC-31B4C14956FB} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{639F2304-2AB3-46FA-8DA9-AF1B3F50FC66} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{8E47C2F1-0DBB-4FA2-A734-13A6AD9BE0B2} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{D13DD1E3-D2BC-D735-3AD9-B057C2411127} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{6E659165-866E-2CD7-AB39-F44DBA758F27} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C7ABABF-382C-43F0-B5F6-66379FE67FD9}
