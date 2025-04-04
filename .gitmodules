@@ -1,4 +1,0 @@
-[submodule "JJ.Framework"]
-	path = JJ.Framework
-	url = https://github.com/jjvanzon/JJ.Framework.git
-	branch = fix-up
