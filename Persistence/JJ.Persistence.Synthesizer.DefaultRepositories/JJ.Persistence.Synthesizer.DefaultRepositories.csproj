@@ -14,8 +14,9 @@
     <None Remove="NCrunch.JJ.Persistence.Synthesizer.DefaultRepositories_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj" />
+    <PackageReference Include="JJ.Framework.Persistence" Version="0.250.1706" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj" />
   </ItemGroup>
 </Project>

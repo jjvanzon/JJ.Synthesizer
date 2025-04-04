@@ -10,8 +10,9 @@
     <None Remove="NCrunch.JJ.Persistence.Synthesizer.Memory_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj" />
+    <PackageReference Include="JJ.Framework.Persistence.Memory" Version="0.250.1706" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj" />
     <ProjectReference Include="..\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj" />
   </ItemGroup>

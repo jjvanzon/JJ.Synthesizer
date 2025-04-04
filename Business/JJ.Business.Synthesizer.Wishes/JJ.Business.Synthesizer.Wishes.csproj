@@ -17,24 +17,6 @@
     <None Remove="NCrunch.JJ.Business.Synthesizer.Wishes_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Collections.Core\JJ.Framework.Collections.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common.Core\JJ.Framework.Common.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration.Core\JJ.Framework.Configuration.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Existence.Core\JJ.Framework.Existence.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO.Core\JJ.Framework.IO.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Logging,Core\JJ.Framework.Logging.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection.Core\JJ.Framework.Reflection.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing.Core\JJ.Framework.Testing.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Text.Core\JJ.Framework.Text.Core.csproj" />
-    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj" />
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj" />
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj" />
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj" />
@@ -46,6 +28,10 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1164" />
+    <PackageReference Include="JJ.Framework.IO.Core" Version="2.0.1706" />
+    <PackageReference Include="JJ.Framework.Logging.Core" Version="2.0.1706" />
+    <PackageReference Include="JJ.Framework.Mathematics" Version="0.250.1706" />
+    <PackageReference Include="JJ.Framework.Testing.Core" Version="2.0.1706" />
     <PackageReference Include="System.Windows.Extensions" Version="9.0.3" />
   </ItemGroup>
 </Project>
