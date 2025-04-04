@@ -79,11 +79,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => new PersistenceConfiguration
             {
                 ContextType = "Memory",
-                ModelAssembly = ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Operator>(),
-                MappingAssembly = ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
+                ModelAssembly = ReflectionHelperCore.GetAssemblyName<Persistence.Synthesizer.Operator>(),
+                MappingAssembly = ReflectionHelperCore.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
                 RepositoryAssemblies = new[]
                 {
-                    ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(), ReflectionWishes.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
+                    ReflectionHelperCore.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(), ReflectionHelperCore.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
                 }
             };
         

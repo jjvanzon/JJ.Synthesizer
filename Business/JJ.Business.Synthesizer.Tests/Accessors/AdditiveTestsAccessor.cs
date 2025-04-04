@@ -11,12 +11,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class AdditiveTestsAccessor
     {
-        private readonly AccessorEx   _accessor;
+        private readonly AccessorCore _accessor;
         private readonly SynthWishesAccessor _baseAccessor;
 
         public AdditiveTestsAccessor(AdditiveTests obj)
         {
-            _accessor     = new AccessorEx(obj);
+            _accessor     = new AccessorCore(obj);
             _baseAccessor = new SynthWishesAccessor(obj);
         }
 

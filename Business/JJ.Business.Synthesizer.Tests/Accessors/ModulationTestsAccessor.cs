@@ -10,13 +10,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     internal class ModulationTestsAccessor
     {
         private readonly ModulationTests     _obj;
-        private readonly AccessorEx   _accessor;
+        private readonly AccessorCore   _accessor;
         private readonly SynthWishesAccessor _baseAccessor;
             
         public ModulationTestsAccessor(ModulationTests obj)
         {
             _obj          = obj ?? throw new ArgumentNullException(nameof(obj));
-            _accessor     = new AccessorEx(obj);
+            _accessor     = new AccessorCore(obj);
             _baseAccessor = new SynthWishesAccessor(obj);
         }
 

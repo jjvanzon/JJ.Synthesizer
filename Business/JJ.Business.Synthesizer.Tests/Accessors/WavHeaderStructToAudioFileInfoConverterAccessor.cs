@@ -10,14 +10,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static class WavHeaderStructToAudioFileInfoConverterAccessor
     {
-        private static readonly AccessorEx _accessor;
+        private static readonly AccessorCore _accessor;
 
         static WavHeaderStructToAudioFileInfoConverterAccessor()
         {
             Assembly assembly = typeof(WavHeaderManager).Assembly;
             string typeName = "JJ.Business.Synthesizer.Converters.WavHeaderStructToAudioFileInfoConverter";
             Type type = assembly.GetType(typeName, true);
-            _accessor = new AccessorEx(type);
+            _accessor = new AccessorCore(type);
         }
 
         public static AudioFileInfo Convert(WavHeaderStruct wavHeaderStruct)

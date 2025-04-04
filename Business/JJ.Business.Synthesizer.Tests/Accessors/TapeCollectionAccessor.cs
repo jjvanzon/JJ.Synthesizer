@@ -12,14 +12,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class TapeCollectionAccessor
     {
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
         
         public TapeCollectionAccessor(object obj)
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
             string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.TapeCollection";
             Type type = assembly.GetType(typeName, true);
-            _accessor = new AccessorEx(obj, type);
+            _accessor = new AccessorCore(obj, type);
         }
         
         public IList<TapeAccessor> GetAll()

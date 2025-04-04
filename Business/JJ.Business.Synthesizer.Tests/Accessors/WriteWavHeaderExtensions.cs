@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static partial class WavExtensionWishesAccessor
     {
-        private static AccessorEx _accessor = new AccessorEx(typeof(WavExtensionWishes));
+        private static AccessorCore _accessor = new AccessorCore(typeof(WavExtensionWishes));
 
         // ToInfo
         

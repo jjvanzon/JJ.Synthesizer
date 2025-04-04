@@ -7,11 +7,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class FlowNodeAccessor
     {
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
         
         public FlowNodeAccessor(FlowNode obj)
         {
-            _accessor = new AccessorEx(obj);
+            _accessor = new AccessorCore(obj);
         }
 
         public string DebuggerDisplay => (string)_accessor.GetPropertyValue(MemberName());

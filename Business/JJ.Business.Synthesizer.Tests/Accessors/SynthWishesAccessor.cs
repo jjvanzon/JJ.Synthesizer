@@ -11,11 +11,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class SynthWishesAccessor
     {
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
 
         public SynthWishesAccessor(SynthWishes obj)
         {
-            _accessor = new AccessorEx(obj, typeof(SynthWishes));
+            _accessor = new AccessorCore(obj, typeof(SynthWishes));
         }
         
         /// <inheritdoc cref="wishdocs._captureindexer" />

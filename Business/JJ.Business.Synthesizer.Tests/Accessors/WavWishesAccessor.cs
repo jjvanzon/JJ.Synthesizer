@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static class WavWishesAccessor
     {
-        private static AccessorEx _accessor = new AccessorEx(typeof(WavWishes));
+        private static AccessorCore _accessor = new AccessorCore(typeof(WavWishes));
         
         // With ConfigResolver
         

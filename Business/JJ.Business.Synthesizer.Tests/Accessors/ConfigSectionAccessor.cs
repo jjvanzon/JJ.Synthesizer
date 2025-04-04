@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         public object Obj { get; }
         
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
         
         // Add constructors to FrameworkWishes
         
@@ -25,13 +25,13 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             Type type = GetUnderlyingType();
             Obj       = Activator.CreateInstance(type);
-            _accessor = new AccessorEx(Obj, Obj.GetType());
+            _accessor = new AccessorCore(Obj, Obj.GetType());
         }
         
         public ConfigSectionAccessor(object obj)
         {
             Obj = obj;
-            _accessor = new AccessorEx(obj, GetUnderlyingType());
+            _accessor = new AccessorCore(obj, GetUnderlyingType());
         }
 
         public override bool Equals(object obj)

@@ -18,14 +18,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         private object _ = null;
         
-        private static readonly AccessorEx _staticAccessor = new AccessorEx(GetUnderlyingType());
-        private readonly AccessorEx _accessor;
+        private static readonly AccessorCore _staticAccessor = new AccessorCore(GetUnderlyingType());
+        private readonly AccessorCore _accessor;
         
         public object Obj { get; }
         
         public ConfigResolverAccessor(object obj)
         {
-            _accessor = new AccessorEx(obj, GetUnderlyingType());
+            _accessor = new AccessorCore(obj, GetUnderlyingType());
             Obj = obj;
         }
         

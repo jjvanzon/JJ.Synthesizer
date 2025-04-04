@@ -9,12 +9,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class FMTestsAccessor
     {
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
         private readonly SynthWishesAccessor _baseAccessor;
             
         public FMTestsAccessor(FMTests obj)
         {
-            _accessor     = new AccessorEx(obj);
+            _accessor     = new AccessorCore(obj);
             _baseAccessor = new SynthWishesAccessor(obj);
         }
 

@@ -9,14 +9,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class TapeAccessor
     {
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
         
         public TapeAccessor(object obj)
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
             string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.Tape";
             Type type = assembly.GetType(typeName, true);
-            _accessor = new AccessorEx(obj, type);
+            _accessor = new AccessorCore(obj, type);
         }
         
         public FlowNode Signal

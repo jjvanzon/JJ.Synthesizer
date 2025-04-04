@@ -14,19 +14,19 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     {
         public object Obj { get; }
         
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
                 
         public ConfigToolingElementAccessor()
         {
             Type type = GetUnderlyingType();
             Obj       = Activator.CreateInstance(type);
-            _accessor = new AccessorEx(Obj, Obj.GetType());
+            _accessor = new AccessorCore(Obj, Obj.GetType());
         }
 
         public ConfigToolingElementAccessor(object obj)
         {
             Obj = obj;
-            _accessor = new AccessorEx(obj, GetUnderlyingType());
+            _accessor = new AccessorCore(obj, GetUnderlyingType());
         }
         
         private Type GetUnderlyingType()

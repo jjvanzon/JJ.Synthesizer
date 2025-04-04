@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     /// which require interplay between multiple accessors and
     /// otherwise repetitive explicit parameter type specifications.
     /// </summary>
-    internal class ConfigWishesHelperAccessor : AccessorEx
+    internal class ConfigWishesHelperAccessor : AccessorCore
     {
         public ConfigWishesHelperAccessor(Type type) : base(type) { }
         

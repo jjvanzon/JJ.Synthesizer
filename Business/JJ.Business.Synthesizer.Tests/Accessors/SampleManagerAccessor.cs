@@ -8,11 +8,11 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class SampleManagerAccessor
     {
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
         
         public SampleManagerAccessor(SampleManager sampleManager)
         {
-            _accessor = new AccessorEx(sampleManager);
+            _accessor = new AccessorCore(sampleManager);
         }
 
         public Sample CreateWavSample(WavHeaderStruct wavHeaderStruct)

@@ -10,14 +10,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class TapeRunnerAccessor
     {
-        private readonly AccessorEx _accessor;
+        private readonly AccessorCore _accessor;
         
         public TapeRunnerAccessor(object obj)
         {
             Assembly assembly = typeof(SynthWishes).Assembly;
             string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.TapeRunner";
             Type type = assembly.GetType(typeName, true);
-            _accessor = new AccessorEx(obj, type);
+            _accessor = new AccessorCore(obj, type);
         }
         
         public void RunAllTapes() 
