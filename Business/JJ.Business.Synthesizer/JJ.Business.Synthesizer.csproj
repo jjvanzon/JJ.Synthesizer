@@ -12,7 +12,7 @@
     <None Remove="NCrunch.JJ.Business.Synthesizer_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1164" />
+    <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
     <PackageReference Include="JJ.Framework.Business" Version="0.250.1706" />
     <PackageReference Include="JJ.Framework.IO" Version="0.250.1706" />
     <PackageReference Include="JJ.Framework.Persistence" Version="0.250.1706" />
