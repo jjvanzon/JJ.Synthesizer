@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using JJ.Framework.Common;
@@ -15,8 +14,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Framework.IO.Core.FileWishes;
-using static JJ.Framework.Text.Core.StringWishes;
+using static JJ.Framework.IO.Core.FileHelperCore;
 
 // ReSharper disable VirtualMemberCallInConstructor
 // ReSharper disable AssignmentInsteadOfDiscard

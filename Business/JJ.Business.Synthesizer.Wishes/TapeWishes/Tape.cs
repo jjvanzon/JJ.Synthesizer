@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 // ReSharper disable ArrangeAccessorOwnerBody
 

@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.InletObsoleteMessages;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

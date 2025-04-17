@@ -17,9 +17,10 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Common.Core.EnvironmentHelper;
-using static JJ.Framework.Existence.Core.FilledInWishes;
-using static JJ.Framework.Configuration.Core.ConfigurationManagerWishes;
-using static JJ.Framework.Testing.Core.TestWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
+using static JJ.Framework.Configuration.Core.CustomConfigurationManagerCore;
+using static JJ.Framework.Testing.Core.TestHelperCore;
+using FilledInExtensions = JJ.Business.Synthesizer.Wishes.Helpers.FilledInExtensions;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {
@@ -88,7 +89,7 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             {
                 loggerConfig.Categories = categories.ToList();
                 // Remove from exclusions
-                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => FilledInExtensionWishes.In((string)x, categories)).ToList();
+                loggerConfig.ExcludedCategories = loggerConfig.ExcludedCategories.Except(x => FilledInHelper.In((string)x, categories)).ToList();
             }
             
             return this;

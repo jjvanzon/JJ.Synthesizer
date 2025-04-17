@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Existence.Core;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
 {

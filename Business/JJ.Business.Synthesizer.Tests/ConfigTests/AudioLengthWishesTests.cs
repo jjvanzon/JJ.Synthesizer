@@ -14,9 +14,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Math;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Testing.Core.AssertWishes;
+using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using System.Runtime.CompilerServices;
 // ReSharper disable ArrangeStaticMemberQualifier

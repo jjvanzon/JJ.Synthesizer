@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Framework.Text.Core.StringWishes;
+using static JJ.Framework.Text.Core.StringHelperCore;
 using static JJ.Framework.Testing.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical

@@ -5,11 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using static JJ.Framework.Text.Core.StringWishes;
+using static JJ.Framework.Text.Core.StringHelperCore;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 // ReSharper disable UnusedMember.Local
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete

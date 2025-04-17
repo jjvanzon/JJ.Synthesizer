@@ -10,8 +10,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Business.Synthesizer.Wishes.docs;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.WrappersObsoleteMessages;
 
 // ReSharper disable NotResolvedInText

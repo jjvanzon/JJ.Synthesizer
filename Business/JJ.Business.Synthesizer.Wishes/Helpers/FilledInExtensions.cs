@@ -10,10 +10,10 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
     /// <inheritdoc cref="_filledinhelper" />
     internal static class FilledInExtensions
     {
-        public static bool IsNully(this  FlowNode flowNode) => FilledInHelper.IsNully(flowNode);
-        public static bool FilledIn(this FlowNode flowNode) => FilledInHelper.FilledIn(flowNode);
+        public static bool IsNully(this  FlowNode flowNode) => FilledInSynthHelper.IsNully(flowNode);
+        public static bool FilledIn(this FlowNode flowNode) => FilledInSynthHelper.FilledIn(flowNode);
         
-        public static bool FilledIn(this WavHeaderStruct wavHeader) => FilledInHelper.FilledIn(wavHeader);
-        public static bool IsNully(this  WavHeaderStruct wavHeader) => FilledInHelper.IsNully(wavHeader);
+        public static bool FilledIn(this WavHeaderStruct wavHeader) => FilledInSynthHelper.FilledIn(wavHeader);
+        public static bool IsNully(this  WavHeaderStruct wavHeader) => FilledInSynthHelper.IsNully(wavHeader);
     }
 }

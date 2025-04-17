@@ -6,8 +6,7 @@ using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
-using static JJ.Framework.Existence.Core.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes

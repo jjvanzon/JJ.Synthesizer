@@ -16,8 +16,8 @@ using JJ.Framework.Text.Core;
 using static System.Environment;
 using static System.IO.Path;
 using static System.String;
-using static JJ.Framework.Existence.Core.FilledInWishes;
-using static JJ.Framework.IO.Core.FileWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
+using static JJ.Framework.IO.Core.FileHelperCore;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 

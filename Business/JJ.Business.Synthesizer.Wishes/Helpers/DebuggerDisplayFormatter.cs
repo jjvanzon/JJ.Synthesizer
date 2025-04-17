@@ -8,9 +8,8 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
 using static System.IO.File;
 using static System.String;
-using static JJ.Framework.Existence.Core.FilledInWishes;
-using static JJ.Framework.Text.Core.StringWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
+using static JJ.Framework.Text.Core.StringHelperCore;
 
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {

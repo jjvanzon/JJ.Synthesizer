@@ -9,8 +9,8 @@ using static System.Environment;
 using static System.IO.File;
 using static System.String;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using static JJ.Framework.Existence.Core.FilledInWishes;
-using static JJ.Framework.Text.Core.StringWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
+using static JJ.Framework.Text.Core.StringHelperCore;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes.Logging

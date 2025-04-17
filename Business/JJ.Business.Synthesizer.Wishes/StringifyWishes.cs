@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Text.Core;
 using static System.Environment;
 using static System.String;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private readonly bool _singleLine;
         private readonly bool _canOmitNameForBasicMath;
-        internal StringBuilderWithIndentation_Adapted _sb; // Internal for obsolete extension methods
+        internal StringBuilderWithIndentationCore _sb; // Internal for obsolete extension methods
 
         public Stringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
@@ -130,15 +130,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Create StringBuilder
 
         // Internal for obsolete extension methods
-        internal StringBuilderWithIndentation_Adapted CreateStringBuilder()
+        internal StringBuilderWithIndentationCore CreateStringBuilder()
         {
             if (_singleLine)
             {
-                return new StringBuilderWithIndentation_Adapted("", "");
+                return new StringBuilderWithIndentationCore("", "");
             }
             else
             {
-                return new StringBuilderWithIndentation_Adapted();
+                return new StringBuilderWithIndentationCore();
             }
         }
 

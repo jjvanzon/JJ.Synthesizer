@@ -9,12 +9,10 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
-using static System.Environment;
 using static System.IO.Path;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Business.Synthesizer.Wishes.TapeWishes.ActionEnum;
 using File = System.IO.File;
 
 // ReSharper disable once ParameterHidesMember

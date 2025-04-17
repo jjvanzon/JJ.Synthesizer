@@ -15,12 +15,12 @@ using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Framework.Testing.Core.AssertWishes;
+using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.IO.Core.FileWishes;
+using static JJ.Framework.IO.Core.FileHelperCore;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.SaveLegacyStatics;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalse

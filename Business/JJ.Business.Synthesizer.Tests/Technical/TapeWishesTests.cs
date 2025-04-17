@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Config;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Testing.Core.AssertWishes;
+using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 

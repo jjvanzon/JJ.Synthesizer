@@ -9,11 +9,9 @@ using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using static JJ.Framework.Text.Core.StringWishes;
+using static JJ.Framework.Text.Core.StringHelperCore;
 using static JJ.Business.Synthesizer.Wishes.SynthWishes;
 using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
 
 namespace JJ.Business.Synthesizer.Wishes.TapeWishes
 {

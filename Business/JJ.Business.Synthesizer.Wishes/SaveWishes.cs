@@ -9,10 +9,9 @@ using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static System.IO.File;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using static JJ.Framework.IO.Core.FileWishes;
+using static JJ.Framework.IO.Core.FileHelperCore;
 
 namespace JJ.Business.Synthesizer.Wishes
 {

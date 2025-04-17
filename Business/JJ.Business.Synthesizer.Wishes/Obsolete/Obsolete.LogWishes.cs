@@ -6,11 +6,9 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.Environment;
 using static System.String;
-using static JJ.Framework.Text.Core.StringWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using static JJ.Framework.Text.Core.StringHelperCore;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.Existence.Core.FilledInWishes;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete
 {

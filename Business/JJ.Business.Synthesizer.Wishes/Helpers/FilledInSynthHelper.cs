@@ -9,7 +9,7 @@ using JJ.Framework.Existence.Core;
 namespace JJ.Business.Synthesizer.Wishes.Helpers
 {
     /// <inheritdoc cref="_filledinhelper" />
-    internal class FilledInHelper
+    internal class FilledInSynthHelper
     {
         // FlowNode
         
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Wishes.Helpers
             if (flowNode.IsSample)
             {
                 var underlyingSample = flowNode.UnderlyingSample();
-                return FilledInWishes.Has(underlyingSample.Bytes);
+                return FilledInHelper.Has(underlyingSample.Bytes);
             }
 
             return true;

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Wishes.Config;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.ObsoleteCalculationWishesMessages;
 
 namespace JJ.Business.Synthesizer.Wishes.Obsolete

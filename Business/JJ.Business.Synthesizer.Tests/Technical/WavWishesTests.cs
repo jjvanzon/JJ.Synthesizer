@@ -25,8 +25,8 @@ using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
-using static JJ.Framework.Existence.Core.FilledInWishes;
-using static JJ.Framework.Testing.Core.AssertWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
+using static JJ.Framework.Testing.Core.AssertHelperCore;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Testing.Core;
 

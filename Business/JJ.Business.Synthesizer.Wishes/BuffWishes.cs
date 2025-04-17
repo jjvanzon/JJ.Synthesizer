@@ -20,11 +20,11 @@ using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutpu
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.IO.Core.FileWishes;
+using static JJ.Framework.IO.Core.FileHelperCore;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
-using static JJ.Framework.Existence.Core.FilledInWishes;
+using static JJ.Framework.Existence.Core.FilledInHelper;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable ParameterHidesMember
