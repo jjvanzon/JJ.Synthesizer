@@ -1,6 +1,3 @@
 <Project>
-  <Import 
-    Project="BuildNum.xml" 
-    Condition="'$(XmlImportedjj)'==''
-    And Exists('BuildNum.xml')"/>
+  <PropertyGroup><DirProps_Loadedjj>True</DirProps_Loadedjj><DirProps_LoadTimejj>$([System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss.ffffff"))</DirProps_LoadTimejj><DirProps_XmlRefjj>BuildNum.xml</DirProps_XmlRefjj><DirProps_XmlImportedjj_Pre>$(XmlImportedjj)</DirProps_XmlImportedjj_Pre></PropertyGroup><Import Project="BuildNum.xml" Condition="'$(XmlImportedjj)'=='' And Exists('BuildNum.xml')" /><PropertyGroup><DirProps_XmlImportedjj_Post>$(XmlImportedjj)</DirProps_XmlImportedjj_Post></PropertyGroup>
 </Project>
