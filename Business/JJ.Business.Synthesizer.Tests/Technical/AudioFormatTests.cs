@@ -14,7 +14,7 @@ using static System.Environment;
 using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+//using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
@@ -665,7 +665,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     $"Byte count expected = {byteCountExpected}{NewLine}" +
                     $"Byte count actual = {sample.Bytes.Length}";
                 
-                AreEqual(byteCountExpected, sample.Bytes.Length, byteCountTolerance, byteCountDescriptor);
+                // TODO: Make JJ.Framework variant to lose the Assert. qualifier without conflicts.
+                Assert.AreEqual(byteCountExpected, sample.Bytes.Length, byteCountTolerance, byteCountDescriptor);
             }
             
             // Paths

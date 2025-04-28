@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+//using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable ExplicitCallerInfoArgument
@@ -176,7 +176,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Log($"{new { operandValue1, operandValue2, operandValue3 }}");
 
             // Assert Values
-            AreEqual(0.1 + 0.2 + 0.3,       operandValue1 + operandValue2 + operandValue3, tolerance);
+            // TODO: Make JJ.Framework variant to lose the Assert. qualifier without conflicts.
+            Assert.AreEqual(0.1 + 0.2 + 0.3,       operandValue1 + operandValue2 + operandValue3, tolerance);
             AreEqual(0.1,             () => operandValuesSorted[0],                        tolerance);
             AreEqual(0.2,             () => operandValuesSorted[1],                        tolerance);
             AreEqual(0.3,             () => operandValuesSorted[2],                        tolerance);

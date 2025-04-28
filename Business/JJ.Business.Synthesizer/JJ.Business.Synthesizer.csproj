@@ -13,11 +13,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
-    <PackageReference Include="JJ.Framework.Business" Version="0.250.2095" />
-    <PackageReference Include="JJ.Framework.IO" Version="0.250.2095" />
-    <PackageReference Include="JJ.Framework.Persistence" Version="0.250.2095" />
-    <PackageReference Include="JJ.Framework.Presentation.Resources" Version="0.250.2095" />
-    <PackageReference Include="JJ.Framework.Validation" Version="0.250.2095" />
+    <PackageReference Include="JJ.Framework.Business" Version="0.250.2334" />
+    <PackageReference Include="JJ.Framework.IO" Version="0.250.2334" />
+    <PackageReference Include="JJ.Framework.Persistence" Version="0.250.2334" />
+    <PackageReference Include="JJ.Framework.Presentation.Resources" Version="0.250.2334" />
+    <PackageReference Include="JJ.Framework.Validation" Version="0.250.2334" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
