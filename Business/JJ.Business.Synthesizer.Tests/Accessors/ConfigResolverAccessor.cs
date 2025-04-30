@@ -16,7 +16,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class ConfigResolverAccessor
     {
-        private object _ = null;
         
         private static readonly AccessorCore _staticAccessor = new AccessorCore(GetUnderlyingType());
         private readonly AccessorCore _accessor;
@@ -70,10 +69,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         public ConfigResolverAccessor WithBits(int? value) 
             => new ConfigResolverAccessor(_accessor.InvokeMethod(
-                MemberName(), 
-                new object[] { value }, 
-                new Type[] { typeof(int?) }));
-        
+                MemberName(), [ value ], [ typeof(int?) ]));
         
         // Channels
         
@@ -332,7 +328,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             => new ConfigResolverAccessor(_accessor.InvokeMethod(
                 MemberName(),
                 new object[] { count, delay, synthWishes },
-                new Type[] { typeof(int), typeof(FlowNode), typeof(SynthWishes) }));
+                [ typeof(int), typeof(FlowNode), typeof(SynthWishes) ]));
 
         public ConfigResolverAccessor AddEchoDuration(int count, double delay, SynthWishes synthWishes)
             => new ConfigResolverAccessor(_accessor.InvokeMethod(count, delay, synthWishes));
