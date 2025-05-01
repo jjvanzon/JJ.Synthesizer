@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
-//using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+//
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable ExplicitCallerInfoArgument

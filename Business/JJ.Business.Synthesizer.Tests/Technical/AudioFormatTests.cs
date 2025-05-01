@@ -14,7 +14,6 @@ using static System.Environment;
 using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
-//using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;

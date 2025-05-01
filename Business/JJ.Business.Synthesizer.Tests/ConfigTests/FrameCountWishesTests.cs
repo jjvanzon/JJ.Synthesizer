@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Wishes.Config;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Framework.Testing.Core.AssertHelperLegacy;

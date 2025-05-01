@@ -11,7 +11,7 @@ using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Business.Synthesizer.Wishes.Helpers.ServiceFactory;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using System.Runtime.CompilerServices;
@@ -82,9 +82,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             var leftEntities   = CreateTestEntities(StereoChannels, LeftChannel,   context);
             var rightEntities  = CreateTestEntities(StereoChannels, RightChannel,  context);
             
-            AreSame(centerEntities.Immutable.ChannelEntity,   MonoChannels.ChannelsToChannelEntity(CenterChannel, context));
-            AreSame(  leftEntities.Immutable.ChannelEntity, StereoChannels.ChannelsToChannelEntity(LeftChannel,   context));
-            AreSame( rightEntities.Immutable.ChannelEntity, StereoChannels.ChannelsToChannelEntity(RightChannel,  context));
+            AreEqual(centerEntities.Immutable.ChannelEntity, MonoChannels.ChannelsToChannelEntity(CenterChannel, context));
+            AreEqual(  leftEntities.Immutable.ChannelEntity, StereoChannels.ChannelsToChannelEntity(LeftChannel,   context));
+            AreEqual( rightEntities.Immutable.ChannelEntity, StereoChannels.ChannelsToChannelEntity(RightChannel,  context));
             ThrowsException(() => (-1).ChannelsToChannelEntity(CenterChannel, context));
 
             AreEqual(MonoChannels,   () => centerEntities.Immutable.ChannelEntity.ChannelEntityToChannels());

@@ -13,9 +13,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
-using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Framework.Testing.Core.AssertHelperCore;
+using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Framework.Testing.Core.DeltaDirectionEnum;
 using System.Runtime.CompilerServices;
 using JJ.Framework.Existence.Core;
@@ -226,15 +225,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, entities.SynthBound.FlowNode2     .GetByteCount);
             AreEqual(byteCount, entities.SynthBound.ConfigResolver.GetByteCount(entities.SynthBound.SynthWishes));
             
-            AreEqual(byteCount, entities.TapeBound.Tape           .GetByteCount(), courtesy);
-            AreEqual(byteCount, entities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
-            AreEqual(byteCount, entities.TapeBound.TapeActions    .GetByteCount(), courtesy);
-            AreEqual(byteCount, entities.TapeBound.TapeAction     .GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.TapeBound.Tape           .GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.TapeBound.TapeActions    .GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.TapeBound.TapeAction     .GetByteCount(), courtesy);
             
-            AreEqual(byteCount, entities.BuffBound.Buff           .GetByteCount(), courtesy);
-            AreEqual(byteCount, entities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
-            AreEqual(byteCount, entities.Independent.Sample       .GetByteCount(), courtesy);
-            AreEqual(byteCount, entities.Immutable.WavHeader      .GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.BuffBound.Buff           .GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.Independent.Sample       .GetByteCount(), courtesy);
+            AreEqual(byteCount, () => entities.Immutable.WavHeader      .GetByteCount(), courtesy);
             
             AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Bits              .GetByteCount());
             AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Type              .GetByteCount());
@@ -243,15 +242,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             
             foreach (var channelEntities in entities.ChannelEntities)
             {
-                AreEqual(byteCount, channelEntities.TapeBound.Tape           .GetByteCount(), courtesy);
-                AreEqual(byteCount, channelEntities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
-                AreEqual(byteCount, channelEntities.TapeBound.TapeActions    .GetByteCount(), courtesy);
-                AreEqual(byteCount, channelEntities.TapeBound.TapeAction     .GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.TapeBound.Tape           .GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.TapeBound.TapeActions    .GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.TapeBound.TapeAction     .GetByteCount(), courtesy);
                 
-                AreEqual(byteCount, channelEntities.BuffBound.Buff           .GetByteCount(), courtesy);
-                AreEqual(byteCount, channelEntities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
-                AreEqual(byteCount, channelEntities.Independent.Sample       .GetByteCount(), courtesy);
-                AreEqual(byteCount, channelEntities.Immutable.WavHeader      .GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.BuffBound.Buff           .GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.Independent.Sample       .GetByteCount(), courtesy);
+                AreEqual(byteCount, () => channelEntities.Immutable.WavHeader      .GetByteCount(), courtesy);
 
                 AreEqual(DefaultSizeOfBitDepth, channelEntities.Immutable.Bits              .GetByteCount());
                 AreEqual(DefaultSizeOfBitDepth, channelEntities.Immutable.Type              .GetByteCount());

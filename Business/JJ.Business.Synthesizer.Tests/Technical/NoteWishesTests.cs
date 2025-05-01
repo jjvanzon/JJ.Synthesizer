@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Framework.Testing.AssertHelper;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Framework.Testing.Core.AssertHelperCore;
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable PossibleInvalidOperationException
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 ResetNoteLength();
                 WithBeatLength(Curve(1.5, 2.0));
-                AreEqual(1.75, GetNoteLength().Calculate(0.5), delta);
+                AreEqual(1.75, () => GetNoteLength().Calculate(0.5), delta);
                 Save(Note(instrument(A4), time, volume)).Play();
             }
             

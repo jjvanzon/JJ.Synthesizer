@@ -12,13 +12,13 @@
     <None Remove="NCrunch.JJ.Business.Synthesizer_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.AutoIncrementVersion" Version="2.2.2399" />
+    <PackageReference Include="JJ.AutoIncrementVersion" Version="2.4.2407" />
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
-    <PackageReference Include="JJ.Framework.Business" Version="0.250.2334" />
-    <PackageReference Include="JJ.Framework.IO" Version="0.250.2334" />
-    <PackageReference Include="JJ.Framework.Persistence" Version="0.250.2334" />
-    <PackageReference Include="JJ.Framework.Presentation.Resources" Version="0.250.2334" />
-    <PackageReference Include="JJ.Framework.Validation" Version="0.250.2334" />
+    <PackageReference Include="JJ.Framework.Business" Version="0.250.2418" />
+    <PackageReference Include="JJ.Framework.IO" Version="0.250.2418" />
+    <PackageReference Include="JJ.Framework.Persistence" Version="0.250.2418" />
+    <PackageReference Include="JJ.Framework.Presentation.Resources" Version="0.250.2418" />
+    <PackageReference Include="JJ.Framework.Validation" Version="0.250.2418" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">

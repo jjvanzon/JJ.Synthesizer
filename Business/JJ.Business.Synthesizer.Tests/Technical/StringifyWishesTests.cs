@@ -2,7 +2,8 @@
 using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Environment;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+using static JJ.Framework.Testing.Core.AssertHelperCore;
+
 
 #pragma warning disable CS0612
 

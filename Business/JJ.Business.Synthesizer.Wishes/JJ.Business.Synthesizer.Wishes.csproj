@@ -28,10 +28,10 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
-    <PackageReference Include="JJ.Framework.IO.Core" Version="2.2.2372" />
-    <PackageReference Include="JJ.Framework.Logging.Core" Version="2.2.2372" />
-    <PackageReference Include="JJ.Framework.Mathematics" Version="0.250.2334" />
-    <PackageReference Include="JJ.Framework.Testing.Core" Version="2.2.2372" />
+    <PackageReference Include="JJ.Framework.IO.Core" Version="2.4.2418" />
+    <PackageReference Include="JJ.Framework.Logging.Core" Version="2.4.2418" />
+    <PackageReference Include="JJ.Framework.Mathematics" Version="0.250.2418" />
+    <PackageReference Include="JJ.Framework.Testing.Core" Version="2.4.2418" />
     <PackageReference Include="System.Windows.Extensions" Version="9.0.3" />
   </ItemGroup>
 </Project>

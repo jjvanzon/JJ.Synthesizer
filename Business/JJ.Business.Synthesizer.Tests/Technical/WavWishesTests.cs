@@ -19,7 +19,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Tests.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.IO.File;
-using static Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
