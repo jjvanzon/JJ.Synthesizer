@@ -55,55 +55,55 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public T Get<T>(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<T>(obj.Obj, callerMemberName);
+            return (T)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public T Get<T>(ConfigResolverAccessor obj, SynthWishes synthWishes, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<T>(obj.Obj, synthWishes, callerMemberName);
+            return (T)InvokeMethod(obj.Obj, synthWishes, callerMemberName);
         }
         
         public bool GetBool(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<bool>(obj.Obj, callerMemberName);
+            return (bool)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public int GetInt(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<int>(obj.Obj, callerMemberName);
+            return (int)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public int GetInt(ConfigResolverAccessor obj, SynthWishes synthWishes, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<int>(obj.Obj, synthWishes, callerMemberName);
+            return (int)InvokeMethod(obj.Obj, synthWishes, callerMemberName);
         }
         
         public int? GetNullyInt(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<int?>(obj.Obj, callerMemberName);
+            return (int?)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public string GetString(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<string>(obj.Obj, callerMemberName);
+            return (string)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public double GetDouble(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<double>(obj.Obj, callerMemberName);
+            return (double)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public double? GetNullyDouble(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<double?>(obj.Obj, callerMemberName);
+            return (double?)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         // For ConfigSection
@@ -111,31 +111,31 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public T Get<T>(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<T>(obj.Obj, callerMemberName);
+            return (T)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public bool GetBool(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<bool>(obj.Obj, callerMemberName);
+            return (bool)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public int? GetNullyInt(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<int?>(obj.Obj, callerMemberName);
+            return (int?)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public string GetString(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<string>(obj.Obj, callerMemberName);
+            return (string)InvokeMethod(obj.Obj, callerMemberName);
         }
         
         public double? GetNullyDouble(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return InvokeMethod<double?>(obj.Obj, callerMemberName);
+            return (double?)InvokeMethod(obj.Obj, callerMemberName);
         }
     }
 }

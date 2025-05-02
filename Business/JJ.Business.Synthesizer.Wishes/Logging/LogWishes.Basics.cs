@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Logging.Core.Loggers;
+using static System.Environment;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogCats;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Logging.Core.LoggerFactory;
@@ -35,9 +35,10 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public void LogSpaced(                 string message) => LogSpaced(DefaultCategory, message);
         public void LogSpaced(string category, string message) 
         {
-            Logger.LogRaw(category, ""     );
-            Logger.LogRaw(category, message);
-            Logger.LogRaw(category, ""     );
+            Logger.LogRaw(category, NewLine + message + NewLine);
+            //Logger.LogRaw(category, ""     );
+            //Logger.LogRaw(category, message);
+            //Logger.LogRaw(category, ""     );
         }
 
         public void LogTitle(                 string title) => LogTitle(DefaultCategory, title);

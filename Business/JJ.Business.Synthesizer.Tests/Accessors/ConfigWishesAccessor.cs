@@ -100,8 +100,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static ConfigResolverAccessor WithByteCount(ConfigResolverAccessor obj, int? value, SynthWishes synthWishes) => _accessor.Set(obj, value, synthWishes);
         public static ConfigResolverAccessor SetByteCount(ConfigResolverAccessor obj, int? value, SynthWishes synthWishes) => _accessor.Set(obj, value, synthWishes);
 
-        public static int? ByteCount(ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
-        public static int? GetByteCount(ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
+        public static int? ByteCount(ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
+        public static int? GetByteCount(ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
         
         // Channel
         
@@ -160,10 +160,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static ConfigResolverAccessor SetStereo(ConfigResolverAccessor obj) => _accessor.Call(obj);
         public static ConfigResolverAccessor SetChannels(ConfigResolverAccessor obj, int? channels) => _accessor.Set(obj, channels);
 
-        public static bool IsMono(ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool IsStereo(ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static int? Channels(ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
-        public static int? GetChannels(ConfigSectionAccessor obj) => _accessor.InvokeMethod<int?>(obj.Obj);
+        public static bool IsMono(ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
+        public static bool IsStereo(ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
+        public static int? Channels(ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
+        public static int? GetChannels(ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
 
         // CourtesyBytes
 
@@ -248,8 +248,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public static ConfigResolverAccessor AsInterpolation(ConfigResolverAccessor obj, InterpolationTypeEnum? value) => _accessor.Set(obj, value);
         public static ConfigResolverAccessor SetInterpolation(ConfigResolverAccessor obj, InterpolationTypeEnum? value) => _accessor.Set(obj, value);
         
-        public static bool IsLinear(ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
-        public static bool IsBlocky(ConfigSectionAccessor obj) => _accessor.InvokeMethod<bool>(obj.Obj);
+        public static bool IsLinear(ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
+        public static bool IsBlocky(ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
         public static InterpolationTypeEnum? Interpolation(ConfigSectionAccessor obj) => _accessor.Get<InterpolationTypeEnum?>(obj);
         public static InterpolationTypeEnum? GetInterpolation(ConfigSectionAccessor obj) => _accessor.Get<InterpolationTypeEnum?>(obj);
 
