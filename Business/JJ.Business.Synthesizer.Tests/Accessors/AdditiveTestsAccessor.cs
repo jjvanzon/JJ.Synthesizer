@@ -9,30 +9,25 @@ using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal class AdditiveTestsAccessor
+    internal class AdditiveTestsAccessor(AdditiveTests obj)
     {
-        private readonly AccessorCore _accessor;
-        private readonly SynthWishesAccessor _baseAccessor;
-
-        public AdditiveTestsAccessor(AdditiveTests obj)
-        {
-            _accessor     = new AccessorCore(obj);
-            _baseAccessor = new SynthWishesAccessor(obj);
-        }
+        private readonly AccessorCore _accessor = new(obj);
+        //private readonly SynthWishesAccessor _baseAccessor = new(obj);
 
         /// <inheritdoc cref="wishdocs._captureindexer" />
-        public SynthWishes _ => _baseAccessor._;
+        //public SynthWishes _ => _baseAccessor._;
+        public SynthWishes _ => _accessor.Get<SynthWishes>();
         
         /// <inheritdoc cref="_metallophone"/>
         public FlowNode MetallophoneJingle()
-            => (FlowNode)_accessor.Call(MemberName());
+            => (FlowNode)_accessor.Call();
         
         /// <inheritdoc cref="_metallophone"/>
         public FlowNode MetallophoneChord
-            => (FlowNode)_accessor.Get(MemberName());
+            => (FlowNode)_accessor.Get();
 
         /// <inheritdoc cref="_metallophone"/>
         public FlowNode Metallophone(FlowNode freq, FlowNode duration = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq, duration ?? _[1]);
+            => (FlowNode)_accessor.Call(freq, duration);
     }
 }

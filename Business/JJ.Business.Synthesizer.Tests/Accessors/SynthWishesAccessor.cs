@@ -21,11 +21,9 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
         
         /// <inheritdoc cref="wishdocs._captureindexer" />
-        public SynthWishes _ 
-            => (SynthWishes)_accessor.Get(nameof(_));
+        public SynthWishes _ => (SynthWishes)_accessor.Get();
 
-        public void Run(Action action)
-            => _accessor.Call(MemberName(), action);
+        public void Run(Action action) => _accessor.Call(action);
 
         public IList<FlowNode> FlattenTerms(FlowNode sumOrAdd) 
             => (IList<FlowNode>)_accessor.Call(MemberName(), sumOrAdd);

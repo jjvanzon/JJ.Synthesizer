@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static class AudioFormatExtensionWishesAccessor
     {
-        private static readonly ConfigWishesHelperAccessor _accessor = new ConfigWishesHelperAccessor(typeof(AudioFormatExtensionWishes));
+        private static readonly ConfigWishesHelperAccessor _accessor = new (typeof(AudioFormatExtensionWishes));
 
         // With ConfigResolver
         

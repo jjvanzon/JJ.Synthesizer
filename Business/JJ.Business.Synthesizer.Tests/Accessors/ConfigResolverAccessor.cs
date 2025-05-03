@@ -10,24 +10,22 @@ using JJ.Framework.Reflection.Core;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
 // ReSharper disable UnusedParameter.Global
+// ReSharper disable RedundantTypeArgumentsOfMethod
+#pragma warning disable IDE0001 // Simplify Names
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     [DebuggerDisplay("{DebuggerDisplay}")]
-    internal class ConfigResolverAccessor
+    internal class ConfigResolverAccessor(object obj)
     {
         
-        private static readonly AccessorCore _staticAccessor = new AccessorCore(GetUnderlyingType());
-        private readonly AccessorCore _accessor;
+        //private static readonly AccessorCore _staticAccessor = new (GetUnderlyingType());
+        private static readonly AccessorCore _staticAccessor = new ("ConfigResolver");
+        private readonly AccessorCore _accessor = new (obj);
         
-        public object Obj { get; }
+        public object Obj { get; } = obj;
         
-        public ConfigResolverAccessor(object obj)
-        {
-            //_accessor = new AccessorCore(obj, GetUnderlyingType());
-            _accessor = new AccessorCore(obj);
-            Obj = obj;
-        }
+        //_accessor = new AccessorCore(obj, GetUnderlyingType());
         
         public override bool Equals(object obj)
         {
@@ -36,121 +34,112 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             return false;
         }
         
-        private static Type GetUnderlyingType()
-        {
-            Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Config.ConfigResolver";
-            Type     type     = assembly.GetType(typeName, true);
-            return   type;
-        }
+        //private static Type GetUnderlyingType()
+        //{
+        //    Assembly assembly = typeof(SynthWishes).Assembly;
+        //    string   typeName = "JJ.Business.Synthesizer.Wishes.Config.ConfigResolver";
+        //    Type     type     = assembly.GetType(typeName, true);
+        //    return   type;
+        //}
         
-        public string DebuggerDisplay => _accessor.Get(() => DebuggerDisplay);
+        public string DebuggerDisplay => _accessor.Get<string>();
         
-        public static ConfigResolverAccessor Static => new ConfigResolverAccessor(_staticAccessor.Get());
+        public static ConfigResolverAccessor Static => new (_staticAccessor.Get());
 
         public ConfigSectionAccessor _section
         {
-            get => new ConfigSectionAccessor(_accessor.Get(MemberName()));
-            set => _accessor.Set(MemberName(), value.Obj);
+            get => new (_accessor.Get());
+            set => _accessor.Set(value.Obj);
         }
         
         // Bits
 
-        public bool Is8Bit => _accessor.Get(() => Is8Bit);
-        public bool Is16Bit => _accessor.Get(() => Is16Bit);
-        public bool Is32Bit => _accessor.Get(() => Is32Bit);
+        public bool Is8Bit => _accessor.Get<bool>();
+        public bool Is16Bit => _accessor.Get<bool>();
+        public bool Is32Bit => _accessor.Get<bool>();
         
         public int? _bits
         {
-            get => _accessor.Get(() => _bits);
-            set => _accessor.Set(() => _bits, value);
+            get => (int?)_accessor.Get();
+            set => _accessor.Set(value);
         }
 
-        public int GetBits => _accessor.Get(() => GetBits);
+        public int GetBits => (int)_accessor.Get();
 
         public ConfigResolverAccessor WithBits(int? value) 
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(), [ value ], [ typeof(int?) ]));
+            //=> new (_accessor.Call(MemberName(), [ value ], [ typeof(int?) ]));
+            => new (_accessor.Call(value));
         
         // Channels
         
-        public int NoChannels => _accessor.Get(() => NoChannels);
-        public int MonoChannels => _accessor.Get(() => MonoChannels);
-        public int StereoChannels => _accessor.Get(() => StereoChannels);
+        public int NoChannels => _accessor.Get<int>();
+        public int MonoChannels => _accessor.Get<int>();
+        public int StereoChannels => _accessor.Get<int>();
 
-        public bool IsMono => _accessor.Get(() => IsMono);
-        public bool IsStereo => _accessor.Get(() => IsStereo);
+        public bool IsMono => _accessor.Get<bool>();
+        public bool IsStereo => _accessor.Get<bool>();
 
         public int? _channels
         {
-            get => _accessor.Get(() => _channels);
-            set => _accessor.Set(() => _channels, value);
+            get => _accessor.Get<int?>();
+            set => _accessor.Set(value);
         }
 
-        public int GetChannels => _accessor.Get(() => GetChannels);
+        public int GetChannels => _accessor.Get<int>();
         public ConfigResolverAccessor WithChannels(int? channels) 
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(), 
-                new object[] { channels }, 
-                new Type[] { typeof(int?) }));
+            => new (_accessor.Call(channels));
                 
         // Channel
-
-        public int CenterChannel => _accessor.Get(() => CenterChannel);
-        public int LeftChannel => _accessor.Get(() => LeftChannel);
-        public int RightChannel => _accessor.Get(() => RightChannel);
-        public int? EmptyChannel => _accessor.Get(() => EmptyChannel);
-
-        public bool IsCenter => _accessor.Get(() => IsCenter);
-        public bool IsLeft => _accessor.Get(() => IsLeft);
-        public bool IsRight => _accessor.Get(() => IsRight);
-        public bool IsAnyChannel => _accessor.Get(() => IsAnyChannel);
-        public bool IsEveryChannel => _accessor.Get(() => IsEveryChannel);
-        public bool IsNoChannel => _accessor.Get(() => IsNoChannel);
+        
+        public int  CenterChannel => _accessor.Get<int>();
+        public int  LeftChannel   => _accessor.Get<int>();
+        public int  RightChannel  => _accessor.Get<int>();
+        public int? EmptyChannel  => _accessor.Get<int?>();
+        
+        public bool IsCenter       => _accessor.Get<bool>();
+        public bool IsLeft         => _accessor.Get<bool>();
+        public bool IsRight        => _accessor.Get<bool>();
+        public bool IsAnyChannel   => _accessor.Get<bool>();
+        public bool IsEveryChannel => _accessor.Get<bool>();
+        public bool IsNoChannel    => _accessor.Get<bool>();
 
         public int _channel
         {
-            get => _accessor.Get(() => _channel);
-            set => _accessor.Set(() => _channel, value);
+            get => _accessor.Get<int>();
+            set => _accessor.Set(value);
         }
-        public int? GetChannel => _accessor.Get(() => GetChannel);
+        public int? GetChannel => _accessor.Get<int?>();
         
         public ConfigResolverAccessor WithChannel(int? channels) 
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(), 
-                new object[] { channels }, 
-                new Type[] { typeof(int?) }));
+            => new (_accessor.Call(channels));
         
-        public ConfigResolverAccessor WithCenter() => new ConfigResolverAccessor(_accessor.Call());
-        public ConfigResolverAccessor WithLeft() => new ConfigResolverAccessor(_accessor.Call());
-        public ConfigResolverAccessor WithRight() => new ConfigResolverAccessor(_accessor.Call());
-        public ConfigResolverAccessor WithNoChannel() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor WithCenter()    => new(_accessor.Call());
+        public ConfigResolverAccessor WithLeft()      => new(_accessor.Call());
+        public ConfigResolverAccessor WithRight()     => new(_accessor.Call());
+        public ConfigResolverAccessor WithNoChannel() => new(_accessor.Call());
         
         // SamplingRate
         
         /// <inheritdoc cref="wishdocs._getsamplingrate" />
         public int? _samplingRate
         {
-            get => _accessor.Get(() => _samplingRate);
-            set => _accessor.Set(() => _samplingRate, value);
+            get => _accessor.Get<int?>();
+            set => _accessor.Set(value);
         }
         
         /// <inheritdoc cref="wishdocs._getsamplingrate" />
         public ConfigResolverAccessor WithSamplingRate(int? value) 
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(), 
-                new object[] { value }, 
-                new Type[] { typeof(int?) }));
+            => new (_accessor.Call(value));
         
         /// <inheritdoc cref="wishdocs._getsamplingrate" />
-        public int GetSamplingRate => _accessor.Get(() => GetSamplingRate);
+        public int GetSamplingRate => _accessor.Get<int>();
         
-        public int ResolveSamplingRate() => _accessor.Get(() => ResolveSamplingRate());
+        public int ResolveSamplingRate() => (int)_accessor.Call();
 
         // AudioFormat
 
-        public bool IsRaw => _accessor.Get(() => IsRaw);
-        public bool IsWav => _accessor.Get(() => IsWav);
+        public bool IsRaw => _accessor.Get<bool>();
+        public bool IsWav => _accessor.Get<bool>();
 
         public AudioFileFormatEnum? _audioFormat
         {
@@ -161,15 +150,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public AudioFileFormatEnum GetAudioFormat => _accessor.Get(() => GetAudioFormat);
         
         public ConfigResolverAccessor WithAudioFormat(AudioFileFormatEnum? value) 
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(), 
-                new object[] { value }, 
-                new Type[] { typeof(AudioFileFormatEnum?) }));
+            => new (_accessor.Call(value));
 
         // Interpolation
         
-        public bool IsLinear => _accessor.Get(() => IsLinear);
-        public bool IsBlocky => _accessor.Get(() => IsBlocky);
+        public bool IsLinear => _accessor.Get<bool>();
+        public bool IsBlocky => _accessor.Get<bool>();
         
         public InterpolationTypeEnum? _interpolation
         {
@@ -179,62 +165,63 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         public InterpolationTypeEnum GetInterpolation => _accessor.Get(() => GetInterpolation);
 
-        public ConfigResolverAccessor WithLinear() => new ConfigResolverAccessor(_accessor.Call());
-        public ConfigResolverAccessor WithBlocky() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor WithLinear() => new(_accessor.Call());
+        public ConfigResolverAccessor WithBlocky() => new(_accessor.Call());
         
         public ConfigResolverAccessor WithInterpolation(InterpolationTypeEnum? interpolation) 
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(), 
-                new object[] { interpolation }, 
-                new Type[] { typeof(InterpolationTypeEnum?) }));
+            => new (_accessor.Call(interpolation));
         
         // NoteLength
         
         /// <inheritdoc cref="wishdocs._notelength" />
         private FlowNode _noteLength
         {
-            get => _accessor.Get(() => _noteLength);
-            set => _accessor.Set(() => _noteLength, value);
+            get => _accessor.Get<FlowNode>();
+            set => _accessor.Set(value);
         }
 
         /// <inheritdoc cref="wishdocs._notelength" />
-        public FlowNode GetNoteLength(SynthWishes synthWishes) => _accessor.Call(() => GetNoteLength(synthWishes));
+        public FlowNode GetNoteLength(SynthWishes synthWishes) 
+            => (FlowNode)_accessor.Call(synthWishes);
 
         /// <inheritdoc cref="wishdocs._notelength" />
         public FlowNode GetNoteLength(SynthWishes synthWishes, FlowNode noteLength)
-            => _accessor.Call(() => GetNoteLength(synthWishes, noteLength));
+            => (FlowNode)_accessor.Call(synthWishes, noteLength);
 
         /// <inheritdoc cref="wishdocs._notelength" />
         public ConfigResolverAccessor WithNoteLength(FlowNode noteLength)
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(),
-                new object[] { noteLength },
-                new Type[] { typeof(FlowNode) }));
+            => new (_accessor.Call(noteLength));
 
         /// <inheritdoc cref="wishdocs._notelength" />
         public ConfigResolverAccessor WithNoteLength(double noteLength, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(),
-                new object[] { noteLength, synthWishes },
-                new Type[] { typeof(double), typeof(FlowNode) }));
+            => new (_accessor.Call(noteLength, synthWishes));
         
         /// <inheritdoc cref="wishdocs._notelength" />
-        public ConfigResolverAccessor ResetNoteLength() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor ResetNoteLength() => new (_accessor.Call());
 
         /// <inheritdoc cref="wishdocs._notelength" />
         public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength, double time, int channel)
-            => _accessor.Call(() => GetNoteLengthSnapShot(synthWishes, noteLength, time, channel));
-
+            => (FlowNode)_accessor.Call(synthWishes, noteLength, time, channel);
+        
         /// <inheritdoc cref="wishdocs._notelength" />
-        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes) => _accessor.Call(() => GetNoteLengthSnapShot(synthWishes));
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes) 
+            => (FlowNode)_accessor.Call(synthWishes);
+        
         /// <inheritdoc cref="wishdocs._notelength" />
-        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time) => _accessor.Call(() => GetNoteLengthSnapShot(synthWishes, time));
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time) 
+            => (FlowNode)_accessor.Call(synthWishes, time);
+        
         /// <inheritdoc cref="wishdocs._notelength" />
-        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time, int channel) => _accessor.Call(() => GetNoteLengthSnapShot(synthWishes, time, channel));
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, double time, int channel)
+            => (FlowNode)_accessor.Call(synthWishes, time, channel);
+        
         /// <inheritdoc cref="wishdocs._notelength" />
-        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength) => _accessor.Call(() => GetNoteLengthSnapShot(synthWishes, noteLength));
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength) 
+            => (FlowNode)_accessor.Call(synthWishes, noteLength);
+        
         /// <inheritdoc cref="wishdocs._notelength" />
-        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength, double time) => _accessor.Call(() => GetNoteLengthSnapShot(synthWishes, noteLength, time));
+        public FlowNode GetNoteLengthSnapShot(SynthWishes synthWishes, FlowNode noteLength, double time) 
+            => (FlowNode)_accessor.Call(synthWishes, noteLength, time);
 
         // BarLength
 
@@ -244,21 +231,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             set => _accessor.Set(() => _barLength, value);
         }
 
-        public FlowNode GetBarLength(SynthWishes synthWishes) => _accessor.Call(() => GetBarLength(synthWishes));
+        public FlowNode GetBarLength(SynthWishes synthWishes) 
+            => (FlowNode)_accessor.Call(synthWishes);
         
         public ConfigResolverAccessor WithBarLength(FlowNode barLength)
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(),
-                new object[] { barLength },
-                new Type[] { typeof(FlowNode) }));
+            => new (_accessor.Call(barLength));
         
         public ConfigResolverAccessor WithBarLength(double barLength, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(),
-                new object[] { barLength, synthWishes },
-                new Type[] { typeof(double), typeof(SynthWishes) }));
+            => new (_accessor.Call(barLength, synthWishes));
 
-        public ConfigResolverAccessor ResetBarLength() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor ResetBarLength() => new (_accessor.Call());
 
         // BeatLength
 
@@ -271,18 +253,12 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public FlowNode GetBeatLength(SynthWishes synthWishes) => _accessor.Call(() => GetBeatLength(synthWishes));
         
         public ConfigResolverAccessor WithBeatLength(FlowNode beatLength)
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(),
-                new object[] { beatLength },
-                new Type[] { typeof(FlowNode) }));
+            => new (_accessor.Call(beatLength));
         
         public ConfigResolverAccessor WithBeatLength(double beatLength, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(),
-                new object[] { beatLength, synthWishes },
-                new Type[] { typeof(double), typeof(SynthWishes) }));
+            => new (_accessor.Call(beatLength, synthWishes));
         
-        public ConfigResolverAccessor ResetBeatLength() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor ResetBeatLength() => new (_accessor.Call());
         
         // Audio Length
         
@@ -294,25 +270,23 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
         
         /// <inheritdoc cref="wishdocs._audiolength" />
-        public FlowNode GetAudioLength(SynthWishes synthWishes) => _accessor.Call(() => GetAudioLength(synthWishes));
+        public FlowNode GetAudioLength(SynthWishes synthWishes) 
+            => (FlowNode)_accessor.Call(synthWishes);
 
         /// <inheritdoc cref="wishdocs._audiolength" />
         public ConfigResolverAccessor WithAudioLength(FlowNode newAudioLength)
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(),
-                new object[] { newAudioLength },
-                new Type[] { typeof(FlowNode) }));
+            => new (_accessor.Call(newAudioLength));
 
         /// <inheritdoc cref="wishdocs._audiolength" />
         public ConfigResolverAccessor WithAudioLength(double? newAudioLength, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(
+            => new (_accessor.Call(
                 MemberName(),
                 new object[] { newAudioLength, synthWishes }, 
                 new Type[] { typeof(double?), typeof(SynthWishes) }));
         
         /// <inheritdoc cref="wishdocs._audiolength" />
         public ConfigResolverAccessor AddAudioLength(FlowNode additionalLength, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(
+            => new (_accessor.Call(
                 MemberName(),
                 new object[] { additionalLength, synthWishes },
                 new Type[] { typeof(FlowNode), typeof(SynthWishes) }));
@@ -320,30 +294,30 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         /// <inheritdoc cref="wishdocs._audiolength" />
         public ConfigResolverAccessor AddAudioLength(double additionalLength, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(
+            => new (_accessor.Call(
                 MemberName(),
                 new object[] { additionalLength, synthWishes },
                 new Type[] { typeof(double), typeof(SynthWishes) }));
 
         public ConfigResolverAccessor AddEchoDuration(int count, FlowNode delay, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(
+            => new (_accessor.Call(
                 MemberName(),
                 new object[] { count, delay, synthWishes },
                 [ typeof(int), typeof(FlowNode), typeof(SynthWishes) ]));
 
         public ConfigResolverAccessor AddEchoDuration(int count, double delay, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(count, delay, synthWishes));
+            => new (_accessor.Call(count, delay, synthWishes));
 
         /// <inheritdoc cref="wishdocs._audiolength" />
         public ConfigResolverAccessor EnsureAudioLength(FlowNode audioLengthNeeded, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(audioLengthNeeded, synthWishes));
+            => new (_accessor.Call(audioLengthNeeded, synthWishes));
 
         /// <inheritdoc cref="wishdocs._audiolength" />
         public ConfigResolverAccessor EnsureAudioLength(double audioLengthNeeded, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(audioLengthNeeded, synthWishes));
+            => new (_accessor.Call(audioLengthNeeded, synthWishes));
         
         /// <inheritdoc cref="wishdocs._audiolength" />
-        public ConfigResolverAccessor ResetAudioLength() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor ResetAudioLength() => new (_accessor.Call());
         
         // LeadingSilence
         
@@ -359,14 +333,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         /// <inheritdoc cref="wishdocs._padding"/>
         public ConfigResolverAccessor WithLeadingSilence(FlowNode seconds)
-            => new ConfigResolverAccessor(_accessor.Call(seconds));
+            => new (_accessor.Call(seconds));
 
         /// <inheritdoc cref="wishdocs._padding"/>
         public ConfigResolverAccessor WithLeadingSilence(double seconds, SynthWishes synthWishes)
-            => new ConfigResolverAccessor(_accessor.Call(seconds, synthWishes));
+            => new (_accessor.Call(seconds, synthWishes));
 
         /// <inheritdoc cref="wishdocs._padding"/>
-        public ConfigResolverAccessor ResetLeadingSilence() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor ResetLeadingSilence() => new (_accessor.Call());
         
         // TrailingSilence
         
@@ -382,14 +356,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         /// <inheritdoc cref="wishdocs._padding"/>
         public ConfigResolverAccessor WithTrailingSilence(FlowNode seconds) 
-            => new ConfigResolverAccessor(_accessor.Call(seconds));
+            => new (_accessor.Call(seconds));
         
         /// <inheritdoc cref="wishdocs._padding"/>
         public ConfigResolverAccessor WithTrailingSilence(double seconds, SynthWishes synthWishes) 
-            => new ConfigResolverAccessor(_accessor.Call(seconds, synthWishes));
+            => new (_accessor.Call(seconds, synthWishes));
 
         /// <inheritdoc cref="wishdocs._padding"/>
-        public ConfigResolverAccessor ResetTrailingSilence() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor ResetTrailingSilence() => new (_accessor.Call());
 
         // Padding
 
@@ -397,14 +371,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public FlowNode GetPaddingOrNull(SynthWishes synthWishes) => _accessor.Call(() => GetPaddingOrNull(synthWishes));
 
         /// <inheritdoc cref="wishdocs._padding"/>
-        public ConfigResolverAccessor WithPadding(FlowNode seconds) => new ConfigResolverAccessor(_accessor.Call(seconds));
+        public ConfigResolverAccessor WithPadding(FlowNode seconds) => new (_accessor.Call(seconds));
 
         /// <inheritdoc cref="wishdocs._padding"/>
         public ConfigResolverAccessor WithPadding(double seconds, SynthWishes synthWishes) 
-            => new ConfigResolverAccessor(_accessor.Call(seconds, synthWishes));
+            => new (_accessor.Call(seconds, synthWishes));
 
         /// <inheritdoc cref="wishdocs._padding"/>
-        public ConfigResolverAccessor ResetPadding() => new ConfigResolverAccessor(_accessor.Call());
+        public ConfigResolverAccessor ResetPadding() => new (_accessor.Call());
         
         // AudioPlayback
         
@@ -417,7 +391,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         /// <inheritdoc cref="wishdocs._audioplayback" />
         public ConfigResolverAccessor WithAudioPlayback(bool? enabled = true) 
-            => new ConfigResolverAccessor(_accessor.Call(enabled));
+            => new (_accessor.Call(enabled));
         
         /// <inheritdoc cref="wishdocs._audioplayback" />
         public bool GetAudioPlayback(string fileExtension = null) => _accessor.Call(() => GetAudioPlayback(fileExtension));
@@ -434,7 +408,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="wishdocs._diskcache" />
         public bool GetDiskCache => _accessor.Get(() => GetDiskCache);
         /// <inheritdoc cref="wishdocs._diskcache" />
-        public ConfigResolverAccessor WithDiskCache(bool? enabled = true) => new ConfigResolverAccessor(_accessor.Call(enabled));
+        public ConfigResolverAccessor WithDiskCache(bool? enabled = true) => new (_accessor.Call(enabled));
         
         // MathBoost
         
@@ -445,7 +419,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
         
         public bool GetMathBoost => _accessor.Get(() => GetMathBoost); 
-        public ConfigResolverAccessor WithMathBoost(bool? enabled = true) => new ConfigResolverAccessor(_accessor.Call(enabled));
+        public ConfigResolverAccessor WithMathBoost(bool? enabled = true) => new (_accessor.Call(enabled));
 
         // ParallelProcessing
 
@@ -459,7 +433,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="wishdocs._parallelprocessing" />
         public bool GetParallelProcessing => _accessor.Get(() => GetParallelProcessing);
         /// <inheritdoc cref="wishdocs._parallelprocessing" />
-        public ConfigResolverAccessor WithParallelProcessing(bool? enabled = true) => new ConfigResolverAccessor(_accessor.Call(enabled));
+        public ConfigResolverAccessor WithParallelProcessing(bool? enabled = true) => new (_accessor.Call(enabled));
 
         // PlayAllTapes
 
@@ -472,7 +446,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="wishdocs._playalltapes" />
         public bool GetPlayAllTapes => _accessor.Get(() => GetPlayAllTapes);
         /// <inheritdoc cref="wishdocs._playalltapes" />
-        public ConfigResolverAccessor WithPlayAllTapes(bool? enabled = true) => new ConfigResolverAccessor(_accessor.Call(enabled));
+        public ConfigResolverAccessor WithPlayAllTapes(bool? enabled = true) => new (_accessor.Call(enabled));
 
         // Misc Settings
 
@@ -485,7 +459,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="wishdocs._leafchecktimeout" />
         public double GetLeafCheckTimeOut => _accessor.Get(() => GetLeafCheckTimeOut);
         /// <inheritdoc cref="wishdocs._leafchecktimeout" />
-        public ConfigResolverAccessor WithLeafCheckTimeOut(double? seconds) => new ConfigResolverAccessor(_accessor.Call(seconds));
+        public ConfigResolverAccessor WithLeafCheckTimeOut(double? seconds) => new (_accessor.Call(seconds));
 
         /// <inheritdoc cref="wishdocs._leafchecktimeout" />
         private TimeOutActionEnum? _timeOutAction
@@ -497,32 +471,29 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         // ReSharper disable once PossibleInvalidOperationException
         public TimeOutActionEnum GetTimeOutAction => _accessor.Get(() => GetTimeOutAction);
         /// <inheritdoc cref="wishdocs._leafchecktimeout" />
-        public ConfigResolverAccessor WithTimeOutAction(TimeOutActionEnum? action) => new ConfigResolverAccessor(_accessor.Call(action));
+        public ConfigResolverAccessor WithTimeOutAction(TimeOutActionEnum? action) => new (_accessor.Call(action));
 
         private int? _courtesyFrames
         {
             get => _accessor.Get(() => _courtesyFrames);
             set => _accessor.Set(() => _courtesyFrames, value);
         }
-        public int GetCourtesyFrames => _accessor.Get(() => GetCourtesyFrames);
+        public int GetCourtesyFrames => _accessor.Get<int>();
         
         public ConfigResolverAccessor WithCourtesyFrames(int? value) 
-            => new ConfigResolverAccessor(_accessor.Call(
-                MemberName(), 
-                new object[] { value }, 
-                new Type[] { typeof(int?) }));
+            => new (_accessor.Call(value));
 
-        public int GetFileExtensionMaxLength => _accessor.Get(() => GetFileExtensionMaxLength);
+        public int GetFileExtensionMaxLength => _accessor.Get<int>();
 
         private string _longTestCategory
         {
-            get => _accessor.Get(() => _longTestCategory);
-            set => _accessor.Set(() => _longTestCategory, value);
+            get => _accessor.Get<string>();
+            set => _accessor.Set(value);
         }
         
-        public ConfigResolverAccessor WithLongTestCategory(string category) => new ConfigResolverAccessor(_accessor.Call(category));
+        public ConfigResolverAccessor WithLongTestCategory(string category) => new (_accessor.Call(category));
 
-        public string GetLongTestCategory => _accessor.Get(() => GetLongTestCategory);
+        public string GetLongTestCategory => (string)_accessor.Get();
 
         // Tooling
 

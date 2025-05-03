@@ -20,122 +20,122 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // For ConfigResolver
         
-        public ConfigResolverAccessor Set<TValue>(ConfigResolverAccessor obj, TValue value, [CallerMemberName] string callerMemberName = null)
+        public ConfigResolverAccessor Set<TValue>(ConfigResolverAccessor obj, TValue value, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
             
             return new ConfigResolverAccessor(Call(
-                callerMemberName,
+                name,
                 new[] { obj.Obj, value },
                 new[] { null, typeof(TValue) }));
         }
         
-        public ConfigResolverAccessor Set<TValue>(ConfigResolverAccessor obj, TValue value, SynthWishes synthWishes, [CallerMemberName] string callerMemberName = null)
+        public ConfigResolverAccessor Set<TValue>(ConfigResolverAccessor obj, TValue value, SynthWishes synthWishes, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
             
             return new ConfigResolverAccessor(Call(
-                callerMemberName,
+                name,
                 new[] { obj.Obj, value, synthWishes },
                 new[] { null, typeof(TValue), null }));
         }
         
-        public ConfigResolverAccessor Call(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public ConfigResolverAccessor Call(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return new ConfigResolverAccessor(Call(callerMemberName, obj.Obj));
+            return new ConfigResolverAccessor(Call(name, obj.Obj));
         }
         
-        public object Get(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public object Get(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return Call(obj.Obj, callerMemberName);
+            return Call(obj.Obj, name);
         }
         
-        public T Get<T>(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public T Get<T>(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (T)Call(obj.Obj, callerMemberName);
+            return (T)Call(obj.Obj, name);
         }
         
-        public T Get<T>(ConfigResolverAccessor obj, SynthWishes synthWishes, [CallerMemberName] string callerMemberName = null)
+        public T Get<T>(ConfigResolverAccessor obj, SynthWishes synthWishes, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (T)Call(obj.Obj, synthWishes, callerMemberName);
+            return (T)Call(obj.Obj, synthWishes, name);
         }
         
-        public bool GetBool(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public bool GetBool(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (bool)Call(obj.Obj, callerMemberName);
+            return (bool)Call(obj.Obj, name);
         }
         
-        public int GetInt(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public int GetInt(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (int)Call(obj.Obj, callerMemberName);
+            return (int)Call(obj.Obj, name);
         }
         
-        public int GetInt(ConfigResolverAccessor obj, SynthWishes synthWishes, [CallerMemberName] string callerMemberName = null)
+        public int GetInt(ConfigResolverAccessor obj, SynthWishes synthWishes, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (int)Call(obj.Obj, synthWishes, callerMemberName);
+            return (int)Call(obj.Obj, synthWishes, name);
         }
         
-        public int? GetNullyInt(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public int? GetNullyInt(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (int?)Call(obj.Obj, callerMemberName);
+            return (int?)Call(obj.Obj, name);
         }
         
-        public string GetString(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public string GetString(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (string)Call(obj.Obj, callerMemberName);
+            return (string)Call(obj.Obj, name);
         }
         
-        public double GetDouble(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public double GetDouble(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (double)Call(obj.Obj, callerMemberName);
+            return (double)Call(obj.Obj, name);
         }
         
-        public double? GetNullyDouble(ConfigResolverAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public double? GetNullyDouble(ConfigResolverAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (double?)Call(obj.Obj, callerMemberName);
+            return (double?)Call(obj.Obj, name);
         }
         
         // For ConfigSection
         
-        public T Get<T>(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public T Get<T>(ConfigSectionAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (T)Call(obj.Obj, callerMemberName);
+            return (T)Call(obj.Obj, name);
         }
         
-        public bool GetBool(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public bool GetBool(ConfigSectionAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (bool)Call(obj.Obj, callerMemberName);
+            return (bool)Call(obj.Obj, name);
         }
         
-        public int? GetNullyInt(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public int? GetNullyInt(ConfigSectionAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (int?)Call(obj.Obj, callerMemberName);
+            return (int?)Call(obj.Obj, name);
         }
         
-        public string GetString(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public string GetString(ConfigSectionAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (string)Call(obj.Obj, callerMemberName);
+            return (string)Call(obj.Obj, name);
         }
         
-        public double? GetNullyDouble(ConfigSectionAccessor obj, [CallerMemberName] string callerMemberName = null)
+        public double? GetNullyDouble(ConfigSectionAccessor obj, [CallerMemberName] string name = null)
         {
             if (obj == null) throw new NullException(() => obj);
-            return (double?)Call(obj.Obj, callerMemberName);
+            return (double?)Call(obj.Obj, name);
         }
     }
 }
