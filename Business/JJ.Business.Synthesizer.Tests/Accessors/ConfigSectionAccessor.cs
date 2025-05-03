@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Framework.Reflection;
-using JJ.Framework.Reflection.Core;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using wishdocs = JJ.Business.Synthesizer.Wishes.docs;
-
+﻿
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal class ConfigSectionAccessor
@@ -19,20 +7,15 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         private readonly AccessorCore _accessor;
         
-        // Add constructors to FrameworkWishes
-        
         public ConfigSectionAccessor()
         {
-            Type type = GetUnderlyingType();
-            Obj       = Activator.CreateInstance(type);
-            //_accessor = new AccessorCore(Obj, Obj.GetType());
-            _accessor = new AccessorCore(Obj);
+            _accessor = new AccessorCore("JJ.Business.Synthesizer.Wishes.Config.ConfigSection");
+            Obj = _accessor.Obj;
         }
         
         public ConfigSectionAccessor(object obj)
         {
             Obj = obj;
-            //_accessor = new AccessorCore(obj, GetUnderlyingType());
             _accessor = new AccessorCore(obj);
         }
 
@@ -42,164 +25,156 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             if (obj is ConfigSectionAccessor other) return Obj == other.Obj;
             return false;
         }
-
-        private Type GetUnderlyingType()
-        {
-            Assembly assembly = typeof(SynthWishes).Assembly;
-            string   typeName = "JJ.Business.Synthesizer.Wishes.Config.ConfigSection";
-            return   assembly.GetType(typeName, true);
-        }
         
         // Primary Audio Properties
         
         public int? Bits
         {
-            // TODO: Add more terse accessor helper to FrameworkWishes.
-            get => (int?)_accessor.Get(MemberName());
-            set =>       _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<int?>();
+            set => _accessor.Set(value);
         }
 
         public int? Channels
         {
-            get => (int?)_accessor.Get(MemberName());
-            set =>       _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<int?>();
+            set => _accessor.Set(value);            
         }
 
         public int? SamplingRate
         {
-            get => (int?)_accessor.Get(MemberName());
-            set =>       _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<int?>();
+            set => _accessor.Set(value);            
         }
         
         public AudioFileFormatEnum? AudioFormat
         {
-            get => (AudioFileFormatEnum?)_accessor.Get(MemberName());
-            set =>                       _accessor.Set(MemberName(), value);
+            get => _accessor.Get(() => AudioFormat);
+            set => _accessor.Set(() => AudioFormat, value);
         }
                 
         public InterpolationTypeEnum? Interpolation
         {
-            get => (InterpolationTypeEnum?)_accessor.Get(MemberName());
-            set =>                         _accessor.Set(MemberName(), value);
+            get => _accessor.Get(() => Interpolation);
+            set => _accessor.Set(() => Interpolation, value);
         }
 
         public int? CourtesyFrames
         {
-            get => (int?)_accessor.Get(MemberName());
-            set =>       _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<int?>();
+            set => _accessor.Set(value);
         }
         
         // Durations
         
-        /// <inheritdoc cref="wishdocs._notelength" />
+        /// <inheritdoc cref="_notelength" />
         public double? NoteLength
         {
-            get => (double?)_accessor.Get(MemberName());
-            set =>          _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<double?>();
+            set => _accessor.Set(value);
         }
         
         public double? BarLength
         {
-            get => (double?)_accessor.Get(MemberName());
-            set =>          _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<double?>();
+            set => _accessor.Set(value);
         }
         
         public double? BeatLength
         {
-            get => (double?)_accessor.Get(MemberName());
-            set =>          _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<double?>();
+            set => _accessor.Set(value);
         }
         
         public double? AudioLength
         {
-            get => (double?)_accessor.Get(MemberName());
-            set =>          _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<double?>();
+            set => _accessor.Set(value);
         }
         
         public double? LeadingSilence
         {
-            get => (double?)_accessor.Get(MemberName());
-            set =>          _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<double?>();
+            set => _accessor.Set(value);
         }
         
         public double? TrailingSilence
         {
-            get => (double?)_accessor.Get(MemberName());
-            set =>          _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<double?>();
+            set => _accessor.Set(value);
         }
         
         // Feature Toggles
         
         public bool? AudioPlayback
         {
-            get => (bool?)_accessor.Get(MemberName());
-            set =>        _accessor.Set(MemberName(), value);
+            get => _accessor.Get<bool?>();
+            set => _accessor.Set(value);
         }
         
         public bool? DiskCache
         {
-            get => (bool?)_accessor.Get(MemberName());
-            set =>        _accessor.Set(MemberName(), value);
+            get => _accessor.Get<bool?>();
+            set => _accessor.Set(value);
         }
         
         public bool? MathBoost
         {
-            get => (bool?)_accessor.Get(MemberName());
-            set =>        _accessor.Set(MemberName(), value);
+            get => _accessor.Get<bool?>();
+            set => _accessor.Set(value);
         }
         
         public bool? ParallelProcessing
         {
-            get => (bool?)_accessor.Get(MemberName());
-            set =>        _accessor.Set(MemberName(), value);
+            get => _accessor.Get<bool?>();
+            set => _accessor.Set(value);
         }
         
         public bool? PlayAllTapes
         {
-            get => (bool?)_accessor.Get(MemberName());
-            set =>        _accessor.Set(MemberName(), value);
+            get => _accessor.Get<bool?>();
+            set => _accessor.Set(value);
         }
                 
         // Tooling
 
         public ConfigToolingElementAccessor AzurePipelines
         {
-            get => new ConfigToolingElementAccessor(_accessor.Get(MemberName()));
-            set => _accessor.Set(MemberName(), value.Obj);
+            get => new (_accessor.Get());
+            set => _accessor.Set(value.Obj);
         }
 
         public ConfigToolingElementAccessor NCrunch
         {
-            get => new ConfigToolingElementAccessor(_accessor.Get(MemberName()));
-            set => _accessor.Set(MemberName(), value.Obj);
+            get => new (_accessor.Get());
+            set => _accessor.Set(value.Obj);
         }
         
         // Misc
         
-        /// <inheritdoc cref="wishdocs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         public double? LeafCheckTimeOut
         {
-            get => (double?)_accessor.Get(MemberName());
-            set =>          _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<double?>();
+            set => _accessor.Set( value);            
         }
         
-        /// <inheritdoc cref="wishdocs._leafchecktimeout" />
+        /// <inheritdoc cref="_leafchecktimeout" />
         public TimeOutActionEnum? TimeOutAction
         {
-            get => (TimeOutActionEnum?)_accessor.Get(MemberName());
-            set =>                     _accessor.Set(MemberName(), value);            
+            get => _accessor.Get(() => TimeOutAction);
+            set => _accessor.Set(() => TimeOutAction, value);            
         }
         
         public int? FileExtensionMaxLength
         {
-            get => (int?)_accessor.Get(MemberName());
-            set =>       _accessor.Set(MemberName(), value);            
+            get => _accessor.Get<int?>();
+            set => _accessor.Set(value);
         }
         
         public string LongTestCategory
         {
-            get => (string)_accessor.Get(MemberName());
-            set =>         _accessor.Set(value);            
+            get => _accessor.Get<string>();
+            set => _accessor.Set(value);            
         }
     }
 }

@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Business.Synthesizer.Tests.docs;
-
-namespace JJ.Business.Synthesizer.Tests.Accessors
+﻿namespace JJ.Business.Synthesizer.Tests.Accessors
 {
     internal static class AudioFormatExtensionWishesAccessor
     {

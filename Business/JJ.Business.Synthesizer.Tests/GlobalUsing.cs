@@ -1,0 +1,17 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Reflection;
+global using System.Diagnostics;
+global using JJ.Framework.Reflection;
+global using JJ.Framework.Reflection.Core;
+global using JJ.Framework.Persistence;
+global using JJ.Business.Synthesizer.Wishes;
+global using JJ.Business.Synthesizer.Enums;
+global using JJ.Business.Synthesizer.Wishes;
+global using JJ.Business.Synthesizer.Wishes.Config;
+global using JJ.Business.Synthesizer.Wishes.docs;
+global using JJ.Business.Synthesizer.Tests.docs;
+global using JJ.Business.Synthesizer.Tests.Functional;
+global using static JJ.Business.Synthesizer.Wishes.NameWishes;
