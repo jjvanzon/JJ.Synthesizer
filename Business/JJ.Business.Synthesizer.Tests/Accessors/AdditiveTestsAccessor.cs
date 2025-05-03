@@ -25,14 +25,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         /// <inheritdoc cref="_metallophone"/>
         public FlowNode MetallophoneJingle()
-            => (FlowNode)_accessor.InvokeMethod(MemberName());
+            => (FlowNode)_accessor.Call(MemberName());
         
         /// <inheritdoc cref="_metallophone"/>
         public FlowNode MetallophoneChord
-            => (FlowNode)_accessor.GetPropertyValue(MemberName());
+            => (FlowNode)_accessor.Get(MemberName());
 
         /// <inheritdoc cref="_metallophone"/>
         public FlowNode Metallophone(FlowNode freq, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq, duration ?? _[1]);
+            => (FlowNode)_accessor.Call(MemberName(), freq, duration ?? _[1]);
     }
 }

@@ -28,36 +28,36 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica1(FlowNode freq, FlowNode duration = null, FlowNode detuneDepth = null, FlowNode chorusRate = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1], detuneDepth ?? _[0.8], chorusRate ?? _[0.03]);
+            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1], detuneDepth ?? _[0.8], chorusRate ?? _[0.03]);
 
         /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica2(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
 
         /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica3(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
 
         /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica4(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
 
         /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica5(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
         
         /// <inheritdoc cref="_detunica" />
         public FlowNode DetunicaBass(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1]);
+            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
 
         /// <inheritdoc cref="_detunica" />
         public FlowNode DetunicaJingle
-            => (FlowNode)_accessor.GetPropertyValue(MemberName());
+            => (FlowNode)_accessor.Get(MemberName());
 
         public FlowNode Vibraphase(FlowNode freq = null, FlowNode duration = null, FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
-            => (FlowNode)_accessor.InvokeMethod(MemberName(), freq ?? _[440], duration ?? _[1], depthAdjust1 ?? _[0.005], depthAdjust2 ?? _[0.250]);
+            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1], depthAdjust1 ?? _[0.005], depthAdjust2 ?? _[0.250]);
         
         public FlowNode VibraphaseChord
-            => (FlowNode)_accessor.GetPropertyValue(MemberName());
+            => (FlowNode)_accessor.Get(MemberName());
     }
 }

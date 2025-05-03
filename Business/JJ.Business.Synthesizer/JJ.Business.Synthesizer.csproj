@@ -18,6 +18,7 @@
     <PackageReference Include="JJ.Framework.IO" Version="0.250.2424" />
     <PackageReference Include="JJ.Framework.Persistence" Version="0.250.2424" />
     <PackageReference Include="JJ.Framework.Presentation.Resources" Version="0.250.2424" />
+    <PackageReference Include="JJ.Framework.Reflection" Version="0.250.2445" />
     <PackageReference Include="JJ.Framework.Validation" Version="0.250.2424" />
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         }
 
         public static AudioFileInfo Convert(WavHeaderStruct wavHeaderStruct)
-            => (AudioFileInfo)_accessor.InvokeMethod(nameof(Convert), wavHeaderStruct);
+            => (AudioFileInfo)_accessor.Call(nameof(Convert), wavHeaderStruct);
     }
 }

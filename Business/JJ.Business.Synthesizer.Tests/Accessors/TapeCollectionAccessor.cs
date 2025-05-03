@@ -16,15 +16,16 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public TapeCollectionAccessor(object obj)
         {
-            Assembly assembly = typeof(SynthWishes).Assembly;
-            string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.TapeCollection";
-            Type type = assembly.GetType(typeName, true);
-            _accessor = new AccessorCore(obj, type);
+            //Assembly assembly = typeof(SynthWishes).Assembly;
+            //string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.TapeCollection";
+            //Type type = assembly.GetType(typeName, true);
+            //_accessor = new AccessorCore(obj, type);
+            _accessor = new AccessorCore(obj);
         }
         
         public IList<TapeAccessor> GetAll()
         {
-            var tapes = (IList<object>)_accessor.InvokeMethod(MemberName());
+            var tapes = (IList<object>)_accessor.Call(MemberName());
             
             return tapes.Select(x => new TapeAccessor(x)).ToArray();
         }

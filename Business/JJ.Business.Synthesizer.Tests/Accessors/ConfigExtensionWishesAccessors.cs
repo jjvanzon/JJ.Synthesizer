@@ -134,8 +134,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         // With ConfigSection
         
-        public static int? ByteCount(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
-        public static int? GetByteCount(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
+        public static int? ByteCount(this ConfigSectionAccessor obj) => (int?)_accessor.Call(obj.Obj);
+        public static int? GetByteCount(this ConfigSectionAccessor obj) => (int?)_accessor.Call(obj.Obj);
     }
 
     internal static class ChannelExtensionWishesAccessor
@@ -208,10 +208,10 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         // With ConfigSection
 
-        public static bool IsMono(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
-        public static bool IsStereo(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
-        public static int? Channels(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
-        public static int? GetChannels(this ConfigSectionAccessor obj) => (int?)_accessor.InvokeMethod(obj.Obj);
+        public static bool IsMono(this ConfigSectionAccessor obj) => (bool)_accessor.Call(obj.Obj);
+        public static bool IsStereo(this ConfigSectionAccessor obj) => (bool)_accessor.Call(obj.Obj);
+        public static int? Channels(this ConfigSectionAccessor obj) => (int?)_accessor.Call(obj.Obj);
+        public static int? GetChannels(this ConfigSectionAccessor obj) => (int?)_accessor.Call(obj.Obj);
     }
 
     internal static class CourtesyByteExtensionWishesAccessor
@@ -348,8 +348,8 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         // With ConfigSection
         
-        public static bool IsLinear(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
-        public static bool IsBlocky(this ConfigSectionAccessor obj) => (bool)_accessor.InvokeMethod(obj.Obj);
+        public static bool IsLinear(this ConfigSectionAccessor obj) => (bool)_accessor.Call(obj.Obj);
+        public static bool IsBlocky(this ConfigSectionAccessor obj) => (bool)_accessor.Call(obj.Obj);
         public static InterpolationTypeEnum? Interpolation(this ConfigSectionAccessor obj) => _accessor.Get<InterpolationTypeEnum?>(obj);
         public static InterpolationTypeEnum? GetInterpolation(this ConfigSectionAccessor obj) => _accessor.Get<InterpolationTypeEnum?>(obj);
     }

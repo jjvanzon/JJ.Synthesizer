@@ -16,13 +16,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             Assembly assembly = typeof(SynthWishes).Assembly;
             string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.Tape";
             Type type = assembly.GetType(typeName, true);
-            _accessor = new AccessorCore(obj, type);
+            //_accessor = new AccessorCore(obj, type);
+            _accessor = new AccessorCore(obj);
         }
         
         public FlowNode Signal
         {
-            get => (FlowNode)_accessor.GetPropertyValue(MemberName());
-            set => _accessor.SetPropertyValue(MemberName(), value);
+            get => (FlowNode)_accessor.Get(MemberName());
+            set => _accessor.Set(MemberName(), value);
         }
     }
 }

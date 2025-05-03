@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
 
         public Sample CreateWavSample(WavHeaderStruct wavHeaderStruct)
         {
-            return (Sample)_accessor.InvokeMethod(nameof(CreateWavSample), wavHeaderStruct);
+            return (Sample)_accessor.Call(nameof(CreateWavSample), wavHeaderStruct);
         }
     }
 }

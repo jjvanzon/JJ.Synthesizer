@@ -14,6 +14,6 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
             _accessor = new AccessorCore(obj);
         }
 
-        public string DebuggerDisplay => (string)_accessor.GetPropertyValue(MemberName());
+        public string DebuggerDisplay => (string)_accessor.Get(MemberName());
     }
 }

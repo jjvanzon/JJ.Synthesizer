@@ -14,13 +14,14 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public TapeRunnerAccessor(object obj)
         {
-            Assembly assembly = typeof(SynthWishes).Assembly;
-            string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.TapeRunner";
-            Type type = assembly.GetType(typeName, true);
-            _accessor = new AccessorCore(obj, type);
+            //Assembly assembly = typeof(SynthWishes).Assembly;
+            //string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.TapeRunner";
+            //Type type = assembly.GetType(typeName, true);
+            //_accessor = new AccessorCore(obj, type);
+            _accessor = new AccessorCore(obj);
         }
         
         public void RunAllTapes() 
-            => _accessor.InvokeMethod(MemberName());
+            => _accessor.Call(MemberName());
     }
 }

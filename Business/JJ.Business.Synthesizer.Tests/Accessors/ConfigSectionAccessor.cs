@@ -25,13 +25,15 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             Type type = GetUnderlyingType();
             Obj       = Activator.CreateInstance(type);
-            _accessor = new AccessorCore(Obj, Obj.GetType());
+            //_accessor = new AccessorCore(Obj, Obj.GetType());
+            _accessor = new AccessorCore(Obj);
         }
         
         public ConfigSectionAccessor(object obj)
         {
             Obj = obj;
-            _accessor = new AccessorCore(obj, GetUnderlyingType());
+            //_accessor = new AccessorCore(obj, GetUnderlyingType());
+            _accessor = new AccessorCore(obj);
         }
 
         public override bool Equals(object obj)
@@ -53,38 +55,38 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         public int? Bits
         {
             // TODO: Add more terse accessor helper to FrameworkWishes.
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+            get => (int?)_accessor.Get(MemberName());
+            set =>       _accessor.Set(MemberName(), value);            
         }
 
         public int? Channels
         {
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+            get => (int?)_accessor.Get(MemberName());
+            set =>       _accessor.Set(MemberName(), value);            
         }
 
         public int? SamplingRate
         {
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+            get => (int?)_accessor.Get(MemberName());
+            set =>       _accessor.Set(MemberName(), value);            
         }
         
         public AudioFileFormatEnum? AudioFormat
         {
-            get => (AudioFileFormatEnum?)_accessor.GetPropertyValue(MemberName());
-            set =>                       _accessor.SetPropertyValue(MemberName(), value);
+            get => (AudioFileFormatEnum?)_accessor.Get(MemberName());
+            set =>                       _accessor.Set(MemberName(), value);
         }
                 
         public InterpolationTypeEnum? Interpolation
         {
-            get => (InterpolationTypeEnum?)_accessor.GetPropertyValue(MemberName());
-            set =>                         _accessor.SetPropertyValue(MemberName(), value);
+            get => (InterpolationTypeEnum?)_accessor.Get(MemberName());
+            set =>                         _accessor.Set(MemberName(), value);
         }
 
         public int? CourtesyFrames
         {
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+            get => (int?)_accessor.Get(MemberName());
+            set =>       _accessor.Set(MemberName(), value);            
         }
         
         // Durations
@@ -92,84 +94,84 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="wishdocs._notelength" />
         public double? NoteLength
         {
-            get => (double?)_accessor.GetPropertyValue(MemberName());
-            set =>          _accessor.SetPropertyValue(MemberName(), value);            
+            get => (double?)_accessor.Get(MemberName());
+            set =>          _accessor.Set(MemberName(), value);            
         }
         
         public double? BarLength
         {
-            get => (double?)_accessor.GetPropertyValue(MemberName());
-            set =>          _accessor.SetPropertyValue(MemberName(), value);            
+            get => (double?)_accessor.Get(MemberName());
+            set =>          _accessor.Set(MemberName(), value);            
         }
         
         public double? BeatLength
         {
-            get => (double?)_accessor.GetPropertyValue(MemberName());
-            set =>          _accessor.SetPropertyValue(MemberName(), value);            
+            get => (double?)_accessor.Get(MemberName());
+            set =>          _accessor.Set(MemberName(), value);            
         }
         
         public double? AudioLength
         {
-            get => (double?)_accessor.GetPropertyValue(MemberName());
-            set =>          _accessor.SetPropertyValue(MemberName(), value);            
+            get => (double?)_accessor.Get(MemberName());
+            set =>          _accessor.Set(MemberName(), value);            
         }
         
         public double? LeadingSilence
         {
-            get => (double?)_accessor.GetPropertyValue(MemberName());
-            set =>          _accessor.SetPropertyValue(MemberName(), value);            
+            get => (double?)_accessor.Get(MemberName());
+            set =>          _accessor.Set(MemberName(), value);            
         }
         
         public double? TrailingSilence
         {
-            get => (double?)_accessor.GetPropertyValue(MemberName());
-            set =>          _accessor.SetPropertyValue(MemberName(), value);            
+            get => (double?)_accessor.Get(MemberName());
+            set =>          _accessor.Set(MemberName(), value);            
         }
         
         // Feature Toggles
         
         public bool? AudioPlayback
         {
-            get => (bool?)_accessor.GetPropertyValue(MemberName());
-            set =>        _accessor.SetPropertyValue(MemberName(), value);
+            get => (bool?)_accessor.Get(MemberName());
+            set =>        _accessor.Set(MemberName(), value);
         }
         
         public bool? DiskCache
         {
-            get => (bool?)_accessor.GetPropertyValue(MemberName());
-            set =>        _accessor.SetPropertyValue(MemberName(), value);
+            get => (bool?)_accessor.Get(MemberName());
+            set =>        _accessor.Set(MemberName(), value);
         }
         
         public bool? MathBoost
         {
-            get => (bool?)_accessor.GetPropertyValue(MemberName());
-            set =>        _accessor.SetPropertyValue(MemberName(), value);
+            get => (bool?)_accessor.Get(MemberName());
+            set =>        _accessor.Set(MemberName(), value);
         }
         
         public bool? ParallelProcessing
         {
-            get => (bool?)_accessor.GetPropertyValue(MemberName());
-            set =>        _accessor.SetPropertyValue(MemberName(), value);
+            get => (bool?)_accessor.Get(MemberName());
+            set =>        _accessor.Set(MemberName(), value);
         }
         
         public bool? PlayAllTapes
         {
-            get => (bool?)_accessor.GetPropertyValue(MemberName());
-            set =>        _accessor.SetPropertyValue(MemberName(), value);
+            get => (bool?)_accessor.Get(MemberName());
+            set =>        _accessor.Set(MemberName(), value);
         }
                 
         // Tooling
 
         public ConfigToolingElementAccessor AzurePipelines
         {
-            get => new ConfigToolingElementAccessor(_accessor.GetPropertyValue(MemberName()));
-            set => _accessor.SetPropertyValue(MemberName(), value.Obj);
+            get => new ConfigToolingElementAccessor(_accessor.Get(MemberName()));
+            set => _accessor.Set(MemberName(), value.Obj);
         }
 
         public ConfigToolingElementAccessor NCrunch
         {
-            get => new ConfigToolingElementAccessor(_accessor.GetPropertyValue(MemberName()));
-            set => _accessor.SetPropertyValue(MemberName(), value.Obj);
+            get => new ConfigToolingElementAccessor(_accessor.Get(MemberName()));
+            set => _accessor.Set(MemberName(), value.Obj);
         }
         
         // Misc
@@ -177,27 +179,27 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         /// <inheritdoc cref="wishdocs._leafchecktimeout" />
         public double? LeafCheckTimeOut
         {
-            get => (double?)_accessor.GetPropertyValue(MemberName());
-            set =>          _accessor.SetPropertyValue(MemberName(), value);            
+            get => (double?)_accessor.Get(MemberName());
+            set =>          _accessor.Set(MemberName(), value);            
         }
         
         /// <inheritdoc cref="wishdocs._leafchecktimeout" />
         public TimeOutActionEnum? TimeOutAction
         {
-            get => (TimeOutActionEnum?)_accessor.GetPropertyValue(MemberName());
-            set =>                     _accessor.SetPropertyValue(MemberName(), value);            
+            get => (TimeOutActionEnum?)_accessor.Get(MemberName());
+            set =>                     _accessor.Set(MemberName(), value);            
         }
         
         public int? FileExtensionMaxLength
         {
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+            get => (int?)_accessor.Get(MemberName());
+            set =>       _accessor.Set(MemberName(), value);            
         }
         
         public string LongTestCategory
         {
-            get => (string)_accessor.GetPropertyValue(MemberName());
-            set =>         _accessor.SetPropertyValue(MemberName(), value);            
+            get => (string)_accessor.Get(MemberName());
+            set =>         _accessor.Set(value);            
         }
     }
 }

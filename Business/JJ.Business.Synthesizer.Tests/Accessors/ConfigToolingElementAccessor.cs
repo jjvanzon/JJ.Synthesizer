@@ -20,13 +20,15 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         {
             Type type = GetUnderlyingType();
             Obj       = Activator.CreateInstance(type);
-            _accessor = new AccessorCore(Obj, Obj.GetType());
+            //_accessor = new AccessorCore(Obj, Obj.GetType());
+            _accessor = new AccessorCore(Obj);
         }
 
         public ConfigToolingElementAccessor(object obj)
         {
             Obj = obj;
-            _accessor = new AccessorCore(obj, GetUnderlyingType());
+            //_accessor = new AccessorCore(obj, GetUnderlyingType());
+            _accessor = new AccessorCore(obj);
         }
         
         private Type GetUnderlyingType()
@@ -38,26 +40,26 @@ namespace JJ.Business.Synthesizer.Tests.Accessors
         
         public bool? AudioPlayback
         {
-            get => (bool?)_accessor.GetPropertyValue(MemberName());
-            set =>        _accessor.SetPropertyValue(MemberName(), value);
+            get => (bool?)_accessor.Get(MemberName());
+            set =>        _accessor.Set(MemberName(), value);
         }
         
         public int? SamplingRate
         {
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+            get => (int?)_accessor.Get(MemberName());
+            set =>       _accessor.Set(MemberName(), value);            
         }
 
         public int? SamplingRateLongRunning
         {
-            get => (int?)_accessor.GetPropertyValue(MemberName());
-            set =>       _accessor.SetPropertyValue(MemberName(), value);            
+            get => (int?)_accessor.Get(MemberName());
+            set =>       _accessor.Set(MemberName(), value);            
         }
                 
         public bool? ImpersonationMode
         {
-            get => (bool?)_accessor.GetPropertyValue(MemberName());
-            set =>        _accessor.SetPropertyValue(MemberName(), value);
+            get => (bool?)_accessor.Get(MemberName());
+            set =>        _accessor.Set(MemberName(), value);
         }
     }
 }
