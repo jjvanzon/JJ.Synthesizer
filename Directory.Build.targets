@@ -2,4 +2,8 @@
   <PropertyGroup>
     <NoWarn>$(NoWarn);NU1605</NoWarn> <!--Detected package downgrade-->
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="*.ncrunchproject" />
+    <None Remove="NCrunch*AnalysisBuild.xml" />
+  </ItemGroup>
 </Project>

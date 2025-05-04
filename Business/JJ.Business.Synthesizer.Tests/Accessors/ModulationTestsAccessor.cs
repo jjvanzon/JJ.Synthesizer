@@ -1,63 +1,40 @@
-﻿using System;
-using JJ.Business.Synthesizer.Tests.Functional;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Tests.docs;
-using JJ.Framework.Reflection.Core;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
-
-namespace JJ.Business.Synthesizer.Tests.Accessors
+﻿namespace JJ.Business.Synthesizer.Tests.Accessors
 {
-    internal class ModulationTestsAccessor
+    internal class ModulationTestsAccessor(ModulationTests obj) : AccessorCore(obj)
     {
-        private readonly ModulationTests     _obj;
-        private readonly AccessorCore   _accessor;
-        private readonly SynthWishesAccessor _baseAccessor;
-            
-        public ModulationTestsAccessor(ModulationTests obj)
-        {
-            _obj          = obj ?? throw new ArgumentNullException(nameof(obj));
-            _accessor     = new AccessorCore(obj);
-            _baseAccessor = new SynthWishesAccessor(obj);
-        }
-
+        readonly ModulationTests _obj = obj ?? throw new ArgumentNullException(nameof(obj));
+        
         /// <inheritdoc cref="_captureindexer" />
-        public SynthWishes _ => _baseAccessor._; 
+        public SynthWishes _ => (SynthWishes)Get(); 
 
         public void WithLeft() => _obj.WithLeft();
         public void WithRight() => _obj.WithRight();
         
         /// <inheritdoc cref="_detunica" />
         public FlowNode Detunica1(FlowNode freq, FlowNode duration = null, FlowNode detuneDepth = null, FlowNode chorusRate = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1], detuneDepth ?? _[0.8], chorusRate ?? _[0.03]);
+            => (FlowNode)Call(freq, duration, detuneDepth, chorusRate);
 
         /// <inheritdoc cref="_detunica" />
-        public FlowNode Detunica2(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
-
+        public FlowNode Detunica2(FlowNode freq, FlowNode duration = null) => (FlowNode)Call(freq, duration);
         /// <inheritdoc cref="_detunica" />
-        public FlowNode Detunica3(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
-
-        /// <inheritdoc cref="_detunica" />
-        public FlowNode Detunica4(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
-
-        /// <inheritdoc cref="_detunica" />
-        public FlowNode Detunica5(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
+        
+        public FlowNode Detunica3(FlowNode freq, FlowNode duration = null) => (FlowNode)Call(freq, duration);
         
         /// <inheritdoc cref="_detunica" />
-        public FlowNode DetunicaBass(FlowNode freq = null, FlowNode duration = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1]);
+        public FlowNode Detunica4(FlowNode freq, FlowNode duration = null) => (FlowNode)Call(freq, duration);
+        
+        /// <inheritdoc cref="_detunica" />
+        public FlowNode Detunica5(FlowNode freq, FlowNode duration = null) => (FlowNode)Call(freq, duration);
+        
+        /// <inheritdoc cref="_detunica" />
+        public FlowNode DetunicaBass(FlowNode freq, FlowNode duration = null) => (FlowNode)Call(freq, duration);
 
         /// <inheritdoc cref="_detunica" />
-        public FlowNode DetunicaJingle
-            => (FlowNode)_accessor.Get(MemberName());
+        public FlowNode DetunicaJingle => (FlowNode)Get();
 
-        public FlowNode Vibraphase(FlowNode freq = null, FlowNode duration = null, FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
-            => (FlowNode)_accessor.Call(MemberName(), freq ?? _[440], duration ?? _[1], depthAdjust1 ?? _[0.005], depthAdjust2 ?? _[0.250]);
+        public FlowNode Vibraphase(FlowNode freq, FlowNode duration = null, FlowNode depthAdjust1 = null, FlowNode depthAdjust2 = null)
+            => (FlowNode)Call(freq, duration, depthAdjust1, depthAdjust2);
         
-        public FlowNode VibraphaseChord
-            => (FlowNode)_accessor.Get(MemberName());
+        public FlowNode VibraphaseChord => (FlowNode)Get();
     }
 }

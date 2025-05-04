@@ -4,4 +4,10 @@
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CS0618</NoWarn> <!--Type or member is obsolete-->
+    <NoWarn>$(NoWarn);CS0661</NoWarn> <!--Type defines operator == or operator != but does not override Object.GetHashCode()-->
+    <NoWarn>$(NoWarn);CS0659</NoWarn> <!--Type overrides Object.Equals(object o) but does not override Object.GetHashCode()-->
+    <NoWarn>$(NoWarn);IDE0055</NoWarn> <!--Fix formatting-->
+  </PropertyGroup>
 </Project>

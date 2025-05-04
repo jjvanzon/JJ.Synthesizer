@@ -427,24 +427,24 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 accessor.WithLeft();
                 TestComplexity(accessor.Detunica1(A4));
-                TestComplexity(accessor.Detunica2());
-                TestComplexity(accessor.Detunica3());
-                TestComplexity(accessor.Detunica4());
-                TestComplexity(accessor.Detunica5());
-                TestComplexity(accessor.DetunicaBass());
+                TestComplexity(accessor.Detunica2(A4));
+                TestComplexity(accessor.Detunica3(A4));
+                TestComplexity(accessor.Detunica4(A4));
+                TestComplexity(accessor.Detunica5(A4));
+                TestComplexity(accessor.DetunicaBass(A4));
                 TestComplexity(accessor.DetunicaJingle);
-                TestComplexity(accessor.Vibraphase());
+                TestComplexity(accessor.Vibraphase(A4));
                 TestComplexity(accessor.VibraphaseChord);
                 
                 accessor.WithRight();
                 TestComplexity(accessor.Detunica1(A4));
-                TestComplexity(accessor.Detunica2());
-                TestComplexity(accessor.Detunica3());
-                TestComplexity(accessor.Detunica4());
-                TestComplexity(accessor.Detunica5());
-                TestComplexity(accessor.DetunicaBass());
+                TestComplexity(accessor.Detunica2(A4));
+                TestComplexity(accessor.Detunica3(A4));
+                TestComplexity(accessor.Detunica4(A4));
+                TestComplexity(accessor.Detunica5(A4));
+                TestComplexity(accessor.DetunicaBass(A4));
                 TestComplexity(accessor.DetunicaJingle);
-                TestComplexity(accessor.Vibraphase());
+                TestComplexity(accessor.Vibraphase(A4));
                 TestComplexity(accessor.VibraphaseChord);
             }
         }
