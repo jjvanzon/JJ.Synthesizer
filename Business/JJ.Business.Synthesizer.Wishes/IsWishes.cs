@@ -76,18 +76,18 @@ namespace JJ.Business.Synthesizer.Wishes
             return op.AsConst() == null;
         }
 
-        public static bool IsAdd(this Outlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsAdd(this Operator entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsAdd(this Outlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsAdd(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         public static bool IsSubtract(this Outlet entity) => HasOperatorTypeName(entity, nameof(PropertyNames.Substract));
         public static bool IsSubtract(this Operator entity) => HasOperatorTypeName(entity, nameof(PropertyNames.Substract));
-        public static bool IsMultiply(this Outlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsMultiply(this Operator entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsDivide(this Outlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsDivide(this Operator entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsPower(this Outlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsPower(this Operator entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsSine(this Outlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsSine(this Operator entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsMultiply(this Outlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsMultiply(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsDivide(this Outlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsDivide(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsPower(this Outlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsPower(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsSine(this Outlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsSine(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         public static bool IsDelay(this Outlet entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeAdd));
         public static bool IsDelay(this Operator entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeAdd));
         public static bool IsSkip(this Outlet entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeSubstract));
@@ -96,10 +96,10 @@ namespace JJ.Business.Synthesizer.Wishes
         public static bool IsStretch(this Operator entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeMultiply));
         public static bool IsSpeedUp(this Outlet entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeDivide));
         public static bool IsSpeedUp(this Operator entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeDivide));
-        public static bool IsTimePower(this Outlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsTimePower(this Operator entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsAdder(this Outlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
-        public static bool IsAdder(this Operator entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsTimePower(this Outlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsTimePower(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsAdder(this Outlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
+        public static bool IsAdder(this Operator entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
 
         internal static bool HasOperatorTypeName(this Outlet outlet, string operatorTypeName)
         {

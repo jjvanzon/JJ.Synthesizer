@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             if (IsRight)
             {
                 // Test MemberName
-                return (sound * 0.4).Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, MemberName()) / 0.4;
+                return (sound * 0.4).Echo(DeepEchoCount, magnitude: _[1 / 2.0], DeepEchoDelayR, Name()) / 0.4;
             }
             
             throw new ValueNotSupportedException(GetChannel);

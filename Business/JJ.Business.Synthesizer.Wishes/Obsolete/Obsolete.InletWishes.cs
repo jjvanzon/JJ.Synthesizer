@@ -70,22 +70,22 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         }
 
         [Obsolete(ObsoleteMessage)]
-        public static bool IsAdd(this Inlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsAdd(this Inlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         
         [Obsolete(ObsoleteMessage)]
         public static bool IsSubtract(this Inlet entity) => HasOperatorTypeName(entity, nameof(PropertyNames.Substract));
         
         [Obsolete(ObsoleteMessage)]
-        public static bool IsMultiply(this Inlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsMultiply(this Inlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         
         [Obsolete(ObsoleteMessage)]
-        public static bool IsDivide(this Inlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsDivide(this Inlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         
         [Obsolete(ObsoleteMessage)]
-        public static bool IsPower(this Inlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsPower(this Inlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         
         [Obsolete(ObsoleteMessage)]
-        public static bool IsSine(this Inlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsSine(this Inlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         
         [Obsolete(ObsoleteMessage)]
         public static bool IsDelay(this Inlet entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeAdd));
@@ -100,10 +100,10 @@ namespace JJ.Business.Synthesizer.Wishes.Obsolete
         public static bool IsSpeedUp(this Inlet entity) => HasOperatorTypeName(entity, nameof(PropertyNames.TimeDivide));
         
         [Obsolete(ObsoleteMessage)]
-        public static bool IsTimePower(this Inlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsTimePower(this Inlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
         
         [Obsolete(ObsoleteMessage)]
-        public static bool IsAdder(this Inlet entity) => HasOperatorTypeName(entity, MemberName().CutLeft("Is"));
+        public static bool IsAdder(this Inlet entity) => HasOperatorTypeName(entity, Name().CutLeft("Is"));
 
         [Obsolete(ObsoleteMessage)]
         internal static bool HasOperatorTypeName(this Inlet inlet, string operatorTypeName)

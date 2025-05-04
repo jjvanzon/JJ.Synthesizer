@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Common;
-using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Framework.Existence.Core;
@@ -18,8 +13,6 @@ using static System.IO.Path;
 using static System.String;
 using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Framework.IO.Core.FileHelperCore;
-using static JJ.Business.Synthesizer.Wishes.Logging.LogWishes;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -340,10 +333,10 @@ namespace JJ.Business.Synthesizer.Wishes
             return title + NewLine + dashes;
         }
     
-        // TODO: Move to Framework.
+        // TODO: Use the one from JJ.Framework.Common.Core.
         /// <inheritdoc cref="_membername"/>
-        public static string MemberName([CallerMemberName] string calledMemberName = null)
-            => calledMemberName.CutLeft("get_").CutLeft("set_");
+        public static string Name([CallerMemberName] string name = null)
+            => name.CutLeft("get_").CutLeft("set_");
     }
 
     // NameWishes Entity Extensions

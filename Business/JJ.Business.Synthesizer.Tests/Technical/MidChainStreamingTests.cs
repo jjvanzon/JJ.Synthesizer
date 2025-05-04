@@ -162,11 +162,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Add
             (
-                Sine(RandomNotes[4] * 1).Volume(StereoDynamics).Volume(1.0).SaveChannels(MemberName() + " Partial 1"),
+                Sine(RandomNotes[4] * 1).Volume(StereoDynamics).Volume(1.0).SaveChannels(Name() + " Partial 1"),
                 Sine(RandomNotes[4] * 2).Volume(StereoDynamics).Volume(0.1),
                 Sine(RandomNotes[4] * 3).Volume(StereoDynamics).SaveChannels(ResolveName() + " Partial 2").Volume(0.05),
                 Sine(RandomNotes[4] * 4).Volume(StereoDynamics).Volume(0.01),
-                Sine(RandomNotes[4] * 5).Volume(StereoDynamics).Volume(0.02).SetName(MemberName() + " Partial 3").SaveChannels()
+                Sine(RandomNotes[4] * 5).Volume(StereoDynamics).Volume(0.02).SetName(Name() + " Partial 3").SaveChannels()
             ).Play();
         }
         

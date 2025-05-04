@@ -272,8 +272,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoDuration = EchoDuration(count: 16, _[0.25]);
 
             envelope.SetName("Envelope");
-            sound.SetName(MemberName() + "_Input.wav");
-            echoes.SetName(MemberName() + "_Output.wav");
+            sound.SetName(Name() + "_Input.wav");
+            echoes.SetName(Name() + "_Output.wav");
 
             WithAudioLength(0.2).Save(sound);
             WithAudioLength(0.2 + echoDuration).Save(echoes).Play();
@@ -292,8 +292,8 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoDuration = EchoDuration(count: 16, _[0.25]);
 
             envelope.SetName("Envelope");
-            sound.SetName(MemberName() + " Input");
-            echoes.SetName(MemberName() + " Output");
+            sound.SetName(Name() + " Input");
+            echoes.SetName(Name() + " Output");
 
             WithAudioLength(0.2).Save(sound);
             WithAudioLength(0.2 + echoDuration).Save(echoes).Play();
@@ -318,11 +318,11 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoes = accessor.EchoAdditive(sound, count: 16, magnitude, delay);
             var echoDuration = EchoDuration(count: 16, delay);
 
-            sound.SetName(MemberName() + " Input");
-            envelope.SetName(MemberName() + " Volume");
-            magnitude.SetName(MemberName() + " Magnitude");
-            delay.SetName(MemberName() + " Delay");
-            echoes.SetName(MemberName() + " Output");
+            sound.SetName(Name() + " Input");
+            envelope.SetName(Name() + " Volume");
+            magnitude.SetName(Name() + " Magnitude");
+            delay.SetName(Name() + " Delay");
+            echoes.SetName(Name() + " Output");
             
             WithAudioLength(0.2).Save(sound);
             WithAudioLength(0.2 + echoDuration).Save(magnitude);
@@ -342,9 +342,9 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoes       = accessor.EchoFeedBack(sound, count: 16, magnitude: 0.66, delay: 0.25);
             var echoDuration = EchoDuration(count: 16, delay: _[0.25]);
 
-            envelope.SetName(MemberName() + " Envelope");
-            sound.SetName(MemberName() + " Input");
-            echoes.SetName(MemberName() + " Output");
+            envelope.SetName(Name() + " Envelope");
+            sound.SetName(Name() + " Input");
+            echoes.SetName(Name() + " Output");
             
             WithAudioLength(0.2).Save(sound);
             WithAudioLength(echoDuration + 4.0).Save(echoes).Play();
@@ -357,7 +357,7 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             
             WithMono();
 
-            var envelope     = Curve((0, 1), (0.2, 0)).SetName(MemberName() + " Volume");
+            var envelope     = Curve((0, 1), (0.2, 0)).SetName(Name() + " Volume");
             var sound        = Multiply(Sine(D5), envelope);
             var magnitude    = Curve((0.0, 0.66),
                                      (0.5, 0.90),
@@ -368,10 +368,10 @@ namespace JJ.Business.Synthesizer.Tests.Functional
             var echoes       = accessor.EchoFeedBack(sound, count: 16, magnitude, delay);
             var echoDuration = EchoDuration(count: 16, delay);
 
-            sound    .WithAudioLength(0.2)         .SetName(MemberName() + " Input"    ).Save();
-            magnitude.WithAudioLength(4.5)         .SetName(MemberName() + " Magnitude").Save();
-            delay    .WithAudioLength(4.5)         .SetName(MemberName() + " Delay"    ).Save();
-            echoes   .WithAudioLength(echoDuration).SetName(MemberName() + " Output"   ).Save().Play();
+            sound    .WithAudioLength(0.2)         .SetName(Name() + " Input"    ).Save();
+            magnitude.WithAudioLength(4.5)         .SetName(Name() + " Magnitude").Save();
+            delay    .WithAudioLength(4.5)         .SetName(Name() + " Delay"    ).Save();
+            echoes   .WithAudioLength(echoDuration).SetName(Name() + " Output"   ).Save().Play();
         }
     }
 }

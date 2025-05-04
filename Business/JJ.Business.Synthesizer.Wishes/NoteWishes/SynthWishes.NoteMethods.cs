@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes
             string resolvedName = ResolveName(name, sound, callerMemberName);
             if (FilledIn(resolvedName))
             {
-                resolvedName += " " + MemberName();
+                resolvedName += " " + Name();
             }
             
             // Resolve NoteLength

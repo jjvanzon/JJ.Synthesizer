@@ -8,18 +8,18 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
 {
     public static class LogCats
     {
-        public static readonly string Math      = MemberName();
-        public static readonly string SynthLog  = MemberName();
-        public static readonly string TapeTree  = MemberName();
-        public static readonly string Config    = MemberName();
-        public static readonly string Actions   = MemberName();
-        public static readonly string Operator  = MemberName();
-        public static readonly string Tape      = MemberName();
-        public static readonly string Buff      = MemberName();
-        public static readonly string Out       = MemberName();
-        public static readonly string Sample    = MemberName();
-        public static readonly string File      = MemberName();
-        public static readonly string Memory    = MemberName();
-        public static readonly string Misc      = MemberName();
+        public static readonly string Math      = Name();
+        public static readonly string SynthLog  = Name();
+        public static readonly string TapeTree  = Name();
+        public static readonly string Config    = Name();
+        public static readonly string Actions   = Name();
+        public static readonly string Operator  = Name();
+        public static readonly string Tape      = Name();
+        public static readonly string Buff      = Name();
+        public static readonly string Out       = Name();
+        public static readonly string Sample    = Name();
+        public static readonly string File      = Name();
+        public static readonly string Memory    = Name();
+        public static readonly string Misc      = Name();
     }
 }
