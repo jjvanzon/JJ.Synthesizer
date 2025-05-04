@@ -1,6 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.Synthesizer.Tests.docs;
-using JJ.Business.Synthesizer.Wishes;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 // ReSharper disable InvokeAsExtensionMethod
 

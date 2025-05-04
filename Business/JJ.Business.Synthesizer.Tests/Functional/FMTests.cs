@@ -1,10 +1,6 @@
-﻿using System.Linq;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Infos;
+﻿using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.Synthesizer.Tests.docs;
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable ExplicitCallerInfoArgument
 

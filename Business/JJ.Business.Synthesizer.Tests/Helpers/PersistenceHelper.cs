@@ -1,10 +1,4 @@
-﻿using JJ.Framework.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Wishes.Helpers;
+﻿using JJ.Business.Synthesizer.Wishes.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

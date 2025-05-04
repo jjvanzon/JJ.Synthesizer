@@ -1,6 +1,4 @@
-﻿using JJ.Business.Synthesizer.Wishes;
-using JJ.Persistence.Synthesizer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Environment;
 using static JJ.Framework.Testing.Core.AssertHelperCore;
 

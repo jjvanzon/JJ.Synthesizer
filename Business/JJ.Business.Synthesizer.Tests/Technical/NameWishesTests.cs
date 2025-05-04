@@ -1,6 +1,4 @@
-﻿using System.IO;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Testing;
+﻿using JJ.Framework.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Technical

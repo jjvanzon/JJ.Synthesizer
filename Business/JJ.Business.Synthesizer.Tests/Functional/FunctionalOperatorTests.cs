@@ -1,12 +1,7 @@
-﻿using System;
-using JJ.Business.Synthesizer.Tests.Accessors;
+﻿using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Wishes;
 using JJ.Framework.Testing;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Business.Synthesizer.Tests.docs;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
 
 // ReSharper disable JoinDeclarationAndInitializer
 // ReSharper disable ExplicitCallerInfoArgument

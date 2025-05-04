@@ -1,27 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Tests.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
-using JJ.Framework.Reflection;
 using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.IO.Core.FileHelperCore;
 

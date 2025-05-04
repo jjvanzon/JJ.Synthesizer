@@ -1,21 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Factories;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Helpers;
-using JJ.Framework.Validation;
-using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

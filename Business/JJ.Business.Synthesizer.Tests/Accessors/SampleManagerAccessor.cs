@@ -1,5 +1,4 @@
-﻿
-namespace JJ.Business.Synthesizer.Tests.Accessors;
+﻿namespace JJ.Business.Synthesizer.Tests.Accessors;
 
 internal class SampleManagerAccessor(SampleManager sampleManager) : AccessorCore(sampleManager)
 {

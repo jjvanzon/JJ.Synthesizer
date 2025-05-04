@@ -1,12 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Enums;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Text.Core;
@@ -18,7 +11,6 @@ using static JJ.Framework.Testing.Core.AssertHelperCore;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
 using static JJ.Framework.IO.Core.FileHelperCore;
 using static JJ.Business.Synthesizer.Wishes.Obsolete.SaveLegacyStatics;
 

@@ -1,11 +1,4 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Names;
-using JJ.Persistence.Synthesizer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using JJ.Business.Synthesizer.Names;
 
 namespace JJ.Business.Synthesizer.Helpers
 {

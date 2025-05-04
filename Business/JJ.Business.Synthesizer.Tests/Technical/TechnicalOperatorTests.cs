@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using JJ.Business.Synthesizer.EntityWrappers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Tests.Functional;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Wishes;
 using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Text.Core;
-using JJ.Persistence.Synthesizer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 using static JJ.Framework.Testing.AssertHelper;

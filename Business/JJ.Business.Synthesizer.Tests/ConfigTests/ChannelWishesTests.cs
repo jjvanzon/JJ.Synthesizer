@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes.Config;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using static JJ.Framework.Testing.AssertHelper;
@@ -16,7 +7,6 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using JJ.Framework.Common;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
-using System.Runtime.CompilerServices;
 using JJ.Framework.Testing.Core;
 
 // ReSharper disable ArrangeStaticMemberQualifier

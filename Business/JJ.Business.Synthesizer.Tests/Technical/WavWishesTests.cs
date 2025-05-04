@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
+﻿using System.Linq.Expressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.ConfigTests;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Persistence;
-using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Tests.docs;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.IO.File;
-
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
@@ -27,7 +14,6 @@ using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;
 using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Framework.Testing.Core.AssertHelperCore;
-using System.Runtime.CompilerServices;
 using JJ.Framework.Testing.Core;
 
 // ReSharper disable ArrangeStaticMemberQualifier

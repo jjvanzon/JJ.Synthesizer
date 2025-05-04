@@ -1,24 +1,13 @@
-﻿using System;
-using System.IO;
-using JJ.Business.Synthesizer.Calculation;
+﻿using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Tests.Accessors;
-using JJ.Business.Synthesizer.Tests.Functional;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Tests.docs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory;
 using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
 using static JJ.Framework.Testing.AssertHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
-
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local
 #pragma warning disable CS0414 // Field is assigned but its value is never used

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using JJ.Business.Synthesizer.Tests.ConfigTests;
-using JJ.Business.Synthesizer.Wishes;
+﻿using JJ.Business.Synthesizer.Tests.ConfigTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
 

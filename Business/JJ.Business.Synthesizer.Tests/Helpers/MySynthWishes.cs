@@ -1,6 +1,4 @@
-﻿using JJ.Business.Synthesizer.Wishes;
-
-namespace JJ.Business.Synthesizer.Tests.Helpers
+﻿namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     public class MySynthWishes : SynthWishes
     {

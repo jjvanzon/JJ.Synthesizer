@@ -1,8 +1,4 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Business.Synthesizer.Wishes.Obsolete;
-using JJ.Persistence.Synthesizer;
+﻿using JJ.Business.Synthesizer.Wishes.Obsolete;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Testing.AssertHelper;
 

@@ -1,6 +1,6 @@
 ﻿namespace JJ.Business.Synthesizer.Tests.Accessors;
 
-class ConfigToolingElementAccessor : AccessorCore
+internal class ConfigToolingElementAccessor : AccessorCore
 {
     public ConfigToolingElementAccessor() : base("ConfigToolingElement") { }
     public ConfigToolingElementAccessor(object obj) : base(obj) { }

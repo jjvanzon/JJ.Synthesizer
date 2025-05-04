@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.CompilerServices;
-using JJ.Business.Synthesizer.Wishes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // ReSharper disable LocalizableElement
 

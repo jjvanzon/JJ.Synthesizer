@@ -1,9 +1,4 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Wishes;
-using JJ.Business.Synthesizer.Wishes.Config;
-using JJ.Business.Synthesizer.Tests.docs;
-
-namespace JJ.Business.Synthesizer.Tests.Helpers
+﻿namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     /// <inheritdoc cref="_synthwishesderived" />
     internal class SynthWishesDerived : SynthWishes

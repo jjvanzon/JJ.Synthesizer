@@ -1,12 +1,5 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
-using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

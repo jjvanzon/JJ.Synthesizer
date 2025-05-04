@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Wishes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
