@@ -1,29 +1,10 @@
-﻿using JJ.Business.Synthesizer.Wishes;
-using JJ.Framework.Reflection;
-using System;
-using System.Reflection;
-using JJ.Framework.Reflection.Core;
-using static JJ.Business.Synthesizer.Wishes.NameWishes;
+﻿// ReSharper disable RedundantTypeArgumentsOfMethod
+namespace JJ.Business.Synthesizer.Tests.Accessors;
 
-namespace JJ.Business.Synthesizer.Tests.Accessors
+internal class TapeAccessor(object obj) : AccessorCore(obj)
 {
-    internal class TapeAccessor
-    {
-        private readonly AccessorCore _accessor;
-        
-        public TapeAccessor(object obj)
-        {
-            Assembly assembly = typeof(SynthWishes).Assembly;
-            string typeName = "JJ.Business.Synthesizer.Wishes.TapeWishes.Tape";
-            Type type = assembly.GetType(typeName, true);
-            //_accessor = new AccessorCore(obj, type);
-            _accessor = new AccessorCore(obj);
-        }
-        
-        public FlowNode Signal
-        {
-            get => (FlowNode)_accessor.Get(MemberName());
-            set => _accessor.Set(MemberName(), value);
-        }
-    }
+    public FlowNode Signal 
+    { 
+        get => Get<FlowNode>(); 
+        set => Set<FlowNode>(value); }
 }

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Wishes.NoteWishes;
 using JJ.Framework.Mathematics;
-using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Collections.Core;
@@ -71,13 +67,13 @@ namespace JJ.Business.Synthesizer.Wishes
        
         // Tape
     
-        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+        public FlowNode Tape(FlowNode signal, FlowNode duration = null, [CallerMemberName] string callerMemberName = "")
         {
             _tapes.Upsert(ActionEnum.Tape, signal, duration, callerMemberName);
             return signal;
         }
         
-        public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = null)
+        public FlowNode Tape(FlowNode signal, double duration, [CallerMemberName] string callerMemberName = "")
             => Tape(signal, _[duration], callerMemberName);
 
         // Add
@@ -918,32 +914,32 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Echo
 
-        public FlowNode Echo(FlowNode signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => Echo(signal, count, _[magnitude], _[delay], callerMemberName);
+        public FlowNode Echo(FlowNode signal, int count, double magnitude, double delay, [CallerMemberName] string name = "")
+            => Echo(signal, count, _[magnitude], _[delay], name);
 
-        public FlowNode Echo(FlowNode signal, int count, FlowNode magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => Echo(signal, count, magnitude, _[delay], callerMemberName);
+        public FlowNode Echo(FlowNode signal, int count, FlowNode magnitude, double delay, [CallerMemberName] string name = "")
+            => Echo(signal, count, magnitude, _[delay], name);
 
-        public FlowNode Echo(FlowNode signal, int count, double magnitude, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => Echo(signal, count, _[magnitude], delay, callerMemberName);
+        public FlowNode Echo(FlowNode signal, int count, double magnitude, FlowNode delay = default, [CallerMemberName] string name = "")
+            => Echo(signal, count, _[magnitude], delay, name);
 
         public FlowNode Echo(
             FlowNode signal, int count, FlowNode magnitude = default, FlowNode delay = default,
-            [CallerMemberName] string callerMemberName = null)
-            => EchoTape(signal, count, magnitude, delay, callerMemberName);
+            [CallerMemberName] string name = "")
+            => EchoTape(signal, count, magnitude, delay, name);
 
-        public FlowNode EchoAdditive(FlowNode signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => EchoAdditive(signal, count, _[magnitude], _[delay], callerMemberName);
+        public FlowNode EchoAdditive(FlowNode signal, int count, double magnitude, double delay, [CallerMemberName] string name = "")
+            => EchoAdditive(signal, count, _[magnitude], _[delay], name);
 
-        public FlowNode EchoAdditive(FlowNode signal, int count, FlowNode magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => EchoAdditive(signal, count, magnitude, _[delay], callerMemberName);
+        public FlowNode EchoAdditive(FlowNode signal, int count, FlowNode magnitude, double delay, [CallerMemberName] string name = "")
+            => EchoAdditive(signal, count, magnitude, _[delay], name);
 
-        public FlowNode EchoAdditive(FlowNode signal, int count, double magnitude, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => EchoAdditive(signal, count, _[magnitude], delay, callerMemberName);
+        public FlowNode EchoAdditive(FlowNode signal, int count, double magnitude, FlowNode delay = default, [CallerMemberName] string name = "")
+            => EchoAdditive(signal, count, _[magnitude], delay, name);
 
         public FlowNode EchoAdditive(
             FlowNode signal, int count = 4, FlowNode magnitude = default, FlowNode delay = default,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string name = "")
         {
             magnitude = magnitude ?? _[0.66];
             delay = delay ?? _[0.25];
@@ -964,25 +960,25 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
 
-            return Add(repeats).SetName(callerMemberName);
+            return Add(repeats).SetName(name);
         }
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FlowNode EchoFeedBack(FlowNode signal, int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => EchoFeedBack(signal, count, _[magnitude], _[delay], callerMemberName);
+        public FlowNode EchoFeedBack(FlowNode signal, int count, double magnitude, double delay, [CallerMemberName] string name = "")
+            => EchoFeedBack(signal, count, _[magnitude], _[delay], name);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FlowNode EchoFeedBack(FlowNode signal, int count, FlowNode magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => EchoFeedBack(signal, count, magnitude, _[delay], callerMemberName);
+        public FlowNode EchoFeedBack(FlowNode signal, int count, FlowNode magnitude, double delay, [CallerMemberName] string name = "")
+            => EchoFeedBack(signal, count, magnitude, _[delay], name);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FlowNode EchoFeedBack(FlowNode signal, int count, double magnitude, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => EchoFeedBack(signal, count, _[magnitude], delay, callerMemberName);
+        public FlowNode EchoFeedBack(FlowNode signal, int count, double magnitude, FlowNode delay = default, [CallerMemberName] string name = "")
+            => EchoFeedBack(signal, count, _[magnitude], delay, name);
 
         /// <inheritdoc cref="_echofeedback"/>
         public FlowNode EchoFeedBack(
             FlowNode signal, int count = 4, FlowNode magnitude = default, FlowNode delay = default,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string name = "")
         {
             if (signal == null) throw new ArgumentNullException(nameof(signal));
             magnitude = magnitude ?? _[0.66];
@@ -1005,12 +1001,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += cumulativeDelay;
             }
 
-            return cumulativeSignal.SetName(callerMemberName);
+            return cumulativeSignal.SetName(name);
         }
 
         public FlowNode EchoParallel(
             FlowNode signal, int count = 4, FlowNode magnitude = default, FlowNode delay = default,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string name = "")
         {
             magnitude = magnitude ?? _[0.66];
             delay = delay ?? _[0.25];
@@ -1024,7 +1020,7 @@ namespace JJ.Business.Synthesizer.Wishes
             {
                 var quieter = signal * cumulativeMagnitude;
                 var shifted = Delay(quieter, cumulativeDelay);
-                var taped = shifted.Tape().SetName(callerMemberName);
+                var taped = shifted.Tape().SetName(name);
                 
                 repeats[i] = taped;
 
@@ -1032,17 +1028,17 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
 
-            return Add(repeats).SetName(callerMemberName);
+            return Add(repeats).SetName(name);
         }
         
         public FlowNode EchoTape(
             FlowNode signal, int count = 4, FlowNode magnitude = default, FlowNode delay = default,
-            [CallerMemberName] string callerMemberName = null)
+            [CallerMemberName] string name = "")
         {
             magnitude = magnitude ?? _[0.66];
             delay = delay ?? _[0.25];
             
-            var tape = Tape(signal).SetName(callerMemberName);
+            var tape = Tape(signal).SetName(name);
             
             var cumulativeMagnitude = _[1];
             var cumulativeDelay = _[0];
@@ -1060,7 +1056,7 @@ namespace JJ.Business.Synthesizer.Wishes
                 cumulativeDelay += delay;
             }
             
-            return Add(repeats).SetName(callerMemberName);
+            return Add(repeats).SetName(name);
         }
     
         public FlowNode EchoDuration(int count, double delay) => EchoDuration(count, _[delay]);
@@ -1107,10 +1103,10 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Tape
     
-        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = null)
+        public FlowNode Tape(FlowNode duration = null, [CallerMemberName] string callerMemberName = "")
             => _synthWishes.Tape(this, duration, callerMemberName);
         
-        public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = null)
+        public FlowNode Tape(double duration, [CallerMemberName] string callerMemberName = "")
             => _synthWishes.Tape(this, duration, callerMemberName);
  
         // Add
@@ -1263,51 +1259,51 @@ namespace JJ.Business.Synthesizer.Wishes
 
         // Echo
 
-        public FlowNode Echo(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
+        public FlowNode Echo(int count, double magnitude, double delay, [CallerMemberName] string name = "")
+            => _synthWishes.Echo(this, count, magnitude, delay, name);
 
-        public FlowNode Echo(int count, FlowNode magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
+        public FlowNode Echo(int count, FlowNode magnitude, double delay, [CallerMemberName] string name = "")
+            => _synthWishes.Echo(this, count, magnitude, delay, name);
 
-        public FlowNode Echo(int count, double magnitude, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
+        public FlowNode Echo(int count, double magnitude, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.Echo(this, count, magnitude, delay, name);
 
-        public FlowNode Echo(int count, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.Echo(this, count, magnitude, delay, callerMemberName);
+        public FlowNode Echo(int count, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.Echo(this, count, magnitude, delay, name);
 
-        public FlowNode EchoAdditive(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoAdditive(int count, double magnitude, double delay, [CallerMemberName] string name = "")
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, name);
 
-        public FlowNode EchoAdditive(int count, FlowNode magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoAdditive(int count, FlowNode magnitude, double delay, [CallerMemberName] string name = "")
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, name);
 
-        public FlowNode EchoAdditive(int count, double magnitude, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoAdditive(int count, double magnitude, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, name);
 
-        public FlowNode EchoAdditive(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoAdditive(this, count, magnitude, delay, callerMemberName);
-
-        /// <inheritdoc cref="_echofeedback"/>
-        public FlowNode EchoFeedBack(int count, double magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoAdditive(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.EchoAdditive(this, count, magnitude, delay, name);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FlowNode EchoFeedBack(int count, FlowNode magnitude, double delay, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoFeedBack(int count, double magnitude, double delay, [CallerMemberName] string name = "")
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, name);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FlowNode EchoFeedBack(int count, double magnitude, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoFeedBack(int count, FlowNode magnitude, double delay, [CallerMemberName] string name = "")
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, name);
 
         /// <inheritdoc cref="_echofeedback"/>
-        public FlowNode EchoFeedBack(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoFeedBack(int count, double magnitude, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, name);
 
-        public FlowNode EchoParallel(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoParallel(this, count, magnitude, delay, callerMemberName);
+        /// <inheritdoc cref="_echofeedback"/>
+        public FlowNode EchoFeedBack(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.EchoFeedBack(this, count, magnitude, delay, name);
+
+        public FlowNode EchoParallel(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.EchoParallel(this, count, magnitude, delay, name);
         
-        public FlowNode EchoTape(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string callerMemberName = null)
-            => _synthWishes.EchoTape(this, count, magnitude, delay, callerMemberName);
+        public FlowNode EchoTape(int count = 4, FlowNode magnitude = default, FlowNode delay = default, [CallerMemberName] string name = "")
+            => _synthWishes.EchoTape(this, count, magnitude, delay, name);
         
         public FlowNode EchoDuration(int count = 4, FlowNode delay = default) => _synthWishes.EchoDuration(count, delay);
     }
