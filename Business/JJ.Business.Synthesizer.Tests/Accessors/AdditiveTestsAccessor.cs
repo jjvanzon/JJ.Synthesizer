@@ -4,6 +4,7 @@ internal class AdditiveTestsAccessor(AdditiveTests obj)
 {
     private readonly AccessorCore _accessor = new(obj);
     
+    
     /// <inheritdoc cref="_captureindexer" />
     public SynthWishes _ => _accessor.Get<SynthWishes>();
     
