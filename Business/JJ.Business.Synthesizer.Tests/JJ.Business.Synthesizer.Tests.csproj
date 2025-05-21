@@ -32,7 +32,7 @@
     <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.Framework.Mathematics.Core" Version="2.4.2514" />
+    <PackageReference Include="JJ.Framework.Mathematics.Core" Version="2.4.2639" />
     <PackageReference Include="JJ.Framework.Reflection" Version="0.250.2445" />
     <PackageReference Include="JJ.Framework.Testing" Version="0.250.2424" />
     <PackageReference Include="MSTest" Version="3.7.3" />
