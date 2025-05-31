@@ -1,0 +1,9 @@
+﻿<SolutionConfiguration>
+  <Settings>
+    <AllowParallelTestExecution>True</AllowParallelTestExecution>
+    <EnableRDI>False</EnableRDI>
+    <FrameworkUtilisationTypeForMSTest>UseDynamicAnalysis</FrameworkUtilisationTypeForMSTest>
+    <RdiConfigured>True</RdiConfigured>
+    <SolutionConfigured>True</SolutionConfigured>
+  </Settings>
+</SolutionConfiguration>

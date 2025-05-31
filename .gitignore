@@ -4,8 +4,8 @@ obj
 packages
 *.user
 .vscode
-*.ncrunchsolution
-*.ncrunchproject
+#*.ncrunchsolution
+#*.ncrunchproject
 /.NCrunch*
 nCrunchTemp*.*
 NCrunch*.xml
