@@ -122,11 +122,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// </para>
         /// </summary>
         public struct _fmtests { }
-       
-        /// <summary>
-        /// <c>From</c>, <c>Init</c> and <c>Source</c> are synonyms.
-        /// </summary>
-        public struct _from { }
         
         /// <inheritdoc cref="wishdocs._getsamplingrate" />
         public struct _getsamplingrate { }
@@ -248,11 +243,6 @@ namespace JJ.Business.Synthesizer.Tests
         /// Aims to test rare exception for code coverage.
         /// </summary>
         public struct _throwtests { }
-        
-        /// <summary>
-        /// <c>To</c>, <c>Value</c>, <c>Val</c> and <c>Dest</c> are synonyms.
-        /// </summary>
-        public struct _to { }
         
         /// <summary>
         /// Sounds like Trombone at beginning.

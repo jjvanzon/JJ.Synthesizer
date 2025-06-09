@@ -224,8 +224,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             new Case (480,240) { Hz = { From = (null,48000), To = 24000        } },
             new Case (240,480) { Hz = { From = 24000       , To = (0,48000)    } }
         );        
+               
 
-        static CaseCollection<Case> NullyCourtesyFramesCases = Cases.FromTemplate(new Case
+        static CaseCollection<Case> NullyCourtesyFramesCases { get; } = Cases.FromTemplate(new Case
         
             { Name = "PlusNullies", SamplingRate = 100 },
             
