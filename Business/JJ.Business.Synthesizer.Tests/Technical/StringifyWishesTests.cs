@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Environment;
-using static JJ.Framework.Testing.Core.AssertHelperCore;
-
+using static JJ.Framework.Testing.Core.AssertCore;
 
 #pragma warning disable CS0612
 

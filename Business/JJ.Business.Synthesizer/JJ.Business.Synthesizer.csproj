@@ -16,8 +16,8 @@
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
     <PackageReference Include="JJ.Framework.Business" Version="0.250.2874" />
     <PackageReference Include="JJ.Framework.IO" Version="0.250.2874" />
-    <PackageReference Include="JJ.Framework.Persistence" Version="0.250.2874" />
-    <PackageReference Include="JJ.Framework.Presentation.Resources" Version="0.250.2874" />
+    <PackageReference Include="JJ.Framework.Persistence" Version="0.250.3065" />
+    <PackageReference Include="JJ.Framework.Presentation.Resources" Version="0.250.3065" />
     <PackageReference Include="JJ.Framework.Reflection" Version="0.250.2874" />
     <PackageReference Include="JJ.Framework.Validation" Version="0.250.2874" />
   </ItemGroup>

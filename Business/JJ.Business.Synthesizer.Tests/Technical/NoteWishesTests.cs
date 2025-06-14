@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Tests.docs;
 using static JJ.Framework.Testing.AssertHelper;
-using static JJ.Framework.Testing.Core.AssertHelperCore;
+using static JJ.Framework.Testing.Core.AssertCore;
 
 // ReSharper disable ParameterHidesMember
 // ReSharper disable PossibleInvalidOperationException

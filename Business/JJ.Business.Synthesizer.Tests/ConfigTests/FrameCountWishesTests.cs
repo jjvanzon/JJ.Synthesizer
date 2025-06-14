@@ -7,7 +7,7 @@ using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Framework.Testing.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertHelperLegacy;
-using static JJ.Framework.Testing.Core.AssertHelperCore;
+using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Testing.Core.DeltaDirectionEnum;
 using JJ.Framework.Testing.Core;
