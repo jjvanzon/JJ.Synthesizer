@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         {
             string titleElement = Has(title) ? PrettyTitle(title) + NewLine + NewLine : "";
             string[] groups = { group1, group2, group3 };
-            if (!Has(sep, false)) sep = NewLine;
+            if (!Has(sep, spaceMatters: true)) sep = NewLine;
             string log = titleElement + Join(sep, groups.Where(FilledIn));
             return log;
         }
@@ -339,7 +339,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         {
             if (audioInfoWish == null) throw new NullException(()  => audioInfoWish);
             
-            if (!Has(sep, false)) sep = NewLine;
+            if (!Has(sep, spaceMatters: true)) sep = NewLine;
             
             string durationsDescriptor = DurationsDescriptor(
                 audioInfoWish.AudioLength());
@@ -361,7 +361,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         {
             if (audioFileInfo == null) throw new NullException(() => audioFileInfo);
             
-            if (!Has(sep, false)) sep = NewLine;
+            if (!Has(sep, spaceMatters: true)) sep = NewLine;
             
             string durationsDescriptor = DurationsDescriptor(
                 audioFileInfo.AudioLength());
@@ -382,7 +382,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string ConfigLog(string title, WavHeaderStruct wavHeader, string sep = " | ")
         {
             
-            if (!Has(sep, false)) sep = NewLine;
+            if (!Has(sep, spaceMatters: true)) sep = NewLine;
             
             string durationsDescriptor = DurationsDescriptor(
                 wavHeader.AudioLength());
