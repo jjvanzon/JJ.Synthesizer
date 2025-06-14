@@ -1,14 +1,8 @@
-﻿using System;
-using JJ.Persistence.Synthesizer;
-
-// ReSharper disable UnusedMember.Global
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
-
-#pragma warning disable CS0649
-#pragma warning disable CS0169 // Field is never used
-#pragma warning disable IDE1006 // Naming Styles
+// ReSharper disable InvalidXmlDocComment
 // ReSharper disable UnusedType.Global
+#pragma warning disable IDE1006 // Naming Styles
 
 namespace JJ.Business.Synthesizer.Wishes
 {
@@ -23,7 +17,7 @@ namespace JJ.Business.Synthesizer.Wishes
         /// Overload with TEntity type argument and TEntity entity parameter, for automatic type inference
         /// (Allows use of type even when null. Might replace overloads that take object? Expect weird type argument quirks...)
         /// </summary>
-        public struct actionmethodtentityobject { }
+        public struct _actionmethodtentityobject { }
             
         /// <summary> 
         /// Additional entity entry-points for enum-related extension.
@@ -537,11 +531,6 @@ namespace JJ.Business.Synthesizer.Wishes
         /// A <see cref="FlowNode"> FlowNode </see> with the resolved note length.
         /// </returns> 
         public struct _notelength { }
-        
-        /// <summary> 
-        /// Allow specifying 1 value: make it the start and end node values.
-        /// </summary> 
-        public struct _onebecomestwo { }
 
         /// <summary> 
         /// Returns what's input into an operand of the operator.

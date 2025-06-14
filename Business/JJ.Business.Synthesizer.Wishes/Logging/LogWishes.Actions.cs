@@ -111,13 +111,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
             return ActionMessage(entity.GetType().Name, action, name, message);
         }
 
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public string ActionMessage<TEntity>(TEntity obj                                            ) => ActionMessage<TEntity>(        ""    , ""  , ""     );
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public string ActionMessage<TEntity>(TEntity obj, object action                             ) => ActionMessage<TEntity>(        action, ""  , ""     );
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public string ActionMessage<TEntity>(TEntity obj, object action,              string message) => ActionMessage<TEntity>(        action, ""  , message);
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public string ActionMessage<TEntity>(TEntity obj, object action, string name, string message) => ActionMessage<TEntity>(        action, name, message);
         
         public string ActionMessage<TEntity>(                                                       ) => ActionMessage(typeof(TEntity), ""    , ""  , ""     );
@@ -593,13 +593,13 @@ namespace JJ.Business.Synthesizer.Wishes
         public   string ActionMessage(object entity,          object action,              string message) => Logging.ActionMessage(entity,    action,       message);
         public   string ActionMessage(object entity,          object action, string name, string message) => Logging.ActionMessage(entity,    action, name, message);
 
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   string ActionMessage<TEntity>(TEntity obj                                             ) => Logging.ActionMessage(obj                              );
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   string ActionMessage<TEntity>(TEntity obj,  object action                             ) => Logging.ActionMessage(obj,        action               );
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   string ActionMessage<TEntity>(TEntity obj,  object action,              string message) => Logging.ActionMessage(obj,        action,       message);
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   string ActionMessage<TEntity>(TEntity obj,  object action, string name, string message) => Logging.ActionMessage(obj,        action, name, message);
         public   string ActionMessage<TEntity>(                                                        ) => Logging.ActionMessage<TEntity>(                        );
         public   string ActionMessage<TEntity>(              object action                             ) => Logging.ActionMessage<TEntity>(   action               );
@@ -903,13 +903,13 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public   static string ActionMessage(this object entity,        object action                             ) => ResolveLogging(entity    ).ActionMessage(entity,     action               );
         public   static string ActionMessage(this object entity,        object action,              string message) => ResolveLogging(entity    ).ActionMessage(entity,     action,       message);
         public   static string ActionMessage(this object entity,        object action, string name, string message) => ResolveLogging(entity    ).ActionMessage(entity,     action, name, message);
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   static string ActionMessage<TEntity>(this TEntity obj                                            ) => ResolveLogging(obj       ).ActionMessage(obj                              );
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   static string ActionMessage<TEntity>(this TEntity obj, object action                             ) => ResolveLogging(obj       ).ActionMessage(obj,        action               );
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   static string ActionMessage<TEntity>(this TEntity obj, object action,              string message) => ResolveLogging(obj       ).ActionMessage(obj,        action,       message);
-        /// <inheritdoc cref="actionmethodtentityobject />
+        /// <inheritdoc cref="_actionmethodtentityobject
         public   static string ActionMessage<TEntity>(this TEntity obj, object action, string name, string message) => ResolveLogging(obj       ).ActionMessage(obj,        action, name, message);
         public   static string ActionMessage(this Type entityType                                                 ) => ResolveLogging(entityType).ActionMessage(entityType                       );
         public   static string ActionMessage(this Type entityType,      object action                             ) => ResolveLogging(entityType).ActionMessage(entityType, action               );
