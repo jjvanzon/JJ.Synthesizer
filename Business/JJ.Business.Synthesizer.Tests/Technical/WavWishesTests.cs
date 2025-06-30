@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using static System.IO.File;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Business.Synthesizer.Tests.Accessors.WavWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
 using static JJ.Business.Synthesizer.Wishes.WavWishes;

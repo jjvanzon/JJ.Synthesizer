@@ -2,7 +2,7 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 

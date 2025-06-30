@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Threading.Thread;
 using static JJ.Framework.Mathematics.Core.RandomizerCore;
 using static JJ.Framework.Mathematics.Core.RandomizerLegacy;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 // ReSharper disable ExplicitCallerInfoArgument
 // ReSharper disable ParameterHidesMember
 // ReSharper disable AccessToModifiedClosure

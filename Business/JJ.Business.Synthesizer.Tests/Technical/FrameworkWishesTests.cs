@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Framework.Text.Core.StringHelperCore;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {

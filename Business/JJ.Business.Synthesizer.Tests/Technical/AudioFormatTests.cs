@@ -8,7 +8,7 @@ using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
 using static JJ.Framework.Testing.Core.AssertCore;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Framework.IO.Core.FileHelperCore;

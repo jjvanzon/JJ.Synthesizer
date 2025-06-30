@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Text.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 // ReSharper disable UnusedVariable
 // ReSharper disable ExplicitCallerInfoArgument
 

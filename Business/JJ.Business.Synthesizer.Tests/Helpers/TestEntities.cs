@@ -7,7 +7,7 @@ using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.IO.Core.FileHelperCore;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers

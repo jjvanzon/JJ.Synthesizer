@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory;
 using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
-using static JJ.Framework.Testing.AssertHelper;
+using static JJ.Framework.Testing.Legacy.AssertHelper;
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local
