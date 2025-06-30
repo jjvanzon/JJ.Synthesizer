@@ -9,6 +9,7 @@ global using JJ.Framework.Common.Legacy;
 global using JJ.Framework.Reflection;
 global using JJ.Framework.Reflection.Core;
 global using JJ.Framework.Persistence;
+global using JJ.Framework.Validation.Legacy;
 global using JJ.Framework.Testing.Legacy;
 global using JJ.Persistence.Synthesizer;
 global using JJ.Business.Synthesizer.Enums;

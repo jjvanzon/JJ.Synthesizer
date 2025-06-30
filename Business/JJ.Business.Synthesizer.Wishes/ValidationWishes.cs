@@ -147,7 +147,7 @@ namespace JJ.Business.CanonicalModel
         // ToResult (with Data)
         
         public static CanonicalModel.Result<TData> ToResult<TData>(
-            this IList<Framework.Validation.ValidationMessage> frameworkValidationMessages, 
+            this IList<Framework.Validation.Legacy.ValidationMessage> frameworkValidationMessages, 
             TData data, bool successful = true)
         {
             if (frameworkValidationMessages == null) throw new ArgumentNullException(nameof(frameworkValidationMessages));
@@ -171,7 +171,7 @@ namespace JJ.Business.CanonicalModel
         // ToResult
         
         public static CanonicalModel.Result ToResult(
-            this List<Framework.Validation.ValidationMessage> frameworkValidationMessages, 
+            this List<Framework.Validation.Legacy.ValidationMessage> frameworkValidationMessages, 
             bool successful = true)
         {
             if (frameworkValidationMessages == null) throw new ArgumentNullException(nameof(frameworkValidationMessages));
@@ -183,7 +183,7 @@ namespace JJ.Business.CanonicalModel
         }
 
         public static CanonicalModel.Result ToResult(
-            this Framework.Validation.ValidationMessages frameworkValidationMessages,
+            this Framework.Validation.Legacy.ValidationMessages frameworkValidationMessages,
             bool successful = true)
         {
             if (frameworkValidationMessages == null) throw new ArgumentNullException(nameof(frameworkValidationMessages));
@@ -191,7 +191,7 @@ namespace JJ.Business.CanonicalModel
         }
 
         public static CanonicalModel.Result ToResult(
-            this Framework.Validation.IValidator validator)
+            this Framework.Validation.Legacy.IValidator validator)
         {
             if (validator == null) throw new ArgumentNullException(nameof(validator));
             return validator.ValidationMessages.ToResult(validator.IsValid);
