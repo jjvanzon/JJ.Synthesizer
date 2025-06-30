@@ -34,7 +34,7 @@
     <PackageReference Include="JJ.Framework.Logging.Core" Version="2.6.3251" />
     <PackageReference Include="JJ.Framework.Mathematics" Version="0.250.3201" />
     <PackageReference Include="JJ.Framework.Reflection" Version="0.250.3201" />
-    <PackageReference Include="JJ.Framework.Testing.Core" Version="2.6.3201" />
+    <PackageReference Include="JJ.Framework.Testing.Core" Version="2.6.3251" />
     <PackageReference Include="System.Windows.Extensions" Version="9.0.3" />
   </ItemGroup>
 </Project>
