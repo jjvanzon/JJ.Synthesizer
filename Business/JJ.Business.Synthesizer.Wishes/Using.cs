@@ -2,10 +2,11 @@
 global using System.Collections.Generic;
 global using System.Reflection;
 global using JJ.Framework.Common.Legacy;
-global using JJ.Framework.Reflection;
+global using JJ.Framework.Reflection.Legacy;
 global using JJ.Framework.Reflection.Core;
 global using JJ.Framework.Mathematics.Legacy;
 global using JJ.Framework.Validation.Legacy;
+global using JJ.Framework.Persistence.Legacy;
 global using JJ.Framework.IO.Legacy;
 global using JJ.Persistence.Synthesizer;
 global using JJ.Business.Synthesizer.Managers;

@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Framework.Reflection;
-using static JJ.Framework.Reflection.ExpressionHelper;
+using static JJ.Framework.Reflection.Legacy.ExpressionHelper;
 using static JJ.Framework.IO.Core.FileHelperCore;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;

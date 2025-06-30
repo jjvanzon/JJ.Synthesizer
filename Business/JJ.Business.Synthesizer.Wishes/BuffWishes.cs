@@ -15,7 +15,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using static JJ.Framework.Reflection.ExpressionHelper;
+using static JJ.Framework.Reflection.Legacy.ExpressionHelper;
 using static JJ.Business.Synthesizer.Calculation.AudioFileOutputs.AudioFileOutputCalculatorFactory;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Business.Synthesizer.Wishes.Helpers.DebuggerDisplayFormatter;

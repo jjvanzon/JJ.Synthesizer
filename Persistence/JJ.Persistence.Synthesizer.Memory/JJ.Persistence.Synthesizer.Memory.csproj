@@ -11,7 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JJ.Framework.Persistence.Legacy.Memory" Version="0.250.3251" />
-    <PackageReference Include="JJ.Framework.Persistence.Memory" Version="0.250.3201" />
     <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.3251" />
   </ItemGroup>
   <ItemGroup>
