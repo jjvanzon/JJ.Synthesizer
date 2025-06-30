@@ -8,7 +8,7 @@ using JJ.Framework.Reflection;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using static JJ.Business.Synthesizer.Wishes.NameWishes;
-using static JJ.Framework.IO.StreamHelper;
+using static JJ.Framework.IO.Legacy.StreamHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Wishes.Helpers.CloneWishes;
 using static JJ.Business.Synthesizer.Wishes.Logging.LogActions;
