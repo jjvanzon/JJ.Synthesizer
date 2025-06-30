@@ -33,7 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JJ.Framework.Mathematics.Core" Version="2.6.3251" />
-    <PackageReference Include="JJ.Framework.Reflection" Version="0.250.3201" />
     <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.3251" />
     <PackageReference Include="JJ.Framework.Testing.Legacy" Version="0.250.3251" />
     <PackageReference Include="MSTest" Version="3.7.3" />
