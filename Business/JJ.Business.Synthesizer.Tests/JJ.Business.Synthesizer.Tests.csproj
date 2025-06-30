@@ -35,6 +35,7 @@
     <PackageReference Include="JJ.Framework.Mathematics.Core" Version="2.6.3201" />
     <PackageReference Include="JJ.Framework.Reflection" Version="0.250.3201" />
     <PackageReference Include="JJ.Framework.Testing" Version="0.250.3201" />
+    <PackageReference Include="JJ.Framework.Testing.Legacy" Version="0.250.3251" />
     <PackageReference Include="MSTest" Version="3.7.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
   </ItemGroup>
