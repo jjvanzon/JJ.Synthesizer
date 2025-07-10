@@ -33,7 +33,7 @@
     <PackageReference Include="JJ.Framework.IO.Core" Version="2.7.3296" />
     <PackageReference Include="JJ.Framework.Logging.Core" Version="2.7.3296" />
     <PackageReference Include="JJ.Framework.Mathematics.Legacy" Version="0.250.3296" />
-    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.3301" />
+    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.3304" />
     <PackageReference Include="JJ.Framework.Testing.Core" Version="2.7.3296" />
     <PackageReference Include="System.Windows.Extensions" Version="9.0.3" />
   </ItemGroup>
