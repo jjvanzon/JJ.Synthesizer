@@ -1,0 +1,83 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <!--<RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!--<GenerateDocumentationFile>False</GenerateDocumentationFile>-->
+    <!--<InvariantGlobalization>True</InvariantGlobalization>-->
+  </PropertyGroup>
+    
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Wishes\JJ.Business.Synthesizer.Wishes.csproj" />
+  </ItemGroup>
+
+  <!-- Exclude Symbols -->
+  <!--
+  <PropertyGroup>
+    <DebugType>none</DebugType>
+    <DebugSymbols>False</DebugSymbols>
+    <IncludeSymbols>False</IncludeSymbols>
+    <StripSymbols>True</StripSymbols> 
+    <IncludeNativeDebugSymbolsInSingleFile>False</IncludeNativeDebugSymbolsInSingleFile>
+    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
+    <PublishReadyToRunEmitSymbols>False</PublishReadyToRunEmitSymbols>
+  </PropertyGroup>
+  -->
+
+  <!-- Copy Config -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(AssemblyName).exe.config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(AssemblyName).exe.config&quot;" />
+  </Target>
+
+  <!-- AOT / Trimming / Single-File -->
+  <!--
+  <PropertyGroup>
+    --><!--<PublishTrimmed>True</PublishTrimmed>--><!--
+    --><!--<PublishAot>True</PublishAot>--><!--
+    <SelfContained>True</SelfContained>
+    <PublishSingleFile>True</PublishSingleFile>
+    <PublishReadyToRun>True</PublishReadyToRun>
+  </PropertyGroup>
+  -->
+  <!--
+  <PropertyGroup>
+    <IlcGenerateCompleteTypeMetadata>False</IlcGenerateCompleteTypeMetadata>
+    <IlcGenerateStackTraceData>False</IlcGenerateStackTraceData>
+  </PropertyGroup>
+  -->
+  
+  <!-- Publish -->
+  <!--
+  <PropertyGroup>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PublishProtocol>FileSystem</PublishProtocol>
+    <_TargetId>Folder</_TargetId>
+    <PublishDir>bin\$(Configuration)\publish</PublishDir>
+    <NuGetAudit>False</NuGetAudit>
+  </PropertyGroup>
+  <Target Name="PublishAfterBuild" AfterTargets="Build">
+    <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="NoBuild=True" />
+  </Target>
+  -->
+  
+  <!-- Remove PDB and XML -->
+  <!--
+  <Target Name="RemoveSymbolsAndDocs" AfterTargets="Publish" Condition="'$(PublishDir)'!=''">
+    <Message Importance="High" Text="Removing symbols and docs from publish directory..." />
+    <Message Importance="High" Text="PublishDir = $(PublishDir)" />
+
+    <ItemGroup><PdbsToDeletejj Include="$(PublishDir)*.pdb" /></ItemGroup>
+    <Message Importance="High" Text="Removing $(PublishDir)*.pdb" />
+    <Message Importance="High" Text="Removing @(PdbsToDeletejj)" />
+    <Delete Files="@(PdbsToDeletejj)" />
+
+    <ItemGroup><XmlsToDeletejj Include="$(PublishDir)*.xml" /></ItemGroup>
+    <Message Importance="High" Text="Removing $(PublishDir)*.xml" />
+    <Message Importance="High" Text="Removing @(XmlsToDeletejj)" />
+    <Delete Files="@(XmlsToDeletejj)" />
+  </Target>
+  -->
+
+</Project>
