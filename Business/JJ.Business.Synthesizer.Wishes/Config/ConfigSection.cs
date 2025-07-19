@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Xml.Serialization;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
@@ -54,9 +50,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         // Tooling
         
-        public ConfigToolingElement AzurePipelines { get; set; } 
-        public ConfigToolingElement NCrunch { get; set; }
-        public RootLoggerXml Logging { get; set; }
+        public ConfigToolingElement AzurePipelines { get; set; } = new();
+        public ConfigToolingElement NCrunch { get; set; } = new();
+        public RootLoggerXml Logging { get; set; } = new();
         
         // Misc
         
@@ -65,6 +61,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="_leafchecktimeout" />
         [XmlAttribute] public TimeOutActionEnum? TimeOutAction { get; set; }
         [XmlAttribute] public int? FileExtensionMaxLength { get; set; }
-        [XmlAttribute] public string LongTestCategory { get; set; }
+        [XmlAttribute] public string LongTestCategory { get; set; } = "";
     }
 }

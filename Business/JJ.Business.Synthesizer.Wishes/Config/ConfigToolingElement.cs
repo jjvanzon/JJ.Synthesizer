@@ -14,6 +14,6 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         [XmlAttribute] public int?  SamplingRateLongRunning { get; set; }
         [XmlAttribute] public bool? ImpersonationMode       { get; set; }
         
-        public RootLoggerXml Logging { get; set; }
+        public RootLoggerXml Logging { get; set; } = new();
     }
 }

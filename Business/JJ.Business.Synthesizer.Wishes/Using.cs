@@ -1,6 +1,8 @@
 ﻿global using System;
 global using System.Collections.Generic;
 global using System.Reflection;
+global using System.Linq;
+global using System.Text;
 global using JJ.Framework.Common.Legacy;
 global using JJ.Framework.Reflection.Legacy;
 global using JJ.Framework.Reflection.Core;
