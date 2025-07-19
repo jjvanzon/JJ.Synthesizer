@@ -41,6 +41,7 @@
     <TrimmerRootAssembly Include="JJ.Persistence.Synthesizer" />
     <TrimmerRootAssembly Include="JJ.Persistence.Synthesizer.Memory" />
     <TrimmerRootAssembly Include="JJ.Persistence.Synthesizer.DefaultRepositories" />
+    <TrimmerRootAssembly Include="JJ.Business.Synthesizer" />
   </ItemGroup>
 
   <PropertyGroup>
