@@ -6,8 +6,11 @@ using static System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes;
 
 namespace JJ.Demos.Synthesizer.Wishes;
 
-internal static class Trimming
+public static class Trimming
 {
+    //static readonly JJ.Business.Synthesizer.Enums.NodeTypeEnum[] _ = default!;
+
     //[DynamicDependency(All, "System.Configuration.ClientConfigurationHost", "System.Configuration.ConfigurationManager")]
-    internal static void Trim() { }
+    //[DynamicDependency(All, typeof(JJ.Business.Synthesizer.Enums.NodeTypeEnum[]))]
+    public static void Trim() { }
 }

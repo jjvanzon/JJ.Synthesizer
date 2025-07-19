@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<linker>
+  <!--<assembly fullname="JJ.Business.Synthesizer">
+    <type fullname="JJ.Business.Synthesizer.Enums.NodeTypeEnum" preserve="all" />
+    <type fullname="JJ.Business.Synthesizer.Enums.NodeTypeEnum[]" preserve="all" />
+  </assembly>-->
+  <!-- preserve the GetValues call in CoreLib --><!--
+  <assembly fullname="System.Private.CoreLib">
+    <type fullname="System.Enum">
+      <method name="GetValues" />
+    </type>
+  </assembly>-->
+</linker>
