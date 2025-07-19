@@ -1,6 +1,6 @@
-﻿new Synth().Run();
+﻿new MySynth().Run();
 
-class Synth : SynthWishes
+class MySynth : SynthWishes
 {
     public void Run() => Run(Wum);
 
