@@ -1,0 +1,10 @@
+﻿<ProjectConfiguration>
+  <Settings>
+    <CustomBuildProperties>
+      <Value>RuntimeIdentifier = win-x64</Value>
+      <Value>UseAppHost = True</Value>
+      <Value>SelfContained = True</Value>
+      <Value>IsNCrunch = True</Value>
+    </CustomBuildProperties>
+  </Settings>
+</ProjectConfiguration>

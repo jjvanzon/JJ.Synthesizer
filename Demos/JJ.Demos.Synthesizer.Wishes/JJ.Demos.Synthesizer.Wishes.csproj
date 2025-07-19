@@ -11,36 +11,46 @@
     
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Wishes\JJ.Business.Synthesizer.Wishes.csproj" />
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj" />
   </ItemGroup>
 
   <!-- Exclude Symbols -->
-  <!--
   <PropertyGroup>
-    <DebugType>none</DebugType>
-    <DebugSymbols>False</DebugSymbols>
-    <IncludeSymbols>False</IncludeSymbols>
-    <StripSymbols>True</StripSymbols> 
-    <IncludeNativeDebugSymbolsInSingleFile>False</IncludeNativeDebugSymbolsInSingleFile>
-    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
-    <PublishReadyToRunEmitSymbols>False</PublishReadyToRunEmitSymbols>
+    <!--<DebugType>none</DebugType>-->
+    <!--<DebugSymbols>False</DebugSymbols>-->
+    <!--<IncludeSymbols>False</IncludeSymbols>-->
+    <!--<StripSymbols>True</StripSymbols>--> 
+    <!--<IncludeNativeDebugSymbolsInSingleFile>False</IncludeNativeDebugSymbolsInSingleFile>-->
+    <!--<CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>-->
+    <!--<PublishReadyToRunEmitSymbols>False</PublishReadyToRunEmitSymbols>-->
   </PropertyGroup>
-  -->
 
   <!-- Copy Config -->
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(AssemblyName).exe.config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(AssemblyName).exe.config&quot;" />
   </Target>
+  <Target Name="PublishConfigjj" AfterTargets="Publish" Condition="'$(PublishDir)'!=''">
+    <Exec Command="echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(PublishDir)$(AssemblyName).exe.config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(PublishDir)$(AssemblyName).exe.config&quot;" />
+  </Target>
 
   <!-- AOT / Trimming / Single-File -->
-  <!--
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
+    <TrimmerRootAssembly Include="JJ.Framework.Configuration.Legacy" />
+    <TrimmerRootAssembly Include="JJ.Framework.Persistence.Legacy.Memory" />
+    <TrimmerRootAssembly Include="JJ.Persistence.Synthesizer" />
+    <TrimmerRootAssembly Include="JJ.Persistence.Synthesizer.Memory" />
+    <TrimmerRootAssembly Include="JJ.Persistence.Synthesizer.DefaultRepositories" />
+  </ItemGroup>
+
   <PropertyGroup>
-    --><!--<PublishTrimmed>True</PublishTrimmed>--><!--
-    --><!--<PublishAot>True</PublishAot>--><!--
+    <PublishTrimmed>True</PublishTrimmed>
+    <!--<PublishAot>True</PublishAot>-->
     <SelfContained>True</SelfContained>
     <PublishSingleFile>True</PublishSingleFile>
     <PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
-  -->
+
   <!--
   <PropertyGroup>
     <IlcGenerateCompleteTypeMetadata>False</IlcGenerateCompleteTypeMetadata>
@@ -56,12 +66,12 @@
     <PublishDir>bin\$(Configuration)\publish</PublishDir>
     <!--<NuGetAudit>False</NuGetAudit>-->
   </PropertyGroup>
-  <Target Name="PublishAfterBuild" AfterTargets="Build">
+  <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="'$(IsNCrunch)'==''">
     <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="NoBuild=True" />
   </Target>
   
   <!-- Remove PDB and XML -->
-  <Target Name="RemoveSymbolsAndDocs" AfterTargets="Publish" Condition="'$(PublishDir)'!=''">
+  <Target Name="RemoveSymbolsAndDocsjj" AfterTargets="Publish" Condition="'$(PublishDir)'!=''">
     <Message Importance="High" Text="Removing symbols and docs from publish directory..." />
     <Message Importance="High" Text="PublishDir = $(PublishDir)" />
 
@@ -75,5 +85,6 @@
     <Message Importance="High" Text="Removing @(XmlsToDeletejj)" />
     <Delete Files="@(XmlsToDeletejj)" />
   </Target>
+
 
 </Project>
