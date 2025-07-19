@@ -61,7 +61,6 @@
   </Target>
   
   <!-- Remove PDB and XML -->
-  <!--
   <Target Name="RemoveSymbolsAndDocs" AfterTargets="Publish" Condition="'$(PublishDir)'!=''">
     <Message Importance="High" Text="Removing symbols and docs from publish directory..." />
     <Message Importance="High" Text="PublishDir = $(PublishDir)" />
@@ -76,6 +75,5 @@
     <Message Importance="High" Text="Removing @(XmlsToDeletejj)" />
     <Delete Files="@(XmlsToDeletejj)" />
   </Target>
-  -->
 
 </Project>
