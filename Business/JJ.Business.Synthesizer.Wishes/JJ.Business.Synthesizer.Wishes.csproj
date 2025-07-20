@@ -30,12 +30,12 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
-    <PackageReference Include="JJ.Framework.Configuration.Legacy" Version="0.250.4168" />
-    <PackageReference Include="JJ.Framework.IO.Core" Version="2.7.4168" />
-    <PackageReference Include="JJ.Framework.Logging.Core" Version="2.7.4168" />
-    <PackageReference Include="JJ.Framework.Mathematics.Legacy" Version="0.250.4168" />
-    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.4168" />
-    <PackageReference Include="JJ.Framework.Testing.Core" Version="2.7.4168" />
+    <PackageReference Include="JJ.Framework.Configuration.Legacy" Version="0.250.4203" />
+    <PackageReference Include="JJ.Framework.IO.Core" Version="2.8.4203" />
+    <PackageReference Include="JJ.Framework.Logging.Core" Version="2.8.4203" />
+    <PackageReference Include="JJ.Framework.Mathematics.Legacy" Version="0.250.4203" />
+    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.4203" />
+    <PackageReference Include="JJ.Framework.Testing.Core" Version="2.8.4203" />
     <PackageReference Include="System.Windows.Extensions" Version="9.0.3" />
   </ItemGroup>
 </Project>
