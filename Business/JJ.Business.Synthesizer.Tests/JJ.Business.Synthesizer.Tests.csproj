@@ -1,4 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Version>0.250.$(BuildNum)</Version>
+    <Authors>JJ van Zon</Authors>
+    <Copyright>Copyright © 2015 - 2025 Jan Joost van Zon</Copyright>
+  </PropertyGroup>
+  
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
       <ItemGroup>
@@ -62,10 +69,4 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(TargetFileName).config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(TargetFileName).config&quot;&#xD;&#xA;echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)testhost.dll.config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)testhost.dll.config&quot;&#xD;&#xA;echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)nCrunch.TaskRunner.DotNetCore.20.x64.dll.config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)nCrunch.TaskRunner.DotNetCore.20.x64.dll.config&quot;&#xD;&#xA;echo del /q &quot;$(TargetDir)*.wav&quot;&#xD;&#xA;     del /q &quot;$(TargetDir)*.wav&quot;&#xD;&#xA;echo del /q &quot;$(TargetDir)*.raw&quot;&#xD;&#xA;     del /q &quot;$(TargetDir)*.raw&quot;" />
   </Target>
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Version>0.250.$(BuildNum)</Version>
-    <Authors>JJ van Zon</Authors>
-    <Copyright>Copyright © 2015 - 2025 Jan Joost van Zon</Copyright>
-  </PropertyGroup>
 </Project>
