@@ -1,11 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Wishes.NoteWishes;
-using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Collections.Core;
-
+// ReSharper disable CompareOfFloatsByEqualityOperator
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember
 // ReSharper disable RedundantAssignment
