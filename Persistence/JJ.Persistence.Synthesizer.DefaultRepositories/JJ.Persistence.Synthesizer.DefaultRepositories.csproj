@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net10.0;netstandard2.1</TargetFrameworks>
+    <TargetFrameworks>net10.0;net9.0;netstandard2.1</TargetFrameworks>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Configurations>Debug;NPDebug;Release</Configurations>
