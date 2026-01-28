@@ -57,10 +57,10 @@
 
   <PropertyGroup Condition="$(IsInnerBuild)">
     <!--<PublishDir>bin\$(Configuration)\publish</PublishDir>-->
-    <PublishDir>bin\$(Configuration)\$(TargetFramework)\publish\$(RuntimeIdentifier)</PublishDir>
+    <PublishDir>bin\$(Configuration)\$(TargetFramework)\publish</PublishDir>
   </PropertyGroup>
 
-  <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="'$(IsInnerBuild) And $(IsNCrunch)'==''">
+  <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="$(IsInnerBuild) And '$(IsNCrunch)'==''">
     <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="NoBuild=True" />
   </Target>
   
