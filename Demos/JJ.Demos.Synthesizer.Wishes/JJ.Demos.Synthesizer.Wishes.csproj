@@ -24,7 +24,7 @@
     <MustPublishjj Condition="$(Configuration)=='Release' And '$(TargetFramework)'!='' And '$(IsNCrunch)'!='True'">True</MustPublishjj>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(MustPublishjj)">
+  <PropertyGroup>
     <!-- Set Single Exe / Trimming / AOT  -->
     <PublishTrimmed>True</PublishTrimmed>
     <PublishAot>True</PublishAot>
