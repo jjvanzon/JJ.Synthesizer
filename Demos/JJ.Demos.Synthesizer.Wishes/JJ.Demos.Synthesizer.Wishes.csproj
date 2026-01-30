@@ -12,11 +12,12 @@
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj" />
   </ItemGroup>
 
+  <!-- Publish -->
+
+  <!-- Hide published files from project files -->
   <ItemGroup>
     <None Remove="publish\**" />
   </ItemGroup>
-
-  <!-- Publish -->
 
   <PropertyGroup>
     <!-- Set Single Exe / Trimming / AOT  -->
