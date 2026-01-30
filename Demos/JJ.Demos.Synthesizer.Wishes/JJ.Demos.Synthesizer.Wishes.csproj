@@ -2,18 +2,38 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net10.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net10.0</TargetFrameworks>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <ImplicitUsings>enable</ImplicitUsings>
-    <!--<InvariantGlobalization>True</InvariantGlobalization>-->
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Wishes\JJ.Business.Synthesizer.Wishes.csproj" />
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj" />
   </ItemGroup>
+  
+  <!-- Publish -->
 
-  <ItemGroup>
+  <!-- Conditions -->
+  <PropertyGroup>
+    <MustPublishjj>False</MustPublishjj>
+    <MustPublishjj Condition="$(Configuration)=='Release' And '$(TargetFramework)'!='' And '$(IsNCrunch)'==''">True</MustPublishjj>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(MustPublishjj)">
+    <!-- Set Single Exe / Trimming / AOT  -->
+    <PublishTrimmed>True</PublishTrimmed>
+    <PublishAot>True</PublishAot>
+    <SelfContained>True</SelfContained>
+    <PublishSingleFile>True</PublishSingleFile>
+    <PublishReadyToRun>True</PublishReadyToRun>
+    <!-- Exclude Symbols -->
+    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
+    <!-- Output Path -->
+    <PublishDir>publish</PublishDir>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="$(MustPublishjj)">
     <!-- Preserve For Trimming -->
     <TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
     <TrimmerRootAssembly Include="JJ.Framework.Configuration.Legacy" />
@@ -27,35 +47,14 @@
     <TrimmerRootAssembly Include="$(AssemblyName)" />
     <TrimmerRootDescriptor Include="linker.xml" />
   </ItemGroup>
-  
-  <!-- Publish -->
-
-  <!-- Conditions -->
-  <PropertyGroup>
-    <MustPublish>False</MustPublish>
-    <MustPublish Condition="$(Configuration)=='Release' And '$(TargetFramework)'!='' And '$(IsNCrunch)'==''">True</MustPublish>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(MustPublish)">
-    <!-- Single Exe / Trimming / AOT  -->
-    <PublishTrimmed>True</PublishTrimmed>
-    <PublishAot>True</PublishAot>
-    <SelfContained>True</SelfContained>
-    <PublishSingleFile>True</PublishSingleFile>
-    <PublishReadyToRun>True</PublishReadyToRun>
-    <!-- Exclude Symbols -->
-    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
-    <!-- Output Path -->
-    <PublishDir>publish\$(TargetFramework)</PublishDir>
-  </PropertyGroup>
 
   <!-- Publish -->
-  <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="$(MustPublish)">
+  <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="$(MustPublishjj)">
     <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="NoBuild=True" />
   </Target>
   
   <!-- Remove Clutter -->
-  <Target Name="RemoveSymbolsAndDocsjj" AfterTargets="Publish" Condition="$(MustPublish)">
+  <Target Name="RemoveSymbolsAndDocsjj" AfterTargets="Publish" Condition="$(MustPublishjj)">
     <Message Importance="High" Text="Removing symbols and docs from publish directory..." />
     <Message Importance="High" Text="PublishDir = $(PublishDir)" />
 
