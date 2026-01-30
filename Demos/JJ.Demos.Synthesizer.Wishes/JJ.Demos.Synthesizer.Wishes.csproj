@@ -21,7 +21,7 @@
   <!-- Conditions -->
   <PropertyGroup>
     <MustPublishjj>False</MustPublishjj>
-    <MustPublishjj Condition="$(Configuration)=='Release' And '$(TargetFramework)'!='' And '$(IsNCrunch)'==''">True</MustPublishjj>
+    <MustPublishjj Condition="$(Configuration)=='Release' And '$(TargetFramework)'!='' And '$(IsNCrunch)'!='True'">True</MustPublishjj>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(MustPublishjj)">
