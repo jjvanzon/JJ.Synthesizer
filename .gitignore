@@ -1,6 +1,7 @@
 .vs
 bin
 obj
+publish
 packages
 *.user
 .vscode

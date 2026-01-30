@@ -13,26 +13,6 @@
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj" />
   </ItemGroup>
 
-  <!-- Exclude Symbols -->
-  <PropertyGroup>
-    <!--<DebugType>none</DebugType>-->
-    <!--<DebugSymbols>False</DebugSymbols>-->
-    <!--<IncludeSymbols>False</IncludeSymbols>-->
-    <!--<StripSymbols>True</StripSymbols>--> 
-    <!--<IncludeNativeDebugSymbolsInSingleFile>False</IncludeNativeDebugSymbolsInSingleFile>-->
-    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
-    <!--<PublishReadyToRunEmitSymbols>False</PublishReadyToRunEmitSymbols>-->
-  </PropertyGroup>
-
-  <!-- Single Exe / Trimming / AOT  -->
-  <PropertyGroup>
-    <PublishTrimmed>True</PublishTrimmed>
-    <PublishAot>True</PublishAot>
-    <SelfContained>True</SelfContained>
-    <PublishSingleFile>True</PublishSingleFile>
-    <PublishReadyToRun>True</PublishReadyToRun>
-  </PropertyGroup>
-
   <ItemGroup>
     <!-- Preserve For Trimming -->
     <TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
@@ -50,22 +30,40 @@
   
   <!-- Publish -->
 
+  <!-- Conditions -->
   <PropertyGroup>
     <IsInnerBuild>False</IsInnerBuild>
     <IsInnerBuild Condition="'$(TargetFramework)'!=''">True</IsInnerBuild>
+    <MustPublish>False</MustPublish>
+    <MustPublish Condition="$(Configuration)=='Release' And $(IsInnerBuild) And '$(IsNCrunch)'==''">True</MustPublish>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(IsInnerBuild)">
-    <!--<PublishDir>bin\$(Configuration)\publish</PublishDir>-->
-    <PublishDir>bin\$(Configuration)\$(TargetFramework)\publish</PublishDir>
+  <!-- Single Exe / Trimming / AOT  -->
+  <PropertyGroup>
+    <PublishTrimmed>True</PublishTrimmed>
+    <PublishAot>True</PublishAot>
+    <SelfContained>True</SelfContained>
+    <PublishSingleFile>True</PublishSingleFile>
+    <PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
 
-  <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="$(IsInnerBuild) And '$(IsNCrunch)'==''">
+  <!-- Exclude Symbols -->
+  <PropertyGroup>
+    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
+  </PropertyGroup>
+
+  <!-- Path -->
+  <PropertyGroup Condition="$(MustPublish)">
+    <PublishDir>publish\$(TargetFramework)</PublishDir>
+  </PropertyGroup>
+
+  <!-- Publish -->
+  <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="$(MustPublish)">
     <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="NoBuild=True" />
   </Target>
   
   <!-- Remove PDB and XML -->
-  <Target Name="RemoveSymbolsAndDocsjj" AfterTargets="Publish" Condition="'$(PublishDir)'!=''">
+  <Target Name="RemoveSymbolsAndDocsjj" AfterTargets="Publish" Condition="$(MustPublish)">
     <Message Importance="High" Text="Removing symbols and docs from publish directory..." />
     <Message Importance="High" Text="PublishDir = $(PublishDir)" />
 
