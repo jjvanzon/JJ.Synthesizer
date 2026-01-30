@@ -37,7 +37,7 @@
     <PublishDir>publish</PublishDir>
   </PropertyGroup>
   
-  <ItemGroup Condition="$(MustPublishjj)">
+  <ItemGroup>
     <!-- Preserve For Trimming -->
     <TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
     <TrimmerRootAssembly Include="JJ.Framework.Configuration.Legacy" />
