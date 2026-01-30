@@ -18,12 +18,6 @@
 
   <!-- Publish -->
 
-  <!-- Conditions -->
-  <PropertyGroup>
-    <MustPublishjj>False</MustPublishjj>
-    <MustPublishjj Condition="$(Configuration)=='Release' And '$(TargetFramework)'!='' And '$(IsNCrunch)'!='True'">True</MustPublishjj>
-  </PropertyGroup>
-
   <PropertyGroup>
     <!-- Set Single Exe / Trimming / AOT  -->
     <PublishTrimmed>True</PublishTrimmed>
@@ -51,6 +45,16 @@
     <TrimmerRootAssembly Include="$(AssemblyName)" />
     <TrimmerRootDescriptor Include="linker.xml" />
   </ItemGroup>
+
+  <!-- Conditions -->
+  <PropertyGroup>
+    <IsOuterBuild>True</IsOuterBuild>
+    <IsOuterBuild Condition="'$(TargetFramework)'!=''">False</IsOuterBuild>
+    <IsInnerBuild>False</IsInnerBuild>
+    <IsInnerBuild Condition="'$(TargetFramework)'!=''">True</IsInnerBuild>
+    <MustPublishjj>False</MustPublishjj>
+    <MustPublishjj Condition="$(Configuration)=='Release' And $(IsInnerBuild) And '$(IsNCrunch)'!='True'">True</MustPublishjj>
+  </PropertyGroup>
 
   <!-- Publish -->
   <Target Name="PublishAfterBuildjj" AfterTargets="Build" Condition="$(MustPublishjj)">
