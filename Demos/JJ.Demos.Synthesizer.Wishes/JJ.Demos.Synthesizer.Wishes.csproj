@@ -32,28 +32,20 @@
 
   <!-- Conditions -->
   <PropertyGroup>
-    <IsInnerBuild>False</IsInnerBuild>
-    <IsInnerBuild Condition="'$(TargetFramework)'!=''">True</IsInnerBuild>
     <MustPublish>False</MustPublish>
-    <MustPublish Condition="$(Configuration)=='Release' And $(IsInnerBuild) And '$(IsNCrunch)'==''">True</MustPublish>
+    <MustPublish Condition="$(Configuration)=='Release' And '$(TargetFramework)'!='' And '$(IsNCrunch)'==''">True</MustPublish>
   </PropertyGroup>
 
-  <!-- Single Exe / Trimming / AOT  -->
-  <PropertyGroup>
+  <PropertyGroup Condition="$(MustPublish)">
+    <!-- Single Exe / Trimming / AOT  -->
     <PublishTrimmed>True</PublishTrimmed>
     <PublishAot>True</PublishAot>
     <SelfContained>True</SelfContained>
     <PublishSingleFile>True</PublishSingleFile>
     <PublishReadyToRun>True</PublishReadyToRun>
-  </PropertyGroup>
-
-  <!-- Exclude Symbols -->
-  <PropertyGroup>
+    <!-- Exclude Symbols -->
     <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
-  </PropertyGroup>
-
-  <!-- Path -->
-  <PropertyGroup Condition="$(MustPublish)">
+    <!-- Output Path -->
     <PublishDir>publish\$(TargetFramework)</PublishDir>
   </PropertyGroup>
 
@@ -62,7 +54,7 @@
     <MSBuild Projects="$(MSBuildProjectFile)" Targets="Publish" Properties="NoBuild=True" />
   </Target>
   
-  <!-- Remove PDB and XML -->
+  <!-- Remove Clutter -->
   <Target Name="RemoveSymbolsAndDocsjj" AfterTargets="Publish" Condition="$(MustPublish)">
     <Message Importance="High" Text="Removing symbols and docs from publish directory..." />
     <Message Importance="High" Text="PublishDir = $(PublishDir)" />
