@@ -26,12 +26,10 @@
     <SelfContained>True</SelfContained>
     <PublishSingleFile>True</PublishSingleFile>
     <PublishReadyToRun>True</PublishReadyToRun>
-    <!-- Exclude Symbols -->
-    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
     <!-- Output Path -->
     <PublishDir>publish</PublishDir>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <!-- Preserve For Trimming -->
     <TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
@@ -49,12 +47,15 @@
 
   <!-- Conditions -->
   <PropertyGroup>
-    <IsOuterBuild>True</IsOuterBuild>
-    <IsOuterBuild Condition="'$(TargetFramework)'!=''">False</IsOuterBuild>
-    <IsInnerBuild>False</IsInnerBuild>
-    <IsInnerBuild Condition="'$(TargetFramework)'!=''">True</IsInnerBuild>
+    <IsOuterBuild>True</IsOuterBuild><IsOuterBuild Condition="'$(TargetFramework)'!=''">False</IsOuterBuild>
+    <IsInnerBuild>False</IsInnerBuild><IsInnerBuild Condition="'$(TargetFramework)'!=''">True</IsInnerBuild>
     <MustPublishjj>False</MustPublishjj>
     <MustPublishjj Condition="$(Configuration)=='Release' And $(IsInnerBuild) And '$(IsNCrunch)'!='True'">True</MustPublishjj>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(MustPublishjj)">
+    <!-- Exclude Symbols -->
+    <CopyOutputSymbolsToPublishDirectory>False</CopyOutputSymbolsToPublishDirectory>
   </PropertyGroup>
 
   <!-- Publish -->
