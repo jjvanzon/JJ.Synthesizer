@@ -12,7 +12,7 @@
     <None Remove="NCrunch.JJ.Business.Synthesizer_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.AutoIncrementVersion" Version="3.5.4560" />
+    <PackageReference Include="JJ.AutoIncrementVersion" Version="3.6.4594" />
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
                                                                                               <PackageReference Include="JJ.Framework.Business.Legacy" Version="0.250.4554" />
     <PackageReference Include="JJ.Framework.IO.Legacy" Version="0.250.4554" />

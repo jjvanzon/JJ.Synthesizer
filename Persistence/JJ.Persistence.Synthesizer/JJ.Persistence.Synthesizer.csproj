@@ -9,6 +9,6 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.AutoIncrementVersion" Version="3.5.4560" />
+    <PackageReference Include="JJ.AutoIncrementVersion" Version="3.6.4594" />
   </ItemGroup>
 </Project>
