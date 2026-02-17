@@ -12,14 +12,14 @@
     <None Remove="NCrunch.JJ.Business.Synthesizer_AnalysisBuild.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.AutoIncrementVersion" Version="3.6.4594" />
+    <PackageReference Include="JJ.AutoIncrementVersion" Version="3.6.4595" />
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
-                                                                                              <PackageReference Include="JJ.Framework.Business.Legacy" Version="0.250.4554" />
-    <PackageReference Include="JJ.Framework.IO.Legacy" Version="0.250.4554" />
-    <PackageReference Include="JJ.Framework.Persistence.Legacy" Version="0.250.4554" />
-    <PackageReference Include="JJ.Framework.Presentation.Resources.Legacy" Version="0.250.4554" />
-    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.4554" />
-    <PackageReference Include="JJ.Framework.Validation.Legacy" Version="0.250.4554" />
+                                                                                              <PackageReference Include="JJ.Framework.Business.Legacy" Version="0.250.4827" />
+    <PackageReference Include="JJ.Framework.IO.Legacy" Version="0.250.4827" />
+    <PackageReference Include="JJ.Framework.Persistence.Legacy" Version="0.250.4827" />
+    <PackageReference Include="JJ.Framework.Presentation.Resources.Legacy" Version="0.250.4827" />
+    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.4827" />
+    <PackageReference Include="JJ.Framework.Validation.Legacy" Version="0.250.4827" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
