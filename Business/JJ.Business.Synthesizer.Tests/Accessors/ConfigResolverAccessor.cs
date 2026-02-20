@@ -364,9 +364,11 @@ internal class ConfigResolverAccessor(object obj) : AccessorCore(obj)
 
     public int GetFileExtensionMaxLength => (int)Get();
 
-    public string _longTestCategory { get => Get<string>(); set => Set(value); }
-    public ConfigResolverAccessor WithLongTestCategory(string category) => new (Call(category));
-    public string GetLongTestCategory => (string)Get();
+    // TODO: Remove outcommented
+    // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+    //public string _longTestCategory { get => Get<string>(); set => Set(value); }
+    //public ConfigResolverAccessor WithLongTestCategory(string category) => new (Call(category));
+    //public string GetLongTestCategory => (string)Get();
 
     // Tooling
     

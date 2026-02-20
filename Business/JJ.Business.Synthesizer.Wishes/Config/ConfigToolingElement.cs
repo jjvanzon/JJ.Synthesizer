@@ -11,7 +11,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
     {
         [XmlAttribute] public bool? AudioPlayback           { get; set; }
         [XmlAttribute] public int?  SamplingRate            { get; set; }
-        [XmlAttribute] public int?  SamplingRateLongRunning { get; set; }
+        // TODO: Remove outcommented
+        // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+        //[XmlAttribute] public int?  SamplingRateLongRunning { get; set; }
         [XmlAttribute] public bool? ImpersonationMode       { get; set; }
         
         public RootLoggerXml Logging { get; set; } = new();

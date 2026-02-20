@@ -231,20 +231,26 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 LeafCheckTimeOut       = DefaultLeafCheckTimeOut,
                 TimeOutAction          = DefaultTimeOutAction,
                 FileExtensionMaxLength = DefaultFileExtensionMaxLength,
-                LongTestCategory       = DefaultLongTestCategory,
+                // TODO: Remove outcommented
+                // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+                //LongTestCategory       = DefaultLongTestCategory,
                 NCrunch = new ConfigToolingElementAccessor
                 {
                     AudioPlayback           = DefaultToolingAudioPlayback,
                     ImpersonationMode       = DefaultToolingImpersonationMode,
                     SamplingRate            = DefaultNCrunchSamplingRate,
-                    SamplingRateLongRunning = DefaultNCrunchSamplingRateLongRunning
+                    // TODO: Remove outcommented
+                    // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+                    //SamplingRateLongRunning = DefaultNCrunchSamplingRateLongRunning
                 },
                 AzurePipelines = new ConfigToolingElementAccessor
                 {
                     AudioPlayback           = DefaultToolingAudioPlayback,
                     ImpersonationMode       = DefaultToolingImpersonationMode,
                     SamplingRate            = DefaultAzurePipelinesSamplingRate,
-                    SamplingRateLongRunning = DefaultAzurePipelinesSamplingRateLongRunning
+                    // TODO: Remove outcommented
+                    // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+                    //SamplingRateLongRunning = DefaultAzurePipelinesSamplingRateLongRunning
                 }
             };
             

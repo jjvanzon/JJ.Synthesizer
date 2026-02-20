@@ -61,6 +61,8 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         /// <inheritdoc cref="_leafchecktimeout" />
         [XmlAttribute] public TimeOutActionEnum? TimeOutAction { get; set; }
         [XmlAttribute] public int? FileExtensionMaxLength { get; set; }
-        [XmlAttribute] public string LongTestCategory { get; set; } = "";
+        // TODO: Remove outcommented
+        // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+        //[XmlAttribute] public string LongTestCategory { get; set; } = "";
     }
 }

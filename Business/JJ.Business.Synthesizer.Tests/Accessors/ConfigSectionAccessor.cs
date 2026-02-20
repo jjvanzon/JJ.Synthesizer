@@ -50,7 +50,9 @@ internal class ConfigSectionAccessor : AccessorCore
     // Misc
     
     public int?    FileExtensionMaxLength { get => (int?   )Get(); set => Set(value); }
-    public string  LongTestCategory       { get => (string )Get(); set => Set(value); }
+    // TODO: Remove outcommented
+    // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+    //public string  LongTestCategory       { get => (string )Get(); set => Set(value); }
     /// <inheritdoc cref="_leafchecktimeout" />
     public double? LeafCheckTimeOut       { get => (double?)Get(); set => Set(value); }
     /// <inheritdoc cref="_leafchecktimeout" />

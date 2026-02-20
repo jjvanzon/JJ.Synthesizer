@@ -7,6 +7,8 @@ internal class ConfigToolingElementAccessor : AccessorCore
     
     public bool? AudioPlayback           { get => (bool?)Get(); set => Set(value); }
     public int?  SamplingRate            { get => (int? )Get(); set => Set(value); }
-    public int?  SamplingRateLongRunning { get => (int? )Get(); set => Set(value); }
+    // TODO: Remove outcommented
+    // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+    //public int?  SamplingRateLongRunning { get => (int? )Get(); set => Set(value); }
     public bool? ImpersonationMode       { get => (bool?)Get(); set => Set(value); }
 }

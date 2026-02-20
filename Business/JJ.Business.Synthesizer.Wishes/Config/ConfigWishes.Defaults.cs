@@ -51,10 +51,14 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         public const  bool   DefaultToolingAudioPlayback                  = false;
         public static bool?  DefaultToolingImpersonationMode              = null;
         public const  int    DefaultNCrunchSamplingRate                   = 10;
-        public const  int    DefaultNCrunchSamplingRateLongRunning        = 5;
+        // TODO: Remove outcommented
+        // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+        //public const  int    DefaultNCrunchSamplingRateLongRunning        = 5;
         public const  int    DefaultAzurePipelinesSamplingRate            = 1000;
-        public const  int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
-        public const  string DefaultLongTestCategory                      = "Long";
+        // TODO: Remove outcommented
+        // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+        //public const  int    DefaultAzurePipelinesSamplingRateLongRunning = 100;
+        //public const  string DefaultLongTestCategory                      = "Long";
         
         // Technical
         

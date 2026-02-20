@@ -19,7 +19,9 @@ using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Common.Core.EnvironmentHelper;
 using static JJ.Framework.Existence.Core.FilledInHelper;
 using static JJ.Framework.Configuration.Core.CustomConfigurationManagerCore;
-using static JJ.Framework.Testing.Core.TestHelperCore;
+// TODO: Remove outcommented
+// Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+//using static JJ.Framework.Testing.Core.TestHelperCore;
 using FilledInExtensions = JJ.Business.Synthesizer.Wishes.Helpers.FilledInExtensions;
 
 namespace JJ.Business.Synthesizer.Wishes.Config
@@ -230,30 +232,34 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             if (IsUnderNCrunch)
             {
-                bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
-                
-                if (testIsLong)
-                {
-                    return Coalesce(_section.NCrunch.SamplingRateLongRunning, DefaultNCrunchSamplingRateLongRunning);
-                }
-                else
-                {
+                // TODO: Remove outcommented
+                // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+                //bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
+                //
+                //if (testIsLong)
+                //{
+                //    return Coalesce(_section.NCrunch.SamplingRateLongRunning, DefaultNCrunchSamplingRateLongRunning);
+                //}
+                //else
+                //{
                     return Coalesce(_section.NCrunch.SamplingRate, DefaultNCrunchSamplingRate);
-                }
+                //}
             }
             
             if (IsUnderAzurePipelines)
             {
-                bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
-                
-                if (testIsLong)
-                {
-                    return Coalesce(_section.AzurePipelines.SamplingRateLongRunning, DefaultAzurePipelinesSamplingRateLongRunning);
-                }
-                else
-                {
+                // TODO: Remove outcommented
+                // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+                //bool testIsLong = CurrentTestIsInCategory(GetLongTestCategory);
+                //
+                //if (testIsLong)
+                //{
+                //    return Coalesce(_section.AzurePipelines.SamplingRateLongRunning, DefaultAzurePipelinesSamplingRateLongRunning);
+                //}
+                //else
+                //{
                     return Coalesce(_section.AzurePipelines.SamplingRate, DefaultAzurePipelinesSamplingRate);
-                }
+                //}
             }
             
             return CoalesceSamplingRate(_section.SamplingRate);
@@ -686,10 +692,11 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         
         public int GetFileExtensionMaxLength => Coalesce(_section.FileExtensionMaxLength, DefaultFileExtensionMaxLength);
         
-        private string _longTestCategory;
-        public ConfigResolver WithLongTestCategory(string category) { _longTestCategory = category; return this; }
-        
-        public string GetLongTestCategory => Coalesce(_longTestCategory, _section.LongTestCategory, DefaultLongTestCategory);
+        // TODO: Remove outcommented
+        // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+        //private string _longTestCategory;
+        //public ConfigResolver WithLongTestCategory(string category) { _longTestCategory = category; return this; }
+        //public string GetLongTestCategory => Coalesce(_longTestCategory, _section.LongTestCategory, DefaultLongTestCategory);
         
         // Tooling
         
@@ -782,11 +789,13 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             
             // Long Running
             
-            bool isLong = CurrentTestIsInCategory(GetLongTestCategory);
-            if (isLong)
-            {
-                list.Add($"Test has category '{GetLongTestCategory}'");
-            }
+            // TODO: Remove outcommented
+            // Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency
+            //bool isLong = CurrentTestIsInCategory(GetLongTestCategory);
+            //if (isLong)
+            //{
+            //    list.Add($"Test has category '{GetLongTestCategory}'");
+            //}
             
             // Audio Disabled
             
