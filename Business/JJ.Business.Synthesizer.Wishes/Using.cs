@@ -5,7 +5,6 @@ global using System.Linq;
 global using System.Text;
 global using JJ.Framework.Common.Legacy;
 global using JJ.Framework.Reflection.Legacy;
-global using JJ.Framework.Reflection.Core;
 global using JJ.Framework.Mathematics.Legacy;
 global using JJ.Framework.Validation.Legacy;
 global using JJ.Framework.Persistence.Legacy;

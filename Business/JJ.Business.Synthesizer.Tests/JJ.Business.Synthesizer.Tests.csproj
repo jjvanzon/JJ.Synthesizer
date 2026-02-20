@@ -39,10 +39,10 @@
     <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JJ.Framework.Mathematics.Core" Version="3.7.4827" />
-    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.4827" />
-    <PackageReference Include="JJ.Framework.Testing.Legacy" Version="0.250.4827" />
-    <PackageReference Include="JJ.Framework.Testing.Core" Version="3.7.4827" />
+    <PackageReference Include="JJ.Framework.Mathematics.Core" Version="3.7.4889" />
+    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.250.4889" />
+    <PackageReference Include="JJ.Framework.Testing.Legacy" Version="0.250.4889" />
+    <PackageReference Include="JJ.Framework.Testing.Core" Version="3.7.4889" />
     <PackageReference Include="MSTest" Version="3.7.3" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
   </ItemGroup>
