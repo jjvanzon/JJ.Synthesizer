@@ -7,7 +7,8 @@ using JJ.Business.Synthesizer.Wishes.docs;
 using JJ.Framework.Logging.Core.Config;
 using JJ.Framework.Logging.Core.Mappers;
 using JJ.Framework.Persistence;
-using JJ.Framework.Reflection.Core;
+using static System.ArgumentNullException;
+//using JJ.Framework.Reflection.Core;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Business.Synthesizer.Wishes.Config.TimeOutActionEnum;
@@ -83,13 +84,22 @@ namespace JJ.Business.Synthesizer.Wishes.Config
             => new PersistenceConfiguration
             {
                 ContextType = "Memory",
-                ModelAssembly = Reflect.GetAssemblyName<Persistence.Synthesizer.Operator>(),
-                MappingAssembly = Reflect.GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
-                RepositoryAssemblies = new[]
-                {
-                    Reflect.GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(), Reflect.GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
-                }
+                ModelAssembly = GetAssemblyName<Persistence.Synthesizer.Operator>(),
+                MappingAssembly = GetAssemblyName<Persistence.Synthesizer.Memory.Mappings.OperatorMapping>(),
+                RepositoryAssemblies =
+                [
+                    GetAssemblyName<Persistence.Synthesizer.Memory.Repositories.NodeTypeRepository>(), 
+                    GetAssemblyName<Persistence.Synthesizer.DefaultRepositories.OperatorRepository>()
+                ]
             };
+
+        /// <summary> Copied from JJ.Framework.Reflection.Core to avoid wide dependency graph. </summary>
+        private static string GetAssemblyName<TType>()
+        {
+            Assembly assembly = typeof(TType).Assembly;
+            ThrowIfNull(assembly);
+            return assembly.GetName().Name ?? "";
+        }
         
         private const string DefaultLogFormat = "{0:HH:mm:ss.fff} [{1}] {2}";
         
