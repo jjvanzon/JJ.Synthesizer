@@ -39,6 +39,7 @@
     <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="JJ.Framework.Configuration.Core" Version="4.6.6258" />
     <PackageReference Include="JJ.Framework.Mathematics.Core" Version="3.7.4889" />
     <PackageReference Include="JJ.Framework.Testing.Core" Version="3.7.4889" />
     <PackageReference Include="MSTest" Version="3.7.3" />
@@ -66,6 +67,6 @@
     </When>
   </Choose>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(TargetFileName).config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)$(TargetFileName).config&quot;&#xD;&#xA;echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)testhost.dll.config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)testhost.dll.config&quot;&#xD;&#xA;echo copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)nCrunch.TaskRunner.DotNetCore.20.x64.dll.config&quot;&#xD;&#xA;     copy &quot;$(ProjectDir)app.config&quot; &quot;$(TargetDir)nCrunch.TaskRunner.DotNetCore.20.x64.dll.config&quot;&#xD;&#xA;echo del /q &quot;$(TargetDir)*.wav&quot;&#xD;&#xA;     del /q &quot;$(TargetDir)*.wav&quot;&#xD;&#xA;echo del /q &quot;$(TargetDir)*.raw&quot;&#xD;&#xA;     del /q &quot;$(TargetDir)*.raw&quot;" />
+    <Exec Command="echo del /q &quot;$(TargetDir)*.wav&quot;&#xD;&#xA;     del /q &quot;$(TargetDir)*.wav&quot;&#xD;&#xA;echo del /q &quot;$(TargetDir)*.raw&quot;&#xD;&#xA;     del /q &quot;$(TargetDir)*.raw&quot;" />
   </Target>
 </Project>
