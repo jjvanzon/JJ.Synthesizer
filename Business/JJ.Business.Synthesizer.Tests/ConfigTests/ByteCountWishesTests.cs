@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Framework.Testing.Core.DeltaDirectionEnum;
@@ -393,42 +392,42 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             if (test.HeaderLength  .Changed) { AssertProp(x => x.Tape.SetHeaderLength  (test.HeaderLength  )); return; }
             if (test.CourtesyFrames.Changed) { AssertProp(x => x.Tape.SetCourtesyFrames(test.CourtesyFrames)); return; }
             
-            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .ByteCount    (value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .ByteCount    (value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.ByteCount    (value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .ByteCount    (value)));
-            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .WithByteCount(value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .WithByteCount(value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.WithByteCount(value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .WithByteCount(value)));
-            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .SetByteCount (value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .SetByteCount (value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.SetByteCount (value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .SetByteCount (value)));
-            AssertProp(x => AreEqual(x.Tape,        () => ByteCount    (x.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => ByteCount    (x.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => ByteCount    (x.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => ByteCount    (x.TapeAction , value)));
-            AssertProp(x => AreEqual(x.Tape,        () => WithByteCount(x.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => WithByteCount(x.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => WithByteCount(x.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => WithByteCount(x.TapeAction , value)));
-            AssertProp(x => AreEqual(x.Tape,        () => SetByteCount (x.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => SetByteCount (x.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => SetByteCount (x.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => SetByteCount (x.TapeAction , value)));
-            AssertProp(x => AreEqual(x.Tape,        () => ConfigWishes.ByteCount    (x.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => ConfigWishes.ByteCount    (x.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => ConfigWishes.ByteCount    (x.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => ConfigWishes.ByteCount    (x.TapeAction , value)));
-            AssertProp(x => AreEqual(x.Tape,        () => ConfigWishes.WithByteCount(x.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => ConfigWishes.WithByteCount(x.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => ConfigWishes.WithByteCount(x.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => ConfigWishes.WithByteCount(x.TapeAction , value)));
-            AssertProp(x => AreEqual(x.Tape,        () => ConfigWishes.SetByteCount (x.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => ConfigWishes.SetByteCount (x.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeActions, () => ConfigWishes.SetByteCount (x.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => ConfigWishes.SetByteCount (x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        x.Tape       .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  x.TapeConfig .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.TapeActions, x.TapeActions.ByteCount    (value)));
+            AssertProp(x => AreEqual(x.TapeAction,  x.TapeAction .ByteCount    (value)));
+            AssertProp(x => AreEqual(x.Tape,        x.Tape       .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  x.TapeConfig .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeActions, x.TapeActions.WithByteCount(value)));
+            AssertProp(x => AreEqual(x.TapeAction,  x.TapeAction .WithByteCount(value)));
+            AssertProp(x => AreEqual(x.Tape,        x.Tape       .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  x.TapeConfig .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.TapeActions, x.TapeActions.SetByteCount (value)));
+            AssertProp(x => AreEqual(x.TapeAction,  x.TapeAction .SetByteCount (value)));
+            AssertProp(x => AreEqual(x.Tape,        ByteCount    (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  ByteCount    (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, ByteCount    (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  ByteCount    (x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        WithByteCount(x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  WithByteCount(x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, WithByteCount(x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  WithByteCount(x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        SetByteCount (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  SetByteCount (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, SetByteCount (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  SetByteCount (x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        ConfigWishes.ByteCount    (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  ConfigWishes.ByteCount    (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, ConfigWishes.ByteCount    (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  ConfigWishes.ByteCount    (x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        ConfigWishes.WithByteCount(x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  ConfigWishes.WithByteCount(x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, ConfigWishes.WithByteCount(x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  ConfigWishes.WithByteCount(x.TapeAction , value)));
+            AssertProp(x => AreEqual(x.Tape,        ConfigWishes.SetByteCount (x.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeConfig,  ConfigWishes.SetByteCount (x.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeActions, ConfigWishes.SetByteCount (x.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeAction,  ConfigWishes.SetByteCount (x.TapeAction , value)));
         }
 
         [TestMethod] 
@@ -709,8 +708,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             // Get-only
             var configSection = new TestEntities(x => x.NoLog()).SynthBound.ConfigSection;
-            AreEqual(DefaultByteCount, () => configSection.ByteCount());
-            AreEqual(DefaultByteCount, () => configSection.GetByteCount());
+            AreEqual(DefaultByteCount, configSection.ByteCount());
+            AreEqual(DefaultByteCount, configSection.GetByteCount());
         }
 
         [TestMethod]
@@ -722,7 +721,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 (DefaultBits / 8 * DefaultChannels) + 
                 DefaultHeaderLength;
             
-            AreEqual(fromPrimitives, () => DefaultByteCount);
+            AreEqual(fromPrimitives, DefaultByteCount);
         }
 
         // Getter Helpers

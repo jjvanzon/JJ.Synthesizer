@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Tests.ConfigTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
+using static JJ.Framework.Testing.Core.AssertCore;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var    testCase = new FrameCountWishesTests.Case();
             string key      = testCase.Key;
             Log(key);
-            NotNullOrEmpty(() => key);
+            NotNullOrEmpty(key);
         }
     }
 }

@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Wishes.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Existence.Core.FilledInHelper;
@@ -145,10 +144,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AssertProp(x => { x.TapeConfig .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeConfig,  ConfigWishes.SetCourtesyBytes (x.TapeConfig , val.courtesyBytes)); });
             AssertProp(x => { x.TapeActions.Bits(val.bits).Channels(val.channels); AreEqual(x.TapeActions, ConfigWishes.SetCourtesyBytes (x.TapeActions, val.courtesyBytes)); });
             AssertProp(x => { x.TapeAction .Bits(val.bits).Channels(val.channels); AreEqual(x.TapeAction,  ConfigWishes.SetCourtesyBytes (x.TapeAction , val.courtesyBytes)); });
-            AssertProp(x => AreEqual(x.Tape,        () => x.Tape       .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.TapeConfig,  () => x.TapeConfig .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.TapeActions, () => x.TapeActions.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
-            AssertProp(x => AreEqual(x.TapeAction,  () => x.TapeAction .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.Tape,        x.Tape       .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.TapeConfig,  x.TapeConfig .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.TapeActions, x.TapeActions.Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
+            AssertProp(x => AreEqual(x.TapeAction,  x.TapeAction .Bits(val.bits).Channels(val.channels).CourtesyFrames(val.courtesyFrames)));
         }
         
         [TestMethod]
@@ -157,19 +156,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Get-only
             var configSection = CreateTestEntities().SynthBound.ConfigSection;
             int? expected = configSection.CourtesyFrames * configSection.Bits / 8 * configSection.Channels;
-            AreEqual(expected, () => configSection.CourtesyBytes   ());
-            AreEqual(expected, () => configSection.GetCourtesyBytes());
-            AreEqual(expected, () => CourtesyBytes   (configSection));
-            AreEqual(expected, () => GetCourtesyBytes(configSection));
-            AreEqual(expected, () => ConfigWishesAccessor.CourtesyBytes   (configSection));
-            AreEqual(expected, () => ConfigWishesAccessor.GetCourtesyBytes(configSection));
+            AreEqual(expected, configSection.CourtesyBytes   ());
+            AreEqual(expected, configSection.GetCourtesyBytes());
+            AreEqual(expected, CourtesyBytes   (configSection));
+            AreEqual(expected, GetCourtesyBytes(configSection));
+            AreEqual(expected, ConfigWishesAccessor.CourtesyBytes   (configSection));
+            AreEqual(expected, ConfigWishesAccessor.GetCourtesyBytes(configSection));
         }
         
         [TestMethod]
         public void Default_CourtesyBytes()
         {
             int expected = DefaultCourtesyFrames * DefaultBits / 8 * DefaultChannels;
-            AreEqual(expected, () => DefaultCourtesyBytes);
+            AreEqual(expected, DefaultCourtesyBytes);
         }
 
         [TestMethod]
@@ -196,116 +195,116 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_SynthBound_Getters(TestEntities x, int courtesyBytes)
         {
-            AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .GetCourtesyBytes);
-            AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .GetCourtesyBytes);
-            AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .GetCourtesyBytes());
-            AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .GetCourtesyBytes());
-            AreEqual(courtesyBytes, () => x.SynthBound.ConfigResolver.GetCourtesyBytes());
-            AreEqual(courtesyBytes, () => x.SynthBound.SynthWishes   .CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.SynthBound.FlowNode      .CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.SynthBound.ConfigResolver.CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => CourtesyBytes   (x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyBytes, () => CourtesyBytes   (x.SynthBound.FlowNode      ));
-            AreEqual(courtesyBytes, () => CourtesyBytes   (x.SynthBound.ConfigResolver));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes(x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes(x.SynthBound.FlowNode      ));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes(x.SynthBound.ConfigResolver));
-            AreEqual(courtesyBytes, () => ConfigWishes        .CourtesyBytes   (x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyBytes, () => ConfigWishes        .CourtesyBytes   (x.SynthBound.FlowNode      ));
-            AreEqual(courtesyBytes, () => ConfigWishesAccessor.CourtesyBytes   (x.SynthBound.ConfigResolver));
-            AreEqual(courtesyBytes, () => ConfigWishes        .GetCourtesyBytes(x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyBytes, () => ConfigWishes        .GetCourtesyBytes(x.SynthBound.FlowNode      ));
-            AreEqual(courtesyBytes, () => ConfigWishesAccessor.GetCourtesyBytes(x.SynthBound.ConfigResolver));
+            AreEqual(courtesyBytes, x.SynthBound.SynthWishes   .GetCourtesyBytes);
+            AreEqual(courtesyBytes, x.SynthBound.FlowNode      .GetCourtesyBytes);
+            AreEqual(courtesyBytes, x.SynthBound.SynthWishes   .GetCourtesyBytes());
+            AreEqual(courtesyBytes, x.SynthBound.FlowNode      .GetCourtesyBytes());
+            AreEqual(courtesyBytes, x.SynthBound.ConfigResolver.GetCourtesyBytes());
+            AreEqual(courtesyBytes, x.SynthBound.SynthWishes   .CourtesyBytes   ());
+            AreEqual(courtesyBytes, x.SynthBound.FlowNode      .CourtesyBytes   ());
+            AreEqual(courtesyBytes, x.SynthBound.ConfigResolver.CourtesyBytes   ());
+            AreEqual(courtesyBytes, CourtesyBytes   (x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyBytes, CourtesyBytes   (x.SynthBound.FlowNode      ));
+            AreEqual(courtesyBytes, CourtesyBytes   (x.SynthBound.ConfigResolver));
+            AreEqual(courtesyBytes, GetCourtesyBytes(x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyBytes, GetCourtesyBytes(x.SynthBound.FlowNode      ));
+            AreEqual(courtesyBytes, GetCourtesyBytes(x.SynthBound.ConfigResolver));
+            AreEqual(courtesyBytes, ConfigWishes        .CourtesyBytes   (x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyBytes, ConfigWishes        .CourtesyBytes   (x.SynthBound.FlowNode      ));
+            AreEqual(courtesyBytes, ConfigWishesAccessor.CourtesyBytes   (x.SynthBound.ConfigResolver));
+            AreEqual(courtesyBytes, ConfigWishes        .GetCourtesyBytes(x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyBytes, ConfigWishes        .GetCourtesyBytes(x.SynthBound.FlowNode      ));
+            AreEqual(courtesyBytes, ConfigWishesAccessor.GetCourtesyBytes(x.SynthBound.ConfigResolver));
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int courtesyBytes)
         {
-            AreEqual(courtesyBytes, () => x.TapeBound.Tape       .CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.TapeBound.TapeConfig .CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.TapeBound.TapeActions.CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.TapeBound.TapeAction .CourtesyBytes   ());
-            AreEqual(courtesyBytes, () => x.TapeBound.Tape       .GetCourtesyBytes());
-            AreEqual(courtesyBytes, () => x.TapeBound.TapeConfig .GetCourtesyBytes());
-            AreEqual(courtesyBytes, () => x.TapeBound.TapeActions.GetCourtesyBytes());
-            AreEqual(courtesyBytes, () => x.TapeBound.TapeAction .GetCourtesyBytes());
-            AreEqual(courtesyBytes, () => CourtesyBytes   (x.TapeBound.Tape       ));
-            AreEqual(courtesyBytes, () => CourtesyBytes   (x.TapeBound.TapeConfig ));
-            AreEqual(courtesyBytes, () => CourtesyBytes   (x.TapeBound.TapeActions));
-            AreEqual(courtesyBytes, () => CourtesyBytes   (x.TapeBound.TapeAction ));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes(x.TapeBound.Tape       ));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes(x.TapeBound.TapeConfig ));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes(x.TapeBound.TapeActions));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes(x.TapeBound.TapeAction ));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes   (x.TapeBound.Tape       ));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes   (x.TapeBound.TapeConfig ));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes   (x.TapeBound.TapeActions));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes   (x.TapeBound.TapeAction ));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes(x.TapeBound.Tape       ));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeConfig ));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeActions));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeAction ));
+            AreEqual(courtesyBytes, x.TapeBound.Tape       .CourtesyBytes   ());
+            AreEqual(courtesyBytes, x.TapeBound.TapeConfig .CourtesyBytes   ());
+            AreEqual(courtesyBytes, x.TapeBound.TapeActions.CourtesyBytes   ());
+            AreEqual(courtesyBytes, x.TapeBound.TapeAction .CourtesyBytes   ());
+            AreEqual(courtesyBytes, x.TapeBound.Tape       .GetCourtesyBytes());
+            AreEqual(courtesyBytes, x.TapeBound.TapeConfig .GetCourtesyBytes());
+            AreEqual(courtesyBytes, x.TapeBound.TapeActions.GetCourtesyBytes());
+            AreEqual(courtesyBytes, x.TapeBound.TapeAction .GetCourtesyBytes());
+            AreEqual(courtesyBytes, CourtesyBytes   (x.TapeBound.Tape       ));
+            AreEqual(courtesyBytes, CourtesyBytes   (x.TapeBound.TapeConfig ));
+            AreEqual(courtesyBytes, CourtesyBytes   (x.TapeBound.TapeActions));
+            AreEqual(courtesyBytes, CourtesyBytes   (x.TapeBound.TapeAction ));
+            AreEqual(courtesyBytes, GetCourtesyBytes(x.TapeBound.Tape       ));
+            AreEqual(courtesyBytes, GetCourtesyBytes(x.TapeBound.TapeConfig ));
+            AreEqual(courtesyBytes, GetCourtesyBytes(x.TapeBound.TapeActions));
+            AreEqual(courtesyBytes, GetCourtesyBytes(x.TapeBound.TapeAction ));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes   (x.TapeBound.Tape       ));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes   (x.TapeBound.TapeConfig ));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes   (x.TapeBound.TapeActions));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes   (x.TapeBound.TapeAction ));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes(x.TapeBound.Tape       ));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeConfig ));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeActions));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes(x.TapeBound.TapeAction ));
         }
 
         private void Assert_Immutable_Getters(int courtesyFrames, int bits, int channels, int courtesyBytes)
         {
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyBytes        (bits, channels));
-            AreEqual(courtesyBytes, () => courtesyFrames.GetCourtesyBytes     (bits, channels));
-            AreEqual(courtesyBytes, () => courtesyFrames.ToCourtesyBytes      (bits, channels));
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyFramesToBytes(bits, channels));
-            AreEqual(courtesyBytes, () => CourtesyBytes        (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes     (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ToCourtesyBytes      (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => CourtesyFramesToBytes(courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes        (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes     (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.ToCourtesyBytes      (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyBytes        (bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.GetCourtesyBytes     (bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.ToCourtesyBytes      (bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyFramesToBytes(bits, channels));
+            AreEqual(courtesyBytes, CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, CourtesyFramesToBytes(courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels));
             
             Assert_Immutable_Getters((int?)courtesyFrames, (int?)bits, (int?)channels, courtesyBytes);
         }
 
         private void Assert_Immutable_Getters(int? courtesyFrames, int? bits, int? channels, int courtesyBytes)
         {
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyBytes        (bits, channels));
-            AreEqual(courtesyBytes, () => courtesyFrames.GetCourtesyBytes     (bits, channels));
-            AreEqual(courtesyBytes, () => courtesyFrames.ToCourtesyBytes      (bits, channels));
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyFramesToBytes(bits, channels));
-            AreEqual(courtesyBytes, () => CourtesyBytes        (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes     (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ToCourtesyBytes      (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => CourtesyFramesToBytes(courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes        (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes     (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.ToCourtesyBytes      (courtesyFrames, bits, channels));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyBytes        (bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.GetCourtesyBytes     (bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.ToCourtesyBytes      (bits, channels));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyFramesToBytes(bits, channels));
+            AreEqual(courtesyBytes, CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, CourtesyFramesToBytes(courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes        (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes     (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.ToCourtesyBytes      (courtesyFrames, bits, channels));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyFramesToBytes(courtesyFrames, bits, channels));
         }
         
         private void Assert_Immutable_Getters(int courtesyFrames, int frameSize, int courtesyBytes)
         {
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyBytes        (frameSize));
-            AreEqual(courtesyBytes, () => courtesyFrames.GetCourtesyBytes     (frameSize));
-            AreEqual(courtesyBytes, () => courtesyFrames.ToCourtesyBytes      (frameSize));
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyFramesToBytes(frameSize));
-            AreEqual(courtesyBytes, () => CourtesyBytes        (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes     (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ToCourtesyBytes      (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => CourtesyFramesToBytes(courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes        (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes     (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.ToCourtesyBytes      (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize));
-            AreEqual(courtesyFrames, () => courtesyBytes.CourtesyFrames       (frameSize));
-            AreEqual(courtesyFrames, () => courtesyBytes.GetCourtesyFrames    (frameSize));
-            AreEqual(courtesyFrames, () => courtesyBytes.ToCourtesyFrames     (frameSize));
-            AreEqual(courtesyFrames, () => courtesyBytes.CourtesyBytesToFrames(frameSize));
-            AreEqual(courtesyFrames, () => CourtesyFrames       (courtesyBytes, frameSize));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames    (courtesyBytes, frameSize));
-            AreEqual(courtesyFrames, () => ToCourtesyFrames     (courtesyBytes, frameSize));
-            AreEqual(courtesyFrames, () => CourtesyBytesToFrames(courtesyBytes, frameSize));
-            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyFrames       (courtesyBytes, frameSize));
-            AreEqual(courtesyFrames, () => ConfigWishes.GetCourtesyFrames    (courtesyBytes, frameSize));
-            AreEqual(courtesyFrames, () => ConfigWishes.ToCourtesyFrames     (courtesyBytes, frameSize));
-            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyBytes        (frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.GetCourtesyBytes     (frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.ToCourtesyBytes      (frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyFramesToBytes(frameSize));
+            AreEqual(courtesyBytes, CourtesyBytes        (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, GetCourtesyBytes     (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ToCourtesyBytes      (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, CourtesyFramesToBytes(courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes        (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes     (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.ToCourtesyBytes      (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize));
+            AreEqual(courtesyFrames, courtesyBytes.CourtesyFrames       (frameSize));
+            AreEqual(courtesyFrames, courtesyBytes.GetCourtesyFrames    (frameSize));
+            AreEqual(courtesyFrames, courtesyBytes.ToCourtesyFrames     (frameSize));
+            AreEqual(courtesyFrames, courtesyBytes.CourtesyBytesToFrames(frameSize));
+            AreEqual(courtesyFrames, CourtesyFrames       (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, GetCourtesyFrames    (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ToCourtesyFrames     (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, CourtesyBytesToFrames(courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyFrames       (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.GetCourtesyFrames    (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.ToCourtesyFrames     (courtesyBytes, frameSize));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyBytesToFrames(courtesyBytes, frameSize));
             
             // TODO: These touch the nully overloads, but don't actually test nully values.
             Assert_Immutable_Getters((int?)courtesyFrames,       frameSize,       courtesyBytes);
@@ -348,18 +347,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_Immutable_Getters(int? courtesyFrames, int? frameSize, int courtesyBytes)
         {
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyBytes        (frameSize));
-            AreEqual(courtesyBytes, () => courtesyFrames.GetCourtesyBytes     (frameSize));
-            AreEqual(courtesyBytes, () => courtesyFrames.ToCourtesyBytes      (frameSize));
-            AreEqual(courtesyBytes, () => courtesyFrames.CourtesyFramesToBytes(frameSize));
-            AreEqual(courtesyBytes, () => CourtesyBytes        (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => GetCourtesyBytes     (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ToCourtesyBytes      (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => CourtesyFramesToBytes(courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyBytes        (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.GetCourtesyBytes     (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.ToCourtesyBytes      (courtesyFrames, frameSize));
-            AreEqual(courtesyBytes, () => ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyBytes        (frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.GetCourtesyBytes     (frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.ToCourtesyBytes      (frameSize));
+            AreEqual(courtesyBytes, courtesyFrames.CourtesyFramesToBytes(frameSize));
+            AreEqual(courtesyBytes, CourtesyBytes        (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, GetCourtesyBytes     (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ToCourtesyBytes      (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, CourtesyFramesToBytes(courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyBytes        (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.GetCourtesyBytes     (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.ToCourtesyBytes      (courtesyFrames, frameSize));
+            AreEqual(courtesyBytes, ConfigWishes.CourtesyFramesToBytes(courtesyFrames, frameSize));
         }
 
         private void Assert_Immutable_Getters(int? courtesyFrames, int? frameSize, int? courtesyBytes)

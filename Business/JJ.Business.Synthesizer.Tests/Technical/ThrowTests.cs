@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory;
 using static JJ.Business.Synthesizer.Tests.Helpers.CopiedFromFramework;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
+using static JJ.Framework.Testing.Core.AssertCore;
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 // ReSharper disable once NotAccessedField.Local
@@ -34,35 +34,35 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             configAccessor._channel = 3;
 
             // OperatorWishes.SynthWishes.ChannelIndex InvalidChannelEnum
-            //ThrowsException(() => { _channelEnum = GetChannel.ToChannelEnum(GetChannels.ToSpeakerSetupEnum()); });
+            //Throws(() => { _channelEnum = GetChannel.ToChannelEnum(GetChannels.ToSpeakerSetupEnum()); });
 
             // OperatorWishes.SynthWishes.Panning WithConst_InvalidChannelEnum 
-            //ThrowsException(() => Panning(Sine(), _[0.25]));
+            //Throws(() => Panning(Sine(), _[0.25]));
 
             // OperatorWishes.SynthWishes.Panning Dynamic_InvalidChannelEnum
-            //ThrowsException(() => Panning(Sine(), Curve((0, 0), (0, 1))));
+            //Throws(() => Panning(Sine(), Curve((0, 0), (0, 1))));
 
             // AttributeWishes.Channels SpeakerSetupNotSupported
-            //ThrowsException(() => SpeakerSetupEnum.Undefined.Channels());
+            //Throws(() => SpeakerSetupEnum.Undefined.Channels());
 
             // AttributeWishes.ChannelsToEnum ChannelCountNotSupported
-            //ThrowsException(() => 0.ChannelsToEnum());
+            //Throws(() => 0.ChannelsToEnum());
 
             // AttributeWishes.Extensions.GetFileExtension AudioFileFormatNotSupported
-            //ThrowsException(() => AudioFileFormatEnum.Undefined.FileExtension());
+            //Throws(() => AudioFileFormatEnum.Undefined.FileExtension());
 
             // AttributeWishes.Extensions.GetNominalMax SampleDataTypeNotSupported
-            ThrowsException(() => SampleDataTypeEnum.Undefined.MaxAmplitude());
+            Throws(() => SampleDataTypeEnum.Undefined.MaxAmplitude());
 
             // AttributeWishes.Extensions.GetHeaderLength AudioFileFormatNotSupported
-            ThrowsException(() => AudioFileFormatEnum.Undefined.HeaderLength());
+            Throws(() => AudioFileFormatEnum.Undefined.HeaderLength());
         }
 
         [TestMethod] public void Test_Exceptions_InTests() => Run(ExceptionsInTests);
         void ExceptionsInTests()
         {
             // ModulationTests.DeepEcho Channel NotSupported
-            ThrowsException(() =>
+            Throws(() =>
             {
                 var modulationTests = new ModulationTests();
                 modulationTests.WithChannel(3);
@@ -70,20 +70,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             });
             
             // AudioFormatTests.GetValueTolerance CombinationOfValuesNotSupported
-            ThrowsException(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, 0));
+            Throws(() => new AudioFormatTests().GetValueTolerance(true, InterpolationTypeEnum.Undefined, 0));
         }
 
         [TestMethod] public void Test_Exceptions_InBackEnd() => Run(ExceptionsInBackEnd);
         void ExceptionsInBackEnd()
         {
             // SampleManager.CreateSample AudioFileFormatEnumNotSupported
-            ThrowsException(() => CreateSampleManager(Context).CreateSample(GetViolin16BitMono44100WavStream(), AudioFileFormatEnum.Undefined));
+            Throws(() => CreateSampleManager(Context).CreateSample(GetViolin16BitMono44100WavStream(), AudioFileFormatEnum.Undefined));
             
             // SampleManager.CreateWavSample WavFileAtLeast44Bytes
-            ThrowsException(() => CreateSampleManager(Context).CreateSample(_emptyStream, AudioFileFormatEnum.Wav));
+            Throws(() => CreateSampleManager(Context).CreateSample(_emptyStream, AudioFileFormatEnum.Wav));
             
             // SampleDataTypeHelper.SizeOf SampleDataTypeInvalid
-            ThrowsException(() => SampleDataTypeHelper.SizeOf(SampleDataTypeEnum.Undefined));
+            Throws(() => SampleDataTypeHelper.SizeOf(SampleDataTypeEnum.Undefined));
 
             // WavHeaderStructToAudioFileInfoConverter ChannelCountCannotBe0
             {
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 var accessor = new SampleManagerAccessor(CreateSampleManager(Context));
                 
-                ThrowsException(() => accessor.CreateWavSample(wavHeaderStruct));
+                Throws(() => accessor.CreateWavSample(wavHeaderStruct));
             }
 
             // SampleManager.CreateWavSample BytesPerValueNotSupported
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 var accessor = new SampleManagerAccessor(CreateSampleManager(Context));
                 
-                ThrowsException(() => accessor.CreateWavSample(wavHeaderStruct));
+                Throws(() => accessor.CreateWavSample(wavHeaderStruct));
             }
 
             // SampleCalculatorFactory.CreateSampleCalculator InvalidComboInterpolationAndSampleDataType
@@ -128,14 +128,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sample sample = CreateSampleManager(Context).CreateSample(GetViolin16BitMono44100WavStream());
                 sample.SampleDataType = _invalidSampleDataType;
                 sample.InterpolationType = _invalidInterpolationType;
-                ThrowsException(() => CreateSampleCalculator(sample));
+                Throws(() => CreateSampleCalculator(sample));
             }
 
             // SampleCalculatorBase.ReadSamples AudioFileFormatNotSupported
             {
                 Sample sample = CreateSampleManager(Context).CreateSample(GetViolin16BitMono44100WavStream());
                 sample.AudioFileFormat = _invalidAudioFileFormat;
-                ThrowsException(() => CreateSampleCalculator(sample));
+                Throws(() => CreateSampleCalculator(sample));
             }
         
             // CurveCalculator.CalculateValue NodeTypeNotSupported
@@ -144,7 +144,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Curve curve = curveOutlet.Operator.AsCurveIn.Curve;
                 curve.Nodes[0].NodeType = _invalidNodeType;
                 var curveCalculator = new CurveCalculator(curve);
-                ThrowsException(() => curveCalculator.CalculateValue(0.5));
+                Throws(() => curveCalculator.CalculateValue(0.5));
             }
 
             // AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator SampleDataTypeNotSupported
@@ -152,7 +152,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(Context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.SampleDataType = _invalidSampleDataType;
-                ThrowsException(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
+                Throws(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
             }
 
             // AudioFileOutputCalculatorBase.ctor FilePathRequired
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(Context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.FilePath = null;
-                ThrowsException(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
+                Throws(() => AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput));
             }
 
             // AudioFileOutputCalculatorBase.Execute AudioFileFormatNotSupported
@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 audioFileOutput.FilePath = fileName;
                 audioFileOutput.AudioFileFormat = _invalidAudioFileFormat;
                 IAudioFileOutputCalculator calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
-                ThrowsException(() => calculator.Execute());
+                Throws(() => calculator.Execute());
             }
         }
 }

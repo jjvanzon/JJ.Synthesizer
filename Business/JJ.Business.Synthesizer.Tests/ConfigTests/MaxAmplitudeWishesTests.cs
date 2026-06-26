@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
@@ -80,10 +79,10 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init.maxAmplitude); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetBits(val.bits)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetBits(val.bits)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetBits(val.bits)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetBits(val.bits)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .SetBits(val.bits)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .SetBits(val.bits)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.SetBits(val.bits)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .SetBits(val.bits)));
         }
 
         [TestMethod]
@@ -111,8 +110,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init.maxAmplitude);
             }
 
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetBits (val.bits, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetBits (val.bits, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .SetBits (val.bits, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetBits (val.bits, x.SynthBound.Context)));
         }
         
         [TestMethod]
@@ -145,7 +144,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init.maxAmplitude);
                 }
                 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetBits(val.bits, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.SetBits(val.bits, x.SynthBound.Context)));
             }
             
             // AudioInfoWish
@@ -297,24 +296,24 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         [TestMethod]
         public void MaxAmplitude_WithTypeArguments()
         {
-            AreEqual(byte .MaxValue/ 2, () =>    MaxAmplitude<byte> ());
-            AreEqual(byte .MaxValue/ 2, () =>  ToMaxAmplitude<byte> ());
-            AreEqual(byte .MaxValue/ 2, () => GetMaxAmplitude<byte> ());
-            AreEqual(short.MaxValue,    () =>    MaxAmplitude<short>());
-            AreEqual(short.MaxValue,    () =>  ToMaxAmplitude<short>());
-            AreEqual(short.MaxValue,    () => GetMaxAmplitude<short>());
-            AreEqual(1,                 () =>    MaxAmplitude<float>());
-            AreEqual(1,                 () =>  ToMaxAmplitude<float>());
-            AreEqual(1,                 () => GetMaxAmplitude<float>());
-            AreEqual(byte .MaxValue/ 2, () => ConfigWishes.   MaxAmplitude<byte> ());
-            AreEqual(byte .MaxValue/ 2, () => ConfigWishes. ToMaxAmplitude<byte> ());
-            AreEqual(byte .MaxValue/ 2, () => ConfigWishes.GetMaxAmplitude<byte> ());
-            AreEqual(short.MaxValue,    () => ConfigWishes.   MaxAmplitude<short>());
-            AreEqual(short.MaxValue,    () => ConfigWishes. ToMaxAmplitude<short>());
-            AreEqual(short.MaxValue,    () => ConfigWishes.GetMaxAmplitude<short>());
-            AreEqual(1,                 () => ConfigWishes.   MaxAmplitude<float>());
-            AreEqual(1,                 () => ConfigWishes. ToMaxAmplitude<float>());
-            AreEqual(1,                 () => ConfigWishes.GetMaxAmplitude<float>());
+            AreEqual(byte .MaxValue/ 2,    MaxAmplitude<byte> ());
+            AreEqual(byte .MaxValue/ 2,  ToMaxAmplitude<byte> ());
+            AreEqual(byte .MaxValue/ 2, GetMaxAmplitude<byte> ());
+            AreEqual(short.MaxValue,       MaxAmplitude<short>());
+            AreEqual(short.MaxValue,     ToMaxAmplitude<short>());
+            AreEqual(short.MaxValue,    GetMaxAmplitude<short>());
+            AreEqual(1,                    MaxAmplitude<float>());
+            AreEqual(1,                  ToMaxAmplitude<float>());
+            AreEqual(1,                 GetMaxAmplitude<float>());
+            AreEqual(byte .MaxValue/ 2, ConfigWishes.   MaxAmplitude<byte> ());
+            AreEqual(byte .MaxValue/ 2, ConfigWishes. ToMaxAmplitude<byte> ());
+            AreEqual(byte .MaxValue/ 2, ConfigWishes.GetMaxAmplitude<byte> ());
+            AreEqual(short.MaxValue,    ConfigWishes.   MaxAmplitude<short>());
+            AreEqual(short.MaxValue,    ConfigWishes. ToMaxAmplitude<short>());
+            AreEqual(short.MaxValue,    ConfigWishes.GetMaxAmplitude<short>());
+            AreEqual(1,                 ConfigWishes.   MaxAmplitude<float>());
+            AreEqual(1,                 ConfigWishes. ToMaxAmplitude<float>());
+            AreEqual(1,                 ConfigWishes.GetMaxAmplitude<float>());
 
         }
         
@@ -324,18 +323,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             // Immutable. Get-only.
             var x = CreateTestEntities(default);
             var configSection = x.SynthBound.ConfigSection;
-            AreEqual(DefaultMaxAmplitude, () => configSection.MaxAmplitude());
-            AreEqual(DefaultMaxAmplitude, () => configSection.GetMaxAmplitude());
-            AreEqual(DefaultMaxAmplitude, () => MaxAmplitude(configSection));
-            AreEqual(DefaultMaxAmplitude, () => GetMaxAmplitude(configSection));
-            AreEqual(DefaultMaxAmplitude, () => ConfigWishesAccessor.MaxAmplitude(configSection));
-            AreEqual(DefaultMaxAmplitude, () => ConfigWishesAccessor.GetMaxAmplitude(configSection));
+            AreEqual(DefaultMaxAmplitude, configSection.MaxAmplitude());
+            AreEqual(DefaultMaxAmplitude, configSection.GetMaxAmplitude());
+            AreEqual(DefaultMaxAmplitude, MaxAmplitude(configSection));
+            AreEqual(DefaultMaxAmplitude, GetMaxAmplitude(configSection));
+            AreEqual(DefaultMaxAmplitude, ConfigWishesAccessor.MaxAmplitude(configSection));
+            AreEqual(DefaultMaxAmplitude, ConfigWishesAccessor.GetMaxAmplitude(configSection));
         }
 
         [TestMethod]
         public void Default_MaxAmplitude()
         {
-            AreEqual(1, () => DefaultMaxAmplitude);
+            AreEqual(1, DefaultMaxAmplitude);
         }
 
         [TestMethod]
@@ -383,220 +382,220 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, int maxAmplitude)
         {
-            IsNotNull(             () => x);
-            IsNotNull(             () => x.SynthBound);
-            IsNotNull(             () => x.SynthBound.SynthWishes);
-            IsNotNull(             () => x.SynthBound.FlowNode);
-            IsNotNull(             () => x.SynthBound.ConfigResolver);
-            AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes   .GetMaxAmplitude);
-            AreEqual(maxAmplitude, () => x.SynthBound.FlowNode      .GetMaxAmplitude);
-            AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes   .GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => x.SynthBound.FlowNode      .GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => x.SynthBound.ConfigResolver.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => x.SynthBound.SynthWishes   .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.SynthBound.FlowNode      .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.SynthBound.ConfigResolver.MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.SynthBound.SynthWishes   ));
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.SynthBound.FlowNode      ));
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.SynthBound.ConfigResolver));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.SynthBound.SynthWishes   ));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.SynthBound.FlowNode      ));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.SynthBound.ConfigResolver));
-            AreEqual(maxAmplitude, () => ConfigWishes        .MaxAmplitude   (x.SynthBound.SynthWishes   ));
-            AreEqual(maxAmplitude, () => ConfigWishes        .MaxAmplitude   (x.SynthBound.FlowNode      ));
-            AreEqual(maxAmplitude, () => ConfigWishesAccessor.MaxAmplitude   (x.SynthBound.ConfigResolver));
-            AreEqual(maxAmplitude, () => ConfigWishes        .GetMaxAmplitude(x.SynthBound.SynthWishes   ));
-            AreEqual(maxAmplitude, () => ConfigWishes        .GetMaxAmplitude(x.SynthBound.FlowNode      ));
-            AreEqual(maxAmplitude, () => ConfigWishesAccessor.GetMaxAmplitude(x.SynthBound.ConfigResolver));
+            IsNotNull(             x);
+            IsNotNull(             x.SynthBound);
+            IsNotNull(             x.SynthBound.SynthWishes);
+            IsNotNull(             x.SynthBound.FlowNode);
+            IsNotNull(             x.SynthBound.ConfigResolver);
+            AreEqual(maxAmplitude, x.SynthBound.SynthWishes   .GetMaxAmplitude);
+            AreEqual(maxAmplitude, x.SynthBound.FlowNode      .GetMaxAmplitude);
+            AreEqual(maxAmplitude, x.SynthBound.SynthWishes   .GetMaxAmplitude());
+            AreEqual(maxAmplitude, x.SynthBound.FlowNode      .GetMaxAmplitude());
+            AreEqual(maxAmplitude, x.SynthBound.ConfigResolver.GetMaxAmplitude());
+            AreEqual(maxAmplitude, x.SynthBound.SynthWishes   .MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.SynthBound.FlowNode      .MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.SynthBound.ConfigResolver.MaxAmplitude   ());
+            AreEqual(maxAmplitude, MaxAmplitude   (x.SynthBound.SynthWishes   ));
+            AreEqual(maxAmplitude, MaxAmplitude   (x.SynthBound.FlowNode      ));
+            AreEqual(maxAmplitude, MaxAmplitude   (x.SynthBound.ConfigResolver));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.SynthBound.SynthWishes   ));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.SynthBound.FlowNode      ));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.SynthBound.ConfigResolver));
+            AreEqual(maxAmplitude, ConfigWishes        .MaxAmplitude   (x.SynthBound.SynthWishes   ));
+            AreEqual(maxAmplitude, ConfigWishes        .MaxAmplitude   (x.SynthBound.FlowNode      ));
+            AreEqual(maxAmplitude, ConfigWishesAccessor.MaxAmplitude   (x.SynthBound.ConfigResolver));
+            AreEqual(maxAmplitude, ConfigWishes        .GetMaxAmplitude(x.SynthBound.SynthWishes   ));
+            AreEqual(maxAmplitude, ConfigWishes        .GetMaxAmplitude(x.SynthBound.FlowNode      ));
+            AreEqual(maxAmplitude, ConfigWishesAccessor.GetMaxAmplitude(x.SynthBound.ConfigResolver));
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int maxAmplitude)
         {
-            IsNotNull(             () => x);
-            IsNotNull(             () => x.TapeBound);
-            IsNotNull(             () => x.TapeBound.Tape);
-            IsNotNull(             () => x.TapeBound.TapeConfig);
-            IsNotNull(             () => x.TapeBound.TapeActions);
-            IsNotNull(             () => x.TapeBound.TapeAction);
-            AreEqual(maxAmplitude, () => x.TapeBound.Tape       .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.TapeBound.TapeConfig .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.TapeBound.TapeActions.MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.TapeBound.TapeAction .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.TapeBound.Tape       .GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => x.TapeBound.TapeConfig .GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => x.TapeBound.TapeActions.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => x.TapeBound.TapeAction .GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.TapeBound.Tape       ));
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.TapeBound.TapeConfig ));
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.TapeBound.TapeActions));
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.TapeBound.TapeAction ));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.TapeBound.Tape       ));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.TapeBound.TapeConfig ));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.TapeBound.TapeActions));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.TapeBound.TapeAction ));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (x.TapeBound.Tape       ));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (x.TapeBound.TapeConfig ));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (x.TapeBound.TapeActions));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (x.TapeBound.TapeAction ));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(x.TapeBound.Tape       ));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(x.TapeBound.TapeConfig ));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(x.TapeBound.TapeActions));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(x.TapeBound.TapeAction ));
+            IsNotNull(             x);
+            IsNotNull(             x.TapeBound);
+            IsNotNull(             x.TapeBound.Tape);
+            IsNotNull(             x.TapeBound.TapeConfig);
+            IsNotNull(             x.TapeBound.TapeActions);
+            IsNotNull(             x.TapeBound.TapeAction);
+            AreEqual(maxAmplitude, x.TapeBound.Tape       .MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.TapeBound.TapeConfig .MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.TapeBound.TapeActions.MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.TapeBound.TapeAction .MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.TapeBound.Tape       .GetMaxAmplitude());
+            AreEqual(maxAmplitude, x.TapeBound.TapeConfig .GetMaxAmplitude());
+            AreEqual(maxAmplitude, x.TapeBound.TapeActions.GetMaxAmplitude());
+            AreEqual(maxAmplitude, x.TapeBound.TapeAction .GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude   (x.TapeBound.Tape       ));
+            AreEqual(maxAmplitude, MaxAmplitude   (x.TapeBound.TapeConfig ));
+            AreEqual(maxAmplitude, MaxAmplitude   (x.TapeBound.TapeActions));
+            AreEqual(maxAmplitude, MaxAmplitude   (x.TapeBound.TapeAction ));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.TapeBound.Tape       ));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.TapeBound.TapeConfig ));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.TapeBound.TapeActions));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.TapeBound.TapeAction ));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (x.TapeBound.Tape       ));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (x.TapeBound.TapeConfig ));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (x.TapeBound.TapeActions));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (x.TapeBound.TapeAction ));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(x.TapeBound.Tape       ));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(x.TapeBound.TapeConfig ));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(x.TapeBound.TapeActions));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(x.TapeBound.TapeAction ));
         }
         
         private void Assert_BuffBound_Getters(TestEntities x, int maxAmplitude)
         {
-            IsNotNull(             () => x);
-            IsNotNull(             () => x.BuffBound);
-            IsNotNull(             () => x.BuffBound.Buff);
-            AreEqual(maxAmplitude, () => x.BuffBound.Buff           .MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.BuffBound.AudioFileOutput.MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => x.BuffBound.Buff           .GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => x.BuffBound.AudioFileOutput.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.BuffBound.Buff           ));
-            AreEqual(maxAmplitude, () => MaxAmplitude   (x.BuffBound.AudioFileOutput));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.BuffBound.Buff           ));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(x.BuffBound.AudioFileOutput));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (x.BuffBound.Buff           ));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (x.BuffBound.AudioFileOutput));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(x.BuffBound.Buff           ));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(x.BuffBound.AudioFileOutput));
+            IsNotNull(             x);
+            IsNotNull(             x.BuffBound);
+            IsNotNull(             x.BuffBound.Buff);
+            AreEqual(maxAmplitude, x.BuffBound.Buff           .MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.BuffBound.AudioFileOutput.MaxAmplitude   ());
+            AreEqual(maxAmplitude, x.BuffBound.Buff           .GetMaxAmplitude());
+            AreEqual(maxAmplitude, x.BuffBound.AudioFileOutput.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude   (x.BuffBound.Buff           ));
+            AreEqual(maxAmplitude, MaxAmplitude   (x.BuffBound.AudioFileOutput));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.BuffBound.Buff           ));
+            AreEqual(maxAmplitude, GetMaxAmplitude(x.BuffBound.AudioFileOutput));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (x.BuffBound.Buff           ));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (x.BuffBound.AudioFileOutput));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(x.BuffBound.Buff           ));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(x.BuffBound.AudioFileOutput));
         }
         
         private void Assert_Independent_Getters(Sample sample, int maxAmplitude)
         {
-            IsNotNull(             () => sample);
-            AreEqual(maxAmplitude, () => sample.MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => sample.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude   (sample));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(sample));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (sample));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(sample));
+            IsNotNull(             sample);
+            AreEqual(maxAmplitude, sample.MaxAmplitude   ());
+            AreEqual(maxAmplitude, sample.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude   (sample));
+            AreEqual(maxAmplitude, GetMaxAmplitude(sample));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (sample));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(sample));
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int maxAmplitude)
         {
-            IsNotNull(             () => audioInfoWish);
-            AreEqual(maxAmplitude, () => audioInfoWish.MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => audioInfoWish.ToMaxAmplitude ());
-            AreEqual(maxAmplitude, () => audioInfoWish.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude   (audioInfoWish));
-            AreEqual(maxAmplitude, () => ToMaxAmplitude (audioInfoWish));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(audioInfoWish));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (audioInfoWish));
-            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude (audioInfoWish));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(audioInfoWish));
+            IsNotNull(             audioInfoWish);
+            AreEqual(maxAmplitude, audioInfoWish.MaxAmplitude   ());
+            AreEqual(maxAmplitude, audioInfoWish.ToMaxAmplitude ());
+            AreEqual(maxAmplitude, audioInfoWish.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude   (audioInfoWish));
+            AreEqual(maxAmplitude, ToMaxAmplitude (audioInfoWish));
+            AreEqual(maxAmplitude, GetMaxAmplitude(audioInfoWish));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (audioInfoWish));
+            AreEqual(maxAmplitude, ConfigWishes.ToMaxAmplitude (audioInfoWish));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(audioInfoWish));
         }
         
         void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int maxAmplitude)
         {
-            IsNotNull(             () => audioFileInfo);
-            AreEqual(maxAmplitude, () => audioFileInfo.MaxAmplitude   ());
-            AreEqual(maxAmplitude, () => audioFileInfo.ToMaxAmplitude ());
-            AreEqual(maxAmplitude, () => audioFileInfo.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude   (audioFileInfo));
-            AreEqual(maxAmplitude, () => ToMaxAmplitude (audioFileInfo));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(audioFileInfo));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude   (audioFileInfo));
-            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude (audioFileInfo));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(audioFileInfo));
+            IsNotNull(             audioFileInfo);
+            AreEqual(maxAmplitude, audioFileInfo.MaxAmplitude   ());
+            AreEqual(maxAmplitude, audioFileInfo.ToMaxAmplitude ());
+            AreEqual(maxAmplitude, audioFileInfo.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude   (audioFileInfo));
+            AreEqual(maxAmplitude, ToMaxAmplitude (audioFileInfo));
+            AreEqual(maxAmplitude, GetMaxAmplitude(audioFileInfo));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude   (audioFileInfo));
+            AreEqual(maxAmplitude, ConfigWishes.ToMaxAmplitude (audioFileInfo));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(audioFileInfo));
         }
         
         void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int maxAmplitude)
         {
-            AreEqual(maxAmplitude, () => wavHeader.MaxAmplitude());
-            AreEqual(maxAmplitude, () => wavHeader.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude(wavHeader));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(wavHeader));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(wavHeader));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(wavHeader));
+            AreEqual(maxAmplitude, wavHeader.MaxAmplitude());
+            AreEqual(maxAmplitude, wavHeader.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude(wavHeader));
+            AreEqual(maxAmplitude, GetMaxAmplitude(wavHeader));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude(wavHeader));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(wavHeader));
         }
         
         private void Assert_Immutable_Getters(SampleDataTypeEnum sampleDataTypeEnum, int maxAmplitude)
         {
-            AreEqual(maxAmplitude, () => sampleDataTypeEnum.MaxAmplitude());
-            AreEqual(maxAmplitude, () => sampleDataTypeEnum.ToMaxAmplitude());
-            AreEqual(maxAmplitude, () => sampleDataTypeEnum.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude(sampleDataTypeEnum));
-            AreEqual(maxAmplitude, () => ToMaxAmplitude(sampleDataTypeEnum));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(sampleDataTypeEnum));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(sampleDataTypeEnum));
-            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude(sampleDataTypeEnum));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(sampleDataTypeEnum));
+            AreEqual(maxAmplitude, sampleDataTypeEnum.MaxAmplitude());
+            AreEqual(maxAmplitude, sampleDataTypeEnum.ToMaxAmplitude());
+            AreEqual(maxAmplitude, sampleDataTypeEnum.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude(sampleDataTypeEnum));
+            AreEqual(maxAmplitude, ToMaxAmplitude(sampleDataTypeEnum));
+            AreEqual(maxAmplitude, GetMaxAmplitude(sampleDataTypeEnum));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude(sampleDataTypeEnum));
+            AreEqual(maxAmplitude, ConfigWishes.ToMaxAmplitude(sampleDataTypeEnum));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(sampleDataTypeEnum));
         }
         
         private void Assert_Immutable_Getters(SampleDataType sampleDataType, int maxAmplitude)
         {
-            IsNotNull(             () => sampleDataType);
-            AreEqual(maxAmplitude, () => sampleDataType.MaxAmplitude());
-            AreEqual(maxAmplitude, () => sampleDataType.ToMaxAmplitude());
-            AreEqual(maxAmplitude, () => sampleDataType.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude(sampleDataType));
-            AreEqual(maxAmplitude, () => ToMaxAmplitude(sampleDataType));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(sampleDataType));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(sampleDataType));
-            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude(sampleDataType));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(sampleDataType));
+            IsNotNull(             sampleDataType);
+            AreEqual(maxAmplitude, sampleDataType.MaxAmplitude());
+            AreEqual(maxAmplitude, sampleDataType.ToMaxAmplitude());
+            AreEqual(maxAmplitude, sampleDataType.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude(sampleDataType));
+            AreEqual(maxAmplitude, ToMaxAmplitude(sampleDataType));
+            AreEqual(maxAmplitude, GetMaxAmplitude(sampleDataType));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude(sampleDataType));
+            AreEqual(maxAmplitude, ConfigWishes.ToMaxAmplitude(sampleDataType));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(sampleDataType));
         }
         
         private void Assert_Immutable_Getters(int bits, int maxAmplitude)
         {
-            AreEqual(maxAmplitude, () => bits.MaxAmplitude());
-            AreEqual(maxAmplitude, () => bits.ToMaxAmplitude());
-            AreEqual(maxAmplitude, () => bits.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude(bits));
-            AreEqual(maxAmplitude, () => ToMaxAmplitude(bits));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(bits));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(bits));
-            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude(bits));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(bits));
+            AreEqual(maxAmplitude, bits.MaxAmplitude());
+            AreEqual(maxAmplitude, bits.ToMaxAmplitude());
+            AreEqual(maxAmplitude, bits.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude(bits));
+            AreEqual(maxAmplitude, ToMaxAmplitude(bits));
+            AreEqual(maxAmplitude, GetMaxAmplitude(bits));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude(bits));
+            AreEqual(maxAmplitude, ConfigWishes.ToMaxAmplitude(bits));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(bits));
 
             int? nullyBits = bits;
-            AreEqual(maxAmplitude, () => nullyBits.MaxAmplitude());
-            AreEqual(maxAmplitude, () => nullyBits.ToMaxAmplitude());
-            AreEqual(maxAmplitude, () => nullyBits.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude(nullyBits));
-            AreEqual(maxAmplitude, () => ToMaxAmplitude(nullyBits));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(nullyBits));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(nullyBits));
-            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude(nullyBits));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, nullyBits.MaxAmplitude());
+            AreEqual(maxAmplitude, nullyBits.ToMaxAmplitude());
+            AreEqual(maxAmplitude, nullyBits.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, ToMaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, GetMaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, ConfigWishes.ToMaxAmplitude(nullyBits));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(nullyBits));
 
             nullyBits = null;
-            IsNull(() => nullyBits.MaxAmplitude());
-            IsNull(() => nullyBits.ToMaxAmplitude());
-            IsNull(() => nullyBits.GetMaxAmplitude());
-            IsNull(() => MaxAmplitude(nullyBits));
-            IsNull(() => ToMaxAmplitude(nullyBits));
-            IsNull(() => GetMaxAmplitude(nullyBits));
-            IsNull(() => ConfigWishes.MaxAmplitude(nullyBits));
-            IsNull(() => ConfigWishes.ToMaxAmplitude(nullyBits));
-            IsNull(() => ConfigWishes.GetMaxAmplitude(nullyBits));
+            IsNull(nullyBits.MaxAmplitude());
+            IsNull(nullyBits.ToMaxAmplitude());
+            IsNull(nullyBits.GetMaxAmplitude());
+            IsNull(MaxAmplitude(nullyBits));
+            IsNull(ToMaxAmplitude(nullyBits));
+            IsNull(GetMaxAmplitude(nullyBits));
+            IsNull(ConfigWishes.MaxAmplitude(nullyBits));
+            IsNull(ConfigWishes.ToMaxAmplitude(nullyBits));
+            IsNull(ConfigWishes.GetMaxAmplitude(nullyBits));
 
             nullyBits = 0;
-            AreEqual(0, () => nullyBits.MaxAmplitude());
-            AreEqual(0, () => nullyBits.ToMaxAmplitude());
-            AreEqual(0, () => nullyBits.GetMaxAmplitude());
-            AreEqual(0, () => MaxAmplitude(nullyBits));
-            AreEqual(0, () => ToMaxAmplitude(nullyBits));
-            AreEqual(0, () => GetMaxAmplitude(nullyBits));
-            AreEqual(0, () => ConfigWishes.MaxAmplitude(nullyBits));
-            AreEqual(0, () => ConfigWishes.ToMaxAmplitude(nullyBits));
-            AreEqual(0, () => ConfigWishes.GetMaxAmplitude(nullyBits));
+            AreEqual(0, nullyBits.MaxAmplitude());
+            AreEqual(0, nullyBits.ToMaxAmplitude());
+            AreEqual(0, nullyBits.GetMaxAmplitude());
+            AreEqual(0, MaxAmplitude(nullyBits));
+            AreEqual(0, ToMaxAmplitude(nullyBits));
+            AreEqual(0, GetMaxAmplitude(nullyBits));
+            AreEqual(0, ConfigWishes.MaxAmplitude(nullyBits));
+            AreEqual(0, ConfigWishes.ToMaxAmplitude(nullyBits));
+            AreEqual(0, ConfigWishes.GetMaxAmplitude(nullyBits));
         }
 
         private void Assert_Immutable_Getters(Type type, int maxAmplitude)
         {
-            IsNotNull(             () => type);
-            AreEqual(maxAmplitude, () => type.MaxAmplitude());
-            AreEqual(maxAmplitude, () => type.ToMaxAmplitude());
-            AreEqual(maxAmplitude, () => type.GetMaxAmplitude());
-            AreEqual(maxAmplitude, () => MaxAmplitude(type));
-            AreEqual(maxAmplitude, () => ToMaxAmplitude(type));
-            AreEqual(maxAmplitude, () => GetMaxAmplitude(type));
-            AreEqual(maxAmplitude, () => ConfigWishes.MaxAmplitude(type));
-            AreEqual(maxAmplitude, () => ConfigWishes.ToMaxAmplitude(type));
-            AreEqual(maxAmplitude, () => ConfigWishes.GetMaxAmplitude(type));
+            IsNotNull(             type);
+            AreEqual(maxAmplitude, type.MaxAmplitude());
+            AreEqual(maxAmplitude, type.ToMaxAmplitude());
+            AreEqual(maxAmplitude, type.GetMaxAmplitude());
+            AreEqual(maxAmplitude, MaxAmplitude(type));
+            AreEqual(maxAmplitude, ToMaxAmplitude(type));
+            AreEqual(maxAmplitude, GetMaxAmplitude(type));
+            AreEqual(maxAmplitude, ConfigWishes.MaxAmplitude(type));
+            AreEqual(maxAmplitude, ConfigWishes.ToMaxAmplitude(type));
+            AreEqual(maxAmplitude, ConfigWishes.GetMaxAmplitude(type));
         }
         
          // Test Data Helpers

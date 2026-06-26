@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Math;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
 using static JJ.Framework.Existence.Core.FilledInHelper;
@@ -99,43 +98,43 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x =>                                         x.TapeBound.Tape       .Duration = value);
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .AudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .AudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.AudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .AudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .WithAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetAudioLength(value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => AudioLength    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => AudioLength    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => AudioLength    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => AudioLength    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => WithAudioLength(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => WithAudioLength(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => WithAudioLength(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => WithAudioLength(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SetAudioLength (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SetAudioLength (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SetAudioLength (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SetAudioLength (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.AudioLength    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.AudioLength    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.AudioLength    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.AudioLength    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.WithAudioLength(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.WithAudioLength(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.WithAudioLength(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.WithAudioLength(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SetAudioLength (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetAudioLength (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetAudioLength (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetAudioLength (x.TapeBound.TapeAction , value)));
+            AssertProp(x =>                                   x.TapeBound.Tape       .Duration = value);
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .AudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .AudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.AudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .AudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .WithAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .WithAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.WithAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .WithAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .SetAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .SetAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.SetAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .SetAudioLength(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        AudioLength    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  AudioLength    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, AudioLength    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  AudioLength    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        WithAudioLength(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  WithAudioLength(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, WithAudioLength(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  WithAudioLength(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        SetAudioLength (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  SetAudioLength (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, SetAudioLength (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  SetAudioLength (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.AudioLength    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.AudioLength    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.AudioLength    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.AudioLength    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.WithAudioLength(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.WithAudioLength(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.WithAudioLength(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.WithAudioLength(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.SetAudioLength (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.SetAudioLength (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.SetAudioLength (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.SetAudioLength (x.TapeBound.TapeAction , value)));
         }
 
         [TestMethod] 
@@ -160,25 +159,25 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init);
             }
 
-            AssertProp(x =>                                             x.BuffBound.AudioFileOutput.Duration = value);
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .AudioLength    (value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.AudioLength    (value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .WithAudioLength(value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithAudioLength(value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetAudioLength (value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetAudioLength (value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => AudioLength    (x.BuffBound.Buff           , value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => AudioLength    (x.BuffBound.AudioFileOutput, value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => WithAudioLength(x.BuffBound.Buff           , value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => WithAudioLength(x.BuffBound.AudioFileOutput, value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => SetAudioLength (x.BuffBound.Buff           , value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => SetAudioLength (x.BuffBound.AudioFileOutput, value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.AudioLength    (x.BuffBound.Buff           , value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.AudioLength    (x.BuffBound.AudioFileOutput, value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.WithAudioLength(x.BuffBound.Buff           , value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.WithAudioLength(x.BuffBound.AudioFileOutput, value)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SetAudioLength (x.BuffBound.Buff           , value)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SetAudioLength (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x =>                                       x.BuffBound.AudioFileOutput.Duration = value);
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .AudioLength    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.AudioLength    (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .WithAudioLength(value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithAudioLength(value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .SetAudioLength (value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetAudioLength (value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            AudioLength    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, AudioLength    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            WithAudioLength(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithAudioLength(x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            SetAudioLength (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetAudioLength (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            ConfigWishes.AudioLength    (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.AudioLength    (x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            ConfigWishes.WithAudioLength(x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithAudioLength(x.BuffBound.AudioFileOutput, value)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            ConfigWishes.SetAudioLength (x.BuffBound.Buff           , value)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetAudioLength (x.BuffBound.AudioFileOutput, value)));
         }
         
         [TestMethod]
@@ -209,15 +208,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.AudioLength    (value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithAudioLength(value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetAudioLength (value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => AudioLength    (x.Independent.Sample, value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => WithAudioLength(x.Independent.Sample, value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => SetAudioLength (x.Independent.Sample, value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.AudioLength    (x.Independent.Sample, value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.WithAudioLength(x.Independent.Sample, value)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SetAudioLength (x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.AudioLength    (value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.WithAudioLength(value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.SetAudioLength (value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, AudioLength    (x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, WithAudioLength(x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, SetAudioLength (x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, ConfigWishes.AudioLength    (x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, ConfigWishes.WithAudioLength(x.Independent.Sample, value)));
+                AssertProp(() => AreEqual(x.Independent.Sample, ConfigWishes.SetAudioLength (x.Independent.Sample, value)));
             }
             
             // AudioInfoWish
@@ -242,15 +241,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.AudioLength    (value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.WithAudioLength(value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SetAudioLength (value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => AudioLength    (x.Independent.AudioInfoWish, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => WithAudioLength(x.Independent.AudioInfoWish, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => SetAudioLength (x.Independent.AudioInfoWish, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.AudioLength    (x.Independent.AudioInfoWish, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.WithAudioLength(x.Independent.AudioInfoWish, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, () => ConfigWishes.SetAudioLength (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.AudioLength    (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.WithAudioLength(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.SetAudioLength (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, AudioLength    (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, WithAudioLength(x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, SetAudioLength (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, ConfigWishes.AudioLength    (x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, ConfigWishes.WithAudioLength(x.Independent.AudioInfoWish, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioInfoWish, ConfigWishes.SetAudioLength (x.Independent.AudioInfoWish, value)));
             }
                         
             // AudioFileInfo
@@ -275,15 +274,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.AudioLength    (value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.WithAudioLength(value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SetAudioLength (value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => AudioLength    (x.Independent.AudioFileInfo, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => WithAudioLength(x.Independent.AudioFileInfo, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => SetAudioLength (x.Independent.AudioFileInfo, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.AudioLength    (x.Independent.AudioFileInfo, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.WithAudioLength(x.Independent.AudioFileInfo, value)));
-                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, () => ConfigWishes.SetAudioLength (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.AudioLength    (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.WithAudioLength(value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.SetAudioLength (value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, AudioLength    (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, WithAudioLength(x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, SetAudioLength (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, ConfigWishes.AudioLength    (x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, ConfigWishes.WithAudioLength(x.Independent.AudioFileInfo, value)));
+                AssertProp(() => AreEqual(x.Independent.AudioFileInfo, ConfigWishes.SetAudioLength (x.Independent.AudioFileInfo, value)));
             }
         }
         
@@ -335,19 +334,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             // Get-only.
             var configSection = CreateTestEntities().SynthBound.ConfigSection;
-            AreEqual(DefaultAudioLength, () => configSection.AudioLength);
-            AreEqual(DefaultAudioLength, () => configSection.AudioLength());
-            AreEqual(DefaultAudioLength, () => configSection.GetAudioLength());
-            AreEqual(DefaultAudioLength, () => AudioLength(configSection));
-            AreEqual(DefaultAudioLength, () => GetAudioLength(configSection));
-            AreEqual(DefaultAudioLength, () => ConfigWishesAccessor.AudioLength(configSection));
-            AreEqual(DefaultAudioLength, () => ConfigWishesAccessor.GetAudioLength(configSection));
+            AreEqual(DefaultAudioLength, configSection.AudioLength);
+            AreEqual(DefaultAudioLength, configSection.AudioLength());
+            AreEqual(DefaultAudioLength, configSection.GetAudioLength());
+            AreEqual(DefaultAudioLength, AudioLength(configSection));
+            AreEqual(DefaultAudioLength, GetAudioLength(configSection));
+            AreEqual(DefaultAudioLength, ConfigWishesAccessor.AudioLength(configSection));
+            AreEqual(DefaultAudioLength, ConfigWishesAccessor.GetAudioLength(configSection));
         }
 
         [TestMethod]
         public void Default_AudioLength()
         {
-            AreEqual(1, () => DefaultAudioLength);
+            AreEqual(1, DefaultAudioLength);
         }
 
         // Getter Helpers
@@ -381,70 +380,70 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, double audioLength)
         {
-            AreEqual(audioLength, () => x.SynthBound.SynthWishes   .AudioLength   ().Value);
-            AreEqual(audioLength, () => x.SynthBound.FlowNode      .AudioLength   ().Value);
-            AreEqual(audioLength, () => x.SynthBound.ConfigResolver.AudioLength   (x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => x.SynthBound.SynthWishes   .GetAudioLength().Value);
-            AreEqual(audioLength, () => x.SynthBound.FlowNode      .GetAudioLength().Value);
-            AreEqual(audioLength, () => x.SynthBound.ConfigResolver.GetAudioLength(x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => AudioLength   (x.SynthBound.SynthWishes   ).Value);
-            AreEqual(audioLength, () => AudioLength   (x.SynthBound.FlowNode      ).Value);
-            AreEqual(audioLength, () => AudioLength   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => GetAudioLength(x.SynthBound.SynthWishes   ).Value);
-            AreEqual(audioLength, () => GetAudioLength(x.SynthBound.FlowNode      ).Value);
-            AreEqual(audioLength, () => GetAudioLength(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => ConfigWishes        .AudioLength   (x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => ConfigWishes        .AudioLength   (x.SynthBound.FlowNode   ).Value);
-            AreEqual(audioLength, () => ConfigWishesAccessor.AudioLength   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => ConfigWishes        .GetAudioLength(x.SynthBound.SynthWishes).Value);
-            AreEqual(audioLength, () => ConfigWishes        .GetAudioLength(x.SynthBound.FlowNode   ).Value);
-            AreEqual(audioLength, () => ConfigWishesAccessor.GetAudioLength(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, x.SynthBound.SynthWishes   .AudioLength   ().Value);
+            AreEqual(audioLength, x.SynthBound.FlowNode      .AudioLength   ().Value);
+            AreEqual(audioLength, x.SynthBound.ConfigResolver.AudioLength   (x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, x.SynthBound.SynthWishes   .GetAudioLength().Value);
+            AreEqual(audioLength, x.SynthBound.FlowNode      .GetAudioLength().Value);
+            AreEqual(audioLength, x.SynthBound.ConfigResolver.GetAudioLength(x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, AudioLength   (x.SynthBound.SynthWishes   ).Value);
+            AreEqual(audioLength, AudioLength   (x.SynthBound.FlowNode      ).Value);
+            AreEqual(audioLength, AudioLength   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, GetAudioLength(x.SynthBound.SynthWishes   ).Value);
+            AreEqual(audioLength, GetAudioLength(x.SynthBound.FlowNode      ).Value);
+            AreEqual(audioLength, GetAudioLength(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, ConfigWishes        .AudioLength   (x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, ConfigWishes        .AudioLength   (x.SynthBound.FlowNode   ).Value);
+            AreEqual(audioLength, ConfigWishesAccessor.AudioLength   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, ConfigWishes        .GetAudioLength(x.SynthBound.SynthWishes).Value);
+            AreEqual(audioLength, ConfigWishes        .GetAudioLength(x.SynthBound.FlowNode   ).Value);
+            AreEqual(audioLength, ConfigWishesAccessor.GetAudioLength(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes).Value);
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, double audioLength)
         {
-            AreEqual(audioLength, () => x.TapeBound.Tape.Duration);
-            AreEqual(audioLength, () => x.TapeBound.Tape       .AudioLength   ());
-            AreEqual(audioLength, () => x.TapeBound.TapeConfig .AudioLength   ());
-            AreEqual(audioLength, () => x.TapeBound.TapeActions.AudioLength   ());
-            AreEqual(audioLength, () => x.TapeBound.TapeAction .AudioLength   ());
-            AreEqual(audioLength, () => x.TapeBound.Tape       .GetAudioLength());
-            AreEqual(audioLength, () => x.TapeBound.TapeConfig .GetAudioLength());
-            AreEqual(audioLength, () => x.TapeBound.TapeActions.GetAudioLength());
-            AreEqual(audioLength, () => x.TapeBound.TapeAction .GetAudioLength());
-            AreEqual(audioLength, () => AudioLength   (x.TapeBound.Tape       ));
-            AreEqual(audioLength, () => AudioLength   (x.TapeBound.TapeConfig ));
-            AreEqual(audioLength, () => AudioLength   (x.TapeBound.TapeActions));
-            AreEqual(audioLength, () => AudioLength   (x.TapeBound.TapeAction ));
-            AreEqual(audioLength, () => GetAudioLength(x.TapeBound.Tape       ));
-            AreEqual(audioLength, () => GetAudioLength(x.TapeBound.TapeConfig ));
-            AreEqual(audioLength, () => GetAudioLength(x.TapeBound.TapeActions));
-            AreEqual(audioLength, () => GetAudioLength(x.TapeBound.TapeAction ));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.TapeBound.Tape       ));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.TapeBound.TapeConfig ));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.TapeBound.TapeActions));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.TapeBound.TapeAction ));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.TapeBound.Tape       ));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.TapeBound.TapeConfig ));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.TapeBound.TapeActions));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.TapeBound.TapeAction ));
+            AreEqual(audioLength, x.TapeBound.Tape.Duration);
+            AreEqual(audioLength, x.TapeBound.Tape       .AudioLength   ());
+            AreEqual(audioLength, x.TapeBound.TapeConfig .AudioLength   ());
+            AreEqual(audioLength, x.TapeBound.TapeActions.AudioLength   ());
+            AreEqual(audioLength, x.TapeBound.TapeAction .AudioLength   ());
+            AreEqual(audioLength, x.TapeBound.Tape       .GetAudioLength());
+            AreEqual(audioLength, x.TapeBound.TapeConfig .GetAudioLength());
+            AreEqual(audioLength, x.TapeBound.TapeActions.GetAudioLength());
+            AreEqual(audioLength, x.TapeBound.TapeAction .GetAudioLength());
+            AreEqual(audioLength, AudioLength   (x.TapeBound.Tape       ));
+            AreEqual(audioLength, AudioLength   (x.TapeBound.TapeConfig ));
+            AreEqual(audioLength, AudioLength   (x.TapeBound.TapeActions));
+            AreEqual(audioLength, AudioLength   (x.TapeBound.TapeAction ));
+            AreEqual(audioLength, GetAudioLength(x.TapeBound.Tape       ));
+            AreEqual(audioLength, GetAudioLength(x.TapeBound.TapeConfig ));
+            AreEqual(audioLength, GetAudioLength(x.TapeBound.TapeActions));
+            AreEqual(audioLength, GetAudioLength(x.TapeBound.TapeAction ));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (x.TapeBound.Tape       ));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (x.TapeBound.TapeConfig ));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (x.TapeBound.TapeActions));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (x.TapeBound.TapeAction ));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(x.TapeBound.Tape       ));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(x.TapeBound.TapeConfig ));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(x.TapeBound.TapeActions));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(x.TapeBound.TapeAction ));
         }
         
         private void Assert_BuffBound_Getters(TestEntities x, double audioLength)
         {
-            AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.Duration);
-            AreEqual(audioLength, () => x.BuffBound.Buff           .AudioLength());
-            AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.AudioLength());
-            AreEqual(audioLength, () => x.BuffBound.Buff           .GetAudioLength());
-            AreEqual(audioLength, () => x.BuffBound.AudioFileOutput.GetAudioLength());
-            AreEqual(audioLength, () => AudioLength   (x.BuffBound.Buff));
-            AreEqual(audioLength, () => AudioLength   (x.BuffBound.AudioFileOutput));
-            AreEqual(audioLength, () => GetAudioLength(x.BuffBound.Buff));
-            AreEqual(audioLength, () => GetAudioLength(x.BuffBound.AudioFileOutput));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.BuffBound.Buff));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (x.BuffBound.AudioFileOutput));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.BuffBound.Buff));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(x.BuffBound.AudioFileOutput));
+            AreEqual(audioLength, x.BuffBound.AudioFileOutput.Duration);
+            AreEqual(audioLength, x.BuffBound.Buff           .AudioLength());
+            AreEqual(audioLength, x.BuffBound.AudioFileOutput.AudioLength());
+            AreEqual(audioLength, x.BuffBound.Buff           .GetAudioLength());
+            AreEqual(audioLength, x.BuffBound.AudioFileOutput.GetAudioLength());
+            AreEqual(audioLength, AudioLength   (x.BuffBound.Buff));
+            AreEqual(audioLength, AudioLength   (x.BuffBound.AudioFileOutput));
+            AreEqual(audioLength, GetAudioLength(x.BuffBound.Buff));
+            AreEqual(audioLength, GetAudioLength(x.BuffBound.AudioFileOutput));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (x.BuffBound.Buff));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (x.BuffBound.AudioFileOutput));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(x.BuffBound.Buff));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(x.BuffBound.AudioFileOutput));
         }
 
         private void Assert_Independent_Getters(Sample sample, double audioLength)
@@ -469,8 +468,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength)
         {
-            AreEqual(audioLength, audioInfoWish.AudioLength   (),                ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, audioInfoWish.GetAudioLength(),                ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioInfoWish.AudioLength   (),              ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioInfoWish.GetAudioLength(),              ToleranceByPercent(audioLength, _tolerancePercent));
             AreEqual(audioLength, AudioLength                 (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
             AreEqual(audioLength, GetAudioLength              (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
             AreEqual(audioLength, ConfigWishes.AudioLength    (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
@@ -479,8 +478,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, double audioLength)
         {
-            AreEqual(audioLength, wavHeader.AudioLength      (),            ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, wavHeader.GetAudioLength   (),            ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, wavHeader.AudioLength      (),          ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, wavHeader.GetAudioLength   (),          ToleranceByPercent(audioLength, _tolerancePercent));
             AreEqual(audioLength, AudioLength                (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
             AreEqual(audioLength, GetAudioLength             (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
             AreEqual(audioLength, ConfigWishes.AudioLength   (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));

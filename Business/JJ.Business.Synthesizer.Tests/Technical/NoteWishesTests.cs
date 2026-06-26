@@ -2,7 +2,6 @@
 using JJ.Business.Synthesizer.Wishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Tests.docs;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 
 // ReSharper disable ParameterHidesMember
@@ -74,9 +73,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Default (from config or hard-coded)
             IsNotNull(GetBeatLength);
-            IsTrue(() => GetBeatLength.IsConst);
+            IsTrue(GetBeatLength.IsConst);
             IsNotNull(GetBeatLength.AsConst);
-            AreEqual(0.25, () => GetBeatLength.AsConst.Value);
+            AreEqual(0.25, GetBeatLength.AsConst.Value);
         }
         
         [TestMethod] public void BeatLength_From_BarLength_Test() => Run(BeatLength_From_BarLength);
@@ -85,8 +84,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // 1/4 BarLength
             WithBarLength(Curve(2));
             IsNotNull(GetBeatLength);
-            IsFalse(() => GetBeatLength.IsConst);
-            AreEqual(0.5, () => GetBeatLength.Value); // 1/4 * 2.0 = 0.5.
+            IsFalse(GetBeatLength.IsConst);
+            AreEqual(0.5, GetBeatLength.Value); // 1/4 * 2.0 = 0.5.
         }
         
         [TestMethod] public void BeatLength_Explicit_Test() => Run(BeatLength_Explicit);
@@ -94,9 +93,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithBeatLength(0.3);
             IsNotNull(GetBeatLength);
-            IsTrue(() => GetBeatLength.IsConst);
+            IsTrue(GetBeatLength.IsConst);
             IsNotNull(GetBeatLength.AsConst);
-            AreEqual(0.3, () => GetBeatLength.AsConst.Value);
+            AreEqual(0.3, GetBeatLength.AsConst.Value);
         }
         
         [TestMethod] public void BeatLength_Dynamic_From_BarLength_Test() => Run(BeatLength_Dynamic_From_BarLength);
@@ -105,8 +104,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Dynamic 1/4 BarLength
             WithBarLength(Curve(0, 4));
             IsNotNull(GetBeatLength);
-            IsFalse(() => GetBeatLength.IsConst);
-            AreEqual(0.5, () => GetBeatLength.Calculate(0.5)); // 1/4 * midpoint of 2.0
+            IsFalse(GetBeatLength.IsConst);
+            AreEqual(0.5, GetBeatLength.Calculate(0.5)); // 1/4 * midpoint of 2.0
         }
         
         [TestMethod] public void BeatLength_Dynamic_Explicit_Test() => Run(BeatLength_Dynamic_Explicit);
@@ -114,8 +113,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             WithBeatLength(Curve(0, 0.3));
             IsNotNull(GetBeatLength);
-            IsFalse(() => GetBeatLength.IsConst);
-            AreEqual(0.15, () => GetBeatLength.Calculate(0.5)); // Midpoint: 0.15
+            IsFalse(GetBeatLength.IsConst);
+            AreEqual(0.15, GetBeatLength.Calculate(0.5)); // Midpoint: 0.15
         }
         
         // Note Length
@@ -142,28 +141,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // NoteLength from config file / hard-coded default
             {
-                AreEqual(0.2, () => GetNoteLength().Value);
+                AreEqual(0.2, GetNoteLength().Value);
                 Save(Note(instrument(C4), time, volume)).Play();
             }
             
             // WithNoteLength
             {
                 WithNoteLength(0.33);
-                AreEqual(0.33, () => GetNoteLength().Value);
+                AreEqual(0.33, GetNoteLength().Value);
                 Save(Note(instrument(D4), time, volume)).Play();
             }
             
             // ResetNoteLength() => defaults to config file or hard-coded default
             {
                 ResetNoteLength();
-                AreEqual(0.2, () => GetNoteLength().Value);
+                AreEqual(0.2, GetNoteLength().Value);
                 Save(Note(instrument(E4), time, volume)).Play();
             }
             
             // Dynamic NoteLength explicitly set
             {
                 WithNoteLength(Curve(0.75, 1.5));
-                AreEqual(1.125, () => GetNoteLengthSnapShot(0.5).Value);
+                AreEqual(1.125, GetNoteLengthSnapShot(0.5).Value);
                 Save(Note(instrument(F4), time, volume)).Play();
             }
             
@@ -171,7 +170,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             {
                 ResetNoteLength();
                 WithBeatLength(1);
-                AreEqual(1, () => GetNoteLength().Value);
+                AreEqual(1, GetNoteLength().Value);
                 Save(Note(instrument(G4), time, volume)).Play();
             }
             

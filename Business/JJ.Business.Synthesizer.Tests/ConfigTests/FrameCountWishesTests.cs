@@ -5,7 +5,6 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using static System.Array;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntityEnum;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertHelperLegacy;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
@@ -494,42 +493,42 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init, test.CourtesyFrames.Init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .FrameCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .FrameCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.FrameCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .FrameCount    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithFrameCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithFrameCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithFrameCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .WithFrameCount(value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetFrameCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetFrameCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetFrameCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetFrameCount (value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => FrameCount    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => FrameCount    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => FrameCount    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => FrameCount    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => WithFrameCount(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => WithFrameCount(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => WithFrameCount(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => WithFrameCount(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SetFrameCount (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SetFrameCount (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SetFrameCount (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SetFrameCount (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.FrameCount    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.FrameCount    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.FrameCount    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.FrameCount    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.WithFrameCount(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.WithFrameCount(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.WithFrameCount(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.WithFrameCount(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SetFrameCount (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetFrameCount (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetFrameCount (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetFrameCount (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .FrameCount    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .FrameCount    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.FrameCount    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .FrameCount    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .WithFrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .WithFrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.WithFrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .WithFrameCount(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .SetFrameCount (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .SetFrameCount (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.SetFrameCount (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .SetFrameCount (value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        FrameCount    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  FrameCount    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, FrameCount    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  FrameCount    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        WithFrameCount(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  WithFrameCount(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, WithFrameCount(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  WithFrameCount(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        SetFrameCount (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  SetFrameCount (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, SetFrameCount (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  SetFrameCount (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.FrameCount    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.FrameCount    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.FrameCount    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.FrameCount    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.WithFrameCount(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.WithFrameCount(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.WithFrameCount(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.WithFrameCount(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.SetFrameCount (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.SetFrameCount (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.SetFrameCount (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.SetFrameCount (x.TapeBound.TapeAction , value)));
             
             if (test.AudioLength   .Changed) AssertProp(x => x.TapeBound.Tape      .Duration       = test.AudioLength);
             if (test.SamplingRate  .Changed) AssertProp(x => x.TapeBound.TapeConfig.SamplingRate   = test.SamplingRate);
@@ -641,19 +640,19 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init, test.PlusFrames.Init);
             }
             
-            AssertProp(ForAudioInfoWish, x =>                                             x.Independent.AudioInfoWish.FrameCount = value);
-            AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.FrameCount(value)));
-            AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.WithFrameCount(value)));
-            AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, () => x.Independent.AudioInfoWish.SetFrameCount(value)));
+            AssertProp(ForAudioInfoWish, x =>                                       x.Independent.AudioInfoWish.FrameCount = value);
+            AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.FrameCount(value)));
+            AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.WithFrameCount(value)));
+            AssertProp(ForAudioInfoWish, x => AreEqual(x.Independent.AudioInfoWish, x.Independent.AudioInfoWish.SetFrameCount(value)));
             if (test.AudioLength.Changed)
             {
                 AssertProp(ForAudioInfoWish, x => x.Independent.AudioInfoWish.SetAudioLength(test.AudioLength));
             }
             
-            AssertProp(ForAudioFileInfo, x =>                                             x.Independent.AudioFileInfo.SampleCount = value);
-            AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.FrameCount(value)));
-            AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.WithFrameCount(value)));
-            AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, () => x.Independent.AudioFileInfo.SetFrameCount(value)));
+            AssertProp(ForAudioFileInfo, x =>                                       x.Independent.AudioFileInfo.SampleCount = value);
+            AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.FrameCount(value)));
+            AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.WithFrameCount(value)));
+            AssertProp(ForAudioFileInfo, x => AreEqual(x.Independent.AudioFileInfo, x.Independent.AudioFileInfo.SetFrameCount(value)));
             if (test.AudioLength.Changed)
             {
                 AssertProp(ForAudioFileInfo, x => x.Independent.AudioFileInfo.SetAudioLength(test.AudioLength));
@@ -715,14 +714,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             // Get-only
             var configSection = CreateTestEntities().SynthBound.ConfigSection;
-            AreEqual(DefaultFrameCount, () => configSection.FrameCount());
-            AreEqual(DefaultFrameCount, () => configSection.GetFrameCount());
+            AreEqual(DefaultFrameCount, configSection.FrameCount());
+            AreEqual(DefaultFrameCount, configSection.GetFrameCount());
         }
 
         [TestMethod]
         public void Default_FrameCount()
         {
-            AreEqual(DefaultAudioLength * DefaultSamplingRate, () => DefaultFrameCount);
+            AreEqual(DefaultAudioLength * DefaultSamplingRate, DefaultFrameCount);
         }
         
         [TestMethod]

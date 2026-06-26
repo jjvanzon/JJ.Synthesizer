@@ -5,7 +5,6 @@ using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 
 // ReSharper disable ArrangeStaticMemberQualifier
@@ -176,27 +175,27 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init.headerLength);
             }
 
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .HeaderLength    (val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.HeaderLength    (val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .WithHeaderLength(val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.WithHeaderLength(val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetHeaderLength (val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetHeaderLength (val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => HeaderLength    (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => HeaderLength    (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => WithHeaderLength(x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => WithHeaderLength(x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => SetHeaderLength (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => SetHeaderLength (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.HeaderLength    (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.HeaderLength    (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.WithHeaderLength(x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.WithHeaderLength(x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => ConfigWishes.SetHeaderLength (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => ConfigWishes.SetHeaderLength (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .HeaderLength    (val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.HeaderLength    (val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .WithHeaderLength(val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.WithHeaderLength(val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .SetHeaderLength (val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetHeaderLength (val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            HeaderLength    (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, HeaderLength    (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            WithHeaderLength(x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, WithHeaderLength(x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            SetHeaderLength (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, SetHeaderLength (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            ConfigWishes.HeaderLength    (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.HeaderLength    (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            ConfigWishes.WithHeaderLength(x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.WithHeaderLength(x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            ConfigWishes.SetHeaderLength (x.BuffBound.Buff           , val.headerLength, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, ConfigWishes.SetHeaderLength (x.BuffBound.AudioFileOutput, val.headerLength, x.SynthBound.Context)));
 
-            AssertProp(x => AreEqual(x.BuffBound.Buff,            () => x.BuffBound.Buff           .SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
-            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, () => x.BuffBound.AudioFileOutput.SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.Buff,            x.BuffBound.Buff           .SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
+            AssertProp(x => AreEqual(x.BuffBound.AudioFileOutput, x.BuffBound.AudioFileOutput.SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
         }
 
         [TestMethod]
@@ -227,17 +226,17 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                     Assert_All_Getters(x, init.headerLength);
                 }
 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.HeaderLength    (val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.WithHeaderLength(val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetHeaderLength (val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => HeaderLength    (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => WithHeaderLength(x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => SetHeaderLength (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.HeaderLength    (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.WithHeaderLength(x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
-                AssertProp(() => AreEqual(x.Independent.Sample, () => ConfigWishes.SetHeaderLength (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.HeaderLength    (val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.WithHeaderLength(val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.SetHeaderLength (val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, HeaderLength    (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, WithHeaderLength(x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, SetHeaderLength (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, ConfigWishes.HeaderLength    (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, ConfigWishes.WithHeaderLength(x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, ConfigWishes.SetHeaderLength (x.Independent.Sample, val.headerLength, x.SynthBound.Context)));
                 
-                AssertProp(() => AreEqual(x.Independent.Sample, () => x.Independent.Sample.SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
+                AssertProp(() => AreEqual(x.Independent.Sample, x.Independent.Sample.SetAudioFormat(val.audioFormat, x.SynthBound.Context)));
             }
         }
         
@@ -330,14 +329,14 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             // Immutable. Get-only.
             var x = CreateTestEntities(default);
-            AreEqual(DefaultHeaderLength, () => x.SynthBound.ConfigSection.HeaderLength());
-            AreEqual(DefaultHeaderLength, () => x.SynthBound.ConfigSection.GetHeaderLength());
+            AreEqual(DefaultHeaderLength, x.SynthBound.ConfigSection.HeaderLength());
+            AreEqual(DefaultHeaderLength, x.SynthBound.ConfigSection.GetHeaderLength());
         }
 
         [TestMethod] 
         public void Default_HeaderLength()
         {
-            AreEqual(44, () => DefaultHeaderLength);
+            AreEqual(44, DefaultHeaderLength);
         }
 
         // Getter Helpers
@@ -371,127 +370,127 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, int headerLength)
         {
-            AreEqual(headerLength, () => x.SynthBound.SynthWishes   .GetHeaderLength);
-            AreEqual(headerLength, () => x.SynthBound.FlowNode      .GetHeaderLength);
-            AreEqual(headerLength, () => x.SynthBound.SynthWishes   .GetHeaderLength());
-            AreEqual(headerLength, () => x.SynthBound.FlowNode      .GetHeaderLength());
-            AreEqual(headerLength, () => x.SynthBound.ConfigResolver.GetHeaderLength());
-            AreEqual(headerLength, () => x.SynthBound.SynthWishes   .HeaderLength   ());
-            AreEqual(headerLength, () => x.SynthBound.FlowNode      .HeaderLength   ());
-            AreEqual(headerLength, () => x.SynthBound.ConfigResolver.HeaderLength   ());
-            AreEqual(headerLength, () => GetHeaderLength(x.SynthBound.SynthWishes   ));
-            AreEqual(headerLength, () => GetHeaderLength(x.SynthBound.FlowNode      ));
-            AreEqual(headerLength, () => GetHeaderLength(x.SynthBound.ConfigResolver));
-            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.SynthWishes   ));
-            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.FlowNode      ));
-            AreEqual(headerLength, () => HeaderLength   (x.SynthBound.ConfigResolver));
-            AreEqual(headerLength, () => ConfigWishes        .GetHeaderLength(x.SynthBound.SynthWishes   ));
-            AreEqual(headerLength, () => ConfigWishes        .GetHeaderLength(x.SynthBound.FlowNode      ));
-            AreEqual(headerLength, () => ConfigWishesAccessor.GetHeaderLength(x.SynthBound.ConfigResolver));
-            AreEqual(headerLength, () => ConfigWishes        .HeaderLength   (x.SynthBound.SynthWishes   ));
-            AreEqual(headerLength, () => ConfigWishes        .HeaderLength   (x.SynthBound.FlowNode      ));
-            AreEqual(headerLength, () => ConfigWishesAccessor.HeaderLength   (x.SynthBound.ConfigResolver));
+            AreEqual(headerLength, x.SynthBound.SynthWishes   .GetHeaderLength);
+            AreEqual(headerLength, x.SynthBound.FlowNode      .GetHeaderLength);
+            AreEqual(headerLength, x.SynthBound.SynthWishes   .GetHeaderLength());
+            AreEqual(headerLength, x.SynthBound.FlowNode      .GetHeaderLength());
+            AreEqual(headerLength, x.SynthBound.ConfigResolver.GetHeaderLength());
+            AreEqual(headerLength, x.SynthBound.SynthWishes   .HeaderLength   ());
+            AreEqual(headerLength, x.SynthBound.FlowNode      .HeaderLength   ());
+            AreEqual(headerLength, x.SynthBound.ConfigResolver.HeaderLength   ());
+            AreEqual(headerLength, GetHeaderLength(x.SynthBound.SynthWishes   ));
+            AreEqual(headerLength, GetHeaderLength(x.SynthBound.FlowNode      ));
+            AreEqual(headerLength, GetHeaderLength(x.SynthBound.ConfigResolver));
+            AreEqual(headerLength, HeaderLength   (x.SynthBound.SynthWishes   ));
+            AreEqual(headerLength, HeaderLength   (x.SynthBound.FlowNode      ));
+            AreEqual(headerLength, HeaderLength   (x.SynthBound.ConfigResolver));
+            AreEqual(headerLength, ConfigWishes        .GetHeaderLength(x.SynthBound.SynthWishes   ));
+            AreEqual(headerLength, ConfigWishes        .GetHeaderLength(x.SynthBound.FlowNode      ));
+            AreEqual(headerLength, ConfigWishesAccessor.GetHeaderLength(x.SynthBound.ConfigResolver));
+            AreEqual(headerLength, ConfigWishes        .HeaderLength   (x.SynthBound.SynthWishes   ));
+            AreEqual(headerLength, ConfigWishes        .HeaderLength   (x.SynthBound.FlowNode      ));
+            AreEqual(headerLength, ConfigWishesAccessor.HeaderLength   (x.SynthBound.ConfigResolver));
         }
 
         private void Assert_TapeBound_Getters(TestEntities x, int headerLength)
         {
-            AreEqual(headerLength, () => x.TapeBound.Tape       .HeaderLength   ());
-            AreEqual(headerLength, () => x.TapeBound.TapeConfig .HeaderLength   ());
-            AreEqual(headerLength, () => x.TapeBound.TapeActions.HeaderLength   ());
-            AreEqual(headerLength, () => x.TapeBound.TapeAction .HeaderLength   ());
-            AreEqual(headerLength, () => x.TapeBound.Tape       .GetHeaderLength());
-            AreEqual(headerLength, () => x.TapeBound.TapeConfig .GetHeaderLength());
-            AreEqual(headerLength, () => x.TapeBound.TapeActions.GetHeaderLength());
-            AreEqual(headerLength, () => x.TapeBound.TapeAction .GetHeaderLength());
-            AreEqual(headerLength, () => HeaderLength   (x.TapeBound.Tape       ));
-            AreEqual(headerLength, () => HeaderLength   (x.TapeBound.TapeConfig ));
-            AreEqual(headerLength, () => HeaderLength   (x.TapeBound.TapeActions));
-            AreEqual(headerLength, () => HeaderLength   (x.TapeBound.TapeAction ));
-            AreEqual(headerLength, () => GetHeaderLength(x.TapeBound.Tape       ));
-            AreEqual(headerLength, () => GetHeaderLength(x.TapeBound.TapeConfig ));
-            AreEqual(headerLength, () => GetHeaderLength(x.TapeBound.TapeActions));
-            AreEqual(headerLength, () => GetHeaderLength(x.TapeBound.TapeAction ));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength   (x.TapeBound.Tape       ));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength   (x.TapeBound.TapeConfig ));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength   (x.TapeBound.TapeActions));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength   (x.TapeBound.TapeAction ));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(x.TapeBound.Tape       ));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(x.TapeBound.TapeConfig ));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(x.TapeBound.TapeActions));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(x.TapeBound.TapeAction ));
+            AreEqual(headerLength, x.TapeBound.Tape       .HeaderLength   ());
+            AreEqual(headerLength, x.TapeBound.TapeConfig .HeaderLength   ());
+            AreEqual(headerLength, x.TapeBound.TapeActions.HeaderLength   ());
+            AreEqual(headerLength, x.TapeBound.TapeAction .HeaderLength   ());
+            AreEqual(headerLength, x.TapeBound.Tape       .GetHeaderLength());
+            AreEqual(headerLength, x.TapeBound.TapeConfig .GetHeaderLength());
+            AreEqual(headerLength, x.TapeBound.TapeActions.GetHeaderLength());
+            AreEqual(headerLength, x.TapeBound.TapeAction .GetHeaderLength());
+            AreEqual(headerLength, HeaderLength   (x.TapeBound.Tape       ));
+            AreEqual(headerLength, HeaderLength   (x.TapeBound.TapeConfig ));
+            AreEqual(headerLength, HeaderLength   (x.TapeBound.TapeActions));
+            AreEqual(headerLength, HeaderLength   (x.TapeBound.TapeAction ));
+            AreEqual(headerLength, GetHeaderLength(x.TapeBound.Tape       ));
+            AreEqual(headerLength, GetHeaderLength(x.TapeBound.TapeConfig ));
+            AreEqual(headerLength, GetHeaderLength(x.TapeBound.TapeActions));
+            AreEqual(headerLength, GetHeaderLength(x.TapeBound.TapeAction ));
+            AreEqual(headerLength, ConfigWishes.HeaderLength   (x.TapeBound.Tape       ));
+            AreEqual(headerLength, ConfigWishes.HeaderLength   (x.TapeBound.TapeConfig ));
+            AreEqual(headerLength, ConfigWishes.HeaderLength   (x.TapeBound.TapeActions));
+            AreEqual(headerLength, ConfigWishes.HeaderLength   (x.TapeBound.TapeAction ));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(x.TapeBound.Tape       ));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(x.TapeBound.TapeConfig ));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(x.TapeBound.TapeActions));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(x.TapeBound.TapeAction ));
         }
                         
         private void Assert_BuffBound_Getters(TestEntities x, int headerLength)
         {
-            AreEqual(headerLength, () => x.BuffBound.Buff           .HeaderLength   ());
-            AreEqual(headerLength, () => x.BuffBound.AudioFileOutput.HeaderLength   ());
-            AreEqual(headerLength, () => x.BuffBound.Buff           .GetHeaderLength());
-            AreEqual(headerLength, () => x.BuffBound.AudioFileOutput.GetHeaderLength());
-            AreEqual(headerLength, () => HeaderLength   (x.BuffBound.Buff           ));
-            AreEqual(headerLength, () => HeaderLength   (x.BuffBound.AudioFileOutput));
-            AreEqual(headerLength, () => GetHeaderLength(x.BuffBound.Buff           ));
-            AreEqual(headerLength, () => GetHeaderLength(x.BuffBound.AudioFileOutput));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength   (x.BuffBound.Buff           ));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength   (x.BuffBound.AudioFileOutput));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(x.BuffBound.Buff           ));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(x.BuffBound.AudioFileOutput));
+            AreEqual(headerLength, x.BuffBound.Buff           .HeaderLength   ());
+            AreEqual(headerLength, x.BuffBound.AudioFileOutput.HeaderLength   ());
+            AreEqual(headerLength, x.BuffBound.Buff           .GetHeaderLength());
+            AreEqual(headerLength, x.BuffBound.AudioFileOutput.GetHeaderLength());
+            AreEqual(headerLength, HeaderLength   (x.BuffBound.Buff           ));
+            AreEqual(headerLength, HeaderLength   (x.BuffBound.AudioFileOutput));
+            AreEqual(headerLength, GetHeaderLength(x.BuffBound.Buff           ));
+            AreEqual(headerLength, GetHeaderLength(x.BuffBound.AudioFileOutput));
+            AreEqual(headerLength, ConfigWishes.HeaderLength   (x.BuffBound.Buff           ));
+            AreEqual(headerLength, ConfigWishes.HeaderLength   (x.BuffBound.AudioFileOutput));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(x.BuffBound.Buff           ));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(x.BuffBound.AudioFileOutput));
         }
 
         private void Assert_Independent_Getters(Sample sample, int headerLength)
         {
-            AreEqual(headerLength, () => sample.HeaderLength   ());
-            AreEqual(headerLength, () => sample.GetHeaderLength());
-            AreEqual(headerLength, () => HeaderLength   (sample));
-            AreEqual(headerLength, () => GetHeaderLength(sample));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength   (sample));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(sample));
+            AreEqual(headerLength, sample.HeaderLength   ());
+            AreEqual(headerLength, sample.GetHeaderLength());
+            AreEqual(headerLength, HeaderLength   (sample));
+            AreEqual(headerLength, GetHeaderLength(sample));
+            AreEqual(headerLength, ConfigWishes.HeaderLength   (sample));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(sample));
         }
         
         private void Assert_Immutable_Getters(AudioFileFormatEnum audioFileFormatEnum, int headerLength)
         {
-            AreEqual(headerLength, () => audioFileFormatEnum.HeaderLength());
-            AreEqual(headerLength, () => audioFileFormatEnum.GetHeaderLength());
-            AreEqual(headerLength, () => audioFileFormatEnum.ToHeaderLength());
-            AreEqual(headerLength, () => audioFileFormatEnum.AudioFormatToHeaderLength());
-            AreEqual(headerLength, () => HeaderLength(audioFileFormatEnum));
-            AreEqual(headerLength, () => GetHeaderLength(audioFileFormatEnum));
-            AreEqual(headerLength, () => ToHeaderLength(audioFileFormatEnum));
-            AreEqual(headerLength, () => AudioFormatToHeaderLength(audioFileFormatEnum));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength(audioFileFormatEnum));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(audioFileFormatEnum));
-            AreEqual(headerLength, () => ConfigWishes.ToHeaderLength(audioFileFormatEnum));
-            AreEqual(headerLength, () => ConfigWishes.AudioFormatToHeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, audioFileFormatEnum.HeaderLength());
+            AreEqual(headerLength, audioFileFormatEnum.GetHeaderLength());
+            AreEqual(headerLength, audioFileFormatEnum.ToHeaderLength());
+            AreEqual(headerLength, audioFileFormatEnum.AudioFormatToHeaderLength());
+            AreEqual(headerLength, HeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, GetHeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, ToHeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, AudioFormatToHeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, ConfigWishes.HeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, ConfigWishes.ToHeaderLength(audioFileFormatEnum));
+            AreEqual(headerLength, ConfigWishes.AudioFormatToHeaderLength(audioFileFormatEnum));
         }
         
         private void Assert_Immutable_Getters(AudioFileFormat audioFormatEntity, int headerLength)
         {
             IsNotNull(audioFormatEntity);
-            AreEqual(headerLength, () => audioFormatEntity.HeaderLength());
-            AreEqual(headerLength, () => audioFormatEntity.ToHeaderLength());
-            AreEqual(headerLength, () => audioFormatEntity.GetHeaderLength());
-            AreEqual(headerLength, () => HeaderLength(audioFormatEntity));
-            AreEqual(headerLength, () => ToHeaderLength(audioFormatEntity));
-            AreEqual(headerLength, () => GetHeaderLength(audioFormatEntity));
-            AreEqual(headerLength, () => ConfigWishes.HeaderLength(audioFormatEntity));
-            AreEqual(headerLength, () => ConfigWishes.ToHeaderLength(audioFormatEntity));
-            AreEqual(headerLength, () => ConfigWishes.GetHeaderLength(audioFormatEntity));
+            AreEqual(headerLength, audioFormatEntity.HeaderLength());
+            AreEqual(headerLength, audioFormatEntity.ToHeaderLength());
+            AreEqual(headerLength, audioFormatEntity.GetHeaderLength());
+            AreEqual(headerLength, HeaderLength(audioFormatEntity));
+            AreEqual(headerLength, ToHeaderLength(audioFormatEntity));
+            AreEqual(headerLength, GetHeaderLength(audioFormatEntity));
+            AreEqual(headerLength, ConfigWishes.HeaderLength(audioFormatEntity));
+            AreEqual(headerLength, ConfigWishes.ToHeaderLength(audioFormatEntity));
+            AreEqual(headerLength, ConfigWishes.GetHeaderLength(audioFormatEntity));
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int headerLength)
         {
             if (headerLength == 44)
             {
-                NotEqual(default, () => wavHeader);
-                IsTrue(() => wavHeader.IsWav());
-                AreEqual(headerLength, () => wavHeader.HeaderLength());
-                AreEqual(headerLength, () => wavHeader.GetHeaderLength());
+                NotEqual(default, wavHeader);
+                IsTrue(wavHeader.IsWav());
+                AreEqual(headerLength, wavHeader.HeaderLength());
+                AreEqual(headerLength, wavHeader.GetHeaderLength());
             }
             else
             {
-                AreEqual(default, () => wavHeader);
-                IsFalse(() => wavHeader.IsRaw());
-                NotEqual(headerLength, () => wavHeader.HeaderLength());
-                NotEqual(headerLength, () => wavHeader.GetHeaderLength());
+                AreEqual(default, wavHeader);
+                IsFalse(wavHeader.IsRaw());
+                NotEqual(headerLength, wavHeader.HeaderLength());
+                NotEqual(headerLength, wavHeader.GetHeaderLength());
             }
         }
 

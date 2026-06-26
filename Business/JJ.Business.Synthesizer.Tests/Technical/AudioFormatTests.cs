@@ -8,7 +8,6 @@ using static System.IO.Path;
 using static System.Math;
 using static System.MidpointRounding;
 using static JJ.Framework.Testing.Core.AssertCore;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Enums.InterpolationTypeEnum;
 using static JJ.Framework.IO.Core.FileHelperCore;
@@ -474,29 +473,29 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 //LogTitleStrong("Assert Left Values New");
                 //{
-                //    AreEqual(expectedLeftValues[0], () => actualLeftValuesNew[0], valueTolerance);
-                //    AreEqual(expectedLeftValues[1], () => actualLeftValuesNew[1], valueTolerance);
-                //    AreEqual(expectedLeftValues[2], () => actualLeftValuesNew[2], valueTolerance);
-                //    AreEqual(expectedLeftValues[3], () => actualLeftValuesNew[3], valueTolerance);
-                //    AreEqual(expectedLeftValues[4], () => actualLeftValuesNew[4], valueTolerance);
-                //    AreEqual(expectedLeftValues[5], () => actualLeftValuesNew[5], valueTolerance);
-                //    AreEqual(expectedLeftValues[6], () => actualLeftValuesNew[6], valueTolerance);
-                //    AreEqual(expectedLeftValues[7], () => actualLeftValuesNew[7], valueTolerance);
-                //    AreEqual(expectedLeftValues[8], () => actualLeftValuesNew[8], valueTolerance);
+                //    AreEqual(expectedLeftValues[0], actualLeftValuesNew[0], valueTolerance);
+                //    AreEqual(expectedLeftValues[1], actualLeftValuesNew[1], valueTolerance);
+                //    AreEqual(expectedLeftValues[2], actualLeftValuesNew[2], valueTolerance);
+                //    AreEqual(expectedLeftValues[3], actualLeftValuesNew[3], valueTolerance);
+                //    AreEqual(expectedLeftValues[4], actualLeftValuesNew[4], valueTolerance);
+                //    AreEqual(expectedLeftValues[5], actualLeftValuesNew[5], valueTolerance);
+                //    AreEqual(expectedLeftValues[6], actualLeftValuesNew[6], valueTolerance);
+                //    AreEqual(expectedLeftValues[7], actualLeftValuesNew[7], valueTolerance);
+                //    AreEqual(expectedLeftValues[8], actualLeftValuesNew[8], valueTolerance);
                 //    Log("Done");
                 //}
 
                 //LogTitleStrong("Assert Values Right New");
                 //{
-                //    AreEqual(expectedRightValues[0], () => actualRightValuesNew[0], valueTolerance);
-                //    AreEqual(expectedRightValues[1], () => actualRightValuesNew[1], valueTolerance);
-                //    AreEqual(expectedRightValues[2], () => actualRightValuesNew[2], valueTolerance);
-                //    AreEqual(expectedRightValues[3], () => actualRightValuesNew[3], valueTolerance);
-                //    AreEqual(expectedRightValues[4], () => actualRightValuesNew[4], valueTolerance);
-                //    AreEqual(expectedRightValues[5], () => actualRightValuesNew[5], valueTolerance);
-                //    AreEqual(expectedRightValues[6], () => actualRightValuesNew[6], valueTolerance);
-                //    AreEqual(expectedRightValues[7], () => actualRightValuesNew[7], valueTolerance);
-                //    AreEqual(expectedRightValues[8], () => actualRightValuesNew[8], valueTolerance);
+                //    AreEqual(expectedRightValues[0], actualRightValuesNew[0], valueTolerance);
+                //    AreEqual(expectedRightValues[1], actualRightValuesNew[1], valueTolerance);
+                //    AreEqual(expectedRightValues[2], actualRightValuesNew[2], valueTolerance);
+                //    AreEqual(expectedRightValues[3], actualRightValuesNew[3], valueTolerance);
+                //    AreEqual(expectedRightValues[4], actualRightValuesNew[4], valueTolerance);
+                //    AreEqual(expectedRightValues[5], actualRightValuesNew[5], valueTolerance);
+                //    AreEqual(expectedRightValues[6], actualRightValuesNew[6], valueTolerance);
+                //    AreEqual(expectedRightValues[7], actualRightValuesNew[7], valueTolerance);
+                //    AreEqual(expectedRightValues[8], actualRightValuesNew[8], valueTolerance);
                 //    Log("Done");
                 //}
             }
@@ -528,13 +527,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(audioFileOutput.SampleDataType);
             IsNotNull(audioFileOutput.SpeakerSetup);
             
-            AreEqual(samplingRate,        () => audioFileOutput.SamplingRate);
-            AreEqual(0,                   () => audioFileOutput.StartTime);
-            AreEqual(expectedDuration,    () => audioFileOutput.GetEndTime());
-            AreEqual(expectedDuration,    () => audioFileOutput.Duration);
-            AreEqual(audioFileFormatEnum, () => audioFileOutput.GetAudioFileFormatEnum());
-            AreEqual(bits,                () => audioFileOutput.Bits());
-            AreEqual(channels,            () => audioFileOutput.GetChannelCount());
+            AreEqual(samplingRate,        audioFileOutput.SamplingRate);
+            AreEqual(0,                   audioFileOutput.StartTime);
+            AreEqual(expectedDuration,    audioFileOutput.GetEndTime());
+            AreEqual(expectedDuration,    audioFileOutput.Duration);
+            AreEqual(audioFileFormatEnum, audioFileOutput.GetAudioFileFormatEnum());
+            AreEqual(bits,                audioFileOutput.Bits());
+            AreEqual(channels,            audioFileOutput.GetChannelCount());
             
             {
                 IsNotNull(audioFileOutput.FilePath);
@@ -568,20 +567,20 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             IsTrue(audioFileOutput.ID > 0, "audioFileOutput.ID > 0");
             double expectedAmplifier = bits.MaxAmplitude();
-            AreEqual(expectedAmplifier, () => audioFileOutput.Amplifier);
+            AreEqual(expectedAmplifier, audioFileOutput.Amplifier);
             
             // AudioFileOutputChannels
             IsNotNull(audioFileOutput.AudioFileOutputChannels);
-            AreEqual(channels, () => audioFileOutput.AudioFileOutputChannels.Count);
+            AreEqual(channels, audioFileOutput.AudioFileOutputChannels.Count);
 
             for (var i = 0; i < channels; i++)
             {
                 AudioFileOutputChannel channel = audioFileOutput.AudioFileOutputChannels[i];
                 IsNotNull(channel.Outlet);
                 IsNotNull(channel.AudioFileOutput);
-                AreEqual(i, () => channel.Index);
+                AreEqual(i, channel.Index);
                 IsNotNull(channel.AudioFileOutput);
-                AreEqual(audioFileOutput, () => channel.AudioFileOutput);
+                AreEqual(audioFileOutput, channel.AudioFileOutput);
             }
         }
 
@@ -602,51 +601,51 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Sample Operator
             Operator sampleOperator = sampleFlowNode.UnderlyingOperator;
             IsNotNull(sampleOperator);
-            AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
-            IsNull(() => sampleOperator.AsCurveIn);
-            IsNull(() => sampleOperator.AsValueOperator);
+            AreEqual("SampleOperator", sampleOperator.OperatorTypeName);
+            IsNull(sampleOperator.AsCurveIn);
+            IsNull(sampleOperator.AsValueOperator);
             IsNotNull(sampleOperator.AsSampleOperator);
             {
                 string expectedName = PrettifyName(callerMemberName);
-                NotNullOrEmpty(() => sampleOperator.Name);
-                IsTrue(() => sampleOperator.Name.Contains(expectedName)); 
+                NotNullOrEmpty(sampleOperator.Name);
+                IsTrue(sampleOperator.Name.Contains(expectedName)); 
             }
 
             // Sample Inlets
             IsNotNull(sampleOperator.Inlets);
-            AreEqual(0, () => sampleOperator.Inlets.Count);
+            AreEqual(0, sampleOperator.Inlets.Count);
 
             // Sample Outlets
             IsNotNull(sampleOperator.Outlets);
-            AreEqual(1, () => sampleOperator.Outlets.Count);
+            AreEqual(1, sampleOperator.Outlets.Count);
             IsNotNull(sampleOperator.Outlets[0]);
 
             // Sample Outlet
             Outlet sampleOutlet = sampleFlowNode;
             IsNotNull(sampleOutlet);
             IsNotNull(sampleOutlet.Operator);
-            AreEqual(sampleOperator, () => sampleOutlet.Operator);
-            AreEqual("Result", () => sampleOutlet.Name);
+            AreEqual(sampleOperator, sampleOutlet.Operator);
+            AreEqual("Result", sampleOutlet.Name);
             IsNotNull(sampleOutlet.ConnectedInlets);
-            AreEqual(0, () => sampleOutlet.ConnectedInlets.Count);
+            AreEqual(0, sampleOutlet.ConnectedInlets.Count);
             IsNotNull(sampleOutlet.AsAudioFileOutputChannels);
-            AreEqual(0, () => sampleOutlet.AsAudioFileOutputChannels.Count);
+            AreEqual(0, sampleOutlet.AsAudioFileOutputChannels.Count);
 
             // Sample
             Sample sample = sampleOperator.AsSampleOperator.Sample;
-            AreEqual(1,                     () => sample.TimeMultiplier);
-            AreEqual(true,                  () => sample.IsActive);
-            AreEqual(0,                     () => sample.BytesToSkip);
-            AreEqual(samplingRate,          () => sample.SamplingRate);
-            AreEqual(bits,                  () => sample.Bits());
-            AreEqual(channels,              () => sample.GetChannelCount());
-            AreEqual(audioFileFormatEnum,   () => sample.GetAudioFileFormatEnum());
-            AreEqual(interpolationTypeEnum, () => sample.GetInterpolationTypeEnum());
+            AreEqual(1,                     sample.TimeMultiplier);
+            AreEqual(true,                  sample.IsActive);
+            AreEqual(0,                     sample.BytesToSkip);
+            AreEqual(samplingRate,          sample.SamplingRate);
+            AreEqual(bits,                  sample.Bits());
+            AreEqual(channels,              sample.GetChannelCount());
+            AreEqual(audioFileFormatEnum,   sample.GetAudioFileFormatEnum());
+            AreEqual(interpolationTypeEnum, sample.GetInterpolationTypeEnum());
 
             // ByteCount
             {
                 IsNotNull(sample.Bytes);
-                NotEqual(0, () => sample.Bytes.Length);
+                NotEqual(0, sample.Bytes.Length);
                 
                 int byteCountExpected  = (int)(audioFileFormatEnum.HeaderLength() + samplingRate * sample.FrameSize() * expectedDuration);
                 int byteCountTolerance = GetByteCountTolerance(bits, channels);
@@ -663,8 +662,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Paths
             {
                 string expectedName = PrettifyName(callerMemberName);
-                NotNullOrEmpty(() => sample.Name);
-                IsTrue(() => sampleOperator.Name.Contains(expectedName)); 
+                NotNullOrEmpty(sample.Name);
+                IsTrue(sampleOperator.Name.Contains(expectedName)); 
             }
 
             // Sample Duration

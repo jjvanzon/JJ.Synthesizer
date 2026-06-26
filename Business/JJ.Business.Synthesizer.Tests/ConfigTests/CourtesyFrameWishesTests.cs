@@ -3,7 +3,6 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Accessors.ConfigWishesAccessor;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestEntities;
 // ReSharper disable ArrangeStaticMemberQualifier
@@ -88,43 +87,43 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 Assert_All_Getters(x, init); // By Design: Currently you can't record over the same tape. So you always get a new tape, resetting the values.
             }
 
-            AssertProp(x =>                                         x.TapeBound.TapeConfig .CourtesyFrames   = value);
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .CourtesyFrames    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .CourtesyFrames    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.CourtesyFrames    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .CourtesyFrames    (value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .WithCourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .WithCourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.WithCourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .WithCourtesyFrames(value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => x.TapeBound.Tape       .SetCourtesyFrames (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => x.TapeBound.TapeConfig .SetCourtesyFrames (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => x.TapeBound.TapeActions.SetCourtesyFrames (value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => x.TapeBound.TapeAction .SetCourtesyFrames (value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => CourtesyFrames    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => CourtesyFrames    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => CourtesyFrames    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => CourtesyFrames    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => WithCourtesyFrames(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => WithCourtesyFrames(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => WithCourtesyFrames(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => WithCourtesyFrames(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => SetCourtesyFrames (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => SetCourtesyFrames (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => SetCourtesyFrames (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => SetCourtesyFrames (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.CourtesyFrames    (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.CourtesyFrames    (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.CourtesyFrames    (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.CourtesyFrames    (x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.WithCourtesyFrames(x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.WithCourtesyFrames(x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.WithCourtesyFrames(x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.WithCourtesyFrames(x.TapeBound.TapeAction , value)));
-            AssertProp(x => AreEqual(x.TapeBound.Tape,        () => ConfigWishes.SetCourtesyFrames (x.TapeBound.Tape       , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  () => ConfigWishes.SetCourtesyFrames (x.TapeBound.TapeConfig , value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeActions, () => ConfigWishes.SetCourtesyFrames (x.TapeBound.TapeActions, value)));
-            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  () => ConfigWishes.SetCourtesyFrames (x.TapeBound.TapeAction , value)));
+            AssertProp(x =>                                   x.TapeBound.TapeConfig .CourtesyFrames   = value);
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .CourtesyFrames    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .CourtesyFrames    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.CourtesyFrames    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .CourtesyFrames    (value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .WithCourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .WithCourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.WithCourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .WithCourtesyFrames(value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        x.TapeBound.Tape       .SetCourtesyFrames (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  x.TapeBound.TapeConfig .SetCourtesyFrames (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, x.TapeBound.TapeActions.SetCourtesyFrames (value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  x.TapeBound.TapeAction .SetCourtesyFrames (value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        CourtesyFrames    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  CourtesyFrames    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, CourtesyFrames    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  CourtesyFrames    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        WithCourtesyFrames(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  WithCourtesyFrames(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, WithCourtesyFrames(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  WithCourtesyFrames(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        SetCourtesyFrames (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  SetCourtesyFrames (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, SetCourtesyFrames (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  SetCourtesyFrames (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.CourtesyFrames    (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.CourtesyFrames    (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.CourtesyFrames    (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.CourtesyFrames    (x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.WithCourtesyFrames(x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.WithCourtesyFrames(x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.WithCourtesyFrames(x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.WithCourtesyFrames(x.TapeBound.TapeAction , value)));
+            AssertProp(x => AreEqual(x.TapeBound.Tape,        ConfigWishes.SetCourtesyFrames (x.TapeBound.Tape       , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeConfig,  ConfigWishes.SetCourtesyFrames (x.TapeBound.TapeConfig , value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeActions, ConfigWishes.SetCourtesyFrames (x.TapeBound.TapeActions, value)));
+            AssertProp(x => AreEqual(x.TapeBound.TapeAction,  ConfigWishes.SetCourtesyFrames (x.TapeBound.TapeAction , value)));
         }
 
         [TestMethod]
@@ -132,15 +131,15 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             // Get-only
             var configSection = CreateTestEntities().SynthBound.ConfigSection;
-            AreEqual(DefaultCourtesyFrames, () => configSection.CourtesyFrames);
-            AreEqual(DefaultCourtesyFrames, () => configSection.CourtesyFrames());
-            AreEqual(DefaultCourtesyFrames, () => configSection.GetCourtesyFrames());
+            AreEqual(DefaultCourtesyFrames, configSection.CourtesyFrames);
+            AreEqual(DefaultCourtesyFrames, configSection.CourtesyFrames());
+            AreEqual(DefaultCourtesyFrames, configSection.GetCourtesyFrames());
         }
         
         [TestMethod]
         public void Default_CourtesyFrames()
         {
-            AreEqual(4, () => DefaultCourtesyFrames);
+            AreEqual(4, DefaultCourtesyFrames);
         }
         
         // Getter Helpers
@@ -158,56 +157,56 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_SynthBound_Getters(TestEntities x, int courtesyFrames)
         {
-            AreEqual(courtesyFrames, () => x.SynthBound.SynthWishes   .GetCourtesyFrames);
-            AreEqual(courtesyFrames, () => x.SynthBound.FlowNode      .GetCourtesyFrames);
-            AreEqual(courtesyFrames, () => x.SynthBound.ConfigResolver.GetCourtesyFrames);
-            AreEqual(courtesyFrames, () => x.SynthBound.SynthWishes   .CourtesyFrames   ());
-            AreEqual(courtesyFrames, () => x.SynthBound.FlowNode      .CourtesyFrames   ());
-            AreEqual(courtesyFrames, () => x.SynthBound.ConfigResolver.CourtesyFrames   ());
-            AreEqual(courtesyFrames, () => x.SynthBound.SynthWishes   .GetCourtesyFrames());
-            AreEqual(courtesyFrames, () => x.SynthBound.FlowNode      .GetCourtesyFrames());
-            AreEqual(courtesyFrames, () => x.SynthBound.ConfigResolver.GetCourtesyFrames());
-            AreEqual(courtesyFrames, () => CourtesyFrames   (x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyFrames, () => CourtesyFrames   (x.SynthBound.FlowNode      ));
-            AreEqual(courtesyFrames, () => CourtesyFrames   (x.SynthBound.ConfigResolver));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames(x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames(x.SynthBound.FlowNode      ));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames(x.SynthBound.ConfigResolver));
-            AreEqual(courtesyFrames, () => ConfigWishes        .CourtesyFrames   (x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyFrames, () => ConfigWishes        .CourtesyFrames   (x.SynthBound.FlowNode      ));
-            AreEqual(courtesyFrames, () => ConfigWishesAccessor.CourtesyFrames   (x.SynthBound.ConfigResolver));
-            AreEqual(courtesyFrames, () => ConfigWishes        .GetCourtesyFrames(x.SynthBound.SynthWishes   ));
-            AreEqual(courtesyFrames, () => ConfigWishes        .GetCourtesyFrames(x.SynthBound.FlowNode      ));
-            AreEqual(courtesyFrames, () => ConfigWishesAccessor.GetCourtesyFrames(x.SynthBound.ConfigResolver));
+            AreEqual(courtesyFrames, x.SynthBound.SynthWishes   .GetCourtesyFrames);
+            AreEqual(courtesyFrames, x.SynthBound.FlowNode      .GetCourtesyFrames);
+            AreEqual(courtesyFrames, x.SynthBound.ConfigResolver.GetCourtesyFrames);
+            AreEqual(courtesyFrames, x.SynthBound.SynthWishes   .CourtesyFrames   ());
+            AreEqual(courtesyFrames, x.SynthBound.FlowNode      .CourtesyFrames   ());
+            AreEqual(courtesyFrames, x.SynthBound.ConfigResolver.CourtesyFrames   ());
+            AreEqual(courtesyFrames, x.SynthBound.SynthWishes   .GetCourtesyFrames());
+            AreEqual(courtesyFrames, x.SynthBound.FlowNode      .GetCourtesyFrames());
+            AreEqual(courtesyFrames, x.SynthBound.ConfigResolver.GetCourtesyFrames());
+            AreEqual(courtesyFrames, CourtesyFrames   (x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyFrames, CourtesyFrames   (x.SynthBound.FlowNode      ));
+            AreEqual(courtesyFrames, CourtesyFrames   (x.SynthBound.ConfigResolver));
+            AreEqual(courtesyFrames, GetCourtesyFrames(x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyFrames, GetCourtesyFrames(x.SynthBound.FlowNode      ));
+            AreEqual(courtesyFrames, GetCourtesyFrames(x.SynthBound.ConfigResolver));
+            AreEqual(courtesyFrames, ConfigWishes        .CourtesyFrames   (x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyFrames, ConfigWishes        .CourtesyFrames   (x.SynthBound.FlowNode      ));
+            AreEqual(courtesyFrames, ConfigWishesAccessor.CourtesyFrames   (x.SynthBound.ConfigResolver));
+            AreEqual(courtesyFrames, ConfigWishes        .GetCourtesyFrames(x.SynthBound.SynthWishes   ));
+            AreEqual(courtesyFrames, ConfigWishes        .GetCourtesyFrames(x.SynthBound.FlowNode      ));
+            AreEqual(courtesyFrames, ConfigWishesAccessor.GetCourtesyFrames(x.SynthBound.ConfigResolver));
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int courtesyFrames)
         {
-            AreEqual(courtesyFrames, () => x.TapeBound.TapeConfig .CourtesyFrames);
-            AreEqual(courtesyFrames, () => x.TapeBound.Tape       .CourtesyFrames   ());
-            AreEqual(courtesyFrames, () => x.TapeBound.TapeConfig .CourtesyFrames   ());
-            AreEqual(courtesyFrames, () => x.TapeBound.TapeActions.CourtesyFrames   ());
-            AreEqual(courtesyFrames, () => x.TapeBound.TapeAction .CourtesyFrames   ());
-            AreEqual(courtesyFrames, () => x.TapeBound.Tape       .GetCourtesyFrames());
-            AreEqual(courtesyFrames, () => x.TapeBound.TapeConfig .GetCourtesyFrames());
-            AreEqual(courtesyFrames, () => x.TapeBound.TapeActions.GetCourtesyFrames());
-            AreEqual(courtesyFrames, () => x.TapeBound.TapeAction .GetCourtesyFrames());
-            AreEqual(courtesyFrames, () => CourtesyFrames   (x.TapeBound.Tape       ));
-            AreEqual(courtesyFrames, () => CourtesyFrames   (x.TapeBound.TapeConfig ));
-            AreEqual(courtesyFrames, () => CourtesyFrames   (x.TapeBound.TapeActions));
-            AreEqual(courtesyFrames, () => CourtesyFrames   (x.TapeBound.TapeAction ));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames(x.TapeBound.Tape       ));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames(x.TapeBound.TapeConfig ));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames(x.TapeBound.TapeActions));
-            AreEqual(courtesyFrames, () => GetCourtesyFrames(x.TapeBound.TapeAction ));
-            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyFrames   (x.TapeBound.Tape       ));
-            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyFrames   (x.TapeBound.TapeConfig ));
-            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyFrames   (x.TapeBound.TapeActions));
-            AreEqual(courtesyFrames, () => ConfigWishes.CourtesyFrames   (x.TapeBound.TapeAction ));
-            AreEqual(courtesyFrames, () => ConfigWishes.GetCourtesyFrames(x.TapeBound.Tape       ));
-            AreEqual(courtesyFrames, () => ConfigWishes.GetCourtesyFrames(x.TapeBound.TapeConfig ));
-            AreEqual(courtesyFrames, () => ConfigWishes.GetCourtesyFrames(x.TapeBound.TapeActions));
-            AreEqual(courtesyFrames, () => ConfigWishes.GetCourtesyFrames(x.TapeBound.TapeAction ));
+            AreEqual(courtesyFrames, x.TapeBound.TapeConfig .CourtesyFrames);
+            AreEqual(courtesyFrames, x.TapeBound.Tape       .CourtesyFrames   ());
+            AreEqual(courtesyFrames, x.TapeBound.TapeConfig .CourtesyFrames   ());
+            AreEqual(courtesyFrames, x.TapeBound.TapeActions.CourtesyFrames   ());
+            AreEqual(courtesyFrames, x.TapeBound.TapeAction .CourtesyFrames   ());
+            AreEqual(courtesyFrames, x.TapeBound.Tape       .GetCourtesyFrames());
+            AreEqual(courtesyFrames, x.TapeBound.TapeConfig .GetCourtesyFrames());
+            AreEqual(courtesyFrames, x.TapeBound.TapeActions.GetCourtesyFrames());
+            AreEqual(courtesyFrames, x.TapeBound.TapeAction .GetCourtesyFrames());
+            AreEqual(courtesyFrames, CourtesyFrames   (x.TapeBound.Tape       ));
+            AreEqual(courtesyFrames, CourtesyFrames   (x.TapeBound.TapeConfig ));
+            AreEqual(courtesyFrames, CourtesyFrames   (x.TapeBound.TapeActions));
+            AreEqual(courtesyFrames, CourtesyFrames   (x.TapeBound.TapeAction ));
+            AreEqual(courtesyFrames, GetCourtesyFrames(x.TapeBound.Tape       ));
+            AreEqual(courtesyFrames, GetCourtesyFrames(x.TapeBound.TapeConfig ));
+            AreEqual(courtesyFrames, GetCourtesyFrames(x.TapeBound.TapeActions));
+            AreEqual(courtesyFrames, GetCourtesyFrames(x.TapeBound.TapeAction ));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyFrames   (x.TapeBound.Tape       ));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyFrames   (x.TapeBound.TapeConfig ));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyFrames   (x.TapeBound.TapeActions));
+            AreEqual(courtesyFrames, ConfigWishes.CourtesyFrames   (x.TapeBound.TapeAction ));
+            AreEqual(courtesyFrames, ConfigWishes.GetCourtesyFrames(x.TapeBound.Tape       ));
+            AreEqual(courtesyFrames, ConfigWishes.GetCourtesyFrames(x.TapeBound.TapeConfig ));
+            AreEqual(courtesyFrames, ConfigWishes.GetCourtesyFrames(x.TapeBound.TapeActions));
+            AreEqual(courtesyFrames, ConfigWishes.GetCourtesyFrames(x.TapeBound.TapeAction ));
         }
  
         // Test Data Helpers

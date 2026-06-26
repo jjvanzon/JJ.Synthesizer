@@ -2,7 +2,6 @@ using JJ.Business.Synthesizer.Tests.Accessors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
 using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 
@@ -85,15 +84,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(adder);
             IsNotNull(adder.UnderlyingOutlet);
             IsNotNull(adder.UnderlyingOutlet.Operator);
-            IsTrue(() => adder.UnderlyingOutlet.IsAdder());
-            IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
-            AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
+            IsTrue(adder.UnderlyingOutlet.IsAdder());
+            IsTrue(adder.UnderlyingOutlet.Operator.IsAdder());
+            AreEqual("Adder", adder.UnderlyingOutlet.Operator.OperatorTypeName);
             
             accessor._tapeRunner.RunAllTapes();
 
             IsNotNull(adder.UnderlyingOutlet.Operator.Inlets);
             var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
-            AreEqual(3, () => addOperands.Count);
+            AreEqual(3, addOperands.Count);
 
             foreach (var addOperand in addOperands)
             {
@@ -102,13 +101,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsNotNull(addOperands[0].Operator.AsSampleOperator);
                 IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample);
                 IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
-                IsTrue(() => addOperand.IsSample());
-                IsTrue(() => addOperand.Operator.IsSample());
-                AreEqual("SampleOperator", () => addOperand.Operator.OperatorTypeName);
+                IsTrue(addOperand.IsSample());
+                IsTrue(addOperand.Operator.IsSample());
+                AreEqual("SampleOperator", addOperand.Operator.OperatorTypeName);
             }
 
-            NotEqual(addOperands[0], () => addOperands[1]);
-            NotEqual(addOperands[1], () => addOperands[2]);
+            NotEqual(addOperands[0], addOperands[1]);
+            NotEqual(addOperands[1], addOperands[2]);
 
             // Check Bytes Array, Read as Int16 Values
             for (var i = 0; i < addOperands.Count; i++)
@@ -116,10 +115,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Outlet addOperand = addOperands[i];
                 Sample sample     = addOperand.Operator.AsSampleOperator.Sample;
                 
-                AreEqual(Wav,                        () => sample.GetAudioFileFormatEnum());
-                AreEqual(SampleDataTypeEnum.Float32, () => sample.GetSampleDataTypeEnum());
-                AreEqual(SpeakerSetupEnum.Mono,      () => sample.GetSpeakerSetupEnum());
-                AreEqual(44,                         () => sample.HeaderLength());
+                AreEqual(Wav,                        sample.GetAudioFileFormatEnum());
+                AreEqual(SampleDataTypeEnum.Float32, sample.GetSampleDataTypeEnum());
+                AreEqual(SpeakerSetupEnum.Mono,      sample.GetSpeakerSetupEnum());
+                AreEqual(44,                         sample.HeaderLength());
                 
                 int courtesyFramesFound = 0;
                 using (var stream = new MemoryStream(sample.Bytes))
@@ -141,7 +140,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                                 continue;
                             }
                             
-                            AreEqual(firstValue, () => nextValue);
+                            AreEqual(firstValue, nextValue);
                         }
                     }
                 }
@@ -196,15 +195,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             IsNotNull(adder);
             IsNotNull(adder.UnderlyingOutlet);
             IsNotNull(adder.UnderlyingOutlet.Operator);
-            IsTrue(() => adder.UnderlyingOutlet.IsAdder());
-            IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
-            AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
+            IsTrue(adder.UnderlyingOutlet.IsAdder());
+            IsTrue(adder.UnderlyingOutlet.Operator.IsAdder());
+            AreEqual("Adder", adder.UnderlyingOutlet.Operator.OperatorTypeName);
 
             accessor._tapeRunner.RunAllTapes();
 
             IsNotNull(adder.UnderlyingOutlet.Operator.Inlets);
             var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
-            AreEqual(3, () => addOperands.Count);
+            AreEqual(3, addOperands.Count);
 
             foreach (var addOperand in addOperands)
             {
@@ -213,13 +212,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsNotNull(addOperands[0].Operator.AsSampleOperator);
                 IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample);
                 IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
-                IsTrue(() => addOperand.IsSample());
-                IsTrue(() => addOperand.Operator.IsSample());
-                AreEqual("SampleOperator", () => addOperand.Operator.OperatorTypeName);
+                IsTrue(addOperand.IsSample());
+                IsTrue(addOperand.Operator.IsSample());
+                AreEqual("SampleOperator", addOperand.Operator.OperatorTypeName);
             }
 
-            NotEqual(addOperands[0], () => addOperands[1]);
-            NotEqual(addOperands[1], () => addOperands[2]);
+            NotEqual(addOperands[0], addOperands[1]);
+            NotEqual(addOperands[1], addOperands[2]);
 
             // Don't assert values. A setting can insert a delay, messing with the test values.
         }
@@ -239,7 +238,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             double addedValue = add.Calculate(duration / 2);
 
-            AreEqual(0.1 + 0.2 + 0.3, () => addedValue);
+            AreEqual(0.1 + 0.2 + 0.3, addedValue);
 
             WithMono().WithAudioLength(duration).Save(add);
         }
