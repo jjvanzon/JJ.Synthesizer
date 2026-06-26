@@ -2,8 +2,7 @@
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Threading.Thread;
-using static JJ.Framework.Mathematics.Core.RandomizerCore;
-using static JJ.Framework.Mathematics.Core.RandomizerLegacy;
+using static JJ.Framework.Mathematics.Legacy.RandomizerLegacy;
 using static JJ.Framework.Testing.Core.AssertCore;
 // ReSharper disable ExplicitCallerInfoArgument
 // ReSharper disable ParameterHidesMember
