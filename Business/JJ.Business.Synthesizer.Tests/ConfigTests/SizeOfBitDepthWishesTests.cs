@@ -704,8 +704,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Independent_Getters(TestEntities x, int sizeOfBitDepth)
         {
             // Independent after Taping
-            IsNotNull(() => x);
-            IsNotNull(() => x.Independent);
+            IsNotNull(x);
+            IsNotNull(x.Independent);
             Assert_Independent_Getters(x.Independent.Sample, sizeOfBitDepth);
             Assert_Independent_Getters(x.Independent.AudioInfoWish, sizeOfBitDepth);
             Assert_Independent_Getters(x.Independent.AudioFileInfo, sizeOfBitDepth);
@@ -713,8 +713,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Immutable_Getters(TestEntities x, int sizeOfBitDepth)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.Immutable);
+            IsNotNull(x);
+            IsNotNull(x.Immutable);
             Assert_Immutable_Getters(x.Immutable.WavHeader, sizeOfBitDepth);
             Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepth);
             Assert_Immutable_Getters(x.Immutable.SampleDataType, sizeOfBitDepth);

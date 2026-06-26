@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static System.Threading.Thread;
 using static JJ.Framework.Mathematics.Core.RandomizerCore;
 using static JJ.Framework.Mathematics.Core.RandomizerLegacy;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
+using static JJ.Framework.Testing.Core.AssertCore;
 // ReSharper disable ExplicitCallerInfoArgument
 // ReSharper disable ParameterHidesMember
 // ReSharper disable AccessToModifiedClosure
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).AfterRecord(x => tape = x));
             
-            IsNotNull(() => tape);
+            IsNotNull(tape);
             
             tape.Save().Play();
         }
@@ -108,8 +108,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).
                       AfterRecord(x => tape1 = x).SpeedUp(1.5).AfterRecord(x => tape2 = x));
             
-            IsNotNull(() => tape1);
-            IsNotNull(() => tape2);
+            IsNotNull(tape1);
+            IsNotNull(tape2);
             
             tape1.Save().Play();
             tape2.Save().Play();
@@ -180,7 +180,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Run(() => Sine(RandomNote).Volume(StereoDynamics * DelayedPulse).AfterRecordChannel(x => tape = x));
             
-            IsNotNull(() => tape);
+            IsNotNull(tape);
             
             tape.Play();
         }
@@ -198,8 +198,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                       AfterRecordChannel(x => tape1 = x).
                       SpeedUp(1.5).AfterRecordChannel(x => tape2 = x));
                 
-            IsNotNull(() => tape1);
-            IsNotNull(() => tape2);
+            IsNotNull(tape1);
+            IsNotNull(tape2);
                 
             tape1.Play();
             tape2.Play();
@@ -224,9 +224,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 Sine(RandomNotes[5] * 5).Volume(StereoDynamics * DelayedPulse).Volume(0.01).AfterRecordChannel(x => tape3 = x)
             ));
             
-            IsNotNull(() => tape1);
-            IsNotNull(() => tape2);
-            IsNotNull(() => tape3);
+            IsNotNull(tape1);
+            IsNotNull(tape2);
+            IsNotNull(tape3);
         
             tape1.Play();
             tape2.Play();
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Run(() => Sine(RandomNotes[10]).Volume(StereoDynamics * DelayedPulse).AfterRecord(x => tape = x));
             
-            IsNotNull(() => tape);
+            IsNotNull(tape);
             
             tape.Save().Play();
         }
@@ -285,8 +285,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                       AfterRecord(x => tape1 = x).
                       SpeedUp(1.5).AfterRecord(x => tape2 = x));
             
-            IsNotNull(() => tape1);
-            IsNotNull(() => tape2);
+            IsNotNull(tape1);
+            IsNotNull(tape2);
                 
             tape1.Save().Play();
             tape2.Save().Play();
@@ -326,8 +326,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             Run(() => Sine(RandomNotes[15]).Volume(StereoDynamics * DelayedPulse).AfterRecordChannel(x => tapes[x.i] = x));
             
-            IsNotNull(() => tapes[0]);
-            IsNotNull(() => tapes[1]);
+            IsNotNull(tapes[0]);
+            IsNotNull(tapes[1]);
             
             tapes[0].Save().Play(); Sleep(1000);
             tapes[1].Save().Play(); Sleep(1000);
@@ -349,10 +349,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                       AfterRecordChannel(x => tapes1[x.i] = x).SpeedUp(1.5).
                       AfterRecordChannel(x => tapes2[x.i] = x));
             
-            IsNotNull(() => tapes1[0]);
-            IsNotNull(() => tapes1[1]);
-            IsNotNull(() => tapes2[0]);
-            IsNotNull(() => tapes2[1]);
+            IsNotNull(tapes1[0]);
+            IsNotNull(tapes1[1]);
+            IsNotNull(tapes2[0]);
+            IsNotNull(tapes2[1]);
         
             tapes1[0].Save().Play(); Sleep(1000);
             tapes1[1].Save().Play(); Sleep(1000);

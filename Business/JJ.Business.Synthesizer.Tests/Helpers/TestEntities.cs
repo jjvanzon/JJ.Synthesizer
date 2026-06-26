@@ -7,7 +7,7 @@ using static System.GC;
 using static JJ.Business.Synthesizer.Enums.AudioFileFormatEnum;
 using static JJ.Business.Synthesizer.Tests.Helpers.DebuggerDisplayFormatter;
 using static JJ.Business.Synthesizer.Wishes.Config.ConfigWishes;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
+using static JJ.Framework.Testing.Core.AssertCore;
 using static JJ.Framework.IO.Core.FileHelperCore;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
@@ -387,29 +387,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                           };
                       }));
             
-            IsNotNull(() => TapeBound);
-            IsNotNull(() => TapeBound.Tape);
-            IsNotNull(() => TapeBound.TapeConfig);
-            IsNotNull(() => TapeBound.TapeActions);
-            IsNotNull(() => TapeBound.TapeAction);
+            IsNotNull(TapeBound);
+            IsNotNull(TapeBound.Tape);
+            IsNotNull(TapeBound.TapeConfig);
+            IsNotNull(TapeBound.TapeActions);
+            IsNotNull(TapeBound.TapeAction);
             
-            IsNotNull(() => BuffBound);
-            IsNotNull(() => BuffBound.Buff);
-            IsNotNull(() => BuffBound.Buff.Bytes);
-            IsNotNull(() => BuffBound.AudioFileOutput);
+            IsNotNull(BuffBound);
+            IsNotNull(BuffBound.Buff);
+            IsNotNull(BuffBound.Buff.Bytes);
+            IsNotNull(BuffBound.AudioFileOutput);
             
-            IsNotNull(() => Independent);
-            IsNotNull(() => Independent.Sample);
-            IsNotNull(() => Independent.AudioInfoWish);
-            IsNotNull(() => Independent.AudioFileInfo);
+            IsNotNull(Independent);
+            IsNotNull(Independent.Sample);
+            IsNotNull(Independent.AudioInfoWish);
+            IsNotNull(Independent.AudioFileInfo);
 
-            IsNotNull(() => Immutable);
-            IsNotNull(() => Immutable.SampleDataType);
-            IsNotNull(() => Immutable.Type);
-            IsNotNull(() => Immutable.SpeakerSetup);
+            IsNotNull(Immutable);
+            IsNotNull(Immutable.SampleDataType);
+            IsNotNull(Immutable.Type);
+            IsNotNull(Immutable.SpeakerSetup);
             // Is nullable: Immutable.ChannelEntity
-            IsNotNull(() => Immutable.InterpolationEntity);
-            IsNotNull(() => Immutable.AudioFormatEntity);
+            IsNotNull(Immutable.InterpolationEntity);
+            IsNotNull(Immutable.AudioFormatEntity);
             // TODO: Assert other types of being filled in.
             
             Independent.AudioInfoWish = SynthBound.SynthWishes.ToInfo();

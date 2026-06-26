@@ -739,11 +739,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_SynthBound_Getters(TestEntities x, int byteCount)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.SynthBound);
-            IsNotNull(() => x.SynthBound.SynthWishes);
-            IsNotNull(() => x.SynthBound.FlowNode);
-            IsNotNull(() => x.SynthBound.ConfigResolver);
+            IsNotNull(x);
+            IsNotNull(x.SynthBound);
+            IsNotNull(x.SynthBound.SynthWishes);
+            IsNotNull(x.SynthBound.FlowNode);
+            IsNotNull(x.SynthBound.ConfigResolver);
 
             AreEqual(byteCount, x.SynthBound.SynthWishes   .GetByteCount);
             AreEqual(byteCount, x.SynthBound.FlowNode      .GetByteCount);
@@ -809,9 +809,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_AudioFileOutput_Getters(TestEntities x, int byteCount)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.BuffBound);
-            IsNotNull(() => x.BuffBound.AudioFileOutput);
+            IsNotNull(x);
+            IsNotNull(x.BuffBound);
+            IsNotNull(x.BuffBound.AudioFileOutput);
             
             AreEqual(byteCount, x.BuffBound.AudioFileOutput.ByteCount());
             AreEqual(byteCount, x.BuffBound.AudioFileOutput.GetByteCount());
@@ -871,8 +871,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_Immutable_Getters(TestEntities x, int byteCount)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.Immutable);
+            IsNotNull(x);
+            IsNotNull(x.Immutable);
             Assert_Immutable_Getters(x.Immutable.WavHeader, byteCount);
         }
                 
@@ -889,8 +889,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Bitness_Getters(TestEntities x, int sizeOfBitDepth)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.Immutable);
+            IsNotNull(x);
+            IsNotNull(x.Immutable);
             Assert_Bitness_Getters(x.Immutable.SampleDataTypeEnum, sizeOfBitDepth);
             Assert_Bitness_Getters(x.Immutable.SampleDataType    , sizeOfBitDepth);
             Assert_Bitness_Getters(x.Immutable.Type              , sizeOfBitDepth);
@@ -918,7 +918,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         {
             if (sizeOfBitDepth.IsNully()) return;
             
-            IsNotNull(() => sampleDataType);
+            IsNotNull(sampleDataType);
             AreEqual(sizeOfBitDepth, sampleDataType.ByteCount   ());
             AreEqual(sizeOfBitDepth, sampleDataType.GetByteCount());
             AreEqual(sizeOfBitDepth, sampleDataType.AsByteCount ());
@@ -936,7 +936,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Bitness_Getters(Type type, int sizeOfBitDepth)
         {
             if (sizeOfBitDepth.IsNully()) return;
-            IsNotNull(() => type);
+            IsNotNull(type);
             AreEqual(sizeOfBitDepth, type.ByteCount      ());
             AreEqual(sizeOfBitDepth, type.GetByteCount   ());
             AreEqual(sizeOfBitDepth, type.AsByteCount    ());

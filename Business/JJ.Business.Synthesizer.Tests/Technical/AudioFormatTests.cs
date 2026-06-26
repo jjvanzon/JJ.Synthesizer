@@ -523,10 +523,10 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string callerMemberName)
         {
             // AudioFileOutput
-            IsNotNull(() => audioFileOutput);
-            IsNotNull(() => audioFileOutput.AudioFileFormat);
-            IsNotNull(() => audioFileOutput.SampleDataType);
-            IsNotNull(() => audioFileOutput.SpeakerSetup);
+            IsNotNull(audioFileOutput);
+            IsNotNull(audioFileOutput.AudioFileFormat);
+            IsNotNull(audioFileOutput.SampleDataType);
+            IsNotNull(audioFileOutput.SpeakerSetup);
             
             AreEqual(samplingRate,        () => audioFileOutput.SamplingRate);
             AreEqual(0,                   () => audioFileOutput.StartTime);
@@ -537,7 +537,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(channels,            () => audioFileOutput.GetChannelCount());
             
             {
-                IsNotNull(() => audioFileOutput.FilePath);
+                IsNotNull(audioFileOutput.FilePath);
                 
                 string expectedContains = callerMemberName;
                 
@@ -571,16 +571,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             AreEqual(expectedAmplifier, () => audioFileOutput.Amplifier);
             
             // AudioFileOutputChannels
-            IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
+            IsNotNull(audioFileOutput.AudioFileOutputChannels);
             AreEqual(channels, () => audioFileOutput.AudioFileOutputChannels.Count);
 
             for (var i = 0; i < channels; i++)
             {
                 AudioFileOutputChannel channel = audioFileOutput.AudioFileOutputChannels[i];
-                IsNotNull(() => channel.Outlet);
-                IsNotNull(() => channel.AudioFileOutput);
+                IsNotNull(channel.Outlet);
+                IsNotNull(channel.AudioFileOutput);
                 AreEqual(i, () => channel.Index);
-                IsNotNull(() => channel.AudioFileOutput);
+                IsNotNull(channel.AudioFileOutput);
                 AreEqual(audioFileOutput, () => channel.AudioFileOutput);
             }
         }
@@ -596,16 +596,16 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             string callerMemberName)
         {
             // Sample FlowNode
-            IsNotNull(() => sampleFlowNode);
-            IsNotNull(() => sampleFlowNode.UnderlyingSample());
+            IsNotNull(sampleFlowNode);
+            IsNotNull(sampleFlowNode.UnderlyingSample());
 
             // Sample Operator
             Operator sampleOperator = sampleFlowNode.UnderlyingOperator;
-            IsNotNull(() => sampleOperator);
+            IsNotNull(sampleOperator);
             AreEqual("SampleOperator", () => sampleOperator.OperatorTypeName);
             IsNull(() => sampleOperator.AsCurveIn);
             IsNull(() => sampleOperator.AsValueOperator);
-            IsNotNull(() => sampleOperator.AsSampleOperator);
+            IsNotNull(sampleOperator.AsSampleOperator);
             {
                 string expectedName = PrettifyName(callerMemberName);
                 NotNullOrEmpty(() => sampleOperator.Name);
@@ -613,23 +613,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             }
 
             // Sample Inlets
-            IsNotNull(() => sampleOperator.Inlets);
+            IsNotNull(sampleOperator.Inlets);
             AreEqual(0, () => sampleOperator.Inlets.Count);
 
             // Sample Outlets
-            IsNotNull(() => sampleOperator.Outlets);
+            IsNotNull(sampleOperator.Outlets);
             AreEqual(1, () => sampleOperator.Outlets.Count);
-            IsNotNull(() => sampleOperator.Outlets[0]);
+            IsNotNull(sampleOperator.Outlets[0]);
 
             // Sample Outlet
             Outlet sampleOutlet = sampleFlowNode;
-            IsNotNull(() => sampleOutlet);
-            IsNotNull(() => sampleOutlet.Operator);
+            IsNotNull(sampleOutlet);
+            IsNotNull(sampleOutlet.Operator);
             AreEqual(sampleOperator, () => sampleOutlet.Operator);
             AreEqual("Result", () => sampleOutlet.Name);
-            IsNotNull(() => sampleOutlet.ConnectedInlets);
+            IsNotNull(sampleOutlet.ConnectedInlets);
             AreEqual(0, () => sampleOutlet.ConnectedInlets.Count);
-            IsNotNull(() => sampleOutlet.AsAudioFileOutputChannels);
+            IsNotNull(sampleOutlet.AsAudioFileOutputChannels);
             AreEqual(0, () => sampleOutlet.AsAudioFileOutputChannels.Count);
 
             // Sample
@@ -645,7 +645,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // ByteCount
             {
-                IsNotNull(() => sample.Bytes);
+                IsNotNull(sample.Bytes);
                 NotEqual(0, () => sample.Bytes.Length);
                 
                 int byteCountExpected  = (int)(audioFileFormatEnum.HeaderLength() + samplingRate * sample.FrameSize() * expectedDuration);
@@ -673,7 +673,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             
             // Sample Outlet From Different Sources
             Outlet sampleOutlet_FromOperatorOutlets = sampleOperator.Outlets[0];
-            IsNotNull(() => sampleOutlet_FromOperatorOutlets);
+            IsNotNull(sampleOutlet_FromOperatorOutlets);
         }
 
         // Helpers

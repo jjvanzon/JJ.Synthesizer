@@ -1832,8 +1832,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(SynthWishes synthWishes, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => synthWishes);
+            IsNotNull(test);
+            IsNotNull(synthWishes);
             AreEqualInt(test.Bits,         synthWishes.GetBits);
             AreEqualInt(test.Channels,     synthWishes.GetChannels);
             AreEqualInt(test.SamplingRate, synthWishes.GetSamplingRate);
@@ -1842,8 +1842,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(FlowNode flowNode, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => flowNode);
+            IsNotNull(test);
+            IsNotNull(flowNode);
             AreEqualInt(test.Bits,         flowNode.GetBits);
             AreEqualInt(test.Channels,     flowNode.GetChannels);
             AreEqualInt(test.SamplingRate, flowNode.GetSamplingRate);
@@ -1852,8 +1852,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(ConfigResolverAccessor configResolver, Case test, SynthWishes synthWishes)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => configResolver);
+            IsNotNull(test);
+            IsNotNull(configResolver);
             AreEqualInt(test.Bits,         configResolver.GetBits);
             AreEqualInt(test.Channels,     configResolver.GetChannels);
             AreEqualInt(test.SamplingRate, configResolver.GetSamplingRate);
@@ -1862,8 +1862,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(Tape tape, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => tape);
+            IsNotNull(test);
+            IsNotNull(tape);
             AreEqualInt(test.Bits,         tape.Bits());
             AreEqualInt(test.Channels,     tape.Channels());
             AreEqualInt(test.SamplingRate, tape.SamplingRate());
@@ -1872,8 +1872,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(TapeConfig tapeConfig, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => tapeConfig);
+            IsNotNull(test);
+            IsNotNull(tapeConfig);
             AreEqualInt(test.Bits,         tapeConfig.Bits);
             AreEqualInt(test.Channels,     tapeConfig.Channels);
             AreEqualInt(test.SamplingRate, tapeConfig.SamplingRate);
@@ -1882,8 +1882,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(TapeActions tapeActions, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => tapeActions);
+            IsNotNull(test);
+            IsNotNull(tapeActions);
             AreEqualInt(test.Bits,         tapeActions.Bits());
             AreEqualInt(test.Channels,     tapeActions.Channels());
             AreEqualInt(test.SamplingRate, tapeActions.SamplingRate());
@@ -1892,8 +1892,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(TapeAction tapeAction, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => tapeAction);
+            IsNotNull(test);
+            IsNotNull(tapeAction);
             AreEqualInt(test.Bits,         tapeAction.Bits());
             AreEqualInt(test.Channels,     tapeAction.Channels());
             AreEqualInt(test.SamplingRate, tapeAction.SamplingRate());
@@ -1902,8 +1902,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(Buff buff, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => buff);
+            IsNotNull(test);
+            IsNotNull(buff);
             AreEqualInt(test.Bits,         buff.Bits());
             AreEqualInt(test.Channels,     buff.Channels());
             AreEqualInt(test.SamplingRate, buff.SamplingRate());
@@ -1912,8 +1912,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(AudioFileOutput audioFileOutput, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => audioFileOutput);
+            IsNotNull(test);
+            IsNotNull(audioFileOutput);
             AreEqualInt(test.Bits,         audioFileOutput.Bits());
             AreEqualInt(test.Channels,     audioFileOutput.Channels());
             AreEqualInt(test.SamplingRate, audioFileOutput.SamplingRate());
@@ -1922,8 +1922,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         internal static void AssertEntity(Sample sample, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => sample);
+            IsNotNull(test);
+            IsNotNull(sample);
             AreEqualInt(test.Bits,         sample.Bits());
             AreEqualInt(test.Channels,     sample.Channels());
             AreEqualInt(test.SamplingRate, sample.SamplingRate());
@@ -1933,8 +1933,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(AudioFileInfo infoLegacy, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => infoLegacy);
+            IsNotNull(test);
+            IsNotNull(infoLegacy);
             AreEqualInt(test.Bits,         infoLegacy.Bits());
             AreEqualInt(test.Channels,     infoLegacy.Channels());
             AreEqualInt(test.SamplingRate, infoLegacy.SamplingRate());
@@ -1943,8 +1943,8 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(AudioInfoWish infoWish, Case test)
         {
-            IsNotNull(() => test);
-            IsNotNull(() => infoWish);
+            IsNotNull(test);
+            IsNotNull(infoWish);
             AreEqualInt(test.Bits,         infoWish.Bits);
             AreEqualInt(test.Channels,     infoWish.Channels);
             AreEqualInt(test.SamplingRate, infoWish.SamplingRate);
@@ -1953,7 +1953,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         internal static void AssertEntity(WavHeaderStruct wavHeader, Case test)
         {
-            IsNotNull(() => test);
+            IsNotNull(test);
             AreEqualInt(test.Bits,         wavHeader.BitsPerValue);
             AreEqualInt(test.Channels,     wavHeader.ChannelCount);
             AreEqualInt(test.SamplingRate, wavHeader.SamplingRate);

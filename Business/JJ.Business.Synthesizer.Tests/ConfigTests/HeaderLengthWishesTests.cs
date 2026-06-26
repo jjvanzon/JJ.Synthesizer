@@ -465,7 +465,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_Immutable_Getters(AudioFileFormat audioFormatEntity, int headerLength)
         {
-            IsNotNull(() => audioFormatEntity);
+            IsNotNull(audioFormatEntity);
             AreEqual(headerLength, () => audioFormatEntity.HeaderLength());
             AreEqual(headerLength, () => audioFormatEntity.ToHeaderLength());
             AreEqual(headerLength, () => audioFormatEntity.GetHeaderLength());

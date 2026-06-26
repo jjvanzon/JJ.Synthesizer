@@ -913,11 +913,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_SynthBound_Getters(TestEntities x, int channels)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.SynthBound);
-            IsNotNull(() => x.SynthBound.SynthWishes);
-            IsNotNull(() => x.SynthBound.FlowNode);
-            IsNotNull(() => x.SynthBound.ConfigResolver);
+            IsNotNull(x);
+            IsNotNull(x.SynthBound);
+            IsNotNull(x.SynthBound.SynthWishes);
+            IsNotNull(x.SynthBound.FlowNode);
+            IsNotNull(x.SynthBound.ConfigResolver);
             AreEqual(channels,      () => x.SynthBound.SynthWishes   .GetChannels  );
             AreEqual(channels,      () => x.SynthBound.FlowNode      .GetChannels  );
             AreEqual(channels,      () => x.SynthBound.ConfigResolver.GetChannels  );
@@ -968,12 +968,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_TapeBound_Getters(TestEntities x, int channels)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.TapeBound);
-            IsNotNull(() => x.TapeBound.Tape);
-            IsNotNull(() => x.TapeBound.TapeConfig);
-            IsNotNull(() => x.TapeBound.TapeActions);
-            IsNotNull(() => x.TapeBound.TapeAction);
+            IsNotNull(x);
+            IsNotNull(x.TapeBound);
+            IsNotNull(x.TapeBound.Tape);
+            IsNotNull(x.TapeBound.TapeConfig);
+            IsNotNull(x.TapeBound.TapeActions);
+            IsNotNull(x.TapeBound.TapeAction);
             AreEqual(channels,      () => x.TapeBound.TapeConfig .Channels);
             AreEqual(channels,      () => x.TapeBound.Tape       .Channels   ());
             AreEqual(channels,      () => x.TapeBound.TapeConfig .Channels   ());
@@ -1070,7 +1070,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int channels)
         {
-            IsNotNull(() => audioFileInfo);
+            IsNotNull(audioFileInfo);
             AreEqual(channels,      () => audioFileInfo.Channels   ());
             AreEqual(channels,      () => audioFileInfo.GetChannels());
             AreEqual(channels == 1, () => audioFileInfo.IsMono     ());
@@ -1087,7 +1087,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_Independent_Getters(Sample sample, int channels)
         {
-            IsNotNull(() => sample);
+            IsNotNull(sample);
             AreEqual(channels,      () => sample.Channels   ());
             AreEqual(channels,      () => sample.GetChannels());
             AreEqual(channels == 1, () => sample.IsMono     ());
@@ -1104,7 +1104,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int channels)
         {
-            IsNotNull(() => audioInfoWish);
+            IsNotNull(audioInfoWish);
             AreEqual(channels,      () => audioInfoWish.Channels);
             AreEqual(channels,      () => audioInfoWish.Channels   ());
             AreEqual(channels,      () => audioInfoWish.GetChannels());
@@ -1163,7 +1163,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
                 
         private static void Assert_Immutable_Getters(SpeakerSetup speakerSetup, int channels)
         {
-            IsNotNull(() => speakerSetup);
+            IsNotNull(speakerSetup);
             AreEqual(channels,      () => speakerSetup.Channels        ());
             AreEqual(channels,      () => speakerSetup.GetChannels     ());
             AreEqual(channels,      () => speakerSetup.ToChannels      ());

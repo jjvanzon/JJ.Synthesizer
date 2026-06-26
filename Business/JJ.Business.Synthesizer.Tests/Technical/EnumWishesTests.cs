@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Wishes.Obsolete;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
+using static JJ.Framework.Testing.Core.AssertCore;
 
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
@@ -17,9 +17,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             AudioFileFormat enumEntity = enumValue.ToEntity(Context);
 
-            IsNotNull(() => enumEntity);
-            AreEqual((int)enumValue, () => enumEntity.ID);
-            AreEqual($"{enumValue}", () => enumEntity.Name);
+            IsNotNull(enumEntity);
+            AreEqual((int)enumValue, enumEntity.ID);
+            AreEqual($"{enumValue}", enumEntity.Name);
         }
 
         [TestMethod]
@@ -29,9 +29,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             Channel enumEntity = enumValue.ToEntity(Context);
 
-            IsNotNull(() => enumEntity);
-            AreEqual((int)enumValue, () => enumEntity.ID);
-            AreEqual($"{enumValue}", () => enumEntity.Name);
+            IsNotNull(enumEntity);
+            AreEqual((int)enumValue, enumEntity.ID);
+            AreEqual($"{enumValue}", enumEntity.Name);
         }
 
         [TestMethod]
@@ -41,9 +41,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             InterpolationType enumEntity = enumValue.ToEntity(Context);
 
-            IsNotNull(() => enumEntity);
-            AreEqual((int)enumValue, () => enumEntity.ID);
-            AreEqual($"{enumValue}", () => enumEntity.Name);
+            IsNotNull(enumEntity);
+            AreEqual((int)enumValue, enumEntity.ID);
+            AreEqual($"{enumValue}", enumEntity.Name);
         }
 
         [TestMethod]
@@ -53,9 +53,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             NodeType enumEntity = enumValue.ToEntity(Context);
 
-            IsNotNull(() => enumEntity);
-            AreEqual((int)enumValue, () => enumEntity.ID);
-            AreEqual($"{enumValue}", () => enumEntity.Name);
+            IsNotNull(enumEntity);
+            AreEqual((int)enumValue, enumEntity.ID);
+            AreEqual($"{enumValue}", enumEntity.Name);
         }
 
         [TestMethod]
@@ -65,9 +65,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             SampleDataType enumEntity = enumValue.ToEntity(Context);
 
-            IsNotNull(() => enumEntity);
-            AreEqual((int)enumValue, () => enumEntity.ID);
-            AreEqual($"{enumValue}", () => enumEntity.Name);
+            IsNotNull(enumEntity);
+            AreEqual((int)enumValue, enumEntity.ID);
+            AreEqual($"{enumValue}", enumEntity.Name);
         }
 
         [TestMethod]
@@ -77,9 +77,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             SpeakerSetup enumEntity = enumValue.ToEntity(Context);
 
-            IsNotNull(() => enumEntity);
-            AreEqual((int)enumValue, () => enumEntity.ID);
-            AreEqual($"{enumValue}", () => enumEntity.Name);
+            IsNotNull(enumEntity);
+            AreEqual((int)enumValue, enumEntity.ID);
+            AreEqual($"{enumValue}", enumEntity.Name);
         }
     }
 }

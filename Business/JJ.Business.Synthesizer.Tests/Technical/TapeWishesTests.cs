@@ -82,26 +82,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ).SetName();
 
             // Assert Entities
-            IsNotNull(() => adder);
-            IsNotNull(() => adder.UnderlyingOutlet);
-            IsNotNull(() => adder.UnderlyingOutlet.Operator);
+            IsNotNull(adder);
+            IsNotNull(adder.UnderlyingOutlet);
+            IsNotNull(adder.UnderlyingOutlet.Operator);
             IsTrue(() => adder.UnderlyingOutlet.IsAdder());
             IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
             AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
             
             accessor._tapeRunner.RunAllTapes();
 
-            IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
+            IsNotNull(adder.UnderlyingOutlet.Operator.Inlets);
             var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
 
             foreach (var addOperand in addOperands)
             {
-                IsNotNull(() => addOperand);
-                IsNotNull(() => addOperand.Operator);
-                IsNotNull(() => addOperands[0].Operator.AsSampleOperator);
-                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample);
-                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
+                IsNotNull(addOperand);
+                IsNotNull(addOperand.Operator);
+                IsNotNull(addOperands[0].Operator.AsSampleOperator);
+                IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample);
+                IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
                 IsTrue(() => addOperand.IsSample());
                 IsTrue(() => addOperand.Operator.IsSample());
                 AreEqual("SampleOperator", () => addOperand.Operator.OperatorTypeName);
@@ -193,26 +193,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             ).SetName();
 
             // Assert
-            IsNotNull(() => adder);
-            IsNotNull(() => adder.UnderlyingOutlet);
-            IsNotNull(() => adder.UnderlyingOutlet.Operator);
+            IsNotNull(adder);
+            IsNotNull(adder.UnderlyingOutlet);
+            IsNotNull(adder.UnderlyingOutlet.Operator);
             IsTrue(() => adder.UnderlyingOutlet.IsAdder());
             IsTrue(() => adder.UnderlyingOutlet.Operator.IsAdder());
             AreEqual("Adder", () => adder.UnderlyingOutlet.Operator.OperatorTypeName);
 
             accessor._tapeRunner.RunAllTapes();
 
-            IsNotNull(() => adder.UnderlyingOutlet.Operator.Inlets);
+            IsNotNull(adder.UnderlyingOutlet.Operator.Inlets);
             var addOperands = adder.UnderlyingOutlet.Operator.Inlets.Select(x => x.Input).ToList();
             AreEqual(3, () => addOperands.Count);
 
             foreach (var addOperand in addOperands)
             {
-                IsNotNull(() => addOperand);
-                IsNotNull(() => addOperand.Operator);
-                IsNotNull(() => addOperands[0].Operator.AsSampleOperator);
-                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample);
-                IsNotNull(() => addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
+                IsNotNull(addOperand);
+                IsNotNull(addOperand.Operator);
+                IsNotNull(addOperands[0].Operator.AsSampleOperator);
+                IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample);
+                IsNotNull(addOperands[0].Operator.AsSampleOperator.Sample.Bytes);
                 IsTrue(() => addOperand.IsSample());
                 IsTrue(() => addOperand.Operator.IsSample());
                 AreEqual("SampleOperator", () => addOperand.Operator.OperatorTypeName);

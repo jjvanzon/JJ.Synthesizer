@@ -2322,11 +2322,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_SynthBound_Getters(TestEntities x, (int? channels, int? channel) c)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.SynthBound);
-            IsNotNull(() => x.SynthBound.SynthWishes);
-            IsNotNull(() => x.SynthBound.FlowNode);
-            IsNotNull(() => x.SynthBound.ConfigResolver);
+            IsNotNull(x);
+            IsNotNull(x.SynthBound);
+            IsNotNull(x.SynthBound.SynthWishes);
+            IsNotNull(x.SynthBound.FlowNode);
+            IsNotNull(x.SynthBound.ConfigResolver);
             AreEqual(c.channel,       () => x.SynthBound.SynthWishes   .GetChannel      );
             AreEqual(c.channel,       () => x.SynthBound.FlowNode      .GetChannel      );
             AreEqual(c.channel,       () => x.SynthBound.ConfigResolver.GetChannel      );
@@ -2470,11 +2470,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         /// <inheritdoc cref="_singletapeassertion" />
         private void Assert_TapeBound_Getters_Single(TestEntities x, (int? channels, int? channel) c)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.TapeBound.Tape);
-            IsNotNull(() => x.TapeBound.TapeConfig);
-            IsNotNull(() => x.TapeBound.TapeActions);
-            IsNotNull(() => x.TapeBound.TapeAction);
+            IsNotNull(x);
+            IsNotNull(x.TapeBound.Tape);
+            IsNotNull(x.TapeBound.TapeConfig);
+            IsNotNull(x.TapeBound.TapeActions);
+            IsNotNull(x.TapeBound.TapeAction);
             AreEqual(c.channels,            x.TapeBound.TapeConfig.Channels      );
             AreEqual(c.channel,       () => x.TapeBound.TapeConfig.Channel       );
             AreEqual(c.channels == 1, () => x.TapeBound.TapeConfig.IsMono        );
@@ -2641,7 +2641,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_TapeBound_Getters_Complete(TestEntities x, (int? channels, int? channel) c)
         {
-            IsNotNull(() => x.ChannelEntities);
+            IsNotNull(x.ChannelEntities);
             AreEqual(c.channels, x.ChannelEntities.Count);
             IsFalse(() => x.ChannelEntities.Contains(null));
             
@@ -2661,11 +2661,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_MonoTape_Getters(TapeEntities x)
         {
-                      IsNotNull(() => x                      );
-                      IsNotNull(() => x.TapeBound.Tape       );
-                      IsNotNull(() => x.TapeBound.TapeConfig );
-                      IsNotNull(() => x.TapeBound.TapeActions);
-                      IsNotNull(() => x.TapeBound.TapeAction );
+                      IsNotNull(x                      );
+                      IsNotNull(x.TapeBound.Tape       );
+                      IsNotNull(x.TapeBound.TapeConfig );
+                      IsNotNull(x.TapeBound.TapeActions);
+                      IsNotNull(x.TapeBound.TapeAction );
         AreEqual(CenterChannel, () => x.TapeBound.TapeConfig .Channel       );
         AreEqual(MonoChannels , () => x.TapeBound.TapeConfig .Channels      );
                         IsTrue (() => x.TapeBound.TapeConfig .IsCenter      );
@@ -2832,11 +2832,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_StereoTape_Getters(TapeEntities x)
         {
-                       IsNotNull(() => x                      );
-                       IsNotNull(() => x.TapeBound.Tape       );
-                       IsNotNull(() => x.TapeBound.TapeConfig );
-                       IsNotNull(() => x.TapeBound.TapeActions);
-                       IsNotNull(() => x.TapeBound.TapeAction );
+                       IsNotNull(x                      );
+                       IsNotNull(x.TapeBound.Tape       );
+                       IsNotNull(x.TapeBound.TapeConfig );
+                       IsNotNull(x.TapeBound.TapeActions);
+                       IsNotNull(x.TapeBound.TapeAction );
         AreEqual(EmptyChannel  , () => x.TapeBound.TapeConfig .Channel       );
         AreEqual(StereoChannels, () => x.TapeBound.TapeConfig .Channels      );
                          IsTrue (() => x.TapeBound.TapeConfig .IsAnyChannel  );
@@ -3003,11 +3003,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_LeftTape_Getters(TapeEntities x)
         {   
-                       IsNotNull(() => x                      );
-                       IsNotNull(() => x.TapeBound.Tape       );
-                       IsNotNull(() => x.TapeBound.TapeConfig );
-                       IsNotNull(() => x.TapeBound.TapeActions);
-                       IsNotNull(() => x.TapeBound.TapeAction );
+                       IsNotNull(x                      );
+                       IsNotNull(x.TapeBound.Tape       );
+                       IsNotNull(x.TapeBound.TapeConfig );
+                       IsNotNull(x.TapeBound.TapeActions);
+                       IsNotNull(x.TapeBound.TapeAction );
         AreEqual(LeftChannel   , () => x.TapeBound.TapeConfig .Channel       );
         AreEqual(StereoChannels, () => x.TapeBound.TapeConfig .Channels      );
                          IsTrue (() => x.TapeBound.TapeConfig .IsLeft        );
@@ -3174,11 +3174,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_RightTape_Getters(TapeEntities x)
         {
-                       IsNotNull(() => x                      );
-                       IsNotNull(() => x.TapeBound.Tape       );
-                       IsNotNull(() => x.TapeBound.TapeConfig );
-                       IsNotNull(() => x.TapeBound.TapeActions);
-                       IsNotNull(() => x.TapeBound.TapeAction );
+                       IsNotNull(x                      );
+                       IsNotNull(x.TapeBound.Tape       );
+                       IsNotNull(x.TapeBound.TapeConfig );
+                       IsNotNull(x.TapeBound.TapeActions);
+                       IsNotNull(x.TapeBound.TapeAction );
         AreEqual(RightChannel  , () => x.TapeBound.TapeConfig .Channel       );
         AreEqual(StereoChannels, () => x.TapeBound.TapeConfig .Channels      );
                          IsTrue (() => x.TapeBound.TapeConfig .IsRight       );
@@ -3371,7 +3371,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         /// <inheritdoc cref="_singletapeassertion" />
         private void Assert_BuffBound_Getters_Complete(TestEntities x, (int? channels, int? channel) c)
         {
-            IsNotNull(() => x.ChannelEntities);
+            IsNotNull(x.ChannelEntities);
             AreEqual(c.channels, x.ChannelEntities.Count);
             IsFalse(() => x.ChannelEntities.Contains(null));
             
@@ -3391,9 +3391,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_MonoBuff_Getters(TapeEntities x)
         {
-                      IsNotNull(() => x                          );
-                      IsNotNull(() => x.BuffBound.Buff           );
-                      IsNotNull(() => x.BuffBound.AudioFileOutput);
+                      IsNotNull(x                          );
+                      IsNotNull(x.BuffBound.Buff           );
+                      IsNotNull(x.BuffBound.AudioFileOutput);
         AreEqual(CenterChannel, () => x.BuffBound.Buff           .Channel       ());
         AreEqual(CenterChannel, () => x.BuffBound.AudioFileOutput.Channel       ());
         AreEqual(CenterChannel, () => x.BuffBound.Buff           .GetChannel    ());
@@ -3470,9 +3470,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_StereoBuff_Getters(TapeEntities x)
         {
-                       IsNotNull(() => x                          );
-                       IsNotNull(() => x.BuffBound.Buff           );
-                       IsNotNull(() => x.BuffBound.AudioFileOutput);
+                       IsNotNull(x                          );
+                       IsNotNull(x.BuffBound.Buff           );
+                       IsNotNull(x.BuffBound.AudioFileOutput);
         AreEqual(EmptyChannel  , () => x.BuffBound.Buff           .Channel       ());
         AreEqual(EmptyChannel  , () => x.BuffBound.AudioFileOutput.Channel       ());
         AreEqual(EmptyChannel  , () => x.BuffBound.Buff           .GetChannel    ());
@@ -3549,9 +3549,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_LeftBuff_Getters(TapeEntities x)
         {   
-                     IsNotNull(() => x                          );
-                     IsNotNull(() => x.BuffBound.Buff           );
-                     IsNotNull(() => x.BuffBound.AudioFileOutput);
+                     IsNotNull(x                          );
+                     IsNotNull(x.BuffBound.Buff           );
+                     IsNotNull(x.BuffBound.AudioFileOutput);
         AreEqual(LeftChannel , () => x.BuffBound.Buff           .Channel       ());
         AreEqual(LeftChannel , () => x.BuffBound.AudioFileOutput.Channel       ());
         AreEqual(LeftChannel , () => x.BuffBound.Buff           .GetChannel    ());
@@ -3628,9 +3628,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_RightBuff_Getters(TapeEntities x)
         {
-                     IsNotNull(() => x                          );
-                     IsNotNull(() => x.BuffBound.Buff           );
-                     IsNotNull(() => x.BuffBound.AudioFileOutput);
+                     IsNotNull(x                          );
+                     IsNotNull(x.BuffBound.Buff           );
+                     IsNotNull(x.BuffBound.AudioFileOutput);
         AreEqual(RightChannel, () => x.BuffBound.Buff           .Channel       ());
         AreEqual(RightChannel, () => x.BuffBound.AudioFileOutput.Channel       ());
         AreEqual(RightChannel, () => x.BuffBound.Buff           .GetChannel    ());
@@ -3707,8 +3707,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Immutable_Getters(TestEntities x, (int?, int?) c)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.Immutable);
+            IsNotNull(x);
+            IsNotNull(x.Immutable);
             
             Assert_Immutable_Getters(x.Immutable.ChannelEnum, c);
             Assert_Immutable_Getters(x.Immutable.ChannelEntity, c);

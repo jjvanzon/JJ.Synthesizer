@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Wishes.Obsolete;
 using JJ.Framework.Text.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static JJ.Business.Synthesizer.Tests.Helpers.TestHelper;
-using static JJ.Framework.Testing.Legacy.AssertHelper;
+using static JJ.Framework.Testing.Core.AssertCore;
 // ReSharper disable UnusedVariable
 // ReSharper disable ExplicitCallerInfoArgument
 
@@ -192,15 +192,15 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var const9  = _[9];
             var const10 = _[10];
 
-            IsNotNull(() => var1);
-            IsNotNull(() => var2);
-            IsNotNull(() => var3);
-            IsNotNull(() => var4);
-            IsNotNull(() => var5);
-            IsNotNull(() => var6);
-            IsNotNull(() => var7);
-            IsNotNull(() => const9);
-            IsNotNull(() => const10);
+            IsNotNull(var1);
+            IsNotNull(var2);
+            IsNotNull(var3);
+            IsNotNull(var4);
+            IsNotNull(var5);
+            IsNotNull(var6);
+            IsNotNull(var7);
+            IsNotNull(const9);
+            IsNotNull(const10);
 
             // Check Classic Adder
             OperatorFactory x = CreateOperatorFactory(Context);
@@ -234,26 +234,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                     )
                 );
 
-            IsNotNull(() => nestedAdder);
-            AreEqual(4, () => nestedAdder.Operands.Count);
+            IsNotNull(nestedAdder);
+            AreEqual(4, nestedAdder.Operands.Count);
             double nestedAdderResult = _[nestedAdder].Calculate();
-            AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => nestedAdderResult);
+            AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, nestedAdderResult);
 
             // Check Flattened Terms
             var flattenAdderTerms = new SynthWishesAccessor(this).FlattenTerms(_[nestedAdder]);
 
-            IsNotNull(() => flattenAdderTerms);
-            AreEqual(10,                 () => flattenAdderTerms.Count);
-            AreEqual(var1.UnderlyingOutlet, () => flattenAdderTerms[0].UnderlyingOutlet);
-            AreEqual(var2.UnderlyingOutlet, () => flattenAdderTerms[1].UnderlyingOutlet);
-            AreEqual(var3.UnderlyingOutlet, () => flattenAdderTerms[2].UnderlyingOutlet);
-            AreEqual(var4.UnderlyingOutlet, () => flattenAdderTerms[3].UnderlyingOutlet);
-            AreEqual(var5.UnderlyingOutlet, () => flattenAdderTerms[4].UnderlyingOutlet);
-            AreEqual(var6.UnderlyingOutlet, () => flattenAdderTerms[5].UnderlyingOutlet);
-            AreEqual(var7.UnderlyingOutlet, () => flattenAdderTerms[6].UnderlyingOutlet);
-            AreEqual(var8.UnderlyingOutlet, () => flattenAdderTerms[7].UnderlyingOutlet);
-            AreEqual(const9,             () => flattenAdderTerms[8].UnderlyingOutlet);
-            AreEqual(const10,            () => flattenAdderTerms[9].UnderlyingOutlet);
+            IsNotNull(flattenAdderTerms);
+            AreEqual(10,                    flattenAdderTerms.Count);
+            AreEqual(var1.UnderlyingOutlet, flattenAdderTerms[0].UnderlyingOutlet);
+            AreEqual(var2.UnderlyingOutlet, flattenAdderTerms[1].UnderlyingOutlet);
+            AreEqual(var3.UnderlyingOutlet, flattenAdderTerms[2].UnderlyingOutlet);
+            AreEqual(var4.UnderlyingOutlet, flattenAdderTerms[3].UnderlyingOutlet);
+            AreEqual(var5.UnderlyingOutlet, flattenAdderTerms[4].UnderlyingOutlet);
+            AreEqual(var6.UnderlyingOutlet, flattenAdderTerms[5].UnderlyingOutlet);
+            AreEqual(var7.UnderlyingOutlet, flattenAdderTerms[6].UnderlyingOutlet);
+            AreEqual(var8.UnderlyingOutlet, flattenAdderTerms[7].UnderlyingOutlet);
+            AreEqual(const9,                flattenAdderTerms[8].UnderlyingOutlet);
+            AreEqual(const10,               flattenAdderTerms[9].UnderlyingOutlet);
 
             // Check Nested Sum
             Outlet nestedSumOutlet =
@@ -288,23 +288,23 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             var sumWrapper = new Adder(nestedSumOutlet.Operator);
 
-            AreEqual(9, () => sumWrapper.Operands.Count);
+            AreEqual(9, sumWrapper.Operands.Count);
 
-            AreEqual(var1, () => sumWrapper.Operands[0]);
-            AreEqual(var2, () => sumWrapper.Operands[1]);
-            AreEqual(var3, () => sumWrapper.Operands[2]);
-            AreEqual(var4, () => sumWrapper.Operands[3]);
-            AreEqual(var5, () => sumWrapper.Operands[4]);
-            AreEqual(var6, () => sumWrapper.Operands[5]);
-            AreEqual(var7, () => sumWrapper.Operands[6]);
-            AreEqual(var8, () => sumWrapper.Operands[7]);
+            AreEqual(var1, sumWrapper.Operands[0]);
+            AreEqual(var2, sumWrapper.Operands[1]);
+            AreEqual(var3, sumWrapper.Operands[2]);
+            AreEqual(var4, sumWrapper.Operands[3]);
+            AreEqual(var5, sumWrapper.Operands[4]);
+            AreEqual(var6, sumWrapper.Operands[5]);
+            AreEqual(var7, sumWrapper.Operands[6]);
+            AreEqual(var8, sumWrapper.Operands[7]);
 
             double? constant = sumWrapper.Operands[8].AsConst();
-            IsNotNull(() => constant);
-            AreEqual(9 + 10, () => constant.Value);
+            IsNotNull(constant);
+            AreEqual(9 + 10, constant.Value);
 
             double calculatedNestedSum = _[sumWrapper].Calculate();
-            AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, () => calculatedNestedSum);
+            AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, calculatedNestedSum);
         }
 
         [TestMethod] public void NestedMultiplicationOptimizationTest() => Run(NestedMultiplicationOptimization);
@@ -322,14 +322,14 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             var var7   = Curve(7, 7).SetName("Curve7");
             var var8   = Curve(8, 8).SetName("Curve8");
 
-            IsNotNull(() => const1);
-            IsNotNull(() => var2);
-            IsNotNull(() => const3);
-            IsNotNull(() => var4);
-            IsNotNull(() => const5);
-            IsNotNull(() => var6);
-            IsNotNull(() => var7);
-            IsNotNull(() => var8);
+            IsNotNull(const1);
+            IsNotNull(var2);
+            IsNotNull(const3);
+            IsNotNull(var4);
+            IsNotNull(const5);
+            IsNotNull(var6);
+            IsNotNull(var7);
+            IsNotNull(var8);
 
             // Check Nested Multiplication
             Outlet nestedMultiply =
@@ -354,26 +354,26 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Check Optimized Factors
             IList<FlowNode> flattenedFactors = new SynthWishesAccessor(this).FlattenFactors(_[nestedMultiply]);
 
-            IsNotNull(() => flattenedFactors);
-            AreEqual(6, () => flattenedFactors.Count);
+            IsNotNull(flattenedFactors);
+            AreEqual(6, flattenedFactors.Count);
 
             // Operator creation reversed the order.
-            AreEqual(var2.UnderlyingOutlet, () => flattenedFactors[4].UnderlyingOutlet);
-            AreEqual(var4.UnderlyingOutlet, () => flattenedFactors[3].UnderlyingOutlet);
-            AreEqual(var6.UnderlyingOutlet, () => flattenedFactors[2].UnderlyingOutlet);
-            AreEqual(var7.UnderlyingOutlet, () => flattenedFactors[1].UnderlyingOutlet);
-            AreEqual(var8.UnderlyingOutlet, () => flattenedFactors[0].UnderlyingOutlet);
+            AreEqual(var2.UnderlyingOutlet, flattenedFactors[4].UnderlyingOutlet);
+            AreEqual(var4.UnderlyingOutlet, flattenedFactors[3].UnderlyingOutlet);
+            AreEqual(var6.UnderlyingOutlet, flattenedFactors[2].UnderlyingOutlet);
+            AreEqual(var7.UnderlyingOutlet, flattenedFactors[1].UnderlyingOutlet);
+            AreEqual(var8.UnderlyingOutlet, flattenedFactors[0].UnderlyingOutlet);
 
             double? constant = flattenedFactors[5].AsConst;
-            IsNotNull(() => constant);
-            AreEqual(1 * 3 * 5, () => constant.Value);
+            IsNotNull(constant);
+            AreEqual(1 * 3 * 5, constant.Value);
 
-            IsNotNull(() => nestedMultiply);
+            IsNotNull(nestedMultiply);
             double multiplyResult = nestedMultiply.Calculate(time: 0);
-            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => multiplyResult);
+            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, multiplyResult);
 
             double calculatedFlattenedFactors = flattenedFactors.Product(x => x.Calculate());
-            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, () => calculatedFlattenedFactors);
+            AreEqual(1 * 2 * 3 * 4 * 5 * 6 * 7 * 8, calculatedFlattenedFactors);
         }
 
         // Complexity
@@ -447,55 +447,55 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
         void TestComplexity(FlowNode flowNode)
         {
-            IsNotNull(() => flowNode);
+            IsNotNull(flowNode);
             {
                 string stringify = flowNode.Stringify();
-                IsNotNull(() => stringify);
+                IsNotNull(stringify);
                 int complexityOld = stringify.CountLines();
                 int complexity    = flowNode.Complexity;
-                AreEqual(complexityOld, () => complexity);
+                AreEqual(complexityOld, complexity);
             }
 
-            IsNotNull(() => flowNode.UnderlyingOutlet);
+            IsNotNull(flowNode.UnderlyingOutlet);
             Outlet outlet = flowNode.UnderlyingOutlet;
             {
                 string stringify = outlet.Stringify();
-                IsNotNull(() => stringify);
+                IsNotNull(stringify);
                 int complexityOld = stringify.CountLines();
                 int complexity    = outlet.Complexity();
-                AreEqual(complexityOld, () => complexity);
+                AreEqual(complexityOld, complexity);
             }
 
-            IsNotNull(() => outlet.Operator);
+            IsNotNull(outlet.Operator);
             Operator op = outlet.Operator;
             {
                 string stringify = op.Stringify();
-                IsNotNull(() => stringify);
+                IsNotNull(stringify);
                 int complexityOld = stringify.CountLines();
                 int complexity    = op.Complexity();
-                AreEqual(complexityOld, () => complexity);
+                AreEqual(complexityOld, complexity);
             }
 
             // For the Inlet case: Complexity requires detouring through another operator.
             var add = Add(flowNode, 1);
 
             // Ensure the Add operation and its associated Operator and Inlets are initialized correctly.
-            IsNotNull(() => add);
-            IsNotNull(() => add.UnderlyingOperator);
-            IsNotNull(() => add.UnderlyingOperator.Inlets);
+            IsNotNull(add);
+            IsNotNull(add.UnderlyingOperator);
+            IsNotNull(add.UnderlyingOperator.Inlets);
             Assert.IsTrue(add.UnderlyingOperator.Inlets.Count > 0);
 
             // Access the first Inlet to evaluate its complexity.
             Inlet inlet = add.UnderlyingOperator.Inlets[0];
             {
                 string stringify = inlet.Stringify();
-                IsNotNull(() => stringify);
+                IsNotNull(stringify);
                 int complexityOld = stringify.CountLines();
                 int complexity    = inlet.Complexity();
                 // The expected complexity excludes 1 line,
                 // as the old method counted an extra line for the added nesting level.
                 int expectedComplexity = complexityOld - 1;
-                AreEqual(expectedComplexity, () => complexity);
+                AreEqual(expectedComplexity, complexity);
             }
         }
         
@@ -512,34 +512,34 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         
         void TestBuffComplexity(Buff buff)
         {
-            IsNotNull(() => buff);
+            IsNotNull(buff);
             {
                 string stringify = buff.Stringify();
-                IsNotNull(() => stringify);
+                IsNotNull(stringify);
                 int complexityOld = stringify.CountLines();
                 int complexity    = buff.Complexity();
-                AreEqual(complexityOld, () => complexity);
+                AreEqual(complexityOld, complexity);
             }
             
             AudioFileOutput audioFileOutput = buff.UnderlyingAudioFileOutput;
-            IsNotNull(() => audioFileOutput);
+            IsNotNull(audioFileOutput);
             {
                 string stringify = audioFileOutput.Stringify();
-                IsNotNull(() => stringify);
+                IsNotNull(stringify);
                 int complexityOld = stringify.CountLines();
                 int complexity    = audioFileOutput.Complexity();
-                AreEqual(complexityOld, () => complexity);
+                AreEqual(complexityOld, complexity);
             }
             
-            IsNotNull(() => audioFileOutput.AudioFileOutputChannels);
+            IsNotNull(audioFileOutput.AudioFileOutputChannels);
             foreach (var audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
             {
-                IsNotNull(() => audioFileOutputChannel);
+                IsNotNull(audioFileOutputChannel);
                 {
                     string stringify     = audioFileOutputChannel.Stringify();
                     int    complexityOld = stringify.CountLines();
                     int    complexity    = audioFileOutputChannel.Complexity();
-                    AreEqual(complexityOld, () => complexity);
+                    AreEqual(complexityOld, complexity);
                 }
             }
         }

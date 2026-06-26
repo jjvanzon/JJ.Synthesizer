@@ -1089,8 +1089,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private static void Assert_Independent_Getters(TestEntities x, int bits)
         {
             // Independent after Taping
-            IsNotNull(() => x);
-            IsNotNull(() => x.Independent);
+            IsNotNull(x);
+            IsNotNull(x.Independent);
             Assert_Independent_Getters(x.Independent.Sample, bits);
             Assert_Independent_Getters(x.Independent.AudioInfoWish, bits);
             Assert_Independent_Getters(x.Independent.AudioFileInfo, bits);
@@ -1098,8 +1098,8 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_Immutable_Getters(TestEntities x, int bits)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.Immutable);
+            IsNotNull(x);
+            IsNotNull(x.Immutable);
             Assert_Immutable_Getters(x.Immutable.WavHeader, bits);
             Assert_Immutable_Getters(x.Immutable.SampleDataTypeEnum, bits);
             Assert_Immutable_Getters(x.Immutable.SampleDataType, bits);
@@ -1109,11 +1109,11 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_SynthBound_Getters(TestEntities x, int bits)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.SynthBound);
-            IsNotNull(() => x.SynthBound.SynthWishes);
-            IsNotNull(() => x.SynthBound.FlowNode);
-            IsNotNull(() => x.SynthBound.ConfigResolver);
+            IsNotNull(x);
+            IsNotNull(x.SynthBound);
+            IsNotNull(x.SynthBound.SynthWishes);
+            IsNotNull(x.SynthBound.FlowNode);
+            IsNotNull(x.SynthBound.ConfigResolver);
             AreEqual(bits,       () => x.SynthBound.SynthWishes   .GetBits);
             AreEqual(bits,       () => x.SynthBound.FlowNode      .GetBits);
             AreEqual(bits,       () => x.SynthBound.ConfigResolver.GetBits);
@@ -1175,12 +1175,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_TapeBound_Getters(TestEntities x, int bits)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.TapeBound);
-            IsNotNull(() => x.TapeBound.Tape);
-            IsNotNull(() => x.TapeBound.TapeConfig);
-            IsNotNull(() => x.TapeBound.TapeActions);
-            IsNotNull(() => x.TapeBound.TapeAction);
+            IsNotNull(x);
+            IsNotNull(x.TapeBound);
+            IsNotNull(x.TapeBound.Tape);
+            IsNotNull(x.TapeBound.TapeConfig);
+            IsNotNull(x.TapeBound.TapeActions);
+            IsNotNull(x.TapeBound.TapeAction);
             AreEqual(bits,       () => x.TapeBound.TapeConfig .Bits);
             AreEqual(bits,       () => x.TapeBound.Tape       .Bits   ());
             AreEqual(bits,       () => x.TapeBound.TapeConfig .Bits   ());
@@ -1246,9 +1246,9 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_BuffBound_Getters(TestEntities x, int bits)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.BuffBound);
-            IsNotNull(() => x.BuffBound.Buff);
+            IsNotNull(x);
+            IsNotNull(x.BuffBound);
+            IsNotNull(x.BuffBound.Buff);
             AreEqual(bits,       () => x.BuffBound.Buff           .Bits   ());
             AreEqual(bits,       () => x.BuffBound.AudioFileOutput.Bits   ());
             AreEqual(bits,       () => x.BuffBound.Buff           .GetBits());
@@ -1283,7 +1283,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_Independent_Getters(Sample sample, int bits)
         {
-            IsNotNull(() => sample);
+            IsNotNull(sample);
             AreEqual(bits,       () => sample.Bits   ());
             AreEqual(bits,       () => sample.GetBits());
             AreEqual(bits == 8,  () => sample.Is8Bit ());
@@ -1303,7 +1303,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int bits)
         {
-            IsNotNull(() => audioInfoWish);
+            IsNotNull(audioInfoWish);
             AreEqual(bits,       () => audioInfoWish.Bits     );
             AreEqual(bits,       () => audioInfoWish.Bits   ());
             AreEqual(bits,       () => audioInfoWish.GetBits());
@@ -1324,7 +1324,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int bits)
         {
-            IsNotNull(() => audioFileInfo);
+            IsNotNull(audioFileInfo);
             AreEqual(bits,       () => audioFileInfo.Bits   ());
             AreEqual(bits,       () => audioFileInfo.GetBits());
             AreEqual(bits == 8,  () => audioFileInfo.Is8Bit ());
@@ -1392,7 +1392,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private static void Assert_Immutable_Getters(SampleDataType sampleDataType, int bits)
         {
-            IsNotNull(() => sampleDataType);
+            IsNotNull(sampleDataType);
             AreEqual(bits,       () => sampleDataType.Bits        ());
             AreEqual(bits,       () => sampleDataType.GetBits     ());
             AreEqual(bits,       () => sampleDataType.AsBits      ());
@@ -1487,7 +1487,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_Immutable_Getters(Type type, int bits)
         {
-            IsNotNull(() => type);
+            IsNotNull(type);
             AreEqual(bits,       () => type.Bits      ());
             AreEqual(bits,       () => type.GetBits   ());
             AreEqual(bits,       () => type.ToBits    ());

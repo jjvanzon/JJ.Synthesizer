@@ -742,7 +742,7 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         void Assert_Independent_Getters(InterpolationType interpolationType, InterpolationTypeEnum interpolation)
         {
-            IsNotNull(() => interpolationType);
+            IsNotNull(interpolationType);
             AreEqual(interpolation,          () => interpolationType.Interpolation            ());
             AreEqual(interpolation,          () => interpolationType.GetInterpolation         ());
             AreEqual(interpolation,          () => interpolationType.AsInterpolation          ());

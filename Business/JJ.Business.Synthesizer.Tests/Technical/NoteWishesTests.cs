@@ -73,9 +73,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void BeatLength_Default()
         {
             // Default (from config or hard-coded)
-            IsNotNull(() => GetBeatLength);
+            IsNotNull(GetBeatLength);
             IsTrue(() => GetBeatLength.IsConst);
-            IsNotNull(() => GetBeatLength.AsConst);
+            IsNotNull(GetBeatLength.AsConst);
             AreEqual(0.25, () => GetBeatLength.AsConst.Value);
         }
         
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // 1/4 BarLength
             WithBarLength(Curve(2));
-            IsNotNull(() => GetBeatLength);
+            IsNotNull(GetBeatLength);
             IsFalse(() => GetBeatLength.IsConst);
             AreEqual(0.5, () => GetBeatLength.Value); // 1/4 * 2.0 = 0.5.
         }
@@ -93,9 +93,9 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void BeatLength_Explicit()
         {
             WithBeatLength(0.3);
-            IsNotNull(() => GetBeatLength);
+            IsNotNull(GetBeatLength);
             IsTrue(() => GetBeatLength.IsConst);
-            IsNotNull(() => GetBeatLength.AsConst);
+            IsNotNull(GetBeatLength.AsConst);
             AreEqual(0.3, () => GetBeatLength.AsConst.Value);
         }
         
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             // Dynamic 1/4 BarLength
             WithBarLength(Curve(0, 4));
-            IsNotNull(() => GetBeatLength);
+            IsNotNull(GetBeatLength);
             IsFalse(() => GetBeatLength.IsConst);
             AreEqual(0.5, () => GetBeatLength.Calculate(0.5)); // 1/4 * midpoint of 2.0
         }
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         void BeatLength_Dynamic_Explicit()
         {
             WithBeatLength(Curve(0, 0.3));
-            IsNotNull(() => GetBeatLength);
+            IsNotNull(GetBeatLength);
             IsFalse(() => GetBeatLength.IsConst);
             AreEqual(0.15, () => GetBeatLength.Calculate(0.5)); // Midpoint: 0.15
         }
