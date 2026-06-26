@@ -294,28 +294,28 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 
                 LogTitleStrong("Assert Mono Values Old");
                 {
-                    AreEqual(expectedValuesMono[0], () => actualValuesMonoOld[0], valueTolerance);
-                    AreEqual(expectedValuesMono[1], () => actualValuesMonoOld[1], valueTolerance);
-                    AreEqual(expectedValuesMono[2], () => actualValuesMonoOld[2], valueTolerance);
-                    AreEqual(expectedValuesMono[3], () => actualValuesMonoOld[3], valueTolerance);
-                    AreEqual(expectedValuesMono[4], () => actualValuesMonoOld[4], valueTolerance);
-                    AreEqual(expectedValuesMono[5], () => actualValuesMonoOld[5], valueTolerance);
-                    AreEqual(expectedValuesMono[6], () => actualValuesMonoOld[6], valueTolerance);
-                    AreEqual(expectedValuesMono[7], () => actualValuesMonoOld[7], valueTolerance);
-                    AreEqual(expectedValuesMono[8], () => actualValuesMonoOld[8], valueTolerance);
+                    AreEqual(expectedValuesMono[0], actualValuesMonoOld[0], valueTolerance);
+                    AreEqual(expectedValuesMono[1], actualValuesMonoOld[1], valueTolerance);
+                    AreEqual(expectedValuesMono[2], actualValuesMonoOld[2], valueTolerance);
+                    AreEqual(expectedValuesMono[3], actualValuesMonoOld[3], valueTolerance);
+                    AreEqual(expectedValuesMono[4], actualValuesMonoOld[4], valueTolerance);
+                    AreEqual(expectedValuesMono[5], actualValuesMonoOld[5], valueTolerance);
+                    AreEqual(expectedValuesMono[6], actualValuesMonoOld[6], valueTolerance);
+                    AreEqual(expectedValuesMono[7], actualValuesMonoOld[7], valueTolerance);
+                    AreEqual(expectedValuesMono[8], actualValuesMonoOld[8], valueTolerance);
                 }
                 
                 LogTitleStrong("Assert Mono Values New");
                 {
-                    AreEqual(expectedValuesMono[0], () => actualValuesMonoNew[0], valueTolerance);
-                    AreEqual(expectedValuesMono[1], () => actualValuesMonoNew[1], valueTolerance);
-                    AreEqual(expectedValuesMono[2], () => actualValuesMonoNew[2], valueTolerance);
-                    AreEqual(expectedValuesMono[3], () => actualValuesMonoNew[3], valueTolerance);
-                    AreEqual(expectedValuesMono[4], () => actualValuesMonoNew[4], valueTolerance);
-                    AreEqual(expectedValuesMono[5], () => actualValuesMonoNew[5], valueTolerance);
-                    AreEqual(expectedValuesMono[6], () => actualValuesMonoNew[6], valueTolerance);
-                    AreEqual(expectedValuesMono[7], () => actualValuesMonoNew[7], valueTolerance);
-                    AreEqual(expectedValuesMono[8], () => actualValuesMonoNew[8], valueTolerance);
+                    AreEqual(expectedValuesMono[0], actualValuesMonoNew[0], valueTolerance);
+                    AreEqual(expectedValuesMono[1], actualValuesMonoNew[1], valueTolerance);
+                    AreEqual(expectedValuesMono[2], actualValuesMonoNew[2], valueTolerance);
+                    AreEqual(expectedValuesMono[3], actualValuesMonoNew[3], valueTolerance);
+                    AreEqual(expectedValuesMono[4], actualValuesMonoNew[4], valueTolerance);
+                    AreEqual(expectedValuesMono[5], actualValuesMonoNew[5], valueTolerance);
+                    AreEqual(expectedValuesMono[6], actualValuesMonoNew[6], valueTolerance);
+                    AreEqual(expectedValuesMono[7], actualValuesMonoNew[7], valueTolerance);
+                    AreEqual(expectedValuesMono[8], actualValuesMonoNew[8], valueTolerance);
                 }
             }
             
@@ -446,29 +446,29 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
                 LogTitleStrong("Assert Left Values Old");
                 {
-                    AreEqual(expectedLeftValues[0], () => actualLeftValuesOld[0], valueTolerance);
-                    AreEqual(expectedLeftValues[1], () => actualLeftValuesOld[1], valueTolerance);
-                    AreEqual(expectedLeftValues[2], () => actualLeftValuesOld[2], valueTolerance);
-                    AreEqual(expectedLeftValues[3], () => actualLeftValuesOld[3], valueTolerance);
-                    AreEqual(expectedLeftValues[4], () => actualLeftValuesOld[4], valueTolerance);
-                    AreEqual(expectedLeftValues[5], () => actualLeftValuesOld[5], valueTolerance);
-                    AreEqual(expectedLeftValues[6], () => actualLeftValuesOld[6], valueTolerance);
-                    AreEqual(expectedLeftValues[7], () => actualLeftValuesOld[7], valueTolerance);
-                    AreEqual(expectedLeftValues[8], () => actualLeftValuesOld[8], valueTolerance);
+                    AreEqual(expectedLeftValues[0], actualLeftValuesOld[0], valueTolerance);
+                    AreEqual(expectedLeftValues[1], actualLeftValuesOld[1], valueTolerance);
+                    AreEqual(expectedLeftValues[2], actualLeftValuesOld[2], valueTolerance);
+                    AreEqual(expectedLeftValues[3], actualLeftValuesOld[3], valueTolerance);
+                    AreEqual(expectedLeftValues[4], actualLeftValuesOld[4], valueTolerance);
+                    AreEqual(expectedLeftValues[5], actualLeftValuesOld[5], valueTolerance);
+                    AreEqual(expectedLeftValues[6], actualLeftValuesOld[6], valueTolerance);
+                    AreEqual(expectedLeftValues[7], actualLeftValuesOld[7], valueTolerance);
+                    AreEqual(expectedLeftValues[8], actualLeftValuesOld[8], valueTolerance);
                     Log("Done");
                 }
                 
                 LogTitleStrong("Assert Values Right Old");
                 {
-                    AreEqual(expectedRightValues[0], () => actualRightValuesOld[0], valueTolerance);
-                    AreEqual(expectedRightValues[1], () => actualRightValuesOld[1], valueTolerance);
-                    AreEqual(expectedRightValues[2], () => actualRightValuesOld[2], valueTolerance);
-                    AreEqual(expectedRightValues[3], () => actualRightValuesOld[3], valueTolerance);
-                    AreEqual(expectedRightValues[4], () => actualRightValuesOld[4], valueTolerance);
-                    AreEqual(expectedRightValues[5], () => actualRightValuesOld[5], valueTolerance);
-                    AreEqual(expectedRightValues[6], () => actualRightValuesOld[6], valueTolerance);
-                    AreEqual(expectedRightValues[7], () => actualRightValuesOld[7], valueTolerance);
-                    AreEqual(expectedRightValues[8], () => actualRightValuesOld[8], valueTolerance);
+                    AreEqual(expectedRightValues[0], actualRightValuesOld[0], valueTolerance);
+                    AreEqual(expectedRightValues[1], actualRightValuesOld[1], valueTolerance);
+                    AreEqual(expectedRightValues[2], actualRightValuesOld[2], valueTolerance);
+                    AreEqual(expectedRightValues[3], actualRightValuesOld[3], valueTolerance);
+                    AreEqual(expectedRightValues[4], actualRightValuesOld[4], valueTolerance);
+                    AreEqual(expectedRightValues[5], actualRightValuesOld[5], valueTolerance);
+                    AreEqual(expectedRightValues[6], actualRightValuesOld[6], valueTolerance);
+                    AreEqual(expectedRightValues[7], actualRightValuesOld[7], valueTolerance);
+                    AreEqual(expectedRightValues[8], actualRightValuesOld[8], valueTolerance);
                     Log("Done");
                 }
 
@@ -669,7 +669,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
 
             // Sample Duration
             double durationTolerance_RatherHigh = 0.02;
-            AreEqual(expectedDuration, () => sample.GetDuration(), durationTolerance_RatherHigh);
+            AreEqual(expectedDuration, sample.GetDuration(), durationTolerance_RatherHigh);
             
             // Sample Outlet From Different Sources
             Outlet sampleOutlet_FromOperatorOutlets = sampleOperator.Outlets[0];

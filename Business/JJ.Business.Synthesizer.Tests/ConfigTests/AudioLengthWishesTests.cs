@@ -449,42 +449,42 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private void Assert_Independent_Getters(Sample sample, double audioLength)
         {
-            AreEqual(audioLength, () => sample.AudioLength(),                ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => sample.GetAudioLength(),             ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => AudioLength                (sample), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => GetAudioLength             (sample), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (sample), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(sample), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, sample.AudioLength(),                ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, sample.GetAudioLength(),             ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, AudioLength                (sample), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, GetAudioLength             (sample), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (sample), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(sample), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
         private void Assert_Independent_Getters(AudioFileInfo audioFileInfo, double audioLength)
         {
-            AreEqual(audioLength, () => audioFileInfo.AudioLength   (),                ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => audioFileInfo.GetAudioLength(),                ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => AudioLength                 (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => GetAudioLength              (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength    (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioFileInfo.AudioLength   (),              ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioFileInfo.GetAudioLength(),              ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, AudioLength                 (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, GetAudioLength              (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.AudioLength    (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength (audioFileInfo), ToleranceByPercent(audioLength, _tolerancePercent));
         }
         
         private void Assert_Independent_Getters(AudioInfoWish audioInfoWish, double audioLength)
         {
-            AreEqual(audioLength, () => audioInfoWish.AudioLength   (),                ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => audioInfoWish.GetAudioLength(),                ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => AudioLength                 (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => GetAudioLength              (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength    (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioInfoWish.AudioLength   (),                ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, audioInfoWish.GetAudioLength(),                ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, AudioLength                 (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, GetAudioLength              (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.AudioLength    (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength (audioInfoWish), ToleranceByPercent(audioLength, _tolerancePercent));
         }
 
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, double audioLength)
         {
-            AreEqual(audioLength, () => wavHeader.AudioLength      (),            ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => wavHeader.GetAudioLength   (),            ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => AudioLength                (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => GetAudioLength             (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.AudioLength   (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
-            AreEqual(audioLength, () => ConfigWishes.GetAudioLength(wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, wavHeader.AudioLength      (),            ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, wavHeader.GetAudioLength   (),            ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, AudioLength                (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, GetAudioLength             (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.AudioLength   (wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
+            AreEqual(audioLength, ConfigWishes.GetAudioLength(wavHeader), ToleranceByPercent(audioLength, _tolerancePercent));
         }
          
         // Tolerance Helpers

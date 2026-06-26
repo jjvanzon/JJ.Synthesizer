@@ -216,32 +216,32 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             AreEqual(byteCount, entities.SynthBound.FlowNode2     .GetByteCount);
             AreEqual(byteCount, entities.SynthBound.ConfigResolver.GetByteCount(entities.SynthBound.SynthWishes));
             
-            AreEqual(byteCount, () => entities.TapeBound.Tape           .GetByteCount(), courtesy);
-            AreEqual(byteCount, () => entities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
-            AreEqual(byteCount, () => entities.TapeBound.TapeActions    .GetByteCount(), courtesy);
-            AreEqual(byteCount, () => entities.TapeBound.TapeAction     .GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.TapeBound.Tape           .GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.TapeBound.TapeActions    .GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.TapeBound.TapeAction     .GetByteCount(), courtesy);
             
-            AreEqual(byteCount, () => entities.BuffBound.Buff           .GetByteCount(), courtesy);
-            AreEqual(byteCount, () => entities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
-            AreEqual(byteCount, () => entities.Independent.Sample       .GetByteCount(), courtesy);
-            AreEqual(byteCount, () => entities.Immutable.WavHeader      .GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.BuffBound.Buff           .GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.Independent.Sample       .GetByteCount(), courtesy);
+            AreEqual(byteCount, entities.Immutable.WavHeader      .GetByteCount(), courtesy);
             
-            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Bits              .GetByteCount());
-            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.Type              .GetByteCount());
-            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.SampleDataType    .GetByteCount());
-            AreEqual(DefaultSizeOfBitDepth, () => entities.Immutable.SampleDataTypeEnum.GetByteCount());
+            AreEqual(DefaultSizeOfBitDepth, entities.Immutable.Bits              .GetByteCount());
+            AreEqual(DefaultSizeOfBitDepth, entities.Immutable.Type              .GetByteCount());
+            AreEqual(DefaultSizeOfBitDepth, entities.Immutable.SampleDataType    .GetByteCount());
+            AreEqual(DefaultSizeOfBitDepth, entities.Immutable.SampleDataTypeEnum.GetByteCount());
             
             foreach (var channelEntities in entities.ChannelEntities)
             {
-                AreEqual(byteCount, () => channelEntities.TapeBound.Tape           .GetByteCount(), courtesy);
-                AreEqual(byteCount, () => channelEntities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
-                AreEqual(byteCount, () => channelEntities.TapeBound.TapeActions    .GetByteCount(), courtesy);
-                AreEqual(byteCount, () => channelEntities.TapeBound.TapeAction     .GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.TapeBound.Tape           .GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.TapeBound.TapeConfig     .GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.TapeBound.TapeActions    .GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.TapeBound.TapeAction     .GetByteCount(), courtesy);
                 
-                AreEqual(byteCount, () => channelEntities.BuffBound.Buff           .GetByteCount(), courtesy);
-                AreEqual(byteCount, () => channelEntities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
-                AreEqual(byteCount, () => channelEntities.Independent.Sample       .GetByteCount(), courtesy);
-                AreEqual(byteCount, () => channelEntities.Immutable.WavHeader      .GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.BuffBound.Buff           .GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.BuffBound.AudioFileOutput.GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.Independent.Sample       .GetByteCount(), courtesy);
+                AreEqual(byteCount, channelEntities.Immutable.WavHeader      .GetByteCount(), courtesy);
 
                 AreEqual(DefaultSizeOfBitDepth, channelEntities.Immutable.Bits              .GetByteCount());
                 AreEqual(DefaultSizeOfBitDepth, channelEntities.Immutable.Type              .GetByteCount());
@@ -745,60 +745,60 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             IsNotNull(() => x.SynthBound.FlowNode);
             IsNotNull(() => x.SynthBound.ConfigResolver);
 
-            AreEqual(byteCount, () => x.SynthBound.SynthWishes   .GetByteCount);
-            AreEqual(byteCount, () => x.SynthBound.FlowNode      .GetByteCount);
-            AreEqual(byteCount, () => x.SynthBound.SynthWishes   .GetByteCount());
-            AreEqual(byteCount, () => x.SynthBound.FlowNode      .GetByteCount());
-            AreEqual(byteCount, () => x.SynthBound.ConfigResolver.GetByteCount(x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => x.SynthBound.SynthWishes   .ByteCount());
-            AreEqual(byteCount, () => x.SynthBound.FlowNode      .ByteCount());
-            AreEqual(byteCount, () => x.SynthBound.ConfigResolver.ByteCount(x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => GetByteCount(x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => GetByteCount(x.SynthBound.FlowNode));
-            AreEqual(byteCount, () => GetByteCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ByteCount   (x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ByteCount   (x.SynthBound.FlowNode));
-            AreEqual(byteCount, () => ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ConfigWishes        .GetByteCount(x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ConfigWishes        .GetByteCount(x.SynthBound.FlowNode));
-            AreEqual(byteCount, () => ConfigWishesAccessor.GetByteCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ConfigWishes        .ByteCount   (x.SynthBound.SynthWishes));
-            AreEqual(byteCount, () => ConfigWishes        .ByteCount   (x.SynthBound.FlowNode));
-            AreEqual(byteCount, () => ConfigWishesAccessor.ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
+            AreEqual(byteCount, x.SynthBound.SynthWishes   .GetByteCount);
+            AreEqual(byteCount, x.SynthBound.FlowNode      .GetByteCount);
+            AreEqual(byteCount, x.SynthBound.SynthWishes   .GetByteCount());
+            AreEqual(byteCount, x.SynthBound.FlowNode      .GetByteCount());
+            AreEqual(byteCount, x.SynthBound.ConfigResolver.GetByteCount(x.SynthBound.SynthWishes));
+            AreEqual(byteCount, x.SynthBound.SynthWishes   .ByteCount());
+            AreEqual(byteCount, x.SynthBound.FlowNode      .ByteCount());
+            AreEqual(byteCount, x.SynthBound.ConfigResolver.ByteCount(x.SynthBound.SynthWishes));
+            AreEqual(byteCount, GetByteCount(x.SynthBound.SynthWishes));
+            AreEqual(byteCount, GetByteCount(x.SynthBound.FlowNode));
+            AreEqual(byteCount, GetByteCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
+            AreEqual(byteCount, ByteCount   (x.SynthBound.SynthWishes));
+            AreEqual(byteCount, ByteCount   (x.SynthBound.FlowNode));
+            AreEqual(byteCount, ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
+            AreEqual(byteCount, ConfigWishes        .GetByteCount(x.SynthBound.SynthWishes));
+            AreEqual(byteCount, ConfigWishes        .GetByteCount(x.SynthBound.FlowNode));
+            AreEqual(byteCount, ConfigWishesAccessor.GetByteCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
+            AreEqual(byteCount, ConfigWishes        .ByteCount   (x.SynthBound.SynthWishes));
+            AreEqual(byteCount, ConfigWishes        .ByteCount   (x.SynthBound.FlowNode));
+            AreEqual(byteCount, ConfigWishesAccessor.ByteCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes));
         }
         
         private void Assert_TapeBound_Getters(TestEntities x, int byteCount, int courtesyBytes)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.TapeBound);
-            IsNotNull(() => x.TapeBound.Tape);
-            IsNotNull(() => x.TapeBound.TapeConfig);
-            IsNotNull(() => x.TapeBound.TapeActions);
-            IsNotNull(() => x.TapeBound.TapeAction);
-            AreEqual(byteCount, () => x.TapeBound.Tape       .ByteCount   (), courtesyBytes, Up);
-            AreEqual(byteCount, () => x.TapeBound.TapeConfig .ByteCount   (), courtesyBytes, Up);
-            AreEqual(byteCount, () => x.TapeBound.TapeActions.ByteCount   (), courtesyBytes, Up);
-            AreEqual(byteCount, () => x.TapeBound.TapeAction .ByteCount   (), courtesyBytes, Up);
-            AreEqual(byteCount, () => x.TapeBound.Tape       .GetByteCount(), courtesyBytes, Up);
-            AreEqual(byteCount, () => x.TapeBound.TapeConfig .GetByteCount(), courtesyBytes, Up);
-            AreEqual(byteCount, () => x.TapeBound.TapeActions.GetByteCount(), courtesyBytes, Up);
-            AreEqual(byteCount, () => x.TapeBound.TapeAction .GetByteCount(), courtesyBytes, Up);
-            AreEqual(byteCount, () => ByteCount   (x.TapeBound.Tape        ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ByteCount   (x.TapeBound.TapeConfig  ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ByteCount   (x.TapeBound.TapeActions ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ByteCount   (x.TapeBound.TapeAction  ), courtesyBytes, Up);
-            AreEqual(byteCount, () => GetByteCount(x.TapeBound.Tape        ), courtesyBytes, Up);
-            AreEqual(byteCount, () => GetByteCount(x.TapeBound.TapeConfig  ), courtesyBytes, Up);
-            AreEqual(byteCount, () => GetByteCount(x.TapeBound.TapeActions ), courtesyBytes, Up);
-            AreEqual(byteCount, () => GetByteCount(x.TapeBound.TapeAction  ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.TapeBound.Tape       ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.TapeBound.TapeConfig ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.TapeBound.TapeActions), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.TapeBound.TapeAction ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.TapeBound.Tape       ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.TapeBound.TapeConfig ), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.TapeBound.TapeActions), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.TapeBound.TapeAction ), courtesyBytes, Up);
+            IsNotNull(x);
+            IsNotNull(x.TapeBound);
+            IsNotNull(x.TapeBound.Tape);
+            IsNotNull(x.TapeBound.TapeConfig);
+            IsNotNull(x.TapeBound.TapeActions);
+            IsNotNull(x.TapeBound.TapeAction);
+            AreEqual(byteCount, x.TapeBound.Tape       .ByteCount   (), courtesyBytes, Up);
+            AreEqual(byteCount, x.TapeBound.TapeConfig .ByteCount   (), courtesyBytes, Up);
+            AreEqual(byteCount, x.TapeBound.TapeActions.ByteCount   (), courtesyBytes, Up);
+            AreEqual(byteCount, x.TapeBound.TapeAction .ByteCount   (), courtesyBytes, Up);
+            AreEqual(byteCount, x.TapeBound.Tape       .GetByteCount(), courtesyBytes, Up);
+            AreEqual(byteCount, x.TapeBound.TapeConfig .GetByteCount(), courtesyBytes, Up);
+            AreEqual(byteCount, x.TapeBound.TapeActions.GetByteCount(), courtesyBytes, Up);
+            AreEqual(byteCount, x.TapeBound.TapeAction .GetByteCount(), courtesyBytes, Up);
+            AreEqual(byteCount, ByteCount   (x.TapeBound.Tape        ), courtesyBytes, Up);
+            AreEqual(byteCount, ByteCount   (x.TapeBound.TapeConfig  ), courtesyBytes, Up);
+            AreEqual(byteCount, ByteCount   (x.TapeBound.TapeActions ), courtesyBytes, Up);
+            AreEqual(byteCount, ByteCount   (x.TapeBound.TapeAction  ), courtesyBytes, Up);
+            AreEqual(byteCount, GetByteCount(x.TapeBound.Tape        ), courtesyBytes, Up);
+            AreEqual(byteCount, GetByteCount(x.TapeBound.TapeConfig  ), courtesyBytes, Up);
+            AreEqual(byteCount, GetByteCount(x.TapeBound.TapeActions ), courtesyBytes, Up);
+            AreEqual(byteCount, GetByteCount(x.TapeBound.TapeAction  ), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.TapeBound.Tape       ), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.TapeBound.TapeConfig ), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.TapeBound.TapeActions), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.TapeBound.TapeAction ), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.TapeBound.Tape       ), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.TapeBound.TapeConfig ), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.TapeBound.TapeActions), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.TapeBound.TapeAction ), courtesyBytes, Up);
         }
         
         private void Assert_BuffBound_Getters(TestEntities x, int byteCount, int courtesyBytes)
@@ -845,28 +845,28 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         
         private void Assert_Buff_Getters(TestEntities x, int byteCount, int courtesyBytes)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.BuffBound);
-            IsNotNull(() => x.BuffBound.Buff);
-            AreEqual(byteCount, () => x.BuffBound.Buff.ByteCount()               , courtesyBytes, Up);
-            AreEqual(byteCount, () => x.BuffBound.Buff.GetByteCount()            , courtesyBytes, Up);
-            AreEqual(byteCount, () => ByteCount   (x.BuffBound.Buff)             , courtesyBytes, Up);
-            AreEqual(byteCount, () => GetByteCount(x.BuffBound.Buff)             , courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.BuffBound.Buff), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.BuffBound.Buff), courtesyBytes, Up);
+            IsNotNull(x);
+            IsNotNull(x.BuffBound);
+            IsNotNull(x.BuffBound.Buff);
+            AreEqual(byteCount, x.BuffBound.Buff.ByteCount()               , courtesyBytes, Up);
+            AreEqual(byteCount, x.BuffBound.Buff.GetByteCount()            , courtesyBytes, Up);
+            AreEqual(byteCount, ByteCount   (x.BuffBound.Buff)             , courtesyBytes, Up);
+            AreEqual(byteCount, GetByteCount(x.BuffBound.Buff)             , courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.BuffBound.Buff), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.BuffBound.Buff), courtesyBytes, Up);
         }
         
         private void Assert_Independent_Getters(TestEntities x, int byteCount, int courtesyBytes)
         {
-            IsNotNull(() => x);
-            IsNotNull(() => x.Independent);
-            IsNotNull(() => x.Independent.Sample);
-            AreEqual(byteCount, () => x.Independent.Sample.ByteCount   ()            , courtesyBytes, Up);
-            AreEqual(byteCount, () => x.Independent.Sample.GetByteCount()            , courtesyBytes, Up);
-            AreEqual(byteCount, () => ByteCount   (x.Independent.Sample)             , courtesyBytes, Up);
-            AreEqual(byteCount, () => GetByteCount(x.Independent.Sample)             , courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (x.Independent.Sample), courtesyBytes, Up);
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(x.Independent.Sample), courtesyBytes, Up);
+            IsNotNull(x);
+            IsNotNull(x.Independent);
+            IsNotNull(x.Independent.Sample);
+            AreEqual(byteCount, x.Independent.Sample.ByteCount   ()            , courtesyBytes, Up);
+            AreEqual(byteCount, x.Independent.Sample.GetByteCount()            , courtesyBytes, Up);
+            AreEqual(byteCount, ByteCount   (x.Independent.Sample)             , courtesyBytes, Up);
+            AreEqual(byteCount, GetByteCount(x.Independent.Sample)             , courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.ByteCount   (x.Independent.Sample), courtesyBytes, Up);
+            AreEqual(byteCount, ConfigWishes.GetByteCount(x.Independent.Sample), courtesyBytes, Up);
         }
         
         private void Assert_Immutable_Getters(TestEntities x, int byteCount)
@@ -879,12 +879,12 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int byteCount)
         {
             if (wavHeader.IsNully()) return;
-            AreEqual(byteCount, () => wavHeader.ByteCount   ());
-            AreEqual(byteCount, () => wavHeader.GetByteCount());
-            AreEqual(byteCount, () => ByteCount   (wavHeader));
-            AreEqual(byteCount, () => GetByteCount(wavHeader));
-            AreEqual(byteCount, () => ConfigWishes.ByteCount   (wavHeader));
-            AreEqual(byteCount, () => ConfigWishes.GetByteCount(wavHeader));
+            AreEqual(byteCount, wavHeader.ByteCount   ());
+            AreEqual(byteCount, wavHeader.GetByteCount());
+            AreEqual(byteCount, ByteCount   (wavHeader));
+            AreEqual(byteCount, GetByteCount(wavHeader));
+            AreEqual(byteCount, ConfigWishes.ByteCount   (wavHeader));
+            AreEqual(byteCount, ConfigWishes.GetByteCount(wavHeader));
         }
 
         private void Assert_Bitness_Getters(TestEntities x, int sizeOfBitDepth)
@@ -900,18 +900,18 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
         private void Assert_Bitness_Getters(SampleDataTypeEnum sampleDataTypeEnum, int sizeOfBitDepth)
         {
             if (sizeOfBitDepth.IsNully()) return;
-            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.ByteCount   ());
-            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.GetByteCount());
-            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.AsByteCount ());
-            AreEqual(sizeOfBitDepth, () => sampleDataTypeEnum.ToByteCount ());
-            AreEqual(sizeOfBitDepth, () => ByteCount   (sampleDataTypeEnum));
-            AreEqual(sizeOfBitDepth, () => GetByteCount(sampleDataTypeEnum));
-            AreEqual(sizeOfBitDepth, () => AsByteCount (sampleDataTypeEnum));
-            AreEqual(sizeOfBitDepth, () => ToByteCount (sampleDataTypeEnum));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ByteCount   (sampleDataTypeEnum));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetByteCount(sampleDataTypeEnum));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsByteCount (sampleDataTypeEnum));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToByteCount (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, sampleDataTypeEnum.ByteCount   ());
+            AreEqual(sizeOfBitDepth, sampleDataTypeEnum.GetByteCount());
+            AreEqual(sizeOfBitDepth, sampleDataTypeEnum.AsByteCount ());
+            AreEqual(sizeOfBitDepth, sampleDataTypeEnum.ToByteCount ());
+            AreEqual(sizeOfBitDepth, ByteCount   (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, GetByteCount(sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, AsByteCount (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, ToByteCount (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ByteCount   (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, ConfigWishes.GetByteCount(sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, ConfigWishes.AsByteCount (sampleDataTypeEnum));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ToByteCount (sampleDataTypeEnum));
         }
         
         private void Assert_Bitness_Getters(SampleDataType sampleDataType, int sizeOfBitDepth)
@@ -919,59 +919,59 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             if (sizeOfBitDepth.IsNully()) return;
             
             IsNotNull(() => sampleDataType);
-            AreEqual(sizeOfBitDepth, () => sampleDataType.ByteCount   ());
-            AreEqual(sizeOfBitDepth, () => sampleDataType.GetByteCount());
-            AreEqual(sizeOfBitDepth, () => sampleDataType.AsByteCount ());
-            AreEqual(sizeOfBitDepth, () => sampleDataType.ToByteCount ());
-            AreEqual(sizeOfBitDepth, () => ByteCount   (sampleDataType));
-            AreEqual(sizeOfBitDepth, () => GetByteCount(sampleDataType));
-            AreEqual(sizeOfBitDepth, () => AsByteCount (sampleDataType));
-            AreEqual(sizeOfBitDepth, () => ToByteCount (sampleDataType));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ByteCount   (sampleDataType));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetByteCount(sampleDataType));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsByteCount (sampleDataType));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToByteCount (sampleDataType));
+            AreEqual(sizeOfBitDepth, sampleDataType.ByteCount   ());
+            AreEqual(sizeOfBitDepth, sampleDataType.GetByteCount());
+            AreEqual(sizeOfBitDepth, sampleDataType.AsByteCount ());
+            AreEqual(sizeOfBitDepth, sampleDataType.ToByteCount ());
+            AreEqual(sizeOfBitDepth, ByteCount   (sampleDataType));
+            AreEqual(sizeOfBitDepth, GetByteCount(sampleDataType));
+            AreEqual(sizeOfBitDepth, AsByteCount (sampleDataType));
+            AreEqual(sizeOfBitDepth, ToByteCount (sampleDataType));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ByteCount   (sampleDataType));
+            AreEqual(sizeOfBitDepth, ConfigWishes.GetByteCount(sampleDataType));
+            AreEqual(sizeOfBitDepth, ConfigWishes.AsByteCount (sampleDataType));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ToByteCount (sampleDataType));
         }
         
         private void Assert_Bitness_Getters(Type type, int sizeOfBitDepth)
         {
             if (sizeOfBitDepth.IsNully()) return;
             IsNotNull(() => type);
-            AreEqual(sizeOfBitDepth, () => type.ByteCount      ());
-            AreEqual(sizeOfBitDepth, () => type.GetByteCount   ());
-            AreEqual(sizeOfBitDepth, () => type.AsByteCount    ());
-            AreEqual(sizeOfBitDepth, () => type.ToByteCount    ());
-            AreEqual(sizeOfBitDepth, () => type.TypeToByteCount());
-            AreEqual(sizeOfBitDepth, () => ByteCount      (type));
-            AreEqual(sizeOfBitDepth, () => GetByteCount   (type));
-            AreEqual(sizeOfBitDepth, () => AsByteCount    (type));
-            AreEqual(sizeOfBitDepth, () => ToByteCount    (type));
-            AreEqual(sizeOfBitDepth, () => TypeToByteCount(type));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ByteCount      (type));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetByteCount   (type));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsByteCount    (type));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToByteCount    (type));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.TypeToByteCount(type));
+            AreEqual(sizeOfBitDepth, type.ByteCount      ());
+            AreEqual(sizeOfBitDepth, type.GetByteCount   ());
+            AreEqual(sizeOfBitDepth, type.AsByteCount    ());
+            AreEqual(sizeOfBitDepth, type.ToByteCount    ());
+            AreEqual(sizeOfBitDepth, type.TypeToByteCount());
+            AreEqual(sizeOfBitDepth, ByteCount      (type));
+            AreEqual(sizeOfBitDepth, GetByteCount   (type));
+            AreEqual(sizeOfBitDepth, AsByteCount    (type));
+            AreEqual(sizeOfBitDepth, ToByteCount    (type));
+            AreEqual(sizeOfBitDepth, TypeToByteCount(type));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ByteCount      (type));
+            AreEqual(sizeOfBitDepth, ConfigWishes.GetByteCount   (type));
+            AreEqual(sizeOfBitDepth, ConfigWishes.AsByteCount    (type));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ToByteCount    (type));
+            AreEqual(sizeOfBitDepth, ConfigWishes.TypeToByteCount(type));
         }
         
         private void Assert_Bitness_Getters(int bits, int sizeOfBitDepth)
         {
             if (sizeOfBitDepth.IsNully()) return;
-            AreEqual(sizeOfBitDepth, () => bits.ByteCount      ());
-            AreEqual(sizeOfBitDepth, () => bits.GetByteCount   ());
-            AreEqual(sizeOfBitDepth, () => bits.AsByteCount    ());
-            AreEqual(sizeOfBitDepth, () => bits.ToByteCount    ());
-            AreEqual(sizeOfBitDepth, () => bits.BitsToByteCount());
-            AreEqual(sizeOfBitDepth, () => ByteCount      (bits));
-            AreEqual(sizeOfBitDepth, () => GetByteCount   (bits));
-            AreEqual(sizeOfBitDepth, () => AsByteCount    (bits));
-            AreEqual(sizeOfBitDepth, () => ToByteCount    (bits));
-            AreEqual(sizeOfBitDepth, () => BitsToByteCount(bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ByteCount      (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.GetByteCount   (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.AsByteCount    (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.ToByteCount    (bits));
-            AreEqual(sizeOfBitDepth, () => ConfigWishes.BitsToByteCount(bits));
+            AreEqual(sizeOfBitDepth, bits.ByteCount      ());
+            AreEqual(sizeOfBitDepth, bits.GetByteCount   ());
+            AreEqual(sizeOfBitDepth, bits.AsByteCount    ());
+            AreEqual(sizeOfBitDepth, bits.ToByteCount    ());
+            AreEqual(sizeOfBitDepth, bits.BitsToByteCount());
+            AreEqual(sizeOfBitDepth, ByteCount      (bits));
+            AreEqual(sizeOfBitDepth, GetByteCount   (bits));
+            AreEqual(sizeOfBitDepth, AsByteCount    (bits));
+            AreEqual(sizeOfBitDepth, ToByteCount    (bits));
+            AreEqual(sizeOfBitDepth, BitsToByteCount(bits));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ByteCount      (bits));
+            AreEqual(sizeOfBitDepth, ConfigWishes.GetByteCount   (bits));
+            AreEqual(sizeOfBitDepth, ConfigWishes.AsByteCount    (bits));
+            AreEqual(sizeOfBitDepth, ConfigWishes.ToByteCount    (bits));
+            AreEqual(sizeOfBitDepth, ConfigWishes.BitsToByteCount(bits));
         }
     }
 }

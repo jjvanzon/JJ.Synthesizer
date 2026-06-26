@@ -700,9 +700,9 @@ namespace JJ.Business.Synthesizer.Wishes.Config
         // Tooling
         
         private const string NCrunchEnvironmentVariableName         = "NCrunch";
-        private const string AzurePipelinesEnvironmentVariableValue = "True";
-        private const string AzurePipelinesEnvironmentVariableName  = "TF_BUILD";
         private const string NCrunchEnvironmentVariableValue        = "1";
+        private const string AzurePipelinesEnvironmentVariableName  = "TF_BUILD";
+        private const string AzurePipelinesEnvironmentVariableValue = "True";
 
         private bool? _ncrunchImpersonationMode;
         private bool? GetNCrunchImpersonationMode => _ncrunchImpersonationMode ?? _section.NCrunch.ImpersonationMode ?? DefaultToolingImpersonationMode;

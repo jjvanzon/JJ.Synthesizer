@@ -338,42 +338,42 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
             int    frameSize    = FrameSize(bits, channels);
             int    headerLength = test.HeaderLength;
 
-            AreEqual(frameCount, () =>              len.FrameCountFromAudioLength (Hz), Tolerance);
-            AreEqual(frameCount, () =>              len.GetFrameCount             (Hz), Tolerance);
-            AreEqual(frameCount, () =>              len.ToFrameCount              (Hz), Tolerance);
-            AreEqual(frameCount, () =>              len.FrameCount                (Hz), Tolerance);
-            AreEqual(frameCount, () =>              FrameCountFromAudioLength(len, Hz), Tolerance);
-            AreEqual(frameCount, () =>              GetFrameCount            (len, Hz), Tolerance);
-            AreEqual(frameCount, () =>              ToFrameCount             (len, Hz), Tolerance);
-            AreEqual(frameCount, () =>              FrameCount               (len, Hz), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.FrameCountFromAudioLength(len, Hz), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount            (len, Hz), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.ToFrameCount             (len, Hz), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount               (len, Hz), Tolerance);
-            AreEqual(frameCount, () =>              byteCount.FrameCountFromByteCount (bits, channels, headerLength));
-            AreEqual(frameCount, () =>              byteCount.GetFrameCount           (bits, channels, headerLength));
-            AreEqual(frameCount, () =>              byteCount.ToFrameCount            (bits, channels, headerLength));
-            AreEqual(frameCount, () =>              byteCount.FrameCount              (bits, channels, headerLength));
-            AreEqual(frameCount, () =>              FrameCountFromByteCount(byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () =>              GetFrameCount          (byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () =>              ToFrameCount           (byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () =>              FrameCount             (byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.FrameCountFromByteCount(byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount          (byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.ToFrameCount           (byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () => ConfigWishes.FrameCount             (byteCount, bits, channels, headerLength));
-            AreEqual(frameCount, () =>              byteCount.FrameCountFromByteCount (frameSize,      headerLength));
-            AreEqual(frameCount, () =>              byteCount.GetFrameCount           (frameSize,      headerLength));
-            AreEqual(frameCount, () =>              byteCount.ToFrameCount            (frameSize,      headerLength));
-            AreEqual(frameCount, () =>              byteCount.FrameCount              (frameSize,      headerLength));
-            AreEqual(frameCount, () =>              FrameCountFromByteCount(byteCount, frameSize,      headerLength));
-            AreEqual(frameCount, () =>              GetFrameCount          (byteCount, frameSize,      headerLength));
-            AreEqual(frameCount, () =>              ToFrameCount           (byteCount, frameSize,      headerLength));
-            AreEqual(frameCount, () =>              FrameCount             (byteCount, frameSize,      headerLength));
-            AreEqual(frameCount, () => ConfigWishes.FrameCountFromByteCount(byteCount, frameSize,      headerLength));
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount          (byteCount, frameSize,      headerLength));
-            AreEqual(frameCount, () => ConfigWishes.ToFrameCount           (byteCount, frameSize,      headerLength));
-            AreEqual(frameCount, () => ConfigWishes.FrameCount             (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount,              len.FrameCountFromAudioLength (Hz), Tolerance);
+            AreEqual(frameCount,              len.GetFrameCount             (Hz), Tolerance);
+            AreEqual(frameCount,              len.ToFrameCount              (Hz), Tolerance);
+            AreEqual(frameCount,              len.FrameCount                (Hz), Tolerance);
+            AreEqual(frameCount,              FrameCountFromAudioLength(len, Hz), Tolerance);
+            AreEqual(frameCount,              GetFrameCount            (len, Hz), Tolerance);
+            AreEqual(frameCount,              ToFrameCount             (len, Hz), Tolerance);
+            AreEqual(frameCount,              FrameCount               (len, Hz), Tolerance);
+            AreEqual(frameCount, ConfigWishes.FrameCountFromAudioLength(len, Hz), Tolerance);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount            (len, Hz), Tolerance);
+            AreEqual(frameCount, ConfigWishes.ToFrameCount             (len, Hz), Tolerance);
+            AreEqual(frameCount, ConfigWishes.FrameCount               (len, Hz), Tolerance);
+            AreEqual(frameCount,              byteCount.FrameCountFromByteCount (bits, channels, headerLength));
+            AreEqual(frameCount,              byteCount.GetFrameCount           (bits, channels, headerLength));
+            AreEqual(frameCount,              byteCount.ToFrameCount            (bits, channels, headerLength));
+            AreEqual(frameCount,              byteCount.FrameCount              (bits, channels, headerLength));
+            AreEqual(frameCount,              FrameCountFromByteCount(byteCount, bits, channels, headerLength));
+            AreEqual(frameCount,              GetFrameCount          (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount,              ToFrameCount           (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount,              FrameCount             (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, ConfigWishes.FrameCountFromByteCount(byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, ConfigWishes.GetFrameCount          (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, ConfigWishes.ToFrameCount           (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount, ConfigWishes.FrameCount             (byteCount, bits, channels, headerLength));
+            AreEqual(frameCount,              byteCount.FrameCountFromByteCount (frameSize,      headerLength));
+            AreEqual(frameCount,              byteCount.GetFrameCount           (frameSize,      headerLength));
+            AreEqual(frameCount,              byteCount.ToFrameCount            (frameSize,      headerLength));
+            AreEqual(frameCount,              byteCount.FrameCount              (frameSize,      headerLength));
+            AreEqual(frameCount,              FrameCountFromByteCount(byteCount, frameSize,      headerLength));
+            AreEqual(frameCount,              GetFrameCount          (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount,              ToFrameCount           (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount,              FrameCount             (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, ConfigWishes.FrameCountFromByteCount(byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, ConfigWishes.GetFrameCount          (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, ConfigWishes.ToFrameCount           (byteCount, frameSize,      headerLength));
+            AreEqual(frameCount, ConfigWishes.FrameCount             (byteCount, frameSize,      headerLength));
         }
 
 
@@ -774,54 +774,54 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_SynthBound_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.SynthBound.SynthWishes   .GetFrameCount,   Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.FlowNode      .GetFrameCount,   Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.SynthWishes   .GetFrameCount(), Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.FlowNode      .GetFrameCount(), Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.ConfigResolver.GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.SynthWishes   .FrameCount   (), Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.FlowNode      .FrameCount   (), Tolerance);
-            AreEqual(frameCount, () => x.SynthBound.ConfigResolver.FrameCount   (x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => GetFrameCount(x.SynthBound.FlowNode   ), Tolerance);
-            AreEqual(frameCount, () => GetFrameCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes        .GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes        .GetFrameCount(x.SynthBound.FlowNode   ), Tolerance);
-            AreEqual(frameCount, () => ConfigWishesAccessor.GetFrameCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes        .FrameCount   (x.SynthBound.SynthWishes), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes        .FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
-            AreEqual(frameCount, () => ConfigWishesAccessor.FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, x.SynthBound.SynthWishes   .GetFrameCount,   Tolerance);
+            AreEqual(frameCount, x.SynthBound.FlowNode      .GetFrameCount,   Tolerance);
+            AreEqual(frameCount, x.SynthBound.SynthWishes   .GetFrameCount(), Tolerance);
+            AreEqual(frameCount, x.SynthBound.FlowNode      .GetFrameCount(), Tolerance);
+            AreEqual(frameCount, x.SynthBound.ConfigResolver.GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, x.SynthBound.SynthWishes   .FrameCount   (), Tolerance);
+            AreEqual(frameCount, x.SynthBound.FlowNode      .FrameCount   (), Tolerance);
+            AreEqual(frameCount, x.SynthBound.ConfigResolver.FrameCount   (x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, GetFrameCount(x.SynthBound.FlowNode   ), Tolerance);
+            AreEqual(frameCount, GetFrameCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, FrameCount   (x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
+            AreEqual(frameCount, FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, ConfigWishes        .GetFrameCount(x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, ConfigWishes        .GetFrameCount(x.SynthBound.FlowNode   ), Tolerance);
+            AreEqual(frameCount, ConfigWishesAccessor.GetFrameCount(x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, ConfigWishes        .FrameCount   (x.SynthBound.SynthWishes), Tolerance);
+            AreEqual(frameCount, ConfigWishes        .FrameCount   (x.SynthBound.FlowNode   ), Tolerance);
+            AreEqual(frameCount, ConfigWishesAccessor.FrameCount   (x.SynthBound.ConfigResolver, x.SynthBound.SynthWishes), Tolerance);
         }
         
         private static void Assert_TapeBound_Getters(TestEntities x, int frameCount, int courtesyFrames)
         {
-            AreEqual(frameCount, () => x.TapeBound.Tape       .FrameCount   (), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.TapeBound.TapeConfig .FrameCount   (), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.TapeBound.TapeActions.FrameCount   (), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.TapeBound.TapeAction .FrameCount   (), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.TapeBound.Tape       .GetFrameCount(), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.TapeBound.TapeConfig .GetFrameCount(), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.TapeBound.TapeActions.GetFrameCount(), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.TapeBound.TapeAction .GetFrameCount(), courtesyFrames, Up);
-            AreEqual(frameCount, () => FrameCount   (x.TapeBound.Tape       ), courtesyFrames, Up);
-            AreEqual(frameCount, () => FrameCount   (x.TapeBound.TapeConfig ), courtesyFrames, Up);
-            AreEqual(frameCount, () => FrameCount   (x.TapeBound.TapeActions), courtesyFrames, Up);
-            AreEqual(frameCount, () => FrameCount   (x.TapeBound.TapeAction ), courtesyFrames, Up);
-            AreEqual(frameCount, () => GetFrameCount(x.TapeBound.Tape       ), courtesyFrames, Up);
-            AreEqual(frameCount, () => GetFrameCount(x.TapeBound.TapeConfig ), courtesyFrames, Up);
-            AreEqual(frameCount, () => GetFrameCount(x.TapeBound.TapeActions), courtesyFrames, Up);
-            AreEqual(frameCount, () => GetFrameCount(x.TapeBound.TapeAction ), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (x.TapeBound.Tape       ), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (x.TapeBound.TapeConfig ), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (x.TapeBound.TapeActions), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (x.TapeBound.TapeAction ), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.TapeBound.Tape       ), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.TapeBound.TapeConfig ), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.TapeBound.TapeActions), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.TapeBound.TapeAction ), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.Tape       .FrameCount   (), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.TapeConfig .FrameCount   (), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.TapeActions.FrameCount   (), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.TapeAction .FrameCount   (), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.Tape       .GetFrameCount(), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.TapeConfig .GetFrameCount(), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.TapeActions.GetFrameCount(), courtesyFrames, Up);
+            AreEqual(frameCount, x.TapeBound.TapeAction .GetFrameCount(), courtesyFrames, Up);
+            AreEqual(frameCount, FrameCount   (x.TapeBound.Tape       ), courtesyFrames, Up);
+            AreEqual(frameCount, FrameCount   (x.TapeBound.TapeConfig ), courtesyFrames, Up);
+            AreEqual(frameCount, FrameCount   (x.TapeBound.TapeActions), courtesyFrames, Up);
+            AreEqual(frameCount, FrameCount   (x.TapeBound.TapeAction ), courtesyFrames, Up);
+            AreEqual(frameCount, GetFrameCount(x.TapeBound.Tape       ), courtesyFrames, Up);
+            AreEqual(frameCount, GetFrameCount(x.TapeBound.TapeConfig ), courtesyFrames, Up);
+            AreEqual(frameCount, GetFrameCount(x.TapeBound.TapeActions), courtesyFrames, Up);
+            AreEqual(frameCount, GetFrameCount(x.TapeBound.TapeAction ), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (x.TapeBound.Tape       ), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (x.TapeBound.TapeConfig ), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (x.TapeBound.TapeActions), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (x.TapeBound.TapeAction ), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(x.TapeBound.Tape       ), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(x.TapeBound.TapeConfig ), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(x.TapeBound.TapeActions), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(x.TapeBound.TapeAction ), courtesyFrames, Up);
         }
         
         private static void Assert_BuffBound_Getters(TestEntities x, int frameCount, int courtesyFrames)
@@ -832,64 +832,64 @@ namespace JJ.Business.Synthesizer.Tests.ConfigTests
 
         private static void Assert_AudioFileOutput_Getters(TestEntities x, int frameCount)
         {
-            AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.FrameCount               (), Tolerance);
-            AreEqual(frameCount, () => x.BuffBound.AudioFileOutput.GetFrameCount            (), Tolerance);
-            AreEqual(frameCount, () =>              FrameCount   (x.BuffBound.AudioFileOutput), Tolerance);
-            AreEqual(frameCount, () =>              GetFrameCount(x.BuffBound.AudioFileOutput), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (x.BuffBound.AudioFileOutput), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.BuffBound.AudioFileOutput), Tolerance);
+            AreEqual(frameCount, x.BuffBound.AudioFileOutput.FrameCount               (), Tolerance);
+            AreEqual(frameCount, x.BuffBound.AudioFileOutput.GetFrameCount            (), Tolerance);
+            AreEqual(frameCount,              FrameCount   (x.BuffBound.AudioFileOutput), Tolerance);
+            AreEqual(frameCount,              GetFrameCount(x.BuffBound.AudioFileOutput), Tolerance);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (x.BuffBound.AudioFileOutput), Tolerance);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(x.BuffBound.AudioFileOutput), Tolerance);
         }
         
         private static void Assert_Buff_Getters(TestEntities x, int frameCount, int courtesyFrames)
         {
-            AreEqual(frameCount, () => x.BuffBound.Buff.FrameCount               (), courtesyFrames, Up);
-            AreEqual(frameCount, () => x.BuffBound.Buff.GetFrameCount            (), courtesyFrames, Up);
-            AreEqual(frameCount, () =>              FrameCount   (x.BuffBound.Buff), courtesyFrames, Up);
-            AreEqual(frameCount, () =>              GetFrameCount(x.BuffBound.Buff), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (x.BuffBound.Buff), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(x.BuffBound.Buff), courtesyFrames, Up);
+            AreEqual(frameCount, x.BuffBound.Buff.FrameCount               (), courtesyFrames, Up);
+            AreEqual(frameCount, x.BuffBound.Buff.GetFrameCount            (), courtesyFrames, Up);
+            AreEqual(frameCount,              FrameCount   (x.BuffBound.Buff), courtesyFrames, Up);
+            AreEqual(frameCount,              GetFrameCount(x.BuffBound.Buff), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (x.BuffBound.Buff), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(x.BuffBound.Buff), courtesyFrames, Up);
         }
         
         private static void Assert_Independent_Getters(Sample sample, int frameCount, int courtesyFrames)
         {
-            AreEqual(frameCount, () => sample.FrameCount   (), courtesyFrames, Up);
-            AreEqual(frameCount, () => sample.GetFrameCount(), courtesyFrames, Up);
-            AreEqual(frameCount, () => FrameCount   (sample), courtesyFrames, Up);
-            AreEqual(frameCount, () => GetFrameCount(sample), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (sample), courtesyFrames, Up);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(sample), courtesyFrames, Up);
+            AreEqual(frameCount, sample.FrameCount   (), courtesyFrames, Up);
+            AreEqual(frameCount, sample.GetFrameCount(), courtesyFrames, Up);
+            AreEqual(frameCount, FrameCount   (sample), courtesyFrames, Up);
+            AreEqual(frameCount, GetFrameCount(sample), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (sample), courtesyFrames, Up);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(sample), courtesyFrames, Up);
         }
         
         private static void Assert_Independent_Getters(AudioInfoWish audioInfoWish, int frameCount)
         {
-            AreEqual(frameCount, () => audioInfoWish.FrameCount     , Tolerance);
-            AreEqual(frameCount, () => audioInfoWish.FrameCount   (), Tolerance);
-            AreEqual(frameCount, () => audioInfoWish.GetFrameCount(), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (audioInfoWish) , Tolerance);
-            AreEqual(frameCount, () => GetFrameCount(audioInfoWish) , Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (audioInfoWish), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(audioInfoWish), Tolerance);
+            AreEqual(frameCount, audioInfoWish.FrameCount     , Tolerance);
+            AreEqual(frameCount, audioInfoWish.FrameCount   (), Tolerance);
+            AreEqual(frameCount, audioInfoWish.GetFrameCount(), Tolerance);
+            AreEqual(frameCount, FrameCount   (audioInfoWish) , Tolerance);
+            AreEqual(frameCount, GetFrameCount(audioInfoWish) , Tolerance);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (audioInfoWish), Tolerance);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(audioInfoWish), Tolerance);
         }
 
         private static void Assert_Independent_Getters(AudioFileInfo audioFileInfo, int frameCount)
         {
-            AreEqual(frameCount, () => audioFileInfo.SampleCount , Tolerance);
-            AreEqual(frameCount, () => audioFileInfo.FrameCount   (), Tolerance);
-            AreEqual(frameCount, () => audioFileInfo.GetFrameCount(), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (audioFileInfo), Tolerance);
-            AreEqual(frameCount, () => GetFrameCount(audioFileInfo), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (audioFileInfo), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(audioFileInfo), Tolerance);
+            AreEqual(frameCount, audioFileInfo.SampleCount , Tolerance);
+            AreEqual(frameCount, audioFileInfo.FrameCount   (), Tolerance);
+            AreEqual(frameCount, audioFileInfo.GetFrameCount(), Tolerance);
+            AreEqual(frameCount, FrameCount   (audioFileInfo), Tolerance);
+            AreEqual(frameCount, GetFrameCount(audioFileInfo), Tolerance);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (audioFileInfo), Tolerance);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(audioFileInfo), Tolerance);
         }
 
         private static void Assert_Immutable_Getters(WavHeaderStruct wavHeader, int frameCount)
         {
-            AreEqual(frameCount, () => wavHeader.FrameCount   (), Tolerance);
-            AreEqual(frameCount, () => wavHeader.GetFrameCount(), Tolerance);
-            AreEqual(frameCount, () => FrameCount   (wavHeader), Tolerance);
-            AreEqual(frameCount, () => GetFrameCount(wavHeader), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.FrameCount   (wavHeader), Tolerance);
-            AreEqual(frameCount, () => ConfigWishes.GetFrameCount(wavHeader), Tolerance);
+            AreEqual(frameCount, wavHeader.FrameCount   (), Tolerance);
+            AreEqual(frameCount, wavHeader.GetFrameCount(), Tolerance);
+            AreEqual(frameCount, FrameCount   (wavHeader), Tolerance);
+            AreEqual(frameCount, GetFrameCount(wavHeader), Tolerance);
+            AreEqual(frameCount, ConfigWishes.FrameCount   (wavHeader), Tolerance);
+            AreEqual(frameCount, ConfigWishes.GetFrameCount(wavHeader), Tolerance);
         }
     }        
 }

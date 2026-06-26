@@ -1778,13 +1778,13 @@ namespace JJ.Business.Synthesizer.Tests.Technical
             // Weird Buff case
                         
             // Buff's too Buff to budge: always returns fixed FrameCount instead of using parameterization.
-            AreEqual(103, () => x.BuffBound.Buff.ToInfo().FrameCount, -Tolerance);
-            AreEqual(103, () => x.BuffBound.Buff.ToInfo().FrameCount, -Tolerance);
-            AreEqual(103, () => x.BuffBound.Buff.ToInfo().FrameCount, -Tolerance);
+            AreEqual(103, x.BuffBound.Buff.ToInfo().FrameCount, -Tolerance);
+            AreEqual(103, x.BuffBound.Buff.ToInfo().FrameCount, -Tolerance);
+            AreEqual(103, x.BuffBound.Buff.ToInfo().FrameCount, -Tolerance);
             
             // Unbuff the Buff; loosens him up and he'll budge.
             x.BuffBound.Buff.Bytes = null;
-            AreEqual(100, () => x.BuffBound.Buff.ToInfo().FrameCount);
+            AreEqual(100, x.BuffBound.Buff.ToInfo().FrameCount);
         }
          
         // Assertions Helpers
@@ -1834,130 +1834,130 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         {
             IsNotNull(() => test);
             IsNotNull(() => synthWishes);
-            AreEqualInt(test.Bits,         () => synthWishes.GetBits);
-            AreEqualInt(test.Channels,     () => synthWishes.GetChannels);
-            AreEqualInt(test.SamplingRate, () => synthWishes.GetSamplingRate);
-            AreEqualInt(test.FrameCount,   () => synthWishes.GetFrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         synthWishes.GetBits);
+            AreEqualInt(test.Channels,     synthWishes.GetChannels);
+            AreEqualInt(test.SamplingRate, synthWishes.GetSamplingRate);
+            AreEqualInt(test.FrameCount,   synthWishes.GetFrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(FlowNode flowNode, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => flowNode);
-            AreEqualInt(test.Bits,         () => flowNode.GetBits);
-            AreEqualInt(test.Channels,     () => flowNode.GetChannels);
-            AreEqualInt(test.SamplingRate, () => flowNode.GetSamplingRate);
-            AreEqualInt(test.FrameCount,   () => flowNode.GetFrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         flowNode.GetBits);
+            AreEqualInt(test.Channels,     flowNode.GetChannels);
+            AreEqualInt(test.SamplingRate, flowNode.GetSamplingRate);
+            AreEqualInt(test.FrameCount,   flowNode.GetFrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(ConfigResolverAccessor configResolver, Case test, SynthWishes synthWishes)
         {
             IsNotNull(() => test);
             IsNotNull(() => configResolver);
-            AreEqualInt(test.Bits,         () => configResolver.GetBits);
-            AreEqualInt(test.Channels,     () => configResolver.GetChannels);
-            AreEqualInt(test.SamplingRate, () => configResolver.GetSamplingRate);
-            AreEqualInt(test.FrameCount,   () => configResolver.GetFrameCount(synthWishes), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         configResolver.GetBits);
+            AreEqualInt(test.Channels,     configResolver.GetChannels);
+            AreEqualInt(test.SamplingRate, configResolver.GetSamplingRate);
+            AreEqualInt(test.FrameCount,   configResolver.GetFrameCount(synthWishes), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(Tape tape, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => tape);
-            AreEqualInt(test.Bits,         () => tape.Bits());
-            AreEqualInt(test.Channels,     () => tape.Channels());
-            AreEqualInt(test.SamplingRate, () => tape.SamplingRate());
-            AreEqualInt(test.FrameCount,   () => tape.FrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         tape.Bits());
+            AreEqualInt(test.Channels,     tape.Channels());
+            AreEqualInt(test.SamplingRate, tape.SamplingRate());
+            AreEqualInt(test.FrameCount,   tape.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(TapeConfig tapeConfig, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => tapeConfig);
-            AreEqualInt(test.Bits,         () => tapeConfig.Bits);
-            AreEqualInt(test.Channels,     () => tapeConfig.Channels);
-            AreEqualInt(test.SamplingRate, () => tapeConfig.SamplingRate);
-            AreEqualInt(test.FrameCount,   () => tapeConfig.FrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         tapeConfig.Bits);
+            AreEqualInt(test.Channels,     tapeConfig.Channels);
+            AreEqualInt(test.SamplingRate, tapeConfig.SamplingRate);
+            AreEqualInt(test.FrameCount,   tapeConfig.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(TapeActions tapeActions, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => tapeActions);
-            AreEqualInt(test.Bits,         () => tapeActions.Bits());
-            AreEqualInt(test.Channels,     () => tapeActions.Channels());
-            AreEqualInt(test.SamplingRate, () => tapeActions.SamplingRate());
-            AreEqualInt(test.FrameCount,   () => tapeActions.FrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         tapeActions.Bits());
+            AreEqualInt(test.Channels,     tapeActions.Channels());
+            AreEqualInt(test.SamplingRate, tapeActions.SamplingRate());
+            AreEqualInt(test.FrameCount,   tapeActions.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(TapeAction tapeAction, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => tapeAction);
-            AreEqualInt(test.Bits,         () => tapeAction.Bits());
-            AreEqualInt(test.Channels,     () => tapeAction.Channels());
-            AreEqualInt(test.SamplingRate, () => tapeAction.SamplingRate());
-            AreEqualInt(test.FrameCount,   () => tapeAction.FrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         tapeAction.Bits());
+            AreEqualInt(test.Channels,     tapeAction.Channels());
+            AreEqualInt(test.SamplingRate, tapeAction.SamplingRate());
+            AreEqualInt(test.FrameCount,   tapeAction.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(Buff buff, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => buff);
-            AreEqualInt(test.Bits,         () => buff.Bits());
-            AreEqualInt(test.Channels,     () => buff.Channels());
-            AreEqualInt(test.SamplingRate, () => buff.SamplingRate());
-            AreEqualInt(test.FrameCount,   () => buff.FrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         buff.Bits());
+            AreEqualInt(test.Channels,     buff.Channels());
+            AreEqualInt(test.SamplingRate, buff.SamplingRate());
+            AreEqualInt(test.FrameCount,   buff.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(AudioFileOutput audioFileOutput, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => audioFileOutput);
-            AreEqualInt(test.Bits,         () => audioFileOutput.Bits());
-            AreEqualInt(test.Channels,     () => audioFileOutput.Channels());
-            AreEqualInt(test.SamplingRate, () => audioFileOutput.SamplingRate());
-            AreEqualInt(test.FrameCount,   () => audioFileOutput.FrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         audioFileOutput.Bits());
+            AreEqualInt(test.Channels,     audioFileOutput.Channels());
+            AreEqualInt(test.SamplingRate, audioFileOutput.SamplingRate());
+            AreEqualInt(test.FrameCount,   audioFileOutput.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
         
         internal static void AssertEntity(Sample sample, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => sample);
-            AreEqualInt(test.Bits,         () => sample.Bits());
-            AreEqualInt(test.Channels,     () => sample.Channels());
-            AreEqualInt(test.SamplingRate, () => sample.SamplingRate());
+            AreEqualInt(test.Bits,         sample.Bits());
+            AreEqualInt(test.Channels,     sample.Channels());
+            AreEqualInt(test.SamplingRate, sample.SamplingRate());
             // Sample ignores FrameCount changes—either its own value or 0.
-            //AreEqual(test.FrameCount, () => entity.FrameCount(), -Tolerance);
+            //AreEqual(test.FrameCount, entity.FrameCount(), -Tolerance);
         }
 
         internal static void AssertEntity(AudioFileInfo infoLegacy, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => infoLegacy);
-            AreEqualInt(test.Bits,         () => infoLegacy.Bits());
-            AreEqualInt(test.Channels,     () => infoLegacy.Channels());
-            AreEqualInt(test.SamplingRate, () => infoLegacy.SamplingRate());
-            AreEqualInt(test.FrameCount,   () => infoLegacy.FrameCount(), - Tolerance - test.CourtesyFrames);
+            AreEqualInt(test.Bits,         infoLegacy.Bits());
+            AreEqualInt(test.Channels,     infoLegacy.Channels());
+            AreEqualInt(test.SamplingRate, infoLegacy.SamplingRate());
+            AreEqualInt(test.FrameCount,   infoLegacy.FrameCount(), - Tolerance - test.CourtesyFrames);
         }
 
         internal static void AssertEntity(AudioInfoWish infoWish, Case test)
         {
             IsNotNull(() => test);
             IsNotNull(() => infoWish);
-            AreEqualInt(test.Bits,         () => infoWish.Bits);
-            AreEqualInt(test.Channels,     () => infoWish.Channels);
-            AreEqualInt(test.SamplingRate, () => infoWish.SamplingRate);
-            AreEqualInt(test.FrameCount,   () => infoWish.FrameCount, test.CourtesyFrames);
+            AreEqualInt(test.Bits,         infoWish.Bits);
+            AreEqualInt(test.Channels,     infoWish.Channels);
+            AreEqualInt(test.SamplingRate, infoWish.SamplingRate);
+            AreEqualInt(test.FrameCount,   infoWish.FrameCount, test.CourtesyFrames);
         }
 
         internal static void AssertEntity(WavHeaderStruct wavHeader, Case test)
         {
             IsNotNull(() => test);
-            AreEqualInt(test.Bits,         () => wavHeader.BitsPerValue);
-            AreEqualInt(test.Channels,     () => wavHeader.ChannelCount);
-            AreEqualInt(test.SamplingRate, () => wavHeader.SamplingRate);
-            AreEqualInt(test.FrameCount,   () => wavHeader.FrameCount(), test.CourtesyFrames);
+            AreEqualInt(test.Bits,         wavHeader.BitsPerValue);
+            AreEqualInt(test.Channels,     wavHeader.ChannelCount);
+            AreEqualInt(test.SamplingRate, wavHeader.SamplingRate);
+            AreEqualInt(test.FrameCount,   wavHeader.FrameCount(), test.CourtesyFrames);
         }
         
         internal static void AssertEntity(string filePath, Case test)
@@ -1992,11 +1992,11 @@ namespace JJ.Business.Synthesizer.Tests.Technical
         }
 
         /// <inheritdoc cref="_areequalint />
-        private static void AreEqualInt(int expected, Expression<Func<int>> actualExpression) => AreEqual(expected, actualExpression);
-        /// <inheritdoc cref="_areequalint />
-        private static void AreEqualInt(int expected, Expression<Func<int>> actualExpression, int delta) => AreEqual(expected, actualExpression, delta);
-        /// <inheritdoc cref="_areequalint />
         private static void AreEqualInt(int expected, int actual) => AreEqual(expected, actual);
+        /// <inheritdoc cref="_areequalint />
+        private static void AreEqualInt(int expected, int actual, int delta) => AreEqual(expected, actual, delta);
+        ///// <inheritdoc cref="_areequalint />
+        //private static void AreEqualInt(int expected, int actual) => AreEqual(expected, actual);
         
         private void CleanUpFile(string filePath)
         {
