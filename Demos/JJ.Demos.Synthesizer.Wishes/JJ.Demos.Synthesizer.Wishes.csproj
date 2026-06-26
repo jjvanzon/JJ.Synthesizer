@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Wishes\JJ.Business.Synthesizer.Wishes.csproj" />
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.3" />
   </ItemGroup>
 
   <!-- Publish -->
