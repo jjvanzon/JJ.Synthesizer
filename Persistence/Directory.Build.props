@@ -1,5 +1,5 @@
 <Project>
-  <PropertyGroup><BuildNum>0</BuildNum></PropertyGroup><Import Project="BuildNum.xml" Condition="Exists('BuildNum.xml')" />
+  <PropertyGroup><BuildNum>0</BuildNum></PropertyGroup><Import Project="BuildNum.xml" Condition="Exists('BuildNum.xml') And '$(Configuration)'=='Release'" />
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
