@@ -33,8 +33,8 @@
     <PackageReference Include="JJ.Framework.Configuration.Legacy" Version="0.255.7052" />
     <PackageReference Include="JJ.Framework.IO.Core" Version="4.7.7052" />
     <PackageReference Include="JJ.Framework.Logging.Core" Version="4.7.7052" />
-    <PackageReference Include="JJ.Framework.Mathematics.Legacy" Version="0.255.7052" />
-    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.255.7052" />
+    <PackageReference Include="JJ.Framework.Mathematics.Legacy" Version="0.256.7095" />
+    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.256.7095" />
     <!--TODO: Remove outcommented-->
     <!--Removing "IsLongTestCategory" feature gets rid of Testing.Core dependency-->
     <!--<PackageReference Include="JJ.Framework.Testing.Core" Version="3.7.4827" />-->
