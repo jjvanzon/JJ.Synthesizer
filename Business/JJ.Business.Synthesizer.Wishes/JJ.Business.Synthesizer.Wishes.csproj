@@ -30,9 +30,9 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
-    <PackageReference Include="JJ.Framework.Configuration.Legacy" Version="0.255.7052" />
-    <PackageReference Include="JJ.Framework.IO.Core" Version="4.7.7052" />
-    <PackageReference Include="JJ.Framework.Logging.Core" Version="4.7.7052" />
+    <PackageReference Include="JJ.Framework.Configuration.Legacy" Version="0.257.7151" />
+    <PackageReference Include="JJ.Framework.IO.Core" Version="4.9.7151" />
+    <PackageReference Include="JJ.Framework.Logging.Core" Version="4.9.7151" />
     <PackageReference Include="JJ.Framework.Mathematics.Legacy" Version="0.257.7151" />
     <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.257.7151" />
     <!--TODO: Remove outcommented-->
