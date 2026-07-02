@@ -45,7 +45,14 @@ namespace JJ.Business.Synthesizer.Tests.Functional
         [TestMethod] public void FM_Flute_Melody2_Test() => Run(FM_Flute_Melody2);
         void FM_Flute_Melody2() => (FluteMelody2.MildEcho() * 0.5).Save().Play();
         
-        [TestMethod] public void FM_Flute1_Test() => Run(FM_Flute1);
+        [TestMethod] public void FM_Flute1_Test()
+        {
+            Console.WriteLine("TESTING Console.WriteLine.");
+            Debug.WriteLine("TESTING Debug.WriteLine.");
+            Trace.WriteLine("TESTING Trace.WriteLine.");
+            Run(FM_Flute1);
+        }
+
         void FM_Flute1() => (Flute1(E4).MildEcho() * 0.5).Save().Play();
         
         [TestMethod] public void FM_Flute2_Test() => Run(FM_Flute2);
