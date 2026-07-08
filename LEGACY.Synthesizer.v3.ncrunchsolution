@@ -1,0 +1,9 @@
+﻿<SolutionConfiguration>
+  <Settings>
+    <CopyReferencedAssembliesToWorkspace>True</CopyReferencedAssembliesToWorkspace>
+    <EnableRDI>False</EnableRDI>
+    <PreloadReferencedAssemblies>True</PreloadReferencedAssemblies>
+    <RdiConfigured>True</RdiConfigured>
+    <SolutionConfigured>True</SolutionConfigured>
+  </Settings>
+</SolutionConfiguration>
