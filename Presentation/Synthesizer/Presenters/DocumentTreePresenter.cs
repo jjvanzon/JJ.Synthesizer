@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private DocumentTreeViewModel DeleteLibrary(DocumentTreeViewModel userInput)
             => ExecuteAction(
                 userInput,
-                viewModel =>
+                _ =>
                 {
                     if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private DocumentTreeViewModel DeleteMidiMappingGroup(DocumentTreeViewModel userInput)
             => ExecuteAction(
                 userInput,
-                viewModel =>
+                _ =>
                 {
                     if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private DocumentTreeViewModel DeletePatch(DocumentTreeViewModel userInput)
             => ExecuteAction(
                 userInput,
-                viewModel =>
+                _ =>
                 {
                     if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
@@ -164,7 +164,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private DocumentTreeViewModel DeleteScale(DocumentTreeViewModel userInput)
             => ExecuteAction(
                 userInput,
-                viewModel =>
+                _ =>
                 {
                     if (!userInput.SelectedItemID.HasValue) throw new NullException(() => userInput.SelectedItemID);
 
@@ -215,7 +215,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 });
 
-        public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, x => { });
+        public DocumentTreeViewModel Refresh(DocumentTreeViewModel userInput) => ExecuteAction(userInput, _ => { });
 
         private void Show(DocumentTreeViewModel viewModel) => ExecuteNonPersistedAction(viewModel, () => viewModel.Visible = true);
 

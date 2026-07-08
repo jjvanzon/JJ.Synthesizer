@@ -108,7 +108,7 @@ namespace JJ.Business.Synthesizer.Extensions
             enumerable = enumerable.ThenBy(x => getDimensionEnumDelegate(x) == DimensionEnum.Undefined)
                                    .ThenBy(getDimensionEnumDelegate)
                                    .ThenBy(x => string.IsNullOrWhiteSpace(getNameDelegate(x)))
-                                   .ThenBy(x => getNameDelegate);
+                                   .ThenBy(_ => getNameDelegate);
 
             // Obsolete
             if (getIsObsoleteDelegate != null)

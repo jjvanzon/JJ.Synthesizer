@@ -33,7 +33,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
         {
             base.Visit_Add_OperatorDto_Vars_NoConsts(dto);
 
-            IList<OperatorCalculatorBase> operandCalculators = dto.InputOperatorDtos.Select(x => _stack.Pop()).ToArray();
+            IList<OperatorCalculatorBase> operandCalculators = dto.InputOperatorDtos.Select(_ => _stack.Pop()).ToArray();
             OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars(operandCalculators);
 
             _stack.Push(calculator);
@@ -45,7 +45,7 @@ namespace JJ.Business.SynthesizerPrototype.WithInheritance.Visitors
         {
             base.Visit_Add_OperatorDto_Vars_1Const(dto);
 
-            IList<OperatorCalculatorBase> varCalculators = dto.Vars.Select(x => _stack.Pop()).ToArray();
+            IList<OperatorCalculatorBase> varCalculators = dto.Vars.Select(_ => _stack.Pop()).ToArray();
             OperatorCalculatorBase calculator = OperatorCalculatorFactory.CreateAddCalculator_Vars_1Const(varCalculators, dto.ConstValue);
 
             _stack.Push(calculator);

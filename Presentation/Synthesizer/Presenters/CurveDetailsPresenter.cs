@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public CurveDetailsViewModel DeleteSelectedNode(CurveDetailsViewModel userInput) => ExecuteAction(
             userInput,
-            entity =>
+            _ =>
             {
                 // ViewModel Validation
                 if (!userInput.SelectedNodeID.HasValue)
@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private CurveDetailsViewModel NodeMovedOrMoving(CurveDetailsViewModel userInput, int nodeID, double x, double y) => ExecuteAction(
             userInput,
-            entity =>
+            _ =>
             {
                 // ToEntity
                 Node node = _nodeRepository.Get(nodeID);

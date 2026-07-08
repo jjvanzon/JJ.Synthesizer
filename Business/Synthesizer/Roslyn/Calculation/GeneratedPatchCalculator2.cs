@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Dto;
+﻿// ReSharper disable UnusedParameter.Local
+
+using JJ.Business.Synthesizer.Dto;
 using JJ.Business.Synthesizer.Helpers;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Enums;

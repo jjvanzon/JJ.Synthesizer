@@ -153,7 +153,7 @@ namespace JJ.Business.SynthesizerPrototype.Roslyn.Helpers
 
         private static SyntaxTree CreateSineCalculatorSyntaxTree()
         {
-            string sineCalculatorCodeFileCSharp = EmbeddedResourceHelper.GetEmbeddedResourceText(
+            string sineCalculatorCodeFileCSharp = EmbeddedResourceReader.GetText(
                 typeof(SineCalculator).Assembly,
                 "CopiedCode.From_JJ_Business_SynthesizerPrototype",
                 "SineCalculator_EmbeddedResource.cs");

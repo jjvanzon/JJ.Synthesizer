@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override PatchDetailsViewModel ToViewModel(Patch patch) => patch.ToDetailsViewModel();
 
-        public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID) => ExecuteAction(userInput, x =>
+        public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel userInput, int inletID, int inputOutletID) => ExecuteAction(userInput, _ =>
         {
             // GetEntities
             Inlet inlet = _repositories.InletRepository.Get(inletID);
@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY) => ExecuteAction(userInput, x =>
+        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY) => ExecuteAction(userInput, _ =>
         {
             // GetEntity
             Operator op = _repositories.OperatorRepository.Get(operatorID);

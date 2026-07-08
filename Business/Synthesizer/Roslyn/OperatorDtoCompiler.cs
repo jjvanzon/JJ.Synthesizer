@@ -200,7 +200,7 @@ namespace JJ.Business.Synthesizer.Roslyn
 
         private static SyntaxTree CreateSyntaxTreeFromEmbeddedResource(Assembly assembly, string subNameSpace, string fileName)
         {
-            string cSharp = EmbeddedResourceHelper.GetEmbeddedResourceText(assembly, subNameSpace, fileName);
+            string cSharp = EmbeddedResourceReader.GetText(assembly, subNameSpace, fileName);
             return CSharpSyntaxTree.ParseText(cSharp, path: fileName, encoding: Encoding.UTF8);
         }
     }

@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             float centerY)
             => ExecuteAction(
                 userInput,
-                x =>
+                _ =>
                 {
                     // GetEntity
                     MidiMapping midiMapping = _repositories.MidiMappingRepository.Get(midiMappingID);

@@ -107,7 +107,7 @@ namespace JJ.Business.Synthesizer.Visitors
         }
 
         protected override IOperatorDto Visit_Add_OperatorDto(Add_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new Add_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
+            => ProcessOperatorDto(dto, () => new Add_OperatorCalculator(dto.Inputs.Select(_ => _stack.Pop()).ToArray()));
 
         protected override IOperatorDto Visit_AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst(
             AllPassFilter_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     GetPositionOutputCalculator(dto)));
 
         protected override IOperatorDto Visit_AverageOverInlets_OperatorDto(AverageOverInlets_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
+            => ProcessOperatorDto(dto, () => new AverageOverInlets_OperatorCalculator(dto.Inputs.Select(_ => _stack.Pop()).ToArray()));
 
         protected override IOperatorDto Visit_BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst(
             BandPassFilterConstantPeakGain_OperatorDto_SoundVarOrConst_OtherInputsConst dto)
@@ -248,12 +248,12 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_ClosestOverInlets_OperatorDto(ClosestOverInlets_OperatorDto dto)
             => ProcessOperatorDto(
                 dto,
-                () => new ClosestOverInlets_OperatorCalculator(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
+                () => new ClosestOverInlets_OperatorCalculator(_stack.Pop(), dto.Items.Select(_ => _stack.Pop()).ToArray()));
 
         protected override IOperatorDto Visit_ClosestOverInletsExp_OperatorDto(ClosestOverInletsExp_OperatorDto dto)
             => ProcessOperatorDto(
                 dto,
-                () => new ClosestOverInletsExp_OperatorCalculator(_stack.Pop(), dto.Items.Select(x => _stack.Pop()).ToArray()));
+                () => new ClosestOverInletsExp_OperatorCalculator(_stack.Pop(), dto.Items.Select(_ => _stack.Pop()).ToArray()));
 
         protected override IOperatorDto Visit_Cos_OperatorDto(Cos_OperatorDto dto)
             => ProcessOperatorDto(dto, () => new Cos_OperatorCalculator(_stack.Pop()));
@@ -314,12 +314,12 @@ namespace JJ.Business.Synthesizer.Visitors
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Block(InletsToDimension_OperatorDto_Block dto)
             => ProcessOperatorDto(
                 dto,
-                () => new InletsToDimension_OperatorCalculator_Block(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
+                () => new InletsToDimension_OperatorCalculator_Block(dto.InputsExceptPosition.Select(_ => _stack.Pop()).ToArray(), _stack.Pop()));
 
         protected override IOperatorDto Visit_InletsToDimension_OperatorDto_Stripe_LagBehind(InletsToDimension_OperatorDto_Stripe_LagBehind dto)
             => ProcessOperatorDto(
                 dto,
-                () => new InletsToDimension_OperatorCalculator_Stripe(dto.InputsExceptPosition.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
+                () => new InletsToDimension_OperatorCalculator_Stripe(dto.InputsExceptPosition.Select(_ => _stack.Pop()).ToArray(), _stack.Pop()));
 
         protected override IOperatorDto Visit_Interpolate_OperatorDto_Block_LookAhead(Interpolate_OperatorDto_Block_LookAhead dto)
             => ProcessOperatorDto(
@@ -468,7 +468,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     GetPositionOutputCalculator(dto)));
 
         protected override IOperatorDto Visit_MaxOverInlets_OperatorDto(MaxOverInlets_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
+            => ProcessOperatorDto(dto, () => new MaxOverInlets_OperatorCalculator(dto.Inputs.Select(_ => _stack.Pop()).ToArray()));
 
         protected override IOperatorDto Visit_MinFollower_OperatorDto(MinFollower_OperatorDto dto)
             => ProcessOperatorDto(
@@ -500,10 +500,10 @@ namespace JJ.Business.Synthesizer.Visitors
                     GetPositionOutputCalculator(dto)));
 
         protected override IOperatorDto Visit_MinOverInlets_OperatorDto(MinOverInlets_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
+            => ProcessOperatorDto(dto, () => new MinOverInlets_OperatorCalculator(dto.Inputs.Select(_ => _stack.Pop()).ToArray()));
 
         protected override IOperatorDto Visit_Multiply_OperatorDto(Multiply_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new Multiply_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray()));
+            => ProcessOperatorDto(dto, () => new Multiply_OperatorCalculator(dto.Inputs.Select(_ => _stack.Pop()).ToArray()));
 
         protected override IOperatorDto Visit_Negative_OperatorDto(Negative_OperatorDto dto)
             => ProcessOperatorDto(dto, () => new Negative_OperatorCalculator(_stack.Pop()));
@@ -674,7 +674,7 @@ namespace JJ.Business.Synthesizer.Visitors
                     GetPositionOutputCalculator(dto)));
 
         protected override IOperatorDto Visit_SortOverInlets_Outlet_OperatorDto(SortOverInlets_Outlet_OperatorDto dto)
-            => ProcessOperatorDto(dto, () => new SortOverInlets_OperatorCalculator(dto.Inputs.Select(x => _stack.Pop()).ToArray(), _stack.Pop()));
+            => ProcessOperatorDto(dto, () => new SortOverInlets_OperatorCalculator(dto.Inputs.Select(_ => _stack.Pop()).ToArray(), _stack.Pop()));
 
         protected override IOperatorDto Visit_Spectrum_OperatorDto(Spectrum_OperatorDto dto)
             => ProcessOperatorDto(

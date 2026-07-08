@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         protected override DocumentGridViewModel ToViewModel(IList<Document> entities) => entities.ToGridViewModel();
 
-        public DocumentGridViewModel Load(DocumentGridViewModel viewModel) => ExecuteAction(viewModel, x => { }, x => x.Visible = true);
+        public DocumentGridViewModel Load(DocumentGridViewModel viewModel) => ExecuteAction(viewModel, _ => { }, x => x.Visible = true);
 
         public DocumentGridViewModel Play(DocumentGridViewModel userInput, int id)
         {
@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return ExecuteAction(
                 userInput,
-                entity =>
+                _ =>
                 {
                     // GetEntity
                     Document document = _repositories.DocumentRepository.Get(id);

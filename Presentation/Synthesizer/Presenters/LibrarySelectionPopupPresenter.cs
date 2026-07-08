@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             userInput.List = new List<IDAndName>();
         });
 
-        public LibrarySelectionPopupViewModel Load(LibrarySelectionPopupViewModel userInput) => ExecuteAction(userInput, x => { }, x => x.Visible = true);
+        public LibrarySelectionPopupViewModel Load(LibrarySelectionPopupViewModel userInput) => ExecuteAction(userInput, _ => { }, x => x.Visible = true);
 
         public LibrarySelectionPopupViewModel OK(LibrarySelectionPopupViewModel userInput, int? lowerDocumentID)
         {
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return ExecuteAction(
                 userInput,
-                entity =>
+                _ =>
                 {
                     // GetEntity
                     Document lowerDocument = _repositories.DocumentRepository.Get(lowerDocumentID);
@@ -130,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public override LibrarySelectionPopupViewModel Refresh(LibrarySelectionPopupViewModel userInput) => ExecuteAction(
             userInput,
-            entity => { },
+            _ => { },
             viewModel =>
             {
                 if (viewModel.Successful)

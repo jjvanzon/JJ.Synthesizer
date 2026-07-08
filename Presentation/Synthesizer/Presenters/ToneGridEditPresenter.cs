@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public ToneGridEditViewModel DeleteTone(ToneGridEditViewModel userInput, int toneID) => ExecuteAction(
             userInput,
-            scale =>
+            _ =>
             {
                 // ViewModelValidator
                 IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
