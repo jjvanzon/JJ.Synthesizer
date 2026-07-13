@@ -138,7 +138,7 @@ namespace JJ.Business.Synthesizer.Wishes
             }
             else
             {
-                return new StringBuilderWithIndentationCore();
+                return new StringBuilderWithIndentationCore("  ", NewLine);
             }
         }
 
