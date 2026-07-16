@@ -560,7 +560,7 @@ namespace JJ.Business.Synthesizer.Tests.Technical
                 IsTrue(audioFileOutput.FilePath.EndsWith(expectedEnd),
                     $"Tested Expression: audioFileOutput.FilePath.EndsWith(expectedEnd).{NewLine}{values}");
             
-                IsTrue(audioFileOutput.FilePath.Contains(expectedContains, ignoreCase: true),
+                IsTrue(audioFileOutput.FilePath.Contains(expectedContains, caseMatters: false),
                     $"Tested Expression: audioFileOutput.FilePath.Contains(expectedContains).{NewLine}{values}");
 
             }

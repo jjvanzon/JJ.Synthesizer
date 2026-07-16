@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Wishes
     {
         private readonly bool _singleLine;
         private readonly bool _canOmitNameForBasicMath;
-        internal StringBuilderWithIndentationCore _sb; // Internal for obsolete extension methods
+        internal StringBuilderWithIndentationLegacy _sb; // Internal for obsolete extension methods
 
         public Stringifier(bool singleLine = false, bool canOmitNameForBasicMath = false)
         {
@@ -130,15 +130,15 @@ namespace JJ.Business.Synthesizer.Wishes
         // Create StringBuilder
 
         // Internal for obsolete extension methods
-        internal StringBuilderWithIndentationCore CreateStringBuilder()
+        internal StringBuilderWithIndentationLegacy CreateStringBuilder()
         {
             if (_singleLine)
             {
-                return new StringBuilderWithIndentationCore("", "");
+                return new StringBuilderWithIndentationLegacy("", "");
             }
             else
             {
-                return new StringBuilderWithIndentationCore("  ", NewLine);
+                return new StringBuilderWithIndentationLegacy("  ", NewLine);
             }
         }
 
@@ -292,12 +292,12 @@ namespace JJ.Business.Synthesizer.Wishes
                 return false;
             }
 
-            if (name.Contains(operatorTypeName, ignoreCase: true))
+            if (name.Contains(operatorTypeName, caseMatters: false))
             {
                 return true;
             }
             
-            if (name.Contains(operatorTypeName.ToDisplayName(), ignoreCase: true))
+            if (name.Contains(operatorTypeName.ToDisplayName(), caseMatters: false))
             {
                 return true;
             }

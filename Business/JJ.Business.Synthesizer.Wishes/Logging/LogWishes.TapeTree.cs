@@ -23,12 +23,12 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         public string GetTapeTree(IList<Tape> tapes, bool includeCalculationGraphs = false)
         {
             if (!Logger.WillLog(TapeTree)) return "";
-            var sb = new StringBuilderWithIndentationCore("   ", NewLine);
+            var sb = new StringBuilderWithIndentationLegacy("   ", NewLine);
             PlotTapeTree(tapes, sb, includeCalculationGraphs);
             return sb.ToString();
         }
         
-        private void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentationCore sb, bool includeCalculationGraphs)
+        private void PlotTapeTree(IList<Tape> tapes, StringBuilderWithIndentationLegacy sb, bool includeCalculationGraphs)
         {
             sb.AppendLine(PrettyTitle("Tape Tree"));
             sb.AppendLine();
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Wishes.Logging
         }
         
         private void PlotTapeTreeRecursive(
-            Tape tape, StringBuilderWithIndentationCore sb, bool includeCalculationGraphs, bool skipMultiUse = true)
+            Tape tape, StringBuilderWithIndentationLegacy sb, bool includeCalculationGraphs, bool skipMultiUse = true)
         {
             // Handle edge-cases
             if (tape == null) { sb.AppendLine("<Tape=null>"); return; }

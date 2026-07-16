@@ -5,6 +5,7 @@ using static JJ.Framework.Testing.Core.AssertCore;
 namespace JJ.Business.Synthesizer.Tests.Technical
 {
     [TestClass]
+    [TestCategory("Technical")]
     public class CaseTests : SynthWishes
     {
         [TestMethod]

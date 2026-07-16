@@ -8,6 +8,7 @@ global using System.Runtime.CompilerServices;
 global using JJ.Framework.Common.Legacy;
 global using JJ.Framework.Reflection.Legacy;
 global using JJ.Framework.Reflection.Core;
+global using JJ.Framework.Existence.Core;
 global using JJ.Framework.Persistence.Legacy;
 global using JJ.Framework.Validation.Legacy;
 global using JJ.Framework.Testing.Legacy;
