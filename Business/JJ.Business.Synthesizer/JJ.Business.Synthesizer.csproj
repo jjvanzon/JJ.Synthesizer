@@ -16,10 +16,10 @@
     <PackageReference Include="JJ.Business.CanonicalModel" Version="0.250.1905" />
                                                                                               <PackageReference Include="JJ.Framework.Business.Legacy" Version="0.260.7438" />
     <PackageReference Include="JJ.Framework.IO.Legacy" Version="0.260.7438" />
-    <PackageReference Include="JJ.Framework.Persistence.Legacy" Version="0.259.7346" />
+    <PackageReference Include="JJ.Framework.Persistence.Legacy" Version="0.260.7442" />
     <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.260.7438" />
     <PackageReference Include="JJ.Framework.StringResources.Legacy" Version="0.260.7438" />
-    <PackageReference Include="JJ.Framework.Validation.Legacy" Version="0.260.7438" />
+    <PackageReference Include="JJ.Framework.Validation.Legacy" Version="0.260.7442" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Messages.Designer.cs">
