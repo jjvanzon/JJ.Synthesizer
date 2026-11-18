@@ -2,7 +2,7 @@
 using System.Linq;
 using JJ.Business.Synthesizer.Wishes.Config;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
-using JJ.Framework.Collections.Core;
+using JJ.Framework.Collections.Legacy;
 using JJ.Framework.Common;
 using JJ.Persistence.Synthesizer;
 

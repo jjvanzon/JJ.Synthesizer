@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using JJ.Business.Synthesizer.Wishes.NoteWishes;
 using JJ.Business.Synthesizer.Wishes.TapeWishes;
 using JJ.Business.Synthesizer.Wishes.docs;
-using JJ.Framework.Collections.Core;
+using JJ.Framework.Collections.Legacy;
 // ReSharper disable CompareOfFloatsByEqualityOperator
 // ReSharper disable LocalVariableHidesMember
 // ReSharper disable ParameterHidesMember

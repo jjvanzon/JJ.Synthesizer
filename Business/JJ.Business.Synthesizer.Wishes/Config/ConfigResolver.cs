@@ -6,7 +6,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Wishes.Helpers;
 using JJ.Business.Synthesizer.Wishes.docs;
-using JJ.Framework.Collections.Core;
+using JJ.Framework.Collections.Legacy;
 using JJ.Framework.Common;
 using JJ.Framework.Existence.Core;
 using JJ.Framework.Logging.Core.Config;
