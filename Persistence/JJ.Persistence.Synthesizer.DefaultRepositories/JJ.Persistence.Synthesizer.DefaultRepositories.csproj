@@ -15,7 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JJ.Framework.Persistence.Legacy" Version="0.260.7442" />
-    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.260.7438" />
+    <PackageReference Include="JJ.Framework.Reflection.Legacy" Version="0.261.7526" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj" />
